@@ -1,0 +1,18 @@
+Things to remember:
+- Always work in branches
+- Branches are named after what you are doing. You are implementing the algorithm "Bisque"? Call the branch "bisqueImplementation"
+- Don't merge directly, create a merge request which someone else reviews
+- If you see anything that doesn't work but you can't fix right now, write an issue
+- Ask for help! Sometimes after 5 hours struggeling with a problem you are too involved to see the solution. Write in the WhatsApp group and help each other!
+- Document, document, document. Otherwise it is really difficult for team mates to be able to understand what you did.
+
+Important commands
+- git add .				Adds all files in the current folder and all subfolders to git
+- git commit -m "<MESSAGE>"		Commits all added files with a message of what you changed. It is now backed up locally
+- git push				Pushes the committed files to the remote repository
+- git push -u origin <BRANCH_NAME>	You need to push like this only the first time after you created a new branch. Afterwards everything is only push
+- git status				Shows whether your local repository is up to date
+- git fetch				Fetches all remote branches
+- git branch -a				Shows all branches that exist locally and remote
+- git checkout -b <BRANCH_NAME>		Creates a new branch with the name <BRANCH_NAME> and switches into it
+- git checkout <BRANCH_NAME>		Switches into branch <BRANCH_NAME>

@@ -1,5 +1,6 @@
 Things to remember:
 - Always work in branches
+- Pull before you start working!
 - Branches are named after what you are doing. You are implementing the algorithm "Bisque"? Call the branch "bisqueImplementation"
 - Don't merge directly, create a merge request which someone else reviews
 - If you see anything that doesn't work but you can't fix right now, write an issue

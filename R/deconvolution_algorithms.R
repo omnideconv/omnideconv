@@ -29,10 +29,10 @@ build_model <- function(single_cell_object, cell_type_annotations, method = deco
   if (class(single_cell_object)[[1]]!="matrix")
     single_cell_object <- as.matrix(single_cell_object)
 
-  sc.eset <- getSingleCellExpressionSet(single_cell_object, colnames(single_cell_object), rownames(single_cell_object), cell_type_annotations)
+  sc_eset <- get_single_cell_expression_set(single_cell_object, colnames(single_cell_object), rownames(single_cell_object), cell_type_annotations)
 
   signature <- switch(method,
-                      bisque = BisqueRNA::GenerateSCReference(sc.eset,"cellType")
+                      bisque = BisqueRNA::GenerateSCReference(sc_eset,"cellType")
   )
 
   return(signature)
@@ -60,14 +60,14 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   if (class(bulk_gene_expression)[[1]]!="matrix")
     bulk_gene_expression <- base::as.matrix(bulk_gene_expression)
 
-  bulk.eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
+  bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
 
 
   deconv <- switch(method,
                    bisque = {
                      #Necessary for bisque, because bisqueReferenceDecomp needs to access internal bisque-package methods
-                     base::environment(bisqueReferenceDecomp) <- base::environment(BisqueRNA::SimulateData)
-                     bisqueReferenceDecomp(bulk.eset, signature, ...)$bulk.props
+                     base::environment(bisque_reference_decomp) <- base::environment(BisqueRNA::SimulateData)
+                     bisque_reference_decomp(bulk_eset, signature, ...)$bulk.props
                    }
   )
   return(deconv)

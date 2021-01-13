@@ -17,4 +17,10 @@ Suggests:
     testthat (>= 2.0.0)
 Config/testthat/edition: 2
 Imports: 
-    forcats
+    forcats,
+    Biobase,
+    BisqueRNA,
+    limSolve,
+    methods
+Remotes:
+    cozygene/bisque

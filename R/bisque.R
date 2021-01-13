@@ -13,6 +13,9 @@
 #' @examples
 bisqueReferenceDecomp <- function (bulk.eset, signatureMatrix, single_cell_object=NULL,cell_type_annotations=NULL)
 {
+  # Method is BisqueRNA::ReferenceBasedDecomposition, I only removed not needed parameters
+  # and added the signature matrix (so it wont be recalculated every time the method is called)
+
   if (is.null(single_cell_object)||is.null(cell_type_annotations))
     base::stop("Single cell data (sc.eset) not provided. Call as: deconvolute(bulk_gene_expression, signature, \"bisque\", single_cell_object, cell_type_annotations)")
   sc.eset <- getSingleCellExpressionSet(single_cell_object, colnames(single_cell_object), rownames(single_cell_object), cell_type_annotations)

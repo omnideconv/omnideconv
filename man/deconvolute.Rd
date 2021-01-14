@@ -8,6 +8,7 @@ deconvolute(
   bulk_gene_expression,
   signature,
   method = deconvolution_methods,
+  single_cell_object = NULL,
   ...
 )
 }
@@ -17,7 +18,9 @@ deconvolute(
 \item{signature}{The signature matrix.}
 
 \item{method}{A string specifying the method.
-Supported methods are \"bisque\", \"...\"}
+Supported methods are \"bisque\", \"momf\", \"...\"}
+
+\item{single_cell_object}{Needed for deconvolution with MOMF. Defaults to NULL.}
 
 \item{...}{Additional parameters, passed to the algorithm used.}
 }

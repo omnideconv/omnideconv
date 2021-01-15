@@ -21,7 +21,7 @@ deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod){
   bulk<-bulk_gene_expression[Genes,]
   sig<-signature[Genes,]
 
-  # perform reconvolution in different sub_method
+  # perform reconvolution in different sub_methods
   res <- NULL
 
   if(dwls_submethod == "OLS"){

@@ -46,7 +46,6 @@ trimData<-function(Signature,bulkData){
   return(list("sig"=S,"bulk"=B))
 }
 
-
 #solve using OLS, constrained such that cell type numbers>0
 solveOLS<-function(S,B){
   D<-t(S)%*%S

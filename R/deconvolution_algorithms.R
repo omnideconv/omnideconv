@@ -81,7 +81,6 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
                    },
                    dwls = deconvolute_dwls(bulk_gene_expression, signature, dwls_submethod),
 
-
   )
   return(deconv)
 }

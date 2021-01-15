@@ -12,7 +12,11 @@
 #'
 #' @examples
 
-deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod){
+deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c("OLS","SVR","DampenedWLS")){
+
+  if (length(dwls_submethod)>1){
+    dwls_submethod <- "OLS"
+  }
 
   message("\nRunning DWLS deconvolution module\n")
 

@@ -26,6 +26,10 @@ Imports:
     quadprog,
     reshape,
     e1071,
-    Seurat
+    Seurat,
+    ROCR,
+    varhandle,
+    MAST,
+    stringr
 Remotes:
     cozygene/bisque

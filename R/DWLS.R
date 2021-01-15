@@ -38,21 +38,15 @@ library(ROCR)
 library(varhandle)
 library(MAST)
 
-#trim bulk and single-cell data to contain the same genes
-trimData<-function(Signature,bulkData){
-  Genes<-intersect(rownames(Signature),rownames(bulkData))
-  B<-bulkData[Genes,]
-  S<-Signature[Genes,]
-  return(list("sig"=S,"bulk"=B))
-}
 
 #solve using OLS, constrained such that cell type numbers>0
+#NEEDED
 solveOLS<-function(S,B){
   D<-t(S)%*%S
   d<-t(S)%*%B
   A<-cbind(diag(dim(S)[2]))
   bzero<-c(rep(0,dim(S)[2]))
-  solution<-solve.QP(D,d,A,bzero)$solution
+  solution<-quadprog::solve.QP(D,d,A,bzero)$solution
   names(solution)<-colnames(S)
   print(round(solution/sum(solution),5))
   return(solution/sum(solution))
@@ -60,6 +54,7 @@ solveOLS<-function(S,B){
 
 #return cell number, not proportion
 #do not print output
+#NEEDED
 solveOLSInternal<-function(S,B){
   D<-t(S)%*%S
   d<-t(S)%*%B
@@ -71,6 +66,7 @@ solveOLSInternal<-function(S,B){
 }
 
 #solve using WLS with weights dampened by a certain dampening constant
+#NEEDED
 solveDampenedWLS<-function(S,B){
   #first solve OLS, use this solution to find a starting point for the weights
   solution<-solveOLSInternal(S,B)
@@ -94,6 +90,7 @@ solveDampenedWLS<-function(S,B){
 }
 
 #solve WLS given a dampening constant
+#NEEDED
 solveDampenedWLSj<-function(S,B,goldStandard,j){
   multiplier<-1*2^(j-1)
   sol<-goldStandard
@@ -113,6 +110,7 @@ solveDampenedWLSj<-function(S,B,goldStandard,j){
 }
 
 #find a dampening constant for the weights using cross-validation
+#NEEDED
 findDampeningConstant<-function(S,B,goldStandard){
   solutionsSd<-NULL
   #goldStandard is used to define the weights
@@ -147,6 +145,7 @@ findDampeningConstant<-function(S,B,goldStandard){
   return(j)
 }
 
+#NEEDED
 solveSVR<-function(S,B){
   #scaling
   ub=max(c(as.vector(S),B)) #upper bound
@@ -282,6 +281,7 @@ m.auc=function(data.m,group.v) {
 }
 
 #perform DE analysis using MAST
+#NEEDED
 DEAnalysisMAST<-function(scdata,id,path){
 
   pseudo.count = 0.1
@@ -343,6 +343,8 @@ DEAnalysisMAST<-function(scdata,id,path){
 
 #build signature matrix using genes identified by DEAnalysisMAST()
 buildSignatureMatrixMAST<-function(scdata,id,path,diff.cutoff=0.5,pval.cutoff=0.01){
+
+  colnames(scdata) <-  str_replace(colnames(scdata), " ", "_")
 
   #compute differentially expressed genes for each cell type
   DEAnalysisMAST(scdata,id,path)

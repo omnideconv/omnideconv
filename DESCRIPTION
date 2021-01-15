@@ -22,6 +22,10 @@ Imports:
     Biobase,
     BisqueRNA,
     limSolve,
-    methods
+    methods,
+    quadprog,
+    reshape,
+    e1071,
+    Seurat
 Remotes:
     cozygene/bisque

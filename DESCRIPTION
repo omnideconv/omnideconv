@@ -6,6 +6,10 @@ Authors@R:
            family = "Pelz",
            role = c("aut", "cre"),
            email = "konstantin.pelz@online.de")
+    person(given = "Nicolas",
+           family = "Goedert",
+           role = c("aut", "cre"),
+           email = "nicolasgoedert1997@gmail.com")
 Description: Collection of second generation methods for immune cell deconvolution from bulk RNA-seq samples
 License: BSD_3_clause + file LICENSE.md
 Encoding: UTF-8
@@ -22,6 +26,7 @@ Imports:
     Biobase,
     BisqueRNA,
     limSolve,
-    methods
+    methods,
+    reticulate
 Remotes:
     cozygene/bisque

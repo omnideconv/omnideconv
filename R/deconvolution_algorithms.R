@@ -7,7 +7,7 @@
 #' the values to the internal name.
 #'
 #' @export
-deconvolution_methods = c("Bisque"="bisque")
+deconvolution_methods = c("Bisque"="bisque","Scaden"="scaden")
 
 
 

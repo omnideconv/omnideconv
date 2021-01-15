@@ -24,9 +24,10 @@ if (!require("MAST")) {
   biocLite("MAST")
 }
 
-if (!requireNamespace("BiocManager", quietly = TRUE))
+if (!requireNamespace("BiocManager", quietly = TRUE)){
  install.packages("BiocManager")
  BiocManager::install("MAST")
+}
 
 #load packages
 library(quadprog)

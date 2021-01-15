@@ -44,7 +44,6 @@ build_signature <- function(single_cell_object, gene_annotations, cell_type_anno
                       bisque = BisqueRNA::GenerateSCReference(sc_eset,"cellType"),
                       dwls = buildSignatureMatrixMAST(single_cell_object, cell_type_annotations, path),
                       )
-
   return(signature)
 }
 

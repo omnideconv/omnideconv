@@ -13,6 +13,7 @@
 #' @examples
 
 deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod){
+
   message("\nRunning DWLS deconvolution module\n")
 
   # trim data

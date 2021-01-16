@@ -34,7 +34,7 @@ build_model <- function(single_cell_object, cell_type_annotations, method = deco
   signature <- switch(method,
                       bisque = BisqueRNA::GenerateSCReference(sc_eset,"cellType"),
                       momf = MOMF::momf.computeRef(single_cell_object, cell_type_annotations),
-                      dwls = buildSignatureMatrixMAST(single_cell_object, cell_type_annotations, path)
+                      dwls = buildSignatureMatrixMAST(single_cell_object, cell_type_annotations, path = NULL)
   )
 
   return(signature)

@@ -27,6 +27,7 @@ Imports:
     BisqueRNA,
     limSolve,
     methods,
-    reticulate
+    reticulate,
+    anndata
 Remotes:
     cozygene/bisque

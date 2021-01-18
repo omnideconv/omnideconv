@@ -273,21 +273,21 @@ DEAnalysisMAST<-function(scdata,id,path){
       counts  = as.data.frame(cbind( data.1[genes.list,], data.2[genes.list,] ))
       groups  = c(rep("Cluster_Other", length(cells.coord.list1) ), rep(i, length(cells.coord.list2) ) )
       groups  = as.character(groups)
-      data_for_MIST <- as.data.frame(cbind(rep(rownames(counts), dim(counts)[2]), melt(counts),rep(groups, each = dim(counts)[1]), rep(1, dim(counts)[1] * dim(counts)[2]) ))
+      data_for_MIST <- as.data.frame(cbind(rep(rownames(counts), dim(counts)[2]), reshape::melt(counts),rep(groups, each = dim(counts)[1]), rep(1, dim(counts)[1] * dim(counts)[2]) ))
       colnames(data_for_MIST) = c("Gene", "Subject.ID", "Et", "Population", "Number.of.Cells")
       vbeta = data_for_MIST
-      vbeta.fa <-FromFlatDF(vbeta, idvars=c("Subject.ID"),
+      vbeta.fa <-MAST::FromFlatDF(vbeta, idvars=c("Subject.ID"),
                             primerid='Gene', measurement='Et', ncells='Number.of.Cells',
                             geneid="Gene",  cellvars=c('Number.of.Cells', 'Population'),
                             phenovars=c('Population'), id='vbeta all')
       vbeta.1 <- subset(vbeta.fa,Number.of.Cells==1)
       # .3 MAST
-      head(colData(vbeta.1))
-      zlm.output <- zlm(~ Population, vbeta.1, method='bayesglm', ebayes=TRUE)
+      head(SummarizedExperiment::colData(vbeta.1))
+      zlm.output <- MAST::zlm(~ Population, vbeta.1, method='bayesglm', ebayes=TRUE)
       show(zlm.output)
       coefAndCI <- summary(zlm.output, logFC=TRUE)
-      zlm.lr <- lrTest(zlm.output, 'Population')
-      zlm.lr_pvalue <- melt(zlm.lr[,,'Pr(>Chisq)'])
+      zlm.lr <- MAST::lrTest(zlm.output, 'Population')
+      zlm.lr_pvalue <- reshape::melt(zlm.lr[,,'Pr(>Chisq)'])
       zlm.lr_pvalue <- zlm.lr_pvalue[which(zlm.lr_pvalue$test.type == 'hurdle'),]
 
 
@@ -314,6 +314,8 @@ DEAnalysisMAST<-function(scdata,id,path){
 #when path = NULL, the generated files in the processes will not be saved and output.
 
 buildSignatureMatrixMAST<-function(scdata,id, path, diff.cutoff=0.5,pval.cutoff=0.01){
+
+  id <- gsub(" ","_",id)
 
   #compute differentially expressed genes for each cell type
   list_cluster_table <- DEAnalysisMAST(scdata,id,path)
@@ -380,10 +382,13 @@ buildSignatureMatrixMAST<-function(scdata,id, path, diff.cutoff=0.5,pval.cutoff=
   for (i in unique(id)){
     Sig<-cbind(Sig,(apply(ExprSubset,1,function(y) mean(y[which(id==i)]))))
   }
+
   colnames(Sig)<-unique(id)
+  rownames(Sig)<-Genes
 
   if(!is.null(path)){
     save(Sig,file=paste(path,"/Sig.RData",sep=""))}
+
 
   return(Sig)
 }

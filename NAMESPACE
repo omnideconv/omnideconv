@@ -3,6 +3,7 @@
 export(bisque_reference_decomp)
 export(build_model)
 export(deconvolute)
+export(deconvolute_dwls)
 export(deconvolution_methods)
 export(fbind)
 export(fcount)

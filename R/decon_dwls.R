@@ -24,6 +24,12 @@ deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c(
   Genes<-intersect(rownames(signature),rownames(bulk_gene_expression))
   bulk<-bulk_gene_expression[Genes,]
   sig<-signature[Genes,]
+  if (class(bulk)[[1]]=="numeric"||class(sig)[[1]]=="numeric"){
+    base::stop("Either bulk data or signature matrix just contains one row!")
+  }
+
+  print(class(sig))
+  print(class(bulk))
 
   # perform reconvolution in different sub_methods
   res <- NULL

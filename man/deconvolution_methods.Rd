@@ -5,14 +5,14 @@
 \alias{deconvolution_methods}
 \title{List of supported immune deconvolution methods}
 \format{
-An object of class \code{character} of length 1.
+An object of class \code{character} of length 3.
 }
 \usage{
 deconvolution_methods
 }
 \description{
 The methods currently supported are
-\code{bisque}
+\code{bisque}, \code{dwls}
 }
 \details{
 The object is a named vector. The names correspond to the display name of the method,

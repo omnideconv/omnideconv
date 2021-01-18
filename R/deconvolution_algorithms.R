@@ -34,7 +34,7 @@ build_model <- function(single_cell_object, cell_type_annotations, method = deco
   signature <- switch(method,
                       bisque = BisqueRNA::GenerateSCReference(sc_eset,"cellType"),
                       momf = MOMF::momf.computeRef(single_cell_object, cell_type_annotations),
-                      dwls = buildSignatureMatrixMAST(single_cell_object, cell_type_annotations, path = NULL)
+                      dwls = buildSignatureMatrixMAST(as.data.frame(single_cell_object), cell_type_annotations, path = NULL)
   )
 
   return(signature)
@@ -66,7 +66,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
                    bisque = {
                      #Necessary for bisque, because bisqueReferenceDecomp needs to access internal bisque-package methods
                      base::environment(bisque_reference_decomp) <- base::environment(BisqueRNA::SimulateData)
-                     bisque_reference_decomp(bulk_eset, signature, ...)$bulk.props
+                     bisque_reference_decomp(bulk_eset, signature, single_cell_object, ...)$bulk.props
                    },
                    momf = deconvolute_MOMF(bulk_gene_expression, signature, single_cell_object, ...),
                    dwls = deconvolute_dwls(bulk_gene_expression, signature, ...)

@@ -123,26 +123,43 @@ solveSVR<-function(S,B){
 }
 
 #perform DE analysis using Seurat
+#when path = NULL, the generated files in the processes will not be saved and output.
 DEAnalysis<-function(scdata,id,path){
+  list.names <- unique(id)
+  list_de_group<-as.list(rep(0, length(list.names)))
+
   exprObj<-Seurat::CreateSeuratObject(raw.data=as.data.frame(scdata), project = "DE")
   exprObj2<-Seurat::SetIdent(exprObj,ident.use=as.vector(id))
   print("Calculating differentially expressed genes:")
   for (i in unique(id)){
     de_group <- Seurat::FindMarkers(object=exprObj2, ident.1 = i, ident.2 = NULL,
                             only.pos = TRUE, test.use = "bimod")
-    save(de_group,file=paste(path,"/de_",i,".RData",sep=""))
+
+    index<-which(list.names==i)
+    list_de_group[[index]]<-de_group
+
+    if(!is.null(path)){
+      save(de_group,file=paste(path,"/de_",i,".RData",sep=""))
+    }
   }
+  return(list_de_group)
 }
 
+
+
 #build signature matrix using genes identified by DEAnalysis()
+#when path = NULL, the generated files in the processes will not be saved and output.
 buildSignatureMatrixUsingSeurat<-function(scdata,id,path,diff.cutoff=0.5,pval.cutoff=0.01){
 
   #perform differential expression analysis
-  DEAnalysis(scdata,id,path)
+  list_de_groups <- DEAnalysis(scdata,id,path)
 
   numberofGenes<-c()
   for (i in unique(id)){
-    load(file=paste(path,"/de_",i,".RData",sep=""))
+    name_list<-unique(id)
+    index<-which(name_list==i)
+    de_group <- list_de_groups[[index]]
+
     DEGenes<-rownames(de_group)[intersect(which(de_group$p_val_adj<pval.cutoff),which(de_group$avg_logFC>diff.cutoff))]
     nonMir = base::grep("MIR|Mir", DEGenes, invert = T)
     base::assign(paste("cluster_lrTest.table.",i,sep=""),de_group[which(rownames(de_group)%in%DEGenes[nonMir]),])
@@ -197,7 +214,11 @@ buildSignatureMatrixUsingSeurat<-function(scdata,id,path,diff.cutoff=0.5,pval.cu
     Sig<-base::cbind(Sig,(apply(ExprSubset,1,function(y) mean(y[which(id==i)]))))
   }
   colnames(Sig)<-unique(id)
-  save(Sig,file=paste(path,"/Sig.RData",sep=""))
+
+  if(!is.null(path)){
+    save(Sig,file=paste(path,"/Sig.RData",sep=""))
+  }
+
   return(Sig)
 }
 

@@ -18,7 +18,7 @@ deconvolute(
 \item{signature}{The signature matrix.}
 
 \item{method}{A string specifying the method.
-Supported methods are \"bisque\", \"momf\", \"...\"}
+Supported methods are \"bisque\", \"momf\", \"dwls\", \"...\"}
 
 \item{single_cell_object}{Needed for deconvolution with MOMF. Defaults to NULL.}
 

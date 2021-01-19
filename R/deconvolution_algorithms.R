@@ -1,23 +1,23 @@
 #' List of supported immune deconvolution methods
 #'
 #' The methods currently supported are
-#' `bisque`
+#' `bisque`, `dwls`
 #'
 #' The object is a named vector. The names correspond to the display name of the method,
 #' the values to the internal name.
 #'
 #' @export
-deconvolution_methods = c("Bisque"="bisque", "MOMF"="momf")
-
-
+deconvolution_methods = c("Bisque"="bisque", "DWLS" = "dwls", "MOMF"="momf")
 
 
 #' Building the signature matrix
 #'
+#' The single_cell_object is expected to have rownames() and colnames()
+#'
 #' @param single_cell_object A matrix or dataframe with the single-cell data. Rows are genes, columns are samples.
 #' @param cell_type_annotations A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object
 #' @param method A string specifying the method.
-#'   Supported methods are \"bisque\", \"momf\", \"...\"
+#'   Supported methods are \"bisque\", \"momf\", \"dwls\", \"...\"
 #' @param ... Additional parameters, passed to the algorithm used.
 #'
 #' @return The signature matrix. Rows are genes, columns are cell types.
@@ -33,23 +33,20 @@ build_model <- function(single_cell_object, cell_type_annotations, method = deco
 
   signature <- switch(method,
                       bisque = BisqueRNA::GenerateSCReference(sc_eset,"cellType"),
-                      momf = MOMF::momf.computeRef(single_cell_object, cell_type_annotations)
+                      momf = MOMF::momf.computeRef(single_cell_object, cell_type_annotations),
+                      dwls = buildSignatureMatrixMAST(as.data.frame(single_cell_object), cell_type_annotations, path = NULL)
   )
 
   return(signature)
 }
 
-#Input: Rows are genes, cols are samples
-#Input datatype: Matrix or dataframe
-#Output: Rows are genes, cols are cell types
-#Output datatype: Matrix
 
 #' Deconvolution
 #'
 #' @param bulk_gene_expression A matrix or dataframe with the bulk data. Rows are genes, columns are samples.
 #' @param signature The signature matrix.
 #' @param method A string specifying the method.
-#'   Supported methods are \"bisque\", \"momf\", \"...\"
+#'   Supported methods are \"bisque\", \"momf\", \"dwls\", \"...\"
 #' @param single_cell_object Needed for deconvolution with MOMF. Defaults to NULL.
 #' @param ... Additional parameters, passed to the algorithm used.
 #'
@@ -69,9 +66,11 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
                    bisque = {
                      #Necessary for bisque, because bisqueReferenceDecomp needs to access internal bisque-package methods
                      base::environment(bisque_reference_decomp) <- base::environment(BisqueRNA::SimulateData)
-                     bisque_reference_decomp(bulk_eset, signature, ...)$bulk.props
+                     bisque_reference_decomp(bulk_eset, signature, single_cell_object, ...)$bulk.props
                    },
-                   momf=deconvolute_MOMF(bulk_gene_expression, signature, single_cell_object, ...)
+                   momf = deconvolute_MOMF(bulk_gene_expression, signature, single_cell_object, ...),
+                   dwls = deconvolute_dwls(bulk_gene_expression, signature, ...)
   )
   return(deconv)
 }
+

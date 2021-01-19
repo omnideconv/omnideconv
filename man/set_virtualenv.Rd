@@ -2,7 +2,7 @@
 % Please edit documentation in R/python_config.R
 \name{set_virtualenv}
 \alias{set_virtualenv}
-\title{Define a virtual environment that should be used.}
+\title{Defines a virtual environment that should be used.}
 \usage{
 set_virtualenv(env_path)
 }
@@ -13,5 +13,5 @@ set_virtualenv(env_path)
 
 }
 \description{
-This environment needs to contain python>=3.7 for scanpy and scaden to work.
+This environment needs to contain python3 for scanpy and scaden to work.
 }

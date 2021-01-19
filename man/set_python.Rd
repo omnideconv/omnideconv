@@ -4,7 +4,7 @@
 \alias{set_python}
 \title{Defines python path.}
 \usage{
-set_python(path)
+set_python(path_to_python_binaries)
 }
 \arguments{
 \item{path}{Path to the Python binaries.}
@@ -13,5 +13,5 @@ set_python(path)
 
 }
 \description{
-Python>=3.7 is needed for scanpy and scaden to work.
+Python3 is needed for scanpy and scaden to work.
 }

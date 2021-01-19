@@ -51,7 +51,7 @@ init_python <- function(python=NULL,verbose=F){
       python3 <- NULL
       disc <- reticulate::py_discover_config()
       for (python_version in disc$python_versions) {
-        if (grepl('python3$', python_version)){
+        if (grepl('python3', tolower(python_version))){
           python3 <- python_version
         }
       }

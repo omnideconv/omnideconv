@@ -95,13 +95,13 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 #' @export
 #'
 #' @examples
-#' Calling scaden with single cell expression matrix + annotations:
-#' cell_type_proportions <- scaden(single_cell_matrix ,cell_type_annotation ,gene_labels ,bulk_data)
+#' # Calling scaden with single cell expression matrix + annotations:
+#' # cell_type_proportions <- scaden(single_cell_matrix ,cell_type_annotation ,gene_labels ,bulk_data)
 #'
-#' Calling scaden with .h5ad file:
-#' cell_type_proportions <- scaden(anndata_object = h5ad_file, bulk_data = bulk_data)
+#' # Calling scaden with .h5ad file:
+#' # cell_type_proportions <- scaden(anndata_object = h5ad_file, bulk_data = bulk_data)
 #'
-#' Caution: The process step of scaden fails if inputting a single_cell experiment that is log-transformed.
+#' # Caution: The process step of scaden fails if inputting a single_cell experiment that is log-transformed.
 #'
 scaden <- function(single_cell_object, cell_type_annotations, gene_labels , bulk_data, anndata_object=NULL,verbose=F, ...){
   init_python(verbose = verbose)

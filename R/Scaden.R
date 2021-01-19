@@ -12,7 +12,7 @@
 #'
 #' @examples
 install_scaden <- function(method = "auto", conda = "auto") {
-  reticulate::py_install("scaden", method = method, conda = conda)
+  reticulate::py_install("scaden", method = method, conda = conda, channel = "bioconda")
 }
 
 #' Builds Scaden Model from scRNA data

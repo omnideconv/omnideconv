@@ -30,6 +30,10 @@ Imports:
     ROCR,
     varhandle,
     MAST,
-    stringr
+    stringr,
+    matlib,
+    MOMF,
+    SummarizedExperiment
 Remotes:
-    cozygene/bisque
+    cozygene/bisque,
+    sqsun/MOMF

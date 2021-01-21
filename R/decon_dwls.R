@@ -4,7 +4,7 @@
 #'
 #' @param bulk_gene_expression An Expression Set containing bulk data.
 #' @param signature The Signature matrix.
-#' @param dels_submethod Three alternative methods in DWLS: OLS, SVR, and DampenedWLS.
+#' @param dwls_submethod Three alternative methods in DWLS: OLS, SVR, and DampenedWLS.
 
 #'
 #' @return A list. Slot bulk.props contains a matrix of cell type proportion estimates with cell types as rows and individuals as columns.

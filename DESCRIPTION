@@ -14,11 +14,14 @@ URL: https://github.com/PelzKo/immunedeconv2
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Suggests: 
-    testthat (>= 2.0.0)
+    testthat (>= 2.0.0),
+    knitr,
+    rmarkdown,
+    pkgdown,
+    devtools
 Config/testthat/edition: 2
 biocViews:
-    Biobase
-Imports: 
+Imports:
     matlib,
     forcats,
     BisqueRNA,
@@ -34,7 +37,7 @@ Imports:
     stringr,
     MOMF,
     SummarizedExperiment,
-    BiocManager
+    Biobase
 Remotes:
     cozygene/bisque,
     sqsun/MOMF

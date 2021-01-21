@@ -17,6 +17,7 @@ Suggests:
     testthat (>= 2.0.0)
 Config/testthat/edition: 2
 biocViews:
+    Biobase
 Imports: 
     forcats,
     Biobase,

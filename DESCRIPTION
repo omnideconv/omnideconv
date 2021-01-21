@@ -13,6 +13,8 @@ LazyData: true
 URL: https://github.com/PelzKo/immunedeconv2
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Depends:
+    matlib
 Suggests: 
     testthat (>= 2.0.0),
     knitr,
@@ -21,8 +23,7 @@ Suggests:
     devtools
 Config/testthat/edition: 2
 biocViews:
-Imports:
-    matlib,
+Imports: 
     forcats,
     BisqueRNA,
     limSolve,

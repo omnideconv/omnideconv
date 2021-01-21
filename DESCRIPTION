@@ -17,7 +17,6 @@ Suggests:
     testthat (>= 2.0.0),
     knitr,
     rmarkdown,
-    pkgdown,
     devtools
 Config/testthat/edition: 2
 biocViews:

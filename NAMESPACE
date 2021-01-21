@@ -9,5 +9,3 @@ export(deconvolution_methods)
 export(fbind)
 export(fcount)
 export(get_single_cell_expression_set)
-
-import(matlib)

@@ -19,8 +19,8 @@ Config/testthat/edition: 2
 biocViews:
     Biobase
 Imports: 
+    matlib,
     forcats,
-    Biobase,
     BisqueRNA,
     limSolve,
     methods,
@@ -32,9 +32,9 @@ Imports:
     varhandle,
     MAST,
     stringr,
-    matlib,
     MOMF,
-    SummarizedExperiment
+    SummarizedExperiment,
+    BiocManager
 Remotes:
     cozygene/bisque,
     sqsun/MOMF

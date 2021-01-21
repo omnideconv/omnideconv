@@ -30,6 +30,7 @@ Imports:
     ROCR,
     varhandle,
     MAST,
-    stringr
+    stringr,
+    MOMF
 Remotes:
     cozygene/bisque

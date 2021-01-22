@@ -39,4 +39,4 @@ Imports:
     Biobase,
     BioqueRNA
 Remotes:
-    sqsun/MOMF
+    grst/MOMF

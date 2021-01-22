@@ -36,7 +36,7 @@ Imports:
     stringr,
     MOMF,
     SummarizedExperiment,
-    Biobase
+    Biobase,
+    BioqueRNA
 Remotes:
-    cozygene/bisque,
     sqsun/MOMF

@@ -37,5 +37,4 @@ Imports:
     SummarizedExperiment,
     Biobase
 Remotes:
-    # Use grst's fork until dependencies get fixed upstream
     grst/MOMF

@@ -21,7 +21,6 @@ Suggests:
 Config/testthat/edition: 2
 biocViews:
 Imports: 
-    matlib,
     forcats,
     BisqueRNA,
     limSolve,
@@ -36,7 +35,7 @@ Imports:
     stringr,
     MOMF,
     SummarizedExperiment,
-    Biobase,
-    BioqueRNA
+    Biobase
 Remotes:
+    # Use grst's fork until dependencies get fixed upstream
     grst/MOMF

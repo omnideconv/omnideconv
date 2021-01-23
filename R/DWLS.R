@@ -368,7 +368,6 @@ buildSignatureMatrixMAST<-function(scdata,id, path, diff.cutoff=0.5,pval.cutoff=
       if(numberofGenes[j]>0){
         temp<-paste("cluster_lrTest.table.",i,sep="")
         temp<-as.name(temp)
-        temp<-eval(parse(text = temp))
         temp<-temp[order(temp$log2fold_change,decreasing=TRUE),]
         Genes<-c(Genes,varhandle::unfactor(temp$Gene[1:min(G,numberofGenes[j])]))
       }

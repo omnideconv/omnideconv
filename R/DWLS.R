@@ -5,7 +5,8 @@ solveOLS<-function(S,B){
   d<-t(S)%*%B
   A<-base::cbind(diag(dim(S)[2]))
   bzero<-c(rep(0,dim(S)[2]))
-  solution<-quadprog::solve.QP(D,d,A,bzero)$solution
+  sc <- norm(D,"2")
+  solution<-quadprog::solve.QP(D/sc,d/sc,A,bzero)$solution
   names(solution)<-colnames(S)
   print(round(solution/sum(solution),5))
   return(solution/sum(solution))
@@ -19,7 +20,8 @@ solveOLSInternal<-function(S,B){
   d<-t(S)%*%B
   A<-base::cbind(diag(dim(S)[2]))
   bzero<-c(rep(0,dim(S)[2]))
-  solution<-quadprog::solve.QP(D,d,A,bzero)$solution
+  sc <- norm(D,"2")
+  solution<-quadprog::solve.QP(D/sc,d/sc,A,bzero)$solution
   names(solution)<-colnames(S)
   return(solution)
 }

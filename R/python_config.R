@@ -1,18 +1,3 @@
-#' Defines a virtual environment that should be used.
-#'
-#'
-#' This environment needs to contain python3 for scanpy and scaden to work.
-#'
-#' @param env_path Path to virtual environment.
-#'
-#' @return
-#' @export
-#'
-#' @examples
-set_virtualenv <- function(env_path){
-  reticulate::use_virtualenv(env_path,required = T)
-}
-
 #' Defines python path.
 #'
 #' Python3 is needed for scanpy and scaden to work.
@@ -27,51 +12,33 @@ set_python <- function(path_to_python_binaries){
   reticulate::use_python(python = path_to_python_binaries)
 }
 
-#' Creates a new virtual environment.
-#'
-#' Creates a virtual environment and activates it.
-#' The pip version is automatically upgraded to the newest version.
-#' Python3 required for scaden and scanpy to work.
-#'
-#'
-#' @param path_to_python_binaries Path to the Python binaries.
-#'
-#' @return
-#' @export
-#'
-#' @examples
-create_virtualenv <- function(path_to_python_binaries){
-  reticulate::virtualenv_create(python = path_to_python_binaries,envname = "r-reticulate")
-  reticulate::use_virtualenv("r-reticulate",required = T)
-}
-
-init_python <- function(python=NULL,verbose=F){
-  if (is.null(python)){
-    if (!python_available()){
-      python3 <- NULL
-      disc <- reticulate::py_discover_config()
-      for (python_version in disc$python_versions) {
-        if (grepl('python3$', python_version)){
-          python3 <- python_version
-        }
+init_python <- function(python=NULL){
+  if (!reticulate::py_available()){
+    if (is.null(python)){
+      if(!dir.exists(reticulate::miniconda_path())){
+        suppressMessages(reticulate::install_miniconda())
       }
-
-      if (is.null(python3)){
-        base::warning("No python3 version could detected! Deconvolution with Scaden not realizable.")
-        base::warning("Please run init_python(python= /path/to/python3) to set up an environment manually.")
+      reticulate::use_miniconda(condaenv = "r-reticulate",required = T)
+      config <- reticulate::py_config()
+      if (!python_available()){
+        base::message("Python not available")
+        print(config)
+        base::message("Please indicate your version of python calling init_python(python=your/python)")
       }
-      else{
-        suppressMessages(create_virtualenv(python3))
-      }
+      # else{
+      #   system("pip install -U scipy")
+      # }
     }
-  }
-  else{
-    suppressMessages(create_virtualenv(python))
+    else{
+      reticulate::use_python(python= python)
+    }
   }
 }
 
 python_available<- function(){
   return(reticulate::py_available())
 }
+
+
 
 

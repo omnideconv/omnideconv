@@ -19,6 +19,13 @@ build_anndata <- function(x, obs, var, obsm=NULL, varm=NULL){
   x <- as.matrix(x)
 
   ad <- anndata::AnnData(X=x, obs = obs, var = var, obsm=obsm, varm=varm)
+
+  ###
+  transPosed <- t(x)
+  rownames(transPosed)<-var
+  colnames(transPosed)<-obs
+
+  ###
   return(ad)
 }
 
@@ -47,7 +54,7 @@ read_anndata <- function(path){
 #' @examples
 write_anndata <- function(data,path){
   anndata_check_load()
-  o <- data$write_h5ad(path)
+  data$write_h5ad(path)
 }
 
 #' Checks if anndata package is loaded

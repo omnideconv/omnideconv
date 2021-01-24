@@ -78,10 +78,6 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   return(deconv)
 }
 
-
-##Remark: Scaden now callable by one single function. Can later be split up and added to the build_model() and deconvolute() functions.
-##        Then build_model() needs to inform the user to provide bulk_data. Additionally deconvolute() should then inform user that scaden can't take up a signature matrix, but only the scaden model.
-
 #' Scaden model creation and deconvolution
 #'
 #' @param single_cell_object A matrix or dataframe with the single-cell expression data. Rows are cells, columns are genes.
@@ -104,16 +100,18 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 #' Caution: The process step of scaden fails if inputting a single_cell experiment that is log-transformed.
 #'
 scaden <- function(single_cell_object, cell_type_annotations, gene_labels , bulk_data, anndata_object=NULL,verbose=F, ...){
-  init_python(verbose = verbose)
+  if (!python_available()){
+    init_python()
+  }
 
   if (is.null(anndata_object)){
-    model <- scaden_build_model(single_cell_object, cell_type_annotations,gene_labels, bulk_data = bulk_data, ...)
+    model <- scaden_build_model(single_cell_object, cell_type_annotations,gene_labels, bulk_data = bulk_data, verbose = verbose, ...)
   }
   else{
-    model <- scaden_build_model_from_h5ad(anndata_object,bulk_data = bulk_data,...)
+    model <- scaden_build_model_from_h5ad(anndata_object,bulk_data = bulk_data, verbose = verbose,...)
   }
 
 
-  deconvolution <- scaden_deconvolute(model,bulk_data, ...)
+  deconvolution <- scaden_deconvolute(model,bulk_data, verbose = verbose ,...)
   return(deconvolution)
 }

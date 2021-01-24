@@ -11,8 +11,8 @@
 #' @export
 #'
 #' @examples
-install_scaden <- function(method = "auto", conda = "auto") {
-  reticulate::py_install("scaden", method = method, conda = conda)
+install_scaden <- function() {
+  reticulate::py_install("scaden",pip=T)
 }
 
 #' Builds Scaden Model from scRNA data
@@ -38,11 +38,6 @@ scaden_build_model <- function(count_data ,celltype_labels, gene_labels ,bulk_da
       model_path <- tempfile(tmpdir = tmp_dir)
     }
     training_h5ad <- scaden_simulate(celltype_labels = celltype_labels, gene_labels = gene_labels, count_data = count_data, verbose=verbose, ...)
-    ##### Problem : Scaden needs .h5ad file for training. It can simulate a .h5ad file from single_cell_matrix, celltype_labels, gene_labels. Works but not what we want.
-    ##### Inputting our training data as .h5ad, works (If count values not in logarithmic space!)
-    ##### The commented command below is what I want to implement instead of simulate, so i want to build the training-data .h5ad simply creating a anndata object from single_cell_matrix, celltype_labels, gene_labels
-    ##### Can't figure out what is wrong with build_anndata() function...
-    #training_h5ad <- build_anndata(count_data, celltype_labels, gene_labels)
     processed <- scaden_process(training_h5ad,bulk_data, verbose=verbose, ...)
     scaden_train(processed,model_path=model_path, verbose = verbose)
     return(model_path)
@@ -106,6 +101,7 @@ scaden_deconvolute <- function(model,bulk_data, verbose=F){
 scaden_train <- function(h5ad_processed, batch_size=128, learning_rate= 0.0001, model_path=NULL, steps=5000, verbose=F){
 
   base::message("Training model")
+
 
   # check if Scaden is installed and loaded.
   scaden_checkload()
@@ -223,16 +219,12 @@ scaden_predict <- function(model_dir, bulk_data, verbose=F){
   bulk_data_tmp <- tempfile(tmpdir = tmp_dir)
   write.table(bulk_data,file = bulk_data_tmp, sep = "\t",row.names = T,col.names = NA,quote = F)
 
-  if (!verbose){
-    logfile <- tempfile(tmpdir = tmp_dir,fileext = "train.log")
-    sink(file = logfile)
-  }
-
   system(paste("scaden predict --model_dir",model_dir,bulk_data_tmp), ignore.stdout = !verbose, ignore.stderr = !verbose)
 
-  predictions <- read.table(paste0(tmp_dir,"/scaden_predictions.txt"))
+  predictions <- read.table(paste0(tmp_dir,"/scaden_predictions.txt"),sep = "\t",header = T)
 
-  unlink(tmp_dir)
+
+  unlink(tmp_dir,recursive = T)
   setwd(current_wd)
   return(predictions)
 
@@ -249,7 +241,7 @@ scaden_predict <- function(model_dir, bulk_data, verbose=F){
 #' @export
 #'
 #' @examples
-scaden_simulate_example <- function(example_data_path=NULL){
+scaden_simulate_example <- function(example_data_path=NULL, verbose=F){
   # see scaden_train comments for workflow explanation
   scaden_checkload()
 
@@ -296,33 +288,34 @@ scaden_simulate_example <- function(example_data_path=NULL){
 #' @export
 #'
 #' @examples
-scaden_simulate <- function(celltype_labels ,gene_labels , count_data, cells=100, samples=1000, verbose = F){
+scaden_simulate <- function(celltype_labels ,gene_labels , count_data, cells=100, samples=1000, dataset_name="scaden" , verbose = F){
     scaden_checkload()
+
+
+
     base::message("Simulating training data from single cell experiment: ",samples, " samples of ",cells, " cells")
-
-
 
     current_wd <- getwd()
 
     tmp_dir <- tempdir()
     dir.create(tmp_dir,showWarnings = F)
     setwd(tmp_dir)
+    dir.create(dataset_name,showWarnings = F)
+    setwd(paste0(tmp_dir,"/",dataset_name))
 
     colnames(count_data)<-gene_labels
     cell_types <- data.frame("Celltype"=celltype_labels)
 
-    write.table(count_data,paste0(tmp_dir,"/_counts.txt"),sep = "\t",row.names = T,col.names = NA,quote = F)
-    write.table(cell_types,paste0(tmp_dir,"/_celltypes.txt"),quote = F,row.names = F,col.names = T)
+    write.table(count_data,paste0(tmp_dir,"/",dataset_name,"/",dataset_name,"_counts.txt") ,sep = "\t",row.names = T,col.names = NA,quote = F)
+    write.table(cell_types,paste0(tmp_dir,"/",dataset_name,"/",dataset_name,"_celltypes.txt") ,quote = F,row.names = F,col.names = T)
+    setwd(tmp_dir)
 
-    ftmpdir <- paste0(tmp_dir,"/")
-
-
-    system(paste("scaden simulate --data",ftmpdir,"-n",samples,"-c",cells,"--pattern *_counts.txt"), ignore.stdout = !verbose, ignore.stderr = !verbose)
+    system(paste("scaden simulate --data",paste0(tmp_dir,"/",dataset_name),"-n",samples,"-c",cells,"--pattern *_counts.txt"), ignore.stdout = !verbose, ignore.stderr = !verbose)
 
     output <- read_anndata(paste0(tmp_dir,"/data.h5ad"))
 
     setwd(current_wd)
-    unlink(tmp_dir)
+    unlink(tmp_dir,recursive = T)
     return(output)
 
 
@@ -337,17 +330,24 @@ scaden_simulate <- function(celltype_labels ,gene_labels , count_data, cells=100
 #'
 #' @examples
 scaden_checkload <- function(){
-  if (reticulate::py_module_available("scaden")){
-    reticulate::import("scaden")
+  if (python_available()){
+    if (reticulate::py_module_available("scaden")){
+      reticulate::import("scaden")
+    }
+    else{
+      install_scaden()
+      reticulate::import("scaden")
+    }
   }
   else{
+    base::message("Setting up python environment..")
+    init_python()
     if (python_available()){
       install_scaden()
+      reticulate::import("scaden")
     }
-    else {
-      base::message("Setting up python environment..")
-      init_python()
-      scaden_checkload()
+    else{
+      base::stop("Could not initiate miniconda python environment. Please set up manually with init_python(python=your/python/version)")
     }
   }
 }

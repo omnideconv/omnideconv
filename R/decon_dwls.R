@@ -28,9 +28,6 @@ deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c(
     base::stop("Either bulk data or signature matrix just contains one row!")
   }
 
-  print(class(sig))
-  print(class(bulk))
-
   # perform reconvolution in different sub_methods
   res <- NULL
 

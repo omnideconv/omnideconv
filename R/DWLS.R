@@ -286,8 +286,8 @@ DEAnalysisMAST<-function(scdata,id,path){
     DE <- bigtable[bigtable$log2_fc >diff.cutoff,]
     dim(DE)
     if(dim(DE)[1]>1){
-      data.1                 = data.used.log2[,cells.coord.list1]
-      data.2                 = data.used.log2[,cells.coord.list2]
+      data.1                 = data.used.log2[,cells.coord.list1, drop=F]
+      data.2                 = data.used.log2[,cells.coord.list2, drop=F]
       genes.list = rownames(DE)
       log2fold_change        = cbind(genes.list, DE$log2_fc)
       colnames(log2fold_change) = c("gene.name", "log2fold_change")

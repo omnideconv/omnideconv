@@ -11,8 +11,10 @@
 #' @export
 #'
 #' @examples
+
 install_scaden <- function() {
   reticulate::py_install("scaden",pip=T)
+
 }
 
 #' Builds Scaden Model from scRNA data

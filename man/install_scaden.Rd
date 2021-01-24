@@ -4,7 +4,7 @@
 \alias{install_scaden}
 \title{Install Scaden}
 \usage{
-install_scaden(method = "auto", conda = "auto")
+install_scaden()
 }
 \arguments{
 \item{conda}{}
@@ -14,4 +14,6 @@ install_scaden(method = "auto", conda = "auto")
 }
 \description{
 Install Scaden into a previously defined python environment.
+A python environment can be defined by set_virtualenv() or set_python() command.
+Alternatively a new environment can be created via create_virtualenv() method.
 }

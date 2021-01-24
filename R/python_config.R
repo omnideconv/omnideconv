@@ -12,10 +12,12 @@ set_python <- function(path_to_python_binaries){
   reticulate::use_python(python = path_to_python_binaries)
 }
 
+
 init_python <- function(python=NULL){
   if (!reticulate::py_available()){
     if (is.null(python)){
       if(!dir.exists(reticulate::miniconda_path())){
+        base::message("Setting up miniconda environment..")
         suppressMessages(reticulate::install_miniconda())
       }
       reticulate::use_miniconda(condaenv = "r-reticulate",required = T)
@@ -25,12 +27,10 @@ init_python <- function(python=NULL){
         print(config)
         base::message("Please indicate your version of python calling init_python(python=your/python)")
       }
-      # else{
-      #   system("pip install -U scipy")
-      # }
     }
     else{
       reticulate::use_python(python= python)
+      reticulate::py_config()
     }
   }
 }

@@ -117,11 +117,11 @@ scaden_train <- function(h5ad_processed, batch_size=128, learning_rate= 0.0001, 
   write_anndata(h5ad_processed,h5ad_processed_tmp)
 
   if (is.null(model_path)){
-    currentwd <- getwd()
-    setwd(tmp_dir)
+    currentwd <- base::getwd()
+    base::setwd(tmp_dir)
     system("mkdir model")
     model_path <- paste0(tmp_dir,"/model")
-    setwd(currentwd)
+    base::setwd(currentwd)
   }
 
   # Calling Scaden command
@@ -212,11 +212,11 @@ scaden_predict <- function(model_dir, bulk_data, verbose=F){
   scaden_checkload()
 
 
-  current_wd <- getwd()
+  current_wd <- base::getwd()
 
   tmp_dir <- tempdir()
   dir.create(tmp_dir,showWarnings = F)
-  setwd(tmp_dir)
+  base::setwd(tmp_dir)
 
   bulk_data_tmp <- tempfile(tmpdir = tmp_dir)
   write.table(bulk_data,file = bulk_data_tmp, sep = "\t",row.names = T,col.names = NA,quote = F)
@@ -227,7 +227,7 @@ scaden_predict <- function(model_dir, bulk_data, verbose=F){
 
 
   unlink(tmp_dir,recursive = T)
-  setwd(current_wd)
+  base::setwd(current_wd)
   return(predictions)
 
 }
@@ -247,15 +247,15 @@ scaden_simulate_example <- function(example_data_path=NULL, verbose=F){
   # see scaden_train comments for workflow explanation
   scaden_checkload()
 
-  current_wd <- getwd()
+  current_wd <- base::getwd()
 
   if (is.null(example_data_path)){
     tmp_dir <- tempdir()
     dir.create(tmp_dir,showWarnings = F)
-    setwd(tmp_dir)
+    base::setwd(tmp_dir)
   }
   else{
-    setwd(example_data_path)
+    base::setwd(example_data_path)
   }
 
 
@@ -272,7 +272,7 @@ scaden_simulate_example <- function(example_data_path=NULL, verbose=F){
   simulated_h5ad <- read_anndata(paste0(tmp_dir,"/data.h5ad"))
   bulk <- read.table(paste0(tmp_dir,"/example_data/example_bulk_data.txt"))
 
-  setwd(current_wd)
+  base::setwd(current_wd)
   unlink(tmp_dir)
 
   output <- list("simulated_h5ad"=simulated_h5ad,"bulk"=bulk)
@@ -297,26 +297,26 @@ scaden_simulate <- function(celltype_labels ,gene_labels , count_data, cells=100
 
     base::message("Simulating training data from single cell experiment: ",samples, " samples of ",cells, " cells")
 
-    current_wd <- getwd()
+    current_wd <- base::getwd()
 
     tmp_dir <- tempdir()
     dir.create(tmp_dir,showWarnings = F)
-    setwd(tmp_dir)
+    base::setwd(tmp_dir)
     dir.create(dataset_name,showWarnings = F)
-    setwd(paste0(tmp_dir,"/",dataset_name))
+    base::setwd(paste0(tmp_dir,"/",dataset_name))
 
     colnames(count_data)<-gene_labels
     cell_types <- data.frame("Celltype"=celltype_labels)
 
     write.table(count_data,paste0(tmp_dir,"/",dataset_name,"/",dataset_name,"_counts.txt") ,sep = "\t",row.names = T,col.names = NA,quote = F)
     write.table(cell_types,paste0(tmp_dir,"/",dataset_name,"/",dataset_name,"_celltypes.txt") ,quote = F,row.names = F,col.names = T)
-    setwd(tmp_dir)
+    base::setwd(tmp_dir)
 
     system(paste("scaden simulate --data",paste0(tmp_dir,"/",dataset_name),"-n",samples,"-c",cells,"--pattern *_counts.txt"), ignore.stdout = !verbose, ignore.stderr = !verbose)
 
     output <- read_anndata(paste0(tmp_dir,"/data.h5ad"))
 
-    setwd(current_wd)
+    base::setwd(current_wd)
     unlink(tmp_dir,recursive = T)
     return(output)
 

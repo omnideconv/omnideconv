@@ -178,8 +178,7 @@ buildSignatureMatrixUsingSeurat<-function(scdata,id,path,diff.cutoff=0.5,pval.cu
     for (i in unique(id)){
       if(numberofGenes[j]>0){
         temp<-base::paste("cluster_lrTest.table.",i,sep="")
-        temp<-as.name(temp)
-        temp<-base::eval(parse(text = temp))
+        temp<-get(temp)
         temp<-temp[order(temp$p_val_adj,decreasing=TRUE),]
         Genes<-c(Genes,(rownames(temp)[1:min(G,numberofGenes[j])]))
       }
@@ -202,8 +201,7 @@ buildSignatureMatrixUsingSeurat<-function(scdata,id,path,diff.cutoff=0.5,pval.cu
   for (i in unique(id)){
     if(numberofGenes[j]>0){
       temp<-base::paste("cluster_lrTest.table.",i,sep="")
-      temp<-as.name(temp)
-      temp<-base::eval(parse(text = temp))
+      temp<-get(temp)
       temp<-temp[order(temp$p_val_adj,decreasing=TRUE),]
       Genes<-c(Genes,(rownames(temp)[1:min(G,numberofGenes[j])]))
     }

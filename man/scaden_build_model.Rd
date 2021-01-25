@@ -5,25 +5,44 @@
 \title{Builds Scaden Model from scRNA data}
 \usage{
 scaden_build_model(
-  count_data,
+  single_cell_object,
   celltype_labels,
-  gene_labels,
   bulk_data = NULL,
   model_path = NULL,
-  verbose = F,
-  ...
+  batch_size = 128,
+  learning_rate = 1e-04,
+  steps = 5000,
+  var_cutoff = NULL,
+  cells = 100,
+  samples = 1000,
+  dataset_name = "scaden",
+  verbose = F
 )
 }
 \arguments{
-\item{count_data}{Matrix or dataframe of scRNA data. Rows=cells and columns=genes}
+\item{single_cell_object}{A matrix or dataframe with the single-cell data. Rows are genes, columns are samples.}
 
-\item{celltype_labels}{Vector of celltype labels. Order corresponds to rows in count_data matrix.}
+\item{celltype_labels}{Vector of celltype labels. Order corresponds to rows in single_cell_object matrix.}
 
-\item{gene_labels}{Vector of gene labels. Order corresponds to columns in count_data matrix.}
+\item{bulk_data}{Matrix of bulk RNA expression. (rows :genes, columns: samples)}
 
-\item{bulk_data}{Matrix of bulk RNA expression. (genes x samples)}
+\item{model_path}{Path where model directory should be created. (optional)}
 
-\item{model_path}{Path where model directory should be created.}
+\item{batch_size}{Training  of model: Batch size to use for training. (default: 128)}
+
+\item{learning_rate}{Training of model: Learning rate used for training. (default: 0.0001)}
+
+\item{steps}{Training of model: Number of training steps (default: 5000)}
+
+\item{var_cutoff}{Training data processing: Filter out genes with a variance less than the specified cutoff. A low cutoff is recommended,this should only remove genes that are obviously uninformative. (default NULL)}
+
+\item{cells}{Bulk simulation: Number of cells per sample (default: 100)}
+
+\item{samples}{Bulk simulation: Number of samples to simulate (default: 1000)}
+
+\item{dataset_name}{Bulk simulation: Name of simulated dataset (default scaden)}
+
+\item{verbose}{If true: Command line output of Scaden is shown (default: false)}
 }
 \value{
 

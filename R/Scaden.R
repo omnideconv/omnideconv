@@ -21,55 +21,47 @@ install_scaden <- function() {
 #'
 #' The model is saved in a defined directory.
 #'
-#' @param celltype_labels Vector of celltype labels. Order corresponds to rows in count_data matrix.
-#' @param gene_labels Vector of gene labels. Order corresponds to columns in count_data matrix.
-#' @param count_data Matrix or dataframe of scRNA data. Rows=cells and columns=genes
-#' @param bulk_data Matrix of bulk RNA expression. (genes x samples)
-#' @param model_path Path where model directory should be created.
+#' @param celltype_labels Vector of celltype labels. Order corresponds to rows in single_cell_object matrix.
+#' @param single_cell_object A matrix or dataframe with the single-cell data. Rows are genes, columns are samples.
+#' @param bulk_data Matrix of bulk RNA expression. (rows :genes, columns: samples)
+#' @param model_path Path where model directory should be created. (optional)
+#' @param samples Bulk simulation: Number of samples to simulate (default: 1000)
+#' @param cells Bulk simulation: Number of cells per sample (default: 100)
+#' @param dataset_name Bulk simulation: Name of simulated dataset (default scaden)
+#' @param var_cutoff Training data processing: Filter out genes with a variance less than the specified cutoff. A low cutoff is recommended,this should only remove genes that are obviously uninformative. (default NULL)
+#' @param batch_size Training  of model: Batch size to use for training. (default: 128)
+#' @param learning_rate Training of model: Learning rate used for training. (default: 0.0001)
+#' @param steps Training of model: Number of training steps (default: 5000)
+#' @param verbose If true: Command line output of Scaden is shown (default: false)
 #'
 #' @return
 #' @export
 #'
 #' @examples
-scaden_build_model <- function(count_data ,celltype_labels, gene_labels ,bulk_data=NULL ,model_path=NULL, verbose=F, ...){
-  if (!is.null(bulk_data)){
-    if (is.null(model_path)){
-      tmp_dir <- tempdir()
-      dir.create(tmp_dir,showWarnings = F)
+scaden_build_model <- function(single_cell_object ,celltype_labels ,bulk_data=NULL ,model_path=NULL, batch_size=128, learning_rate= 0.0001, steps=5000, var_cutoff=NULL, cells=100, samples=1000, dataset_name="scaden", verbose=F){
 
-      model_path <- tempfile(tmpdir = tmp_dir)
-    }
-    training_h5ad <- scaden_simulate(celltype_labels = celltype_labels, gene_labels = gene_labels, count_data = count_data, verbose=verbose, ...)
-    processed <- scaden_process(training_h5ad,bulk_data, verbose=verbose, ...)
-    scaden_train(processed,model_path=model_path, verbose = verbose)
-    return(model_path)
+  # check if Scaden is installed and loaded.
+  scaden_checkload()
+
+  single_cell_object <- t(single_cell_object)
+  if (nrow(single_cell_object) != length(celltype_labels)){
+    base::stop("Celltype labels must be same length as samples (number of columns) in single_cell_object!")
+  }
+  gene_labels <- colnames(single_cell_object)
+
+
+  if (!is.null(bulk_data)){
+
+    training_h5ad <- scaden_simulate(celltype_labels = celltype_labels, gene_labels = gene_labels, single_cell_object = single_cell_object, cells = cells, samples = samples, dataset_name = dataset_name, verbose=verbose)
+    processed <- scaden_process(training_h5ad,bulk_data, verbose=verbose, var_cutoff = var_cutoff)
+    output_model_path <- scaden_train(processed,model_path=model_path, verbose = verbose, batch_size = batch_size , learning_rate = learning_rate, steps = steps)
+    return(output_model_path)
   }
   else{
-    base::warning("Scaden needs bulk RNA data for building the model. Please forward a bulk RNA file with build_model(..., bulk_data= your_bulk_data )")
+    base::stop("Scaden needs bulk RNA data for building the model. Please forward a bulk RNA file with build_model(..., bulk_data= your_bulk_data )")
   }
 }
 
-#' Builds Scaden model from training data in .h5ad format.
-#'
-#' @param training_data_h5ad Training data in .h5ad format.
-#' @param bulk_data Matrix of bulk RNA expression. (genes x samples)
-#' @param model_path Path where model directory should be created.
-#'
-#' @return
-#' @export
-#'
-#' @examples
-scaden_build_model_from_h5ad <- function(training_data_h5ad,bulk_data,model_path=NULL, verbose=F,...){
-  if (is.null(model_path)){
-    tmp_dir <- tempdir()
-    dir.create(tmp_dir,showWarnings = F)
-
-    model_path <- tempfile(tmpdir = tmp_dir)
-  }
-  processed  <- scaden_process(training_data_h5ad,bulk_data, verbose = verbose)
-  scaden_train(processed,model_path = model_path, verbose = verbose)
-  return(model_path)
-}
 
 #' Performs deconvolution
 #'
@@ -81,6 +73,7 @@ scaden_build_model_from_h5ad <- function(training_data_h5ad,bulk_data,model_path
 #'
 #' @examples
 scaden_deconvolute <- function(model,bulk_data, verbose=F){
+  scaden_checkload()
   prediction <- scaden_predict(model,bulk_data, verbose = verbose)
   return(prediction)
 }
@@ -104,10 +97,6 @@ scaden_train <- function(h5ad_processed, batch_size=128, learning_rate= 0.0001, 
 
   base::message("Training model")
 
-
-  # check if Scaden is installed and loaded.
-  scaden_checkload()
-
   # create temporary directory where Scaden input files should be saved at.
   tmp_dir <- tempdir()
   dir.create(tmp_dir,showWarnings = F)
@@ -118,17 +107,38 @@ scaden_train <- function(h5ad_processed, batch_size=128, learning_rate= 0.0001, 
 
   if (is.null(model_path)){
     currentwd <- base::getwd()
-    base::setwd(tmp_dir)
-    system("mkdir model")
-    model_path <- paste0(tmp_dir,"/model")
-    base::setwd(currentwd)
+    model_path <- tryCatch(
+      {
+        base::setwd(tmp_dir)
+        model_path <- paste0(tmp_dir,"/model")
+        dir.create(model_path, showWarnings = F)
+        model_path
+
+      },
+      error=function(cond) {
+        base::setwd(currentwd)
+        base::stop(cond)
+      },
+      warning=function(cond) {
+        base::warning(cond)
+      },
+      finally={
+        base::setwd(currentwd)
+      }
+    )
   }
 
   # Calling Scaden command
   system(paste("scaden train",h5ad_processed_tmp,"--batch_size",batch_size,"--learning_rate",learning_rate,"--steps",steps,"--model_dir",model_path), ignore.stdout = !verbose, ignore.stderr = !verbose)
 
-  # removal and deletion of temporary folder and it's content.
-  unlink(tmp_dir)
+  model_dirs <- list.dirs(path = model_path, full.names = F, recursive = F)
+  model_names <- c('m1024','m256','m512')
+  for (model in model_names){
+    if (!(model %in% model_dirs)){
+      base::stop("Model generation failed!")
+    }
+  }
+
   return(model_path)
 }
 
@@ -150,31 +160,29 @@ scaden_process <- function(h5ad,bulk_data,var_cutoff=NULL, verbose=F){
 
   base::message("Processing training data for model creation ...")
 
-  # see scaden_train comments for workflow explanation
-  scaden_checkload()
 
-  tmp_dir <- tempdir()
-  dir.create(tmp_dir,showWarnings = F)
-
-  h5ad_tmp <- tempfile(tmpdir = tmp_dir,fileext =".h5ad")
-  write_anndata(h5ad,h5ad_tmp)
-
-  bulk_data_tmp <- tempfile(tmpdir = tmp_dir)
-  write.table(bulk_data,file = bulk_data_tmp, sep = "\t",row.names = T,col.names = NA,quote = F)
-
-  processed_h5ad <- tempfile(fileext =".h5ad",tmpdir = tmp_dir)
-
-
-  if(is.null(var_cutoff)){
-    system(paste("scaden process",h5ad_tmp,bulk_data_tmp,"--processed_path",processed_h5ad), ignore.stdout = !verbose, ignore.stderr = !verbose)
-  }
-  else{
-    system(paste("scaden process",h5ad_tmp,bulk_data_tmp,"--processed_path",processed_h5ad,"--var_cutoff",var_cutoff), ignore.stdout = !verbose, ignore.stderr = !verbose)
-  }
 
   out <- tryCatch(
     {
-      output_h5ad <- read_anndata(processed_h5ad)
+      tmp_dir <- tempdir()
+      dir.create(tmp_dir,showWarnings = F)
+
+      h5ad_tmp <- tempfile(tmpdir = tmp_dir,fileext =".h5ad")
+      write_anndata(h5ad,h5ad_tmp)
+
+      bulk_data_tmp <- tempfile(tmpdir = tmp_dir)
+      write.table(bulk_data,file = bulk_data_tmp, sep = "\t",row.names = T,col.names = NA,quote = F)
+
+      processed_h5ad <- tempfile(fileext =".h5ad",tmpdir = tmp_dir)
+
+
+      if(is.null(var_cutoff)){
+        system(paste("scaden process",h5ad_tmp,bulk_data_tmp,"--processed_path",processed_h5ad), ignore.stdout = !verbose, ignore.stderr = !verbose)
+      }
+      else{
+        system(paste("scaden process",h5ad_tmp,bulk_data_tmp,"--processed_path",processed_h5ad,"--var_cutoff",var_cutoff), ignore.stdout = !verbose, ignore.stderr = !verbose)
+      }
+      read_anndata(processed_h5ad)
     },
     error=function(cond){
       base::message("Error preprocessing training data! Make sure training data is not in logarithmic space!")
@@ -183,13 +191,8 @@ scaden_process <- function(h5ad,bulk_data,var_cutoff=NULL, verbose=F){
       if (verbose){
         message(cond)
       }
-    },
-    finally = {
-      unlink(tmp_dir)
     }
   )
-
-
   return(out)
 }
 
@@ -208,26 +211,33 @@ scaden_predict <- function(model_dir, bulk_data, verbose=F){
 
   base::message("Predicting cell type proportions")
 
-  # see scaden_train comments for workflow explanation
-  scaden_checkload()
-
 
   current_wd <- base::getwd()
 
-  tmp_dir <- tempdir()
-  dir.create(tmp_dir,showWarnings = F)
-  base::setwd(tmp_dir)
+  tryCatch(
+    {
+      tmp_dir <- tempdir()
+      dir.create(tmp_dir,showWarnings = F)
+      base::setwd(tmp_dir)
 
-  bulk_data_tmp <- tempfile(tmpdir = tmp_dir)
-  write.table(bulk_data,file = bulk_data_tmp, sep = "\t",row.names = T,col.names = NA,quote = F)
+      bulk_data_tmp <- tempfile(tmpdir = tmp_dir)
+      write.table(bulk_data,file = bulk_data_tmp, sep = "\t",row.names = T,col.names = NA,quote = F)
 
-  system(paste("scaden predict --model_dir",model_dir,bulk_data_tmp), ignore.stdout = !verbose, ignore.stderr = !verbose)
+      system(paste("scaden predict --model_dir",model_dir,bulk_data_tmp), ignore.stdout = !verbose, ignore.stderr = !verbose)
 
-  predictions <- read.table(paste0(tmp_dir,"/scaden_predictions.txt"),sep = "\t",header = T)
+      predictions <- read.table(paste0(tmp_dir,"/scaden_predictions.txt"),sep = "\t",header = T)
 
-
-  unlink(tmp_dir,recursive = T)
-  base::setwd(current_wd)
+    },
+    error=function(cond) {
+      base::stop(cond)
+    },
+    warning=function(cond) {
+      base::warning(cond)
+    },
+    finally={
+      base::setwd(current_wd)
+    }
+  )
   return(predictions)
 
 }
@@ -244,8 +254,7 @@ scaden_predict <- function(model_dir, bulk_data, verbose=F){
 #'
 #' @examples
 scaden_simulate_example <- function(example_data_path=NULL, verbose=F){
-  # see scaden_train comments for workflow explanation
-  scaden_checkload()
+
 
   current_wd <- base::getwd()
 
@@ -282,16 +291,15 @@ scaden_simulate_example <- function(example_data_path=NULL, verbose=F){
 
 #' Simulates training data from scRNA data
 #'
-#' @param celltype_labels Vector of celltype labels. Order corresponds to rows in count_data matrix.
-#' @param gene_labels Vector of gene labels. Order corresponds to columns in count_data matrix.
-#' @param count_data Matrix or dataframe of scRNA data. Rows=cells and columns=genes
+#' @param celltype_labels Vector of celltype labels. Order corresponds to rows in single_cell_object matrix.
+#' @param gene_labels Vector of gene labels. Order corresponds to columns in single_cell_object matrix.
+#' @param single_cell_object Matrix or dataframe of scRNA data. Rows=cells and columns=genes
 #'
 #' @return
 #' @export
 #'
 #' @examples
-scaden_simulate <- function(celltype_labels ,gene_labels , count_data, cells=100, samples=1000, dataset_name="scaden" , verbose = F){
-    scaden_checkload()
+scaden_simulate <- function(celltype_labels ,gene_labels , single_cell_object, cells=100, samples=1000, dataset_name="scaden" , verbose = F){
 
 
 
@@ -299,28 +307,38 @@ scaden_simulate <- function(celltype_labels ,gene_labels , count_data, cells=100
 
     current_wd <- base::getwd()
 
-    tmp_dir <- tempdir()
-    dir.create(tmp_dir,showWarnings = F)
-    base::setwd(tmp_dir)
-    dir.create(dataset_name,showWarnings = F)
-    base::setwd(paste0(tmp_dir,"/",dataset_name))
 
-    colnames(count_data)<-gene_labels
-    cell_types <- data.frame("Celltype"=celltype_labels)
+    output <- tryCatch(
+      {
+        tmp_dir <- tempdir()
+        dir.create(tmp_dir,showWarnings = F)
+        base::setwd(tmp_dir)
+        dir.create(dataset_name,showWarnings = F)
+        base::setwd(paste0(tmp_dir,"/",dataset_name))
 
-    write.table(count_data,paste0(tmp_dir,"/",dataset_name,"/",dataset_name,"_counts.txt") ,sep = "\t",row.names = T,col.names = NA,quote = F)
-    write.table(cell_types,paste0(tmp_dir,"/",dataset_name,"/",dataset_name,"_celltypes.txt") ,quote = F,row.names = F,col.names = T)
-    base::setwd(tmp_dir)
+        colnames(single_cell_object)<-gene_labels
+        cell_types <- data.frame("Celltype"=celltype_labels)
 
-    system(paste("scaden simulate --data",paste0(tmp_dir,"/",dataset_name),"-n",samples,"-c",cells,"--pattern *_counts.txt"), ignore.stdout = !verbose, ignore.stderr = !verbose)
+        write.table(single_cell_object,paste0(tmp_dir,"/",dataset_name,"/",dataset_name,"_counts.txt") ,sep = "\t",row.names = T,col.names = NA,quote = F)
+        write.table(cell_types,paste0(tmp_dir,"/",dataset_name,"/",dataset_name,"_celltypes.txt") ,quote = F,row.names = F,col.names = T)
+        base::setwd(tmp_dir)
 
-    output <- read_anndata(paste0(tmp_dir,"/data.h5ad"))
+        system(paste("scaden simulate --data",paste0(tmp_dir,"/",dataset_name),"-n",samples,"-c",cells,"--pattern *_counts.txt"), ignore.stdout = !verbose, ignore.stderr = !verbose)
 
-    base::setwd(current_wd)
-    unlink(tmp_dir,recursive = T)
+
+        read_anndata(paste0(tmp_dir,"/data.h5ad"))
+      },
+      error=function(cond) {
+        base::stop(cond)
+      },
+      warning=function(cond) {
+        base::warning(cond)
+      },
+      finally={
+        base::setwd(current_wd)
+      }
+    )
     return(output)
-
-
 }
 
 #' Checks if scaden is installed.

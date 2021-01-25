@@ -28,14 +28,18 @@ deconvolution_methods = c("Bisque"="bisque","MOMF"="momf","Scaden"="scaden")
 #' @examples
 build_model <- function(single_cell_object, cell_type_annotations, method = deconvolution_methods, ...){
 
+
   if (class(single_cell_object)[[1]]!="matrix")
     single_cell_object <- as.matrix(single_cell_object)
 
+
   sc_eset <- get_single_cell_expression_set(single_cell_object, colnames(single_cell_object), rownames(single_cell_object), cell_type_annotations)
+
 
   signature <- switch(method,
                       bisque = BisqueRNA::GenerateSCReference(sc_eset,"cellType"),
-                      momf = MOMF::momf.computeRef(single_cell_object, cell_type_annotations)
+                      momf = MOMF::momf.computeRef(single_cell_object, cell_type_annotations),
+                      scaden = scaden_build_model(single_cell_object,cell_type_annotations, ...)
   )
 
   return(signature)
@@ -73,45 +77,9 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
                      base::environment(bisque_reference_decomp) <- base::environment(BisqueRNA::SimulateData)
                      bisque_reference_decomp(bulk_eset, signature, ...)$bulk.props
                    },
-                   momf=deconvolute_MOMF(bulk_gene_expression, signature, single_cell_object, ...)
+                   momf=deconvolute_MOMF(bulk_gene_expression, signature, single_cell_object, ...),
+                   scaden = scaden_deconvolute(signature, bulk, ...)
   )
   return(deconv)
 }
 
-#' Scaden model creation and deconvolution
-#'
-#' @param single_cell_object A matrix or dataframe with the single-cell expression data. Rows are cells, columns are genes.
-#' @param cell_type_annotations Vector of celltype labels. Same order as rows in single_cell_object.
-#' @param gene_labels Vector of gene symbols. Same order as columns in single_cell_object.
-#' @param bulk_data Matrix or dataframe of bulk RNA expression. Rows are genes, columns are samples.
-#' @param anndata_object Single cell expression in AnnData format. If provided, single_cell_object, cell_type_annotations and gene_labels are ignored.
-#' @param ... Parameters that can be forwarded to Scaden
-#'
-#' @return
-#' @export
-#'
-#' @examples
-#' # Calling scaden with single cell expression matrix + annotations:
-#' # cell_type_proportions <- scaden(single_cell_matrix ,cell_type_annotation ,gene_labels ,bulk_data)
-#'
-#' # Calling scaden with .h5ad file:
-#' # cell_type_proportions <- scaden(anndata_object = h5ad_file, bulk_data = bulk_data)
-#'
-#' # Caution: The process step of scaden fails if inputting a single_cell experiment that is log-transformed.
-#'
-scaden <- function(single_cell_object, cell_type_annotations, gene_labels , bulk_data, anndata_object=NULL,verbose=F, ...){
-  if (!python_available()){
-    init_python()
-  }
-
-  if (is.null(anndata_object)){
-    model <- scaden_build_model(single_cell_object, cell_type_annotations,gene_labels, bulk_data = bulk_data, verbose = verbose, ...)
-  }
-  else{
-    model <- scaden_build_model_from_h5ad(anndata_object,bulk_data = bulk_data, verbose = verbose,...)
-  }
-
-
-  deconvolution <- scaden_deconvolute(model,bulk_data, verbose = verbose ,...)
-  return(deconvolution)
-}

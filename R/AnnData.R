@@ -1,5 +1,3 @@
-anndata_load <<- F
-
 #' Create anndata object from single cell expression matrix, cell type labels and gene symbols
 #'
 #' @param x single cell expression matrix, rows = cells, columns = genes
@@ -68,11 +66,11 @@ write_anndata <- function(data,path){
 anndata_check_load <- function(){
   if (!python_available()){
     init_python()
+    anndata_check_load()
   }
 
-  if (!anndata_load){
+  if (!reticulate::py_module_available("anndata")){
     anndata::install_anndata()
-    anndata_load <<- T
   }
 }
 

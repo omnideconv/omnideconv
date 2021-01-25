@@ -7,7 +7,7 @@
 scaden_simulate(
   celltype_labels,
   gene_labels,
-  count_data,
+  single_cell_object,
   cells = 100,
   samples = 1000,
   dataset_name = "scaden",
@@ -15,11 +15,11 @@ scaden_simulate(
 )
 }
 \arguments{
-\item{celltype_labels}{Vector of celltype labels. Order corresponds to rows in count_data matrix.}
+\item{celltype_labels}{Vector of celltype labels. Order corresponds to rows in single_cell_object matrix.}
 
-\item{gene_labels}{Vector of gene labels. Order corresponds to columns in count_data matrix.}
+\item{gene_labels}{Vector of gene labels. Order corresponds to columns in single_cell_object matrix.}
 
-\item{count_data}{Matrix or dataframe of scRNA data. Rows=cells and columns=genes}
+\item{single_cell_object}{Matrix or dataframe of scRNA data. Rows=cells and columns=genes}
 }
 \value{
 

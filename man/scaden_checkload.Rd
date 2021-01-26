@@ -6,9 +6,6 @@
 \usage{
 scaden_checkload()
 }
-\value{
-
-}
 \description{
 If it is available, the python module is imported.
 }

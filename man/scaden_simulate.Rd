@@ -20,9 +20,17 @@ scaden_simulate(
 \item{gene_labels}{Vector of gene labels. Order corresponds to columns in single_cell_object matrix.}
 
 \item{single_cell_object}{Matrix or dataframe of scRNA data. Rows=cells and columns=genes}
+
+\item{cells}{Bulk simulation: Number of cells per sample (default: 100)}
+
+\item{samples}{Bulk simulation: Number of samples to simulate (default: 1000)}
+
+\item{dataset_name}{Name of dataset}
+
+\item{verbose}{Defines verbosity of function call (default: false)}
 }
 \value{
-
+Simulated bulk data of known cell type fractions
 }
 \description{
 Simulates training data from scRNA data

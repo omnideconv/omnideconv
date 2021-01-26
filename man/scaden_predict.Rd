@@ -10,9 +10,11 @@ scaden_predict(model_dir, bulk_data, verbose = F)
 \item{model_dir}{Directory where model is saved}
 
 \item{bulk_data}{Bulk RNA-seq data. (genes x bulk_RNA samples)}
+
+\item{verbose}{Defines verbosity of function call (default: false)}
 }
 \value{
-
+Cell type fractions per sample
 }
 \description{
 Predicts cell proportions in bulk RNA sample.

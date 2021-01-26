@@ -7,6 +7,7 @@
 #'
 #' @return A Biobase::ExpressionSet of the input data.
 #' @export
+#' @importClassesFrom Biobase AnnotatedDataFrame
 #'
 #' @examples
 get_single_cell_expression_set <- function(single_cell_matrix, sample_names, genes, cell_types){

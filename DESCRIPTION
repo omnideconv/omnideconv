@@ -26,6 +26,7 @@ Config/testthat/edition: 2
 biocViews:
 Imports: 
     forcats,
+    matlib,
     BisqueRNA,
     limSolve,
     methods,

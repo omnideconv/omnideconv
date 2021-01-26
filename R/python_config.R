@@ -2,9 +2,8 @@
 #'
 #' Python3 is needed for scanpy and scaden to work.
 #'
-#' @param path Path to the Python binaries.
+#' @param path_to_python_binaries Path to python binaries
 #'
-#' @return
 #' @export
 #'
 #' @examples
@@ -13,6 +12,13 @@ set_python <- function(path_to_python_binaries){
 }
 
 
+#' Initiates python environment
+#'
+#' @param python (optional) If own python should be used please indicate it's binaries
+#'
+#' @export
+#'
+#' @examples
 init_python <- function(python=NULL){
   if (!reticulate::py_available()){
     if (is.null(python)){
@@ -35,6 +41,12 @@ init_python <- function(python=NULL){
   }
 }
 
+#' Checks if python is available in environment
+#'
+#' @return boolean
+#' @export
+#'
+#' @examples
 python_available<- function(){
   return(reticulate::py_available())
 }

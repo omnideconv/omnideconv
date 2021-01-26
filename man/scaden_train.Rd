@@ -23,9 +23,11 @@ scaden_train(
 \item{model_path}{Path to store the model in}
 
 \item{steps}{Number of training steps}
+
+\item{verbose}{Defines verbosity of function call (default: false)}
 }
 \value{
-
+Scaden model
 }
 \description{
 Trains a Scaden model on pre-processed training data.

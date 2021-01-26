@@ -1,12 +1,12 @@
 #' Create anndata object from single cell expression matrix, cell type labels and gene symbols
 #'
-#' @param x single cell expression matrix, rows = cells, columns = genes
+#' @param x single cell expression matrix, rows = genes, columns = samples
 #' @param obs vector of cell type labels
 #' @param var vector of gene symbols
-#' @param obsm
-#' @param varm
+#' @param obsm Key-indexed multi-dimensional observations annotation of length #observations.
+#' @param varm Key-indexed multi-dimensional variables annotation of length #variables.
 #'
-#' @return
+#' @return AnnData object
 #' @export
 #'
 #' @examples
@@ -18,20 +18,17 @@ build_anndata <- function(x, obs, var, obsm=NULL, varm=NULL){
 
   ad <- anndata::AnnData(X=x, obs = obs, var = var, obsm=obsm, varm=varm)
 
-  ###
-  transPosed <- t(x)
   rownames(transPosed)<-var
   colnames(transPosed)<-obs
 
-  ###
   return(ad)
 }
 
 #' Read anndata object (.h5ad format)
 #'
-#' @param path
+#' @param path path to .h5ad formatted file
 #'
-#' @return
+#' @return AnnData object
 #' @export
 #'
 #' @examples
@@ -43,10 +40,9 @@ read_anndata <- function(path){
 
 #' Write anndata object (.h5ad format)
 #'
-#' @param data
-#' @param path
+#' @param data AnnData object
+#' @param path path where AnnData object should be written to (.h5ad format)
 #'
-#' @return
 #' @export
 #'
 #' @examples
@@ -59,7 +55,6 @@ write_anndata <- function(data,path){
 #'
 #' If called and python environment is not set up, this is realized. Else, it checks if the anndata package is loaded, and if not, it does this.
 #'
-#' @return
 #' @export
 #'
 #' @examples

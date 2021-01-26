@@ -6,12 +6,6 @@
 \usage{
 install_scaden()
 }
-\arguments{
-\item{conda}{}
-}
-\value{
-
-}
 \description{
 Install Scaden into a previously defined python environment.
 A python environment can be defined by set_virtualenv() or set_python() command.

@@ -4,10 +4,6 @@
 #' A python environment can be defined by set_virtualenv() or set_python() command.
 #' Alternatively a new environment can be created via create_virtualenv() method.
 #'
-#' @param method
-#' @param conda
-#'
-#' @return
 #' @export
 #'
 #' @examples
@@ -34,7 +30,7 @@ install_scaden <- function() {
 #' @param steps Training of model: Number of training steps (default: 5000)
 #' @param verbose If true: Command line output of Scaden is shown (default: false)
 #'
-#' @return
+#' @return Scaden model
 #' @export
 #'
 #' @examples
@@ -74,8 +70,9 @@ scaden_build_model <- function(single_cell_object ,celltype_labels ,bulk_data=NU
 #'
 #' @param model Path to the model directory
 #' @param bulk_data Matrix of bulk RNA expression. (genes x samples)
+#' @param verbose Defines verbosity of function call (default: false)
 #'
-#' @return
+#' @return Cell type fractions per sample.
 #' @export
 #'
 #' @examples
@@ -102,8 +99,9 @@ scaden_deconvolute <- function(model,bulk_data, verbose=F){
 #' @param learning_rate Learning rate used for training. Default: 0.0001
 #' @param model_path Path to store the model in
 #' @param steps Number of training steps
+#' @param verbose Defines verbosity of function call (default: false)
 #'
-#' @return
+#' @return Scaden model
 #' @export
 #'
 #' @examples
@@ -165,8 +163,9 @@ scaden_train <- function(h5ad_processed, batch_size=128, learning_rate= 0.0001, 
 #' @param h5ad File that should be processed. Must be in AnnData format (.h5ad)
 #' @param bulk_data Bulk RNA-seq data. (genes x individuals)
 #' @param var_cutoff Filter out genes with a variance less than the specified cutoff. A low cutoff is recommended,this should only remove genes that are obviously uninformative.
+#' @param verbose Defines verbosity of function call (default: false)
 #'
-#' @return
+#' @return processed training file. (.h5ad format)
 #' @export
 #'
 #' @examples
@@ -185,7 +184,7 @@ scaden_process <- function(h5ad,bulk_data,var_cutoff=NULL, verbose=F){
       write_anndata(h5ad,h5ad_tmp)
 
       bulk_data_tmp <- tempfile(tmpdir = tmp_dir)
-      write.table(bulk_data,file = bulk_data_tmp, sep = "\t",row.names = T,col.names = NA,quote = F)
+      utils::write.table(bulk_data,file = bulk_data_tmp, sep = "\t",row.names = T,col.names = NA,quote = F)
 
       processed_h5ad <- tempfile(fileext =".h5ad",tmpdir = tmp_dir)
 
@@ -216,8 +215,9 @@ scaden_process <- function(h5ad,bulk_data,var_cutoff=NULL, verbose=F){
 #'
 #' @param model_dir Directory where model is saved
 #' @param bulk_data Bulk RNA-seq data. (genes x bulk_RNA samples)
+#' @param verbose Defines verbosity of function call (default: false)
 #'
-#' @return
+#' @return Cell type fractions per sample
 #' @export
 #'
 #' @examples
@@ -235,11 +235,11 @@ scaden_predict <- function(model_dir, bulk_data, verbose=F){
       base::setwd(tmp_dir)
 
       bulk_data_tmp <- tempfile(tmpdir = tmp_dir)
-      write.table(bulk_data,file = bulk_data_tmp, sep = "\t",row.names = T,col.names = NA,quote = F)
+      utils::write.table(bulk_data,file = bulk_data_tmp, sep = "\t",row.names = T,col.names = NA,quote = F)
 
       system(paste("scaden predict --model_dir",model_dir,bulk_data_tmp), ignore.stdout = !verbose, ignore.stderr = !verbose)
 
-      read.table(paste0(tmp_dir,"/scaden_predictions.txt"),sep = "\t",header = T)
+      utils::read.table(paste0(tmp_dir,"/scaden_predictions.txt"),sep = "\t",header = T)
 
     },
     error=function(cond) {
@@ -261,6 +261,7 @@ scaden_predict <- function(model_dir, bulk_data, verbose=F){
 #' Used for testing.
 #'
 #' @param example_data_path Path to where example data should be saved. (directory)
+#' @param verbose Defines verbosity of function call (default: false)
 #'
 #' @return List with list$simulated_h5ad =  example training data
 #' and list$bulk = example bulk data.
@@ -293,7 +294,7 @@ scaden_simulate_example <- function(example_data_path=NULL, verbose=F){
   system(paste0("scaden simulate --data ",tmp_dir,"/example_data/ -n 100 --pattern *_counts.txt"))
 
   simulated_h5ad <- read_anndata(paste0(tmp_dir,"/data.h5ad"))
-  bulk <- read.table(paste0(tmp_dir,"/example_data/example_bulk_data.txt"))
+  bulk <- utils::read.table(paste0(tmp_dir,"/example_data/example_bulk_data.txt"))
 
   base::setwd(current_wd)
   unlink(tmp_dir)
@@ -308,8 +309,12 @@ scaden_simulate_example <- function(example_data_path=NULL, verbose=F){
 #' @param celltype_labels Vector of celltype labels. Order corresponds to rows in single_cell_object matrix.
 #' @param gene_labels Vector of gene labels. Order corresponds to columns in single_cell_object matrix.
 #' @param single_cell_object Matrix or dataframe of scRNA data. Rows=cells and columns=genes
+#' @param samples Bulk simulation: Number of samples to simulate (default: 1000)
+#' @param cells Bulk simulation: Number of cells per sample (default: 100)
+#' @param dataset_name Name of dataset
+#' @param verbose Defines verbosity of function call (default: false)
 #'
-#' @return
+#' @return Simulated bulk data of known cell type fractions
 #' @export
 #'
 #' @examples
@@ -333,8 +338,8 @@ scaden_simulate <- function(celltype_labels ,gene_labels , single_cell_object, c
         colnames(single_cell_object)<-gene_labels
         cell_types <- data.frame("Celltype"=celltype_labels)
 
-        write.table(single_cell_object,paste0(tmp_dir,"/",dataset_name,"/",dataset_name,"_counts.txt") ,sep = "\t",row.names = T,col.names = NA,quote = F)
-        write.table(cell_types,paste0(tmp_dir,"/",dataset_name,"/",dataset_name,"_celltypes.txt") ,quote = F,row.names = F,col.names = T)
+        utils::write.table(single_cell_object,paste0(tmp_dir,"/",dataset_name,"/",dataset_name,"_counts.txt") ,sep = "\t",row.names = T,col.names = NA,quote = F)
+        utils::write.table(cell_types,paste0(tmp_dir,"/",dataset_name,"/",dataset_name,"_celltypes.txt") ,quote = F,row.names = F,col.names = T)
         base::setwd(tmp_dir)
 
         system(paste("scaden simulate --data",paste0(tmp_dir,"/",dataset_name),"-n",samples,"-c",cells,"--pattern *_counts.txt"), ignore.stdout = !verbose, ignore.stderr = !verbose)
@@ -359,7 +364,6 @@ scaden_simulate <- function(celltype_labels ,gene_labels , single_cell_object, c
 #'
 #' If it is available, the python module is imported.
 #'
-#' @return
 #' @export
 #'
 #' @examples

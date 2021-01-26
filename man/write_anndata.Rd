@@ -7,10 +7,9 @@
 write_anndata(data, path)
 }
 \arguments{
-\item{path}{}
-}
-\value{
+\item{data}{AnnData object}
 
+\item{path}{path where AnnData object should be written to (.h5ad format)}
 }
 \description{
 Write anndata object (.h5ad format)

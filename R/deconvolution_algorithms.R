@@ -73,7 +73,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
                      bisque_reference_decomp(bulk_eset, signature, single_cell_object, ...)$bulk.props
                    },
                    momf=deconvolute_MOMF(bulk_gene_expression, signature, single_cell_object, ...),
-                   scaden = scaden_deconvolute(signature, bulk, ...),
+                   scaden = scaden_deconvolute(signature, bulk_gene_expression, ...),
                    dwls = deconvolute_dwls(bulk_gene_expression, signature, ...)
   )
   return(deconv)

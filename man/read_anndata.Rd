@@ -7,10 +7,10 @@
 read_anndata(path)
 }
 \arguments{
-\item{path}{}
+\item{path}{path to .h5ad formatted file}
 }
 \value{
-
+AnnData object
 }
 \description{
 Read anndata object (.h5ad format)

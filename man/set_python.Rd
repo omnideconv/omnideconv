@@ -7,10 +7,7 @@
 set_python(path_to_python_binaries)
 }
 \arguments{
-\item{path}{Path to the Python binaries.}
-}
-\value{
-
+\item{path_to_python_binaries}{Path to python binaries}
 }
 \description{
 Python3 is needed for scanpy and scaden to work.

@@ -123,6 +123,9 @@ scaden_train <- function(h5ad_processed, batch_size=128, learning_rate= 0.0001, 
       {
         base::setwd(tmp_dir)
         model_path <- paste0(tmp_dir,"/model")
+        if (dir.exists(model_path)){
+          unlink(model_path, recursive = T)
+        }
         dir.create(model_path, showWarnings = F)
         model_path
 
@@ -332,6 +335,9 @@ scaden_simulate <- function(celltype_labels ,gene_labels , single_cell_object, c
         tmp_dir <- tempdir()
         dir.create(tmp_dir,showWarnings = F)
         base::setwd(tmp_dir)
+        if (dir.exists(dataset_name)){
+          unlink(dataset_name, recursive = T)
+        }
         dir.create(dataset_name,showWarnings = F)
         base::setwd(paste0(tmp_dir,"/",dataset_name))
 

@@ -10,9 +10,11 @@ scaden_deconvolute(model, bulk_data, verbose = F)
 \item{model}{Path to the model directory}
 
 \item{bulk_data}{Matrix of bulk RNA expression. (genes x samples)}
+
+\item{verbose}{Defines verbosity of function call (default: false)}
 }
 \value{
-
+Cell type fractions per sample.
 }
 \description{
 Performs deconvolution

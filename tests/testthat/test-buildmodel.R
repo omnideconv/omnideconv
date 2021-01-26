@@ -1,6 +1,6 @@
-load("../../test_data/bulk.RData")
-load("../../test_data/cell_type_annotations.RData")
-load("../../test_data/single_cell_data.RData")
+bulk_small <- as.matrix(utils::read.csv("small_test_data/bulk_small.csv",row.names = 1))
+sc_object_small <- as.matrix(utils::read.csv("small_test_data/sc_object_small.csv", row.names = 1))
+cell_annotations_small <- utils::read.csv("small_test_data/cell_annotations_small.csv",row.names = 1)$x
 
 test_that("Bisque GenerateSCReference works",{
   expect_equal(info = "signature matrix has same amount of rows as single cell matrix", object = nrow(build_model(sc_object_small, cell_annotations_small, method = "bisque")), expected = nrow(sc_object_small))

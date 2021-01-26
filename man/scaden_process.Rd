@@ -12,9 +12,11 @@ scaden_process(h5ad, bulk_data, var_cutoff = NULL, verbose = F)
 \item{bulk_data}{Bulk RNA-seq data. (genes x individuals)}
 
 \item{var_cutoff}{Filter out genes with a variance less than the specified cutoff. A low cutoff is recommended,this should only remove genes that are obviously uninformative.}
+
+\item{verbose}{Defines verbosity of function call (default: false)}
 }
 \value{
-
+processed training file. (.h5ad format)
 }
 \description{
 Training data needs to be processed before a model can be trained.

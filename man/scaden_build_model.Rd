@@ -45,7 +45,7 @@ scaden_build_model(
 \item{verbose}{If true: Command line output of Scaden is shown (default: false)}
 }
 \value{
-
+Scaden model
 }
 \description{
 The model is saved in a defined directory.

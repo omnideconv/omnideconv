@@ -30,7 +30,7 @@ Imports:
     limSolve,
     methods,
     reticulate,
-    anndata
+    anndata,
     quadprog,
     reshape,
     e1071,
@@ -44,3 +44,4 @@ Imports:
     Biobase
 Remotes:
     grst/MOMF
+    

@@ -31,7 +31,7 @@ build_model <- function(single_cell_object, cell_type_annotations, method = deco
     single_cell_object <- as.matrix(single_cell_object)
 
 
-  #sc_eset <- get_single_cell_expression_set(single_cell_object, colnames(single_cell_object), rownames(single_cell_object), cell_type_annotations)
+  sc_eset <- get_single_cell_expression_set(single_cell_object, colnames(single_cell_object), rownames(single_cell_object), cell_type_annotations)
 
 
   signature <- switch(tolower(method),

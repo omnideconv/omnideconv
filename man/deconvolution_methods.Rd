@@ -12,7 +12,7 @@ deconvolution_methods
 }
 \description{
 The methods currently supported are
-\code{bisque}
+\code{bisque}, \code{dwls}
 }
 \details{
 The object is a named vector. The names correspond to the display name of the method,

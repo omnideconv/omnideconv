@@ -36,7 +36,7 @@ build_model <- function(single_cell_object, cell_type_annotations, method = deco
   sc_eset <- get_single_cell_expression_set(single_cell_object, colnames(single_cell_object), rownames(single_cell_object), cell_type_annotations)
 
 
-  signature <- switch(method,
+  signature <- switch(tolower(method),
                       bisque = BisqueRNA::GenerateSCReference(sc_eset,"cellType"),
                       momf = MOMF::momf.computeRef(single_cell_object, cell_type_annotations),
                       scaden = scaden_build_model(single_cell_object,cell_type_annotations, ...)
@@ -71,7 +71,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
 
 
-  deconv <- switch(method,
+  deconv <- switch(tolower(method),
                    bisque = {
                      #Necessary for bisque, because bisqueReferenceDecomp needs to access internal bisque-package methods
                      base::environment(bisque_reference_decomp) <- base::environment(BisqueRNA::SimulateData)

@@ -1,45 +1,23 @@
+load("../../test_data/bulk.RData")
+load("../../test_data/cell_type_annotations.RData")
+load("../../test_data/single_cell_data.RData")
+
 test_that("Bisque GenerateSCReference works",{
-  gene_expression = diag(5)
-  gene_names = c("marker_A", "marker_B", "marker_C", "marker_D", "marker_E")
-  cell_types = c("A", "B", "C", "D", "E")
-  pdata_df = data.frame(cell_type=cell_types)
-  rownames(pdata_df) = cell_types
-  colnames(gene_expression) = cell_types
-  rownames(gene_expression) = gene_names
-  expect_equal(object = nrow(build_model(gene_expression, cell_types, method = "bisque")), expected = nrow(gene_expression))
-  expect_equal(object = ncol(build_model(gene_expression, cell_types, method = "bisque")), expected = length(unique(cell_types)))
+  expect_equal(info = "signature matrix has same amount of rows as single cell matrix", object = nrow(build_model(sc_object_small, cell_annotations_small, method = "bisque")), expected = nrow(sc_object_small))
+  expect_equal(info = "signature matrix has same amount of columns as unique cell types in single cell matrix", object = ncol(build_model(sc_object_small, cell_annotations_small, method = "bisque")), expected = length(unique(cell_annotations_small)))
 })
 
 
 test_that("MOMF compute reference works",{
-  gene_expression = diag(5)
-  gene_names = c("marker_A", "marker_B", "marker_C", "marker_D", "marker_E")
-  cell_types = c("A", "B", "C", "D", "E")
-  pdata_df = data.frame(cell_type=cell_types)
-  rownames(pdata_df) = cell_types
-  colnames(gene_expression) = cell_types
-  rownames(gene_expression) = gene_names
-  expect_equal(object = nrow(build_model(gene_expression, cell_types, method = "momf")), expected = nrow(gene_expression))
-  expect_equal(object = ncol(build_model(gene_expression, cell_types, method = "momf")), expected = length(unique(cell_types)))
+  expect_equal(info = "signature matrix has same amount of rows as single cell matrix", object = nrow(build_model(sc_object_small, cell_annotations_small, method = "momf")), expected = nrow(sc_object_small))
+  expect_equal(info = "signature matrix has same amount of columns as unique cell types in single cell matrix", object = ncol(build_model(sc_object_small, cell_annotations_small, method = "momf")), expected = length(unique(cell_annotations_small)))
 })
 
-# test_that("DWLS build signature matrix works", {
-#   gene_expression = diag(5)
-#   gene_names = c("marker_A", "marker_B", "marker_C", "marker_D", "marker_E")
-#   cell_types = c("A", "B", "C", "D", "E")
-#   pdata_df = data.frame(cell_type=cell_types)
-#   rownames(pdata_df) = cell_types
-#   colnames(gene_expression) = cell_types
-#   rownames(gene_expression) = gene_names
-#   expect_equal(object = ncol(build_model(gene_expression, cell_types, method = "dwls")), expected = length(unique(cell_types)))
-# })
+test_that("DWLS build signature matrix works", {
+  expect_equal(info = "signature matrix has same amount of columns as unique cell types in single cell matrix",object = ncol(build_model(sc_object_small, cell_annotations_small, method = "dwls")), expected = length(unique(cell_annotations_small)))
+})
 
 test_that("Scaden build model works", {
-  gene_expression = diag(5)
-  gene_names = c("marker_A", "marker_B", "marker_C", "marker_D", "marker_E")
-  cell_types = c("A", "B", "C", "D", "E")
-  pdata_df = data.frame(cell_type=cell_types)
-  rownames(pdata_df) = cell_types
-  colnames(gene_expression) = cell_types
-  rownames(gene_expression) = gene_names
+  model <- build_model(sc_object_small, cell_annotations_small, method="scaden", bulk_data = bulk_small, samples=10, cells=5, steps=150)
+  expect_equal(info = "model folder is created and model assets are written", object= length(list.dirs(model, recursive = F)), expected = 3)
 })

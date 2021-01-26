@@ -40,6 +40,13 @@ install_scaden <- function() {
 #' @examples
 scaden_build_model <- function(single_cell_object ,celltype_labels ,bulk_data=NULL ,model_path=NULL, batch_size=128, learning_rate= 0.0001, steps=5000, var_cutoff=NULL, cells=100, samples=1000, dataset_name="scaden", verbose=F){
 
+  if (!verbose){
+    if (Sys.info()['sysname']=="Windows"){
+      base::message("The windows implementation requires verbose mode. It is now switched on.")
+      verbose <- T
+    }
+  }
+
   # check if Scaden is installed and loaded.
   scaden_checkload()
 
@@ -73,6 +80,13 @@ scaden_build_model <- function(single_cell_object ,celltype_labels ,bulk_data=NU
 #'
 #' @examples
 scaden_deconvolute <- function(model,bulk_data, verbose=F){
+  if (!verbose){
+    if (Sys.info()['sysname']=="Windows"){
+      base::message("The windows implementation requires verbose mode. It is now switched on.")
+      verbose <- T
+    }
+  }
+
   scaden_checkload()
   prediction <- scaden_predict(model,bulk_data, verbose = verbose)
   return(prediction)
@@ -214,7 +228,7 @@ scaden_predict <- function(model_dir, bulk_data, verbose=F){
 
   current_wd <- base::getwd()
 
-  tryCatch(
+  predictions <- tryCatch(
     {
       tmp_dir <- tempdir()
       dir.create(tmp_dir,showWarnings = F)
@@ -225,7 +239,7 @@ scaden_predict <- function(model_dir, bulk_data, verbose=F){
 
       system(paste("scaden predict --model_dir",model_dir,bulk_data_tmp), ignore.stdout = !verbose, ignore.stderr = !verbose)
 
-      predictions <- read.table(paste0(tmp_dir,"/scaden_predictions.txt"),sep = "\t",header = T)
+      read.table(paste0(tmp_dir,"/scaden_predictions.txt"),sep = "\t",header = T)
 
     },
     error=function(cond) {

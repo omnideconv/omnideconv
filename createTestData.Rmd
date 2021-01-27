@@ -1,0 +1,190 @@
+---
+title: "Creating Test Data"
+author: "Kathi Reinisch"
+date: "26 1 2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+library(data.table)
+library(devtools)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(tibble)
+```
+
+## R Markdown
+
+The goal is to create small test data sets that are as close to the ground truth from Hoek et al. as possible.
+
+# Loading data
+You might need to change the path in this chunk of code in the Rmd as I won't include the datasets. Make sure you made the methods from the immunedeconv2 package available somehow!
+```{r loadData, echo=T}
+DATADIR = "F:/Katharina/Kathi"
+x <- fread(file.path(DATADIR, "maynard_2020_annotated_fine_2k/X_tpm.csv"), header = F)
+var <- fread(file.path(DATADIR, "maynard_2020_annotated_fine_2k/var.csv"), header = T)
+obs <- fread(file.path(DATADIR, "maynard_2020_annotated_fine_2k/obs.csv"), header = T)
+load("F:/Katharina/Kathi/HoekPBMC_gtruth.RData")
+load("F:/Katharina/Kathi/Hoek_sample_annotations.RData")
+
+sc <- t(x)
+rownames(sc) <- var$symbol
+colnames(sc) <- obs$Run
+
+transform_refData <- t(RefData)
+
+source("immunedeconv2/R/deconvolution_algorithms.R")
+source("immunedeconv2/R/MOMF.R")
+source("immunedeconv2/R/bisque.R")
+source("immunedeconv2/R/data_processing.R")
+```
+
+# Preparing the data
+
+I only included certain cell types, as I thought many cells of one type would be better than only one cell for each cell type. Also, the ground truth only included a few cell types. 
+The cell types included in the test data set are "T cell CD4", "T cell CD8", "T cell dividing", "T cell regulatory", "B cell", "Monocyte conventional", "Monocyte non-conventional", "Macrophage", "NK cell". 
+For the smaller dataset, only "T cell CD4", "T cell CD8", "B cell", "Monocyte conventional", "NK cell" are included. 
+
+```{r removeCellTypes, echo=FALSE, echo=T}
+
+contains_rem <- which(obs$cell_type %in% c("T cell CD4", "T cell CD8", "T cell dividing", "T cell regulatory", "B cell", "Monocyte conventional", "Monocyte non-conventional", "Macrophage", "NK cell"))
+obs_rem <- obs[contains_rem,]
+sc_rem <- sc[, contains_rem]
+
+contains_rem_small <- which(obs$cell_type %in% c("T cell CD4", "T cell CD8", "B cell", "Monocyte conventional", "NK cell"))
+obs_rem_small <- obs[contains_rem_small,]
+sc_rem_small <- sc[, contains_rem_small]
+```
+ 
+# Choosing the best subset
+This is kind of what the ground truth looks like: 
+
+```{r plotGroundTruth, echo=FALSE}
+transform_refData_dt <- as.data.table(transform_refData)
+colnames(transform_refData_dt) <- colnames(transform_refData)
+transform_refData_dt$cell_types <- rownames(transform_refData)
+melted_ref <- melt(transform_refData_dt, id.vars = "cell_types")
+ggplot(melted_ref, aes(y=cell_types, x=value, fill=cell_types))+geom_bar(stat="identity", position = "stack")+facet_wrap(~variable)
+```
+
+I decided to make two subsets. One contained all genes that had a positive value (sum of all cell types) in a signature matrix based on the 2k sc data by Maynard et al., which was built by Bisque, intersecting with the bulk data from Hoek et al. This dataset contains 300 cells. 
+
+The smaller subset contains only 50 cells and 100 random genes of those fulfilling the conditions described above. 
+
+The process to select the cells was the following:
+I ran deconvolution by MOMF and Bisque on random subsets of 300 cells and calculated a score for the deconvolution results. This score is calculated by the sum of abs(proportion_refdata(celltype)-proportion_deconv(celltype)) for all cell types. The subset with the lowest score was the chosen test data set. Please note: As sampling is random, you might receive different "best data sets" each time you run this! To save the data sets, remove # before the save commands.
+All these calculations might seem a little crazy, but I needed to make sure i catch every possible error as the process is random and knitting just stops when an error occurs...
+
+This process may take a while, as MOMF is super slow (about 3mins per deconvolution with about 300 cells)
+
+```{r sampling, echo=F}
+sampleSets <- function(sc, bulk, obs, mode){
+  topscore <- 1000
+  bestvec <- NULL
+  df <- NULL
+  scoreDF <- NULL
+  for(i in 1:100){
+    #take random cols (eg cells), save this sampling vec also for obs$cell_type
+    samplingVec <- sample(1:ncol(sc), 300, replace=F)
+  
+    result_deconv_bisque <- deconvolute(bulk, build_model(sc[,samplingVec], obs[samplingVec,]$cell_type, "bisque"), "bisque", single_cell_object = sc[,samplingVec], cell_type_annotations= obs[samplingVec,]$cell_type)
+    #calculate abs differences, if sum is smaller than before, save sampling vec
+    t_intersection <- intersect(rownames(result_deconv_bisque), c("T cell CD4", "T cell CD8", "T cell dividing", "T cell regulatory"))
+    tcell <- transform_refData["Tcell",] - ifelse(length(t_intersection)>1,colSums(result_deconv_bisque[t_intersection,]), ifelse(length(t_intersection)==1, result_deconv_bisque[t_intersection,], 0))
+    print(paste("tcell:", sum(abs(tcell))))
+    
+    bcell <- transform_refData["Bcells",] - ifelse("B cell"%in%rownames(result_deconv_bisque), result_deconv_bisque["B cell",], 0)
+    print(paste("bcell:", sum(abs(bcell))))
+    
+    mono_intersection <- intersect(rownames(result_deconv_bisque), c("Monocyte conventional", "Monocyte non-conventional"))
+    mono <- transform_refData["mono",] - ifelse(length(mono_intersection)>1,colSums(result_deconv_bisque[mono_intersection,]), ifelse(length(mono_intersection)==1, result_deconv_bisque[mono_intersection,], 0))
+    print(paste("mono:", sum(abs(mono))))
+    
+    nk <- transform_refData["NK",] - ifelse("NK cell"%in%rownames(result_deconv_bisque), result_deconv_bisque["NK cell",], 0)
+    print(paste("nk:", sum(abs(nk))))
+    score <- sum(abs(tcell), abs(bcell), abs(mono), abs(nk))
+  
+    sig_momf <- build_model(sc[,samplingVec], obs[samplingVec,]$cell_type, "momf")
+    genes <- intersect(rownames(sig_momf), rownames(bulk))
+    result_deconv_momf <- deconvolute(bulk[genes,], sig_momf[genes,], "momf", single_cell_object = sc[genes,samplingVec])
+    #calculate abs differences, if sum is smaller than before, save sampling vec
+    t_intersection <- intersect(colnames(result_deconv_momf), c("T cell CD4", "T cell CD8", "T cell dividing", "T cell regulatory"))
+    tcell_momf <- transform_refData["Tcell",] - ifelse(length(t_intersection)>1,rowSums(result_deconv_momf[,t_intersection]), ifelse(length(t_intersection)==1, result_deconv_momf[,t_intersection], 0))
+    print(paste("tcell:", sum(abs(tcell_momf))))
+    
+    bcell_momf <- transform_refData["Bcells",] - ifelse("B cell"%in%colnames(result_deconv_momf), result_deconv_momf[,"B cell"], 0)
+    print(paste("bcell:", sum(abs(bcell_momf))))
+    
+    mono_intersection <- intersect(colnames(result_deconv_momf), c("Monocyte conventional", "Monocyte non-conventional"))
+    mono_momf <- transform_refData["mono",] - ifelse(length(mono_intersection)>1,rowSums(result_deconv_momf[,mono_intersection]), ifelse(length(mono_intersection)==1, result_deconv_momf[,mono_intersection], 0))
+    print(paste("mono:", sum(abs(mono_momf))))
+
+    nk_momf <- transform_refData["NK",] - ifelse("NK cell"%in%colnames(result_deconv_momf), result_deconv_momf[,"NK cell"], 0)
+    print(paste("nk:", sum(abs(nk_momf))))
+    score_momf <- sum(abs(tcell_momf), abs(bcell_momf), abs(mono_momf), abs(nk_momf))
+    df <- rbind(df, data.table(method=c(rep("bisque", 8), rep("momf", 8)), sample=rep(colnames(bulk), 2), t_cell=c(tcell, tcell_momf), b_cell=c(bcell, bcell_momf), monocyte=c(mono, mono_momf), nk=c(nk, nk_momf)))
+    if(score+score_momf < topscore){
+      bestvec <- samplingVec
+      topscore <- score+score_momf
+    }
+    scoreDF <- rbind(scoreDF, data.table(bisque=c(score), momf=c(score_momf)))
+  }
+  return(list(df, scoreDF, bestvec, result_deconv_bisque, result_deconv_momf))
+}
+
+```
+
+```{r saveSubsets, echo=F}
+li <- sampleSets(sc_rem, mix.mat, obs_rem, "")
+bestVec <- li[[3]]
+#save(li, file="li.Rdata")
+signatureSums <- rowSums(build_model(sc_rem[,bestVec], obs_rem[bestVec,]$cell_type, "bisque"))
+geneNames <- names(signatureSums[signatureSums>0])
+#and are in both bulk and sc data
+gene_subset <- intersect(geneNames, rownames(mix.mat))
+single_cell_data <- sc_rem[gene_subset, bestVec]
+cell_type_annotations <- obs_rem[bestVec,]$cell_type
+bulk <- mix.mat[gene_subset,]
+#save(single_cell_data, file = "data/single_cell_data.RData")
+#save(bulk, file="data/bulk.RData")
+#save(cell_type_annotations, file="data/cell_type_annotations.RData")
+
+
+#small subsets 
+li_small <- sampleSets(sc_rem_small, mix.mat, obs_rem_small, "small")
+bestVec_small <- li_small[[3]]
+#save(li_small, file="li_small.Rdata")
+signatureSums <- rowSums(build_model(sc_rem_small, obs_rem_small$cell_type, "bisque"))
+geneNames <- names(signatureSums[signatureSums>0])
+#and are in both bulk and sc data
+gene_subset <- head(intersect(geneNames, rownames(mix.mat)), n=100)
+single_cell_data_small <- sc_rem_small[gene_subset, bestVec_small[1:50]]
+cell_type_annotations_small <- obs_rem_small[bestVec_small[1:50],]$cell_type
+bulk_small <- mix.mat[gene_subset,]
+#save(single_cell_data_small, file = "data/single_cell_data_small.RData")
+#save(bulk_small, file="data/bulk_small.RData")
+#save(cell_type_annotations_small, file="data/cell_type_annotations_small.RData")
+```
+Below you can see some statistics of how good the subsets did in terms of deconvolution. Remember, the lower the score the closer the deconvolution result is to the ground truth. 
+```{r plotScores}
+melted_li <- melt(li[[1]])
+ggplot(melted_li, aes(x=method, y=value, fill=variable))+geom_violin(position=position_dodge(1))+facet_wrap(~sample)+labs(title="deviation from the ground truth")
+ggplot(melt(li[[2]]), aes(x=variable, y=value))+geom_boxplot()+geom_jitter()+labs(y="score", x="method")
+```
+This is how deconvolution with the "best" subset looks for Bisque and MOMF.
+```{r plotDeconvSubset, echo=FALSE}
+bisque_deconv <- as.data.table(li[[4]])
+colnames(bisque_deconv) <- colnames(li[[4]])
+bisque_deconv$cell_types <- rownames(li[[4]])
+melted_bisque <- melt(bisque_deconv, id.vars = "cell_types")
+ggplot(melted_bisque, aes(y=cell_types, x=value, fill=cell_types))+geom_bar(stat="identity", position = "stack")+facet_wrap(~variable)+labs(title="bisque")
+
+momf_deconv <- as.data.table(t(li[[5]]))
+colnames(momf_deconv) <- rownames(li[[5]])
+momf_deconv$cell_types <- colnames(li[[5]])
+melted_momf <- melt(momf_deconv, id.vars = "cell_types")
+ggplot(melted_momf, aes(y=cell_types, x=value, fill=cell_types))+geom_bar(stat="identity", position = "stack")+facet_wrap(~variable)+labs(title="momf")
+```

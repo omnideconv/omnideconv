@@ -5,7 +5,8 @@ solveOLS<-function(S,B){
   d<-t(S)%*%B
   A<-base::cbind(diag(dim(S)[2]))
   bzero<-c(rep(0,dim(S)[2]))
-  solution<-quadprog::solve.QP(D,d,A,bzero)$solution
+  sc <- norm(D,"2")
+  solution<-quadprog::solve.QP(D/sc,d/sc,A,bzero)$solution
   names(solution)<-colnames(S)
   print(round(solution/sum(solution),5))
   return(solution/sum(solution))
@@ -19,7 +20,8 @@ solveOLSInternal<-function(S,B){
   d<-t(S)%*%B
   A<-base::cbind(diag(dim(S)[2]))
   bzero<-c(rep(0,dim(S)[2]))
-  solution<-quadprog::solve.QP(D,d,A,bzero)$solution
+  sc <- norm(D,"2")
+  solution<-quadprog::solve.QP(D/sc,d/sc,A,bzero)$solution
   names(solution)<-colnames(S)
   return(solution)
 }
@@ -176,8 +178,7 @@ buildSignatureMatrixUsingSeurat<-function(scdata,id,path,diff.cutoff=0.5,pval.cu
     for (i in unique(id)){
       if(numberofGenes[j]>0){
         temp<-base::paste("cluster_lrTest.table.",i,sep="")
-        temp<-as.name(temp)
-        temp<-base::eval(parse(text = temp))
+        temp<-get(temp)
         temp<-temp[order(temp$p_val_adj,decreasing=TRUE),]
         Genes<-c(Genes,(rownames(temp)[1:min(G,numberofGenes[j])]))
       }
@@ -200,8 +201,7 @@ buildSignatureMatrixUsingSeurat<-function(scdata,id,path,diff.cutoff=0.5,pval.cu
   for (i in unique(id)){
     if(numberofGenes[j]>0){
       temp<-base::paste("cluster_lrTest.table.",i,sep="")
-      temp<-as.name(temp)
-      temp<-base::eval(parse(text = temp))
+      temp<-get(temp)
       temp<-temp[order(temp$p_val_adj,decreasing=TRUE),]
       Genes<-c(Genes,(rownames(temp)[1:min(G,numberofGenes[j])]))
     }
@@ -286,8 +286,8 @@ DEAnalysisMAST<-function(scdata,id,path){
     DE <- bigtable[bigtable$log2_fc >diff.cutoff,]
     dim(DE)
     if(dim(DE)[1]>1){
-      data.1                 = data.used.log2[,cells.coord.list1]
-      data.2                 = data.used.log2[,cells.coord.list2]
+      data.1                 = data.used.log2[,cells.coord.list1, drop=F]
+      data.2                 = data.used.log2[,cells.coord.list2, drop=F]
       genes.list = rownames(DE)
       log2fold_change        = cbind(genes.list, DE$log2_fc)
       colnames(log2fold_change) = c("gene.name", "log2fold_change")
@@ -367,8 +367,7 @@ buildSignatureMatrixMAST<-function(scdata,id, path, diff.cutoff=0.5,pval.cutoff=
     for (i in unique(id)){
       if(numberofGenes[j]>0){
         temp<-paste("cluster_lrTest.table.",i,sep="")
-        temp<-as.name(temp)
-        temp<-eval(parse(text = temp))
+        temp<-get(temp)
         temp<-temp[order(temp$log2fold_change,decreasing=TRUE),]
         Genes<-c(Genes,varhandle::unfactor(temp$Gene[1:min(G,numberofGenes[j])]))
       }
@@ -390,8 +389,7 @@ buildSignatureMatrixMAST<-function(scdata,id, path, diff.cutoff=0.5,pval.cutoff=
   for (i in unique(id)){
     if(numberofGenes[j]>0){
       temp<-paste("cluster_lrTest.table.",i,sep="")
-      temp<-as.name(temp)
-      temp<-eval(parse(text = temp))
+      temp<-get(temp)
       temp<-temp[order(temp$log2fold_change,decreasing=TRUE),]
       Genes<-c(Genes,varhandle::unfactor(temp$Gene[1:min(G,numberofGenes[j])]))
     }

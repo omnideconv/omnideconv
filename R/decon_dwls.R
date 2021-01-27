@@ -4,7 +4,7 @@
 #'
 #' @param bulk_gene_expression An Expression Set containing bulk data.
 #' @param signature The Signature matrix.
-#' @param dels_submethod Three alternative methods in DWLS: OLS, SVR, and DampenedWLS.
+#' @param dwls_submethod Three alternative methods in DWLS: OLS, SVR, and DampenedWLS.
 
 #'
 #' @return A list. Slot bulk.props contains a matrix of cell type proportion estimates with cell types as rows and individuals as columns.
@@ -27,9 +27,6 @@ deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c(
   if (class(bulk)[[1]]=="numeric"||class(sig)[[1]]=="numeric"){
     base::stop("Either bulk data or signature matrix just contains one row!")
   }
-
-  print(class(sig))
-  print(class(bulk))
 
   # perform reconvolution in different sub_methods
   res <- NULL

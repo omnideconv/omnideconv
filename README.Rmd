@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # immunedeconv2
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/PelzKo/immunedeconv2/workflows/R-CMD-check/badge.svg)](https://github.com/PelzKo/immunedeconv2/actions)
 <!-- badges: end -->
 
 The goal of immunedeconv2 is to ...

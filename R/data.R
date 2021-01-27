@@ -5,7 +5,7 @@
 #' @format matrix with genes x samples
 #'
 #' @source Hoek et al. (2015), PLOS ONE, https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0118528
-"bulk.RData"
+"bulk"
 
 #' Small example RNA-seq dataset from Hoek et al.
 #'
@@ -14,7 +14,7 @@
 #' @format matrix with genes x samples
 #'
 #' @source Hoek et al. (2015), PLOS ONE, https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0118528
-"bulk_small.RData"
+"bulk_small"
 
 #' Example sigle-cell RNA-seq dataset from Maynard et al.
 #'
@@ -23,7 +23,7 @@
 #' @format matrix with genes x cells
 #'
 #' @source Maynard et al. (2020), Cell, https://www.sciencedirect.com/science/article/pii/S0092867420308825
-"single_cell_data.RData"
+"single_cell_data"
 
 #' Small example sigle-cell RNA-seq dataset from Maynard et al.
 #'
@@ -32,7 +32,7 @@
 #' @format matrix with genes x cells
 #'
 #' @source Maynard et al. (2020), Cell, https://www.sciencedirect.com/science/article/pii/S0092867420308825
-"single_cell_data_small.RData"
+"single_cell_data_small"
 
 #' Cell type annotations for the example sigle-cell RNA-seq dataset from Maynard et al.
 #'
@@ -41,7 +41,7 @@
 #' @format vector with 300 elements
 #'
 #' @source Maynard et al. (2020), Cell, https://www.sciencedirect.com/science/article/pii/S0092867420308825
-"cell_type_annotations.RData"
+"cell_type_annotations"
 
 #' Cell type annotations for the small example sigle-cell RNA-seq dataset from Maynard et al.
 #'
@@ -50,4 +50,4 @@
 #' @format vector with 50 elements
 #'
 #' @source Maynard et al. (2020), Cell, https://www.sciencedirect.com/science/article/pii/S0092867420308825
-"cell_type_annotations_small.RData"
+"cell_type_annotations_small"

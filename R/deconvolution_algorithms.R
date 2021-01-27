@@ -7,7 +7,7 @@
 #' the values to the internal name.
 #'
 #' @export
-deconvolution_methods = c("Bisque"="bisque", "DWLS" = "dwls", "MOMF"="momf")
+deconvolution_methods = c("Bisque"="bisque", "MOMF"="momf", "DWLS" = "dwls", "Scaden"="scaden")
 
 
 #' Building the signature matrix
@@ -26,14 +26,18 @@ deconvolution_methods = c("Bisque"="bisque", "DWLS" = "dwls", "MOMF"="momf")
 #' @examples
 build_model <- function(single_cell_object, cell_type_annotations, method = deconvolution_methods, ...){
 
+
   if (class(single_cell_object)[[1]]!="matrix")
     single_cell_object <- as.matrix(single_cell_object)
 
+
   sc_eset <- get_single_cell_expression_set(single_cell_object, colnames(single_cell_object), rownames(single_cell_object), cell_type_annotations)
 
-  signature <- switch(method,
+
+  signature <- switch(tolower(method),
                       bisque = BisqueRNA::GenerateSCReference(sc_eset,"cellType"),
                       momf = MOMF::momf.computeRef(single_cell_object, cell_type_annotations),
+                      scaden = scaden_build_model(single_cell_object,cell_type_annotations, ...),
                       dwls = buildSignatureMatrixMAST(as.data.frame(single_cell_object), cell_type_annotations, path = NULL)
   )
 
@@ -61,13 +65,14 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 
   bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
 
-  deconv <- switch(method,
+  deconv <- switch(tolower(method),
                    bisque = {
                      #Necessary for bisque, because bisqueReferenceDecomp needs to access internal bisque-package methods
                      base::environment(bisque_reference_decomp) <- base::environment(BisqueRNA::SimulateData)
                      bisque_reference_decomp(bulk_eset, signature, single_cell_object, ...)$bulk.props
                    },
-                   momf = deconvolute_MOMF(bulk_gene_expression, signature, single_cell_object, ...),
+                   momf=deconvolute_MOMF(bulk_gene_expression, signature, single_cell_object, ...),
+                   scaden = scaden_deconvolute(signature, bulk_gene_expression, ...),
                    dwls = deconvolute_dwls(bulk_gene_expression, signature, ...)
   )
   return(deconv)

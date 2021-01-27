@@ -45,4 +45,4 @@ Imports:
     Biobase
 Remotes:
     grst/MOMF
-    
+BugReports: https://github.com/PelzKo/immunedeconv2/issues

@@ -61,7 +61,6 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 
   bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
 
-
   deconv <- switch(method,
                    bisque = {
                      #Necessary for bisque, because bisqueReferenceDecomp needs to access internal bisque-package methods

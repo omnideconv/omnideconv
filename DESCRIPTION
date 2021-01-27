@@ -33,5 +33,4 @@ Imports:
     stringr,
     MOMF
 Remotes:
-    cozygene/bisque
     sqsun/MOMF

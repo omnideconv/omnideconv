@@ -24,7 +24,7 @@ deconvolute_MOMF(
 \item{...}{additional parameters}
 }
 \value{
-
+cell proportion matrix
 }
 \description{
 Deconvolution Analysis using MOMF (via Nonnegative Factorization)

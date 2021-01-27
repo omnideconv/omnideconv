@@ -23,7 +23,7 @@ jobs:
       matrix:
         config:
           - {os: windows-latest, r: 'release'}
-          - {os: macOS-latest, r: 'release'}
+          # - {os: macOS-latest, r: 'release'}
           - {os: ubuntu-20.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
           - {os: ubuntu-20.04, r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
 
@@ -56,13 +56,20 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
-      - name: Install system dependencies
+      - name: Install Linux system dependencies
         if: runner.os == 'Linux'
         run: |
           while read -r cmd
           do
             eval sudo $cmd
           done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
+          sudo apt-get install libglu1-mesa
+
+      - name: Install macOS system dependencies
+        if: matrix.config.os == 'macOS-latest'
+        run: |
+          echo "FC=gfortran-9" >> $GITHUB_ENV
+          echo "F77=gfortran-9" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: |

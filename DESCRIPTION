@@ -8,11 +8,11 @@ Authors@R:
            email = "konstantin.pelz@online.de"),
     person(given = "Nicolas",
            family = "Goedert",
-           role = c("aut", "cre"),
+           role = c("aut"),
            email = "nicolasgoedert1997@gmail.com"),
     person(given = "Yuyu",
            family = "Liang",
-           role = c("aut", "cre"),
+           role = c("aut"),
            email = "yuyuleung0903@yahoo.com"))
 Description: Collection of second generation methods for immune cell deconvolution from bulk RNA-seq samples
 License: BSD_3_clause + file LICENSE.md

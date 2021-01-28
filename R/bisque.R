@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-bisque_reference_decomp <- function (bulk_eset, signature_matrix, single_cell_object=NULL,cell_type_annotations=NULL)
+bisque_reference_decomp <- function (bulk_eset, signature_matrix, single_cell_object=NULL,cell_type_annotations=NULL, verbose = T)
 {
   # Method is BisqueRNA::ReferenceBasedDecomposition, I only removed not needed parameters
   # and added the signature matrix (so it wont be recalculated every time the method is called)
@@ -21,7 +21,6 @@ bisque_reference_decomp <- function (bulk_eset, signature_matrix, single_cell_ob
   sc.eset <- get_single_cell_expression_set(single_cell_object, colnames(single_cell_object), rownames(single_cell_object), cell_type_annotations)
   cell.types <- "cellType"
   subject.names <- "SubjectName"
-  verbose <- TRUE
   if ((!methods::is(sc.eset, "ExpressionSet")) || (!methods::is(bulk_eset,
                                                                 "ExpressionSet"))) {
     base::stop("Expression data should be in ExpressionSet")

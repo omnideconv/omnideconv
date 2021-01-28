@@ -12,13 +12,15 @@
 #'
 #' @examples
 
-deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c("OLS","SVR","DampenedWLS")){
+deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c("OLS","SVR","DampenedWLS"), verbose = T){
 
   if (length(dwls_submethod)>1){
     dwls_submethod <- "OLS"
   }
 
-  message("\nRunning DWLS deconvolution module\n")
+  if (verbose){
+    base::message("\nRunning DWLS deconvolution module\n")
+  }
 
   # trim data
   Genes<-intersect(rownames(signature),rownames(bulk_gene_expression))
@@ -66,7 +68,10 @@ deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c(
     colnames(solutionsDampenedWLS)<-colnames(bulk)
     res <- solutionsDampenedWLS
   }
-  message("Deconvolution sucessful!")
+
+  if (verbose){
+    base::message("Deconvolution sucessful!")
+  }
   return (t(res))
 }
 

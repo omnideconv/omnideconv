@@ -11,10 +11,16 @@
 #' @export
 #'
 #' @examples
-deconvolute_MOMF <- function(bulk_gene_expression, signature, single_cell_object, method="KL",...){
+deconvolute_MOMF <- function(bulk_gene_expression, signature, single_cell_object, verbose = T, method="KL",...){
   #MOMF needs a list of the single_cell_object with cells x genes and the bulk RNA seq data with individuals x genes
   GList <- list(X1 = t(single_cell_object), X2 = t(bulk_gene_expression))
-  result <- MOMF::momf.fit(DataX = GList, DataPriorU=signature, method=method, ...)
+  if (!verbose){
+    sink(tempfile())
+    result <- tryCatch(MOMF::momf.fit(DataX = GList, DataPriorU=signature, method=method, ...),
+                       finally = sink())
+  } else {
+    result <- MOMF::momf.fit(DataX = GList, DataPriorU=signature, method=method, ...)
+  }
   #return slot in result with cell proportion matrix
   return(result$cell.prop)
 }

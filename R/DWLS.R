@@ -263,7 +263,7 @@ m.auc=function(data.m,group.v) {
 #perform DE analysis using MAST
 #when path = NULL, the generated files in the processes will not be saved and output.
 #NEEDED
-DEAnalysisMAST<-function(scdata,id,path){
+DEAnalysisMAST<-function(scdata,id,path,verbose = T){
   list.names <- unique(id)
   list_lrTest.table<-as.list(rep(0, length(list.names)))
 
@@ -294,20 +294,41 @@ DEAnalysisMAST<-function(scdata,id,path){
       counts  = as.data.frame(cbind( data.1[genes.list,], data.2[genes.list,] ))
       groups  = c(rep("Cluster_Other", length(cells.coord.list1) ), rep(i, length(cells.coord.list2) ) )
       groups  = as.character(groups)
-      data_for_MIST <- as.data.frame(cbind(rep(rownames(counts), dim(counts)[2]), reshape::melt(counts),rep(groups, each = dim(counts)[1]), rep(1, dim(counts)[1] * dim(counts)[2]) ))
+      if (verbose){
+        data_for_MIST <- as.data.frame(cbind(rep(rownames(counts), dim(counts)[2]),
+                            reshape::melt(counts),rep(groups, each = dim(counts)[1]),
+                            rep(1, dim(counts)[1] * dim(counts)[2])))
+      } else {
+        data_for_MIST <- suppressMessages(as.data.frame(cbind(rep(rownames(counts), dim(counts)[2]),
+                            reshape::melt(counts),rep(groups, each = dim(counts)[1]),
+                            rep(1, dim(counts)[1] * dim(counts)[2]))))
+      }
       colnames(data_for_MIST) = c("Gene", "Subject.ID", "Et", "Population", "Number.of.Cells")
       vbeta = data_for_MIST
-      vbeta.fa <-MAST::FromFlatDF(vbeta, idvars=c("Subject.ID"),
+      if (verbose){
+        vbeta.fa <- MAST::FromFlatDF(vbeta, idvars=c("Subject.ID"),
                             primerid='Gene', measurement='Et', ncells='Number.of.Cells',
                             geneid="Gene",  cellvars=c('Number.of.Cells', 'Population'),
                             phenovars=c('Population'), id='vbeta all')
+      } else {
+        vbeta.fa <- suppressMessages(MAST::FromFlatDF(vbeta, idvars=c("Subject.ID"),
+                                    primerid='Gene', measurement='Et', ncells='Number.of.Cells',
+                                    geneid="Gene",  cellvars=c('Number.of.Cells', 'Population'),
+                                    phenovars=c('Population'), id='vbeta all'))
+      }
       vbeta.1 <- subset(vbeta.fa,Number.of.Cells==1)
       # .3 MAST
       head(SummarizedExperiment::colData(vbeta.1))
-      zlm.output <- MAST::zlm(~ Population, vbeta.1, method='bayesglm', ebayes=TRUE)
-      show(zlm.output)
-      coefAndCI <- summary(zlm.output, logFC=TRUE)
-      zlm.lr <- MAST::lrTest(zlm.output, 'Population')
+      if (verbose){
+        zlm.output <- MAST::zlm(~ Population, vbeta.1, method='bayesglm', ebayes=TRUE)
+        show(zlm.output)
+        coefAndCI <- summary(zlm.output, logFC=TRUE)
+        zlm.lr <- MAST::lrTest(zlm.output, 'Population')
+      } else {
+        zlm.output <- suppressMessages(MAST::zlm(~ Population, vbeta.1, method='bayesglm', ebayes=TRUE))
+        coefAndCI <- summary(zlm.output, logFC=TRUE)
+        zlm.lr <- suppressMessages(MAST::lrTest(zlm.output, 'Population'))
+      }
       zlm.lr_pvalue <- reshape::melt(zlm.lr[,,'Pr(>Chisq)'])
       zlm.lr_pvalue <- zlm.lr_pvalue[which(zlm.lr_pvalue$test.type == 'hurdle'),]
 
@@ -334,12 +355,12 @@ DEAnalysisMAST<-function(scdata,id,path){
 #build signature matrix using genes identified by DEAnalysisMAST()
 #when path = NULL, the generated files in the processes will not be saved and output.
 
-buildSignatureMatrixMAST<-function(scdata,id, path, diff.cutoff=0.5,pval.cutoff=0.01){
+buildSignatureMatrixMAST<-function(scdata,id, path, diff.cutoff=0.5,pval.cutoff=0.01, verbose = T){
 
   id <- gsub(" ","_",id)
 
   #compute differentially expressed genes for each cell type
-  list_cluster_table <- DEAnalysisMAST(scdata,id,path)
+  list_cluster_table <- DEAnalysisMAST(scdata,id,path,verbose=verbose)
 
   #for each cell type, choose genes in which FDR adjusted p-value is less than 0.01 and the estimated fold-change
   #is greater than 0.5

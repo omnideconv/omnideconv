@@ -39,7 +39,7 @@ build_model <- function(single_cell_object, cell_type_annotations, method = deco
                       bisque = BisqueRNA::GenerateSCReference(sc_eset,"cellType"),
                       #momf needs bulk set and signature matrix containing the same genes
                       momf = MOMF::momf.computeRef(single_cell_object[intersect(rownames(single_cell_object), rownames(bulk_gene_expression)),], cell_type_annotations),
-                      scaden = scaden_build_model(single_cell_object,cell_type_annotations, ...),
+                      scaden = scaden_build_model(single_cell_object,cell_type_annotations, bulk_data = bulk_gene_expression, ...),
                       dwls = buildSignatureMatrixMAST(as.data.frame(single_cell_object), cell_type_annotations, path = NULL)
   )
 
@@ -53,14 +53,15 @@ build_model <- function(single_cell_object, cell_type_annotations, method = deco
 #' @param signature The signature matrix.
 #' @param method A string specifying the method.
 #'   Supported methods are \"bisque\", \"momf\", \"dwls\", \"...\"
-#' @param single_cell_object Needed for deconvolution with MOMF. Defaults to NULL.
+#' @param single_cell_object Needed for deconvolution with MOMF and Bisque. Defaults to NULL.
+#' @param cell_type_annotations Needed for deconvolution with Bisque. Defaults to NULL.
 #' @param ... Additional parameters, passed to the algorithm used.
 #'
 #' @return A matrix with the probabilities of each cell-type for each individual. Rows are individuals, columns are cell types.
 #' @export
 #'
 #' @examples
-deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_methods, single_cell_object = NULL, ...){
+deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_methods, single_cell_object = NULL, cell_type_annotations = NULL,...){
 
   if (class(bulk_gene_expression)[[1]]!="matrix")
     bulk_gene_expression <- base::as.matrix(bulk_gene_expression)
@@ -72,12 +73,17 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
                    bisque = {
                      #Necessary for bisque, because bisqueReferenceDecomp needs to access internal bisque-package methods
                      base::environment(bisque_reference_decomp) <- base::environment(BisqueRNA::SimulateData)
-                     bisque_reference_decomp(bulk_eset, signature, single_cell_object, ...)$bulk.props
+                     bisque_reference_decomp(bulk_eset, signature, single_cell_object,
+                                             cell_type_annotations)$bulk.props
                    },
                    momf=deconvolute_MOMF(bulk_gene_expression, signature, single_cell_object, ...),
                    scaden = scaden_deconvolute(signature, bulk_gene_expression, ...),
                    dwls = deconvolute_dwls(bulk_gene_expression, signature, ...)
   )
+
+  #Alphabetical order of celltypes
+  deconv <- deconv[,order(colnames(deconv))]
+
   return(deconv)
 }
 

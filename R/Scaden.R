@@ -255,6 +255,9 @@ scaden_predict <- function(model_dir, bulk_data, verbose=F){
       base::setwd(current_wd)
     }
   )
+
+  colnames(predictions)[1]<-" "
+
   return(predictions)
 
 }

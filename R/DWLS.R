@@ -8,7 +8,7 @@ solveOLS<-function(S,B){
   sc <- norm(D,"2")
   solution<-quadprog::solve.QP(D/sc,d/sc,A,bzero)$solution
   names(solution)<-colnames(S)
-  print(round(solution/sum(solution),5))
+  #print(round(solution/sum(solution),5))
   return(solution/sum(solution))
 }
 
@@ -46,7 +46,7 @@ solveDampenedWLS<-function(S,B){
     iterations<-iterations+1
     changes<-c(changes,change)
   }
-  print(round(solution/sum(solution),5))
+  #print(round(solution/sum(solution),5))
   return(solution/sum(solution))
 }
 
@@ -120,7 +120,7 @@ solveSVR<-function(S,B){
   coef[base::which(coef<0)]<-0
   coef<-as.vector(coef)
   names(coef)<-colnames(S)
-  print(round(coef/sum(coef),5))
+  #print(round(coef/sum(coef),5))
   return(coef/sum(coef))
 }
 
@@ -132,7 +132,7 @@ DEAnalysis<-function(scdata,id,path){
 
   exprObj<-Seurat::CreateSeuratObject(raw.data=as.data.frame(scdata), project = "DE")
   exprObj2<-Seurat::SetIdent(exprObj,ident.use=as.vector(id))
-  print("Calculating differentially expressed genes:")
+  #print("Calculating differentially expressed genes:")
   for (i in unique(id)){
     de_group <- Seurat::FindMarkers(object=exprObj2, ident.1 = i, ident.2 = NULL,
                             only.pos = TRUE, test.use = "bimod")

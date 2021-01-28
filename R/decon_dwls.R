@@ -67,6 +67,6 @@ deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c(
     res <- solutionsDampenedWLS
   }
   message("Deconvolution sucessful!")
-  return (res)
+  return (t(res))
 }
 

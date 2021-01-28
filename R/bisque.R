@@ -140,8 +140,8 @@ bisque_reference_decomp <- function (bulk_eset, signature_matrix, single_cell_ob
   Y.pred <- base::t(Y.pred)
   base::rownames(Y.pred) <- base::rownames(sc.ref)
   base::colnames(Y.pred) <- sample.names
-  results <- base::list(bulk.props = results[base::colnames(sc.ref),
-                                             , drop = F], sc.props = sc.props, rnorm = rnorm, genes.used = base::rownames(sc.ref),
+  results <- base::list(bulk.props = t(results[base::colnames(sc.ref),
+                                             , drop = F]), sc.props = sc.props, rnorm = rnorm, genes.used = base::rownames(sc.ref),
                         transformed.bulk = Y.pred)
   return(results)
 }

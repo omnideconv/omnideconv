@@ -10,6 +10,10 @@ Authors@R:
            family = "Goedert",
            role = c("aut", "cre"),
            email = "nicolasgoedert1997@gmail.com")
+    person(given = "Yuyu",
+           family = "Liang",
+           role = c("aut", "cre"),
+           email = "yuyuleung0903@yahoo.com")
 Description: Collection of second generation methods for immune cell deconvolution from bulk RNA-seq samples
 License: BSD_3_clause + file LICENSE.md
 Encoding: UTF-8
@@ -45,4 +49,3 @@ Imports:
     Biobase
 Remotes:
     grst/MOMF
-BugReports: https://github.com/PelzKo/immunedeconv2/issues

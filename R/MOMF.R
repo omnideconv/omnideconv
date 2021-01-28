@@ -5,6 +5,7 @@
 #' @param signature Signature Matrix (genes x individuals from scRNA-seq)
 #' @param single_cell_object scRNA-seq Object (genes x cells)
 #' @param method Determines which divergence to use. Options: Kullback-Leibler "KL", Itakura-Saito "IS". Defaults to "KL"
+#' @param verbose Whether the algorithm should print out what it is doing.
 #' @param ... additional parameters
 #'
 #' @return cell proportion matrix

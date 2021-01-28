@@ -50,7 +50,7 @@ build_model <- function(single_cell_object, cell_type_annotations, method = deco
                         }
                         scaden_build_model(single_cell_object,cell_type_annotations, bulk_data = bulk_gene_expression, verbose = verbose, ...)
                       },
-                      dwls = buildSignatureMatrixMAST(as.data.frame(single_cell_object), cell_type_annotations, path = NULL, verbose = verbose)
+                      dwls = buildSignatureMatrixMAST(as.data.frame(single_cell_object), cell_type_annotations, path = NULL, verbose = verbose, ...)
   )
 
   return(signature)

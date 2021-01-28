@@ -8,7 +8,8 @@ bisque_reference_decomp(
   bulk_eset,
   signature_matrix,
   single_cell_object = NULL,
-  cell_type_annotations = NULL
+  cell_type_annotations = NULL,
+  verbose = T
 )
 }
 \arguments{

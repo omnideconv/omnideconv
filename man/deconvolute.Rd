@@ -10,6 +10,7 @@ deconvolute(
   method = deconvolution_methods,
   single_cell_object = NULL,
   cell_type_annotations = NULL,
+  verbose = T,
   ...
 )
 }
@@ -24,6 +25,8 @@ Supported methods are \"bisque\", \"momf\", \"dwls\", \"...\"}
 \item{single_cell_object}{Needed for deconvolution with MOMF and Bisque. Defaults to NULL.}
 
 \item{cell_type_annotations}{Needed for deconvolution with Bisque. Defaults to NULL.}
+
+\item{verbose}{Whether the algorithms should print out what they are doing.}
 
 \item{...}{Additional parameters, passed to the algorithm used.}
 }

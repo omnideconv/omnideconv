@@ -355,7 +355,7 @@ DEAnalysisMAST<-function(scdata,id,path,verbose = T){
 #build signature matrix using genes identified by DEAnalysisMAST()
 #when path = NULL, the generated files in the processes will not be saved and output.
 
-buildSignatureMatrixMAST<-function(scdata,id, path, diff.cutoff=0.5,pval.cutoff=0.01, verbose = T){
+buildSignatureMatrixMAST<-function(scdata,id, path, verbose = T, diff.cutoff=0.5,pval.cutoff=0.01){
 
   id <- gsub(" ","_",id)
 

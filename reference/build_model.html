@@ -121,6 +121,7 @@
   <span class='va'>single_cell_object</span>,
   <span class='va'>cell_type_annotations</span>,
   method <span class='op'>=</span> <span class='va'>deconvolution_methods</span>,
+  bulk_gene_expression <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -129,7 +130,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>single_cell_object</th>
-      <td><p>A matrix or dataframe with the single-cell data. Rows are genes, columns are samples.</p></td>
+      <td><p>A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.</p></td>
     </tr>
     <tr>
       <th>cell_type_annotations</th>
@@ -139,6 +140,10 @@
       <th>method</th>
       <td><p>A string specifying the method.
 Supported methods are \"bisque\", \"momf\", \"dwls\", \"...\"</p></td>
+    </tr>
+    <tr>
+      <th>bulk_gene_expression</th>
+      <td><p>A matrix of bulk data. Rows are genes, columns are samples. Necessary for MOMF, defaults to NULL.Row and column names need to be set.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -161,7 +166,7 @@ Supported methods are \"bisque\", \"momf\", \"dwls\", \"...\"</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Konstantin Pelz.</p>
+  <p>Developed by Yuyu Liang.</p>
 </div>
 
 <div class="pkgdown">

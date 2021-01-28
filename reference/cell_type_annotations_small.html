@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bind two factors — fbind • immunedeconv2</title>
+<title>Cell type annotations for the small example sigle-cell RNA-seq dataset from Maynard et al. — cell_type_annotations_small • immunedeconv2</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Bind two factors — fbind" />
-<meta property="og:description" content="Create a new factor from two existing factors, where the new factor's levels
-are the union of the levels of the input factors." />
+<meta property="og:title" content="Cell type annotations for the small example sigle-cell RNA-seq dataset from Maynard et al. — cell_type_annotations_small" />
+<meta property="og:description" content="cell types are in the same order as cells in the small sc RNA-seq matrix" />
 
 
 
@@ -109,39 +108,25 @@ are the union of the levels of the input factors." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Bind two factors</h1>
-    <small class="dont-index">Source: <a href='https://github.com/PelzKo/immunedeconv2/blob/master/R/fbind.R'><code>R/fbind.R</code></a></small>
-    <div class="hidden name"><code>fbind.Rd</code></div>
+    <h1>Cell type annotations for the small example sigle-cell RNA-seq dataset from Maynard et al.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/PelzKo/immunedeconv2/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>cell_type_annotations_small.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create a new factor from two existing factors, where the new factor's levels
-are the union of the levels of the input factors.</p>
+    <p>cell types are in the same order as cells in the small sc RNA-seq matrix</p>
     </div>
 
-    <pre class="usage"><span class='fu'>fbind</span><span class='op'>(</span><span class='va'>a</span>, <span class='va'>b</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>cell_type_annotations_small</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>a</th>
-      <td><p>factor</p></td>
-    </tr>
-    <tr>
-      <th>b</th>
-      <td><p>factor</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>factor</p>
+    <p>vector with 50 elements</p>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>fbind</span><span class='op'>(</span><span class='va'>iris</span><span class='op'>$</span><span class='va'>Species</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>51</span>, <span class='fl'>101</span><span class='op'>)</span><span class='op'>]</span>, <span class='va'>PlantGrowth</span><span class='op'>$</span><span class='va'>group</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>11</span>, <span class='fl'>21</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] setosa     versicolor virginica  ctrl       trt1       trt2      
-#&gt; Levels: ctrl setosa trt1 trt2 versicolor virginica</div></pre>
+    <p>Maynard et al. (2020), Cell, https://www.sciencedirect.com/science/article/pii/S0092867420308825</p>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

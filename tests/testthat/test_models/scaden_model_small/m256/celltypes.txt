@@ -1,4 +1,0 @@
-	0
-0	T cell CD8
-1	T cell CD4
-2	NK cell

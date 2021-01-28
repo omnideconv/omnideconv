@@ -28,9 +28,10 @@ test_that("DWLS deconvolution works", {
   expect_equal(info = "deconvolution contains same samples as in bulk (not same order)", object =  sort(colnames(deconvolution)) , expected = sort(colnames(bulk_small)))
 })
 
-# test_that("Scaden deconvolution works", {
-#   scaden_model <- "test_models/scaden_model_small"
-#   deconvolution <- deconvolute(bulk_small,scaden_model, method = "scaden")
-#   expect_equal(info = "deconvolution contains same samples as in bulk (not same order)", object =  sort(colnames(deconvolution)) , expected = sort(colnames(bulk_small)))
-# })
+test_that("Scaden deconvolution works", {
+  model_dir <- paste0(tempdir(),"/model")
+  skip_if_not(dir.exists(model_dir), message = "skipping deconvolution test")
+  deconvolution <- deconvolute(bulk_small,model_dir, method = "scaden", verbose=T)
+  expect_equal(info = "deconvolution contains same samples as in bulk (not same order)", object =  sort(colnames(deconvolution)) , expected = sort(colnames(bulk_small)))
+})
 

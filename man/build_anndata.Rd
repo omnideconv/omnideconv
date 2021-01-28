@@ -7,16 +7,18 @@
 build_anndata(x, obs, var, obsm = NULL, varm = NULL)
 }
 \arguments{
-\item{x}{single cell expression matrix, rows = cells, columns = genes}
+\item{x}{single cell expression matrix, rows = genes, columns = samples}
 
 \item{obs}{vector of cell type labels}
 
 \item{var}{vector of gene symbols}
 
-\item{varm}{}
+\item{obsm}{Key-indexed multi-dimensional observations annotation of length #observations.}
+
+\item{varm}{Key-indexed multi-dimensional variables annotation of length #variables.}
 }
 \value{
-
+AnnData object
 }
 \description{
 Create anndata object from single cell expression matrix, cell type labels and gene symbols

@@ -42,10 +42,7 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@v1
 
       - name: Install package
-        run: |
-          R CMD INSTALL
-        shell: Rscript {0}
-
+        run:  R CMD INSTALL
 
       - name: Query dependencies
         run: |

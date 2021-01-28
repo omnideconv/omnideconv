@@ -244,6 +244,7 @@ scaden_predict <- function(model_dir, bulk_data, verbose=F){
 
       t(utils::read.table(paste0(tmp_dir,"/scaden_predictions.txt"),sep = "\t",header = T, row.names = 1))
 
+
     },
     error=function(cond) {
       base::stop(cond)

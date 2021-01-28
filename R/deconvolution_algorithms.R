@@ -14,17 +14,18 @@ deconvolution_methods = c("Bisque"="bisque", "MOMF"="momf", "DWLS" = "dwls", "Sc
 #'
 #' The single_cell_object is expected to have rownames() and colnames()
 #'
-#' @param single_cell_object A matrix or dataframe with the single-cell data. Rows are genes, columns are samples.
+#' @param single_cell_object A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.
 #' @param cell_type_annotations A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object
 #' @param method A string specifying the method.
 #'   Supported methods are \"bisque\", \"momf\", \"dwls\", \"...\"
+#' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples. Necessary for MOMF, defaults to NULL.Row and column names need to be set.
 #' @param ... Additional parameters, passed to the algorithm used.
 #'
 #' @return The signature matrix. Rows are genes, columns are cell types.
 #' @export
 #'
 #' @examples
-build_model <- function(single_cell_object, cell_type_annotations, method = deconvolution_methods, ...){
+build_model <- function(single_cell_object, cell_type_annotations, method = deconvolution_methods, bulk_gene_expression = NULL, ...){
 
 
   if (class(single_cell_object)[[1]]!="matrix")
@@ -36,7 +37,8 @@ build_model <- function(single_cell_object, cell_type_annotations, method = deco
 
   signature <- switch(tolower(method),
                       bisque = BisqueRNA::GenerateSCReference(sc_eset,"cellType"),
-                      momf = MOMF::momf.computeRef(single_cell_object, cell_type_annotations),
+                      #momf needs bulk set and signature matrix containing the same genes
+                      momf = MOMF::momf.computeRef(single_cell_object[intersect(rownames(single_cell_object), rownames(bulk_gene_expression)),], cell_type_annotations),
                       scaden = scaden_build_model(single_cell_object,cell_type_annotations, ...),
                       dwls = buildSignatureMatrixMAST(as.data.frame(single_cell_object), cell_type_annotations, path = NULL)
   )

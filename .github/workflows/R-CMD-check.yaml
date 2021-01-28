@@ -95,6 +95,7 @@ jobs:
         run: R CMD INSTALL .
 
       - name: Deploy package
+        if: (matrix.config.os == 'ubuntu-20.04') &&  (matrix.config.R == 'release')
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"

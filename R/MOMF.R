@@ -21,6 +21,9 @@ deconvolute_MOMF <- function(bulk_gene_expression, signature, single_cell_object
   } else {
     result <- MOMF::momf.fit(DataX = GList, DataPriorU=signature, method=method, ...)
   }
+  if (is.null(result$cell.prop)){
+    base::stop("Something went wrong. Please switch on verbose mode")
+  }
   #return slot in result with cell proportion matrix
   return(result$cell.prop)
 }

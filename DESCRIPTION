@@ -46,8 +46,7 @@ Imports:
     stringr,
     MOMF,
     SummarizedExperiment,
-    Biobase
-Suggests:
+    Biobase,
     pkgdown
 Remotes:
     grst/MOMF

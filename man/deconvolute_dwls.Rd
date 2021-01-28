@@ -17,6 +17,8 @@ deconvolute_dwls(
 \item{signature}{The Signature matrix.}
 
 \item{dwls_submethod}{Three alternative methods in DWLS: OLS, SVR, and DampenedWLS.}
+
+\item{verbose}{Whether the algorithm should print out what it is doing.}
 }
 \value{
 A list. Slot bulk.props contains a matrix of cell type proportion estimates with cell types as rows and individuals as columns.

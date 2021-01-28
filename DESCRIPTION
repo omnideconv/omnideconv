@@ -2,7 +2,7 @@ Package: immunedeconv2
 Title: Second generation methods for immune cell deconvolution
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "Konstantin",
+   c(person(given = "Konstantin",
            family = "Pelz",
            role = c("aut", "cre"),
            email = "konstantin.pelz@online.de")
@@ -13,7 +13,7 @@ Authors@R:
     person(given = "Yuyu",
            family = "Liang",
            role = c("aut", "cre"),
-           email = "yuyuleung0903@yahoo.com")
+           email = "yuyuleung0903@yahoo.com"))
 Description: Collection of second generation methods for immune cell deconvolution from bulk RNA-seq samples
 License: BSD_3_clause + file LICENSE.md
 Encoding: UTF-8

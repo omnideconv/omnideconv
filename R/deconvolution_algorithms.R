@@ -28,7 +28,6 @@ deconvolution_methods = c("Bisque"="bisque", "MOMF"="momf", "DWLS" = "dwls", "Sc
 #' @examples
 build_model <- function(single_cell_object, cell_type_annotations, method = deconvolution_methods, bulk_gene_expression = NULL, verbose = T, ...){
 
-
   if (class(single_cell_object)[[1]]!="matrix")
     single_cell_object <- as.matrix(single_cell_object)
 

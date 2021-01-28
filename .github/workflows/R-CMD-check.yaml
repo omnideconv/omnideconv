@@ -41,9 +41,6 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
 
-      - name: Install package
-        run:  R CMD INSTALL
-
       - name: Query dependencies
         run: |
           install.packages('remotes')
@@ -92,9 +89,3 @@ jobs:
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
-
-      - name: Deploy package
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          Rscript -e 'pkgdown::deploy_to_branch(github_pages = "gh-pages")'

@@ -26,7 +26,7 @@ init_python <- function(python=NULL){
         base::message("Setting up miniconda environment..")
         suppressMessages(reticulate::install_miniconda())
       }
-      reticulate::use_miniconda(condaenv = "r-reticulate",required = T)
+      reticulate::use_miniconda(condaenv = "r-reticulate",required = TRUE)
       config <- reticulate::py_config()
       if (!python_available()){
         base::message("Python not available")

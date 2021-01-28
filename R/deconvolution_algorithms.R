@@ -26,7 +26,7 @@ deconvolution_methods = c("Bisque"="bisque", "MOMF"="momf", "DWLS" = "dwls", "Sc
 #' @export
 #'
 #' @examples
-build_model <- function(single_cell_object, cell_type_annotations, method = deconvolution_methods, bulk_gene_expression = NULL, verbose = T, ...){
+build_model <- function(single_cell_object, cell_type_annotations, method = deconvolution_methods, bulk_gene_expression = NULL, verbose = TRUE, ...){
 
   if (class(single_cell_object)[[1]]!="matrix")
     single_cell_object <- as.matrix(single_cell_object)
@@ -72,7 +72,7 @@ build_model <- function(single_cell_object, cell_type_annotations, method = deco
 #' @export
 #'
 #' @examples
-deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_methods, single_cell_object = NULL, cell_type_annotations = NULL, verbose = T, ...){
+deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_methods, single_cell_object = NULL, cell_type_annotations = NULL, verbose = TRUE, ...){
 
   if (class(bulk_gene_expression)[[1]]!="matrix")
     bulk_gene_expression <- base::as.matrix(bulk_gene_expression)

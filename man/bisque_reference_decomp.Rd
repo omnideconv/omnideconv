@@ -9,7 +9,7 @@ bisque_reference_decomp(
   signature_matrix,
   single_cell_object = NULL,
   cell_type_annotations = NULL,
-  verbose = T
+  verbose = TRUE
 )
 }
 \arguments{

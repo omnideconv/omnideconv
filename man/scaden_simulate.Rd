@@ -11,7 +11,7 @@ scaden_simulate(
   cells = 100,
   samples = 1000,
   dataset_name = "scaden",
-  verbose = F
+  verbose = FALSE
 )
 }
 \arguments{

@@ -4,7 +4,7 @@
 \alias{scaden_simulate_example}
 \title{Simulates example Data provided by Scaden}
 \usage{
-scaden_simulate_example(example_data_path = NULL, verbose = F)
+scaden_simulate_example(example_data_path = NULL, verbose = FALSE)
 }
 \arguments{
 \item{example_data_path}{Path to where example data should be saved. (directory)}

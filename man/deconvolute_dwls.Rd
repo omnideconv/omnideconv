@@ -8,7 +8,7 @@ deconvolute_dwls(
   bulk_gene_expression,
   signature,
   dwls_submethod = c("OLS", "SVR", "DampenedWLS"),
-  verbose = T
+  verbose = TRUE
 )
 }
 \arguments{

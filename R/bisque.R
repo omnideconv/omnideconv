@@ -12,7 +12,7 @@
 #' @export
 #'
 #' @examples
-bisque_reference_decomp <- function (bulk_eset, signature_matrix, single_cell_object=NULL,cell_type_annotations=NULL, verbose = T)
+bisque_reference_decomp <- function (bulk_eset, signature_matrix, single_cell_object=NULL,cell_type_annotations=NULL, verbose = TRUE)
 {
   # Method is BisqueRNA::ReferenceBasedDecomposition, I only removed not needed parameters
   # and added the signature matrix (so it wont be recalculated every time the method is called)
@@ -88,15 +88,15 @@ bisque_reference_decomp <- function (bulk_eset, signature_matrix, single_cell_ob
     base::message("Generating single-cell based reference from ",
                   sprintf("%i cells.\n", n.cells))
   }
-  sc.ref <- signature_matrix[genes, , drop = F]
+  sc.ref <- signature_matrix[genes, , drop = FALSE]
   sc.props <- CalculateSCCellProportions(sc.eset, subject.names,
                                          cell.types)
-  sc.props <- sc.props[base::colnames(sc.ref), , drop = F]
+  sc.props <- sc.props[base::colnames(sc.ref), , drop = FALSE]
   if (verbose) {
     base::message("Inferring bulk transformation from single-cell alone.")
   }
   Y.train <- sc.ref %*% sc.props
-  X.pred <- Biobase::exprs(bulk_eset)[genes, , drop = F]
+  X.pred <- Biobase::exprs(bulk_eset)[genes, , drop = FALSE]
   sample.names <- base::colnames(Biobase::exprs(bulk_eset))
   template <- base::numeric(base::length(sample.names))
   base::names(template) <- sample.names
@@ -119,8 +119,8 @@ bisque_reference_decomp <- function (bulk_eset, signature_matrix, single_cell_ob
     if (sum(!indices) == 0) {
       base::stop("Zero genes left for decomposition.")
     }
-    Y.pred <- Y.pred[, !indices, drop = F]
-    sc.ref <- sc.ref[!indices, , drop = F]
+    Y.pred <- Y.pred[, !indices, drop = FALSE]
+    sc.ref <- sc.ref[!indices, , drop = FALSE]
   }
   E <- base::matrix(1, nrow = n.cell.types, ncol = n.cell.types)
   f <- base::rep(1, n.cell.types)
@@ -135,13 +135,13 @@ bisque_reference_decomp <- function (bulk_eset, signature_matrix, single_cell_ob
   base::rownames(results) <- base::append(base::colnames(sc.ref),
                                           "rnorm")
   base::colnames(results) <- sample.names
-  rnorm <- results["rnorm", , drop = T]
+  rnorm <- results["rnorm", , drop = TRUE]
   base::names(rnorm) <- sample.names
   Y.pred <- base::t(Y.pred)
   base::rownames(Y.pred) <- base::rownames(sc.ref)
   base::colnames(Y.pred) <- sample.names
   results <- base::list(bulk.props = t(results[base::colnames(sc.ref),
-                                             , drop = F]), sc.props = sc.props, rnorm = rnorm, genes.used = base::rownames(sc.ref),
+                                             , drop = FALSE]), sc.props = sc.props, rnorm = rnorm, genes.used = base::rownames(sc.ref),
                         transformed.bulk = Y.pred)
   return(results)
 }

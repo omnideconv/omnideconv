@@ -10,7 +10,7 @@ deconvolute(
   method = deconvolution_methods,
   single_cell_object = NULL,
   cell_type_annotations = NULL,
-  verbose = T,
+  verbose = TRUE,
   ...
 )
 }

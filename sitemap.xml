@@ -16,13 +16,25 @@
     <loc>https://pelzko.github.io/immunedeconv2/reference/build_model.html</loc>
   </url>
   <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/bulk.html</loc>
+  </url>
+  <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/bulk_small.html</loc>
+  </url>
+  <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/cell_type_annotations.html</loc>
+  </url>
+  <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/cell_type_annotations_small.html</loc>
+  </url>
+  <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/deconvolute.html</loc>
   </url>
   <url>
-    <loc>https://pelzko.github.io/immunedeconv2/reference/deconvolute_dwls.html</loc>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/deconvolute_MOMF.html</loc>
   </url>
   <url>
-    <loc>https://pelzko.github.io/immunedeconv2/reference/deconvolute_MOMF.html</loc>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/deconvolute_dwls.html</loc>
   </url>
   <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/deconvolution_methods.html</loc>
@@ -74,6 +86,12 @@
   </url>
   <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/set_python.html</loc>
+  </url>
+  <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/single_cell_data.html</loc>
+  </url>
+  <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/single_cell_data_small.html</loc>
   </url>
   <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/write_anndata.html</loc>

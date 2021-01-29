@@ -90,6 +90,9 @@ jobs:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
 
+      - name: Install package
+        run: R CMD INSTALL .
+
       - name: Deploy package
         if: (matrix.config.os == 'ubuntu-20.04') &&  (matrix.config.R == 'release')
         run: |

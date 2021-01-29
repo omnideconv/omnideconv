@@ -69,4 +69,39 @@ anndata_check_load <- function(){
   }
 }
 
+anndata_is_identical <- function(a,b){
+  same <- TRUE
+
+  if (!identical(as.matrix(a$X),as.matrix(b$X))){
+    base::message("X object is different")
+    same <- FALSE
+  }
+  if (!identical(as.matrix(a$obs),as.matrix(b$obs))){
+    base::message("obs object is different")
+    same <- FALSE
+  }
+  if (!identical(as.matrix(a$var),as.matrix(b$var))){
+    base::message("var object is different")
+    same <- FALSE
+  }
+  if (!all.equal(a$uns,b$uns)){
+    base::message("uns object is different")
+    same <- FALSE
+  }
+  if (!all.equal(a$obsm,b$obsm)){
+    base::message("obsm object is different")
+    same <- FALSE
+  }
+  if (!all.equal(a$varm,b$varm)){
+    base::message("varm object is different")
+    same <- FALSE
+  }
+  if (!all.equal(a$layers,b$layers)){
+    base::message("layers object is different")
+    same <- FALSE
+  }
+  return(same)
+
+}
+
 

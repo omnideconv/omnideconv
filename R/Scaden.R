@@ -242,7 +242,7 @@ scaden_predict <- function(model_dir, bulk_data, verbose=FALSE){
 
       system(paste("scaden predict --model_dir",model_dir,bulk_data_tmp), ignore.stdout = !verbose, ignore.stderr = !verbose)
 
-      utils::read.table(paste0(tmp_dir,"/scaden_predictions.txt"),sep = "\t",header = TRUE)
+      t(utils::read.table(paste0(tmp_dir,"/scaden_predictions.txt"),sep = "\t",header = TRUE, row.names = 1))
 
     },
     error=function(cond) {

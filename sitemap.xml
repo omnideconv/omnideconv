@@ -40,12 +40,6 @@
     <loc>https://pelzko.github.io/immunedeconv2/reference/deconvolution_methods.html</loc>
   </url>
   <url>
-    <loc>https://pelzko.github.io/immunedeconv2/reference/fbind.html</loc>
-  </url>
-  <url>
-    <loc>https://pelzko.github.io/immunedeconv2/reference/fcount.html</loc>
-  </url>
-  <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/get_single_cell_expression_set.html</loc>
   </url>
   <url>
@@ -92,6 +86,9 @@
   </url>
   <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/single_cell_data_small.html</loc>
+  </url>
+  <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/verbose_wrapper.html</loc>
   </url>
   <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/write_anndata.html</loc>

@@ -120,7 +120,8 @@
     <pre class="usage"><span class='fu'>deconvolute_dwls</span><span class='op'>(</span>
   <span class='va'>bulk_gene_expression</span>,
   <span class='va'>signature</span>,
-  dwls_submethod <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"OLS"</span>, <span class='st'>"SVR"</span>, <span class='st'>"DampenedWLS"</span><span class='op'>)</span>
+  dwls_submethod <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"OLS"</span>, <span class='st'>"SVR"</span>, <span class='st'>"DampenedWLS"</span><span class='op'>)</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -137,6 +138,10 @@
     <tr>
       <th>dwls_submethod</th>
       <td><p>Three alternative methods in DWLS: OLS, SVR, and DampenedWLS.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Whether the algorithm should print out what it is doing.</p></td>
     </tr>
     </table>
 

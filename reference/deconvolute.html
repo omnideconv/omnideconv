@@ -122,6 +122,8 @@
   <span class='va'>signature</span>,
   method <span class='op'>=</span> <span class='va'>deconvolution_methods</span>,
   single_cell_object <span class='op'>=</span> <span class='cn'>NULL</span>,
+  cell_type_annotations <span class='op'>=</span> <span class='cn'>NULL</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -143,7 +145,15 @@ Supported methods are \"bisque\", \"momf\", \"dwls\", \"...\"</p></td>
     </tr>
     <tr>
       <th>single_cell_object</th>
-      <td><p>Needed for deconvolution with MOMF. Defaults to NULL.</p></td>
+      <td><p>Needed for deconvolution with MOMF and Bisque. Defaults to NULL.</p></td>
+    </tr>
+    <tr>
+      <th>cell_type_annotations</th>
+      <td><p>Needed for deconvolution with Bisque. Defaults to NULL.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Whether the algorithms should print out what they are doing.</p></td>
     </tr>
     <tr>
       <th>...</th>

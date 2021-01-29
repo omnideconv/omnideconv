@@ -122,6 +122,7 @@
   <span class='va'>cell_type_annotations</span>,
   method <span class='op'>=</span> <span class='va'>deconvolution_methods</span>,
   bulk_gene_expression <span class='op'>=</span> <span class='cn'>NULL</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -144,6 +145,10 @@ Supported methods are \"bisque\", \"momf\", \"dwls\", \"...\"</p></td>
     <tr>
       <th>bulk_gene_expression</th>
       <td><p>A matrix of bulk data. Rows are genes, columns are samples. Necessary for MOMF, defaults to NULL.Row and column names need to be set.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Whether the algorithms should print out what they are doing.</p></td>
     </tr>
     <tr>
       <th>...</th>

@@ -8,6 +8,7 @@ deconvolute_MOMF(
   bulk_gene_expression,
   signature,
   single_cell_object,
+  verbose = TRUE,
   method = "KL",
   ...
 )
@@ -18,6 +19,8 @@ deconvolute_MOMF(
 \item{signature}{Signature Matrix (genes x individuals from scRNA-seq)}
 
 \item{single_cell_object}{scRNA-seq Object (genes x cells)}
+
+\item{verbose}{Whether the algorithm should print out what it is doing.}
 
 \item{method}{Determines which divergence to use. Options: Kullback-Leibler "KL", Itakura-Saito "IS". Defaults to "KL"}
 

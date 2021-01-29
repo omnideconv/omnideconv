@@ -9,6 +9,7 @@ build_model(
   cell_type_annotations,
   method = deconvolution_methods,
   bulk_gene_expression = NULL,
+  verbose = TRUE,
   ...
 )
 }
@@ -21,6 +22,8 @@ build_model(
 Supported methods are \"bisque\", \"momf\", \"dwls\", \"...\"}
 
 \item{bulk_gene_expression}{A matrix of bulk data. Rows are genes, columns are samples. Necessary for MOMF, defaults to NULL.Row and column names need to be set.}
+
+\item{verbose}{Whether the algorithms should print out what they are doing.}
 
 \item{...}{Additional parameters, passed to the algorithm used.}
 }

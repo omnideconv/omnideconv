@@ -4,7 +4,7 @@
 \alias{scaden_process}
 \title{Pre-processes training data}
 \usage{
-scaden_process(h5ad, bulk_data, var_cutoff = NULL, verbose = F)
+scaden_process(h5ad, bulk_data, var_cutoff = NULL, verbose = FALSE)
 }
 \arguments{
 \item{h5ad}{File that should be processed. Must be in AnnData format (.h5ad)}

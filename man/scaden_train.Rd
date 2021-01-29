@@ -10,7 +10,7 @@ scaden_train(
   learning_rate = 1e-04,
   model_path = NULL,
   steps = 5000,
-  verbose = F
+  verbose = FALSE
 )
 }
 \arguments{

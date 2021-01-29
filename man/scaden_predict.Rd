@@ -4,7 +4,7 @@
 \alias{scaden_predict}
 \title{Predict cell proportions}
 \usage{
-scaden_predict(model_dir, bulk_data, verbose = F)
+scaden_predict(model_dir, bulk_data, verbose = FALSE)
 }
 \arguments{
 \item{model_dir}{Directory where model is saved}

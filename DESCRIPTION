@@ -50,3 +50,4 @@ Imports:
     pkgdown
 Remotes:
     grst/MOMF
+VignetteBuilder: knitr

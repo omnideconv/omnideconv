@@ -46,6 +46,18 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/immunedeconv2_vignette.html">immunedeconv2_vignette</a>
+    </li>
+  </ul>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -70,37 +82,187 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#immunedeconv2" class="anchor"></a>immunedeconv2</h1></div>
 <!-- badges: start -->
-<!-- badges: end -->
-<p>The goal of immunedeconv2 is to …</p>
+
+<p>The goal of immunedeconv2 is to unify second generation immune deconvolution methods in an R package.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>And the development version from <a href="https://github.com/">GitHub</a> with:</p>
+<p>Install the CRAN package devtools and use it to install immunedeconv2 from <a href="https://github.com/">GitHub</a>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"PelzKo/immunedeconv2"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="example" class="section level2">
+<div id="usage" class="section level2">
 <h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
-<p>This is a basic example which shows you how to solve a common problem:</p>
+<a href="#usage" class="anchor"></a>Usage</h2>
+<p>The main functions of this package are to build a signature matrix and deconvolute bulk RNA-seq data based on this signature matrix.</p>
+<p>The basic workflow is the following:</p>
+<div id="1-build-a-signature-matrix" class="section level3">
+<h3 class="hasAnchor">
+<a href="#1-build-a-signature-matrix" class="anchor"></a>1. Build a Signature Matrix</h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/PelzKo/immunedeconv2">immunedeconv2</a></span><span class="op">)</span>
-<span class="co">## basic example code</span></code></pre></div>
-<p>What is special about using <code>README.Rmd</code> instead of just <code>README.md</code>? You can include R chunks like so:</p>
+<code class="sourceCode R"><span class="fu">immunedeconv2</span><span class="fu">::</span><span class="fu"><a href="reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, 
+    method <span class="op">=</span> <span class="st">"dwls"</span><span class="op">)</span></code></pre></div>
+<p>In this method, single_cell_data is a matrix of single cell RNA-seq data with genes in rows and cells in columns, cell_type_annotations a vector that contains an annotation for each cell in your single_cell_data, and the possible methods are:</p>
+<ul>
+<li>Bisque (“bisque”)</li>
+<li>DWLS (“dwls”)</li>
+<li>MOMF (“momf”)</li>
+<li>Scaden (“scaden”)</li>
+</ul>
+</div>
+<div id="2-deconvolute" class="section level3">
+<h3 class="hasAnchor">
+<a href="#2-deconvolute" class="anchor"></a>2. Deconvolute</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">cars</span><span class="op">)</span>
-<span class="co">#&gt;      speed           dist       </span>
-<span class="co">#&gt;  Min.   : 4.0   Min.   :  2.00  </span>
-<span class="co">#&gt;  1st Qu.:12.0   1st Qu.: 26.00  </span>
-<span class="co">#&gt;  Median :15.0   Median : 36.00  </span>
-<span class="co">#&gt;  Mean   :15.4   Mean   : 42.98  </span>
-<span class="co">#&gt;  3rd Qu.:19.0   3rd Qu.: 56.00  </span>
-<span class="co">#&gt;  Max.   :25.0   Max.   :120.00</span></code></pre></div>
-<p>You’ll still need to render <code>README.Rmd</code> regularly, to keep <code>README.md</code> up-to-date. <code><a href="https://devtools.r-lib.org//reference/build_rmd.html">devtools::build_readme()</a></code> is handy for this. You could also use GitHub Actions to re-render <code>README.Rmd</code> every time you push. An example workflow can be found here: <a href="https://github.com/r-lib/actions/tree/master/examples" class="uri">https://github.com/r-lib/actions/tree/master/examples</a>.</p>
-<p>You can also embed plots, for example:</p>
-<p><img src="reference/figures/README-pressure-1.png" width="100%"></p>
-<p>In that case, don’t forget to commit and push the resulting figure files, so they display on GitHub and CRAN.</p>
+<code class="sourceCode R"><span class="fu">immunedeconv2</span><span class="fu">::</span><span class="fu"><a href="reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="va">signature_matrix</span>, method <span class="op">=</span> <span class="st">"dwls"</span><span class="op">)</span></code></pre></div>
+<p>Here, bulk is your bulk RNA-seq data as a matrix with genes in rows and samples in column, signature_matrix is the signature matrix you created in the previous step and the method can again be one of the four methods listed above.</p>
+<p>This is, what the cell type properties in your bulk RNA-seq data computed in the deconvolution step could look like:</p>
+<table class="table">
+<colgroup>
+<col width="20%">
+<col width="10%">
+<col width="10%">
+<col width="10%">
+<col width="10%">
+<col width="10%">
+<col width="10%">
+<col width="10%">
+<col width="10%">
+</colgroup>
+<thead><tr class="header">
+<th align="left"></th>
+<th align="right">HD30_PBMC_0</th>
+<th align="right">HD30_PBMC_1</th>
+<th align="right">HD30_PBMC_3</th>
+<th align="right">HD30_PBMC_7</th>
+<th align="right">HD31_PBMC_0</th>
+<th align="right">HD31_PBMC_1</th>
+<th align="right">HD31_PBMC_3</th>
+<th align="right">HD31_PBMC_7</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">T_cell_CD4</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0.07258</td>
+<td align="right">0.05122</td>
+<td align="right">0.10743</td>
+<td align="right">0.14894</td>
+<td align="right">0.12130</td>
+<td align="right">0.08902</td>
+</tr>
+<tr class="even">
+<td align="left">Macrophage</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+</tr>
+<tr class="odd">
+<td align="left">T_cell_dividing</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+</tr>
+<tr class="even">
+<td align="left">T_cell_CD8</td>
+<td align="right">0.00561</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0.02555</td>
+<td align="right">0.02204</td>
+<td align="right">0.02990</td>
+<td align="right">0.04345</td>
+</tr>
+<tr class="odd">
+<td align="left">Monocyte_conventional</td>
+<td align="right">0.51934</td>
+<td align="right">0.67510</td>
+<td align="right">0.51368</td>
+<td align="right">0.44150</td>
+<td align="right">0.71617</td>
+<td align="right">0.68077</td>
+<td align="right">0.71674</td>
+<td align="right">0.69114</td>
+</tr>
+<tr class="even">
+<td align="left">Monocyte_non-conventional</td>
+<td align="right">0.13378</td>
+<td align="right">0.00696</td>
+<td align="right">0.05744</td>
+<td align="right">0.03053</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+</tr>
+<tr class="odd">
+<td align="left">T_cell_regulatory</td>
+<td align="right">0.02325</td>
+<td align="right">0.02595</td>
+<td align="right">0.01876</td>
+<td align="right">0.01590</td>
+<td align="right">0.00937</td>
+<td align="right">0.00818</td>
+<td align="right">0.01516</td>
+<td align="right">0.03003</td>
+</tr>
+<tr class="even">
+<td align="left">B_cell</td>
+<td align="right">0.12816</td>
+<td align="right">0.09559</td>
+<td align="right">0.17181</td>
+<td align="right">0.28474</td>
+<td align="right">0.08652</td>
+<td align="right">0.09561</td>
+<td align="right">0.05961</td>
+<td align="right">0.06928</td>
+</tr>
+<tr class="odd">
+<td align="left">NK_cell</td>
+<td align="right">0.18987</td>
+<td align="right">0.19640</td>
+<td align="right">0.16574</td>
+<td align="right">0.17612</td>
+<td align="right">0.05495</td>
+<td align="right">0.04447</td>
+<td align="right">0.05728</td>
+<td align="right">0.07708</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="learn-more" class="section level3">
+<h3 class="hasAnchor">
+<a href="#learn-more" class="anchor"></a>Learn More</h3>
+<p>For more information and an example workflow see the vignette of this package.</p>
+</div>
+</div>
+<div id="available-methods" class="section level2">
+<h2 class="hasAnchor">
+<a href="#available-methods" class="anchor"></a>Available Methods</h2>
+<p>More information about the second generation deconvolution metods unified in this package as well as their citations can be obtained from the list below.</p>
+<ul>
+<li>Bisque: Jew, B., Alvarez, M., Rahmani, E., Miao, Z., Ko, A., Garske, K. M., Sul, J. H., Pietiläinen, K. H., Pajukanta, P., &amp; Halperin, E. (2020). Publisher Correction: Accurate estimation of cell composition in bulk expression through robust integration of single-cell information. Nature Communications, 11(1), 2891. <a href="https://doi.org/10.1038/s41467-020-16607-9" class="uri">https://doi.org/10.1038/s41467-020-16607-9</a>
+</li>
+<li>DWLS: Tsoucas, D., Dong, R., Chen, H., Zhu, Q., Guo, G., &amp; Yuan, G.-C. (2019). Accurate estimation of cell-type composition from gene expression data. Nature Communications, 10(1), 2975. <a href="https://doi.org/10.1038/s41467-019-10802-z" class="uri">https://doi.org/10.1038/s41467-019-10802-z</a>
+</li>
+<li>MOMF: Xifang Sun, Shiquan Sun, and Sheng Yang. An efficient and flexible method for deconvoluting bulk RNAseq data with single-cell RNAseq data, 2019, DIO: 10.5281/zenodo.3373980</li>
+<li>Scaden: Menden, K., Marouf, M., Oller, S., Dalmia, A., Kloiber, K., Heutink, P., &amp; Bonn, S. (n.d.). Deep-learning-based cell composition analysis from tissue expression profiles. <a href="https://doi.org/10.1101/659227" class="uri">https://doi.org/10.1101/659227</a>
+</li>
+</ul>
 </div>
 </div>
   </div>
@@ -129,7 +291,13 @@
 </ul>
 </div>
 
-  </div>
+  <div class="dev-status">
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/PelzKo/immunedeconv2/actions"><img src="https://github.com/PelzKo/immunedeconv2/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+</ul>
+</div>
+</div>
 </div>
 
 

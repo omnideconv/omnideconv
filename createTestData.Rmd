@@ -6,7 +6,7 @@ output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, tidy.opts=list(width.cutoff=60), tidy=TRUE)
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 library(data.table)
 library(devtools)
@@ -86,7 +86,7 @@ sampleSets <- function(sc, bulk, obs, mode){
   bestvec <- NULL
   df <- NULL
   scoreDF <- NULL
-  for(i in 1:100){
+  for(i in 1:10){
     #take random cols (eg cells), save this sampling vec also for obs$cell_type
     samplingVec <- sample(1:ncol(sc), 300, replace=F)
   
@@ -171,7 +171,7 @@ bulk_small <- mix.mat[gene_subset,]
 Below you can see some statistics of how good the subsets did in terms of deconvolution. Remember, the lower the score the closer the deconvolution result is to the ground truth. 
 ```{r plotScores}
 melted_li <- melt(li[[1]])
-ggplot(melted_li, aes(x=method, y=value, fill=variable))+geom_violin(position=position_dodge(1))+facet_wrap(~sample)+labs(title="deviation from the ground truth")
+ggplot(melted_li, aes(x=method, y=value, fill=variable))+geom_box(position=position_dodge(1))+facet_wrap(~sample)+labs(title="deviation from the ground truth")
 ggplot(melt(li[[2]]), aes(x=variable, y=value))+geom_boxplot()+geom_jitter()+labs(y="score", x="method")
 ```
 This is how deconvolution with the "best" subset looks for Bisque and MOMF.

@@ -41,3 +41,4 @@ vignettes/*.pdf
 .Renviron
 .Rproj.user
 docs
+inst/doc

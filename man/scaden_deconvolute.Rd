@@ -4,7 +4,7 @@
 \alias{scaden_deconvolute}
 \title{Performs deconvolution}
 \usage{
-scaden_deconvolute(model, bulk_data, verbose = F)
+scaden_deconvolute(model, bulk_data, verbose = FALSE)
 }
 \arguments{
 \item{model}{Path to the model directory}

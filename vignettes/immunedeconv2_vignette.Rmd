@@ -1,0 +1,181 @@
+---
+title: "immunedeconv2_vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{immunedeconv2_vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  fig.dpi = 96,
+  collapse = TRUE,
+  comment = "#>",
+  tidy.opts=list(width.cutoff=60),
+  tidy=TRUE,
+  message = FALSE,
+  warning = FALSE
+)
+```
+
+# 1. Introduction
+
+Cell-type heterogeneity is a strong confounder as well as source of information in bulk RNA sequencing (RNA-seq) data. Computational methods for the deconvolution of bulk RNA-seq data can infer the cellular composition of heterogeneous samples by leveraging precomputed expression signatures that represent the transcriptional profiles of the cell types of interest. Second-generation deconvolution tools allow deriving cell-type-specific expression signatures from single-cell RNA-seq (scRNA-seq) enabling, in principle, the deconvolution of any cell type profiled with single-cell technologies.
+
+Our interface unifies multiple second-generation deconvolution methods to facilitate the usage of these tools and clear the way for future benchmarking of these methods. 
+
+# 2. Deconvolution
+
+In this section, we want to give an overview about the different methods and provide an example of how to use them. 
+
+## Installation and Setup
+
+Install the CRAN package devtools and use it to install immunedeconv2 from [GitHub](https://github.com/):
+
+``` {r installation, eval=FALSE}
+install.packages("devtools")
+devtools::install_github("PelzKo/immunedeconv2")
+```
+
+## Input Data
+
+First of all, you need some data to run the deconvolution with. 
+
+* Single cell RNA-seq data
+    - *Genes* x *Cells* matrix 
+    - Counts are *TPM normalized*, *not log-transformed*
+    - Rownames (genenames) are provided in the same format as in the bulk RNA-seq data, for instance HGNC symbols
+* Cell type annotations
+    - Vector containing cell type annotations
+    - Annotations are in the same order as the columns of the single cell matrix
+* Bulk RNA-seq data
+    - *Genes* x *Samples* matrix
+    - Rownames (genenames) are provided in the same format as in the sc RNA-seq data, for instance HGNC symbols
+    
+We also provide some sample data, a bigger and a smaller set of single cell RNA-seq matrix (Maynard et al. 2020), cell type annotations and bulk RNA-seq matrix (Hoek et al. 2015). 
+You can simply load it with:
+
+```r
+data("single_cell_data")
+data("cell_type_annotations")
+data("bulk")
+```
+For the small dataset, append "_small" to the names, e.g. 
+```r
+data("single_cell_data_small")
+```
+
+## Signature Matrix
+
+To calculate a cell-type-specific expression signature, you can use the build_model function using the single cell RNA-seq matrix and cell type annotations specified above. The parameter method can be set to one of the four methods listed below. More information of the methods is provided in section 3.
+
+```{r signature, eval=FALSE}
+immunedeconv2::build_model(single_cell_data, cell_type_annotations, method)
+```
+
+* Bisque ("bisque")
+* DWLS ("dwls")
+* MOMF ("momf")
+* Scaden ("scaden")
+
+Note: MOMF and Scaden also need the bulk RNA-seq data to calculate a signature matrix. Please provide this parameter as well when running build_model with one of these two methods. 
+
+Additional parameters for the different methods can be included in the method call as well. For further information on which options you have, see the documentation of each tool. 
+
+## Deconvolution of Bulk RNA-seq Data
+
+After building the specific signature matrix, you can calculate the cell properties in bulk RNA-seq data with the deconvolute function. For this, you need to provide the bulk data, signature matrix and you can, again, choose between the four methods listed in the previous section. 
+
+```{r deconv, eval=FALSE}
+immunedeconv2::deconvolute(bulk, signature_matrix, method)
+```
+
+Note: Bisque and MOMF additionally need the single cell RNA-seq matrix, that you already used to build the signature matrix, for their deconvolution. As a fifth parameter, Bisque also needs cell type annotations, which were also already needed for building the model. 
+
+As for the build_model function, specific parameters can be passed on to the deconvolution methods. 
+
+## Example Workflow
+
+```{r loaddata, echo=FALSE, results='hide'}
+load("../data/cell_type_annotations_small.RData")
+load("../data/bulk_small.RData")
+load("../data/single_cell_data_small.RData")
+```
+
+This workflow provides a more detailed example of how to run the deconvolution with Bisque. 
+
+First of all, make sure you load all the libraries we need for this analysis. If the packages are not available, install them via install_packages().
+```{r loadLibs}
+library(tidyr)
+library(immunedeconv2)
+library(RColorBrewer)
+library(ggplot2)
+```
+
+To give you a feeling for the data, this is what the first few rows and columns of our small single cell RNA-seq dataset look like:
+```{r showSc}
+knitr::kable(single_cell_data_small[1:5, 1:4])
+```
+
+Now we build the signature matrix with Bisque and look at the values for the first few genes. 
+```{r signatureExample}
+signatureMatrix <- immunedeconv2::build_model(single_cell_data_small, cell_type_annotations_small, "bisque")
+knitr::kable(signatureMatrix[1:5,])
+```
+
+We can use this signature matrix to run the deconvolution with Bisque. 
+```{r deconvExample}
+immunedeconv2::deconvolute(bulk_small, signatureMatrix, "bisque", single_cell_data_small, cell_type_annotations_small) %>%
+knitr::kable()
+```
+
+## Plot Results
+
+Here are some further ideas of how you could plot your deconvolution results. 
+
+```{r plot, fig.width=7, fig.height=4}
+df <- immunedeconv2::deconvolute(bulk_small, signatureMatrix, "bisque", single_cell_data_small, cell_type_annotations_small) %>%
+reshape2::melt()
+ggplot(df, aes(y=Var2, x=value, fill=Var1))+geom_bar(stat="identity", position = "stack")+labs(title="Bisque", y="sample", x="proportion", fill="cell type")+scale_fill_brewer(palette="Accent", breaks=c("B cell","Monocyte conventional","NK cell","T cell CD4","T cell CD8"))
+
+ggplot(df, aes(y=Var2, x=value, color=Var1))+geom_point(size=3)+facet_wrap(~Var1)+labs(title="Bisque", y="sample", x="proportion", color="cell type")+scale_color_brewer(palette="Accent", breaks=c("B cell","Monocyte conventional","NK cell","T cell CD4","T cell CD8"))
+```
+In the next figures you can see, how the other methods are used and how the cell proportions would be distributed based on their calculations.
+Here are some further ideas of how you could plot your deconvolution results. 
+
+```{r otherMethods, fig.width=7, fig.height=4, results='hide'}
+immunedeconv2::build_model(single_cell_data_small, cell_type_annotations_small, "momf", bulk_small) %>%
+immunedeconv2::deconvolute(bulk_gene_expression = bulk_small, method = "momf", single_cell_object = single_cell_data_small) %>%
+reshape2::melt() %>%
+ggplot(aes(y=Var1, x=value, fill=Var2))+geom_bar(stat="identity", position = "stack")+labs(title="MOMF", y="sample", x="proportion", fill="cell type")+scale_fill_brewer(palette="Accent", breaks=c("B cell","Monocyte conventional","NK cell","T cell CD4","T cell CD8"))
+
+# immunedeconv2::build_model(single_cell_object = single_cell_data_small, cell_type_annotations = cell_type_annotations_small, method = "scaden", bulk_gene_expression = bulk_small) %>%
+# immunedeconv2::deconvolute(bulk_gene_expression = bulk_small, method = "scaden", single_cell_object = single_cell_data_small) %>%
+# reshape2::melt() %>%
+# ggplot(aes(y=Var1, x=value, fill=Var2))+geom_bar(stat="identity", position = "stack")+labs(title="Scaden", y="sample", x="proportion", fill="cell type")+scale_fill_brewer(palette="Accent", breaks=c("B cell","Monocyte conventional","NK cell","T cell CD4","T cell CD8"))
+
+```
+
+# 3. Methods
+In this section, we provide a short overview over the deconvolution tools that can be used via this package. 
+
+## Bisque
+Bisque(Jew et al., 2020) takes advantage of matched bulk and scRNA-seq samples to improve accuracy of cell-type estimates. Using linear regression, it corrects for platform-specific biases between pseudo-bulk reference profiles derived from scRNA-seq and bulk RNA-seq samples. It then applies NNLS-regression to deconvolute other bulk RNA-seq samples.
+
+Citation: Jew, B., Alvarez, M., Rahmani, E., Miao, Z., Ko, A., Garske, K. M., Sul, J. H., Pietiläinen, K. H., Pajukanta, P., & Halperin, E. (2020). Publisher Correction: Accurate estimation of cell composition in bulk expression through robust integration of single-cell information. Nature Communications, 11(1), 2891. https://doi.org/10.1038/s41467-020-16607-9
+
+## DWLS
+Tsoucas et al(Tsoucas et al., 2019) introduce dampened weighted least squares (DWLS)-regression, which improves over ordinary least squares regression or 𝜈-SVR in that it attributes higher weight to rare cell types and marker genes with a low average expression level. They show that their method achieves favorable performance when estimating the abundance of infrequent cell-types.
+
+Citation: Tsoucas, D., Dong, R., Chen, H., Zhu, Q., Guo, G., & Yuan, G.-C. (2019). Accurate estimation of cell-type composition from gene expression data. Nature Communications, 10(1), 2975. https://doi.org/10.1038/s41467-019-10802-z
+
+## MOMF
+With MOMF (Sun et al., 2019), Multi-Omics Matrix Factorization, models the cell type specific mean in sc RNA-seq data by also accounting for the uncertainty of these cell type specific mean gene expression levels. Alternating Direction Method of Multipliers algorithm is then used to estimate the parameters in bulk RNA-seq downstream analyses. 
+
+Citation: Xifang Sun, Shiquan Sun, and Sheng Yang. An efficient and flexible method for deconvoluting bulk RNAseq data with single-cell RNAseq data, 2019, DIO: 10.5281/zenodo.3373980
+
+## Scaden
+Scaden(Menden et al., n.d.) leverages a deep neural network (DNN) for estimating cell-type proportions. Instead of explicitly building a signature matrix, the DNN implicitly learns which features are important for a certain cell type. The DNN is trained by simulating bulk RNA-seq samples with known cell-type proportions from scRNA-seq datasets. To increase robustness, the training process allows to flexibly integrate multiple scRNA-seq datasets and, optionally, bulk RNA-seq samples with “gold standard” measurements such as FACS.
+
+Citation: Menden, K., Marouf, M., Oller, S., Dalmia, A., Kloiber, K., Heutink, P., & Bonn, S. (n.d.). Deep-learning-based cell composition analysis from tissue expression profiles. https://doi.org/10.1101/659227

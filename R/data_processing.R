@@ -14,8 +14,8 @@ get_single_cell_expression_set <- function(single_cell_matrix, sample_names, gen
 
 
   # individual.ids and cell.types should be in the same order as in sampleNames
-  sc_pheno <- data.frame(check.names=F, check.rows=F,
-                         stringsAsFactors=F,
+  sc_pheno <- data.frame(check.names=FALSE, check.rows=FALSE,
+                         stringsAsFactors=FALSE,
                          row.names=sample_names,
                          SubjectName=sample_names,
                          cellType=cell_types)

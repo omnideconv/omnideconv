@@ -9,7 +9,11 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  out.width = "100%",
+  tidy.opts=list(width.cutoff=60),
+  tidy=TRUE,
+  message = FALSE,
+  warning = FALSE
 )
 ```
 
@@ -19,37 +23,71 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/PelzKo/immunedeconv2/workflows/R-CMD-check/badge.svg)](https://github.com/PelzKo/immunedeconv2/actions)
 <!-- badges: end -->
 
-The goal of immunedeconv2 is to ...
+The goal of immunedeconv2 is to unify second generation immune deconvolution methods in an R package. 
 
 ## Installation
 
-And the development version from [GitHub](https://github.com/) with:
+Install the CRAN package devtools and use it to install immunedeconv2 from [GitHub](https://github.com/):
 
-``` r
-# install.packages("devtools")
+``` {r installation, eval=FALSE}
+install.packages("devtools")
 devtools::install_github("PelzKo/immunedeconv2")
 ```
-## Example
+## Usage
 
-This is a basic example which shows you how to solve a common problem:
+The main functions of this package are to build a signature matrix and deconvolute bulk RNA-seq data based on this signature matrix.
 
-```{r example}
-library(immunedeconv2)
-## basic example code
+The basic workflow is the following:
+
+```{r load datasets, echo = FALSE}
+load("data/bulk.RData")
+load("data/cell_type_annotations.RData")
+load("data/single_cell_data.RData")
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+### 1. Build a Signature Matrix
 
-```{r cars}
-summary(cars)
+```{r signature, eval=FALSE}
+immunedeconv2::build_model(single_cell_data, cell_type_annotations, method = "dwls")
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. You could also use GitHub Actions to re-render `README.Rmd` every time you push. An example workflow can be found here: <https://github.com/r-lib/actions/tree/master/examples>.
+In this method, single_cell_data is a matrix of single cell RNA-seq data with genes in rows and cells in columns, cell_type_annotations a vector that contains an annotation for each cell in your single_cell_data, and the possible methods are:
 
-You can also embed plots, for example:
+* Bisque ("bisque")
+* DWLS ("dwls")
+* MOMF ("momf")
+* Scaden ("scaden")
 
-```{r pressure, echo = FALSE}
-plot(pressure)
+### 2. Deconvolute 
+
+```{r saveSig, echo=FALSE, results = "hide"}
+signature_matrix <- immunedeconv2::build_model(single_cell_data, cell_type_annotations, "dwls")
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+```{r deconv, eval=FALSE}
+immunedeconv2::deconvolute(bulk, signature_matrix, method = "dwls")
+```
+
+Here, bulk is your bulk RNA-seq data as a matrix with genes in rows and samples in column, signature_matrix is the signature matrix you created in the previous step and the method can again be one of the four methods listed above. 
+
+This is, what the cell type properties in your bulk RNA-seq data computed in the deconvolution step could look like:
+
+```{r echo=FALSE, results = "hide"}
+res <- immunedeconv2::deconvolute(bulk, signature_matrix, method = "dwls")
+```
+```{r echo=FALSE}
+knitr::kable(res)
+```
+
+### Learn More
+
+For more information and an example workflow see the vignette of this package. 
+
+## Available Methods
+
+More information about the second generation deconvolution metods unified in this package as well as their citations can be obtained from the list below. 
+
+* Bisque: Jew, B., Alvarez, M., Rahmani, E., Miao, Z., Ko, A., Garske, K. M., Sul, J. H., Pietiläinen, K. H., Pajukanta, P., & Halperin, E. (2020). Publisher Correction: Accurate estimation of cell composition in bulk expression through robust integration of single-cell information. Nature Communications, 11(1), 2891. https://doi.org/10.1038/s41467-020-16607-9
+* DWLS: Tsoucas, D., Dong, R., Chen, H., Zhu, Q., Guo, G., & Yuan, G.-C. (2019). Accurate estimation of cell-type composition from gene expression data. Nature Communications, 10(1), 2975. https://doi.org/10.1038/s41467-019-10802-z
+* MOMF: Xifang Sun, Shiquan Sun, and Sheng Yang. An efficient and flexible method for deconvoluting bulk RNAseq data with single-cell RNAseq data, 2019, DIO: 10.5281/zenodo.3373980
+* Scaden: Menden, K., Marouf, M., Oller, S., Dalmia, A., Kloiber, K., Heutink, P., & Bonn, S. (n.d.). Deep-learning-based cell composition analysis from tissue expression profiles. https://doi.org/10.1101/659227

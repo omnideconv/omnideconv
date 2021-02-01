@@ -2,14 +2,18 @@ Package: immunedeconv2
 Title: Second generation methods for immune cell deconvolution
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "Konstantin",
+   c(person(given = "Konstantin",
            family = "Pelz",
            role = c("aut", "cre"),
-           email = "konstantin.pelz@online.de")
+           email = "konstantin.pelz@online.de"),
     person(given = "Nicolas",
            family = "Goedert",
-           role = c("aut", "cre"),
-           email = "nicolasgoedert1997@gmail.com")
+           role = c("aut"),
+           email = "nicolasgoedert1997@gmail.com"),
+    person(given = "Yuyu",
+           family = "Liang",
+           role = c("aut"),
+           email = "yuyuleung0903@yahoo.com"))
 Description: Collection of second generation methods for immune cell deconvolution from bulk RNA-seq samples
 License: BSD_3_clause + file LICENSE.md
 Encoding: UTF-8
@@ -25,7 +29,6 @@ Suggests:
 Config/testthat/edition: 2
 biocViews:
 Imports: 
-    forcats,
     matlib,
     BisqueRNA,
     limSolve,
@@ -47,3 +50,8 @@ Imports:
     S4Vectors
 Remotes:
     grst/MOMF
+    pkgdown
+Remotes:
+    grst/MOMF
+VignetteBuilder: knitr
+

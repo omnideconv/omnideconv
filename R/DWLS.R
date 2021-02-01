@@ -8,7 +8,7 @@ solveOLS<-function(S,B){
   sc <- norm(D,"2")
   solution<-quadprog::solve.QP(D/sc,d/sc,A,bzero)$solution
   names(solution)<-colnames(S)
-  print(round(solution/sum(solution),5))
+  #print(round(solution/sum(solution),5))
   return(solution/sum(solution))
 }
 
@@ -46,7 +46,7 @@ solveDampenedWLS<-function(S,B){
     iterations<-iterations+1
     changes<-c(changes,change)
   }
-  print(round(solution/sum(solution),5))
+  #print(round(solution/sum(solution),5))
   return(solution/sum(solution))
 }
 
@@ -120,7 +120,7 @@ solveSVR<-function(S,B){
   coef[base::which(coef<0)]<-0
   coef<-as.vector(coef)
   names(coef)<-colnames(S)
-  print(round(coef/sum(coef),5))
+  #print(round(coef/sum(coef),5))
   return(coef/sum(coef))
 }
 
@@ -132,7 +132,7 @@ DEAnalysis<-function(scdata,id,path){
 
   exprObj<-Seurat::CreateSeuratObject(raw.data=as.data.frame(scdata), project = "DE")
   exprObj2<-Seurat::SetIdent(exprObj,ident.use=as.vector(id))
-  print("Calculating differentially expressed genes:")
+  #print("Calculating differentially expressed genes:")
   for (i in unique(id)){
     de_group <- Seurat::FindMarkers(object=exprObj2, ident.1 = i, ident.2 = NULL,
                             only.pos = TRUE, test.use = "bimod")
@@ -163,7 +163,7 @@ buildSignatureMatrixUsingSeurat<-function(scdata,id,path,diff.cutoff=0.5,pval.cu
     de_group <- list_de_groups[[index]]
 
     DEGenes<-rownames(de_group)[intersect(which(de_group$p_val_adj<pval.cutoff),which(de_group$avg_logFC>diff.cutoff))]
-    nonMir = base::grep("MIR|Mir", DEGenes, invert = T)
+    nonMir = base::grep("MIR|Mir", DEGenes, invert = TRUE)
     base::assign(paste("cluster_lrTest.table.",i,sep=""),de_group[which(rownames(de_group)%in%DEGenes[nonMir]),])
     numberofGenes<-c(numberofGenes,length(DEGenes[nonMir]))
   }
@@ -263,7 +263,7 @@ m.auc=function(data.m,group.v) {
 #perform DE analysis using MAST
 #when path = NULL, the generated files in the processes will not be saved and output.
 #NEEDED
-DEAnalysisMAST<-function(scdata,id,path){
+DEAnalysisMAST<-function(scdata,id,path,verbose = TRUE){
   list.names <- unique(id)
   list_lrTest.table<-as.list(rep(0, length(list.names)))
 
@@ -286,28 +286,32 @@ DEAnalysisMAST<-function(scdata,id,path){
     DE <- bigtable[bigtable$log2_fc >diff.cutoff,]
     dim(DE)
     if(dim(DE)[1]>1){
-      data.1                 = data.used.log2[,cells.coord.list1, drop=F]
-      data.2                 = data.used.log2[,cells.coord.list2, drop=F]
+      data.1                 = data.used.log2[,cells.coord.list1, drop=FALSE]
+      data.2                 = data.used.log2[,cells.coord.list2, drop=FALSE]
       genes.list = rownames(DE)
       log2fold_change        = cbind(genes.list, DE$log2_fc)
       colnames(log2fold_change) = c("gene.name", "log2fold_change")
       counts  = as.data.frame(cbind( data.1[genes.list,], data.2[genes.list,] ))
       groups  = c(rep("Cluster_Other", length(cells.coord.list1) ), rep(i, length(cells.coord.list2) ) )
       groups  = as.character(groups)
-      data_for_MIST <- as.data.frame(cbind(rep(rownames(counts), dim(counts)[2]), reshape::melt(counts),rep(groups, each = dim(counts)[1]), rep(1, dim(counts)[1] * dim(counts)[2]) ))
+      data_for_MIST <- verbose_wrapper(verbose)(as.data.frame(cbind(rep(rownames(counts), dim(counts)[2]),
+                                           reshape::melt(counts),rep(groups, each = dim(counts)[1]),
+                                           rep(1, dim(counts)[1] * dim(counts)[2]))))
       colnames(data_for_MIST) = c("Gene", "Subject.ID", "Et", "Population", "Number.of.Cells")
       vbeta = data_for_MIST
-      vbeta.fa <-MAST::FromFlatDF(vbeta, idvars=c("Subject.ID"),
+      vbeta.fa <- verbose_wrapper(verbose)(MAST::FromFlatDF(vbeta, idvars=c("Subject.ID"),
                             primerid='Gene', measurement='Et', ncells='Number.of.Cells',
                             geneid="Gene",  cellvars=c('Number.of.Cells', 'Population'),
-                            phenovars=c('Population'), id='vbeta all')
+                            phenovars=c('Population'), id='vbeta all'))
       vbeta.1 <- subset(vbeta.fa,Number.of.Cells==1)
       # .3 MAST
       head(SummarizedExperiment::colData(vbeta.1))
-      zlm.output <- MAST::zlm(~ Population, vbeta.1, method='bayesglm', ebayes=TRUE)
-      show(zlm.output)
+      zlm.output <- verbose_wrapper(verbose)(MAST::zlm(~ Population, vbeta.1, method='bayesglm', ebayes=TRUE))
+      if (verbose){
+        show(zlm.output)
+      }
       coefAndCI <- summary(zlm.output, logFC=TRUE)
-      zlm.lr <- MAST::lrTest(zlm.output, 'Population')
+      zlm.lr <- verbose_wrapper(verbose)(MAST::lrTest(zlm.output, 'Population'))
       zlm.lr_pvalue <- reshape::melt(zlm.lr[,,'Pr(>Chisq)'])
       zlm.lr_pvalue <- zlm.lr_pvalue[which(zlm.lr_pvalue$test.type == 'hurdle'),]
 
@@ -334,12 +338,12 @@ DEAnalysisMAST<-function(scdata,id,path){
 #build signature matrix using genes identified by DEAnalysisMAST()
 #when path = NULL, the generated files in the processes will not be saved and output.
 
-buildSignatureMatrixMAST<-function(scdata,id, path, diff.cutoff=0.5,pval.cutoff=0.01){
+buildSignatureMatrixMAST<-function(scdata,id, path, verbose = TRUE, diff.cutoff=0.5,pval.cutoff=0.01){
 
   id <- gsub(" ","_",id)
 
   #compute differentially expressed genes for each cell type
-  list_cluster_table <- DEAnalysisMAST(scdata,id,path)
+  list_cluster_table <- DEAnalysisMAST(scdata,id,path,verbose=verbose)
 
   #for each cell type, choose genes in which FDR adjusted p-value is less than 0.01 and the estimated fold-change
   #is greater than 0.5
@@ -351,7 +355,7 @@ buildSignatureMatrixMAST<-function(scdata,id, path, diff.cutoff=0.5,pval.cutoff=
     pvalue_adjusted<-p.adjust(cluster_lrTest.table[,3], method = "fdr", n = length(cluster_lrTest.table[,3]))
     cluster_lrTest.table<-cbind(cluster_lrTest.table,pvalue_adjusted)
     DEGenes<-cluster_lrTest.table$Gene[intersect(which(pvalue_adjusted<pval.cutoff),which(cluster_lrTest.table$log2fold_change>diff.cutoff))]
-    nonMir = grep("MIR|Mir", DEGenes, invert = T)  # because Mir gene is usually not accurate
+    nonMir = grep("MIR|Mir", DEGenes, invert = TRUE)  # because Mir gene is usually not accurate
     assign(paste("cluster_lrTest.table.",i,sep=""),cluster_lrTest.table[which(cluster_lrTest.table$Gene%in%DEGenes[nonMir]),])
     numberofGenes<-c(numberofGenes,length(DEGenes[nonMir]))
   }

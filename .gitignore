@@ -40,3 +40,5 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 .Rproj.user
+docs
+inst/doc

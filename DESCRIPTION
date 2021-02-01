@@ -49,7 +49,7 @@ Imports:
     SingleCellExperiment,
     S4Vectors
 Remotes:
-    grst/MOMF
+    grst/MOMF,
     pkgdown
 VignetteBuilder: knitr
 

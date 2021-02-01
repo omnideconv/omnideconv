@@ -4,6 +4,21 @@
     <loc>https://pelzko.github.io/immunedeconv2/index.html</loc>
   </url>
   <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/AnnData_to_SingleCellExperiment.html</loc>
+  </url>
+  <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/Matrix_to_SingleCellExperiment.html</loc>
+  </url>
+  <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/SCEs_are_identical.html</loc>
+  </url>
+  <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/SingleCellExperiment_to_Anndata.html</loc>
+  </url>
+  <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/SingleCellExperiment_to_Matrix.html</loc>
+  </url>
+  <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/anndata_check_load.html</loc>
   </url>
   <url>

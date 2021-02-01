@@ -1,8 +1,9 @@
 pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
-articles: {}
-last_built: 2021-01-31T22:02Z
+articles:
+  immunedeconv2_vignette: immunedeconv2_vignette.html
+last_built: 2021-02-01T00:43Z
 urls:
   reference: https://pelzko.github.io/immunedeconv2/reference
   article: https://pelzko.github.io/immunedeconv2/articles

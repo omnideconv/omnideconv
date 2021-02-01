@@ -42,7 +42,8 @@ Imports:
     stringr,
     MOMF,
     SummarizedExperiment,
-    Biobase
+    Biobase,
+    SingleCellExperiment,
+    S4Vectors
 Remotes:
     grst/MOMF
-    

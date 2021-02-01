@@ -6,23 +6,27 @@ test_that("Matrix/SingleCellExperiment conversion works",{
 
   sce <- tryCatch(
     {
+      print("hm")
       Matrix_to_SingleCellExperiment(sc_object_small, cell_annotations_small)
     },
     error=function(cond) {
+      base::message(cond)
       return(NULL)
     }
   )
   expect_identical(info = "Conversion from Matrix to SingleCellExperiment had no error", object = typeof(sce), expected = "S4")
-  X <- as.list(assays(sce))[[1]]
-  labels <- colData(sce)$label
+  X <- as.list(SummarizedExperiment::assays(sce))[[1]]
+  labels <- SingleCellExperiment::colData(sce)$label
   expect_equal(info = "SCE Matrix is correct", object = X, expected = sc_object_small)
   expect_equal(info = "SCE annotation vector is correct", object = labels, expected = cell_annotations_small)
 
   matrix_and_annotation <- tryCatch(
     {
+      print("ha")
       SingleCellExperiment_to_Matrix(sce)
     },
     error=function(cond) {
+      base::message(cond)
       return(NULL)
     }
   )
@@ -83,11 +87,48 @@ test_that("SingleCellExperiment/Anndata conversion works",{
 
   expect_equal(info = "Anndata conversion to SCE did not produce an error", object = typeof(sce_converted), expected = "S4")
   expect_equal(info = "SCE conversion to Anndata did not produce an error", object = typeof(ad), expected = "environment")
-  expect_equal(info = "Converted Anndata equal to SCE", object = anndata_is_identical(ad,ad_converted), expected = TRUE)
-
-
-
-
-
 
 })
+
+test_that("SingleCellExperiment/Anndata conversion does not lose information",{
+  ad <- anndata::AnnData(
+    X = matrix(1:6, nrow = 2),
+    obs = data.frame(group = c("a", "b"), row.names = c("s1", "s2")),
+    var = data.frame(type = c(1L, 2L, 3L), row.names = c("var1", "var2", "var3")),
+    layers = list(
+      spliced = matrix(4:9, nrow = 2),
+      unspliced = matrix(8:13, nrow = 2)
+    )
+  )
+
+  sce <- SingleCellExperiment::SingleCellExperiment(list(X=t(matrix(1:6, nrow = 2)), spliced=t(matrix(4:9, nrow = 2)), unspliced=t(matrix(8:13, nrow = 2))),
+                              colData=data.frame(group = c("a", "b"), row.names = c("s1", "s2")),
+                              rowData=data.frame(type = c(1L, 2L, 3L), row.names = c("var1", "var2", "var3"))
+  )
+
+  sce_converted <- tryCatch(
+    {
+      AnnData_to_SingleCellExperiment(ad)
+    },
+    error=function(cond) {
+      return(NULL)
+    }
+  )
+
+  ad_converted <- tryCatch(
+    {
+      SingleCellExperiment_to_Anndata(sce)
+    },
+    error=function(cond) {
+      return(NULL)
+    }
+  )
+
+
+  expect_equal(info = "Anndata conversion to SCE did not produce an error", object = typeof(sce_converted), expected = "S4")
+  expect_equal(info = "SCE conversion to Anndata did not produce an error", object = typeof(ad), expected = "environment")
+  expect_equal(info = "Conversion from Anndata to SCE is correct", object = SCEs_are_identical(sce, sce_converted), expected = TRUE)
+  expect_equal(info = "Conversion from SCE to Anndata is correct", object = anndata_is_identical(ad,ad_converted), expected = TRUE)
+})
+
+

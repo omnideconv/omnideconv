@@ -13,7 +13,7 @@ reference:
       - deconvolute
   - title: Deconvolution methods
     desc: Direct access to the individual deconvolution methods to access special features that are not available through `deconvolute`.
-    content:
+    contents:
       - deconvolute_MOMF
       - deconvolute_dwls
       - scaden_deconvolute

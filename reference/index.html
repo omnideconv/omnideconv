@@ -133,8 +133,21 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
+          <h2 id="section-preparation-of-dataset" class="hasAnchor"><a href="#section-preparation-of-dataset" class="anchor"></a>Preparation of dataset</h2>
+          <p class="section-desc"><p>Build signature matrix and prepare single cell expression set.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-deconvolution" class="hasAnchor"><a href="#section-deconvolution" class="anchor"></a>Deconvolution</h2>
+          <p class="section-desc"><p>Use the package to estimate immune cell fractions from bulk RNA-seq samples.</p></p>
         </th>
       </tr>
       
@@ -145,28 +158,32 @@
       <tr>
         
         <td>
-          <p><code><a href="anndata_check_load.html">anndata_check_load()</a></code> </p>
+          <p><code><a href="deconvolution_methods.html">deconvolution_methods</a></code> </p>
         </td>
-        <td><p>Checks if anndata package is loaded</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="bisque_reference_decomp.html">bisque_reference_decomp()</a></code> </p>
-        </td>
-        <td><p>Calculates the decomposition using the bisque algorithm</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="build_anndata.html">build_anndata()</a></code> </p>
-        </td>
-        <td><p>Create anndata object from single cell expression matrix, cell type labels and gene symbols</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="build_model.html">build_model()</a></code> </p>
-        </td>
-        <td><p>Building the signature matrix</p></td>
-      </tr><tr>
+        <td><p>List of supported immune deconvolution methods</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-deconvolution-methods" class="hasAnchor"><a href="#section-deconvolution-methods" class="anchor"></a>Deconvolution methods</h2>
+          <p class="section-desc"><p>Direct access to the individual deconvolution methods to access special features that are not available through <code><a href="../reference/deconvolute.html">deconvolute()</a></code>.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-datasets" class="hasAnchor"><a href="#section-datasets" class="anchor"></a>Datasets</h2>
+          <p class="section-desc"><p>List of datasets provided by the package.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
         
         <td>
           <p><code><a href="bulk.html">bulk</a></code> </p>
@@ -193,114 +210,6 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="deconvolute.html">deconvolute()</a></code> </p>
-        </td>
-        <td><p>Deconvolution</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="deconvolute_MOMF.html">deconvolute_MOMF()</a></code> </p>
-        </td>
-        <td><p>Deconvolution Analysis using MOMF (via Nonnegative Factorization)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="deconvolute_dwls.html">deconvolute_dwls()</a></code> </p>
-        </td>
-        <td><p>Calculates the decomposition using the dwls algorithm</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="deconvolution_methods.html">deconvolution_methods</a></code> </p>
-        </td>
-        <td><p>List of supported immune deconvolution methods</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_single_cell_expression_set.html">get_single_cell_expression_set()</a></code> </p>
-        </td>
-        <td><p>Generating a single cell expression set</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="init_python.html">init_python()</a></code> </p>
-        </td>
-        <td><p>Initiates python environment</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="install_scaden.html">install_scaden()</a></code> </p>
-        </td>
-        <td><p>Install Scaden</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="python_available.html">python_available()</a></code> </p>
-        </td>
-        <td><p>Checks if python is available in environment</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_anndata.html">read_anndata()</a></code> </p>
-        </td>
-        <td><p>Read anndata object (.h5ad format)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scaden_build_model.html">scaden_build_model()</a></code> </p>
-        </td>
-        <td><p>Builds Scaden Model from scRNA data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scaden_checkload.html">scaden_checkload()</a></code> </p>
-        </td>
-        <td><p>Checks if scaden is installed.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scaden_deconvolute.html">scaden_deconvolute()</a></code> </p>
-        </td>
-        <td><p>Performs deconvolution</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scaden_predict.html">scaden_predict()</a></code> </p>
-        </td>
-        <td><p>Predict cell proportions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scaden_process.html">scaden_process()</a></code> </p>
-        </td>
-        <td><p>Pre-processes training data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scaden_simulate.html">scaden_simulate()</a></code> </p>
-        </td>
-        <td><p>Simulates training data from scRNA data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scaden_simulate_example.html">scaden_simulate_example()</a></code> </p>
-        </td>
-        <td><p>Simulates example Data provided by Scaden</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scaden_train.html">scaden_train()</a></code> </p>
-        </td>
-        <td><p>Trains a Scaden model</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="set_python.html">set_python()</a></code> </p>
-        </td>
-        <td><p>Defines python path.</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="single_cell_data.html">single_cell_data</a></code> </p>
         </td>
         <td><p>Example sigle-cell RNA-seq dataset from Maynard et al.</p></td>
@@ -310,19 +219,46 @@
           <p><code><a href="single_cell_data_small.html">single_cell_data_small</a></code> </p>
         </td>
         <td><p>Small example sigle-cell RNA-seq dataset from Maynard et al.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="verbose_wrapper.html">verbose_wrapper()</a></code> </p>
-        </td>
-        <td><p>A wrapper function whether to suppress messages</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="write_anndata.html">write_anndata()</a></code> </p>
-        </td>
-        <td><p>Write anndata object (.h5ad format)</p></td>
       </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-scaden" class="hasAnchor"><a href="#section-scaden" class="anchor"></a>Scaden</h2>
+          <p class="section-desc"><p>functions and objects related to the Scaden deconvolution_methods.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-bisque" class="hasAnchor"><a href="#section-bisque" class="anchor"></a>bisque</h2>
+          <p class="section-desc"><p>functions and objects related to the bisque deconvolution_methods.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-anndata" class="hasAnchor"><a href="#section-anndata" class="anchor"></a>anndata</h2>
+          <p class="section-desc"><p>functions related to anndata.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      
     </tbody>
     </table>
   </div>

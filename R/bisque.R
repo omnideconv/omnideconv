@@ -12,7 +12,7 @@
 #' @export
 #'
 #' @examples
-bisque_reference_decomp <- function (bulk_eset, signature_matrix, single_cell_object=NULL,cell_type_annotations=NULL, verbose = TRUE)
+deconvolute_bisque <- function (bulk_eset, signature_matrix, single_cell_object=NULL,cell_type_annotations=NULL, verbose = TRUE)
 {
   # Method is BisqueRNA::ReferenceBasedDecomposition, I only removed not needed parameters
   # and added the signature matrix (so it wont be recalculated every time the method is called)

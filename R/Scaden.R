@@ -76,7 +76,7 @@ scaden_build_model <- function(single_cell_object ,celltype_labels ,bulk_data=NU
 #' @export
 #'
 #' @examples
-scaden_deconvolute <- function(model,bulk_data, verbose=FALSE){
+deconvolute_scaden <- function(model,bulk_data, verbose=FALSE){
   if (!verbose){
     if (Sys.info()['sysname']=="Windows"){
       base::message("The windows implementation requires verbose mode. It is now switched on.")

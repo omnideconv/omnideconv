@@ -4,22 +4,19 @@ reference:
   - title: Preparation of dataset
     desc: Build signature matrix and prepare single cell expression set.
     contents:
-      - build_model()
-      - get_single_cell_expression_set()
-
+      - build_model
+      - get_single_cell_expression_set
   - title: Deconvolution
     desc: Use the package to estimate immune cell fractions from bulk RNA-seq samples.
     contents:
       - deconvolution_methods
-      - deconvolute()
-
+      - deconvolute
   - title: Deconvolution methods
-    desc: Direct access to the individual deconvolution methods to access special features that are not available through `deconvolute()`.
+    desc: Direct access to the individual deconvolution methods to access special features that are not available through `deconvolute`.
     content:
-      - deconvolute_MOMF()
-      - deconvolute_dwls()
-      - scaden_deconvolute()
-
+      - deconvolute_MOMF
+      - deconvolute_dwls
+      - scaden_deconvolute
   - title: Datasets
     desc: List of datasets provided by the package.
     contents:
@@ -29,32 +26,29 @@ reference:
       - cell_type_annotations_small
       - single_cell_data
       - single_cell_data_small
-
   - title: Scaden
     desc: functions and objects related to the Scaden deconvolution_methods.
     contents:
-      - init_python()
-      - install_scaden()
-      - python_available()
-      - scaden_build_model()
-      - scaden_checkload()
-      - scaden_predict()
-      - scaden_process()
-      - scaden_simulate()
-      - scaden_simulate_example()
-      - scaden_train()
-      - set_python()
-      - verbose_wrapper()
-
+      - init_python
+      - install_scaden
+      - python_available
+      - scaden_build_model
+      - scaden_checkload
+      - scaden_predict
+      - scaden_process
+      - scaden_simulate
+      - scaden_simulate_example
+      - scaden_train
+      - set_python
+      - verbose_wrapper
   - title: bisque
     desc: functions and objects related to the bisque deconvolution_methods.
     contents:
-      - bisque_reference_decomp()
-
+      - bisque_reference_decomp
   - title: anndata
     desc: functions related to anndata.
     contents:
-      - anndata_check_load()
-      - build_anndata()
-      - read_anndata()
-      - write_anndata()
+      - anndata_check_load
+      - build_anndata
+      - read_anndata
+      - write_anndata

@@ -14,9 +14,10 @@ reference:
   - title: Deconvolution methods
     desc: Direct access to the individual deconvolution methods to access special features that are not available through `deconvolute`.
     contents:
-      - deconvolute_MOMF
+      - deconvolute_momf
       - deconvolute_dwls
-      - scaden_deconvolute
+      - deconvolute_scaden
+      - deconvolute_bisque
   - title: Datasets
     desc: List of datasets provided by the package.
     contents:
@@ -26,12 +27,17 @@ reference:
       - cell_type_annotations_small
       - single_cell_data
       - single_cell_data_small
-  - title: Scaden
-    desc: functions and objects related to the Scaden deconvolution_methods.
+  - title: Helper
+    desc: functions for setting python environment
     contents:
       - init_python
       - install_scaden
       - python_available
+      - set_python
+      - verbose_wrapper
+  - title: Scaden
+    desc: functions and objects related to the Scaden deconvolution_methods.
+    contents:
       - scaden_build_model
       - scaden_checkload
       - scaden_predict
@@ -39,13 +45,7 @@ reference:
       - scaden_simulate
       - scaden_simulate_example
       - scaden_train
-      - set_python
-      - verbose_wrapper
-  - title: bisque
-    desc: functions and objects related to the bisque deconvolution_methods.
-    contents:
-      - bisque_reference_decomp
-  - title: anndata
+  - title: Anndata
     desc: functions related to anndata.
     contents:
       - anndata_check_load

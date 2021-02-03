@@ -12,7 +12,7 @@
 #' @export
 #'
 #' @examples
-deconvolute_MOMF <- function(bulk_gene_expression, signature, single_cell_object, verbose = TRUE, method="KL",...){
+deconvolute_momf <- function(bulk_gene_expression, signature, single_cell_object, verbose = TRUE, method="KL",...){
   #MOMF needs a list of the single_cell_object with cells x genes and the bulk RNA seq data with individuals x genes
   GList <- list(X1 = t(single_cell_object), X2 = t(bulk_gene_expression))
   if (!verbose){

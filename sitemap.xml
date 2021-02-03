@@ -7,9 +7,6 @@
     <loc>https://pelzko.github.io/immunedeconv2/reference/anndata_check_load.html</loc>
   </url>
   <url>
-    <loc>https://pelzko.github.io/immunedeconv2/reference/bisque_reference_decomp.html</loc>
-  </url>
-  <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/build_anndata.html</loc>
   </url>
   <url>
@@ -34,7 +31,13 @@
     <loc>https://pelzko.github.io/immunedeconv2/reference/deconvolute_MOMF.html</loc>
   </url>
   <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/deconvolute_bisque.html</loc>
+  </url>
+  <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/deconvolute_dwls.html</loc>
+  </url>
+  <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/deconvolute_scaden.html</loc>
   </url>
   <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/deconvolution_methods.html</loc>
@@ -59,9 +62,6 @@
   </url>
   <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/scaden_checkload.html</loc>
-  </url>
-  <url>
-    <loc>https://pelzko.github.io/immunedeconv2/reference/scaden_deconvolute.html</loc>
   </url>
   <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/scaden_predict.html</loc>

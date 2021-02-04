@@ -1,12 +1,11 @@
 ---
 title: "Creating Test Data"
 author: "Kathi Reinisch"
-date: "26 1 2021"
 output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, tidy.opts=list(width.cutoff=60), tidy=TRUE)
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 library(data.table)
 library(devtools)
@@ -16,12 +15,12 @@ library(dplyr)
 library(tibble)
 ```
 
-## R Markdown
-
 The goal is to create small test data sets that are as close to the ground truth from Hoek et al. as possible.
 
 # Loading data
+
 You might need to change the path in this chunk of code in the Rmd as I won't include the datasets. Make sure you made the methods from the immunedeconv2 package available somehow!
+
 ```{r loadData, echo=T}
 DATADIR = "F:/Katharina/Kathi"
 x <- fread(file.path(DATADIR, "maynard_2020_annotated_fine_2k/X_tpm.csv"), header = F)
@@ -60,6 +59,7 @@ sc_rem_small <- sc[, contains_rem_small]
 ```
  
 # Choosing the best subset
+
 This is kind of what the ground truth looks like: 
 
 ```{r plotGroundTruth, echo=FALSE}
@@ -86,7 +86,7 @@ sampleSets <- function(sc, bulk, obs, mode){
   bestvec <- NULL
   df <- NULL
   scoreDF <- NULL
-  for(i in 1:100){
+  for(i in 1:10){
     #take random cols (eg cells), save this sampling vec also for obs$cell_type
     samplingVec <- sample(1:ncol(sc), 300, replace=F)
   
@@ -107,7 +107,7 @@ sampleSets <- function(sc, bulk, obs, mode){
     print(paste("nk:", sum(abs(nk))))
     score <- sum(abs(tcell), abs(bcell), abs(mono), abs(nk))
   
-    sig_momf <- build_model(sc[,samplingVec], obs[samplingVec,]$cell_type, "momf")
+    sig_momf <- build_model(sc[,samplingVec], obs[samplingVec,]$cell_type, "momf", bulk)
     genes <- intersect(rownames(sig_momf), rownames(bulk))
     result_deconv_momf <- deconvolute(bulk[genes,], sig_momf[genes,], "momf", single_cell_object = sc[genes,samplingVec])
     #calculate abs differences, if sum is smaller than before, save sampling vec
@@ -137,7 +137,7 @@ sampleSets <- function(sc, bulk, obs, mode){
 
 ```
 
-```{r saveSubsets, echo=F}
+```{r saveSubsets, echo=F, results='hide'}
 li <- sampleSets(sc_rem, mix.mat, obs_rem, "")
 bestVec <- li[[3]]
 #save(li, file="li.Rdata")
@@ -169,12 +169,14 @@ bulk_small <- mix.mat[gene_subset,]
 #save(cell_type_annotations_small, file="data/cell_type_annotations_small.RData")
 ```
 Below you can see some statistics of how good the subsets did in terms of deconvolution. Remember, the lower the score the closer the deconvolution result is to the ground truth. 
+
 ```{r plotScores}
 melted_li <- melt(li[[1]])
-ggplot(melted_li, aes(x=method, y=value, fill=variable))+geom_violin(position=position_dodge(1))+facet_wrap(~sample)+labs(title="deviation from the ground truth")
+ggplot(melted_li, aes(x=method, y=value, fill=variable))+geom_boxplot(position=position_dodge(1))+facet_wrap(~sample)+labs(title="deviation from the ground truth")
 ggplot(melt(li[[2]]), aes(x=variable, y=value))+geom_boxplot()+geom_jitter()+labs(y="score", x="method")
 ```
 This is how deconvolution with the "best" subset looks for Bisque and MOMF.
+
 ```{r plotDeconvSubset, echo=FALSE}
 bisque_deconv <- as.data.table(li[[4]])
 colnames(bisque_deconv) <- colnames(li[[4]])

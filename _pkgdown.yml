@@ -1,1 +1,54 @@
 url: https://pelzko.github.io/immunedeconv2
+
+reference:
+  - title: Preparation of dataset
+    desc: Build signature matrix and prepare single cell expression set.
+    contents:
+      - build_model
+      - get_single_cell_expression_set
+  - title: Deconvolution
+    desc: Use the package to estimate immune cell fractions from bulk RNA-seq samples.
+    contents:
+      - deconvolution_methods
+      - deconvolute
+  - title: Deconvolution methods
+    desc: Direct access to the individual deconvolution methods to access special features that are not available through `deconvolute`.
+    contents:
+      - deconvolute_momf
+      - deconvolute_dwls
+      - deconvolute_scaden
+      - deconvolute_bisque
+  - title: Datasets
+    desc: List of datasets provided by the package.
+    contents:
+      - bulk
+      - bulk_small
+      - cell_type_annotations
+      - cell_type_annotations_small
+      - single_cell_data
+      - single_cell_data_small
+  - title: Helper
+    desc: functions for setting python environment
+    contents:
+      - init_python
+      - install_scaden
+      - python_available
+      - set_python
+      - verbose_wrapper
+  - title: Scaden
+    desc: functions and objects related to the Scaden deconvolution_methods.
+    contents:
+      - scaden_build_model
+      - scaden_checkload
+      - scaden_predict
+      - scaden_process
+      - scaden_simulate
+      - scaden_simulate_example
+      - scaden_train
+  - title: Anndata
+    desc: functions related to anndata.
+    contents:
+      - anndata_check_load
+      - build_anndata
+      - read_anndata
+      - write_anndata

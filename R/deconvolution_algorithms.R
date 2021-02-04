@@ -82,12 +82,12 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   deconv <- switch(tolower(method),
                    bisque = {
                      #Necessary for bisque, because bisqueReferenceDecomp needs to access internal bisque-package methods
-                     base::environment(bisque_reference_decomp) <- base::environment(BisqueRNA::SimulateData)
-                     bisque_reference_decomp(bulk_eset, signature, single_cell_object,
+                     base::environment(deconvolute_bisque) <- base::environment(BisqueRNA::SimulateData)
+                     deconvolute_bisque(bulk_eset, signature, single_cell_object,
                                              cell_type_annotations, verbose = verbose)$bulk.props
                    },
-                   momf=deconvolute_MOMF(bulk_gene_expression, signature, single_cell_object, verbose = verbose, ...),
-                   scaden = scaden_deconvolute(signature, bulk_gene_expression, verbose = verbose, ...),
+                   momf=deconvolute_momf(bulk_gene_expression, signature, single_cell_object, verbose = verbose, ...),
+                   scaden = deconvolute_scaden(signature, bulk_gene_expression, verbose = verbose, ...),
                    dwls = deconvolute_dwls(bulk_gene_expression, signature, verbose = verbose, ...)
   )
 

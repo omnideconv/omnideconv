@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>List of supported immune deconvolution methods — deconvolution_methods • immunedeconv2</title>
+<title>Signature matrix creation with CibersortX — cibersort_generate_signature • immunedeconv2</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="List of supported immune deconvolution methods — deconvolution_methods" />
-<meta property="og:description" content="The methods currently supported are
-bisque, dwls" />
+<meta property="og:title" content="Signature matrix creation with CibersortX — cibersort_generate_signature" />
+<meta property="og:description" content="Signature matrix creation with CibersortX
+Signature matrix creation with CibersortX" />
 
 
 
@@ -121,26 +121,87 @@ bisque, dwls" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>List of supported immune deconvolution methods</h1>
-    <small class="dont-index">Source: <a href='https://github.com/PelzKo/immunedeconv2/blob/master/R/deconvolution_algorithms.R'><code>R/deconvolution_algorithms.R</code></a></small>
-    <div class="hidden name"><code>deconvolution_methods.Rd</code></div>
+    <h1>Signature matrix creation with CibersortX</h1>
+    <small class="dont-index">Source: <a href='https://github.com/PelzKo/immunedeconv2/blob/master/R/CibersortX.R'><code>R/CibersortX.R</code></a>, <a href='https://github.com/PelzKo/immunedeconv2/blob/master/R/docker_helper.R'><code>R/docker_helper.R</code></a></small>
+    <div class="hidden name"><code>cibersort_generate_signature.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The methods currently supported are
-<code>bisque</code>, <code>dwls</code></p>
+    <p>Signature matrix creation with CibersortX</p>
+<p>Signature matrix creation with CibersortX</p>
     </div>
 
-    <pre class="usage"><span class='va'>deconvolution_methods</span></pre>
+    <pre class="usage"><span class='fu'>cibersort_generate_signature</span><span class='op'>(</span>
+  <span class='va'>single_cell_object</span>,
+  <span class='va'>cell_type_annotations</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  input_dir <span class='op'>=</span> <span class='cn'>NULL</span>,
+  output_dir <span class='op'>=</span> <span class='cn'>NULL</span>,
+  display_heatmap <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  k_max <span class='op'>=</span> <span class='fl'>999</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
+<span class='fu'>cibersort_generate_signature</span><span class='op'>(</span>
+  <span class='va'>single_cell_object</span>,
+  <span class='va'>cell_type_annotations</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  input_dir <span class='op'>=</span> <span class='cn'>NULL</span>,
+  output_dir <span class='op'>=</span> <span class='cn'>NULL</span>,
+  display_heatmap <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  k_max <span class='op'>=</span> <span class='fl'>999</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>single_cell_object</th>
+      <td><p>A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.</p></td>
+    </tr>
+    <tr>
+      <th>cell_type_annotations</th>
+      <td><p>A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Whether CibersortX should print out what it is doing.</p></td>
+    </tr>
+    <tr>
+      <th>input_dir</th>
+      <td><p>The directory in which the input files can be found (or are created in). Default is a temporary directory.</p></td>
+    </tr>
+    <tr>
+      <th>output_dir</th>
+      <td><p>The directory in which the output files are saved. Default is a temporary directory.</p></td>
+    </tr>
+    <tr>
+      <th>display_heatmap</th>
+      <td><p>Whether to display the generated heatmap.</p></td>
+    </tr>
+    <tr>
+      <th>k_max</th>
+      <td><p>Maximum condition number (default: 999). Will be added to the file name.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional parameters supplied to the algorithm. Options are:
+G_min: &lt;int&gt; Minimum number of genes per cell type in sig. matrix (default: 300)
+G_max: &lt;int&gt; Maximum number of genes per cell type in sig. matrix (default: 500)
+q_value: &lt;int&gt; Q-value threshold for differential expression (default: 0.01)
+filter: &lt;bool&gt; Remove non-hematopoietic genes (default: FALSE)
+remake: &lt;bool&gt; Remake signature gene matrix (default: False)
+replicates: &lt;int&gt; Number of replicates to use for building scRNAseq reference file (default: 5)
+sampling: &lt;float&gt; Fraction of available single cell GEPs selected using random sampling (default: 0.5)
+fraction: &lt;float&gt; Fraction of cells of same identity showing evidence of expression (default: 0.75)</p></td>
+    </tr>
+    </table>
 
-    <p>An object of class <code>character</code> of length 5.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The object is a named vector. The names correspond to the display name of the method,
-the values to the internal name.</p>
+    <p>The signature matrix. Rows are genes, columns are cell types.</p>
+<p>The signature matrix. Rows are genes, columns are cell types.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

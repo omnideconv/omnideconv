@@ -41,30 +41,19 @@ get_single_cell_expression_set <- function(single_cell_matrix, sample_names, gen
 #' @export
 #'
 #' @examples
-AnnData_to_SingleCellExperiment <- function(ad){
+anndata_to_singlecellexperiment <- function(ad){
   ad <- ad$transpose()
   X_mat <- ad$X
   rownames(X_mat) <- ad$obs_names
   colnames(X_mat) <- ad$var_names
 
 
-  assays_list <- list(X = X_mat)
-  layer_names <- names(ad$layers)
-  if (length(ad$layers)>0){
-    for (i in 1:length(ad$layers)) {
-      layer_name <- layer_names[i]
-      assays_list[[layer_name]] = ad$layers[[i]]
-    }
-  }
+  assays_list <- list()
+  assays_list[['X']]<- X_mat
+  assays_list <- c(assays_list,ad$layers)
 
   meta_list <- list()
-  uns_keys <- ad$uns_keys()
-  if (length(uns_keys)>0){
-    for (i in 1:length(uns_keys)) {
-      key <- uns_keys[i]
-      meta_list[[key]] = ad$uns[[i]]
-    }
-  }
+  meta_list[ad$uns_keys()]<-ad$uns
 
   rowdata <- ad$obs
   if (length(ad$obsm) == nrow(rowdata)){
@@ -97,7 +86,7 @@ AnnData_to_SingleCellExperiment <- function(ad){
 #' @export
 #'
 #' @examples
-SingleCellExperiment_to_Anndata <- function(sce, X_name = NULL){
+singlecellexperiment_to_anndata <- function(sce, X_name = NULL){
   if (is.null(X_name)) {
     if (length(SummarizedExperiment::assays(sce)) == 0) {
       stop("'sce' does not contain any assays")
@@ -192,7 +181,7 @@ SingleCellExperiment_to_Anndata <- function(sce, X_name = NULL){
 #' @export
 #'
 #' @examples
-Matrix_to_SingleCellExperiment <- function(matrix, cell_labels, named_metadata_list=list()){
+matrix_to_singlecellexperiment <- function(matrix, cell_labels, named_metadata_list=list()){
   gene_labels <- rownames(matrix)
   sce <- SingleCellExperiment::SingleCellExperiment(list(X=matrix),
                               colData= S4Vectors::DataFrame(label=cell_labels),
@@ -211,7 +200,7 @@ Matrix_to_SingleCellExperiment <- function(matrix, cell_labels, named_metadata_l
 #' @export
 #'
 #' @examples
-SingleCellExperiment_to_Matrix <- function(sce, assay_name=NULL){
+singlecellexperiment_to_matrix <- function(sce, assay_name=NULL){
   if (is.null(assay_name)) {
     if (length(SummarizedExperiment::assays(sce)) == 0) {
       stop("'sce' does not contain any assays")
@@ -234,7 +223,7 @@ SingleCellExperiment_to_Matrix <- function(sce, assay_name=NULL){
 #' @export
 #'
 #' @examples
-SCEs_are_identical <- function(a,b){
+sces_are_identical <- function(a,b){
   same <- TRUE
   assays_a <- as.list(SummarizedExperiment::assays(a))
   assays_b <- as.list(SummarizedExperiment::assays(b))

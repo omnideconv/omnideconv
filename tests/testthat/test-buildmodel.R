@@ -30,6 +30,6 @@ test_that("DWLS build signature matrix works", {
 })
 
 test_that("Scaden build model works", {
-  model <- build_model(sc_object_small, cell_annotations_small, method="scaden", bulk_data = bulk_small, samples=10, cells=5, steps=150)
+  model <- build_model(sc_object_small, cell_annotations_small, method="scaden", bulk_gene_expression = bulk_small, samples=10, cells=5, steps=150, verbose = F)
   expect_equal(info = "model folder is created and model assets are written", object= length(list.dirs(model, recursive = F)), expected = 3)
 })

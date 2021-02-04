@@ -256,7 +256,7 @@ scaden_predict <- function(model_dir, bulk_data, verbose=FALSE){
     }
   )
 
-  colnames(predictions)[1]<-" "
+  #colnames(predictions)[1]<-" "
 
   return(predictions)
 

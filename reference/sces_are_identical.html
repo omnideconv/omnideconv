@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>List of supported immune deconvolution methods — deconvolution_methods • immunedeconv2</title>
+<title>Check if two SingleCellExperiments are identical — sces_are_identical • immunedeconv2</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="List of supported immune deconvolution methods — deconvolution_methods" />
-<meta property="og:description" content="The methods currently supported are
-bisque, dwls" />
+<meta property="og:title" content="Check if two SingleCellExperiments are identical — sces_are_identical" />
+<meta property="og:description" content="Check if two SingleCellExperiments are identical" />
 
 
 
@@ -121,26 +120,33 @@ bisque, dwls" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>List of supported immune deconvolution methods</h1>
-    <small class="dont-index">Source: <a href='https://github.com/PelzKo/immunedeconv2/blob/master/R/deconvolution_algorithms.R'><code>R/deconvolution_algorithms.R</code></a></small>
-    <div class="hidden name"><code>deconvolution_methods.Rd</code></div>
+    <h1>Check if two SingleCellExperiments are identical</h1>
+    <small class="dont-index">Source: <a href='https://github.com/PelzKo/immunedeconv2/blob/master/R/data_processing.R'><code>R/data_processing.R</code></a></small>
+    <div class="hidden name"><code>sces_are_identical.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The methods currently supported are
-<code>bisque</code>, <code>dwls</code></p>
+    <p>Check if two SingleCellExperiments are identical</p>
     </div>
 
-    <pre class="usage"><span class='va'>deconvolution_methods</span></pre>
+    <pre class="usage"><span class='fu'>sces_are_identical</span><span class='op'>(</span><span class='va'>a</span>, <span class='va'>b</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>a</th>
+      <td><p>SingleCellExperiments</p></td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td><p>SingleCellExperiments</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class <code>character</code> of length 4.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The object is a named vector. The names correspond to the display name of the method,
-the values to the internal name.</p>
+    <p>boolean</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

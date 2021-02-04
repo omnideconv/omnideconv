@@ -12,3 +12,14 @@ verbose_wrapper <- function(verbose){
     ifelse(verbose, base::suppressMessages(method), base::identity(method))
   })
 }
+
+
+#' Docker availability check
+#'
+#' @return A boolean value whether docker is available on the system
+#' @export
+#'
+#' @examples
+docker_available <- function(){
+  return(system("docker",ignore.stdout = TRUE,ignore.stderr = TRUE)==0)
+}

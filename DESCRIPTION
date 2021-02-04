@@ -46,7 +46,8 @@ Imports:
     MOMF,
     SummarizedExperiment,
     Biobase,
-    pkgdown
+    pkgdown,
+    assertthat
 Remotes:
     grst/MOMF
 VignetteBuilder: knitr

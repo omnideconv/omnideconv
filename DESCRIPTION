@@ -47,7 +47,8 @@ Imports:
     SummarizedExperiment,
     Biobase,
     pkgdown,
-    assertthat
+    assertthat,
+    readr
 Remotes:
     grst/MOMF
 VignetteBuilder: knitr

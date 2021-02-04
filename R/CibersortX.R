@@ -78,7 +78,7 @@ cibersort_generate_signature <- function(single_cell_object, cell_type_annotatio
       Biobase::openPDF(normalizePath(paste0(output_dir,"/",filename_heatmap)))
     }
 
-    sig_matrix <- utils::read.csv(paste0(output_dir,"/",filename_sig_matrix),sep = "\t")
+    sig_matrix <- readr::read_tsv(paste0(output_dir,"/",filename_sig_matrix))
     rownames(sig_matrix)<-sig_matrix$NAME
 
     return(as.matrix.data.frame(sig_matrix[,-1]))
@@ -125,7 +125,7 @@ deconvolute_cibersort <- function(bulk_gene_expression, signature, verbose = TRU
 
     if (class(signature)[1]!="character"){
       sig <- paste0(input_dir,"/signature_matrix.txt")
-      utils::write.table(data.frame("NAME"=rownames(signature),signature),sig,sep = "\t",quote = FALSE, row.names = FALSE)
+      readr::write_tsv(data.frame("NAME"=rownames(signature),signature),sig)
       sigmatrix_filename <- "signature_matrix.txt"
     } else {
       sigmatrix_filename <- signature
@@ -152,7 +152,7 @@ deconvolute_cibersort <- function(bulk_gene_expression, signature, verbose = TRU
       base::message(paste("Something went wrong: Error code ",code,". Please try again with \"verbose=TRUE\""))
     }
 
-    cell_props <- utils::read.csv(paste0(output_dir,"/",filename_cell_props),sep = "\t")
+    cell_props <- readr::read_tsv(paste0(output_dir,"/",filename_cell_props))
     rownames(cell_props)<-cell_props$Mixture
     cell_props <- cell_props[,-1]
 
@@ -175,7 +175,7 @@ transform_and_save_single_cell <- function(sc_matrix,cell_types,path,verbose=TRU
   rownames(output)<-c("GeneSymbol",rownames(sc_matrix))
   output <- data.frame("GeneSymbol"= rownames(output),output)
   output_file <- paste0(path,"/sample_file_for_cibersort.txt")
-  utils::write.table(output,output_file,sep = "\t",quote = FALSE, row.names = FALSE, col.names = FALSE)
+  readr::write_tsv(output,output_file, col_names = FALSE)
   if (verbose){
     base::message(paste("Single cell matrix was saved successfully and can be found at: ",output_file))
   }
@@ -184,7 +184,7 @@ transform_and_save_single_cell <- function(sc_matrix,cell_types,path,verbose=TRU
 
 transform_and_save_bulk <- function(bulk, path,verbose=TRUE){
   output_file <- paste0(path,"/mixture_file_for_cibersort.txt")
-  utils::write.table(data.frame("Gene"=rownames(bulk),bulk),output_file,sep = "\t",quote = FALSE, row.names = FALSE)
+  readr::write_tsv(data.frame("Gene"=rownames(bulk),bulk),output_file)
   if (verbose){
     base::message(paste("Bulk data matrix was saved successfully and can be found at: ",output_file))
   }
@@ -192,7 +192,7 @@ transform_and_save_bulk <- function(bulk, path,verbose=TRUE){
 }
 
 create_docker_command <- function(in_dir, out_dir, method = c("create_sig","impute_cell_fractions"),verbose = TRUE, ...){
-  base <- paste0("docker run -v ",in_dir,":/src/data -v ",out_dir,":/src/outdir cibersortx/fractions --single_cell TRUE")
+  base <- paste0("docker run -v ",in_dir,":/src/data:z -v ",out_dir,":/src/outdir:z cibersortx/fractions --single_cell TRUE")
   if (verbose){
     base <- paste(base,"--verbose TRUE")
   }

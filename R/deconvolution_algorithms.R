@@ -7,7 +7,7 @@
 #' the values to the internal name.
 #'
 #' @export
-deconvolution_methods = c("Bisque"="bisque", "MOMF"="momf", "DWLS" = "dwls", "Scaden"="scaden")
+deconvolution_methods = c("Bisque"="bisque", "MOMF"="momf", "DWLS" = "dwls", "Scaden"="scaden", "CibersortX"="cibersortx")
 
 
 #' Building the signature matrix
@@ -50,7 +50,8 @@ build_model <- function(single_cell_object, cell_type_annotations, method = deco
                         }
                         scaden_build_model(single_cell_object,cell_type_annotations, bulk_data = bulk_gene_expression, verbose = verbose, ...)
                       },
-                      dwls = buildSignatureMatrixMAST(as.data.frame(single_cell_object), cell_type_annotations, path = NULL, verbose = verbose, ...)
+                      dwls = buildSignatureMatrixMAST(as.data.frame(single_cell_object), cell_type_annotations, path = NULL, verbose = verbose, ...),
+                      cibersortx = cibersort_generate_signature(single_cell_object,cell_type_annotations,verbose = verbose, ...)
   )
 
   return(signature)
@@ -88,7 +89,8 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
                    },
                    momf=deconvolute_momf(bulk_gene_expression, signature, single_cell_object, verbose = verbose, ...),
                    scaden = deconvolute_scaden(signature, bulk_gene_expression, verbose = verbose, ...),
-                   dwls = deconvolute_dwls(bulk_gene_expression, signature, verbose = verbose, ...)
+                   dwls = deconvolute_dwls(bulk_gene_expression, signature, verbose = verbose, ...),
+                   cibersortx = deconvolute_cibersort(bulk_gene_expression, signature,verbose = verbose, ...)
   )
 
   #Alphabetical order of celltypes

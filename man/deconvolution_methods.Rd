@@ -5,7 +5,7 @@
 \alias{deconvolution_methods}
 \title{List of supported immune deconvolution methods}
 \format{
-An object of class \code{character} of length 4.
+An object of class \code{character} of length 5.
 }
 \usage{
 deconvolution_methods

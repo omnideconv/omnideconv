@@ -164,6 +164,11 @@ immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "dwls")
 reshape2::melt(res_dwls) %>% set_colnames(c("samples", "cell_type", "predicted_fraction")) %>%
 ggplot(aes(y=samples, x=predicted_fraction, fill=cell_type))+geom_bar(stat="identity", position = "stack") + labs(title="DWLS", y="sample", x="proportion", fill="cell type") + scale_fill_brewer(palette="Paired", breaks=c("B cell","Monocyte conventional", "Monocyte non-conventional","NK cell","T cell CD4","T cell CD8", "T cell dividing", "T cell regulatory"))
 
+res_ciber <- immunedeconv2::build_model(single_cell_data, cell_type_annotations, "cibersortx") %>%
+immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "cibersortx")
+reshape2::melt(res_ciber) %>% set_colnames(c("samples", "cell_type", "predicted_fraction")) %>%
+ggplot(aes(y=samples, x=predicted_fraction, fill=cell_type))+geom_bar(stat="identity", position = "stack") + labs(title="CibersortX", y="sample", x="proportion", fill="cell type") + scale_fill_brewer(palette="Paired", breaks=c("B cell","Monocyte conventional", "Monocyte non-conventional","NK cell","T cell CD4","T cell CD8", "T cell dividing", "T cell regulatory"))
+
 ```
 
 # 3. Methods
@@ -194,38 +199,45 @@ In the following scetion, we compare the deconvolution results of all methods wi
 If the methods estimated the cell type fractions perfectly, we would expect the points to be on the diagonal line displayed in each facet. 
 Note that the results are not fully representative as we only use a small subset of cells from the analysis of Hoek et al.
 ```{r benchmarking, echo=FALSE, fig.width=6, fig.height=7}
+tcells <- c("T cell CD4", "T cell CD8", "T cell regulatory", "T cell dividing")
 samples <- rownames(res_bisque)
 res_bisque <- as.data.table(res_bisque)
-res_bisque$T_cell <- rowSums(res_bisque[,c("T cell CD4", "T cell CD8", "T cell regulatory", "T cell dividing")])
+res_bisque$T_cell <- rowSums(res_bisque[,tcells])
 res_bisque$Monocyte <- rowSums(res_bisque[,c("Monocyte conventional", "Monocyte non-conventional")])
 res_bisque$sample <- samples
 res_bisque$method <- rep("Bisque", nrow(res_bisque))
 res_bisque_melt <- melt(res_bisque, id.vars = c("sample", "method"), variable.name = "cell_type", value.name = "predicted_fraction")
 
 res_momf <- as.data.table(res_momf)
-res_momf$T_cell <- rowSums(res_momf[,c("T cell CD4", "T cell CD8", "T cell regulatory", "T cell dividing")])
+res_momf$T_cell <- rowSums(res_momf[,tcells])
 res_momf$Monocyte <- rowSums(res_momf[,c("Monocyte conventional", "Monocyte non-conventional")])
 res_momf$sample <- samples
 res_momf$method <- rep("MOMF", nrow(res_momf))
 res_momf_melt <- reshape2::melt(res_momf, id.vars = c("sample", "method"), variable.name = "cell_type", value.name = "predicted_fraction")
 
 res_scaden <- as.data.table(t(res_scaden))
-res_scaden$T_cell <- rowSums(res_scaden[,c("T.cell.CD4", "T.cell.CD8", "T.cell.regulatory", "T.cell.dividing")])
+res_scaden$T_cell <- rowSums(res_scaden[,tcells])
 res_scaden$Monocyte <- rowSums(res_scaden[,c("Monocyte.conventional", "Monocyte.non.conventional")])
 res_scaden$sample <- samples
 res_scaden$method <- rep("Scaden", nrow(res_scaden))
 res_scaden_melt <- reshape2::melt(res_scaden, id.vars = c("sample", "method"), variable.name = "cell_type", value.name = "predicted_fraction")
 
 res_dwls <- as.data.table(res_dwls)
-res_dwls$T_cell <- rowSums(res_dwls[,c("T_cell_CD4", "T_cell_CD8", "T_cell_regulatory", "T_cell_dividing")])
+res_dwls$T_cell <- rowSums(res_dwls[,tcells])
 res_dwls$Monocyte <- rowSums(res_dwls[,c("Monocyte_conventional", "Monocyte_non-conventional")])
 res_dwls$sample <- samples
 res_dwls$method <- rep("DWLS", nrow(res_dwls))
 res_dwls_melt <- reshape2::melt(res_dwls, id.vars = c("sample", "method"), variable.name = "cell_type", value.name = "predicted_fraction")
 
-df <- rbind(res_bisque_melt, res_momf_melt) %>% rbind(res_dwls_melt) %>% rbind(res_scaden_melt)
+res_ciber <- as.data.table(res_ciber)
+res_ciber$T_cell <- rowSums(res_ciber[,tcells])
+res_ciber$Monocyte <- rowSums(res_ciber[,c("Monocyte_conventional", "Monocyte_non-conventional")])
+res_ciber$sample <- samples
+res_ciber$method <- rep("CibersortV", nrow(res_ciber))
+res_ciber_melt <- reshape2::melt(res_ciber, id.vars = c("sample", "method"), variable.name = "cell_type", value.name = "predicted_fraction")
+
+df <- rbind(res_bisque_melt, res_momf_melt) %>% rbind(res_dwls_melt) %>% rbind(res_scaden_melt)%>% rbind(res_ciber_melt)
 df$cell_type <- gsub(" ", "_", df$cell_type)
-df$cell_type <- gsub(".", "_", df$cell_type, fixed=TRUE)
 names(RefData) <- c("T_cell", "Monocyte", "B_cell", "DC", "NK_cell")
 RefData$sample <- rownames(RefData)
 reshape2::melt(RefData, id.vars="sample", variable.name="cell_type", value.name="true_fraction") %>% merge(df, by=c("sample", "cell_type")) %>%

@@ -384,10 +384,20 @@ DEAnalysisMAST<-function(scdata, id, path, verbose = FALSE){
   return(list_lrTest.table)
 }
 
-#build signature matrix using genes identified by DEAnalysisMAST()
-#when path = NULL, the generated files in the processes will not be saved and output.
-
-buildSignatureMatrixMAST<-function(scdata,id, path, verbose = FALSE,
+#' Signature matrix creation with DWLS using genes identified by DEAnalysisMAST()
+#'
+#' @param scdata A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.
+#' @param id A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object
+#' @param path The path where the generated files will be saved. If path=NULL, the generated files will be discarded.
+#' @param verbose Whether to output what DWLS is doing
+#' @param diff.cutoff Cutoff to determine the FC-limit. How low can the lowest fold change be to still be considered differentially expressed?
+#' @param pval.cutoff Cutoff to determine the pVal-limit. How high can the highest p-Value be to still be considered statistically significant?
+#'
+#' @return The signature matrix. Rows are genes, columns are cell types.
+#' @export
+#'
+#' @examples
+build_model_dwls<-function(scdata, id, path, verbose = FALSE,
                                    diff.cutoff = 0.5, pval.cutoff = 0.01){
 
   id <- gsub(" ","_",id)

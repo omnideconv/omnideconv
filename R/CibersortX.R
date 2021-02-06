@@ -36,7 +36,7 @@ set_cibersortx_credentials = function(email, token) {
 #' @export
 #'
 #' @examples
-cibersort_generate_signature <- function(single_cell_object, cell_type_annotations,
+build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
                                          verbose = FALSE, input_dir = NULL,
                                          output_dir = NULL, display_heatmap = FALSE,
                                          k_max=999, ...){
@@ -123,7 +123,7 @@ cibersort_generate_signature <- function(single_cell_object, cell_type_annotatio
 #' @export
 #'
 #' @examples
-deconvolute_cibersort <- function(bulk_gene_expression, signature, verbose = FALSE,
+deconvolute_cibersortx <- function(bulk_gene_expression, signature, verbose = FALSE,
                                   input_dir = NULL, output_dir = NULL,
                                   display_extra_info = FALSE , label = "none", ...){
   if (docker_available()){

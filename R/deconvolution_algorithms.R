@@ -34,25 +34,12 @@ build_model <- function(single_cell_object, cell_type_annotations, method = deco
 
 
   signature <- switch(tolower(method),
-                      bisque = {
-                        sc_eset <- get_single_cell_expression_set(single_cell_object, colnames(single_cell_object), rownames(single_cell_object), cell_type_annotations)
-                        BisqueRNA::GenerateSCReference(sc_eset,"cellType")
-                      },
+                      bisque = build_model_bisque(single_cell_object,cell_type_annotations, ...),
                       #momf needs bulk set and signature matrix containing the same genes
-                      momf = {
-                        if (is.null(bulk_gene_expression)){
-                          base::stop("'bulk_gene_expression' argument is required for MOMF")
-                        }
-                        MOMF::momf.computeRef(single_cell_object[intersect(rownames(single_cell_object), rownames(bulk_gene_expression)),], cell_type_annotations)
-                      },
-                      scaden = {
-                        if (is.null(bulk_gene_expression)){
-                          base::stop("'bulk_gene_expression' argument is required for Scaden")
-                        }
-                        scaden_build_model(single_cell_object,cell_type_annotations, bulk_data = bulk_gene_expression, verbose = verbose, ...)
-                      },
-                      dwls = buildSignatureMatrixMAST(as.data.frame(single_cell_object), cell_type_annotations, path = NULL, verbose = verbose, ...),
-                      cibersortx = cibersort_generate_signature(single_cell_object,cell_type_annotations,verbose = verbose, ...)
+                      momf = build_model_momf(single_cell_object,cell_type_annotations,bulk_gene_expression, ...),
+                      scaden = build_model_scaden(single_cell_object,cell_type_annotations, bulk_data = bulk_gene_expression, verbose = verbose, ...),
+                      dwls = build_model_dwls(as.data.frame(single_cell_object), cell_type_annotations, path = NULL, verbose = verbose, ...),
+                      cibersortx = build_model_cibersortx(single_cell_object,cell_type_annotations,verbose = verbose, ...)
   )
 
   return(signature)
@@ -90,7 +77,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
                    momf=deconvolute_momf(bulk_gene_expression, signature, single_cell_object, verbose = verbose, ...),
                    scaden = deconvolute_scaden(signature, bulk_gene_expression, verbose = verbose, ...),
                    dwls = deconvolute_dwls(bulk_gene_expression, signature, verbose = verbose, ...),
-                   cibersortx = deconvolute_cibersort(bulk_gene_expression, signature,verbose = verbose, ...)
+                   cibersortx = deconvolute_cibersortx(bulk_gene_expression, signature,verbose = verbose, ...)
   )
 
   #Alphabetical order of celltypes

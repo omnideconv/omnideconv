@@ -1,16 +1,20 @@
 url: https://pelzko.github.io/immunedeconv2
 
 reference:
-  - title: Preparation of dataset
-    desc: Build signature matrix and prepare single cell expression set.
-    contents:
-      - build_model
-      - get_single_cell_expression_set
-  - title: Deconvolution
-    desc: Use the package to estimate immune cell fractions from bulk RNA-seq samples.
+  - title: Main package methods
+    desc: Main methods to build signature matrices and deconvolute cell fractions.
     contents:
       - deconvolution_methods
+      - build_model
       - deconvolute
+  - title: Signature matrix creation methods
+    desc: Direct access to the individual signature matrix creation methods.
+    contents:
+      - build_model_momf
+      - build_model_dwls
+      - build_model_scaden
+      - build_model_bisque
+      - build_model_cibersortx
   - title: Deconvolution methods
     desc: Direct access to the individual deconvolution methods to access special features that are not available through `deconvolute`.
     contents:
@@ -18,6 +22,7 @@ reference:
       - deconvolute_dwls
       - deconvolute_scaden
       - deconvolute_bisque
+      - deconvolute_cibersortx
   - title: Datasets
     desc: List of datasets provided by the package.
     contents:
@@ -28,17 +33,19 @@ reference:
       - single_cell_data
       - single_cell_data_small
   - title: Helper
-    desc: functions for setting python environment
+    desc: Helper functions to extract repeating checks or work with non-R related tasks like Python or Docker.
     contents:
       - init_python
       - install_scaden
       - python_available
       - set_python
+      - set_cibersortx_credentials
+      - docker_available
+      - docker_connectable
       - verbose_wrapper
   - title: Scaden
     desc: functions and objects related to the Scaden deconvolution_methods.
     contents:
-      - scaden_build_model
       - scaden_checkload
       - scaden_predict
       - scaden_process
@@ -52,3 +59,8 @@ reference:
       - build_anndata
       - read_anndata
       - write_anndata
+  - title: Data conversion
+    desc: Functions for data conversion.
+    contents:
+      - TODO: OTHER METHODS
+      - get_single_cell_expression_set

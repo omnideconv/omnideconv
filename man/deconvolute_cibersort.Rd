@@ -7,7 +7,7 @@
 deconvolute_cibersort(
   bulk_gene_expression,
   signature,
-  verbose = TRUE,
+  verbose = FALSE,
   input_dir = NULL,
   output_dir = NULL,
   display_extra_info = FALSE,

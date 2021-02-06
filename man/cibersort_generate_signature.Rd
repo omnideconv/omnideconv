@@ -7,7 +7,7 @@
 cibersort_generate_signature(
   single_cell_object,
   cell_type_annotations,
-  verbose = TRUE,
+  verbose = FALSE,
   input_dir = NULL,
   output_dir = NULL,
   display_heatmap = FALSE,

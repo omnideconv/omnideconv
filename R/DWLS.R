@@ -1,6 +1,6 @@
 #solve using OLS, constrained such that cell type numbers>0
 #NEEDED
-solveOLS<-function(S,B){
+solveOLS<-function(S, B){
   D<-t(S)%*%S
   d<-t(S)%*%B
   A<-base::cbind(diag(dim(S)[2]))
@@ -15,7 +15,7 @@ solveOLS<-function(S,B){
 #return cell number, not proportion
 #do not print output
 #NEEDED
-solveOLSInternal<-function(S,B){
+solveOLSInternal<-function(S, B){
   D<-t(S)%*%S
   d<-t(S)%*%B
   A<-base::cbind(diag(dim(S)[2]))
@@ -28,7 +28,7 @@ solveOLSInternal<-function(S,B){
 
 #solve using WLS with weights dampened by a certain dampening constant
 #NEEDED
-solveDampenedWLS<-function(S,B){
+solveDampenedWLS<-function(S, B){
   #first solve OLS, use this solution to find a starting point for the weights
   solution<-solveOLSInternal(S,B)
   #now use dampened WLS, iterate weights until convergence
@@ -52,7 +52,7 @@ solveDampenedWLS<-function(S,B){
 
 #solve WLS given a dampening constant
 #NEEDED
-solveDampenedWLSj<-function(S,B,goldStandard,j){
+solveDampenedWLSj<-function(S, B, goldStandard, j){
   multiplier<-1*2^(j-1)
   sol<-goldStandard
   ws<-as.vector((1/(S%*%sol))^2)
@@ -72,7 +72,7 @@ solveDampenedWLSj<-function(S,B,goldStandard,j){
 
 #find a dampening constant for the weights using cross-validation
 #NEEDED
-findDampeningConstant<-function(S,B,goldStandard){
+findDampeningConstant<-function(S, B, goldStandard){
   solutionsSd<-NULL
   #goldStandard is used to define the weights
   sol<-goldStandard
@@ -126,7 +126,7 @@ solveSVR<-function(S,B){
 
 #perform DE analysis using Seurat
 #when path = NULL, the generated files in the processes will not be saved and output.
-DEAnalysis<-function(scdata,id,path){
+DEAnalysis<-function(scdata, id, path){
   list.names <- unique(id)
   list_de_group<-as.list(rep(0, length(list.names)))
 
@@ -151,7 +151,8 @@ DEAnalysis<-function(scdata,id,path){
 
 #build signature matrix using genes identified by DEAnalysis()
 #when path = NULL, the generated files in the processes will not be saved and output.
-buildSignatureMatrixUsingSeurat<-function(scdata,id,path,diff.cutoff=0.5,pval.cutoff=0.01){
+buildSignatureMatrixUsingSeurat<-function(scdata, id, path, diff.cutoff = 0.5,
+                                          pval.cutoff = 0.01){
 
   #perform differential expression analysis
   list_de_groups <- DEAnalysis(scdata,id,path)
@@ -226,7 +227,7 @@ buildSignatureMatrixUsingSeurat<-function(scdata,id,path,diff.cutoff=0.5,pval.cu
 
 #functions for DE
 
-Mean.in.log2space=function(x,pseudo.count) {
+Mean.in.log2space=function(x, pseudo.count) {
   return(log2(mean(2^(x)-pseudo.count)+pseudo.count))
 }
 
@@ -247,13 +248,13 @@ stat.log2=function(data.m, group.v, pseudo.count){
   return(results)
 }
 
-v.auc = function(data.v,group.v) {
+v.auc = function(data.v, group.v) {
   prediction.use=ROCR::prediction(data.v, group.v, 0:1)
   perf.use=ROCR::performance(prediction.use,"auc")
   auc.use=round(perf.use@y.values[[1]],3)
   return(auc.use)
 }
-m.auc=function(data.m,group.v) {
+m.auc=function(data.m, group.v) {
   AUC=apply(data.m, 1, function(x) v.auc(x,group.v))
   AUC[is.na(AUC)]=0.5
   return(AUC)
@@ -263,7 +264,7 @@ m.auc=function(data.m,group.v) {
 #perform DE analysis using MAST
 #when path = NULL, the generated files in the processes will not be saved and output.
 #NEEDED
-DEAnalysisMAST<-function(scdata,id,path,verbose = TRUE){
+DEAnalysisMAST<-function(scdata, id, path, verbose = FALSE){
   list.names <- unique(id)
   list_lrTest.table<-as.list(rep(0, length(list.names)))
 
@@ -338,7 +339,8 @@ DEAnalysisMAST<-function(scdata,id,path,verbose = TRUE){
 #build signature matrix using genes identified by DEAnalysisMAST()
 #when path = NULL, the generated files in the processes will not be saved and output.
 
-buildSignatureMatrixMAST<-function(scdata,id, path, verbose = TRUE, diff.cutoff=0.5,pval.cutoff=0.01){
+buildSignatureMatrixMAST<-function(scdata,id, path, verbose = FALSE,
+                                   diff.cutoff = 0.5, pval.cutoff = 0.01){
 
   id <- gsub(" ","_",id)
 

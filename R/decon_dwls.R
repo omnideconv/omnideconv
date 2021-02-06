@@ -13,7 +13,7 @@
 #'
 #' @examples
 
-deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c("OLS","SVR","DampenedWLS"), verbose = TRUE){
+deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c("OLS","SVR","DampenedWLS"), verbose = FALSE){
 
   if (length(dwls_submethod)>1){
     dwls_submethod <- "OLS"

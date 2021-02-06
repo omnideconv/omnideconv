@@ -6,7 +6,7 @@
 #' @export
 #'
 #' @examples
-set_cibersortx_credentials = function(email,token) {
+set_cibersortx_credentials = function(email, token) {
   assign("cibersortx_email", email, envir=config_env)
   assign("cibersortx_token", token, envir=config_env)
 }
@@ -36,7 +36,10 @@ set_cibersortx_credentials = function(email,token) {
 #' @export
 #'
 #' @examples
-cibersort_generate_signature <- function(single_cell_object, cell_type_annotations, verbose = TRUE, input_dir = NULL, output_dir = NULL, display_heatmap = FALSE, k_max=999, ...){
+cibersort_generate_signature <- function(single_cell_object, cell_type_annotations,
+                                         verbose = FALSE, input_dir = NULL,
+                                         output_dir = NULL, display_heatmap = FALSE,
+                                         k_max=999, ...){
   if (docker_available()){
     if (docker_connectable()){
       temp_dir <- tempdir()
@@ -120,7 +123,9 @@ cibersort_generate_signature <- function(single_cell_object, cell_type_annotatio
 #' @export
 #'
 #' @examples
-deconvolute_cibersort <- function(bulk_gene_expression, signature, verbose = TRUE, input_dir = NULL, output_dir = NULL, display_extra_info=FALSE , label="none", ...){
+deconvolute_cibersort <- function(bulk_gene_expression, signature, verbose = FALSE,
+                                  input_dir = NULL, output_dir = NULL,
+                                  display_extra_info = FALSE , label = "none", ...){
   if (docker_available()){
     if (docker_connectable()){
       temp_dir <- tempdir()
@@ -178,7 +183,7 @@ deconvolute_cibersort <- function(bulk_gene_expression, signature, verbose = TRU
   }
 }
 
-transform_and_save_single_cell <- function(sc_matrix,cell_types,path,verbose=TRUE){
+transform_and_save_single_cell <- function(sc_matrix, cell_types, path, verbose = FALSE){
   colnames(sc_matrix)<-cell_types
   output <- rbind(colnames(sc_matrix),sc_matrix)
   rownames(output)<-c("GeneSymbol",rownames(sc_matrix))
@@ -191,7 +196,7 @@ transform_and_save_single_cell <- function(sc_matrix,cell_types,path,verbose=TRU
   return(output_file)
 }
 
-transform_and_save_bulk <- function(bulk, path,verbose=TRUE){
+transform_and_save_bulk <- function(bulk, path, verbose = FALSE){
   output_file <- paste0(path,"/mixture_file_for_cibersort.txt")
   readr::write_tsv(data.frame("Gene"=rownames(bulk),bulk),output_file)
   if (verbose){
@@ -200,7 +205,7 @@ transform_and_save_bulk <- function(bulk, path,verbose=TRUE){
   return(output_file)
 }
 
-create_docker_command <- function(in_dir, out_dir, method = c("create_sig","impute_cell_fractions"),verbose = TRUE, ...){
+create_docker_command <- function(in_dir, out_dir, method = c("create_sig","impute_cell_fractions"),verbose = FALSE, ...){
   base <- paste0("docker run -v ",in_dir,":/src/data:z -v ",out_dir,":/src/outdir:z cibersortx/fractions --single_cell TRUE")
   if (verbose){
     base <- paste(base,"--verbose TRUE")
@@ -211,7 +216,7 @@ create_docker_command <- function(in_dir, out_dir, method = c("create_sig","impu
   return(paste(base,credentials,get_method_options(method,...)))
 }
 
-get_method_options <- function(method,...){
+get_method_options <- function(method, ...){
   if (method=="create_sig"){
     return(get_signature_matrix_options(...))
   } else if (method == "impute_cell_fractions"){
@@ -221,23 +226,20 @@ get_method_options <- function(method,...){
   }
 }
 
-get_signature_matrix_options <- function(refsample, G_min = 300, G_max = 500, q_value = 0.01, filter = FALSE,
-                                         k_max = 999, remake = FALSE, replicates = 5, sampling = 0.5, fraction = 0.75){
+get_signature_matrix_options <- function(refsample, G_min = 300, G_max = 500, q_value = 0.01,
+                                         filter = FALSE, k_max = 999, remake = FALSE,
+                                         replicates = 5, sampling = 0.5, fraction = 0.75){
   return(paste("--refsample",refsample,"--G.min",G_min,"--G.max",G_max,"--q.value",q_value,"--filter",filter,
                "--k.max",k_max,"--remake",remake,"--replicates",replicates,"--sampling",sampling,"--fraction",fraction))
 }
 
 
-get_cell_fractions_options <- function(sigmatrix,mixture,perm=0,label="none",rmbatch_B_mode=FALSE,rmbatch_S_mode=FALSE,
-                                       source_GEPs=sigmatrix,qn=FALSE,absolute=FALSE,abs_method="sig.score"){
+get_cell_fractions_options <- function(sigmatrix, mixture, perm=0, label="none",
+                                       rmbatch_B_mode = FALSE, rmbatch_S_mode = FALSE,
+                                       source_GEPs = sigmatrix, qn = FALSE,
+                                       absolute = FALSE, abs_method = "sig.score"){
   return(paste("--mixture",mixture,"--sigmatrix",sigmatrix,"--perm",perm,"--label",label,"--rmbatchBmode",rmbatch_B_mode,"--rmbatchSmode",rmbatch_S_mode,
                "--sourceGEPs",source_GEPs,"QN",qn,"--absolute",absolute,"--abs_method",abs_method))
 }
-
-#Working Commands
-#docker run -v /c/Users/Konstantin/Desktop/Uni/7Semester/SysBioMed/testIn:/src/data -v /c/Users/Konstantin/Desktop/Uni/7Semester/SysBioMed/testOut:/src/outdir cibersortx/fractions --username mailto:gregor.sturm@cs.tum.edu --token 1860fb7bc414a958e8aa1e91a5229d8a --single_cell TRUE --refsample sampleFileForCibersort.txt
-#docker run -v /c/Users/Konstantin/Desktop/Uni/7Semester/SysBioMed/testIn:/src/data -v /c/Users/Konstantin/Desktop/Uni/7Semester/SysBioMed/testOut:/src/outdir cibersortx/fractions --username konstantin.pelz@tum.de --token 27308ae0ef1458d381becac46ca7e480 --single_cell TRUE --refsample sampleFileForCibersort.txt
-
-
 
 

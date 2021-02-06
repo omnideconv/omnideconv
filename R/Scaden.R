@@ -6,7 +6,6 @@
 #'
 #' @export
 #'
-#' @examples
 
 install_scaden <- function() {
   reticulate::py_install("scaden",pip=TRUE)
@@ -19,7 +18,7 @@ install_scaden <- function() {
 #'
 #' @param celltype_labels Vector of celltype labels. Order corresponds to rows in single_cell_object matrix.
 #' @param single_cell_object A matrix or dataframe with the single-cell data. Rows are genes, columns are samples.
-#' @param bulk_data Matrix of bulk RNA expression. (rows :genes, columns: samples)
+#' @param bulk_gene_expression Matrix of bulk RNA expression. (rows :genes, columns: samples)
 #' @param model_path Path where model directory should be created. (optional)
 #' @param samples Bulk simulation: Number of samples to simulate (default: 1000)
 #' @param cells Bulk simulation: Number of cells per sample (default: 100)
@@ -34,7 +33,14 @@ install_scaden <- function() {
 #' @export
 #'
 #' @examples
-scaden_build_model <- function(single_cell_object ,celltype_labels ,bulk_data=NULL ,model_path=NULL, batch_size=128, learning_rate= 0.0001, steps=5000, var_cutoff=NULL, cells=100, samples=1000, dataset_name="scaden", verbose=FALSE){
+build_model_scaden <- function(single_cell_object, celltype_labels, bulk_gene_expression = NULL,
+                               model_path = NULL, batch_size = 128, learning_rate = 0.0001,
+                               steps = 5000, var_cutoff = NULL, cells = 100, samples = 1000,
+                               dataset_name = "scaden", verbose = FALSE){
+
+  if (is.null(bulk_gene_expression)){
+    base::stop("'bulk_gene_expression' argument is required for Scaden")
+  }
 
   if (!verbose){
     if (Sys.info()['sysname']=="Windows"){
@@ -52,17 +58,10 @@ scaden_build_model <- function(single_cell_object ,celltype_labels ,bulk_data=NU
   }
   gene_labels <- colnames(single_cell_object)
 
-
-  if (!is.null(bulk_data)){
-
-    training_h5ad <- scaden_simulate(celltype_labels = celltype_labels, gene_labels = gene_labels, single_cell_object = single_cell_object, cells = cells, samples = samples, dataset_name = dataset_name, verbose=verbose)
-    processed <- scaden_process(training_h5ad,bulk_data, verbose=verbose, var_cutoff = var_cutoff)
-    output_model_path <- scaden_train(processed,model_path=model_path, verbose = verbose, batch_size = batch_size , learning_rate = learning_rate, steps = steps)
-    return(output_model_path)
-  }
-  else{
-    base::stop("Scaden needs bulk RNA data for building the model. Please forward a bulk RNA file with build_model(..., bulk_data= your_bulk_data )")
-  }
+  training_h5ad <- scaden_simulate(celltype_labels = celltype_labels, gene_labels = gene_labels, single_cell_object = single_cell_object, cells = cells, samples = samples, dataset_name = dataset_name, verbose=verbose)
+  processed <- scaden_process(training_h5ad,bulk_gene_expression, verbose=verbose, var_cutoff = var_cutoff)
+  output_model_path <- scaden_train(processed,model_path=model_path, verbose = verbose, batch_size = batch_size , learning_rate = learning_rate, steps = steps)
+  return(output_model_path)
 }
 
 
@@ -76,7 +75,7 @@ scaden_build_model <- function(single_cell_object ,celltype_labels ,bulk_data=NU
 #' @export
 #'
 #' @examples
-deconvolute_scaden <- function(model,bulk_data, verbose=FALSE){
+deconvolute_scaden <- function(model, bulk_data, verbose = FALSE){
   if (!verbose){
     if (Sys.info()['sysname']=="Windows"){
       base::message("The windows implementation requires verbose mode. It is now switched on.")
@@ -106,7 +105,8 @@ deconvolute_scaden <- function(model,bulk_data, verbose=FALSE){
 #' @export
 #'
 #' @examples
-scaden_train <- function(h5ad_processed, batch_size=128, learning_rate= 0.0001, model_path=NULL, steps=5000, verbose=FALSE){
+scaden_train <- function(h5ad_processed, batch_size = 128, learning_rate = 0.0001,
+                         model_path = NULL, steps = 5000, verbose = FALSE){
 
   base::message("Training model")
 
@@ -173,7 +173,7 @@ scaden_train <- function(h5ad_processed, batch_size=128, learning_rate= 0.0001, 
 #' @export
 #'
 #' @examples
-scaden_process <- function(h5ad,bulk_data,var_cutoff=NULL, verbose=FALSE){
+scaden_process <- function(h5ad, bulk_data, var_cutoff = NULL, verbose = FALSE){
 
   base::message("Processing training data for model creation ...")
 
@@ -225,7 +225,7 @@ scaden_process <- function(h5ad,bulk_data,var_cutoff=NULL, verbose=FALSE){
 #' @export
 #'
 #' @examples
-scaden_predict <- function(model_dir, bulk_data, verbose=FALSE){
+scaden_predict <- function(model_dir, bulk_data, verbose = FALSE){
 
   base::message("Predicting cell type proportions")
 
@@ -273,7 +273,7 @@ scaden_predict <- function(model_dir, bulk_data, verbose=FALSE){
 #' @export
 #'
 #' @examples
-scaden_simulate_example <- function(example_data_path=NULL, verbose=FALSE){
+scaden_simulate_example <- function(example_data_path = NULL, verbose = FALSE){
 
 
   current_wd <- base::getwd()
@@ -323,11 +323,12 @@ scaden_simulate_example <- function(example_data_path=NULL, verbose=FALSE){
 #' @export
 #'
 #' @examples
-scaden_simulate <- function(celltype_labels ,gene_labels , single_cell_object, cells=100, samples=1000, dataset_name="scaden" , verbose = FALSE){
+scaden_simulate <- function(celltype_labels, gene_labels, single_cell_object, cells = 100,
+                            samples = 1000, dataset_name = "scaden" , verbose = FALSE){
 
 
 
-    base::message("Simulating training data from single cell experiment: ",samples, " samples of ",cells, " cells")
+    base::message("Simulating training data from single cell experiment: ", samples, " samples of ",cells, " cells")
 
     current_wd <- base::getwd()
 

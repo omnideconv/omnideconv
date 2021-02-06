@@ -16,6 +16,15 @@
 #' @source Hoek et al. (2015), PLOS ONE, https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0118528
 "bulk_small"
 
+#' Gold standard measurements with FACS from Hoek et al.
+#'
+#' A dataset of cell-type fractions of eight RNA-seq samples measured with FACS
+#'
+#' @format matrix with samples x cell types
+#'
+#' @source Hoek et al. (2015), PLOS ONE, https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0118528
+"RefData"
+
 #' Example sigle-cell RNA-seq dataset from Maynard et al.
 #'
 #' A subset of TPM-normalized single-cell RNA-seq gene expression, containing 300 cells with types "T cell CD4", "T cell CD8", "T cell dividing", "T cell regulatory", "B cell", "Monocyte conventional", "Monocyte non-conventional", "Macrophage", "NK cell"

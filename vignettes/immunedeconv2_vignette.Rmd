@@ -98,9 +98,10 @@ As for the build_model function, specific parameters can be passed on to the dec
 ## Example Workflow
 
 ```{r loaddata, echo=FALSE, results='hide'}
-load("../data/cell_type_annotations_small.RData")
-load("../data/bulk_small.RData")
-load("../data/single_cell_data_small.RData")
+load("../data/cell_type_annotations.RData")
+load("../data/bulk.RData")
+load("../data/single_cell_data.RData")
+load("../data/RefData.RData")
 ```
 
 This workflow provides a more detailed example of how to run the deconvolution with Bisque. 
@@ -108,25 +109,27 @@ This workflow provides a more detailed example of how to run the deconvolution w
 First of all, make sure you load all the libraries we need for this analysis. If the packages are not available, install them via install_packages().
 ```{r loadLibs}
 library(tidyr)
+library(magrittr)
 library(immunedeconv2)
 library(RColorBrewer)
 library(ggplot2)
+library(data.table)
 ```
 
 To give you a feeling for the data, this is what the first few rows and columns of our small single cell RNA-seq dataset look like:
 ```{r showSc}
-knitr::kable(single_cell_data_small[1:5, 1:4])
+knitr::kable(single_cell_data[1:5, 1:4])
 ```
 
 Now we build the signature matrix with Bisque and look at the values for the first few genes. 
 ```{r signatureExample}
-signatureMatrix <- immunedeconv2::build_model(single_cell_data_small, cell_type_annotations_small, "bisque")
+signatureMatrix <- immunedeconv2::build_model(single_cell_data, cell_type_annotations, "bisque")
 knitr::kable(signatureMatrix[1:5,])
 ```
 
 We can use this signature matrix to run the deconvolution with Bisque. 
 ```{r deconvExample}
-immunedeconv2::deconvolute(bulk_small, signatureMatrix, "bisque", single_cell_data_small, cell_type_annotations_small) %>%
+immunedeconv2::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations) %>%
 knitr::kable()
 ```
 
@@ -135,25 +138,31 @@ knitr::kable()
 Here are some further ideas of how you could plot your deconvolution results. 
 
 ```{r plot, fig.width=7, fig.height=4}
-df <- immunedeconv2::deconvolute(bulk_small, signatureMatrix, "bisque", single_cell_data_small, cell_type_annotations_small) %>%
-reshape2::melt()
-ggplot(df, aes(y=Var2, x=value, fill=Var1))+geom_bar(stat="identity", position = "stack")+labs(title="Bisque", y="sample", x="proportion", fill="cell type")+scale_fill_brewer(palette="Accent", breaks=c("B cell","Monocyte conventional","NK cell","T cell CD4","T cell CD8"))
+res_bisque <- immunedeconv2::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations)
+reshape2::melt(res_bisque) %>% set_colnames(c("samples", "cell_type", "predicted_fraction")) %>%
+ggplot(aes(y=samples, x=predicted_fraction, fill=cell_type))+geom_bar(stat="identity", position = "stack")+labs(title="Bisque", y="sample", x="predicted fraction", fill="cell type")+scale_fill_brewer(palette="Paired", breaks=c("B cell","Monocyte conventional", "Monocyte non-conventional","NK cell","T cell CD4","T cell CD8", "T cell dividing", "T cell regulatory"))
 
-ggplot(df, aes(y=Var2, x=value, color=Var1))+geom_point(size=3)+facet_wrap(~Var1)+labs(title="Bisque", y="sample", x="proportion", color="cell type")+scale_color_brewer(palette="Accent", breaks=c("B cell","Monocyte conventional","NK cell","T cell CD4","T cell CD8"))
+reshape2::melt(res_bisque) %>% set_colnames(c("samples", "cell_type", "predicted_fraction")) %>%
+ggplot(aes(y=samples, x=predicted_fraction, color=cell_type))+geom_point(size=3)+facet_wrap(~cell_type)+labs(title="Bisque", y="sample", x="predicted fraction", color="cell type")+scale_fill_brewer(palette="Paired", breaks=c("B cell","Monocyte conventional", "Monocyte non-conventional","NK cell","T cell CD4","T cell CD8", "T cell dividing", "T cell regulatory"))
 ```
 In the next figures you can see, how the other methods are used and how the cell proportions would be distributed based on their calculations.
 Here are some further ideas of how you could plot your deconvolution results. 
 
 ```{r otherMethods, fig.width=7, fig.height=4, results='hide'}
-immunedeconv2::build_model(single_cell_data_small, cell_type_annotations_small, "momf", bulk_small) %>%
-immunedeconv2::deconvolute(bulk_gene_expression = bulk_small, method = "momf", single_cell_object = single_cell_data_small) %>%
-reshape2::melt() %>%
-ggplot(aes(y=Var1, x=value, fill=Var2))+geom_bar(stat="identity", position = "stack")+labs(title="MOMF", y="sample", x="proportion", fill="cell type")+scale_fill_brewer(palette="Accent", breaks=c("B cell","Monocyte conventional","NK cell","T cell CD4","T cell CD8"))
+res_momf <- immunedeconv2::build_model(single_cell_data, cell_type_annotations, "momf", bulk) %>%
+immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "momf", single_cell_object = single_cell_data)
+reshape2::melt(res_momf) %>% set_colnames(c("samples", "cell_type", "predicted_fraction")) %>%
+ggplot(aes(y=samples, x=predicted_fraction, fill=cell_type))+geom_bar(stat="identity", position = "stack")+labs(title="MOMF", y="sample", x="proportion", fill="cell type")+scale_fill_brewer(palette="Paired", breaks=c("B cell","Monocyte conventional", "Monocyte non-conventional","NK cell","T cell CD4","T cell CD8", "T cell dividing", "T cell regulatory"))
 
-# immunedeconv2::build_model(single_cell_object = single_cell_data_small, cell_type_annotations = cell_type_annotations_small, method = "scaden", bulk_gene_expression = bulk_small) %>%
-# immunedeconv2::deconvolute(bulk_gene_expression = bulk_small, method = "scaden", single_cell_object = single_cell_data_small) %>%
-# reshape2::melt() %>%
-# ggplot(aes(y=Var1, x=value, fill=Var2))+geom_bar(stat="identity", position = "stack")+labs(title="Scaden", y="sample", x="proportion", fill="cell type")+scale_fill_brewer(palette="Accent", breaks=c("B cell","Monocyte conventional","NK cell","T cell CD4","T cell CD8"))
+res_scaden <- immunedeconv2::build_model(single_cell_object = single_cell_data, cell_type_annotations = cell_type_annotations, method = "scaden", bulk_gene_expression = bulk) %>%
+ immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "scaden", single_cell_object = single_cell_data)
+reshape2::melt(res_scaden) %>% set_colnames(c("samples", "cell_type", "predicted_fraction")) %>%
+ggplot(aes(y=samples, x=predicted_fraction, fill=cell_type))+geom_bar(stat="identity", position = "stack")+labs(title="Scaden", y="sample", x="proportion", fill="cell type")+scale_fill_brewer(palette="Paired", breaks=c("B cell","Monocyte conventional", "Monocyte non-conventional","NK cell","T cell CD4","T cell CD8", "T cell dividing", "T cell regulatory"))
+
+res_dwls <- immunedeconv2::build_model(single_cell_data, cell_type_annotations, "dwls") %>%
+immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "dwls")
+reshape2::melt(res_dwls) %>% set_colnames(c("samples", "cell_type", "predicted_fraction")) %>%
+ggplot(aes(y=samples, x=predicted_fraction, fill=cell_type))+geom_bar(stat="identity", position = "stack") + labs(title="DWLS", y="sample", x="proportion", fill="cell type") + scale_fill_brewer(palette="Paired", breaks=c("B cell","Monocyte conventional", "Monocyte non-conventional","NK cell","T cell CD4","T cell CD8", "T cell dividing", "T cell regulatory"))
 
 ```
 
@@ -179,3 +188,46 @@ Citation: Xifang Sun, Shiquan Sun, and Sheng Yang. An efficient and flexible met
 Scaden(Menden et al., n.d.) leverages a deep neural network (DNN) for estimating cell-type proportions. Instead of explicitly building a signature matrix, the DNN implicitly learns which features are important for a certain cell type. The DNN is trained by simulating bulk RNA-seq samples with known cell-type proportions from scRNA-seq datasets. To increase robustness, the training process allows to flexibly integrate multiple scRNA-seq datasets and, optionally, bulk RNA-seq samples with “gold standard” measurements such as FACS.
 
 Citation: Menden, K., Marouf, M., Oller, S., Dalmia, A., Kloiber, K., Heutink, P., & Bonn, S. (n.d.). Deep-learning-based cell composition analysis from tissue expression profiles. https://doi.org/10.1101/659227
+
+## Benchmarking
+In the following scetion, we compare the deconvolution results of all methods with the ground truth, that was measured with FACS by Hoek et al.
+If the methods estimated the cell type fractions perfectly, we would expect the points to be on the diagonal line displayed in each facet. 
+Note that the results are not fully representative as we only use a small subset of cells from the analysis of Hoek et al.
+```{r benchmarking, echo=FALSE, fig.width=6, fig.height=7}
+samples <- rownames(res_bisque)
+res_bisque <- as.data.table(res_bisque)
+res_bisque$T_cell <- rowSums(res_bisque[,c("T cell CD4", "T cell CD8", "T cell regulatory", "T cell dividing")])
+res_bisque$Monocyte <- rowSums(res_bisque[,c("Monocyte conventional", "Monocyte non-conventional")])
+res_bisque$sample <- samples
+res_bisque$method <- rep("Bisque", nrow(res_bisque))
+res_bisque_melt <- melt(res_bisque, id.vars = c("sample", "method"), variable.name = "cell_type", value.name = "predicted_fraction")
+
+res_momf <- as.data.table(res_momf)
+res_momf$T_cell <- rowSums(res_momf[,c("T cell CD4", "T cell CD8", "T cell regulatory", "T cell dividing")])
+res_momf$Monocyte <- rowSums(res_momf[,c("Monocyte conventional", "Monocyte non-conventional")])
+res_momf$sample <- samples
+res_momf$method <- rep("MOMF", nrow(res_momf))
+res_momf_melt <- reshape2::melt(res_momf, id.vars = c("sample", "method"), variable.name = "cell_type", value.name = "predicted_fraction")
+
+res_scaden <- as.data.table(t(res_scaden))
+res_scaden$T_cell <- rowSums(res_scaden[,c("T.cell.CD4", "T.cell.CD8", "T.cell.regulatory", "T.cell.dividing")])
+res_scaden$Monocyte <- rowSums(res_scaden[,c("Monocyte.conventional", "Monocyte.non.conventional")])
+res_scaden$sample <- samples
+res_scaden$method <- rep("Scaden", nrow(res_scaden))
+res_scaden_melt <- reshape2::melt(res_scaden, id.vars = c("sample", "method"), variable.name = "cell_type", value.name = "predicted_fraction")
+
+res_dwls <- as.data.table(res_dwls)
+res_dwls$T_cell <- rowSums(res_dwls[,c("T_cell_CD4", "T_cell_CD8", "T_cell_regulatory", "T_cell_dividing")])
+res_dwls$Monocyte <- rowSums(res_dwls[,c("Monocyte_conventional", "Monocyte_non-conventional")])
+res_dwls$sample <- samples
+res_dwls$method <- rep("DWLS", nrow(res_dwls))
+res_dwls_melt <- reshape2::melt(res_dwls, id.vars = c("sample", "method"), variable.name = "cell_type", value.name = "predicted_fraction")
+
+df <- rbind(res_bisque_melt, res_momf_melt) %>% rbind(res_dwls_melt) %>% rbind(res_scaden_melt)
+df$cell_type <- gsub(" ", "_", df$cell_type)
+df$cell_type <- gsub(".", "_", df$cell_type, fixed=TRUE)
+names(RefData) <- c("T_cell", "Monocyte", "B_cell", "DC", "NK_cell")
+RefData$sample <- rownames(RefData)
+reshape2::melt(RefData, id.vars="sample", variable.name="cell_type", value.name="true_fraction") %>% merge(df, by=c("sample", "cell_type")) %>%
+ggplot(aes(x=as.numeric(true_fraction), y=predicted_fraction, color=cell_type))+geom_point(size=4)+facet_wrap(~method)+geom_abline(color="black")+scale_y_continuous(breaks=seq(0, 1, 0.25))+scale_x_continuous(breaks=seq(0, 1, 0.25))+coord_cartesian(xlim = c(0, 0.75), ylim = c(0, 0.75))+labs(x="true fraction", y="predicted fraction", color="cell type")+theme(legend.position = "bottom", legend.text = element_text(size = 12), legend.title = element_text(size = 13), axis.text = element_text(size = 12), axis.title = element_text(size = 13))+scale_color_manual(values = c("deepskyblue", "springgreen3", "palevioletred1", "red"), breaks=c("B_cell","Monocyte","NK_cell","T_cell"), labels=c("B cell","Monocyte","NK cell","T cell"))
+```

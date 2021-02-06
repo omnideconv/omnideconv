@@ -38,7 +38,7 @@ deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c(
     solutionsOLS<-NULL
     for (i in 1:ncol(bulk)){
       bulk_i<-bulk[,i]
-      sol<-solveOLS(sig,bulk_i)
+      sol<-solveOLS(sig,bulk_i,verbose)
       sol<-round(sol,5)
       solutionsOLS<-cbind(solutionsOLS,sol)
     }
@@ -62,7 +62,7 @@ deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c(
     solutionsDampenedWLS<-NULL
     for (i in 1:ncol(bulk)){
       bulk_i<-bulk[,i]
-      sol<-solveDampenedWLS(sig,bulk_i)
+      sol<-solveDampenedWLS(sig,bulk_i,verbose)
       sol<-round(sol,5)
       solutionsDampenedWLS<-cbind(solutionsDampenedWLS,sol)
     }

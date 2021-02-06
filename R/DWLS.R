@@ -1,12 +1,28 @@
 #solve using OLS, constrained such that cell type numbers>0
 #NEEDED
-solveOLS<-function(S, B){
+solveOLS<-function(S, B, verbose = FALSE){
   D<-t(S)%*%S
   d<-t(S)%*%B
   A<-base::cbind(diag(dim(S)[2]))
   bzero<-c(rep(0,dim(S)[2]))
   sc <- norm(D,"2")
-  solution<-quadprog::solve.QP(D/sc,d/sc,A,bzero)$solution
+
+  solution <- tryCatch(
+    {
+      quadprog::solve.QP(D/sc,d/sc,A,bzero)$solution
+    },
+    error=function(cond) {
+      base::message("Error solving the quadratic programming problem. Your dataset might be too small. Run with verbose=TRUE to get the full error message.")
+      if (verbose)
+        base::stop(cond)
+      else
+        base::stop()
+    },
+    warning=function(cond) {
+      base::warning(cond)
+    }
+  )
+
   names(solution)<-colnames(S)
   #print(round(solution/sum(solution),5))
   return(solution/sum(solution))
@@ -15,22 +31,38 @@ solveOLS<-function(S, B){
 #return cell number, not proportion
 #do not print output
 #NEEDED
-solveOLSInternal<-function(S, B){
+solveOLSInternal<-function(S, B, verbose = FALSE){
   D<-t(S)%*%S
   d<-t(S)%*%B
   A<-base::cbind(diag(dim(S)[2]))
   bzero<-c(rep(0,dim(S)[2]))
   sc <- norm(D,"2")
-  solution<-quadprog::solve.QP(D/sc,d/sc,A,bzero)$solution
+
+  solution <- tryCatch(
+    {
+      quadprog::solve.QP(D/sc,d/sc,A,bzero)$solution
+    },
+    error=function(cond) {
+      base::message("Error solving the quadratic programming problem. Your dataset might be too small. Run with verbose=TRUE to get the full error message.")
+      if (verbose)
+        base::stop(cond)
+      else
+        base::stop()
+    },
+    warning=function(cond) {
+      base::warning(cond)
+    }
+  )
+
   names(solution)<-colnames(S)
   return(solution)
 }
 
 #solve using WLS with weights dampened by a certain dampening constant
 #NEEDED
-solveDampenedWLS<-function(S, B){
+solveDampenedWLS<-function(S, B, verbose = FALSE){
   #first solve OLS, use this solution to find a starting point for the weights
-  solution<-solveOLSInternal(S,B)
+  solution<-solveOLSInternal(S,B,verbose)
   #now use dampened WLS, iterate weights until convergence
   iterations<-0
   changes<-c()
@@ -38,7 +70,7 @@ solveDampenedWLS<-function(S, B){
   j<-findDampeningConstant(S,B,solution)
   change<-1
   while(change>.01 & iterations<1000){
-    newsolution<-solveDampenedWLSj(S,B,solution,j)
+    newsolution<-solveDampenedWLSj(S,B,solution,j, verbose)
     #decrease step size for convergence
     solutionAverage<-base::rowMeans(base::cbind(newsolution,matrix(solution,nrow = length(solution),ncol = 4)))
     change<-norm(as.matrix(solutionAverage-solution))
@@ -52,7 +84,7 @@ solveDampenedWLS<-function(S, B){
 
 #solve WLS given a dampening constant
 #NEEDED
-solveDampenedWLSj<-function(S, B, goldStandard, j){
+solveDampenedWLSj<-function(S, B, goldStandard, j, verbose = FALSE){
   multiplier<-1*2^(j-1)
   sol<-goldStandard
   ws<-as.vector((1/(S%*%sol))^2)
@@ -65,7 +97,23 @@ solveDampenedWLSj<-function(S, B, goldStandard, j){
   A<-base::cbind(diag(dim(S)[2]))
   bzero<-c(rep(0,dim(S)[2]))
   sc <- norm(D,"2")
-  solution<-quadprog::solve.QP(D/sc,d/sc,A,bzero)$solution
+
+  solution <- tryCatch(
+    {
+      quadprog::solve.QP(D/sc,d/sc,A,bzero)$solution
+    },
+    error=function(cond) {
+      base::message("Error solving the quadratic programming problem. Your dataset might be too small. Run with verbose=TRUE to get the full error message.")
+      if (verbose)
+        base::stop(cond)
+      else
+        base::stop()
+    },
+    warning=function(cond) {
+      base::warning(cond)
+    }
+  )
+
   names(solution)<-colnames(S)
   return(solution)
 }

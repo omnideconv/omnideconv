@@ -86,7 +86,8 @@ deconvolute_scaden <- function(model,bulk_data, verbose=FALSE){
 
   scaden_checkload()
   prediction <- scaden_predict(model,bulk_data, verbose = verbose)
-  return(prediction)
+
+  return(t(prediction))
 }
 
 
@@ -255,8 +256,6 @@ scaden_predict <- function(model_dir, bulk_data, verbose=FALSE){
       base::setwd(current_wd)
     }
   )
-
-  colnames(predictions)[1]<-" "
 
   return(predictions)
 

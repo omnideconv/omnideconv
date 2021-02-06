@@ -78,7 +78,7 @@ cibersort_generate_signature <- function(single_cell_object, cell_type_annotatio
       Biobase::openPDF(normalizePath(paste0(output_dir,"/",filename_heatmap)))
     }
 
-    sig_matrix <- readr::read_tsv(paste0(output_dir,"/",filename_sig_matrix))
+    sig_matrix <- as.data.frame(readr::read_tsv(paste0(output_dir,"/",filename_sig_matrix)))
     rownames(sig_matrix)<-sig_matrix$NAME
 
     return(as.matrix.data.frame(sig_matrix[,-1]))
@@ -152,7 +152,7 @@ deconvolute_cibersort <- function(bulk_gene_expression, signature, verbose = TRU
       base::message(paste("Something went wrong: Error code ",code,". Please try again with \"verbose=TRUE\""))
     }
 
-    cell_props <- readr::read_tsv(paste0(output_dir,"/",filename_cell_props))
+    cell_props <- as.data.frame(readr::read_tsv(paste0(output_dir,"/",filename_cell_props)))
     rownames(cell_props)<-cell_props$Mixture
     cell_props <- cell_props[,-1]
 

@@ -1,3 +1,21 @@
+
+
+#' Calculates the signature model with bisque
+#'
+#' @param single_cell_object A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.
+#' @param cell_type_annotations A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object
+#'
+#' @return The signature matrix. Rows are genes, columns are cell types.
+#' @export
+#'
+#' @examples
+build_model_bisque <- function(single_cell_object, cell_type_annotations){
+  sc_eset <- get_single_cell_expression_set(single_cell_object, colnames(single_cell_object), rownames(single_cell_object), cell_type_annotations)
+  BisqueRNA::GenerateSCReference(sc_eset,"cellType")
+}
+
+
+
 #' Calculates the decomposition using the bisque algorithm
 #'
 #' Generates a reference profile based on single-cell data. Learns a transformation of bulk expression based  on  observed  single-cell  proportions  and  performs  NNLS  regression  on  these  transformed values to estimate cell proportions.
@@ -12,8 +30,8 @@
 #' @export
 #'
 #' @examples
-deconvolute_bisque <- function (bulk_eset, signature_matrix, single_cell_object=NULL,cell_type_annotations=NULL, verbose = TRUE)
-{
+deconvolute_bisque <- function (bulk_eset, signature_matrix, single_cell_object = NULL,
+                                cell_type_annotations = NULL, verbose = FALSE){
   # Method is BisqueRNA::ReferenceBasedDecomposition, I only removed not needed parameters
   # and added the signature matrix (so it wont be recalculated every time the method is called)
 

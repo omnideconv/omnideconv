@@ -1,13 +1,14 @@
 #' List of supported immune deconvolution methods
 #'
 #' The methods currently supported are
-#' `bisque`, `dwls`
+#' `Bisque`, `MOMF`, `DWLS`, `Scaden`, `CibersortX`
 #'
 #' The object is a named vector. The names correspond to the display name of the method,
 #' the values to the internal name.
 #'
 #' @export
-deconvolution_methods = c("Bisque"="bisque", "MOMF"="momf", "DWLS" = "dwls", "Scaden"="scaden", "CibersortX"="cibersortx")
+deconvolution_methods = c("Bisque" = "bisque", "MOMF" = "momf", "DWLS" = "dwls",
+                          "Scaden" = "scaden", "CibersortX" = "cibersortx")
 
 
 #' Building the signature matrix
@@ -26,32 +27,19 @@ deconvolution_methods = c("Bisque"="bisque", "MOMF"="momf", "DWLS" = "dwls", "Sc
 #' @export
 #'
 #' @examples
-build_model <- function(single_cell_object, cell_type_annotations, method = deconvolution_methods, bulk_gene_expression = NULL, verbose = TRUE, ...){
+build_model <- function(single_cell_object, cell_type_annotations, method = deconvolution_methods, bulk_gene_expression = NULL, verbose = FALSE, ...){
 
   if (class(single_cell_object)[[1]]!="matrix")
     single_cell_object <- as.matrix(single_cell_object)
 
 
-  sc_eset <- get_single_cell_expression_set(single_cell_object, colnames(single_cell_object), rownames(single_cell_object), cell_type_annotations)
-
-
   signature <- switch(tolower(method),
-                      bisque = BisqueRNA::GenerateSCReference(sc_eset,"cellType"),
+                      bisque = build_model_bisque(single_cell_object,cell_type_annotations, ...),
                       #momf needs bulk set and signature matrix containing the same genes
-                      momf = {
-                        if (is.null(bulk_gene_expression)){
-                          base::stop("'bulk_gene_expression' argument is required for MOMF")
-                        }
-                        MOMF::momf.computeRef(single_cell_object[intersect(rownames(single_cell_object), rownames(bulk_gene_expression)),], cell_type_annotations)
-                      },
-                      scaden = {
-                        if (is.null(bulk_gene_expression)){
-                          base::stop("'bulk_gene_expression' argument is required for Scaden")
-                        }
-                        scaden_build_model(single_cell_object,cell_type_annotations, bulk_data = bulk_gene_expression, verbose = verbose, ...)
-                      },
-                      dwls = buildSignatureMatrixMAST(as.data.frame(single_cell_object), cell_type_annotations, path = NULL, verbose = verbose, ...),
-                      cibersortx = cibersort_generate_signature(single_cell_object,cell_type_annotations,verbose = verbose, ...)
+                      momf = build_model_momf(single_cell_object,cell_type_annotations,bulk_gene_expression, ...),
+                      scaden = build_model_scaden(single_cell_object,cell_type_annotations, bulk_data = bulk_gene_expression, verbose = verbose, ...),
+                      dwls = build_model_dwls(as.data.frame(single_cell_object), cell_type_annotations, path = NULL, verbose = verbose, ...),
+                      cibersortx = build_model_cibersortx(single_cell_object,cell_type_annotations,verbose = verbose, ...)
   )
 
   return(signature)
@@ -73,15 +61,14 @@ build_model <- function(single_cell_object, cell_type_annotations, method = deco
 #' @export
 #'
 #' @examples
-deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_methods, single_cell_object = NULL, cell_type_annotations = NULL, verbose = TRUE, ...){
+deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_methods, single_cell_object = NULL, cell_type_annotations = NULL, verbose = FALSE, ...){
 
   if (class(bulk_gene_expression)[[1]]!="matrix")
     bulk_gene_expression <- base::as.matrix(bulk_gene_expression)
 
-  bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
-
   deconv <- switch(tolower(method),
                    bisque = {
+                     bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
                      #Necessary for bisque, because bisqueReferenceDecomp needs to access internal bisque-package methods
                      base::environment(deconvolute_bisque) <- base::environment(BisqueRNA::SimulateData)
                      deconvolute_bisque(bulk_eset, signature, single_cell_object,
@@ -90,7 +77,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
                    momf=deconvolute_momf(bulk_gene_expression, signature, single_cell_object, verbose = verbose, ...),
                    scaden = deconvolute_scaden(signature, bulk_gene_expression, verbose = verbose, ...),
                    dwls = deconvolute_dwls(bulk_gene_expression, signature, verbose = verbose, ...),
-                   cibersortx = deconvolute_cibersort(bulk_gene_expression, signature,verbose = verbose, ...)
+                   cibersortx = deconvolute_cibersortx(bulk_gene_expression, signature,verbose = verbose, ...)
   )
 
   #Alphabetical order of celltypes

@@ -8,7 +8,7 @@ deconvolute_momf(
   bulk_gene_expression,
   signature,
   single_cell_object,
-  verbose = TRUE,
+  verbose = FALSE,
   method = "KL",
   ...
 )

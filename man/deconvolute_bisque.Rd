@@ -9,7 +9,7 @@ deconvolute_bisque(
   signature_matrix,
   single_cell_object = NULL,
   cell_type_annotations = NULL,
-  verbose = TRUE
+  verbose = FALSE
 )
 }
 \arguments{

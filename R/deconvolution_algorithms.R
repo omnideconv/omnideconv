@@ -76,6 +76,10 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   if (class(bulk_gene_expression)[[1]]!="matrix")
     bulk_gene_expression <- base::as.matrix(bulk_gene_expression)
 
+  if (! "character" %in% class(signature)){
+    colnames(signature) <- make.names(colnames(signature))
+  }
+
   deconv <- switch(tolower(method),
                    bisque = {
                      bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)

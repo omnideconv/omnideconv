@@ -1,12 +1,28 @@
 #solve using OLS, constrained such that cell type numbers>0
 #NEEDED
-solveOLS<-function(S,B){
+solveOLS<-function(S, B, verbose = FALSE){
   D<-t(S)%*%S
   d<-t(S)%*%B
   A<-base::cbind(diag(dim(S)[2]))
   bzero<-c(rep(0,dim(S)[2]))
   sc <- norm(D,"2")
-  solution<-quadprog::solve.QP(D/sc,d/sc,A,bzero)$solution
+
+  solution <- tryCatch(
+    {
+      quadprog::solve.QP(D/sc,d/sc,A,bzero)$solution
+    },
+    error=function(cond) {
+      base::message("Error solving the quadratic programming problem. Your dataset might be too small. Run with verbose=TRUE to get the full error message.")
+      if (verbose)
+        base::stop(cond)
+      else
+        base::stop()
+    },
+    warning=function(cond) {
+      base::warning(cond)
+    }
+  )
+
   names(solution)<-colnames(S)
   #print(round(solution/sum(solution),5))
   return(solution/sum(solution))
@@ -15,22 +31,38 @@ solveOLS<-function(S,B){
 #return cell number, not proportion
 #do not print output
 #NEEDED
-solveOLSInternal<-function(S,B){
+solveOLSInternal<-function(S, B, verbose = FALSE){
   D<-t(S)%*%S
   d<-t(S)%*%B
   A<-base::cbind(diag(dim(S)[2]))
   bzero<-c(rep(0,dim(S)[2]))
   sc <- norm(D,"2")
-  solution<-quadprog::solve.QP(D/sc,d/sc,A,bzero)$solution
+
+  solution <- tryCatch(
+    {
+      quadprog::solve.QP(D/sc,d/sc,A,bzero)$solution
+    },
+    error=function(cond) {
+      base::message("Error solving the quadratic programming problem. Your dataset might be too small. Run with verbose=TRUE to get the full error message.")
+      if (verbose)
+        base::stop(cond)
+      else
+        base::stop()
+    },
+    warning=function(cond) {
+      base::warning(cond)
+    }
+  )
+
   names(solution)<-colnames(S)
   return(solution)
 }
 
 #solve using WLS with weights dampened by a certain dampening constant
 #NEEDED
-solveDampenedWLS<-function(S,B){
+solveDampenedWLS<-function(S, B, verbose = FALSE){
   #first solve OLS, use this solution to find a starting point for the weights
-  solution<-solveOLSInternal(S,B)
+  solution<-solveOLSInternal(S,B,verbose)
   #now use dampened WLS, iterate weights until convergence
   iterations<-0
   changes<-c()
@@ -38,7 +70,7 @@ solveDampenedWLS<-function(S,B){
   j<-findDampeningConstant(S,B,solution)
   change<-1
   while(change>.01 & iterations<1000){
-    newsolution<-solveDampenedWLSj(S,B,solution,j)
+    newsolution<-solveDampenedWLSj(S,B,solution,j, verbose)
     #decrease step size for convergence
     solutionAverage<-base::rowMeans(base::cbind(newsolution,matrix(solution,nrow = length(solution),ncol = 4)))
     change<-norm(as.matrix(solutionAverage-solution))
@@ -52,7 +84,7 @@ solveDampenedWLS<-function(S,B){
 
 #solve WLS given a dampening constant
 #NEEDED
-solveDampenedWLSj<-function(S,B,goldStandard,j){
+solveDampenedWLSj<-function(S, B, goldStandard, j, verbose = FALSE){
   multiplier<-1*2^(j-1)
   sol<-goldStandard
   ws<-as.vector((1/(S%*%sol))^2)
@@ -65,14 +97,30 @@ solveDampenedWLSj<-function(S,B,goldStandard,j){
   A<-base::cbind(diag(dim(S)[2]))
   bzero<-c(rep(0,dim(S)[2]))
   sc <- norm(D,"2")
-  solution<-quadprog::solve.QP(D/sc,d/sc,A,bzero)$solution
+
+  solution <- tryCatch(
+    {
+      quadprog::solve.QP(D/sc,d/sc,A,bzero)$solution
+    },
+    error=function(cond) {
+      base::message("Error solving the quadratic programming problem. Your dataset might be too small. Run with verbose=TRUE to get the full error message.")
+      if (verbose)
+        base::stop(cond)
+      else
+        base::stop()
+    },
+    warning=function(cond) {
+      base::warning(cond)
+    }
+  )
+
   names(solution)<-colnames(S)
   return(solution)
 }
 
 #find a dampening constant for the weights using cross-validation
 #NEEDED
-findDampeningConstant<-function(S,B,goldStandard){
+findDampeningConstant<-function(S, B, goldStandard){
   solutionsSd<-NULL
   #goldStandard is used to define the weights
   sol<-goldStandard
@@ -126,7 +174,7 @@ solveSVR<-function(S,B){
 
 #perform DE analysis using Seurat
 #when path = NULL, the generated files in the processes will not be saved and output.
-DEAnalysis<-function(scdata,id,path){
+DEAnalysis<-function(scdata, id, path){
   list.names <- unique(id)
   list_de_group<-as.list(rep(0, length(list.names)))
 
@@ -151,7 +199,8 @@ DEAnalysis<-function(scdata,id,path){
 
 #build signature matrix using genes identified by DEAnalysis()
 #when path = NULL, the generated files in the processes will not be saved and output.
-buildSignatureMatrixUsingSeurat<-function(scdata,id,path,diff.cutoff=0.5,pval.cutoff=0.01){
+buildSignatureMatrixUsingSeurat<-function(scdata, id, path, diff.cutoff = 0.5,
+                                          pval.cutoff = 0.01){
 
   #perform differential expression analysis
   list_de_groups <- DEAnalysis(scdata,id,path)
@@ -226,7 +275,7 @@ buildSignatureMatrixUsingSeurat<-function(scdata,id,path,diff.cutoff=0.5,pval.cu
 
 #functions for DE
 
-Mean.in.log2space=function(x,pseudo.count) {
+Mean.in.log2space=function(x, pseudo.count) {
   return(log2(mean(2^(x)-pseudo.count)+pseudo.count))
 }
 
@@ -247,13 +296,13 @@ stat.log2=function(data.m, group.v, pseudo.count){
   return(results)
 }
 
-v.auc = function(data.v,group.v) {
+v.auc = function(data.v, group.v) {
   prediction.use=ROCR::prediction(data.v, group.v, 0:1)
   perf.use=ROCR::performance(prediction.use,"auc")
   auc.use=round(perf.use@y.values[[1]],3)
   return(auc.use)
 }
-m.auc=function(data.m,group.v) {
+m.auc=function(data.m, group.v) {
   AUC=apply(data.m, 1, function(x) v.auc(x,group.v))
   AUC[is.na(AUC)]=0.5
   return(AUC)
@@ -263,7 +312,7 @@ m.auc=function(data.m,group.v) {
 #perform DE analysis using MAST
 #when path = NULL, the generated files in the processes will not be saved and output.
 #NEEDED
-DEAnalysisMAST<-function(scdata,id,path,verbose = TRUE){
+DEAnalysisMAST<-function(scdata, id, path, verbose = FALSE){
   list.names <- unique(id)
   list_lrTest.table<-as.list(rep(0, length(list.names)))
 
@@ -335,10 +384,21 @@ DEAnalysisMAST<-function(scdata,id,path,verbose = TRUE){
   return(list_lrTest.table)
 }
 
-#build signature matrix using genes identified by DEAnalysisMAST()
-#when path = NULL, the generated files in the processes will not be saved and output.
-
-buildSignatureMatrixMAST<-function(scdata,id, path, verbose = TRUE, diff.cutoff=0.5,pval.cutoff=0.01){
+#' Signature matrix creation with DWLS using genes identified by DEAnalysisMAST()
+#'
+#' @param scdata A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.
+#' @param id A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object
+#' @param path The path where the generated files will be saved. If path=NULL, the generated files will be discarded.
+#' @param verbose Whether to output what DWLS is doing
+#' @param diff.cutoff Cutoff to determine the FC-limit. How low can the lowest fold change be to still be considered differentially expressed?
+#' @param pval.cutoff Cutoff to determine the pVal-limit. How high can the highest p-Value be to still be considered statistically significant?
+#'
+#' @return The signature matrix. Rows are genes, columns are cell types.
+#' @export
+#'
+#' @examples
+build_model_dwls<-function(scdata, id, path, verbose = FALSE,
+                                   diff.cutoff = 0.5, pval.cutoff = 0.01){
 
   id <- gsub(" ","_",id)
 

@@ -47,7 +47,11 @@ Imports:
     SummarizedExperiment,
     Biobase,
     SingleCellExperiment,
-    S4Vectors
+    S4Vectors,
+    pkgdown,
+    assertthat,
+    readr
+>>>>>>> main
 Remotes:
     grst/MOMF,
     pkgdown

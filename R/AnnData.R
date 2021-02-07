@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-build_anndata <- function(x, obs, var, obsm=NULL, varm=NULL){
+build_anndata <- function(x, obs, var, obsm = NULL, varm = NULL){
 
   anndata_check_load()
 
@@ -46,7 +46,7 @@ read_anndata <- function(path){
 #' @export
 #'
 #' @examples
-write_anndata <- function(data,path){
+write_anndata <- function(data, path){
   anndata_check_load()
   data$write_h5ad(path)
 }
@@ -57,7 +57,6 @@ write_anndata <- function(data,path){
 #'
 #' @export
 #'
-#' @examples
 anndata_check_load <- function(){
   if (!python_available()){
     init_python()

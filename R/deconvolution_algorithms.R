@@ -76,13 +76,10 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   if (class(bulk_gene_expression)[[1]]!="matrix")
     bulk_gene_expression <- base::as.matrix(bulk_gene_expression)
 
-  if (class(signature)!="character"){
-    colnames(signature) <- make.names(colnames(signature))
-  }
-
   deconv <- switch(tolower(method),
                    bisque = {
                      bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
+                     cell_type_annotations <- make.names(cell_type_annotations)
                      #Necessary for bisque, because bisqueReferenceDecomp needs to access internal bisque-package methods
                      base::environment(deconvolute_bisque) <- base::environment(BisqueRNA::SimulateData)
                      deconvolute_bisque(bulk_eset, signature, single_cell_object,

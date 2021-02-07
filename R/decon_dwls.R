@@ -73,6 +73,8 @@ deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c(
   if (verbose){
     base::message("Deconvolution sucessful!")
   }
-  return (t(res))
+  result <- t(res)
+  colnames(result) <- gsub("_", " ", colnames(result))
+  return (result)
 }
 

@@ -37,7 +37,7 @@ build_model <- function(single_cell_object, cell_type_annotations, method = deco
                       bisque = build_model_bisque(single_cell_object,cell_type_annotations, ...),
                       #momf needs bulk set and signature matrix containing the same genes
                       momf = build_model_momf(single_cell_object,cell_type_annotations,bulk_gene_expression, ...),
-                      scaden = build_model_scaden(single_cell_object,cell_type_annotations, bulk_data = bulk_gene_expression, verbose = verbose, ...),
+                      scaden = build_model_scaden(single_cell_object,cell_type_annotations, bulk_gene_expression, verbose = verbose, ...),
                       dwls = build_model_dwls(as.data.frame(single_cell_object), cell_type_annotations, path = NULL, verbose = verbose, ...),
                       cibersortx = build_model_cibersortx(single_cell_object,cell_type_annotations,verbose = verbose, ...)
   )

@@ -51,7 +51,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, method
     }
   }
 
-  if (class(single_cell_object)[[1]]!="matrix")
+  if (class(single_cell_object)[[1]]!="matrix"){
     single_cell_object <- as.matrix(single_cell_object)
   }
 

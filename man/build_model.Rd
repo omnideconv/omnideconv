@@ -9,7 +9,7 @@ build_model(
   cell_type_annotations = NULL,
   method = deconvolution_methods,
   bulk_gene_expression = NULL,
-  verbose = FALSE,
+  verbose = TRUE,
   cell_type_column_name = NULL,
   ...
 )

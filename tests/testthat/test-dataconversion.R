@@ -11,7 +11,7 @@ test_that("Matrix/SingleCellExperiment conversion works",{
   expect_equal(info = "SCE Matrix is correct", object = X, expected = sc_object_small)
   expect_equal(info = "SCE annotation vector is correct", object = labels, expected = cell_annotations_small)
 
-  matrix_and_annotation <- singlecellexperiment_to_matrix(sce)
+  matrix_and_annotation <- singlecellexperiment_to_matrix(sce, cell_type_column_name = "label")
   expect_identical(info = "Conversion from SingleCellExperiment to Matrix had no error", object = typeof(matrix_and_annotation), expected = "list")
   matrix <- matrix_and_annotation$matrix
   annotation <- matrix_and_annotation$annotation_vector

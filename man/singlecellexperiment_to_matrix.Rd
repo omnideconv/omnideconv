@@ -4,12 +4,18 @@
 \alias{singlecellexperiment_to_matrix}
 \title{Convert SingleCellExperiment to Matrix + annotation vector for celltypes}
 \usage{
-singlecellexperiment_to_matrix(sce, assay_name = NULL)
+singlecellexperiment_to_matrix(
+  sce,
+  assay_name = NULL,
+  cell_type_column_name = NULL
+)
 }
 \arguments{
 \item{sce}{SingleCellExperiment}
 
 \item{assay_name}{name of the assay that should be returned as matrix. (default: first in assay list)}
+
+\item{cell_type_column_name}{name of the column that stores the cell-type labels in the colData object of the provided SingleCellExperiment}
 }
 \value{
 named list: ..$matrix: matrix object, ..$annotation_vector

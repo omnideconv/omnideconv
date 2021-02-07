@@ -195,12 +195,13 @@ matrix_to_singlecellexperiment <- function(matrix, cell_labels, named_metadata_l
 #'
 #' @param sce SingleCellExperiment
 #' @param assay_name name of the assay that should be returned as matrix. (default: first in assay list)
+#' @param cell_type_column_name name of the column that stores the cell-type labels in the colData object of the provided SingleCellExperiment
 #'
 #' @return named list: ..$matrix: matrix object, ..$annotation_vector
 #' @export
 #'
 #' @examples
-singlecellexperiment_to_matrix <- function(sce, assay_name=NULL){
+singlecellexperiment_to_matrix <- function(sce, assay_name=NULL, cell_type_column_name=NULL){
   if (is.null(assay_name)) {
     if (length(SummarizedExperiment::assays(sce)) == 0) {
       stop("'sce' does not contain any assays")
@@ -209,7 +210,16 @@ singlecellexperiment_to_matrix <- function(sce, assay_name=NULL){
     message("Note: using the '", assay_name, "' assay as the X matrix")
   }
   X <- SummarizedExperiment::assay(sce,assay_name,withDimnames = T)
-  cell_labels <- SingleCellExperiment::colData(sce)$label
+
+  if (is.null(cell_type_column_name)){
+    base::warning("Please provide the column name that contains the cell type labels! (colData object of SingleCellExperiment/ obs object of AnnData)")
+    cell_labels <- NULL
+  }
+  else{
+    cell_labels <- SingleCellExperiment::colData(sce)[[cell_type_column_name]]
+  }
+
+
 
   return(list("matrix"=X, "annotation_vector"=cell_labels))
 }

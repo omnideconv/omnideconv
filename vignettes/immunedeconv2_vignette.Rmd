@@ -78,6 +78,7 @@ immunedeconv2::build_model(single_cell_data, cell_type_annotations, method)
 * DWLS ("dwls")
 * MOMF ("momf")
 * Scaden ("scaden")
+* CibersortX ("cibersortx")
 
 Note: MOMF and Scaden also need the bulk RNA-seq data to calculate a signature matrix. Please provide this parameter as well when running build_model with one of these two methods. 
 
@@ -141,6 +142,7 @@ Here are some further ideas of how you could plot your deconvolution results.
 res_bisque <- immunedeconv2::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations)
 reshape2::melt(res_bisque) %>% set_colnames(c("samples", "cell_type", "predicted_fraction")) %>%
 ggplot(aes(y=samples, x=predicted_fraction, fill=cell_type))+geom_bar(stat="identity", position = "stack")+labs(title="Bisque", y="sample", x="predicted fraction", fill="cell type")+scale_fill_brewer(palette="Paired", breaks=c("B cell","Monocyte conventional", "Monocyte non-conventional","NK cell","T cell CD4","T cell CD8", "T cell dividing", "T cell regulatory"))
+ggsave("vignettes/images/bisque_prop.png")
 
 reshape2::melt(res_bisque) %>% set_colnames(c("samples", "cell_type", "predicted_fraction")) %>%
 ggplot(aes(y=samples, x=predicted_fraction, color=cell_type))+geom_point(size=3)+facet_wrap(~cell_type)+labs(title="Bisque", y="sample", x="predicted fraction", color="cell type")+scale_fill_brewer(palette="Paired", breaks=c("B cell","Monocyte conventional", "Monocyte non-conventional","NK cell","T cell CD4","T cell CD8", "T cell dividing", "T cell regulatory"))
@@ -153,21 +155,25 @@ res_momf <- immunedeconv2::build_model(single_cell_data, cell_type_annotations, 
 immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "momf", single_cell_object = single_cell_data)
 reshape2::melt(res_momf) %>% set_colnames(c("samples", "cell_type", "predicted_fraction")) %>%
 ggplot(aes(y=samples, x=predicted_fraction, fill=cell_type))+geom_bar(stat="identity", position = "stack")+labs(title="MOMF", y="sample", x="proportion", fill="cell type")+scale_fill_brewer(palette="Paired", breaks=c("B cell","Monocyte conventional", "Monocyte non-conventional","NK cell","T cell CD4","T cell CD8", "T cell dividing", "T cell regulatory"))
+ggsave("momf_prop.png")
 
 res_scaden <- immunedeconv2::build_model(single_cell_object = single_cell_data, cell_type_annotations = cell_type_annotations, method = "scaden", bulk_gene_expression = bulk) %>%
  immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "scaden", single_cell_object = single_cell_data)
 reshape2::melt(res_scaden) %>% set_colnames(c("samples", "cell_type", "predicted_fraction")) %>%
 ggplot(aes(y=samples, x=predicted_fraction, fill=cell_type))+geom_bar(stat="identity", position = "stack")+labs(title="Scaden", y="sample", x="proportion", fill="cell type")+scale_fill_brewer(palette="Paired", breaks=c("B cell","Monocyte conventional", "Monocyte non-conventional","NK cell","T cell CD4","T cell CD8", "T cell dividing", "T cell regulatory"))
+ggsave("scaden_prop.png")
 
 res_dwls <- immunedeconv2::build_model(single_cell_data, cell_type_annotations, "dwls") %>%
 immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "dwls")
 reshape2::melt(res_dwls) %>% set_colnames(c("samples", "cell_type", "predicted_fraction")) %>%
 ggplot(aes(y=samples, x=predicted_fraction, fill=cell_type))+geom_bar(stat="identity", position = "stack") + labs(title="DWLS", y="sample", x="proportion", fill="cell type") + scale_fill_brewer(palette="Paired", breaks=c("B cell","Monocyte conventional", "Monocyte non-conventional","NK cell","T cell CD4","T cell CD8", "T cell dividing", "T cell regulatory"))
+ggsave("vignettes/images/dwls_prop.png")
 
 res_ciber <- immunedeconv2::build_model(single_cell_data, cell_type_annotations, "cibersortx") %>%
 immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "cibersortx")
 reshape2::melt(res_ciber) %>% set_colnames(c("samples", "cell_type", "predicted_fraction")) %>%
 ggplot(aes(y=samples, x=predicted_fraction, fill=cell_type))+geom_bar(stat="identity", position = "stack") + labs(title="CibersortX", y="sample", x="proportion", fill="cell type") + scale_fill_brewer(palette="Paired", breaks=c("B cell","Monocyte conventional", "Monocyte non-conventional","NK cell","T cell CD4","T cell CD8", "T cell dividing", "T cell regulatory"))
+ggsave("vignettes/images/cibersortx_prop.png")
 
 ```
 

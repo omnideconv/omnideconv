@@ -46,7 +46,7 @@ build_model <- function(single_cell_object, cell_type_annotations, method = deco
                         if (is.null(bulk_gene_expression)){
                           base::stop("'bulk_gene_expression' argument is required for Scaden")
                         }
-                        scaden_build_model(single_cell_object,cell_type_annotations, bulk_data = bulk_gene_expression, verbose = verbose, ...)
+                        build_model_scaden(single_cell_object,cell_type_annotations, bulk_data = bulk_gene_expression, verbose = verbose, ...)
                       },
                       dwls = buildSignatureMatrixMAST(as.data.frame(single_cell_object), cell_type_annotations, path = NULL, verbose = verbose, ...),
                       cibersortx = build_model_cibersortx(single_cell_object,cell_type_annotations,verbose = verbose, ...)

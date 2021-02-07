@@ -20,7 +20,7 @@ deconvolute(
 \item{signature}{The signature matrix.}
 
 \item{method}{A string specifying the method.
-Supported methods are \"bisque\", \"momf\", \"dwls\", \"...\"}
+Supported methods are \"bisque\", \"momf\", \"dwls\", \"scaden\", \"cibersortx\", \"...\"}
 
 \item{single_cell_object}{Needed for deconvolution with MOMF and Bisque. Defaults to NULL.}
 

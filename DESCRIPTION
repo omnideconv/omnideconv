@@ -51,7 +51,6 @@ Imports:
     pkgdown,
     assertthat,
     readr
->>>>>>> main
 Remotes:
     grst/MOMF,
     pkgdown

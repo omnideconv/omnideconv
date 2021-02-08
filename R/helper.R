@@ -8,7 +8,11 @@
 #'
 verbose_wrapper <- function(verbose){
   return (function(method){
-    ifelse(verbose, base::suppressMessages(method), base::identity(method))
+    if(verbose){
+      base::suppressMessages(method)
+    } else {
+      method
+    }
   })
 }
 

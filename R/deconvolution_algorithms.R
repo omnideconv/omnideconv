@@ -20,7 +20,7 @@ deconvolution_methods = c("Bisque" = "bisque", "MOMF" = "momf", "DWLS" = "dwls",
 #' or by indicating the column name that indicates the cell-type labels (cell_type_column_name). (Anndata: obs object, SingleCellExperiment: colData object)
 #' @param cell_type_annotations A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object
 #' @param method A string specifying the method.
-#'   Supported methods are \"bisque\", \"momf\", \"dwls\", \"scaden\",\"...\"
+#'   Supported methods are \"bisque\", \"momf\", \"dwls\", \"scaden\", \"cibersortx\", \"...\"
 #' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples. Necessary for MOMF, defaults to NULL.Row and column names need to be set.
 #' @param verbose Whether the algorithms should print out what they are doing.
 #' @param cell_type_column_name Name of the column in (Anndata: obs , SingleCellExperiment: colData), that contains the cell-type labels. Is only used if no cell_type_annotations vector is provided.
@@ -60,7 +60,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, method
                       bisque = build_model_bisque(single_cell_object,cell_type_annotations, ...),
                       #momf needs bulk set and signature matrix containing the same genes
                       momf = build_model_momf(single_cell_object,cell_type_annotations,bulk_gene_expression, ...),
-                      scaden = build_model_scaden(single_cell_object,cell_type_annotations, bulk_data = bulk_gene_expression, verbose = verbose, ...),
+                      scaden = build_model_scaden(single_cell_object,cell_type_annotations, bulk_gene_expression, verbose = verbose, ...),
                       dwls = build_model_dwls(as.data.frame(single_cell_object), cell_type_annotations, path = NULL, verbose = verbose, ...),
                       cibersortx = build_model_cibersortx(single_cell_object,cell_type_annotations,verbose = verbose, ...)
   )
@@ -74,7 +74,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, method
 #' @param bulk_gene_expression A matrix or dataframe with the bulk data. Rows are genes, columns are samples.
 #' @param signature The signature matrix.
 #' @param method A string specifying the method.
-#'   Supported methods are \"bisque\", \"momf\", \"dwls\", \"...\"
+#'   Supported methods are \"bisque\", \"momf\", \"dwls\", \"scaden\", \"cibersortx\", \"...\"
 #' @param single_cell_object Needed for deconvolution with MOMF and Bisque. Defaults to NULL.
 #' @param cell_type_annotations Needed for deconvolution with Bisque. Defaults to NULL.
 #' @param verbose Whether the algorithms should print out what they are doing.
@@ -89,13 +89,18 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   if (class(bulk_gene_expression)[[1]]!="matrix")
     bulk_gene_expression <- base::as.matrix(bulk_gene_expression)
 
+  if (! "character" %in% class(signature)){
+    colnames(signature) <- make.names(colnames(signature))
+  }
+
   deconv <- switch(tolower(method),
                    bisque = {
+                     cell_type_annotations <- make.names(cell_type_annotations)
                      bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
                      #Necessary for bisque, because bisqueReferenceDecomp needs to access internal bisque-package methods
                      base::environment(deconvolute_bisque) <- base::environment(BisqueRNA::SimulateData)
                      deconvolute_bisque(bulk_eset, signature, single_cell_object,
-                                             cell_type_annotations, verbose = verbose)$bulk.props
+                                        cell_type_annotations, verbose = verbose)$bulk.props
                    },
                    momf=deconvolute_momf(bulk_gene_expression, signature, single_cell_object, verbose = verbose, ...),
                    scaden = deconvolute_scaden(signature, bulk_gene_expression, verbose = verbose, ...),
@@ -105,7 +110,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 
   #Alphabetical order of celltypes
   deconv <- deconv[,order(colnames(deconv))]
-
+  colnames(deconv) <- gsub("\\.", " ", colnames(deconv))
   return(deconv)
 }
 

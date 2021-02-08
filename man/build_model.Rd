@@ -22,7 +22,8 @@ or by indicating the column name that indicates the cell-type labels (cell_type_
 \item{cell_type_annotations}{A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object}
 
 \item{method}{A string specifying the method.
-Supported methods are \"bisque\", \"momf\", \"dwls\", \"scaden\",\"...\"}
+
+Supported methods are \"bisque\", \"momf\", \"dwls\", \"scaden\", \"cibersortx\", \"...\"}
 
 \item{bulk_gene_expression}{A matrix of bulk data. Rows are genes, columns are samples. Necessary for MOMF, defaults to NULL.Row and column names need to be set.}
 

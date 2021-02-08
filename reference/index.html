@@ -133,33 +133,8 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-preparation-of-dataset" class="hasAnchor"><a href="#section-preparation-of-dataset" class="anchor"></a>Preparation of dataset</h2>
-          <p class="section-desc"><p>Build signature matrix and prepare single cell expression set.</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="build_model.html">build_model()</a></code> </p>
-        </td>
-        <td><p>Building the signature matrix</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_single_cell_expression_set.html">get_single_cell_expression_set()</a></code> </p>
-        </td>
-        <td><p>Generating a single cell expression set</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-deconvolution" class="hasAnchor"><a href="#section-deconvolution" class="anchor"></a>Deconvolution</h2>
-          <p class="section-desc"><p>Use the package to estimate immune cell fractions from bulk RNA-seq samples.</p></p>
+          <h2 id="section-main-package-methods" class="hasAnchor"><a href="#section-main-package-methods" class="anchor"></a>Main package methods</h2>
+          <p class="section-desc"><p>Main methods to build signature matrices and deconvolute cell fractions.</p></p>
         </th>
       </tr>
       
@@ -176,9 +151,58 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="build_model.html">build_model()</a></code> </p>
+        </td>
+        <td><p>Building the signature matrix</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="deconvolute.html">deconvolute()</a></code> </p>
         </td>
         <td><p>Deconvolution</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-signature-matrix-creation-methods" class="hasAnchor"><a href="#section-signature-matrix-creation-methods" class="anchor"></a>Signature matrix creation methods</h2>
+          <p class="section-desc"><p>Direct access to the individual signature matrix creation methods.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="build_model_momf.html">build_model_momf()</a></code> </p>
+        </td>
+        <td><p>Calculates the signature model with bisque</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="build_model_dwls.html">build_model_dwls()</a></code> </p>
+        </td>
+        <td><p>Signature matrix creation with DWLS using genes identified by DEAnalysisMAST()</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="build_model_scaden.html">build_model_scaden()</a></code> </p>
+        </td>
+        <td><p>Builds Scaden Model from scRNA data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="build_model_bisque.html">build_model_bisque()</a></code> </p>
+        </td>
+        <td><p>Calculates the signature model with bisque</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="build_model_cibersortx.html">build_model_cibersortx()</a></code> </p>
+        </td>
+        <td><p>Signature matrix creation with CibersortX</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -195,7 +219,7 @@
       <tr>
         
         <td>
-          <p><code><a href="deconvolute_MOMF.html">deconvolute_momf()</a></code> </p>
+          <p><code><a href="deconvolute_momf.html">deconvolute_momf()</a></code> </p>
         </td>
         <td><p>Deconvolution Analysis using MOMF (via Nonnegative Factorization)</p></td>
       </tr><tr>
@@ -216,6 +240,12 @@
           <p><code><a href="deconvolute_bisque.html">deconvolute_bisque()</a></code> </p>
         </td>
         <td><p>Calculates the decomposition using the bisque algorithm</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="deconvolute_cibersortx.html">deconvolute_cibersortx()</a></code> </p>
+        </td>
+        <td><p>Deconvolute with CibersortX</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -270,7 +300,7 @@
       <tr>
         <th colspan="2">
           <h2 id="section-helper" class="hasAnchor"><a href="#section-helper" class="anchor"></a>Helper</h2>
-          <p class="section-desc"><p>functions for setting python environment</p></p>
+          <p class="section-desc"><p>Helper functions to extract repeating checks or work with non-R related tasks like Python or Docker.</p></p>
         </th>
       </tr>
       
@@ -305,6 +335,24 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="set_cibersortx_credentials.html">set_cibersortx_credentials()</a></code> </p>
+        </td>
+        <td><p>Setting the CibersortX Credentials</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="docker_available.html">docker_available()</a></code> </p>
+        </td>
+        <td><p>Docker availability check</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="docker_connectable.html">docker_connectable()</a></code> </p>
+        </td>
+        <td><p>Docker connectability check</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="verbose_wrapper.html">verbose_wrapper()</a></code> </p>
         </td>
         <td><p>A wrapper function whether to suppress messages</p></td>
@@ -322,12 +370,6 @@
       
       
       <tr>
-        
-        <td>
-          <p><code><a href="scaden_build_model.html">scaden_build_model()</a></code> </p>
-        </td>
-        <td><p>Builds Scaden Model from scRNA data</p></td>
-      </tr><tr>
         
         <td>
           <p><code><a href="scaden_checkload.html">scaden_checkload()</a></code> </p>
@@ -400,6 +442,25 @@
           <p><code><a href="write_anndata.html">write_anndata()</a></code> </p>
         </td>
         <td><p>Write anndata object (.h5ad format)</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-data-conversion" class="hasAnchor"><a href="#section-data-conversion" class="anchor"></a>Data conversion</h2>
+          <p class="section-desc"><p>Functions for data conversion.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="get_single_cell_expression_set.html">get_single_cell_expression_set()</a></code> </p>
+        </td>
+        <td><p>Generating a single cell expression set</p></td>
       </tr>
     </tbody>
     </table>

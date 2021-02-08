@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Deconvolution — deconvolute • immunedeconv2</title>
+<title>Signature matrix creation with DWLS using genes identified by DEAnalysisMAST() — build_model_dwls • immunedeconv2</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Deconvolution — deconvolute" />
-<meta property="og:description" content="Deconvolution" />
+<meta property="og:title" content="Signature matrix creation with DWLS using genes identified by DEAnalysisMAST() — build_model_dwls" />
+<meta property="og:description" content="Signature matrix creation with DWLS using genes identified by DEAnalysisMAST()" />
 
 
 
@@ -120,62 +120,56 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Deconvolution</h1>
-    <small class="dont-index">Source: <a href='https://github.com/PelzKo/immunedeconv2/blob/master/R/deconvolution_algorithms.R'><code>R/deconvolution_algorithms.R</code></a></small>
-    <div class="hidden name"><code>deconvolute.Rd</code></div>
+    <h1>Signature matrix creation with DWLS using genes identified by DEAnalysisMAST()</h1>
+    <small class="dont-index">Source: <a href='https://github.com/PelzKo/immunedeconv2/blob/master/R/DWLS.R'><code>R/DWLS.R</code></a></small>
+    <div class="hidden name"><code>build_model_dwls.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Deconvolution</p>
+    <p>Signature matrix creation with DWLS using genes identified by DEAnalysisMAST()</p>
     </div>
 
-    <pre class="usage"><span class='fu'>deconvolute</span><span class='op'>(</span>
-  <span class='va'>bulk_gene_expression</span>,
-  <span class='va'>signature</span>,
-  method <span class='op'>=</span> <span class='va'>deconvolution_methods</span>,
-  single_cell_object <span class='op'>=</span> <span class='cn'>NULL</span>,
-  cell_type_annotations <span class='op'>=</span> <span class='cn'>NULL</span>,
+    <pre class="usage"><span class='fu'>build_model_dwls</span><span class='op'>(</span>
+  <span class='va'>scdata</span>,
+  <span class='va'>id</span>,
+  <span class='va'>path</span>,
   verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  <span class='va'>...</span>
+  diff.cutoff <span class='op'>=</span> <span class='fl'>0.5</span>,
+  pval.cutoff <span class='op'>=</span> <span class='fl'>0.01</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>bulk_gene_expression</th>
-      <td><p>A matrix or dataframe with the bulk data. Rows are genes, columns are samples.</p></td>
+      <th>scdata</th>
+      <td><p>A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.</p></td>
     </tr>
     <tr>
-      <th>signature</th>
-      <td><p>The signature matrix.</p></td>
+      <th>id</th>
+      <td><p>A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object</p></td>
     </tr>
     <tr>
-      <th>method</th>
-      <td><p>A string specifying the method.
-Supported methods are \"bisque\", \"momf\", \"dwls\", \"...\"</p></td>
-    </tr>
-    <tr>
-      <th>single_cell_object</th>
-      <td><p>Needed for deconvolution with MOMF and Bisque. Defaults to NULL.</p></td>
-    </tr>
-    <tr>
-      <th>cell_type_annotations</th>
-      <td><p>Needed for deconvolution with Bisque. Defaults to NULL.</p></td>
+      <th>path</th>
+      <td><p>The path where the generated files will be saved. If path=NULL, the generated files will be discarded.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>Whether the algorithms should print out what they are doing.</p></td>
+      <td><p>Whether to output what DWLS is doing</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Additional parameters, passed to the algorithm used.</p></td>
+      <th>diff.cutoff</th>
+      <td><p>Cutoff to determine the FC-limit. How low can the lowest fold change be to still be considered differentially expressed?</p></td>
+    </tr>
+    <tr>
+      <th>pval.cutoff</th>
+      <td><p>Cutoff to determine the pVal-limit. How high can the highest p-Value be to still be considered statistically significant?</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A matrix with the probabilities of each cell-type for each individual. Rows are individuals, columns are cell types.</p>
+    <p>The signature matrix. Rows are genes, columns are cell types.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

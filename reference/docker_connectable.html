@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Deconvolution — deconvolute • immunedeconv2</title>
+<title>Docker connectability check — docker_connectable • immunedeconv2</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Deconvolution — deconvolute" />
-<meta property="og:description" content="Deconvolution" />
+<meta property="og:title" content="Docker connectability check — docker_connectable" />
+<meta property="og:description" content="Docker connectability check" />
 
 
 
@@ -120,62 +120,21 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Deconvolution</h1>
-    <small class="dont-index">Source: <a href='https://github.com/PelzKo/immunedeconv2/blob/master/R/deconvolution_algorithms.R'><code>R/deconvolution_algorithms.R</code></a></small>
-    <div class="hidden name"><code>deconvolute.Rd</code></div>
+    <h1>Docker connectability check</h1>
+    <small class="dont-index">Source: <a href='https://github.com/PelzKo/immunedeconv2/blob/master/R/helper.R'><code>R/helper.R</code></a></small>
+    <div class="hidden name"><code>docker_connectable.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Deconvolution</p>
+    <p>Docker connectability check</p>
     </div>
 
-    <pre class="usage"><span class='fu'>deconvolute</span><span class='op'>(</span>
-  <span class='va'>bulk_gene_expression</span>,
-  <span class='va'>signature</span>,
-  method <span class='op'>=</span> <span class='va'>deconvolution_methods</span>,
-  single_cell_object <span class='op'>=</span> <span class='cn'>NULL</span>,
-  cell_type_annotations <span class='op'>=</span> <span class='cn'>NULL</span>,
-  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>docker_connectable</span><span class='op'>(</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>bulk_gene_expression</th>
-      <td><p>A matrix or dataframe with the bulk data. Rows are genes, columns are samples.</p></td>
-    </tr>
-    <tr>
-      <th>signature</th>
-      <td><p>The signature matrix.</p></td>
-    </tr>
-    <tr>
-      <th>method</th>
-      <td><p>A string specifying the method.
-Supported methods are \"bisque\", \"momf\", \"dwls\", \"...\"</p></td>
-    </tr>
-    <tr>
-      <th>single_cell_object</th>
-      <td><p>Needed for deconvolution with MOMF and Bisque. Defaults to NULL.</p></td>
-    </tr>
-    <tr>
-      <th>cell_type_annotations</th>
-      <td><p>Needed for deconvolution with Bisque. Defaults to NULL.</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>Whether the algorithms should print out what they are doing.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional parameters, passed to the algorithm used.</p></td>
-    </tr>
-    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A matrix with the probabilities of each cell-type for each individual. Rows are individuals, columns are cell types.</p>
+    <p>A boolean value whether it is possible to connect to docker</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

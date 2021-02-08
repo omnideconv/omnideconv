@@ -129,7 +129,11 @@
     <p>Convert SingleCellExperiment to Matrix + annotation vector for celltypes</p>
     </div>
 
-    <pre class="usage"><span class='fu'>singlecellexperiment_to_matrix</span><span class='op'>(</span><span class='va'>sce</span>, assay_name <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>singlecellexperiment_to_matrix</span><span class='op'>(</span>
+  <span class='va'>sce</span>,
+  assay_name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  cell_type_column_name <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -141,6 +145,10 @@
     <tr>
       <th>assay_name</th>
       <td><p>name of the assay that should be returned as matrix. (default: first in assay list)</p></td>
+    </tr>
+    <tr>
+      <th>cell_type_column_name</th>
+      <td><p>name of the column that stores the cell-type labels in the colData object of the provided SingleCellExperiment</p></td>
     </tr>
     </table>
 

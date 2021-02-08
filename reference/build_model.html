@@ -131,10 +131,11 @@
 
     <pre class="usage"><span class='fu'>build_model</span><span class='op'>(</span>
   <span class='va'>single_cell_object</span>,
-  <span class='va'>cell_type_annotations</span>,
+  cell_type_annotations <span class='op'>=</span> <span class='cn'>NULL</span>,
   method <span class='op'>=</span> <span class='va'>deconvolution_methods</span>,
   bulk_gene_expression <span class='op'>=</span> <span class='cn'>NULL</span>,
   verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  cell_type_column_name <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -143,7 +144,9 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>single_cell_object</th>
-      <td><p>A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.</p></td>
+      <td><p>A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.
+Alternatively a SingleCellExperiment or an AnnData object can be provided. In that case, note that cell-type labels need to be indicated either directly providing a vector (cell_type_annotations)
+or by indicating the column name that indicates the cell-type labels (cell_type_column_name). (Anndata: obs object, SingleCellExperiment: colData object)</p></td>
     </tr>
     <tr>
       <th>cell_type_annotations</th>
@@ -152,7 +155,7 @@
     <tr>
       <th>method</th>
       <td><p>A string specifying the method.
-Supported methods are \"bisque\", \"momf\", \"dwls\", \"...\"</p></td>
+Supported methods are \"bisque\", \"momf\", \"dwls\", \"scaden\",\"...\"</p></td>
     </tr>
     <tr>
       <th>bulk_gene_expression</th>
@@ -161,6 +164,10 @@ Supported methods are \"bisque\", \"momf\", \"dwls\", \"...\"</p></td>
     <tr>
       <th>verbose</th>
       <td><p>Whether the algorithms should print out what they are doing.</p></td>
+    </tr>
+    <tr>
+      <th>cell_type_column_name</th>
+      <td><p>Name of the column in (Anndata: obs , SingleCellExperiment: colData), that contains the cell-type labels. Is only used if no cell_type_annotations vector is provided.</p></td>
     </tr>
     <tr>
       <th>...</th>

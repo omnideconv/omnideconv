@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Deconvolution — deconvolute • immunedeconv2</title>
+<title>Signature matrix creation with CibersortX — build_model_cibersortx • immunedeconv2</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Deconvolution — deconvolute" />
-<meta property="og:description" content="Deconvolution" />
+<meta property="og:title" content="Signature matrix creation with CibersortX — build_model_cibersortx" />
+<meta property="og:description" content="Signature matrix creation with CibersortX" />
 
 
 
@@ -120,22 +120,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Deconvolution</h1>
-    <small class="dont-index">Source: <a href='https://github.com/PelzKo/immunedeconv2/blob/master/R/deconvolution_algorithms.R'><code>R/deconvolution_algorithms.R</code></a></small>
-    <div class="hidden name"><code>deconvolute.Rd</code></div>
+    <h1>Signature matrix creation with CibersortX</h1>
+    <small class="dont-index">Source: <a href='https://github.com/PelzKo/immunedeconv2/blob/master/R/CibersortX.R'><code>R/CibersortX.R</code></a></small>
+    <div class="hidden name"><code>build_model_cibersortx.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Deconvolution</p>
+    <p>Signature matrix creation with CibersortX</p>
     </div>
 
-    <pre class="usage"><span class='fu'>deconvolute</span><span class='op'>(</span>
-  <span class='va'>bulk_gene_expression</span>,
-  <span class='va'>signature</span>,
-  method <span class='op'>=</span> <span class='va'>deconvolution_methods</span>,
-  single_cell_object <span class='op'>=</span> <span class='cn'>NULL</span>,
-  cell_type_annotations <span class='op'>=</span> <span class='cn'>NULL</span>,
+    <pre class="usage"><span class='fu'>build_model_cibersortx</span><span class='op'>(</span>
+  <span class='va'>single_cell_object</span>,
+  <span class='va'>cell_type_annotations</span>,
   verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  input_dir <span class='op'>=</span> <span class='cn'>NULL</span>,
+  output_dir <span class='op'>=</span> <span class='cn'>NULL</span>,
+  display_heatmap <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  k_max <span class='op'>=</span> <span class='fl'>999</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -143,39 +144,50 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>bulk_gene_expression</th>
-      <td><p>A matrix or dataframe with the bulk data. Rows are genes, columns are samples.</p></td>
-    </tr>
-    <tr>
-      <th>signature</th>
-      <td><p>The signature matrix.</p></td>
-    </tr>
-    <tr>
-      <th>method</th>
-      <td><p>A string specifying the method.
-Supported methods are \"bisque\", \"momf\", \"dwls\", \"...\"</p></td>
-    </tr>
-    <tr>
       <th>single_cell_object</th>
-      <td><p>Needed for deconvolution with MOMF and Bisque. Defaults to NULL.</p></td>
+      <td><p>A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.</p></td>
     </tr>
     <tr>
       <th>cell_type_annotations</th>
-      <td><p>Needed for deconvolution with Bisque. Defaults to NULL.</p></td>
+      <td><p>A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>Whether the algorithms should print out what they are doing.</p></td>
+      <td><p>Whether CibersortX should print out what it is doing.</p></td>
+    </tr>
+    <tr>
+      <th>input_dir</th>
+      <td><p>The directory in which the input files can be found (or are created in). Default is a temporary directory.</p></td>
+    </tr>
+    <tr>
+      <th>output_dir</th>
+      <td><p>The directory in which the output files are saved. Default is a temporary directory.</p></td>
+    </tr>
+    <tr>
+      <th>display_heatmap</th>
+      <td><p>Whether to display the generated heatmap.</p></td>
+    </tr>
+    <tr>
+      <th>k_max</th>
+      <td><p>Maximum condition number (default: 999). Will be added to the file name.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional parameters, passed to the algorithm used.</p></td>
+      <td><p>Additional parameters supplied to the algorithm. Options are:
+G_min: &lt;int&gt; Minimum number of genes per cell type in sig. matrix (default: 300)
+G_max: &lt;int&gt; Maximum number of genes per cell type in sig. matrix (default: 500)
+q_value: &lt;int&gt; Q-value threshold for differential expression (default: 0.01)
+filter: &lt;bool&gt; Remove non-hematopoietic genes (default: FALSE)
+remake: &lt;bool&gt; Remake signature gene matrix (default: False)
+replicates: &lt;int&gt; Number of replicates to use for building scRNAseq reference file (default: 5)
+sampling: &lt;float&gt; Fraction of available single cell GEPs selected using random sampling (default: 0.5)
+fraction: &lt;float&gt; Fraction of cells of same identity showing evidence of expression (default: 0.75)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A matrix with the probabilities of each cell-type for each individual. Rows are individuals, columns are cell types.</p>
+    <p>The signature matrix. Rows are genes, columns are cell types.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

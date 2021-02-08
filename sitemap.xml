@@ -7,10 +7,28 @@
     <loc>https://pelzko.github.io/immunedeconv2/reference/anndata_check_load.html</loc>
   </url>
   <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/anndata_to_singlecellexperiment.html</loc>
+  </url>
+  <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/build_anndata.html</loc>
   </url>
   <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/build_model.html</loc>
+  </url>
+  <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/build_model_bisque.html</loc>
+  </url>
+  <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/build_model_cibersortx.html</loc>
+  </url>
+  <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/build_model_dwls.html</loc>
+  </url>
+  <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/build_model_momf.html</loc>
+  </url>
+  <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/build_model_scaden.html</loc>
   </url>
   <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/bulk.html</loc>
@@ -25,22 +43,19 @@
     <loc>https://pelzko.github.io/immunedeconv2/reference/cell_type_annotations_small.html</loc>
   </url>
   <url>
-    <loc>https://pelzko.github.io/immunedeconv2/reference/cibersort_generate_signature.html</loc>
-  </url>
-  <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/deconvolute.html</loc>
-  </url>
-  <url>
-    <loc>https://pelzko.github.io/immunedeconv2/reference/deconvolute_MOMF.html</loc>
   </url>
   <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/deconvolute_bisque.html</loc>
   </url>
   <url>
-    <loc>https://pelzko.github.io/immunedeconv2/reference/deconvolute_cibersort.html</loc>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/deconvolute_cibersortx.html</loc>
   </url>
   <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/deconvolute_dwls.html</loc>
+  </url>
+  <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/deconvolute_momf.html</loc>
   </url>
   <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/deconvolute_scaden.html</loc>
@@ -52,6 +67,9 @@
     <loc>https://pelzko.github.io/immunedeconv2/reference/docker_available.html</loc>
   </url>
   <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/docker_connectable.html</loc>
+  </url>
+  <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/get_single_cell_expression_set.html</loc>
   </url>
   <url>
@@ -61,13 +79,13 @@
     <loc>https://pelzko.github.io/immunedeconv2/reference/install_scaden.html</loc>
   </url>
   <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/matrix_to_singlecellexperiment.html</loc>
+  </url>
+  <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/python_available.html</loc>
   </url>
   <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/read_anndata.html</loc>
-  </url>
-  <url>
-    <loc>https://pelzko.github.io/immunedeconv2/reference/scaden_build_model.html</loc>
   </url>
   <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/scaden_checkload.html</loc>
@@ -88,6 +106,9 @@
     <loc>https://pelzko.github.io/immunedeconv2/reference/scaden_train.html</loc>
   </url>
   <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/sces_are_identical.html</loc>
+  </url>
+  <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/set_cibersortx_credentials.html</loc>
   </url>
   <url>
@@ -98,6 +119,12 @@
   </url>
   <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/single_cell_data_small.html</loc>
+  </url>
+  <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/singlecellexperiment_to_anndata.html</loc>
+  </url>
+  <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/singlecellexperiment_to_matrix.html</loc>
   </url>
   <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/verbose_wrapper.html</loc>

@@ -46,9 +46,13 @@ Imports:
     MOMF,
     SummarizedExperiment,
     Biobase,
+    SingleCellExperiment,
+    S4Vectors,
     pkgdown,
     assertthat,
     readr
 Remotes:
-    grst/MOMF
+    grst/MOMF,
+    pkgdown
 VignetteBuilder: knitr
+

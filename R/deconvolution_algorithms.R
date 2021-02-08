@@ -16,21 +16,44 @@ deconvolution_methods = c("Bisque" = "bisque", "MOMF" = "momf", "DWLS" = "dwls",
 #' The single_cell_object is expected to have rownames() and colnames()
 #'
 #' @param single_cell_object A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.
+#' Alternatively a SingleCellExperiment or an AnnData object can be provided. In that case, note that cell-type labels need to be indicated either directly providing a vector (cell_type_annotations)
+#' or by indicating the column name that indicates the cell-type labels (cell_type_column_name). (Anndata: obs object, SingleCellExperiment: colData object)
 #' @param cell_type_annotations A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object
 #' @param method A string specifying the method.
-#'   Supported methods are \"bisque\", \"momf\", \"dwls\", \"...\"
+#'   Supported methods are \"bisque\", \"momf\", \"dwls\", \"scaden\",\"...\"
 #' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples. Necessary for MOMF, defaults to NULL.Row and column names need to be set.
 #' @param verbose Whether the algorithms should print out what they are doing.
+#' @param cell_type_column_name Name of the column in (Anndata: obs , SingleCellExperiment: colData), that contains the cell-type labels. Is only used if no cell_type_annotations vector is provided.
 #' @param ... Additional parameters, passed to the algorithm used.
 #'
 #' @return The signature matrix. Rows are genes, columns are cell types.
 #' @export
 #'
 #' @examples
-build_model <- function(single_cell_object, cell_type_annotations, method = deconvolution_methods, bulk_gene_expression = NULL, verbose = FALSE, ...){
 
-  if (class(single_cell_object)[[1]]!="matrix")
+build_model <- function(single_cell_object, cell_type_annotations = NULL, method = deconvolution_methods, bulk_gene_expression = NULL, verbose = TRUE, cell_type_column_name = NULL,...){
+
+
+  if (class(single_cell_object)[[1]]=="AnnDataR6"){
+    single_cell_object <- anndata_to_singlecellexperiment(ad)
+  }
+
+  if (class(single_cell_object)[[1]]=="SingleCellExperiment"){
+    matrix_and_annotation <- singlecellexperiment_to_matrix(single_cell_object,cell_type_column_name = cell_type_column_name)
+    single_cell_object <- matrix_and_annotation$matrix
+    if (is.null(cell_type_annotations)){
+      if (is.null(cell_type_column_name)){
+        base::stop("Either provide cell type annotations as vector (cell_type_annotations) or the name of the column that stores label information!")
+      }
+      else{
+        cell_type_annotations <- matrix_and_annotation$annotation_vector
+      }
+    }
+  }
+
+  if (class(single_cell_object)[[1]]!="matrix"){
     single_cell_object <- as.matrix(single_cell_object)
+  }
 
 
   signature <- switch(tolower(method),

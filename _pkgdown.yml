@@ -62,5 +62,5 @@ reference:
   - title: Data conversion
     desc: Functions for data conversion.
     contents:
-      - TODO: OTHER METHODS
+      # - TODO: OTHER METHODS
       - get_single_cell_expression_set

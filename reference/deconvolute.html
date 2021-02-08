@@ -135,6 +135,7 @@
   method <span class='op'>=</span> <span class='va'>deconvolution_methods</span>,
   single_cell_object <span class='op'>=</span> <span class='cn'>NULL</span>,
   cell_type_annotations <span class='op'>=</span> <span class='cn'>NULL</span>,
+  cell_type_column_name <span class='op'>=</span> <span class='cn'>NULL</span>,
   verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
@@ -157,11 +158,17 @@ Supported methods are \"bisque\", \"momf\", \"dwls\", \"...\"</p></td>
     </tr>
     <tr>
       <th>single_cell_object</th>
-      <td><p>Needed for deconvolution with MOMF and Bisque. Defaults to NULL.</p></td>
+      <td><p>Needed for deconvolution with MOMF and Bisque. Defaults to NULL.
+Alternatively a SingleCellExperiment or an AnnData object can be provided. In that case, note that cell-type labels need to be indicated either directly providing a vector (cell_type_annotations)
+or by indicating the column name that indicates the cell-type labels (cell_type_column_name). (Anndata: obs object, SingleCellExperiment: colData object)</p></td>
     </tr>
     <tr>
       <th>cell_type_annotations</th>
       <td><p>Needed for deconvolution with Bisque. Defaults to NULL.</p></td>
+    </tr>
+    <tr>
+      <th>cell_type_column_name</th>
+      <td><p>Name of the column in (Anndata: obs , SingleCellExperiment: colData), that contains the cell-type labels. Is only used if no cell_type_annotations vector is provided.</p></td>
     </tr>
     <tr>
       <th>verbose</th>

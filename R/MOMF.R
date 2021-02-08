@@ -32,7 +32,8 @@ build_model_momf <- function(single_cell_object, cell_type_annotations, bulk_gen
 deconvolute_momf <- function(bulk_gene_expression, signature, single_cell_object,
                              verbose = FALSE, method = "KL", ...){
   #MOMF needs a list of the single_cell_object with cells x genes and the bulk RNA seq data with individuals x genes
-  GList <- list(X1 = t(single_cell_object), X2 = t(bulk_gene_expression[intersect(rownames(single_cell_object), rownames(bulk_gene_expression)),]))
+  GList <- list(X1 = t(single_cell_object[intersect(rownames(single_cell_object), rownames(bulk_gene_expression)),]),
+                X2 = t(bulk_gene_expression[intersect(rownames(single_cell_object), rownames(bulk_gene_expression)),]))
   if (!verbose){
     sink(tempfile())
     result <- tryCatch(MOMF::momf.fit(DataX = GList, DataPriorU=signature, method=method, ...),

@@ -134,15 +134,15 @@ immunedeconv2::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, ce
 knitr::kable()
 ```
 
+Please note that even though our package is freely available, the second generation immune deconvolution methods may not. For instance, for usage of CibersortX a token bound to your IP address is mandatory. For more information and to request such a token, please see the official website [CIBERSORTX](https://cibersortx.stanford.edu/).
+
 ## Plot Results
 
-Here are some further ideas of how you could plot your deconvolution results. 
+Additionally, we provided some methods for visualisation. In this and the benchmarking section you can find examples of how to use them. For the plotDeconvResult method, you can additionally provide a method and file name to add a title to your plot and save it.
 
 ```{r plot, fig.width=7, fig.height=4}
 res_bisque <- immunedeconv2::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations)
-data.table(res_bisque, samples= rownames(res_bisque)) %>% pivot_longer(!samples, names_to ="cell_type", values_to="predicted_fraction") %>%
-ggplot(aes(y=samples, x=predicted_fraction, fill=cell_type))+geom_bar(stat="identity", position = "stack")+labs(title="Bisque", y="sample", x="proportion", fill="cell type")+scale_fill_brewer(palette="Paired")
-ggsave("images/bisque_prop.png", width = 7, height = 4)
+immunedeconv2::plotDeconvResult(res_bisque, method = "Bisque", file_name = "images/bisque_prop.png")
 
 data.table(res_bisque, samples= rownames(res_bisque)) %>% pivot_longer(!samples, names_to ="cell_type", values_to="predicted_fraction") %>%
 ggplot(aes(y=samples, x=predicted_fraction, color=cell_type))+geom_point(size=3)+facet_wrap(~cell_type)+labs(title="Bisque", y="sample", x="predicted fraction", color="cell type")+scale_fill_brewer(palette="Paired")
@@ -153,23 +153,19 @@ Here are some further ideas of how you could plot your deconvolution results.
 ```{r otherMethods, fig.width=7, fig.height=4, results='hide', eval=FALSE}
 res_momf <- immunedeconv2::build_model(single_cell_data, cell_type_annotations, "momf", bulk) %>%
 immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "momf", single_cell_object = single_cell_data)
-data.table(res_bisque, samples= rownames(res_bisque)) %>% pivot_longer(!samples, names_to ="cell_type", values_to="predicted_fraction") %>%
-ggplot(aes(y=samples, x=predicted_fraction, fill=cell_type))+geom_bar(stat="identity", position = "stack")+labs(title="MOMF", y="sample", x="proportion", fill="cell type")+scale_fill_brewer(palette="Paired")
+immunedeconv2::plotDeconvResult(res_momf, method = "MOMF")
 
 res_scaden <- immunedeconv2::build_model(single_cell_object = single_cell_data, cell_type_annotations = cell_type_annotations, method = "scaden", bulk) %>%
  immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "scaden", single_cell_object = single_cell_data)
-data.table(res_bisque, samples= rownames(res_bisque)) %>% pivot_longer(!samples, names_to ="cell_type", values_to="predicted_fraction") %>%
-ggplot(aes(y=samples, x=predicted_fraction, fill=cell_type))+geom_bar(stat="identity", position = "stack")+labs(title="Scaden", y="sample", x="proportion", fill="cell type")+scale_fill_brewer(palette="Paired")
+immunedeconv2::plotDeconvResult(res_scaden, method = "Scaden")
 
 res_dwls <- immunedeconv2::build_model(single_cell_data, cell_type_annotations, "dwls") %>%
 immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "dwls")
-data.table(res_bisque, samples= rownames(res_bisque)) %>% pivot_longer(!samples, names_to ="cell_type", values_to="predicted_fraction") %>%
-ggplot(aes(y=samples, x=predicted_fraction, fill=cell_type))+geom_bar(stat="identity", position = "stack") + labs(title="DWLS", y="sample", x="proportion", fill="cell type") + scale_fill_brewer(palette="Paired")
+immunedeconv2::plotDeconvResult(res_dwls, method = "DWLS")
 
 res_ciber <- immunedeconv2::build_model(single_cell_data, cell_type_annotations, "cibersortx") %>%
 immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "cibersortx")
-data.table(res_bisque, samples= rownames(res_bisque)) %>% pivot_longer(!samples, names_to ="cell_type", values_to="predicted_fraction") %>%
-ggplot(aes(y=samples, x=predicted_fraction, fill=cell_type))+geom_bar(stat="identity", position = "stack") + labs(title="CibersortX", y="sample", x="proportion", fill="cell type") + scale_fill_brewer(palette="Paired")
+immunedeconv2::plotDeconvResult(res_ciber, method = "CibersortX")
 
 ```
 ```{r plots, echo=FALSE, out.width="80%"}
@@ -187,6 +183,11 @@ Bisque(Jew et al., 2020) takes advantage of matched bulk and scRNA-seq samples t
 
 Citation: Jew, B., Alvarez, M., Rahmani, E., Miao, Z., Ko, A., Garske, K. M., Sul, J. H., Pietiläinen, K. H., Pajukanta, P., & Halperin, E. (2020). Publisher Correction: Accurate estimation of cell composition in bulk expression through robust integration of single-cell information. Nature Communications, 11(1), 2891. https://doi.org/10.1038/s41467-020-16607-9
 
+## CibersortX
+CIBERSORTx(Newman et al., 2019) is an extension to the original CIBERSORT algorithm(Newman et al., 2015) that enables building signature matrices from scRNA-seq or sorted bulk RNA-seq samples based on differential gene expression analysis. To address technical biases they introduce two batch correction methods, one designed to mitigate batch effects between datasets, the other to address differences between sequencing protocols (e.g. 10x vs. full-length). Moreover, CIBERSORTx supports “complete” deconvolution, not only yielding cell-type proportions but disentangling bulk gene expression profiles into cell-type specific expression profiles.
+
+Citation: Newman, A. M., Liu, C. L., Green, M. R., Gentles, A. J., Feng, W., Xu, Y., Hoang, C. D., Diehn, M., & Alizadeh, A. A. (2015). Robust enumeration of cell subsets from tissue expression profiles. Nature Methods, 12(5), 453–457. https://doi.org/10.1038/nmeth.3337
+
 ## DWLS
 Tsoucas et al(Tsoucas et al., 2019) introduce dampened weighted least squares (DWLS)-regression, which improves over ordinary least squares regression or 𝜈-SVR in that it attributes higher weight to rare cell types and marker genes with a low average expression level. They show that their method achieves favorable performance when estimating the abundance of infrequent cell-types.
 
@@ -203,53 +204,14 @@ Scaden(Menden et al., n.d.) leverages a deep neural network (DNN) for estimating
 Citation: Menden, K., Marouf, M., Oller, S., Dalmia, A., Kloiber, K., Heutink, P., & Bonn, S. (n.d.). Deep-learning-based cell composition analysis from tissue expression profiles. https://doi.org/10.1101/659227
 
 ## Benchmarking
-In the following section, we compare the deconvolution results of all methods with the ground truth, that was measured with FACS by Hoek et al.
+In the following section, we provide a method to compare the deconvolution results of all methods with the ground truth, that was measured with FACS by Hoek et al.
 If the methods estimated the cell type fractions perfectly, we would expect the points to be on the diagonal line displayed in each facet. 
-Note that the results are not fully representative as we only use a small subset of cells from the analysis of Hoek et al.
-```{r benchmarking, echo=FALSE, fig.width=6, fig.height=7, eval=FALSE}
-samples <- rownames(res_bisque)
-res_bisque_2 <- as.data.table(res_bisque)
-res_bisque_2$T_cell <- rowSums(res_bisque_2[,c("T cell CD4", "T cell CD8", "T cell regulatory", "T cell dividing")])
-res_bisque_2$Monocyte <- rowSums(res_bisque_2[,c("Monocyte conventional", "Monocyte non conventional")])
-res_bisque_2$sample <- samples
-res_bisque_2$method <- rep("Bisque", nrow(res_bisque_2))
-res_bisque_melt <- melt(res_bisque_2, id.vars = c("sample", "method"), variable.name = "cell_type", value.name = "predicted_fraction")
+You have the possibility to save your plot in whatever file you feel like, just provide the file name.
 
-res_momf_2 <- as.data.table(res_momf)
-res_momf_2$T_cell <- rowSums(res_momf_2[,c("T cell CD4", "T cell CD8", "T cell regulatory", "T cell dividing")])
-res_momf_2$Monocyte <- rowSums(res_momf_2[,c("Monocyte conventional", "Monocyte non conventional")])
-res_momf_2$sample <- samples
-res_momf_2$method <- rep("MOMF", nrow(res_momf_2))
-res_momf_melt <- melt(res_momf_2, id.vars = c("sample", "method"), variable.name = "cell_type", value.name = "predicted_fraction")
-
-res_scaden_2 <- as.data.table(res_scaden)
-res_scaden_2$T_cell <- rowSums(res_scaden_2[,c("T cell CD4", "T cell CD8", "T cell regulatory", "T cell dividing")])
-res_scaden_2$Monocyte <- rowSums(res_scaden_2[,c("Monocyte conventional", "Monocyte non conventional")])
-res_scaden_2$sample <- samples
-res_scaden_2$method <- rep("Scaden", nrow(res_scaden_2))
-res_scaden_melt <- melt(res_scaden_2, id.vars = c("sample", "method"), variable.name = "cell_type", value.name = "predicted_fraction")
-
-res_dwls_2 <- as.data.table(res_dwls)
-res_dwls_2$T_cell <- rowSums(res_dwls_2[,c("T cell CD4", "T cell CD8", "T cell regulatory", "T cell dividing")])
-res_dwls_2$Monocyte <- rowSums(res_dwls_2[,c("Monocyte conventional", "Monocyte non conventional")])
-res_dwls_2$sample <- samples
-res_dwls_2$method <- rep("DWLS", nrow(res_dwls_2))
-res_dwls_melt <- melt(res_dwls_2, id.vars = c("sample", "method"), variable.name = "cell_type", value.name = "predicted_fraction")
-
-res_ciber_2 <- as.data.table(res_ciber)
-res_ciber_2$T_cell <- rowSums(res_ciber_2[,c("T cell CD4", "T cell CD8", "T cell regulatory", "T cell dividing")])
-res_ciber_2$Monocyte <- rowSums(res_ciber_2[,c("Monocyte conventional", "Monocyte non conventional")])
-res_ciber_2$sample <- samples
-res_ciber_2$method <- rep("CibersortX", nrow(res_ciber_2))
-res_ciber_melt <- melt(res_ciber_2, id.vars = c("sample", "method"), variable.name = "cell_type", value.name = "predicted_fraction")
-
-df <- dplyr::bind_rows(list(res_bisque_melt, res_momf_melt, res_dwls_melt, res_scaden_melt, res_ciber_melt))
-df$cell_type <- gsub(" ", "_", df$cell_type)
-names(RefData) <- c("T_cell", "Monocyte", "B_cell", "DC", "NK_cell")
-RefData$sample <- rownames(RefData)
-pivot_longer(RefData, !sample, names_to="cell_type", values_to="true_fraction") %>% merge(df, by=c("sample", "cell_type")) %>%
-ggplot(aes(x=as.numeric(true_fraction), y=predicted_fraction, color=cell_type))+geom_point(size=4)+facet_wrap(~method)+geom_abline(color="black")+scale_y_continuous(breaks=seq(0, 1, 0.25))+scale_x_continuous(breaks=seq(0, 1, 0.25))+coord_cartesian(xlim = c(0, 0.75), ylim = c(0, 0.75))+labs(x="true fraction", y="predicted fraction", color="cell type")+theme(legend.position = "bottom", legend.text = element_text(size = 12), legend.title = element_text(size = 13), axis.text = element_text(size = 12), axis.title = element_text(size = 13))+scale_color_manual(values = c("deepskyblue", "springgreen3", "palevioletred1", "red"), breaks=c("B_cell","Monocyte","NK_cell","T_cell"), labels=c("B cell","Monocyte","NK cell","T cell"))
-#ggsave("images/predictionVsGroundtruth.png", width = 6, height = 5)
+The figure shown below is based on the whole data set with 17k cells from Hoek et al.
+```{r benchmarking, fig.width=6, fig.height=7, eval=FALSE}
+result_list <- c(Bisque = res_bisque, CibersortX = res_ciber, DWLS = res_dwls, MOMF = res_momf, Scaden = res_scaden)
+immunedeconv2::makeBenchmarkingScatterplot(result_list, "predictionVsGroundtruth.png")
 ```
 ```{r benchmarkingFigure, echo=FALSE, out.width="80%"}
 knitr::include_graphics("images/predictionVsGroundtruth.png")

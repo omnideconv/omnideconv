@@ -13,7 +13,11 @@ Authors@R:
     person(given = "Yuyu",
            family = "Liang",
            role = c("aut"),
-           email = "yuyuleung0903@yahoo.com"))
+           email = "yuyuleung0903@yahoo.com"),
+    person(given = "Katharina",
+           family = "Reinisch",
+           role = c("aut"),
+           email = "k.reinisch@campus.lmu.de"))
 Description: Collection of second generation methods for immune cell deconvolution from bulk RNA-seq samples
 License: BSD_3_clause + file LICENSE.md
 Encoding: UTF-8
@@ -25,7 +29,10 @@ Suggests:
     testthat (>= 2.0.0),
     knitr,
     rmarkdown,
-    devtools
+    devtools,
+    tidyr,
+    ggplot2,
+    RColorBrewer
 Config/testthat/edition: 2
 biocViews:
 Imports: 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Docker connectability check — docker_connectable • immunedeconv2</title>
+<title>Plot deconvolution results as a barplot — plotDeconvResult • immunedeconv2</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Docker connectability check — docker_connectable" />
-<meta property="og:description" content="Docker connectability check" />
+<meta property="og:title" content="Plot deconvolution results as a barplot — plotDeconvResult" />
+<meta property="og:description" content="Plot deconvolution results as a barplot" />
 
 
 
@@ -120,22 +120,41 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Docker connectability check</h1>
-    <small class="dont-index">Source: <a href='https://github.com/PelzKo/immunedeconv2/blob/master/R/helper.R'><code>R/helper.R</code></a></small>
-    <div class="hidden name"><code>docker_connectable.Rd</code></div>
+    <h1>Plot deconvolution results as a barplot</h1>
+    <small class="dont-index">Source: <a href='https://github.com/PelzKo/immunedeconv2/blob/master/R/visualisation.R'><code>R/visualisation.R</code></a></small>
+    <div class="hidden name"><code>plotDeconvResult.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Docker connectability check</p>
+    <p>Plot deconvolution results as a barplot</p>
     </div>
 
-    <pre class="usage"><span class='fu'>docker_connectable</span><span class='op'>(</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>plotDeconvResult</span><span class='op'>(</span><span class='va'>deconv_result</span>, method_name <span class='op'>=</span> <span class='st'>""</span>, file_name <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>deconv_result</th>
+      <td><p>result from deconvolution()</p></td>
+    </tr>
+    <tr>
+      <th>method_name</th>
+      <td><p>(optional) title of plot is set to the name of the method used for deconvolution</p></td>
+    </tr>
+    <tr>
+      <th>file_name</th>
+      <td><p>(optional) plot is saved in this file</p></td>
+    </tr>
+    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A boolean value whether it is possible to connect to docker</p>
+    <p>the ggplot object</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>plotDeconvResult</span><span class='op'>(</span><span class='fu'>immunedeconv2</span><span class='fu'>::</span><span class='fu'><a href='deconvolute.html'>deconvolute</a></span><span class='op'>(</span><span class='va'>bulk</span>, <span class='fu'>immunedeconv2</span><span class='fu'>::</span><span class='fu'><a href='build_model.html'>build_model</a></span><span class='op'>(</span><span class='va'>single_cell_data</span>, <span class='va'>cell_type_annotations</span>, <span class='st'>"bisque"</span><span class='op'>)</span>, <span class='st'>"bisque"</span>, <span class='va'>single_cell_data</span>, <span class='va'>cell_type_annotations</span><span class='op'>)</span>, <span class='st'>"Bisque"</span><span class='op'>)</span>
+</div><div class='img'><img src='plotDeconvResult-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -82,7 +82,13 @@
     <loc>https://pelzko.github.io/immunedeconv2/reference/install_scaden.html</loc>
   </url>
   <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/makeBenchmarkingScatterplot.html</loc>
+  </url>
+  <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/matrix_to_singlecellexperiment.html</loc>
+  </url>
+  <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/plotDeconvResult.html</loc>
   </url>
   <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/python_available.html</loc>

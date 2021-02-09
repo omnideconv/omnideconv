@@ -29,10 +29,7 @@ Suggests:
     testthat (>= 2.0.0),
     knitr,
     rmarkdown,
-    devtools,
-    tidyr,
-    ggplot2,
-    RColorBrewer
+    devtools
 Config/testthat/edition: 2
 biocViews:
 Imports: 
@@ -57,6 +54,12 @@ Imports:
     S4Vectors,
     pkgdown,
     assertthat,
+    magrittr,
+    tidyr,
+    ggplot2,
+    RColorBrewer,
+    data.table,
+    dplyr,
     readr
 Remotes:
     grst/MOMF,

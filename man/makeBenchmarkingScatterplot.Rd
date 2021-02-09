@@ -18,6 +18,3 @@ the ggplot object
 \description{
 Make a Scatterplot for Benchmarking
 }
-\examples{
-makeBenchmarkingScatterplot(list(Bisque = result_bisque, MOMF = result_momf))
-}

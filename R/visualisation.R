@@ -3,14 +3,15 @@
 #' @param deconv_result result from deconvolution()
 #' @param method_name (optional) title of plot is set to the name of the method used for deconvolution
 #' @param file_name (optional) plot is saved in this file
-#'
+#' @import magrittr
+#' @import ggplot2
 #' @return the ggplot object
 #' @export
 #'
 #' @examples plotDeconvResult(immunedeconv2::deconvolute(bulk, immunedeconv2::build_model(single_cell_data, cell_type_annotations, "bisque"), "bisque", single_cell_data, cell_type_annotations), "Bisque")
 plotDeconvResult <- function(deconv_result, method_name = "", file_name = NULL){
 
-  plot <- data.table(deconv_result, samples= rownames(deconv_result)) %>%
+  plot <- data.table::data.table(deconv_result, samples= rownames(deconv_result)) %>%
     tidyr::pivot_longer(!samples, names_to ="cell_type", values_to="predicted_fraction") %>%
     ggplot2::ggplot(aes(y=samples, x=predicted_fraction, fill=cell_type))+geom_bar(stat="identity", position = "stack") +
     labs(title=method_name, y="sample", x="proportion", fill="cell type")
@@ -33,11 +34,11 @@ plotDeconvResult <- function(deconv_result, method_name = "", file_name = NULL){
 #' cell type annotations need to contain "T cell", "DC", "Mono", "NK", "B cell" in any way to be included
 #'
 #' @param file_name (optional) plot is saved in this file
-#'
+#' @import magrittr
 #' @return the ggplot object
 #' @export
 #'
-#' @examples makeBenchmarkingScatterplot(list(Bisque = result_bisque, MOMF = result_momf))
+#' @examples
 makeBenchmarkingScatterplot <- function(result_list, file_name){
 
   li <- lapply(result_list, function(x) cbind(x, T_cell = rowSums(x[,grepl("T cell", colnames(x)), drop=FALSE]),
@@ -45,7 +46,7 @@ makeBenchmarkingScatterplot <- function(result_list, file_name){
                                               Monocyte = rowSums(x[,grepl("Mono", colnames(x)), drop=FALSE]),
                                               NK_cell = rowSums(x[,grepl("NK", colnames(x)), drop=FALSE]),
                                               B_cell = rowSums(x[,grepl("B cell", colnames(x)), drop=FALSE])))
-  li <- lapply(li, function(x) cbind(data.table(x), sample = rownames(x)))
+  li <- lapply(li, function(x) cbind(data.table::data.table(x), sample = rownames(x)))
   li <- lapply(names(li), function(i) cbind(li[[i]], method = rep(i, nrow(li[[i]]))))
 
   names(li) <- names(result_list)

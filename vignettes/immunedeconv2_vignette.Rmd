@@ -216,3 +216,8 @@ immunedeconv2::makeBenchmarkingScatterplot(result_list, "predictionVsGroundtruth
 ```{r benchmarkingFigure, echo=FALSE, out.width="80%"}
 knitr::include_graphics("images/predictionVsGroundtruth.png")
 ```
+
+The results for T cells are very interesting, as all methods calculate their proportion wrong. Since this could be induced by TPM normalization, you can find the results for unnormalized single cell RNA-seq data below. The methods still don't get the T cell proportions right so this effect might be due to different cell sizes.
+```{r benchmarkingFigureNonNormalized, echo=FALSE, out.width="80%"}
+knitr::include_graphics("images/scatter_unnormalized.png")
+```

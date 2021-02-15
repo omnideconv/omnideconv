@@ -62,6 +62,6 @@ Suggests:
     rmarkdown,
     devtools
 Remotes:
-    grst/MOMF,
+    grst/MOMF
 VignetteBuilder: knitr
 

@@ -54,7 +54,8 @@ Imports:
     ggplot2,
     RColorBrewer,
     dplyr,
-    tibble,
+    tidyr,
+    data.table,
     readr
 Suggests: 
     testthat (>= 2.0.0),

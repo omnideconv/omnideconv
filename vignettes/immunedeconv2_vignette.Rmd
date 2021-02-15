@@ -110,7 +110,7 @@ This workflow provides a more detailed example of how to run the deconvolution w
 First of all, make sure you load all the libraries we need for this analysis. If the packages are not available, install them via install_packages().
 ```{r loadLibs}
 library(tidyr)
-library(magrittr)
+library(dplyr)
 library(immunedeconv2)
 library(RColorBrewer)
 library(ggplot2)

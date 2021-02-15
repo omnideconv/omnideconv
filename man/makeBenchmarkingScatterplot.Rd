@@ -4,7 +4,7 @@
 \alias{makeBenchmarkingScatterplot}
 \title{Make a Scatterplot for Benchmarking}
 \usage{
-makeBenchmarkingScatterplot(result_list, file_name)
+makeBenchmarkingScatterplot(result_list, file_name = NULL)
 }
 \arguments{
 \item{result_list}{named list containing all deconvolution results that should be considered,

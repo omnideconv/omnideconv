@@ -51,12 +51,10 @@ Imports:
     S4Vectors,
     pkgdown,
     assertthat,
-    magrittr,
-    tidyr,
     ggplot2,
     RColorBrewer,
-    data.table,
     dplyr,
+    tibble,
     readr
 Suggests: 
     testthat (>= 2.0.0),

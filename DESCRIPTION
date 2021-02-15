@@ -55,7 +55,8 @@ Imports:
     RColorBrewer,
     dplyr,
     tidyr,
-    readr
+    readr,
+    magrittr
 Suggests: 
     testthat (>= 2.0.0),
     knitr,

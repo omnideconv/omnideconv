@@ -55,7 +55,6 @@ Imports:
     RColorBrewer,
     dplyr,
     tidyr,
-    data.table,
     readr
 Suggests: 
     testthat (>= 2.0.0),

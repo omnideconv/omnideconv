@@ -114,7 +114,6 @@ library(dplyr)
 library(immunedeconv2)
 library(RColorBrewer)
 library(ggplot2)
-library(data.table)
 ```
 
 To give you a feeling for the data, this is what the first few rows and columns of our small single cell RNA-seq dataset look like:
@@ -144,7 +143,7 @@ Additionally, we provided some methods for visualisation. In this and the benchm
 res_bisque <- immunedeconv2::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations)
 immunedeconv2::plotDeconvResult(res_bisque, method = "Bisque", file_name = "images/bisque_prop.png")
 
-data.table(res_bisque, samples= rownames(res_bisque)) %>% pivot_longer(!samples, names_to ="cell_type", values_to="predicted_fraction") %>%
+data.frame(res_bisque, samples= rownames(res_bisque)) %>% pivot_longer(!samples, names_to ="cell_type", values_to="predicted_fraction") %>%
 ggplot(aes(y=samples, x=predicted_fraction, color=cell_type))+geom_point(size=3)+facet_wrap(~cell_type)+labs(title="Bisque", y="sample", x="predicted fraction", color="cell type")+scale_fill_brewer(palette="Paired")
 ```
 In the next figures you can see, how the other methods are used and how the cell proportions would be distributed based on their calculations.
@@ -217,7 +216,7 @@ immunedeconv2::makeBenchmarkingScatterplot(result_list, "predictionVsGroundtruth
 knitr::include_graphics("images/predictionVsGroundtruth.png")
 ```
 
-The results for T cells are very interesting, as all methods calculate their proportion wrong. Since this could be induced by TPM normalization, you can find the results for unnormalized single cell RNA-seq data below. The methods still don't get the T cell proportions right so this effect might be due to different cell sizes.
+The results for T cells are very interesting, as all methods calculate their proportion wrong. Since this could be induced by TPM normalization, you can find the results for unnormalized single cell RNA-seq data below. 
 ```{r benchmarkingFigureNonNormalized, echo=FALSE, out.width="80%"}
-knitr::include_graphics("images/scatter_unnormalized.png")
+knitr::include_graphics("images/predictionVsGroundtruth_unnormalized.png")
 ```

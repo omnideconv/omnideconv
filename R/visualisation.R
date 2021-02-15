@@ -39,7 +39,7 @@ plotDeconvResult <- function(deconv_result, method_name = "", file_name = NULL){
 #' @export
 #'
 #' @examples
-makeBenchmarkingScatterplot <- function(result_list, file_name){
+makeBenchmarkingScatterplot <- function(result_list, file_name = NULL){
 
   li <- lapply(result_list, function(x) cbind(x, T_cell = rowSums(x[,grepl("T cell", colnames(x)), drop=FALSE]),
                                               DC = rowSums(x[,grepl("DC", colnames(x)), drop=FALSE]),
@@ -59,7 +59,7 @@ makeBenchmarkingScatterplot <- function(result_list, file_name){
   plot <- tidyr::pivot_longer(RefData, !sample, names_to="cell_type", values_to="true_fraction") %>% merge(df, by=c("sample", "cell_type")) %>%
     ggplot2::ggplot(aes(x=as.numeric(true_fraction), y=predicted_fraction, color=cell_type))+geom_point(size=4)+facet_wrap(~method)+
     geom_abline(color="black")+scale_y_continuous(breaks=seq(0, 1, 0.25))+scale_x_continuous(breaks=seq(0, 1, 0.25))+
-    coord_cartesian(xlim = c(0, 0.75), ylim = c(0, 0.75))+labs(x="true fraction", y="predicted fraction", color="cell type")+
+    coord_cartesian(xlim = c(0, 1), ylim = c(0, 1))+labs(x="true fraction", y="predicted fraction", color="cell type")+
     theme(legend.position = "bottom", legend.text = element_text(size = 12), legend.title = element_text(size = 13), axis.text =
             element_text(size = 12), axis.title = element_text(size = 13))+
     scale_color_manual(values = c("deepskyblue", "springgreen3", "palevioletred1", "red", "blue"), breaks=c("B_cell","Monocyte", "DC","NK_cell","T_cell"),

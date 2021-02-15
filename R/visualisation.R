@@ -3,7 +3,7 @@
 #' @param deconv_result result from deconvolution()
 #' @param method_name (optional) title of plot is set to the name of the method used for deconvolution
 #' @param file_name (optional) plot is saved in this file
-#' @import magrittr
+#' @import dplyr
 #' @import ggplot2
 #' @return the ggplot object
 #' @export
@@ -34,7 +34,7 @@ plotDeconvResult <- function(deconv_result, method_name = "", file_name = NULL){
 #' cell type annotations need to contain "T cell", "DC", "Mono", "NK", "B cell" in any way to be included
 #'
 #' @param file_name (optional) plot is saved in this file
-#' @import magrittr
+#' @import dplyr
 #' @return the ggplot object
 #' @export
 #'

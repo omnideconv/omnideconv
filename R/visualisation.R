@@ -11,9 +11,10 @@
 #' @examples plotDeconvResult(immunedeconv2::deconvolute(bulk, immunedeconv2::build_model(single_cell_data, cell_type_annotations, "bisque"), "bisque", single_cell_data, cell_type_annotations), "Bisque")
 plotDeconvResult <- function(deconv_result, method_name = "", file_name = NULL){
 
-  plot <- data.table::data.table(deconv_result, samples= rownames(deconv_result)) %>%
+  plot <- cbind(deconv_result, samples= rownames(deconv_result)) %>%
+    as.data.frame() %>%
     tidyr::pivot_longer(!samples, names_to ="cell_type", values_to="predicted_fraction") %>%
-    ggplot2::ggplot(aes(y=samples, x=predicted_fraction, fill=cell_type))+geom_bar(stat="identity", position = "stack") +
+    ggplot2::ggplot(aes(y=samples, x=as.numeric(predicted_fraction), fill=cell_type))+geom_bar(stat="identity", position = "stack") +
     labs(title=method_name, y="sample", x="proportion", fill="cell type")
 
   if(ncol(deconv_result)<= 12){
@@ -35,6 +36,7 @@ plotDeconvResult <- function(deconv_result, method_name = "", file_name = NULL){
 #'
 #' @param file_name (optional) plot is saved in this file
 #' @import dplyr
+#' @import ggplot2
 #' @return the ggplot object
 #' @export
 #'
@@ -46,18 +48,18 @@ makeBenchmarkingScatterplot <- function(result_list, file_name = NULL){
                                               Monocyte = rowSums(x[,grepl("Mono", colnames(x)), drop=FALSE]),
                                               NK_cell = rowSums(x[,grepl("NK", colnames(x)), drop=FALSE]),
                                               B_cell = rowSums(x[,grepl("B cell", colnames(x)), drop=FALSE])))
-  li <- lapply(li, function(x) cbind(data.table::data.table(x), sample = rownames(x)))
+  li <- lapply(li, function(x) cbind(x, sample = rownames(x)))
   li <- lapply(names(li), function(i) cbind(li[[i]], method = rep(i, nrow(li[[i]]))))
 
   names(li) <- names(result_list)
-  li <- lapply(li, function(x) melt(x, id.vars = c("sample", "method"), variable.name = "cell_type", value.name = "predicted_fraction"))
+  li <- lapply(li, function(x) tidyr::pivot_longer(data.frame(x), !c("sample", "method"), names_to = "cell_type", values_to = "predicted_fraction"))
   df <- dplyr::bind_rows(li)
   df$cell_type <- gsub(" ", "_", df$cell_type)
   load("data/RefData.RData")
   names(RefData) <- c("T_cell", "Monocyte", "B_cell", "DC", "NK_cell")
   RefData$sample <- rownames(RefData)
   plot <- tidyr::pivot_longer(RefData, !sample, names_to="cell_type", values_to="true_fraction") %>% merge(df, by=c("sample", "cell_type")) %>%
-    ggplot2::ggplot(aes(x=as.numeric(true_fraction), y=predicted_fraction, color=cell_type))+geom_point(size=4)+facet_wrap(~method)+
+    ggplot2::ggplot(aes(x=as.numeric(true_fraction), y=as.numeric(predicted_fraction), color=cell_type))+geom_point(size=4)+facet_wrap(~method)+
     geom_abline(color="black")+scale_y_continuous(breaks=seq(0, 1, 0.25))+scale_x_continuous(breaks=seq(0, 1, 0.25))+
     coord_cartesian(xlim = c(0, 1), ylim = c(0, 1))+labs(x="true fraction", y="predicted fraction", color="cell type")+
     theme(legend.position = "bottom", legend.text = element_text(size = 12), legend.title = element_text(size = 13), axis.text =

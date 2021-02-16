@@ -1,6 +1,10 @@
 ---
 title: "immunedeconv2_vignette"
 output: rmarkdown::html_vignette
+bibliography: references.bib
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
 vignette: >
   %\VignetteIndexEntry{immunedeconv2_vignette}
   %\VignetteEngine{knitr::rmarkdown}
@@ -19,13 +23,33 @@ knitr::opts_chunk$set(
 )
 ```
 
-# 1. Introduction
+# 1. Background
+As we all have known that the prognosis of cancer is always poor. One of the reasons is that type and abundance of immune cells in the tumor microenvironment (tumor immune infiltration) (Figure a) affect the outcome. The efficiency of immunotherapic strategies depends on the type and quantity of immune cells that infiltrate the tumor. Therefore, quantifying the composition of immune cells in tumor tissue is necessary. Previously, there have been several techniques, like flow cytometry, Immunohistochemistry IHC staining, which can quantify tumor immune infiltration. However, they have technical limitations or material limitations. A computational method without such limitation is therefore expected. 
+     
+     
+# 2. Introduction 
+```{r introductionFigure, echo=FALSE, out.width="80%", fig.align='center', fig.cap="Figure a by [@Fridman2017], Figure b by [@Finotello2018]"}
+knitr::include_graphics("images/introduction.png")
+```
+Cell-type deconvolution is a computational method to calculate cell type fraction from bulk RNA-seq data by leveraging precomputed expression signatures that represent the transcriptional profiles of the cell types of interest. The basic idea of cell-type deconvolution is that the gene expression of a sample can be as the weighted sum of the contributions of different cell types. (Figure b) And by extending the number of samples from 1 to m, an equation can be given as follows:  
 
-Cell-type heterogeneity is a strong confounder as well as source of information in bulk RNA sequencing (RNA-seq) data. Computational methods for the deconvolution of bulk RNA-seq data can infer the cellular composition of heterogeneous samples by leveraging precomputed expression signatures that represent the transcriptional profiles of the cell types of interest. Second-generation deconvolution tools allow deriving cell-type-specific expression signatures from single-cell RNA-seq (scRNA-seq) enabling, in principle, the deconvolution of any cell type profiled with single-cell technologies.
+
+$$ M = S \times F $$
+$$(𝒏×𝒎)=(𝒏×𝒌)×(𝒌×𝒎)$$
+
+
+$𝑀:$ Expression matrix of $n$ genes in $m$ samples.           
+$𝑆:$ Specific gene expression values of $𝑘$ cell types          
+$𝐹:$ Relative cell type proportions in each sample                
+
+Therefore, the principle of cell-type deconvolution is that given $𝑀$ and $𝑆$, find $S$ to minimize the sum of square between $S×F$ and $𝑀$. 
+
+Presently, there has been a package [immunedeconv](https://icbi-lab.github.io/immunedeconv/) built by the group of Gregor et. cl, however, the tools in this package are first-generation deconvolution tools. The signatures used by these tools cover only a limited set of human cells. Nowadays, second-generation tools have been developed. Second-generation deconvolution tools allow deriving cell-type-specific expression signatures from single-cell RNA-seq (scRNA-seq) enabling, in principle, the deconvolution of any cell type profiled with single-cell technologies. Therefore, these tools can extend their applicability to other cell phenotypes, tissues, diseases, and organisms.
 
 Our interface unifies multiple second-generation deconvolution methods to facilitate the usage of these tools and clear the way for future benchmarking of these methods. 
 
-# 2. Deconvolution
+
+# 3. Deconvolution
 
 In this section, we want to give an overview about the different methods and provide an example of how to use them. 
 
@@ -142,7 +166,6 @@ Additionally, we provided some methods for visualisation. In this and the benchm
 ```{r plot, fig.width=7, fig.height=4}
 res_bisque <- immunedeconv2::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations)
 immunedeconv2::plotDeconvResult(res_bisque, method = "Bisque", file_name = "images/bisque_prop.png")
-
 data.frame(res_bisque, samples= rownames(res_bisque)) %>% pivot_longer(!samples, names_to ="cell_type", values_to="predicted_fraction") %>%
 ggplot(aes(y=samples, x=predicted_fraction, color=cell_type))+geom_point(size=3)+facet_wrap(~cell_type)+labs(title="Bisque", y="sample", x="predicted fraction", color="cell type")+scale_fill_brewer(palette="Paired")
 ```
@@ -153,19 +176,15 @@ Here are some further ideas of how you could plot your deconvolution results.
 res_momf <- immunedeconv2::build_model(single_cell_data, cell_type_annotations, "momf", bulk) %>%
 immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "momf", single_cell_object = single_cell_data)
 immunedeconv2::plotDeconvResult(res_momf, method = "MOMF")
-
 res_scaden <- immunedeconv2::build_model(single_cell_object = single_cell_data, cell_type_annotations = cell_type_annotations, method = "scaden", bulk) %>%
  immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "scaden", single_cell_object = single_cell_data)
 immunedeconv2::plotDeconvResult(res_scaden, method = "Scaden")
-
 res_dwls <- immunedeconv2::build_model(single_cell_data, cell_type_annotations, "dwls") %>%
 immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "dwls")
 immunedeconv2::plotDeconvResult(res_dwls, method = "DWLS")
-
 res_ciber <- immunedeconv2::build_model(single_cell_data, cell_type_annotations, "cibersortx") %>%
 immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "cibersortx")
 immunedeconv2::plotDeconvResult(res_ciber, method = "CibersortX")
-
 ```
 ```{r plots, echo=FALSE, out.width="80%"}
 knitr::include_graphics("images/momf_prop.png")
@@ -174,7 +193,7 @@ knitr::include_graphics("images/dwls_prop.png")
 knitr::include_graphics("images/cibersortx_prop.png")
 ```
 
-# 3. Methods
+# 4. Methods
 In this section, we provide a short overview over the deconvolution tools that can be used via this package. 
 
 ## Bisque
@@ -220,3 +239,6 @@ The results for T cells are very interesting, as all methods calculate their pro
 ```{r benchmarkingFigureNonNormalized, echo=FALSE, out.width="80%"}
 knitr::include_graphics("images/predictionVsGroundtruth_unnormalized.png")
 ```
+
+# 5. Reference
+

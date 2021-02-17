@@ -24,14 +24,16 @@ knitr::opts_chunk$set(
 ```
 
 # 1. Background
-As we all have known that the prognosis of cancer is always poor. One of the reasons is that type and abundance of immune cells in the tumor microenvironment (tumor immune infiltration) (Figure a) affect the outcome. The efficiency of immunotherapic strategies depends on the type and quantity of immune cells that infiltrate the tumor. Therefore, quantifying the composition of immune cells in tumor tissue is necessary. Previously, there have been several techniques, like flow cytometry, Immunohistochemistry IHC staining, which can quantify tumor immune infiltration. However, they have technical limitations or material limitations. A computational method without such limitation is therefore expected. 
+In the first section, we will give some background information about the problem, why cell-type deconvolution is necessary and how it works.
+## 1. Biological background
+The prognosis of cancer and its progression is a challenging task. One of the reasons is that the type and abundance of immune cells in the tumor microenvironment (tumor immune infiltration) (Figure a) affect the outcome and the efficiency of immunotherapeutic strategies. Therefore, quantifying the composition of immune cells in tumor tissue is necessary. Previously, there have been several techniques like flow cytometry or immunohistochemistry IHC staining which can quantify tumor immune infiltration. However, they have technical or material limitations. A computational method without such limitation is therefore needed. 
      
      
-# 2. Introduction 
+## 2. Computational background
 ```{r introductionFigure, echo=FALSE, out.width="80%", fig.align='center', fig.cap="Figure a by [@Fridman2017], Figure b by [@Finotello2018]"}
 knitr::include_graphics("images/introduction.png")
 ```
-Cell-type deconvolution is a computational method to calculate cell type fraction from bulk RNA-seq data by leveraging precomputed expression signatures that represent the transcriptional profiles of the cell types of interest. The basic idea of cell-type deconvolution is that the gene expression of a sample can be as the weighted sum of the contributions of different cell types. (Figure b) And by extending the number of samples from 1 to m, an equation can be given as follows:  
+Cell-type deconvolution is a computational method to calculate cell type fraction from bulk RNA-seq data. This is done by leveraging precomputed expression signatures that represent the transcriptional profiles of the cell types of interest. The basic idea of cell-type deconvolution is that the gene expression of a sample equals the weighted sum of the contributions of different cell types. (Figure b) By extending the number of samples from 1 to m, an equation can be given as follows:  
 
 
 $$ M = S \times F $$
@@ -44,14 +46,15 @@ $𝐹:$ Relative cell type proportions in each sample
 
 Therefore, the principle of cell-type deconvolution is that given $𝑀$ and $𝑆$, find $S$ to minimize the sum of square between $S×F$ and $𝑀$. 
 
-Presently, there has been a package [immunedeconv](https://icbi-lab.github.io/immunedeconv/) built by the group of Gregor et. cl, however, the tools in this package are first-generation deconvolution tools. The signatures used by these tools cover only a limited set of human cells. Nowadays, second-generation tools have been developed. Second-generation deconvolution tools allow deriving cell-type-specific expression signatures from single-cell RNA-seq (scRNA-seq) enabling, in principle, the deconvolution of any cell type profiled with single-cell technologies. Therefore, these tools can extend their applicability to other cell phenotypes, tissues, diseases, and organisms.
+## 3. Previous works
+Presently, there exists a package [immunedeconv](https://icbi-lab.github.io/immunedeconv/) built by the group of Gregor et. cl. It combines several first-generation deconvolution tools which use fixed, internal signature matrices that cover only a limited set of human cells. Nowadays, second-generation tools have been developed that allow deriving cell-type-specific expression signatures from single-cell RNA-seq (scRNA-seq). This enables the deconvolution of any cell type profiled with single-cell technologies. Therefore, these tools can extend their applicability to other cell phenotypes, tissues, diseases, and organisms.
 
 Our interface unifies multiple second-generation deconvolution methods to facilitate the usage of these tools and clear the way for future benchmarking of these methods. 
 
 
-# 3. Deconvolution
+# 2. Usage of Immunedeconv2
 
-In this section, we want to give an overview about the different methods and provide an example of how to use them. 
+In this section, we want to present our package immunedeconv2 by giving an example workflow. 
 
 ## Installation and Setup
 
@@ -69,13 +72,13 @@ First of all, you need some data to run the deconvolution with.
 * Single cell RNA-seq data
     - *Genes* x *Cells* matrix 
     - Counts are *TPM normalized*, *not log-transformed*
-    - Rownames (genenames) are provided in the same format as in the bulk RNA-seq data, for instance HGNC symbols
+    - Rownames (gene names) are provided in the same format as in the bulk RNA-seq data, for instance HGNC symbols
 * Cell type annotations
     - Vector containing cell type annotations
     - Annotations are in the same order as the columns of the single cell matrix
 * Bulk RNA-seq data
     - *Genes* x *Samples* matrix
-    - Rownames (genenames) are provided in the same format as in the sc RNA-seq data, for instance HGNC symbols
+    - Rownames (gene names) are provided in the same format as in the sc RNA-seq data, for instance HGNC symbols
     
 We also provide some sample data, a bigger and a smaller set of single cell RNA-seq matrix (Maynard et al. 2020), cell type annotations and bulk RNA-seq matrix (Hoek et al. 2015). 
 You can simply load it with:
@@ -110,15 +113,15 @@ Additional parameters for the different methods can be included in the method ca
 
 ## Deconvolution of Bulk RNA-seq Data
 
-After building the specific signature matrix, you can calculate the cell properties in bulk RNA-seq data with the deconvolute function. For this, you need to provide the bulk data, signature matrix and you can, again, choose between the four methods listed in the previous section. 
+After building the specific signature matrix, you can calculate the cell properties in bulk RNA-seq data with the deconvolute function. For this, you need to provide the bulk data, signature matrix and you can, again, choose between the five methods listed in the previous section. 
 
 ```{r deconv, eval=FALSE}
 immunedeconv2::deconvolute(bulk, signature_matrix, method)
 ```
 
-Note: Bisque and MOMF additionally need the single cell RNA-seq matrix, that you already used to build the signature matrix, for their deconvolution. As a fifth parameter, Bisque also needs cell type annotations, which were also already needed for building the model. 
+Note: Bisque and MOMF additionally need the single cell RNA-seq matrix you used to build the signature matrix for their deconvolution. As a fifth parameter, Bisque also needs cell type annotations, which were also already needed for building the model. 
 
-As for the build_model function, specific parameters can be passed on to the deconvolution methods. 
+Similar to the build_model function, specific parameters can be passed on to the deconvolution methods through the deconvolute function. 
 
 ## Example Workflow
 
@@ -140,9 +143,9 @@ library(RColorBrewer)
 library(ggplot2)
 ```
 
-To give you a feeling for the data, this is what the first few rows and columns of our small single cell RNA-seq dataset look like:
+To give you a feeling for the data, this is what a few rows and columns of our small single cell RNA-seq dataset look like. This specific selection of rows and columns was performed as the first rows and columns just show zeros. Do not be alarmed by a great number of zeros in your single cell data, this effect is normal:
 ```{r showSc}
-knitr::kable(single_cell_data[1:5, 1:4])
+knitr::kable(single_cell_data[170:175, 9:13])
 ```
 
 Now we build the signature matrix with Bisque and look at the values for the first few genes. 
@@ -157,11 +160,11 @@ immunedeconv2::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, ce
 knitr::kable()
 ```
 
-Please note that even though our package is freely available, the second generation immune deconvolution methods may not. For instance, for usage of CibersortX a token bound to your IP address is mandatory. For more information and to request such a token, please see the official website [CIBERSORTX](https://cibersortx.stanford.edu/).
+Please note that even though our package is freely available, the second generation immune deconvolution methods may not be. For instance, the usage of CibersortX requires a token bound to your IP address. For more information and to request such a token, please see the official website [CIBERSORTX](https://cibersortx.stanford.edu/).
 
 ## Plot Results
 
-Additionally, we provided some methods for visualisation. In this and the benchmarking section you can find examples of how to use them. For the plotDeconvResult method, you can additionally provide a method and file name to add a title to your plot and save it.
+Additionally, we provid some methods for visualisation. In this and the benchmarking section you can find examples of how to use them. For the plotDeconvResult method, you can additionally provide a method and file name to add a title to your plot and save it.
 
 ```{r plot, fig.width=7, fig.height=4}
 res_bisque <- immunedeconv2::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations)
@@ -193,8 +196,8 @@ knitr::include_graphics("images/dwls_prop.png")
 knitr::include_graphics("images/cibersortx_prop.png")
 ```
 
-# 4. Methods
-In this section, we provide a short overview over the deconvolution tools that can be used via this package. 
+# 3. Methods
+In this section, we provide a short overview over the deconvolution methods that can be used via this package. 
 
 ## Bisque
 Bisque(Jew et al., 2020) takes advantage of matched bulk and scRNA-seq samples to improve accuracy of cell-type estimates. Using linear regression, it corrects for platform-specific biases between pseudo-bulk reference profiles derived from scRNA-seq and bulk RNA-seq samples. It then applies NNLS-regression to deconvolute other bulk RNA-seq samples.
@@ -221,7 +224,7 @@ Scaden(Menden et al., n.d.) leverages a deep neural network (DNN) for estimating
 
 Citation: Menden, K., Marouf, M., Oller, S., Dalmia, A., Kloiber, K., Heutink, P., & Bonn, S. (n.d.). Deep-learning-based cell composition analysis from tissue expression profiles. https://doi.org/10.1101/659227
 
-## Benchmarking
+# 4. Benchmarking
 In the following section, we provide a method to compare the deconvolution results of all methods with the ground truth, that was measured with FACS by Hoek et al.
 If the methods estimated the cell type fractions perfectly, we would expect the points to be on the diagonal line displayed in each facet. 
 You have the possibility to save your plot in whatever file you feel like, just provide the file name.
@@ -240,5 +243,14 @@ The results for T cells are very interesting, as all methods calculate their pro
 knitr::include_graphics("images/predictionVsGroundtruth_unnormalized.png")
 ```
 
-# 5. Reference
+# 5. Distribution of work
+We regularly met and were all involved in the general decision making process. This list refers to who did the most work on those topics/who was mainly responsible:
+
+* Katharina: Implementation of MOMF, ReadMe, First edition of Vignette, Visualisation, Sample Data Sets, Benchmarking
+* Konstantin: Implementation of Bisque and CibersortX, Benchmarking, General Coordination and Planning
+* Nicolas: Implementation of Scaden, Unit tests, Data conversion methods
+* Yuyu: Implementation of DWLS, Continuous Integration, Documentation Website
+
+
+# 6. Reference
 

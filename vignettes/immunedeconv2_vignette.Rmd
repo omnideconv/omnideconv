@@ -205,7 +205,7 @@ knitr::include_graphics("images/cibersortx_prop.png")
 # 3. Methods
 In this section, we provide a short overview over the deconvolution methods that can be used via this package.
 ```{r mehods_table, echo=FALSE, out.width="80%"}
-knitr::include_graphics("/home/nicolas/Uni/WS2021/SysMed/project/immunedeconv2/vignettes/images/methods_table.png")
+knitr::include_graphics("images/methods_table.png")
 ```
 ## Bisque
 Bisque(Jew et al., 2020) takes advantage of matched bulk and scRNA-seq samples to improve accuracy of cell-type estimates. Using linear regression, it corrects for platform-specific biases between pseudo-bulk reference profiles derived from scRNA-seq and bulk RNA-seq samples. It then applies NNLS-regression to deconvolute other bulk RNA-seq samples.

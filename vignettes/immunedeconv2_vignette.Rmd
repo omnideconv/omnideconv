@@ -72,7 +72,7 @@ First of all, you need some data to run the deconvolution with.
 
 * Single cell RNA-seq data
     - *Genes* x *Cells* matrix 
-    - Counts are *TPM normalized*, *not log-transformed*
+    - Counts are *not log-transformed*
     - Rownames (gene names) are provided in the same format as in the bulk RNA-seq data, for instance HGNC symbols
 * Cell type annotations
     - Vector containing cell type annotations
@@ -247,7 +247,7 @@ In the two figures shown below, both bulk and single cell RNA-seq data are TPM n
 result_list <- c(Bisque = res_bisque, CibersortX = res_ciber, DWLS = res_dwls, MOMF = res_momf, Scaden = res_scaden)
 immunedeconv2::makeBenchmarkingScatterplot(result_list, "predictionVsGroundtruth.png")
 ```
-```{r benchmarkingFigure, echo=FALSE, out.width="45%"}
+```{r benchmarkingFigure, echo=FALSE, out.width="60%"}
 knitr::include_graphics("images/propgrid_tpm.png")
 knitr::include_graphics("images/predictionVsGroundtruth.png")
 ```
@@ -256,12 +256,12 @@ All in all, the methods differ a lot in their predictions. Bisque shows very het
 
 The inaccuracy of the prediction of T cells could be induced by TPM normalization. To evaluate this theory, we analyzed the deconvolution results for unnormalized single cell RNA-seq and bulk RNA-seq data as well. The comparison of these predictions can be found in the figure below. 
 
-```{r benchmarkingFigureNonNormalized, echo=FALSE, out.width="45%"}
+```{r benchmarkingFigureNonNormalized, echo=FALSE, out.width="60%"}
 knitr::include_graphics("images/propgrid_counts.png")
 knitr::include_graphics("images/predictionVsGroundtruth_unnormalized.png")
 ```
 
-The predictions for the different cell type fractions still differ a lot between the methods, as can be seen in the barplot. However, without TPM normalization, the predictions for T cell fractions are more accurate. This is probably due to the fact that TPM normalization removes the information about cell size and therefore how much mRNA is present. As T cells account for the bigger cells in our immune system, this "counts per cell" normalization method might not be a perfect fit for immune deconvolution. 
+The predictions for the different cell type fractions still differ a lot between the methods, as can be seen in the barplot. However, without TPM normalization, the predictions for T cell fractions are slightly more accurate. This is probably due to the fact that TPM normalization removes the information about cell size and therefore how much mRNA is present. As T cells account for the bigger cells in our immune system, this "counts per cell" normalization method might not be a perfect fit for immune deconvolution. 
 
 In contrast to the T cells, the predictions for dendritic cell fractions are still very off. This phenomenon was already detected in the benchmarking of first-generation immune deconvolution methods performed by Sturm et al. [@Sturm2019]
 
@@ -292,13 +292,12 @@ knitr::include_graphics("images/interchangeMatrix.png")
 ```
 
 ```{r benchmarkingInterchangePlots, echo=FALSE, out.width="45%"}
-knitr::include_graphics("images/momf_matrices.png")
 knitr::include_graphics("images/ciber_matrices.png")
 knitr::include_graphics("images/dwls_matrices.png")
 knitr::include_graphics("images/bisque_matrices.png")
 ```
 
-As can be concluded from this figure, interchanging matrices between the methods does not considerably improve the predictions, at least not for our dataset. 
+As can be concluded from this figure, interchanging matrices between the methods does not considerably improve the predictions. One might derive small improvements especially when building the signature matrix with Bisque, but the reason behind this needs further examination in the future.
 
 # 5. Distribution of work
 

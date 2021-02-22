@@ -235,7 +235,7 @@ Scaden leverages a deep neural network (DNN) for estimating cell-type proportion
 Citation: Menden, K., Marouf, M., Oller, S., Dalmia, A., Kloiber, K., Heutink, P., & Bonn, S. (n.d.). Deep-learning-based cell composition analysis from tissue expression profiles. https://doi.org/10.1101/659227
 
 # 4. Benchmarking
-To evaluate the performance of the methods used, we compared the whole data set with 17k cells from Hoek et al. [@Hoek2015] to its ground truth that was measured with FACS. This testset is also included in a benchmarking method, which takes the desired filename and -type as a parameter.
+To evaluate the performance of the methods used, we compared a data set with 17k cells [@Hoek2015] to its ground truth, measured with FACS. This data is also included in our benchmarking method, which takes the desired filename and -type as a parameter, as a testset.
 
 For this comparison, a perfect estimation of cell type fractions by one method would include that all points align to the diagonal line in the according facet.
 
@@ -247,7 +247,7 @@ In the two figures shown below, both bulk and single cell RNA-seq data are TPM n
 result_list <- c(Bisque = res_bisque, CibersortX = res_ciber, DWLS = res_dwls, MOMF = res_momf, Scaden = res_scaden)
 immunedeconv2::makeBenchmarkingScatterplot(result_list, "predictionVsGroundtruth.png")
 ```
-```{r benchmarkingFigure, echo=FALSE, out.width="60%"}
+```{r benchmarkingFigure, echo=FALSE, out.width="80%"}
 knitr::include_graphics("images/propgrid_tpm.png")
 knitr::include_graphics("images/predictionVsGroundtruth.png")
 ```
@@ -256,7 +256,7 @@ All in all, the methods differ a lot in their predictions. Bisque shows very het
 
 The inaccuracy of the prediction of T cells could be induced by TPM normalization. To evaluate this theory, we analyzed the deconvolution results for unnormalized single cell RNA-seq and bulk RNA-seq data as well. The comparison of these predictions can be found in the figure below. 
 
-```{r benchmarkingFigureNonNormalized, echo=FALSE, out.width="60%"}
+```{r benchmarkingFigureNonNormalized, echo=FALSE, out.width="80%"}
 knitr::include_graphics("images/propgrid_counts.png")
 knitr::include_graphics("images/predictionVsGroundtruth_unnormalized.png")
 ```

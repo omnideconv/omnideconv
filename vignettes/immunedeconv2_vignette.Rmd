@@ -287,14 +287,15 @@ The table below gives an overview of signature matrices built with which of the 
 
 Unfortunately, not all deconvolution methods can use all signature matrices, which sets a limit to the possible improvements by interchanging signature matrices between methods. The problem is that if the matrices are changed to acommodate all methods, information is lost as they need to be brought in another format.
 
-```{r benchmarkingInterchangeMatrix, echo=FALSE, out.width="80%"}
-knitr::include_graphics("images/interchangeMatrix.png")
+```{r benchmarkingInterchangeMatrix, echo=FALSE}
+knitr::kable(data.frame(Deconv_method=c("Bisque", "CibersortX", "DWLS", "MOMF", "Scaden"), Bisque=c("yes", "-", "-", "yes", "-"), CibersortX=c("yes", "yes", "yes", "yes", "-"), DWLS=c("yes", "yes", "yes", "yes", "-"), MOMF=c("yes", "-", "-", "yes", "-"), Scaden=c("-", "-", "-", "-", "yes")), caption = "Interchangeability table: 'Yes' indicates, that a signature matrix built by the method in the according column can be used for deconvolution with the method from the according row.")
 ```
 
 ```{r benchmarkingInterchangePlots, echo=FALSE, out.width="45%"}
 knitr::include_graphics("images/ciber_matrices.png")
 knitr::include_graphics("images/dwls_matrices.png")
 knitr::include_graphics("images/bisque_matrices.png")
+#knitr::include_graphics("images/momf_matrices.png")
 ```
 
 As can be concluded from this figure, interchanging matrices between the methods does not considerably improve the predictions. One might derive small improvements especially when building the signature matrix with Bisque, but the reason behind this needs further examination in the future.

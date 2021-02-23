@@ -303,7 +303,7 @@ knitr::include_graphics("images/bisque_matrices.png")
 knitr::include_graphics("images/momf_matrices.png")
 ```
 
-As can be concluded from this figure, interchanging matrices between the methods does not considerably improve the predictions. One might derive small improvements especially when building the signature matrix with Bisque, but the reason behind this needs further examination in the future.
+As can be concluded from this figure, interchanging matrices between the methods does not considerably improve the predictions. One might derive small improvements especially when building the signature matrix with Bisque or CibersortX, but the reason behind this needs further examination in the future.
 
 # 5. Distribution of work
 

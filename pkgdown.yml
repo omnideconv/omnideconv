@@ -3,8 +3,8 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   immunedeconv2_vignette: immunedeconv2_vignette.html
-last_built: 2021-02-23T16:40Z
+last_built: 2021-02-23T16:55Z
 urls:
-  reference: https://pelzko.github.io/immunedeconv2/reference
-  article: https://pelzko.github.io/immunedeconv2/articles
+  reference: https://icbi-lab.github.io/immunedeconv2/reference
+  article: https://icbi-lab.github.io/immunedeconv2/articles
 

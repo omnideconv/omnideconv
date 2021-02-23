@@ -22,15 +22,16 @@ set_cibersortx_credentials = function(email, token) {
 #' @param display_heatmap Whether to display the generated heatmap.
 #' @param k_max Maximum condition number (default: 999). Will be added to the file name.
 #' @param ... Additional parameters supplied to the algorithm. Options are:
-#' G_min: <int> Minimum number of genes per cell type in sig. matrix (default: 300)
-#' G_max: <int> Maximum number of genes per cell type in sig. matrix (default: 500)
-#' q_value: <int> Q-value threshold for differential expression (default: 0.01)
-#' filter: <bool> Remove non-hematopoietic genes (default: FALSE)
-#' remake: <bool> Remake signature gene matrix (default: False)
-#' replicates: <int> Number of replicates to use for building scRNAseq reference file (default: 5)
-#' sampling: <float> Fraction of available single cell GEPs selected using random sampling (default: 0.5)
-#' fraction: <float> Fraction of cells of same identity showing evidence of expression (default: 0.75)
-#'
+#' \itemize{
+#'  \item G_min: <int> Minimum number of genes per cell type in sig. matrix (default: 300)
+#'  \item G_max: <int> Maximum number of genes per cell type in sig. matrix (default: 500)
+#'  \item q_value: <int> Q-value threshold for differential expression (default: 0.01)
+#'  \item filter: <bool> Remove non-hematopoietic genes (default: FALSE)
+#'  \item remake: <bool> Remake signature gene matrix (default: False)
+#'  \item replicates: <int> Number of replicates to use for building scRNAseq reference file (default: 5)
+#'  \item sampling: <float> Fraction of available single cell GEPs selected using random sampling (default: 0.5)
+#'  \item fraction: <float> Fraction of cells of same identity showing evidence of expression (default: 0.75)
+#'}
 #'
 #' @return The signature matrix. Rows are genes, columns are cell types.
 #' @export
@@ -110,14 +111,15 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
 #' @param display_extra_info Whether to print the "P.value","Correlation" and "RMSE" calculated by CibersortX.
 #' @param label The label which will be added to the file name. Default is "none", adding no label at all.
 #' @param ... Additional parameters supplied to the algorithm. Options are:
-#' perm: <int> No. of permutations for p-value calculation (default: 0)
-#' rmbatch_B_mode: <bool>  Run B-mode batch correction (default: FALSE)
-#' rmbatch_S_mode: <bool>  Run S-mode batch correction (default: FALSE)
-#' source_GEPs: <file_name>  Signature matrix GEPs for batch correction (default: sigmatrix)
-#' qn: <bool>  Run quantile normalization (default: FALSE)
-#' absolute: <bool>  Run absolute mode (default: FALSE)
-#' abs_method: <char>  Pick absolute method ("sig.score" (default) or "no.sumto1")
-#'
+#' \itemize{
+#'  \item perm: <int> No. of permutations for p-value calculation (default: 0)
+#'  \item rmbatch_B_mode: <bool>  Run B-mode batch correction (default: FALSE)
+#'  \item rmbatch_S_mode: <bool>  Run S-mode batch correction (default: FALSE)
+#'  \item source_GEPs: <file_name>  Signature matrix GEPs for batch correction (default: sigmatrix)
+#'  \item qn: <bool>  Run quantile normalization (default: FALSE)
+#'  \item absolute: <bool>  Run absolute mode (default: FALSE)
+#'  \item abs_method: <char>  Pick absolute method ("sig.score" (default) or "no.sumto1")
+#'}
 #'
 #' @return A matrix with the probabilities of each cell-type for each individual. Rows are individuals, columns are cell types.
 #' @export

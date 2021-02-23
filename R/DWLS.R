@@ -211,7 +211,7 @@ buildSignatureMatrixUsingSeurat<-function(scdata, id, path, diff.cutoff = 0.5,
     index<-which(name_list==i)
     de_group <- list_de_groups[[index]]
 
-    DEGenes<-rownames(de_group)[intersect(which(de_group$p_val_adj<pval.cutoff),which(de_group$avg_logFC>diff.cutoff))]
+    DEGenes<-rownames(de_group)[base::intersect(which(de_group$p_val_adj<pval.cutoff),which(de_group$avg_logFC>diff.cutoff))]
     nonMir = base::grep("MIR|Mir", DEGenes, invert = TRUE)
     base::assign(paste("cluster_lrTest.table.",i,sep=""),de_group[which(rownames(de_group)%in%DEGenes[nonMir]),])
     numberofGenes<-c(numberofGenes,length(DEGenes[nonMir]))
@@ -414,7 +414,7 @@ build_model_dwls<-function(scdata, id, path, verbose = FALSE,
     cluster_lrTest.table = list_cluster_table[[index]]
     pvalue_adjusted<-p.adjust(cluster_lrTest.table[,3], method = "fdr", n = length(cluster_lrTest.table[,3]))
     cluster_lrTest.table<-cbind(cluster_lrTest.table,pvalue_adjusted)
-    DEGenes<-cluster_lrTest.table$Gene[intersect(which(pvalue_adjusted<pval.cutoff),which(cluster_lrTest.table$log2fold_change>diff.cutoff))]
+    DEGenes<-cluster_lrTest.table$Gene[base::intersect(which(pvalue_adjusted<pval.cutoff),which(cluster_lrTest.table$log2fold_change>diff.cutoff))]
     nonMir = grep("MIR|Mir", DEGenes, invert = TRUE)  # because Mir gene is usually not accurate
     assign(paste("cluster_lrTest.table.",i,sep=""),cluster_lrTest.table[which(cluster_lrTest.table$Gene%in%DEGenes[nonMir]),])
     numberofGenes<-c(numberofGenes,length(DEGenes[nonMir]))

@@ -24,7 +24,7 @@ deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c(
   }
 
   # trim data
-  Genes<-intersect(rownames(signature),rownames(bulk_gene_expression))
+  Genes<-base::intersect(rownames(signature),rownames(bulk_gene_expression))
   bulk<-bulk_gene_expression[Genes,]
   sig<-signature[Genes,]
   if (class(bulk)[[1]]=="numeric"||class(sig)[[1]]=="numeric"){

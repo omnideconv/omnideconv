@@ -158,7 +158,7 @@ signatureMatrix <- immunedeconv2::build_model(single_cell_data, cell_type_annota
 knitr::kable(signatureMatrix[1:5,])
 ```
 
-We can use this signature matrix to run the deconvolution with Bisque. 
+We can use this signature matrix to run the deconvolution with Bisque.
 
 ```{r deconvExample}
 immunedeconv2::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations) %>%

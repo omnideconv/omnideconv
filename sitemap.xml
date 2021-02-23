@@ -67,10 +67,16 @@
     <loc>https://pelzko.github.io/immunedeconv2/reference/deconvolution_methods.html</loc>
   </url>
   <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/deescape_blanks.html</loc>
+  </url>
+  <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/docker_available.html</loc>
   </url>
   <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/docker_connectable.html</loc>
+  </url>
+  <url>
+    <loc>https://pelzko.github.io/immunedeconv2/reference/escape_blanks.html</loc>
   </url>
   <url>
     <loc>https://pelzko.github.io/immunedeconv2/reference/get_single_cell_expression_set.html</loc>

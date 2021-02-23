@@ -13,7 +13,7 @@ build_model_momf <- function(single_cell_object, cell_type_annotations, bulk_gen
   if (is.null(bulk_gene_expression)){
     base::stop("'bulk_gene_expression' argument is required for MOMF")
   }
-  MOMF::momf.computeRef(single_cell_object[intersect(rownames(single_cell_object), rownames(bulk_gene_expression)),], cell_type_annotations)
+  MOMF::momf.computeRef(single_cell_object[base::intersect(rownames(single_cell_object), rownames(bulk_gene_expression)),], cell_type_annotations)
 }
 
 #' Deconvolution Analysis using MOMF (via Nonnegative Factorization)
@@ -32,8 +32,10 @@ build_model_momf <- function(single_cell_object, cell_type_annotations, bulk_gen
 deconvolute_momf <- function(bulk_gene_expression, signature, single_cell_object,
                              verbose = FALSE, method = "KL", ...){
   #MOMF needs a list of the single_cell_object with cells x genes and the bulk RNA seq data with individuals x genes
-  GList <- list(X1 = t(single_cell_object[intersect(rownames(single_cell_object), rownames(bulk_gene_expression)),]),
-                X2 = t(bulk_gene_expression[intersect(rownames(single_cell_object), rownames(bulk_gene_expression)),]))
+  relevant_genes <- base::intersect(base::intersect(rownames(single_cell_object), rownames(bulk_gene_expression)),rownames(signature))
+  GList <- list(X1 = t(single_cell_object[relevant_genes,]),
+                X2 = t(bulk_gene_expression[relevant_genes,]))
+  signature <- signature[relevant_genes,]
   if (!verbose){
     sink(tempfile())
     result <- tryCatch(MOMF::momf.fit(DataX = GList, DataPriorU=signature, method=method, ...),

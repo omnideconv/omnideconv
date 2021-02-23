@@ -63,7 +63,7 @@ Install the CRAN package devtools and use it to install immunedeconv2 from [GitH
 
 ``` {r installation, eval=FALSE}
 install.packages("devtools")
-devtools::install_github("PelzKo/immunedeconv2")
+devtools::install_github("icbi-lab/immunedeconv2")
 ```
 
 ## Input Data

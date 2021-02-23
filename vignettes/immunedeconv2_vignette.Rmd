@@ -167,11 +167,16 @@ knitr::kable()
 
 ## Plot Results
 
-Additionally, we provide some methods for visualisation. In this and the benchmarking section you can find examples of how to use them. For the plotDeconvResult method, you can additionally provide a method and file name to add a title to your plot and save it.
+Additionally, we provide some methods for visualisation. In this and the benchmarking section you can find examples of how to use them. For the plotDeconvResult method, you can additionally provide a method and file name to add a title to your plot and save it. 
 
 ```{r plot, fig.width=7, fig.height=4}
 res_bisque <- immunedeconv2::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations)
 immunedeconv2::plotDeconvResult(res_bisque, method = "Bisque")
+```
+
+The scatterplot shown below depicts the same results and message as the barplot above, it is just another idea of how to visualize the results. Note that our package does not provide a method for this, but the plot can be recreated with this code.
+
+```{r plot2, fig.width=7, fig.height=4}
 data.frame(res_bisque, samples= rownames(res_bisque)) %>% pivot_longer(!samples, names_to ="cell_type", values_to="predicted_fraction") %>%
 ggplot(aes(y=samples, x=predicted_fraction, color=cell_type))+geom_point(size=3)+facet_wrap(~cell_type)+labs(title="Bisque", y="sample", x="predicted fraction", color="cell type")+scale_fill_brewer(palette="Paired")
 ```
@@ -288,14 +293,14 @@ The table below gives an overview of signature matrices built with which of the 
 Unfortunately, not all deconvolution methods can use all signature matrices, which sets a limit to the possible improvements by interchanging signature matrices between methods. The problem is that if the matrices are changed to acommodate all methods, information is lost as they need to be brought in another format.
 
 ```{r benchmarkingInterchangeMatrix, echo=FALSE}
-knitr::kable(data.frame(Deconv_method=c("Bisque", "CibersortX", "DWLS", "MOMF", "Scaden"), Bisque=c("yes", "-", "-", "yes", "-"), CibersortX=c("yes", "yes", "yes", "yes", "-"), DWLS=c("yes", "yes", "yes", "yes", "-"), MOMF=c("yes", "-", "-", "yes", "-"), Scaden=c("-", "-", "-", "-", "yes")), caption = "Interchangeability table: 'Yes' indicates, that a signature matrix built by the method in the according column can be used for deconvolution with the method from the according row.")
+knitr::kable(data.frame(Deconv_method=c("Bisque", "CibersortX", "DWLS", "MOMF", "Scaden"), Bisque=c("yes", "-", "-", "yes", "-"), CibersortX=c("yes", "yes", "yes", "yes", "-"), DWLS=c("yes", "yes", "yes", "yes", "-"), MOMF=c("yes", "yes", "yes", "yes", "-"), Scaden=c("-", "-", "-", "-", "yes")), caption = "Interchangeability table: 'Yes' indicates, that a signature matrix built by the method in the according column can be used for deconvolution with the method from the according row.")
 ```
 
 ```{r benchmarkingInterchangePlots, echo=FALSE, out.width="45%"}
 knitr::include_graphics("images/ciber_matrices.png")
 knitr::include_graphics("images/dwls_matrices.png")
 knitr::include_graphics("images/bisque_matrices.png")
-#knitr::include_graphics("images/momf_matrices.png")
+knitr::include_graphics("images/momf_matrices.png")
 ```
 
 As can be concluded from this figure, interchanging matrices between the methods does not considerably improve the predictions. One might derive small improvements especially when building the signature matrix with Bisque, but the reason behind this needs further examination in the future.

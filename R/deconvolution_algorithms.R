@@ -55,6 +55,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, method
     single_cell_object <- as.matrix(single_cell_object)
   }
 
+  cell_type_annotations <- escape_blanks(cell_type_annotations)
 
   signature <- switch(tolower(method),
                       bisque = build_model_bisque(single_cell_object,cell_type_annotations, ...),
@@ -64,6 +65,8 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, method
                       dwls = build_model_dwls(as.data.frame(single_cell_object), cell_type_annotations, path = NULL, verbose = verbose, ...),
                       cibersortx = build_model_cibersortx(single_cell_object,cell_type_annotations,verbose = verbose, ...)
   )
+
+  rownames(signature) <- deescape_blanks(rownames(signature))
 
   return(signature)
 }
@@ -111,12 +114,12 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
     bulk_gene_expression <- base::as.matrix(bulk_gene_expression)
 
   if (! "character" %in% class(signature)){
-    colnames(signature) <- make.names(colnames(signature))
+    colnames(signature) <- escape_blanks(colnames(signature))
   }
 
   deconv <- switch(tolower(method),
                    bisque = {
-                     cell_type_annotations <- make.names(cell_type_annotations)
+                     cell_type_annotations <- escape_blanks(cell_type_annotations)
                      bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
                      #Necessary for bisque, because bisqueReferenceDecomp needs to access internal bisque-package methods
                      base::environment(deconvolute_bisque) <- base::environment(BisqueRNA::SimulateData)
@@ -131,7 +134,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 
   #Alphabetical order of celltypes
   deconv <- deconv[,order(colnames(deconv))]
-  colnames(deconv) <- gsub("\\.", " ", colnames(deconv))
+  colnames(deconv) <- deescape_blanks(colnames(deconv))
   return(deconv)
 }
 

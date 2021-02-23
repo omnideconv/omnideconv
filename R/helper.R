@@ -34,3 +34,23 @@ docker_available <- function(){
 docker_connectable <- function(){
   return(system("docker ps",ignore.stdout = TRUE,ignore.stderr = TRUE)==0)
 }
+
+#' Removes blanks by substituting them with "$_$" which should not be used naturally
+#'
+#' @param string The string to be escaped
+#'
+#' @return The String without blanks
+#' @export
+escape_blanks <- function(string){
+  return(gsub(" ", "$_$", string))
+}
+
+#' Removes the substitutions "$_$" and turns them back into blanks
+#'
+#' @param string The string to be de-escaped
+#'
+#' @return The String with blanks
+#' @export
+deescape_blanks <- function(string){
+  return(gsub("\\$_\\$", " ", string))
+}

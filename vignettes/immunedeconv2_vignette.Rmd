@@ -81,8 +81,12 @@ First of all, you need some data to run the deconvolution with.
     - *Genes* x *Samples* matrix
     - Rownames (gene names) are provided in the same format as in the sc RNA-seq data, for instance HGNC symbols
     
+## Sample data
 We also provide some sample data, a bigger and a smaller set of single cell RNA-seq matrix (subset of [@Maynard2020]), cell type annotations and bulk RNA-seq matrix [@Hoek2015]. 
-You can simply load it with:
+
+The single cell RNA-seq matrix and the corresponding cell type annotations consist of immune cells that were obtained from clinical biopsies of metastatic lung cancer cells. They were profiled using the Smart-seq2 single cell technology. The bulk RNA-seq data from Hoek et al. consists of total RNA of blood samples of patients that were treated with an Influenza vaccination. The immune cells in these samples were purified and subjected to FACS, which offers a ground truth of the underlying cell proportions.
+
+You can simply load the provided sample data with:
 
 ```r
 data("single_cell_data")

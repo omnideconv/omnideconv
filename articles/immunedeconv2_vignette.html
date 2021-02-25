@@ -158,13 +158,7 @@ Figure a by <span class="citation">(Fridman and Zitvogel <a href="#ref-Fridman20
 </ul>
 </li>
 </ul>
-</div>
-<div id="sample-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#sample-data" class="anchor"></a>Sample data</h2>
-<p>We also provide some sample data, a bigger and a smaller set of single cell RNA-seq matrix (subset of <span class="citation">(Maynard <a href="#ref-Maynard2020" role="doc-biblioref">2020</a>)</span>), cell type annotations and bulk RNA-seq matrix <span class="citation">(Hoek <a href="#ref-Hoek2015" role="doc-biblioref">2015</a>)</span>.</p>
-<p>The single cell RNA-seq matrix and the corresponding cell type annotations consist of immune cells that were obtained from clinical biopsies of metastatic lung cancer cells. They were profiled using the Smart-seq2 single cell technology. The bulk RNA-seq data from Hoek et al. consists of total RNA of blood samples of patients that were treated with an Influenza vaccination. The immune cells in these samples were purified and subjected to FACS, which offers a ground truth of the underlying cell proportions.</p>
-<p>You can simply load the provided sample data with:</p>
+<p>We also provide some sample data, a bigger and a smaller set of single cell RNA-seq matrix (subset of <span class="citation">(Maynard <a href="#ref-Maynard2020" role="doc-biblioref">2020</a>)</span>), cell type annotations and bulk RNA-seq matrix <span class="citation">(Hoek <a href="#ref-Hoek2015" role="doc-biblioref">2015</a>)</span>. You can simply load it with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"single_cell_data"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"cell_type_annotations"</span><span class="op">)</span>
@@ -532,27 +526,32 @@ Figure a by <span class="citation">(Fridman and Zitvogel <a href="#ref-Fridman20
 <div id="bisque" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bisque" class="anchor"></a>Bisque</h2>
-<p>Bisque <span class="citation">(Jew et al. <a href="#ref-Jew2020" role="doc-biblioref">2020</a>)</span> takes advantage of matched bulk and scRNA-seq samples to improve accuracy of cell-type estimates. Using linear regression, it corrects for platform-specific biases between pseudo-bulk reference profiles derived from scRNA-seq and bulk RNA-seq samples. It then applies NNLS-regression to deconvolute other bulk RNA-seq samples.</p>
+<p>Bisque takes advantage of matched bulk and scRNA-seq samples to improve accuracy of cell-type estimates. Using linear regression, it corrects for platform-specific biases between pseudo-bulk reference profiles derived from scRNA-seq and bulk RNA-seq samples. It then applies NNLS-regression to deconvolute other bulk RNA-seq samples.</p>
+<p>Citation: Jew, B., Alvarez, M., Rahmani, E., Miao, Z., Ko, A., Garske, K. M., Sul, J. H., Pietiläinen, K. H., Pajukanta, P., &amp; Halperin, E. (2020). Publisher Correction: Accurate estimation of cell composition in bulk expression through robust integration of single-cell information. Nature Communications, 11(1), 2891. <a href="https://doi.org/10.1038/s41467-020-16607-9" class="uri">https://doi.org/10.1038/s41467-020-16607-9</a></p>
 </div>
 <div id="cibersortx" class="section level2">
 <h2 class="hasAnchor">
 <a href="#cibersortx" class="anchor"></a>CibersortX</h2>
-<p>CIBERSORTx <span class="citation">(Newman et al. <a href="#ref-Newman2019" role="doc-biblioref">2019</a>)</span> is an extension to the original CIBERSORT algorithm <span class="citation">(Newman <a href="#ref-Newman2015" role="doc-biblioref">2015</a>)</span> that enables building signature matrices from scRNA-seq or sorted bulk RNA-seq samples based on differential gene expression analysis. To address technical biases they introduce two batch correction methods, one designed to mitigate batch effects between datasets, the other to address differences between sequencing protocols (e.g. 10x vs. full-length). Moreover, CIBERSORTx supports “complete” deconvolution, not only yielding cell-type proportions but disentangling bulk gene expression profiles into cell-type specific expression profiles.</p>
+<p>CIBERSORTx is an extension to the original CIBERSORT algorithm <span class="citation">(Newman <a href="#ref-Newman2015" role="doc-biblioref">2015</a>)</span> that enables building signature matrices from scRNA-seq or sorted bulk RNA-seq samples based on differential gene expression analysis. To address technical biases they introduce two batch correction methods, one designed to mitigate batch effects between datasets, the other to address differences between sequencing protocols (e.g. 10x vs. full-length). Moreover, CIBERSORTx supports “complete” deconvolution, not only yielding cell-type proportions but disentangling bulk gene expression profiles into cell-type specific expression profiles.</p>
+<p>Citation: Newman, A. M., Liu, C. L., Green, M. R., Gentles, A. J., Feng, W., Xu, Y., Hoang, C. D., Diehn, M., &amp; Alizadeh, A. A. (2015). Robust enumeration of cell subsets from tissue expression profiles. Nature Methods, 12(5), 453–457. <a href="https://doi.org/10.1038/nmeth.3337" class="uri">https://doi.org/10.1038/nmeth.3337</a></p>
 </div>
 <div id="dwls" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dwls" class="anchor"></a>DWLS</h2>
-<p>Tsoucas et al. introduce dampened weighted least squares (DWLS)-regression <span class="citation">(Tsoucas et al. <a href="#ref-Tsoucas2019" role="doc-biblioref">2019</a>)</span>, which improves over ordinary least squares regression or 𝜈-SVR in that it attributes higher weight to rare cell types and marker genes with a low average expression level. They show that their method achieves favorable performance when estimating the abundance of infrequent cell-types.</p>
+<p>Tsoucas et al. introduce dampened weighted least squares (DWLS)-regression, which improves over ordinary least squares regression or 𝜈-SVR in that it attributes higher weight to rare cell types and marker genes with a low average expression level. They show that their method achieves favorable performance when estimating the abundance of infrequent cell-types.</p>
+<p>Citation: Tsoucas, D., Dong, R., Chen, H., Zhu, Q., Guo, G., &amp; Yuan, G.-C. (2019). Accurate estimation of cell-type composition from gene expression data. Nature Communications, 10(1), 2975. <a href="https://doi.org/10.1038/s41467-019-10802-z" class="uri">https://doi.org/10.1038/s41467-019-10802-z</a></p>
 </div>
 <div id="momf" class="section level2">
 <h2 class="hasAnchor">
 <a href="#momf" class="anchor"></a>MOMF</h2>
-<p>With MOMF <span class="citation">(Sun, Sun, and Yang <a href="#ref-Sun2019" role="doc-biblioref">2019</a>)</span>, Multi-Omics Matrix Factorization, models the cell type specific mean in scRNA-seq data by also accounting for the uncertainty of these cell type specific mean gene expression levels. Alternating Direction Method of Multipliers algorithm is then used to estimate the parameters in bulk RNA-seq downstream analyses.</p>
+<p>With MOMF, Multi-Omics Matrix Factorization, models the cell type specific mean in scRNA-seq data by also accounting for the uncertainty of these cell type specific mean gene expression levels. Alternating Direction Method of Multipliers algorithm is then used to estimate the parameters in bulk RNA-seq downstream analyses.</p>
+<p>Citation: Xifang Sun, Shiquan Sun, and Sheng Yang. An efficient and flexible method for deconvoluting bulk RNAseq data with single-cell RNAseq data, 2019, DIO: 10.5281/zenodo.3373980</p>
 </div>
 <div id="scaden" class="section level2">
 <h2 class="hasAnchor">
 <a href="#scaden" class="anchor"></a>Scaden</h2>
-<p>Scaden <span class="citation">(Menden et al. <a href="#ref-Mendeneaba2619" role="doc-biblioref">2020</a>)</span> leverages a deep neural network (DNN) for estimating cell-type proportions. Instead of explicitly building a signature matrix, the DNN implicitly learns which features are important for a certain cell type. The DNN is trained by simulating bulk RNA-seq samples with known cell-type proportions from scRNA-seq datasets. To increase robustness, the training process allows to flexibly integrate multiple scRNA-seq datasets and, optionally, bulk RNA-seq samples with “gold standard” measurements such as FACS.</p>
+<p>Scaden leverages a deep neural network (DNN) for estimating cell-type proportions. Instead of explicitly building a signature matrix, the DNN implicitly learns which features are important for a certain cell type. The DNN is trained by simulating bulk RNA-seq samples with known cell-type proportions from scRNA-seq datasets. To increase robustness, the training process allows to flexibly integrate multiple scRNA-seq datasets and, optionally, bulk RNA-seq samples with “gold standard” measurements such as FACS.</p>
+<p>Citation: Menden, K., Marouf, M., Oller, S., Dalmia, A., Kloiber, K., Heutink, P., &amp; Bonn, S. (n.d.). Deep-learning-based cell composition analysis from tissue expression profiles. <a href="https://doi.org/10.1101/659227" class="uri">https://doi.org/10.1101/659227</a></p>
 </div>
 </div>
 <div id="benchmarking" class="section level1">
@@ -670,29 +669,14 @@ Figure a by <span class="citation">(Fridman and Zitvogel <a href="#ref-Fridman20
 <div id="ref-Hoek2015">
 <p>Hoek, Kristen et al. 2015. “A Cell-Based Systems Biology Assessment of Human Blood to Monitor Immune Responses after Influenza Vaccination.” <em>PLOS One</em> 10 (2). <a href="https://doi.org/https://doi.org/10.1371/journal.pone.0118528">https://doi.org/https://doi.org/10.1371/journal.pone.0118528</a>.</p>
 </div>
-<div id="ref-Jew2020">
-<p>Jew, Brandon, Marcus Alvarez, Elior Rahmani, Zong Miao, Arthur Ko, Kristina M. Garske, Jae Hoon Sul, Kirsi H. Pietiläinen, Päivi Pajukanta, and Eran Halperin. 2020. “Accurate Estimation of Cell Composition in Bulk Expression Through Robust Integration of Single-Cell Information.” <em>Nature Communications</em> 11 (1): 1971. <a href="https://doi.org/10.1038/s41467-020-15816-6">https://doi.org/10.1038/s41467-020-15816-6</a>.</p>
-</div>
 <div id="ref-Maynard2020">
 <p>Maynard, Ashley et al. 2020. “Therapy-Induced Evolution of Human Lung Cancer Revealed by Single-Cell RNA Sequencing.” <em>Cell</em> 182 (5). <a href="https://doi.org/https://doi.org/10.1016/j.cell.2020.07.017">https://doi.org/https://doi.org/10.1016/j.cell.2020.07.017</a>.</p>
-</div>
-<div id="ref-Mendeneaba2619">
-<p>Menden, Kevin, Mohamed Marouf, Sergio Oller, Anupriya Dalmia, Daniel Sumner Magruder, Karin Kloiber, Peter Heutink, and Stefan Bonn. 2020. “Deep Learningbased Cell Composition Analysis from Tissue Expression Profiles.” <em>Science Advances</em> 6 (30). <a href="https://doi.org/10.1126/sciadv.aba2619">https://doi.org/10.1126/sciadv.aba2619</a>.</p>
 </div>
 <div id="ref-Newman2015">
 <p>Newman, Aaron M. et al. 2015. “Robust enumeration of cell subsets from tissue expression profiles.” <em>Nature Methods</em> 12 (5). <a href="https://doi.org/10.1038/nmeth.3337">https://doi.org/10.1038/nmeth.3337</a>.</p>
 </div>
-<div id="ref-Newman2019">
-<p>Newman, Aaron M., Chloé B. Steen, Chih Long Liu, Andrew J. Gentles, Aadel A. Chaudhuri, Florian Scherer, Michael S. Khodadoust, et al. 2019. “Determining Cell Type Abundance and Expression from Bulk Tissues with Digital Cytometry.” <em>Nature Biotechnology</em> 37 (7): 773–82. <a href="https://doi.org/10.1038/s41587-019-0114-2">https://doi.org/10.1038/s41587-019-0114-2</a>.</p>
-</div>
 <div id="ref-Sturm2019">
 <p>Sturm, Gregor et al. 2019. “Comprehensive evaluation of transcriptome-based cell-type quantification methods for immuno-oncology.” <em>Bioinformatics</em> 35 (14). <a href="https://doi.org/10.1038/nrclinonc.2017.101">https://doi.org/10.1038/nrclinonc.2017.101</a>.</p>
-</div>
-<div id="ref-Sun2019">
-<p>Sun, X., S. Sun, and S. Yang. 2019. “An Efficient and Flexible Method for Deconvoluting Bulk Rna-Seq Data with Single-Cell Rna-Seq Data.” <em>Cells</em> 8 (10). <a href="https://doi.org/10.3390/cells8101161">https://doi.org/10.3390/cells8101161</a>.</p>
-</div>
-<div id="ref-Tsoucas2019">
-<p>Tsoucas, Daphne, Rui Dong, Haide Chen, Qian Zhu, Guoji Guo, and Guo-Cheng Yuan. 2019. “Accurate Estimation of Cell-Type Composition from Gene Expression Data.” <em>Nature Communications</em> 10 (1): 2975. <a href="https://doi.org/10.1038/s41467-019-10802-z">https://doi.org/10.1038/s41467-019-10802-z</a>.</p>
 </div>
 </div>
 </div>

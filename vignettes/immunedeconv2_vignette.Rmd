@@ -288,7 +288,7 @@ Scaden is an exception as it does not produce a signature matrix but a perceptro
 It is now possible to use every method which takes in a signature matrix (everything except Scaden) with all other signature methods. This is done by intersecting the genes of the bulk data, single cell data and the signature matrix. In theory, this should not remove any data, as most methods are unable to run with a different number of genes in the signature matrix and the rest of the data. Nevertheless, this property should be evaluated when the whole packages is benchmarked in detail.
 
 ```{r benchmarkingInterchangeMatrix, echo=FALSE}
-knitr::kable(data.frame(Deconv_method=c("Bisque", "CibersortX", "DWLS", "MOMF", "Scaden"), Bisque=c("yes", "yes", "yes", "yes", "-"), CibersortX=c("yes", "yes", "yes", "yes", "-"), DWLS=c("yes", "yes", "yes", "yes", "-"), MOMF=c("yes", "yes", "yes", "yes", "-"), Scaden=c("-", "-", "-", "-", "yes")), caption = "Interchangeability table: 'Yes' indicates, that a signature matrix built by the method in the according column can be used for deconvolution with the method from the according row.")
+knitr::kable(data.frame(Deconv_method=c("Bisque", "CibersortX", "DWLS", "MOMF", "Scaden"), Bisque=c("yes", "(yes)", "(yes)", "yes", "-"), CibersortX=c("yes", "yes", "yes", "yes", "-"), DWLS=c("yes", "yes", "yes", "yes", "-"), MOMF=c("yes", "(yes)", "(yes)", "yes", "-"), Scaden=c("-", "-", "-", "-", "yes")), caption = "Interchangeability table: Row names determine the deconvolution method, column names determine which tool is used to build the signature matrix. '(yes)' indicates that intersecting the genes of bulk data, single cell data and signature matrix is necessary.")
 ```
 
 ```{r benchmarkingInterchangePlots, echo=FALSE, out.width="45%"}

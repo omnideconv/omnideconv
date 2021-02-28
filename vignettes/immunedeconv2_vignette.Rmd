@@ -34,7 +34,7 @@ The prognosis of cancer and its progression is a challenging task. One of the re
      
      
 ## Computational Background
-```{r introductionFigure, echo=FALSE, out.width="80%", fig.align='center', fig.cap="Figure a by [@Fridman2017], Figure b by [@Finotello2018]"}
+```{r introductionFigure, echo=FALSE, out.width="80%", fig.cap="Figure 1: (a) Schematic of the tumor environment. [@Fridman2012] (b) Visualisation of the mathematics behind cell deconvolution. [@Finotello2018]"}
 knitr::include_graphics("images/introduction.png")
 ```
 Cell-type deconvolution is a computational method to calculate cell type fraction from bulk RNA-seq data. This is done by leveraging precomputed expression signatures that represent the transcriptional profiles of the cell types of interest. The basic idea of cell-type deconvolution is that the gene expression of a sample equals the weighted sum of the contributions of different cell types. (Figure 1b) By extending the number of samples from 1 to m, an equation can be given as follows:  
@@ -155,37 +155,37 @@ library(ggplot2)
 To give you a feeling for the data, this is what a few rows and columns of our small single cell RNA-seq dataset look like. This specific selection of rows and columns was performed as the first rows and columns just show zeros. Do not be alarmed by a great number of zeros in your single cell data, this is normal:
 
 ```{r showSc}
-knitr::kable(single_cell_data[170:175, 9:13])
+knitr::kable(single_cell_data[170:175, 9:13], caption="Table 1: Example of TPM-normalized single cell data.")
 ```
 
 Now we build the signature matrix with Bisque and look at the values for the first few genes. 
 
 ```{r signatureExample}
 signatureMatrix <- immunedeconv2::build_model(single_cell_data, cell_type_annotations, "bisque")
-knitr::kable(signatureMatrix[1:5,])
+knitr::kable(signatureMatrix[1:5,], caption = "Table 2: Signature matrix created with Bisque.")
 ```
 
 We can use this signature matrix to run the deconvolution with Bisque.
 
 ```{r deconvExample}
 immunedeconv2::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations) %>%
-knitr::kable()
+knitr::kable(caption = "Table 3: Deconvoluted cell type proportions calculated with Bisque and the signature matrix from the last step.")
 ```
 
 ## Plot Results
 
-Additionally, we provide some methods for visualisation. In this and the benchmarking section you can find examples of how to use them. For the plotDeconvResult method, you can additionally provide a method and file name to add a title to your plot and save it. 
+Additionally, we provide some methods for visualisation. In this and the benchmarking section you can find examples of how to use them. For the plotDeconvResult method, you can additionally provide a method and file name to add a title to your plot and save it. The colors are assigned in the order of the alphabet. As long as the exact same cell types are used throughout the analysis, the color assigned to each cell type will be the same.
 
 Please note that the cell fractions depicted in this section are not representative for deconvolution analysis of "real" data. They are based on our sample dataset, which is very small compared to the usual datasets used in deconvolution analysis and also contains a limited number of cell types. Using such a small subset leads to a big information loss and the results are biased. However, the goal of this section is to give an example how the results can be visualized and to draw attention to the big differences between the results of the five methods implemented.
 
-```{r plot, fig.width=7, fig.height=4}
+```{r plot, fig.width=7, fig.height=4, fig.cap="Figure 2: Cell type proportions of the last step visualized. Very heterogenous results, HD30 show a lot of T cell dividing and NK cell, while HD31 show a lot of monocytes."}
 res_bisque <- immunedeconv2::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations)
 immunedeconv2::plotDeconvResult(res_bisque, method = "Bisque")
 ```
 
 The scatterplot shown below depicts the same results and message as the barplot above, it is just another idea of how to visualize the results. Note that our package does not provide a method for this, but the plot can be recreated with this code.
 
-```{r plot2, fig.width=7, fig.height=4}
+```{r plot2, fig.width=7, fig.height=4, fig.cap="Figure 3: Same cell type proportions as in Figure 2, just visualized on a cell type level."}
 data.frame(res_bisque, samples= rownames(res_bisque)) %>% pivot_longer(!samples, names_to ="cell_type", values_to="predicted_fraction") %>%
 ggplot(aes(y=samples, x=predicted_fraction, color=cell_type))+geom_point(size=3)+facet_wrap(~cell_type)+labs(title="Bisque", y="sample", x="predicted fraction", color="cell type")+scale_fill_brewer(palette="Paired")
 ```
@@ -206,10 +206,12 @@ res_ciber <- immunedeconv2::build_model(single_cell_data, cell_type_annotations,
 immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "cibersortx")
 immunedeconv2::plotDeconvResult(res_ciber, method = "CibersortX")
 ```
-```{r plots, echo=FALSE, out.width="80%"}
+```{r plots, echo=FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("images/momf_prop.png")
 knitr::include_graphics("images/scaden_prop.png")
 knitr::include_graphics("images/dwls_prop.png")
+```
+```{r plots2, echo=FALSE, out.width="80%", fig.cap="Figure 4: Results of the example workflow in 2.6 but with other algorithms. The results differ from the bisque cell proportions and show more homogeneity. MOMF, DWLS and CibersortX predict mostly conventional monocytes, while Scaden shows a very mixed picture."}
 knitr::include_graphics("images/cibersortx_prop.png")
 ```
 
@@ -218,7 +220,7 @@ In this section, we provide a short overview over the deconvolution methods that
 
 Please note that even though our package is freely available, the second generation immune deconvolution methods may not be. For instance, the usage of CibersortX requires a token bound to your IP address. For more information and to request such a token, please see the official website [CIBERSORTX](https://cibersortx.stanford.edu/).
 
-```{r mehods_table, echo=FALSE, out.width="80%"}
+```{r mehods_table, echo=FALSE, out.width="80%", fig.cap="Table 4: Comparison of the methodes used in the package."}
 knitr::include_graphics("images/methods_table.png")
 ```
 
@@ -251,8 +253,10 @@ In the two figures shown below, both bulk and single cell RNA-seq data are TPM n
 result_list <- c(Bisque = res_bisque, CibersortX = res_ciber, DWLS = res_dwls, MOMF = res_momf, Scaden = res_scaden)
 immunedeconv2::makeBenchmarkingScatterplot(result_list, "predictionVsGroundtruth.png")
 ```
-```{r benchmarkingFigure, echo=FALSE, out.width="80%"}
+```{r benchmarkingFigure, echo=FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("images/propgrid_tpm.png")
+```
+```{r benchmarkingFigure2, echo=FALSE, out.width="80%", fig.cap="Figure 5: TPM-normalized: Results of deconvoluting the whole dataset of Hoek et al. [@Hoek2015] while using the data from Maynard et al. [@Maynard2020] for the signature matrix creation. Both datasets are TPM normalized"}
 knitr::include_graphics("images/predictionVsGroundtruth.png")
 ```
 
@@ -260,8 +264,10 @@ All in all, the methods differ a lot in their predictions. Bisque shows very het
 
 The inaccuracy of the prediction of T cells could be induced by TPM normalization. To evaluate this theory, we analyzed the deconvolution results for unnormalized single cell RNA-seq and bulk RNA-seq data as well. The comparison of these predictions can be found in the figure below. 
 
-```{r benchmarkingFigureNonNormalized, echo=FALSE, out.width="80%"}
+```{r benchmarkingFigureNonNormalized, echo=FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("images/propgrid_counts.png")
+```
+```{r benchmarkingFigureNonNormalized2, echo=FALSE, out.width="80%", fig.cap="Figure 6: Unnormalized: Results of deconvoluting the whole dataset of Hoek et al. [@Hoek2015] while using the data from Maynard et al. [@Maynard2020] for the signature matrix creation. Both datasets contain the raw counts."}
 knitr::include_graphics("images/predictionVsGroundtruth_unnormalized.png")
 ```
 
@@ -273,7 +279,7 @@ In contrast to the T cells, the predictions for dendritic cell fractions are sti
 
 Another very important question is, how good the second-generation tools are in comparison to the first-generation deconvolution methods. For that purpose, we compared EPIC, quanTIseq, two first-generation methods with their default parameters, with Scaden. We chose these methods, since they showed a good performace in the benchmarking by Sturm et al. [@Sturm2019]. The deconvolution was based on unnormalized data. 
 
-```{r benchmarkingFirstGen, echo=FALSE, out.width="80%"}
+```{r benchmarkingFirstGen, echo=FALSE, out.width="80%", fig.cap="Figure 7: Comparison of using the unnormalized count data for the deconvolution with two first generation tools (EPIC and quanTIseq) and one second generation tool (Scaden)."}
 knitr::include_graphics("images/predictionVsGroundtruth_unnormalized_firstGeneration.png")
 ```
 
@@ -292,7 +298,7 @@ Scaden is an exception as it does not produce a signature matrix but a perceptro
 It is now possible to use every method which takes in a signature matrix (everything except Scaden) with all other signature methods. This is done by intersecting the genes of the bulk data, single cell data and the signature matrix. In theory, this should not remove any data, as most methods are unable to run with a different number of genes in the signature matrix and the rest of the data. Nevertheless, this property should be evaluated when the whole packages is benchmarked in detail.
 
 ```{r benchmarkingInterchangeMatrix, echo=FALSE}
-knitr::kable(data.frame(Deconv_method=c("Bisque", "CibersortX", "DWLS", "MOMF", "Scaden"), Bisque=c("yes", "(yes)", "(yes)", "yes", "-"), CibersortX=c("yes", "yes", "yes", "yes", "-"), DWLS=c("yes", "yes", "yes", "yes", "-"), MOMF=c("yes", "(yes)", "(yes)", "yes", "-"), Scaden=c("-", "-", "-", "-", "yes")), caption = "Interchangeability table: Row names determine the deconvolution method, column names determine which tool is used to build the signature matrix. '(yes)' indicates that intersecting the genes of bulk data, single cell data and signature matrix is necessary.")
+knitr::kable(data.frame(Deconv_method=c("Bisque", "CibersortX", "DWLS", "MOMF", "Scaden"), Bisque=c("yes", "(yes)", "(yes)", "yes", "-"), CibersortX=c("yes", "yes", "yes", "yes", "-"), DWLS=c("yes", "yes", "yes", "yes", "-"), MOMF=c("yes", "(yes)", "(yes)", "yes", "-"), Scaden=c("-", "-", "-", "-", "yes")), caption = "Table 5: Interchangeability table: Row names determine the deconvolution method, column names determine which tool is used to build the signature matrix. '(yes)' indicates that intersecting the genes of bulk data, single cell data and signature matrix is necessary.")
 ```
 
 ```{r benchmarkingInterchangePlots, echo=FALSE, out.width="45%"}
@@ -301,6 +307,7 @@ knitr::include_graphics("images/dwls_matrices.png")
 knitr::include_graphics("images/bisque_matrices.png")
 knitr::include_graphics("images/momf_matrices.png")
 ```
+Figure 8: Using the deconvolution method with signature matrices created by other methods. The data is unnormalized.
 
 As can be concluded from this figure, interchanging matrices between the methods does not considerably improve the predictions. One might derive small improvements especially when building the signature matrix with Bisque or CibersortX, but the reason behind this needs further examination in the future.
 

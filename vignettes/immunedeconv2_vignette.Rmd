@@ -34,11 +34,8 @@ The prognosis of cancer and its progression is a challenging task. One of the re
      
      
 ## Computational Background
-<<<<<<< HEAD
+
 ```{r introductionFigure, echo=FALSE, out.width="80%", fig.cap="Figure 1: (a) Schematic of the tumor environment. [@Fridman2012] (b) Visualisation of the mathematics behind cell deconvolution. [@Finotello2018]"}
-=======
-```{r introductionFigure, echo=FALSE, out.width="80%", fig.align='center', fig.cap="Figure a by [@Fridman2012], Figure b by [@Finotello2018]"}
->>>>>>> 1c1b3527a3ac31d79e6bc94f6b29641e827e1d13
 knitr::include_graphics("images/introduction.png")
 ```
 Cell-type deconvolution is a computational method to calculate cell type fraction from bulk RNA-seq data. This is done by leveraging precomputed expression signatures that represent the transcriptional profiles of the cell types of interest. The basic idea of cell-type deconvolution is that the gene expression of a sample equals the weighted sum of the contributions of different cell types. (Figure 1b) By extending the number of samples from 1 to m, an equation can be given as follows:  

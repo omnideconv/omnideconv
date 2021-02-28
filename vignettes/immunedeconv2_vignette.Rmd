@@ -1,5 +1,5 @@
 ---
-title: "immunedeconv2 vignette"
+title: "immunedeconv2_vignette"
 output: rmarkdown::html_vignette
 bibliography: references.bib
 biblio-style: apalike

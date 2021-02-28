@@ -1,5 +1,5 @@
 ---
-title: "immunedeconv2_vignette"
+title: "immunedeconv2 vignette"
 output: rmarkdown::html_vignette
 bibliography: references.bib
 biblio-style: apalike
@@ -22,15 +22,18 @@ knitr::opts_chunk$set(
   warning = FALSE
 )
 ```
+```{r Logo, echo=FALSE, out.width="80%"}
+knitr::include_graphics("images/logo.JPG")
+```
 
 # 1. Background
 In the first section, we will give some background information about why cell-type deconvolution is necessary and how it works.
 
-## Biological background
+## Biological Background
 The prognosis of cancer and its progression is a challenging task. One of the reasons is that the type and abundance of immune cells in the tumor microenvironment (tumor immune infiltration) (Figure a) affect the outcome and the efficiency of immunotherapeutic strategies. Therefore, quantifying the composition of immune cells in tumor tissue is necessary. Previously, there have been several techniques like flow cytometry or immunohistochemistry IHC staining which can quantify tumor immune infiltration. However, they have technical or material limitations. A computational method without such limitation is therefore needed. 
      
      
-## Computational background
+## Computational Background
 ```{r introductionFigure, echo=FALSE, out.width="80%", fig.align='center', fig.cap="Figure a by [@Fridman2017], Figure b by [@Finotello2018]"}
 knitr::include_graphics("images/introduction.png")
 ```
@@ -47,13 +50,13 @@ $𝐹:$ Relative cell type proportions in each sample
 
 Therefore, the principle of cell-type deconvolution is that given $𝑀$ and $𝑆$, find $S$ to minimize the sum of square between $S×F$ and $𝑀$. 
 
-## Previous works
+## Previous Works
 Presently, there exists a package [immunedeconv](https://icbi-lab.github.io/immunedeconv/) built by the group of Gregor Sturm. It combines several first-generation deconvolution tools which use fixed, internal signature matrices that cover only a limited set of human cells. Nowadays, second-generation tools have been developed that allow deriving cell-type-specific expression signatures from single-cell RNA-seq (scRNA-seq). This enables the deconvolution of any cell type profiled with single-cell technologies. Therefore, these tools can extend their applicability to other cell phenotypes, tissues, diseases, and organisms.
 
 Our interface unifies multiple second-generation deconvolution methods to facilitate the usage of these tools and clear the way for future benchmarking of these methods. 
 
 
-# 2. Usage of Immunedeconv2
+# 2. Usage of immunedeconv2
 
 In this section, we want to present our package immunedeconv2 by first giving an overview about the basic functions and the showing an example workflow. 
 
@@ -81,7 +84,7 @@ First of all, you need some data to run the deconvolution with.
     - *Genes* x *Samples* matrix
     - Rownames (gene names) are provided in the same format as in the sc RNA-seq data, for instance HGNC symbols
     
-## Sample data
+## Sample Data
 We also provide some sample data, a bigger and a smaller set of single cell RNA-seq matrix (subset of [@Maynard2020]), cell type annotations and bulk RNA-seq matrix [@Hoek2015]. 
 
 The single cell RNA-seq matrix and the corresponding cell type annotations consist of immune cells that were obtained from clinical biopsies of metastatic lung cancer cells. They were profiled using the Smart-seq2 single cell technology. The bulk RNA-seq data from Hoek et al. consists of total RNA of blood samples of patients that were treated with an Influenza vaccination. The immune cells in these samples were purified and subjected to FACS, which offers a ground truth of the underlying cell proportions.
@@ -239,7 +242,7 @@ To evaluate the performance of the methods used, we compared a data set with 17k
 
 For this comparison, a perfect estimation of cell type fractions by one method would include that all points align to the diagonal line in the according facet.
 
-## Prediction results
+## Prediction Results
 
 In the two figures shown below, both bulk and single cell RNA-seq data are TPM normalized. This is the standard for this kind of data and our test data sets contain TPM normalized values as well.
 
@@ -265,7 +268,7 @@ The predictions for the different cell type fractions still differ a lot between
 
 In contrast to the T cells, the predictions for dendritic cell fractions are still very off. This phenomenon was already detected in the benchmarking of first-generation immune deconvolution methods performed by Sturm et al. [@Sturm2019]
 
-## Comparison with first-generation deconvolution methods
+## Comparison with First-Generation Deconvolution Methods
 
 Another very important question is, how good the second-generation tools are in comparison to the first-generation deconvolution methods. For that purpose, we compared EPIC, quanTIseq, two first-generation methods with their default parameters, with Scaden. We chose these methods, since they showed a good performace in the benchmarking by Sturm et al. [@Sturm2019]. The deconvolution was based on unnormalized data. 
 
@@ -279,7 +282,7 @@ The advantage of fixed signature matrices is that they can be modulated to fit t
 
 However, this was just a small benchmark with one dataset. Different datasets of different disease progressions and cell proportions might show additional advantages or disadvantages of the methods. Generally it can be said that second-generation tools provide other functionality and thus make a good addition to the deconvolution package.
 
-## Signature interchangeability
+## Signature Interchangeability
 
 Since second-generation decovolution methods allow to derive cell-type-specific expression signatures from single-cell RNA-seq (scRNA-seq) as well as let the user provide their own signature matrix, the possibility of interchanging signature matrices needs to be examined. 
 
@@ -300,11 +303,11 @@ knitr::include_graphics("images/momf_matrices.png")
 
 As can be concluded from this figure, interchanging matrices between the methods does not considerably improve the predictions. One might derive small improvements especially when building the signature matrix with Bisque or CibersortX, but the reason behind this needs further examination in the future.
 
-# 5. Distribution of work
+# 5. Distribution of Work
 
 We regularly met and were all involved in the general decision making process. This list refers to who did the most work on those topics/who was mainly responsible:
 
-* Katharina: Implementation of MOMF, ReadMe, First edition of Vignette, Visualisation, Sample Data Sets, Benchmarking
+* Katharina: Implementation of MOMF, ReadMe, First edition of Vignette, Visualisation, Sample Data Sets, Benchmarking, Logo
 * Konstantin: Implementation of Bisque and CibersortX, Benchmarking, General Coordination and Planning
 * Nicolas: Implementation of Scaden, Unit tests, Data conversion methods
 * Yuyu: Implementation of DWLS, Continuous Integration, Documentation Website

@@ -30,14 +30,14 @@ knitr::include_graphics("images/logo.JPG")
 In the first section, we will give some background information about why cell-type deconvolution is necessary and how it works.
 
 ## Biological Background
-The prognosis of cancer and its progression is a challenging task. One of the reasons is that the type and abundance of immune cells in the tumor microenvironment (tumor immune infiltration) (Figure a) affect the outcome and the efficiency of immunotherapeutic strategies. Therefore, quantifying the composition of immune cells in tumor tissue is necessary. Previously, there have been several techniques like flow cytometry or immunohistochemistry IHC staining which can quantify tumor immune infiltration. However, they have technical or material limitations. A computational method without such limitation is therefore needed. 
+The prognosis of cancer and its progression is a challenging task. One of the reasons is that the type and abundance of immune cells in the tumor microenvironment (tumor immune infiltration) (Figure 1a) affect the outcome and the efficiency of immunotherapeutic strategies. Therefore, quantifying the composition of immune cells in tumor tissue is necessary. Previously, there have been several techniques like flow cytometry or immunohistochemistry IHC staining which can quantify tumor immune infiltration. However, they have technical or material limitations. A computational method without such limitation is therefore needed. 
      
      
 ## Computational Background
 ```{r introductionFigure, echo=FALSE, out.width="80%", fig.align='center', fig.cap="Figure a by [@Fridman2017], Figure b by [@Finotello2018]"}
 knitr::include_graphics("images/introduction.png")
 ```
-Cell-type deconvolution is a computational method to calculate cell type fraction from bulk RNA-seq data. This is done by leveraging precomputed expression signatures that represent the transcriptional profiles of the cell types of interest. The basic idea of cell-type deconvolution is that the gene expression of a sample equals the weighted sum of the contributions of different cell types. (Figure b) By extending the number of samples from 1 to m, an equation can be given as follows:  
+Cell-type deconvolution is a computational method to calculate cell type fraction from bulk RNA-seq data. This is done by leveraging precomputed expression signatures that represent the transcriptional profiles of the cell types of interest. The basic idea of cell-type deconvolution is that the gene expression of a sample equals the weighted sum of the contributions of different cell types. (Figure 1b) By extending the number of samples from 1 to m, an equation can be given as follows:  
 
 
 $$ M = S \times F $$
@@ -51,7 +51,7 @@ $𝐹:$ Relative cell type proportions in each sample
 Therefore, the principle of cell-type deconvolution is that given $𝑀$ and $𝑆$, find $S$ to minimize the sum of square between $S×F$ and $𝑀$. 
 
 ## Previous Works
-Presently, there exists a package [immunedeconv](https://icbi-lab.github.io/immunedeconv/) built by the group of Gregor Sturm. It combines several first-generation deconvolution tools which use fixed, internal signature matrices that cover only a limited set of human cells. Nowadays, second-generation tools have been developed that allow deriving cell-type-specific expression signatures from single-cell RNA-seq (scRNA-seq). This enables the deconvolution of any cell type profiled with single-cell technologies. Therefore, these tools can extend their applicability to other cell phenotypes, tissues, diseases, and organisms.
+Presently, there exists a package [immunedeconv](https://icbi-lab.github.io/immunedeconv/) [@Sturm2019]. It combines several first-generation deconvolution tools which use fixed, internal signature matrices that cover only a limited set of human cells. Nowadays, second-generation tools have been developed that allow deriving cell-type-specific expression signatures from single-cell RNA-seq (scRNA-seq). This enables the deconvolution of any cell type profiled with single-cell technologies. Therefore, these tools can extend their applicability to other cell phenotypes, tissues, diseases, and organisms.
 
 Our interface unifies multiple second-generation deconvolution methods to facilitate the usage of these tools and clear the way for future benchmarking of these methods. 
 

@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>immunedeconv2_vignette • immunedeconv2</title>
+<title>immunedeconv2 vignette • immunedeconv2</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="immunedeconv2_vignette">
+<script src="../pkgdown.js"></script><meta property="og:title" content="immunedeconv2 vignette">
 <meta property="og:description" content="immunedeconv2">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -54,7 +54,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/immunedeconv2_vignette.html">immunedeconv2_vignette</a>
+      <a href="../articles/immunedeconv2_vignette.html">immunedeconv2 vignette</a>
     </li>
   </ul>
 </li>
@@ -79,7 +79,7 @@
       </header><script src="immunedeconv2_vignette_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>immunedeconv2_vignette</h1>
+      <h1 data-toc-skip>immunedeconv2 vignette</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/icbi-lab/immunedeconv2/blob/master/vignettes/immunedeconv2_vignette.Rmd"><code>vignettes/immunedeconv2_vignette.Rmd</code></a></small>
@@ -89,18 +89,19 @@
 
     
     
+<p><img src="images/logo.JPG" width="80%"></p>
 <div id="background" class="section level1">
 <h1 class="hasAnchor">
 <a href="#background" class="anchor"></a>1. Background</h1>
 <p>In the first section, we will give some background information about why cell-type deconvolution is necessary and how it works.</p>
 <div id="biological-background" class="section level2">
 <h2 class="hasAnchor">
-<a href="#biological-background" class="anchor"></a>Biological background</h2>
+<a href="#biological-background" class="anchor"></a>Biological Background</h2>
 <p>The prognosis of cancer and its progression is a challenging task. One of the reasons is that the type and abundance of immune cells in the tumor microenvironment (tumor immune infiltration) (Figure a) affect the outcome and the efficiency of immunotherapeutic strategies. Therefore, quantifying the composition of immune cells in tumor tissue is necessary. Previously, there have been several techniques like flow cytometry or immunohistochemistry IHC staining which can quantify tumor immune infiltration. However, they have technical or material limitations. A computational method without such limitation is therefore needed.</p>
 </div>
 <div id="computational-background" class="section level2">
 <h2 class="hasAnchor">
-<a href="#computational-background" class="anchor"></a>Computational background</h2>
+<a href="#computational-background" class="anchor"></a>Computational Background</h2>
 <div class="figure" style="text-align: center">
 <img src="images/introduction.png" alt="Figure a by [@Fridman2017], Figure b by [@Finotello2018]" width="80%"><p class="caption">
 Figure a by <span class="citation">(Fridman and Zitvogel <a href="#ref-Fridman2017" role="doc-biblioref">2017</a>)</span>, Figure b by <span class="citation">(Finotello and Trajanoski <a href="#ref-Finotello2018" role="doc-biblioref">2018</a>)</span>
@@ -113,14 +114,14 @@ Figure a by <span class="citation">(Fridman and Zitvogel <a href="#ref-Fridman20
 </div>
 <div id="previous-works" class="section level2">
 <h2 class="hasAnchor">
-<a href="#previous-works" class="anchor"></a>Previous works</h2>
+<a href="#previous-works" class="anchor"></a>Previous Works</h2>
 <p>Presently, there exists a package <a href="https://icbi-lab.github.io/immunedeconv/">immunedeconv</a> built by the group of Gregor Sturm. It combines several first-generation deconvolution tools which use fixed, internal signature matrices that cover only a limited set of human cells. Nowadays, second-generation tools have been developed that allow deriving cell-type-specific expression signatures from single-cell RNA-seq (scRNA-seq). This enables the deconvolution of any cell type profiled with single-cell technologies. Therefore, these tools can extend their applicability to other cell phenotypes, tissues, diseases, and organisms.</p>
 <p>Our interface unifies multiple second-generation deconvolution methods to facilitate the usage of these tools and clear the way for future benchmarking of these methods.</p>
 </div>
 </div>
 <div id="usage-of-immunedeconv2" class="section level1">
 <h1 class="hasAnchor">
-<a href="#usage-of-immunedeconv2" class="anchor"></a>2. Usage of Immunedeconv2</h1>
+<a href="#usage-of-immunedeconv2" class="anchor"></a>2. Usage of immunedeconv2</h1>
 <p>In this section, we want to present our package immunedeconv2 by first giving an overview about the basic functions and the showing an example workflow.</p>
 <div id="installation-and-setup" class="section level2">
 <h2 class="hasAnchor">
@@ -161,7 +162,7 @@ Figure a by <span class="citation">(Fridman and Zitvogel <a href="#ref-Fridman20
 </div>
 <div id="sample-data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#sample-data" class="anchor"></a>Sample data</h2>
+<a href="#sample-data" class="anchor"></a>Sample Data</h2>
 <p>We also provide some sample data, a bigger and a smaller set of single cell RNA-seq matrix (subset of <span class="citation">(Maynard <a href="#ref-Maynard2020" role="doc-biblioref">2020</a>)</span>), cell type annotations and bulk RNA-seq matrix <span class="citation">(Hoek <a href="#ref-Hoek2015" role="doc-biblioref">2015</a>)</span>.</p>
 <p>The single cell RNA-seq matrix and the corresponding cell type annotations consist of immune cells that were obtained from clinical biopsies of metastatic lung cancer cells. They were profiled using the Smart-seq2 single cell technology. The bulk RNA-seq data from Hoek et al. consists of total RNA of blood samples of patients that were treated with an Influenza vaccination. The immune cells in these samples were purified and subjected to FACS, which offers a ground truth of the underlying cell proportions.</p>
 <p>You can simply load the provided sample data with:</p>
@@ -562,7 +563,7 @@ Figure a by <span class="citation">(Fridman and Zitvogel <a href="#ref-Fridman20
 <p>For this comparison, a perfect estimation of cell type fractions by one method would include that all points align to the diagonal line in the according facet.</p>
 <div id="prediction-results" class="section level2">
 <h2 class="hasAnchor">
-<a href="#prediction-results" class="anchor"></a>Prediction results</h2>
+<a href="#prediction-results" class="anchor"></a>Prediction Results</h2>
 <p>In the two figures shown below, both bulk and single cell RNA-seq data are TPM normalized. This is the standard for this kind of data and our test data sets contain TPM normalized values as well.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">result_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>Bisque <span class="op">=</span> <span class="va">res_bisque</span>, CibersortX <span class="op">=</span> <span class="va">res_ciber</span>, DWLS <span class="op">=</span> <span class="va">res_dwls</span>, MOMF <span class="op">=</span> <span class="va">res_momf</span>, Scaden <span class="op">=</span> <span class="va">res_scaden</span><span class="op">)</span>
@@ -576,7 +577,7 @@ Figure a by <span class="citation">(Fridman and Zitvogel <a href="#ref-Fridman20
 </div>
 <div id="comparison-with-first-generation-deconvolution-methods" class="section level2">
 <h2 class="hasAnchor">
-<a href="#comparison-with-first-generation-deconvolution-methods" class="anchor"></a>Comparison with first-generation deconvolution methods</h2>
+<a href="#comparison-with-first-generation-deconvolution-methods" class="anchor"></a>Comparison with First-Generation Deconvolution Methods</h2>
 <p>Another very important question is, how good the second-generation tools are in comparison to the first-generation deconvolution methods. For that purpose, we compared EPIC, quanTIseq, two first-generation methods with their default parameters, with Scaden. We chose these methods, since they showed a good performace in the benchmarking by Sturm et al. <span class="citation">(Sturm <a href="#ref-Sturm2019" role="doc-biblioref">2019</a>)</span>. The deconvolution was based on unnormalized data.</p>
 <p><img src="images/predictionVsGroundtruth_unnormalized_firstGeneration.png" width="80%"></p>
 <p>As already addressed in section 1, first-generation deconvolution tools use fixed, internal signature matrices containing only a limited set of human cells. Second-generation tools bring more flexibility as they allow the Derivation of cell-type specific signature matrices.</p>
@@ -585,7 +586,7 @@ Figure a by <span class="citation">(Fridman and Zitvogel <a href="#ref-Fridman20
 </div>
 <div id="signature-interchangeability" class="section level2">
 <h2 class="hasAnchor">
-<a href="#signature-interchangeability" class="anchor"></a>Signature interchangeability</h2>
+<a href="#signature-interchangeability" class="anchor"></a>Signature Interchangeability</h2>
 <p>Since second-generation decovolution methods allow to derive cell-type-specific expression signatures from single-cell RNA-seq (scRNA-seq) as well as let the user provide their own signature matrix, the possibility of interchanging signature matrices needs to be examined.</p>
 <p>Scaden is an exception as it does not produce a signature matrix but a perceptron.</p>
 <p>It is now possible to use every method which takes in a signature matrix (everything except Scaden) with all other signature methods. This is done by intersecting the genes of the bulk data, single cell data and the signature matrix. In theory, this should not remove any data, as most methods are unable to run with a different number of genes in the signature matrix and the rest of the data. Nevertheless, this property should be evaluated when the whole packages is benchmarked in detail.</p>
@@ -648,10 +649,10 @@ Figure a by <span class="citation">(Fridman and Zitvogel <a href="#ref-Fridman20
 </div>
 <div id="distribution-of-work" class="section level1">
 <h1 class="hasAnchor">
-<a href="#distribution-of-work" class="anchor"></a>5. Distribution of work</h1>
+<a href="#distribution-of-work" class="anchor"></a>5. Distribution of Work</h1>
 <p>We regularly met and were all involved in the general decision making process. This list refers to who did the most work on those topics/who was mainly responsible:</p>
 <ul>
-<li>Katharina: Implementation of MOMF, ReadMe, First edition of Vignette, Visualisation, Sample Data Sets, Benchmarking</li>
+<li>Katharina: Implementation of MOMF, ReadMe, First edition of Vignette, Visualisation, Sample Data Sets, Benchmarking, Logo</li>
 <li>Konstantin: Implementation of Bisque and CibersortX, Benchmarking, General Coordination and Planning</li>
 <li>Nicolas: Implementation of Scaden, Unit tests, Data conversion methods</li>
 <li>Yuyu: Implementation of DWLS, Continuous Integration, Documentation Website</li>

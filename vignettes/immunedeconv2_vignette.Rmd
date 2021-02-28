@@ -66,7 +66,7 @@ Install the CRAN package devtools and use it to install immunedeconv2 from [GitH
 
 ``` {r installation, eval=FALSE}
 install.packages("devtools")
-devtools::install_github("PelzKo/immunedeconv2")
+devtools::install_github("grst/immunedeconv2")
 ```
 
 ## Input Data
@@ -165,7 +165,7 @@ signatureMatrix <- immunedeconv2::build_model(single_cell_data, cell_type_annota
 knitr::kable(signatureMatrix[1:5,])
 ```
 
-We can use this signature matrix to run the deconvolution with Bisque. 
+We can use this signature matrix to run the deconvolution with Bisque.
 
 ```{r deconvExample}
 immunedeconv2::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations) %>%
@@ -175,6 +175,8 @@ knitr::kable()
 ## Plot Results
 
 Additionally, we provide some methods for visualisation. In this and the benchmarking section you can find examples of how to use them. For the plotDeconvResult method, you can additionally provide a method and file name to add a title to your plot and save it. 
+
+Please note that the cell fractions depicted in this section are not representative for deconvolution analysis of "real" data. They are based on our sample dataset, which is very small compared to the usual datasets used in deconvolution analysis and also contains a limited number of cell types. Using such a small subset leads to a big information loss and the results are biased. However, the goal of this section is to give an example how the results can be visualized and to draw attention to the big differences between the results of the five methods implemented.
 
 ```{r plot, fig.width=7, fig.height=4}
 res_bisque <- immunedeconv2::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations)
@@ -188,8 +190,7 @@ data.frame(res_bisque, samples= rownames(res_bisque)) %>% pivot_longer(!samples,
 ggplot(aes(y=samples, x=predicted_fraction, color=cell_type))+geom_point(size=3)+facet_wrap(~cell_type)+labs(title="Bisque", y="sample", x="predicted fraction", color="cell type")+scale_fill_brewer(palette="Paired")
 ```
 
-In the next figures you can see how the other methods are used and how the cell proportions would be distributed based on their calculations.
-Here are some further ideas of how you could plot your deconvolution results. 
+In the next figures you can see how the other methods are used and how the cell proportions would be distributed based on their calculations. Interestingly, the predicted cell fractions differ a lot between the methods. This is further addressed in section 4.
 
 ```{r otherMethods, fig.width=7, fig.height=4, results='hide', eval=FALSE}
 res_momf <- immunedeconv2::build_model(single_cell_data, cell_type_annotations, "momf", bulk) %>%

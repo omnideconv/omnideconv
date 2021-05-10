@@ -97,6 +97,7 @@ deconvolute_bisque <- function (bulk_eset, signature_matrix, single_cell_object 
   bulk_eset <- FilterUnexpressedGenes(bulk_eset, verbose)
   genes <- base::intersect(Biobase::featureNames(sc.eset),
                            Biobase::featureNames(bulk_eset))
+  #IMPORTANT: This line with the intersection is a difference from the original algorithm
   genes <- base::intersect(genes,rownames(signature_matrix))
   if (base::length(genes) == 0) {
     base::stop("Zero genes remaining after filtering and ",

@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 # immunedeconv2
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/PelzKo/immunedeconv2/workflows/R-CMD-check/badge.svg)](https://github.com/PelzKo/immunedeconv2/actions)
+[![R-CMD-check](https://github.com/icbi-lab/immunedeconv2/workflows/R-CMD-check/badge.svg)](https://github.com/icbi-lab/immunedeconv2/actions)
 <!-- badges: end -->
 
 The goal of immunedeconv2 is to unify second generation immune deconvolution methods in an R package. 
@@ -31,7 +31,7 @@ Install the CRAN package devtools and use it to install immunedeconv2 from [GitH
 
 ``` {r installation, eval=FALSE}
 install.packages("devtools")
-devtools::install_github("PelzKo/immunedeconv2")
+devtools::install_github("icbi-lab/immunedeconv2")
 ```
 ## Usage
 

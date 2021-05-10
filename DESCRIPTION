@@ -22,7 +22,7 @@ Description: Collection of second generation methods for immune cell deconvoluti
 License: BSD_3_clause + file LICENSE.md
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/PelzKo/immunedeconv2
+URL: https://github.com/icbi-lab/immunedeconv2
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Config/testthat/edition: 2

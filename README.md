@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/PelzKo/immunedeconv2/workflows/R-CMD-check/badge.svg)](https://github.com/PelzKo/immunedeconv2/actions)
+[![R-CMD-check](https://github.com/icbi-lab/immunedeconv2/workflows/R-CMD-check/badge.svg)](https://github.com/icbi-lab/immunedeconv2/actions)
 <!-- badges: end -->
 
 The goal of immunedeconv2 is to unify second generation immune
@@ -18,7 +18,7 @@ from [GitHub](https://github.com/):
 
 ``` r
 install.packages("devtools")
-devtools::install_github("PelzKo/immunedeconv2")
+devtools::install_github("icbi-lab/immunedeconv2")
 ```
 
 ## Usage

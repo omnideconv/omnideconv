@@ -1,3 +1,104 @@
+@article {Mendeneaba2619,
+	author = {Menden, Kevin and Marouf, Mohamed and Oller, Sergio and Dalmia, Anupriya and Magruder, Daniel Sumner and Kloiber, Karin and Heutink, Peter and Bonn, Stefan},
+	title = {Deep learning{\textendash}based cell composition analysis from tissue expression profiles},
+	volume = {6},
+	number = {30},
+	elocation-id = {eaba2619},
+	year = {2020},
+	doi = {10.1126/sciadv.aba2619},
+	publisher = {American Association for the Advancement of Science},
+	abstract = {We present Scaden, a deep neural network for cell deconvolution that uses gene expression information to infer the cellular composition of tissues. Scaden is trained on single-cell RNA sequencing (RNA-seq) data to engineer discriminative features that confer robustness to bias and noise, making complex data preprocessing and feature selection unnecessary. We demonstrate that Scaden outperforms existing deconvolution algorithms in both precision and robustness. A single trained network reliably deconvolves bulk RNA-seq and microarray, human and mouse tissue expression data and leverages the combined information of multiple datasets. Because of this stability and flexibility, we surmise that deep learning will become an algorithmic mainstay for cell deconvolution of various data types. Scaden{\textquoteright}s software package and web application are easy to use on new as well as diverse existing expression datasets available in public resources, deepening the molecular and cellular understanding of developmental and disease processes.},
+	URL = {https://advances.sciencemag.org/content/6/30/eaba2619},
+	eprint = {https://advances.sciencemag.org/content/6/30/eaba2619.full.pdf},
+	journal = {Science Advances}
+}
+
+@Article{Sun2019,
+   author={Sun, X.
+   and Sun, S.
+   and Yang, S.},
+   title={An Efficient and Flexible Method for Deconvoluting Bulk RNA-Seq Data with Single-Cell RNA-Seq Data},
+   journal={Cells},
+   year={2019},
+   volume={8},
+   number={10},
+   month={09},
+   url={https://doi.org/10.3390/cells8101161}
+}
+
+@Article{Tsoucas2019,
+author={Tsoucas, Daphne
+and Dong, Rui
+and Chen, Haide
+and Zhu, Qian
+and Guo, Guoji
+and Yuan, Guo-Cheng},
+title={Accurate estimation of cell-type composition from gene expression data},
+journal={Nature Communications},
+year={2019},
+month={Jul},
+day={05},
+volume={10},
+number={1},
+pages={2975},
+abstract={The rapid development of single-cell transcriptomic technologies has helped uncover the cellular heterogeneity within cell populations. However, bulk RNA-seq continues to be the main workhorse for quantifying gene expression levels due to technical simplicity and low cost. To most effectively extract information from bulk data given the new knowledge gained from single-cell methods, we have developed a novel algorithm to estimate the cell-type composition of bulk data from a single-cell RNA-seq-derived cell-type signature. Comparison with existing methods using various real RNA-seq data sets indicates that our new approach is more accurate and comprehensive than previous methods, especially for the estimation of rare cell types. More importantly, our method can detect cell-type composition changes in response to external perturbations, thereby providing a valuable, cost-effective method for dissecting the cell-type-specific effects of drug treatments or condition changes. As such, our method is applicable to a wide range of biological and clinical investigations.},
+issn={2041-1723},
+doi={10.1038/s41467-019-10802-z},
+url={https://doi.org/10.1038/s41467-019-10802-z}
+}
+
+@Article{Newman2019,
+author={Newman, Aaron M.
+and Steen, Chlo{\'e} B.
+and Liu, Chih Long
+and Gentles, Andrew J.
+and Chaudhuri, Aadel A.
+and Scherer, Florian
+and Khodadoust, Michael S.
+and Esfahani, Mohammad S.
+and Luca, Bogdan A.
+and Steiner, David
+and Diehn, Maximilian
+and Alizadeh, Ash A.},
+title={Determining cell type abundance and expression from bulk tissues with digital cytometry},
+journal={Nature Biotechnology},
+year={2019},
+month={Jul},
+day={01},
+volume={37},
+number={7},
+pages={773-782},
+abstract={Single-cell RNA-sequencing has emerged as a powerful technique for characterizing cellular heterogeneity, but it is currently impractical on large sample cohorts and cannot be applied to fixed specimens collected as part of routine clinical care. We previously developed an approach for digital cytometry, called CIBERSORT, that enables estimation of cell type abundances from bulk tissue transcriptomes. We now introduce CIBERSORTx, a machine learning method that extends this framework to infer cell-type-specific gene expression profiles without physical cell isolation. By minimizing platform-specific variation, CIBERSORTx also allows the use of single-cell RNA-sequencing data for large-scale tissue dissection. We evaluated the utility of CIBERSORTx in multiple tumor types, including melanoma, where single-cell reference profiles were used to dissect bulk clinical specimens, revealing cell-type-specific phenotypic states linked to distinct driver mutations and response to immune checkpoint blockade. We anticipate that digital cytometry will augment single-cell profiling efforts, enabling cost-effective, high-throughput tissue characterization without the need for antibodies, disaggregation or viable cells.},
+issn={1546-1696},
+doi={10.1038/s41587-019-0114-2},
+url={https://doi.org/10.1038/s41587-019-0114-2}
+}
+
+@Article{Jew2020,
+author={Jew, Brandon
+and Alvarez, Marcus
+and Rahmani, Elior
+and Miao, Zong
+and Ko, Arthur
+and Garske, Kristina M.
+and Sul, Jae Hoon
+and Pietil{\"a}inen, Kirsi H.
+and Pajukanta, P{\"a}ivi
+and Halperin, Eran},
+title={Accurate estimation of cell composition in bulk expression through robust integration of single-cell information},
+journal={Nature Communications},
+year={2020},
+month={Apr},
+day={24},
+volume={11},
+number={1},
+pages={1971},
+abstract={We present Bisque, a tool for estimating cell type proportions in bulk expression. Bisque implements a regression-based approach that utilizes single-cell RNA-seq (scRNA-seq) or single-nucleus RNA-seq (snRNA-seq) data to generate a reference expression profile and learn gene-specific bulk expression transformations to robustly decompose RNA-seq data. These transformations significantly improve decomposition performance compared to existing methods when there is significant technical variation in the generation of the reference profile and observed bulk expression. Importantly, compared to existing methods, our approach is extremely efficient, making it suitable for the analysis of large genomic datasets that are becoming ubiquitous. When applied to subcutaneous adipose and dorsolateral prefrontal cortex expression datasets with both bulk RNA-seq and snRNA-seq data, Bisque replicates previously reported associations between cell type proportions and measured phenotypes across abundant and rare cell types. We further propose an additional mode of operation that merely requires a set of known marker genes.},
+issn={2041-1723},
+doi={10.1038/s41467-020-15816-6},
+url={https://doi.org/10.1038/s41467-020-15816-6}
+}
+
 @article{Finotello2018,
 abstract = {By exerting pro-and anti-tumorigenic actions, tumor-infiltrating immune cells can profoundly influence tumor progression, as well as the success of anti-cancer therapies. Therefore, the quantification of tumor-infiltrating immune cells holds the promise to unveil the multi-faceted role of the immune system in human cancers and its involvement in tumor escape mechanisms and response to therapy. Tumor-infiltrating immune cells can be quantified from RNA sequencing data of human tumors using bioinformatics approaches. In this review, we describe state-of-the-art computational methods for the quantification of immune cells from transcriptomics data and discuss the open challenges that must be addressed to accurately quantify immune infiltrates from RNA sequencing data of human bulk tumors.},
 author = {Finotello, Francesca and Trajanoski, Zlatko},
@@ -12,15 +113,15 @@ volume = {0},
 year = {2018}
 }
 
-@article{Fridman2017,
-abstract = {Most cancers have evaded immune control, or immunosurveillance, at the time of presentation; however, residual signs of an active anticancer immune response indicate a positive prognosisPositive immune-related prognostic features include the presence of specific T-lymphocyte subsets, the absence of immunosuppressive elements, the localization of the immune infiltrate and specific features of its organizationSuccessful anticancer therapies, including cytotoxic chemotherapies and targeted agents, improve the local immune contexture and mediate at least part of their long-term effects by reinstating immunosurveillanceThe presence of either a pre-existing or induced immune response indicates a more favourable prognosis than that of patients whose tumours lack either of these featuresImmune-checkpoint inhibitors have a profound effect on the local immune infiltrate, and a variety of biomarkers have the potential to indicate a pre-existing or developing anticancer immune responseThe discovery of immunological biomarkers in oncology has been facilitated by the advent of ever more sophisticated technologies, posing new challenges to both data integration and bioinformatic analysis},
-author = {Fridman, Wolf H. and Zitvogel, Laurence et al.},
-doi = {10.1038/nrclinonc.2017.101},
-journal = {Nature Reviews Clinical Oncology},
-title = {{The immune contexture in cancer prognosis and treatment}},
-url = {https://pubmed.ncbi.nlm.nih.gov/25822800/},
-volume = {0},
-year = {2017}
+@article{Fridman2012,
+abstract = {The infiltration of various types of immune cells is common to most tumour microenvironments. As discussed in this Opinion article, the pattern of immune cell infiltration varies between cancer type and individual tumours of the same type, and this pattern can be used to indicate prognosis and response to therapy.},
+author = {Fridman, Wolf H. and Pagès, Franck et al.},
+doi = {10.1038/nrc3245},
+journal = {Nature Reviews Cancer},
+title = {{The immune contexture in human tumours: impact on clinical outcome}},
+url = {https://doi.org/10.1038/nrc3245},
+volume = {12},
+year = {2012}
 }
 
 @article{Newman2015,
@@ -73,3 +174,32 @@ volume = {10},
 issue = {2},
 year = {2015}
 }
+
+@article{Sturm2019,
+    author = {Sturm, Gregor and Finotello, Francesca and Petitprez, Florent and Zhang, Jitao David and Baumbach, Jan and Fridman, Wolf H and List, Markus and Aneichyk, Tatsiana},
+    title = "{Comprehensive evaluation of transcriptome-based cell-type quantification methods for immuno-oncology}",
+    journal = {Bioinformatics},
+    volume = {35},
+    number = {14},
+    pages = {i436-i445},
+    year = {2019},
+    month = {07},
+    abstract = "{The composition and density of immune cells in the tumor microenvironment (TME) profoundly influence tumor progression and success of anti-cancer therapies. Flow cytometry, immunohistochemistry staining or single-cell sequencing are often unavailable such that we rely on computational methods to estimate the immune-cell composition from bulk RNA-sequencing (RNA-seq) data. Various methods have been proposed recently, yet their capabilities and limitations have not been evaluated systematically. A general guideline leading the research community through cell type deconvolution is missing.We developed a systematic approach for benchmarking such computational methods and assessed the accuracy of tools at estimating nine different immune- and stromal cells from bulk RNA-seq samples. We used a single-cell RNA-seq dataset of ∼11 000 cells from the TME to simulate bulk samples of known cell type proportions, and validated the results using independent, publicly available gold-standard estimates. This allowed us to analyze and condense the results of more than a hundred thousand predictions to provide an exhaustive evaluation across seven computational methods over nine cell types and ∼1800 samples from five simulated and real-world datasets. We demonstrate that computational deconvolution performs at high accuracy for well-defined cell-type signatures and propose how fuzzy cell-type signatures can be improved. We suggest that future efforts should be dedicated to refining cell population definitions and finding reliable signatures.A snakemake pipeline to reproduce the benchmark is available at https://github.com/grst/immune\_deconvolution\_benchmark. An R package allows the community to perform integrated deconvolution using different methods (https://grst.github.io/immunedeconv).Supplementary data are available at Bioinformatics online.}",
+    issn = {1367-4803},
+    doi = {10.1093/bioinformatics/btz363},
+    url = {https://doi.org/10.1093/bioinformatics/btz363},
+    eprint = {https://academic.oup.com/bioinformatics/article-pdf/35/14/i436/28913288/btz363.pdf},
+}
+
+
+@article{Fridman2012,
+abstract = {The infiltration of various types of immune cells is common to most tumour microenvironments. As discussed in this Opinion article, the pattern of immune cell infiltration varies between cancer type and individual tumours of the same type, and this pattern can be used to indicate prognosis and response to therapy.},
+author = {Fridman, Wolf H. and Pagès, Franck et al.},
+doi = {10.1038/nrc3245},
+journal = {Nature Reviews Cancer},
+title = {{The immune contexture in human tumours: impact on clinical outcome}},
+url = {https://doi.org/10.1038/nrc3245},
+volume = {12},
+year = {2012}
+}
+

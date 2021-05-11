@@ -17,21 +17,21 @@ knitr::opts_chunk$set(
 )
 ```
 
-# immunedeconv2
+# omnideconv
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/icbi-lab/immunedeconv2/workflows/R-CMD-check/badge.svg)](https://github.com/icbi-lab/immunedeconv2/actions)
+[![R-CMD-check](https://github.com/icbi-lab/omnideconv/workflows/R-CMD-check/badge.svg)](https://github.com/icbi-lab/omnideconv/actions)
 <!-- badges: end -->
 
-The goal of immunedeconv2 is to unify second generation immune deconvolution methods in an R package. 
+The goal of omnideconv is to unify second generation immune deconvolution methods in an R package. 
 
 ## Installation
 
-Install the CRAN package devtools and use it to install immunedeconv2 from [GitHub](https://github.com/):
+Install the CRAN package devtools and use it to install omnideconv from [GitHub](https://github.com/):
 
 ``` {r installation, eval=FALSE}
 install.packages("devtools")
-devtools::install_github("icbi-lab/immunedeconv2")
+devtools::install_github("icbi-lab/omnideconv")
 ```
 ## Usage
 
@@ -48,7 +48,7 @@ load("data/single_cell_data.RData")
 ### 1. Build a Signature Matrix
 
 ```{r signature, eval=FALSE}
-immunedeconv2::build_model(single_cell_data, cell_type_annotations, method = "dwls")
+omnideconv::build_model(single_cell_data, cell_type_annotations, method = "dwls")
 ```
 
 In this method, single_cell_data is a matrix of single cell RNA-seq data with genes in rows and cells in columns, cell_type_annotations a vector that contains an annotation for each cell in your single_cell_data, and the possible methods are:
@@ -62,11 +62,11 @@ In this method, single_cell_data is a matrix of single cell RNA-seq data with ge
 ### 2. Deconvolute 
 
 ```{r saveSig, echo=FALSE, results = "hide"}
-signature_matrix <- immunedeconv2::build_model(single_cell_data, cell_type_annotations, "dwls")
+signature_matrix <- omnideconv::build_model(single_cell_data, cell_type_annotations, "dwls")
 ```
 
 ```{r deconv, eval=FALSE}
-immunedeconv2::deconvolute(bulk, signature_matrix, method = "dwls")
+omnideconv::deconvolute(bulk, signature_matrix, method = "dwls")
 ```
 
 Here, bulk is your bulk RNA-seq data as a matrix with genes in rows and samples in column, signature_matrix is the signature matrix you created in the previous step and the method can again be one of the four methods listed above. 
@@ -74,7 +74,7 @@ Here, bulk is your bulk RNA-seq data as a matrix with genes in rows and samples 
 This is, what the cell type properties in your bulk RNA-seq data computed in the deconvolution step could look like:
 
 ```{r echo=FALSE, results = "hide"}
-res <- immunedeconv2::deconvolute(bulk, signature_matrix, method = "dwls")
+res <- omnideconv::deconvolute(bulk, signature_matrix, method = "dwls")
 ```
 ```{r echo=FALSE}
 knitr::kable(res)

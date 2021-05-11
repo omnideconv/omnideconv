@@ -1,12 +1,12 @@
 ---
-title: "immunedeconv2_vignette"
+title: "omnideconv_vignette"
 output: rmarkdown::html_vignette
 bibliography: references.bib
 biblio-style: apalike
 link-citations: yes
 colorlinks: yes
 vignette: >
-  %\VignetteIndexEntry{immunedeconv2_vignette}
+  %\VignetteIndexEntry{omnideconv_vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -57,17 +57,17 @@ Presently, there exists a package [immunedeconv](https://icbi-lab.github.io/immu
 Our interface unifies multiple second-generation deconvolution methods to facilitate the usage of these tools and clear the way for future benchmarking of these methods. 
 
 
-# 2. Usage of immunedeconv2
+# 2. Usage of omnideconv
 
-In this section, we want to present our package immunedeconv2 by first giving an overview about the basic functions and the showing an example workflow. 
+In this section, we want to present our package omnideconv by first giving an overview about the basic functions and the showing an example workflow. 
 
 ## Installation and Setup
 
-Install the CRAN package devtools and use it to install immunedeconv2 from [GitHub](https://github.com/):
+Install the CRAN package devtools and use it to install omnideconv from [GitHub](https://github.com/):
 
 ``` {r installation, eval=FALSE}
 install.packages("devtools")
-devtools::install_github("grst/immunedeconv2")
+devtools::install_github("grst/omnideconv")
 ```
 
 ## Input Data
@@ -107,7 +107,7 @@ data("single_cell_data_small")
 To calculate a cell-type-specific expression signature, you can use the build_model function with the single cell RNA-seq matrix (rows are genes, columns are samples) and cell type annotations specified above. Alternatively a SingleCellExperiment or an AnnData object can be provided. The parameter method can be set to one of the five methods listed below. More information of the methods is provided in section 3.
 
 ```{r signature, eval=FALSE}
-immunedeconv2::build_model(single_cell_data, cell_type_annotations, method)
+omnideconv::build_model(single_cell_data, cell_type_annotations, method)
 ```
 
 * Bisque ("bisque")
@@ -125,7 +125,7 @@ Additional parameters for the different methods can be included in the method ca
 After building the specific signature matrix, you can calculate the cell properties in bulk RNA-seq data with the deconvolute function. For this, you need to provide the bulk data, signature matrix and you can, again, choose between the five methods listed in the previous section. 
 
 ```{r deconv, eval=FALSE}
-immunedeconv2::deconvolute(bulk, signature_matrix, method)
+omnideconv::deconvolute(bulk, signature_matrix, method)
 ```
 
 Note: Bisque and MOMF additionally need the single cell RNA-seq matrix you used to build the signature matrix for their deconvolution. As a fifth parameter, Bisque also needs cell type annotations, which were already needed for building the model. 
@@ -148,7 +148,7 @@ First of all, make sure you load all the libraries we need for this analysis. If
 ```{r loadLibs}
 library(tidyr)
 library(dplyr)
-library(immunedeconv2)
+library(omnideconv)
 library(RColorBrewer)
 library(ggplot2)
 ```
@@ -162,14 +162,14 @@ knitr::kable(single_cell_data[170:175, 9:13], caption="Table 1: Example of TPM-n
 Now we build the signature matrix with Bisque and look at the values for the first few genes. 
 
 ```{r signatureExample}
-signatureMatrix <- immunedeconv2::build_model(single_cell_data, cell_type_annotations, "bisque")
+signatureMatrix <- omnideconv::build_model(single_cell_data, cell_type_annotations, "bisque")
 knitr::kable(signatureMatrix[1:5,], caption = "Table 2: Signature matrix created with Bisque.")
 ```
 
 We can use this signature matrix to run the deconvolution with Bisque.
 
 ```{r deconvExample}
-immunedeconv2::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations) %>%
+omnideconv::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations) %>%
 knitr::kable(caption = "Table 3: Deconvoluted cell type proportions calculated with Bisque and the signature matrix from the last step.")
 ```
 
@@ -180,8 +180,8 @@ Additionally, we provide some methods for visualisation. In this and the benchma
 Please note that the cell fractions depicted in this section are not representative for deconvolution analysis of "real" data. They are based on our sample dataset, which is very small compared to the usual datasets used in deconvolution analysis and also contains a limited number of cell types. Using such a small subset leads to a big information loss and the results are biased. However, the goal of this section is to give an example how the results can be visualized and to draw attention to the big differences between the results of the five methods implemented.
 
 ```{r plot, fig.width=7, fig.height=4, fig.cap="Figure 2: Cell type proportions of the last step visualized. Very heterogenous results, HD30 show a lot of T cell dividing and NK cell, while HD31 show a lot of monocytes."}
-res_bisque <- immunedeconv2::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations)
-immunedeconv2::plotDeconvResult(res_bisque, method = "Bisque")
+res_bisque <- omnideconv::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations)
+omnideconv::plotDeconvResult(res_bisque, method = "Bisque")
 ```
 
 The scatterplot shown below depicts the same results and message as the barplot above, it is just another idea of how to visualize the results. Note that our package does not provide a method for this, but the plot can be recreated with this code.
@@ -194,18 +194,18 @@ ggplot(aes(y=samples, x=predicted_fraction, color=cell_type))+geom_point(size=3)
 In the next figures you can see how the other methods are used and how the cell proportions would be distributed based on their calculations. Interestingly, the predicted cell fractions differ a lot between the methods. This is further addressed in section 4.
 
 ```{r otherMethods, fig.width=7, fig.height=4, results='hide', eval=FALSE}
-res_momf <- immunedeconv2::build_model(single_cell_data, cell_type_annotations, "momf", bulk) %>%
-immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "momf", single_cell_object = single_cell_data)
-immunedeconv2::plotDeconvResult(res_momf, method = "MOMF")
-res_scaden <- immunedeconv2::build_model(single_cell_object = single_cell_data, cell_type_annotations = cell_type_annotations, method = "scaden", bulk) %>%
- immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "scaden", single_cell_object = single_cell_data)
-immunedeconv2::plotDeconvResult(res_scaden, method = "Scaden")
-res_dwls <- immunedeconv2::build_model(single_cell_data, cell_type_annotations, "dwls") %>%
-immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "dwls")
-immunedeconv2::plotDeconvResult(res_dwls, method = "DWLS")
-res_ciber <- immunedeconv2::build_model(single_cell_data, cell_type_annotations, "cibersortx") %>%
-immunedeconv2::deconvolute(bulk_gene_expression = bulk, method = "cibersortx")
-immunedeconv2::plotDeconvResult(res_ciber, method = "CibersortX")
+res_momf <- omnideconv::build_model(single_cell_data, cell_type_annotations, "momf", bulk) %>%
+omnideconv::deconvolute(bulk_gene_expression = bulk, method = "momf", single_cell_object = single_cell_data)
+omnideconv::plotDeconvResult(res_momf, method = "MOMF")
+res_scaden <- omnideconv::build_model(single_cell_object = single_cell_data, cell_type_annotations = cell_type_annotations, method = "scaden", bulk) %>%
+ omnideconv::deconvolute(bulk_gene_expression = bulk, method = "scaden", single_cell_object = single_cell_data)
+omnideconv::plotDeconvResult(res_scaden, method = "Scaden")
+res_dwls <- omnideconv::build_model(single_cell_data, cell_type_annotations, "dwls") %>%
+omnideconv::deconvolute(bulk_gene_expression = bulk, method = "dwls")
+omnideconv::plotDeconvResult(res_dwls, method = "DWLS")
+res_ciber <- omnideconv::build_model(single_cell_data, cell_type_annotations, "cibersortx") %>%
+omnideconv::deconvolute(bulk_gene_expression = bulk, method = "cibersortx")
+omnideconv::plotDeconvResult(res_ciber, method = "CibersortX")
 ```
 ```{r plots, echo=FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("images/momf_prop.png")
@@ -252,7 +252,7 @@ In the two figures shown below, both bulk and single cell RNA-seq data are TPM n
 
 ```{r benchmarking, fig.width=6, fig.height=7, eval=FALSE}
 result_list <- c(Bisque = res_bisque, CibersortX = res_ciber, DWLS = res_dwls, MOMF = res_momf, Scaden = res_scaden)
-immunedeconv2::makeBenchmarkingScatterplot(result_list, "predictionVsGroundtruth.png")
+omnideconv::makeBenchmarkingScatterplot(result_list, "predictionVsGroundtruth.png")
 ```
 ```{r benchmarkingFigure, echo=FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("images/propgrid_tpm.png")

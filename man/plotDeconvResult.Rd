@@ -20,5 +20,5 @@ the ggplot object
 Plot deconvolution results as a barplot
 }
 \examples{
-plotDeconvResult(immunedeconv2::deconvolute(bulk, immunedeconv2::build_model(single_cell_data, cell_type_annotations, "bisque"), "bisque", single_cell_data, cell_type_annotations), "Bisque")
+plotDeconvResult(omnideconv::deconvolute(bulk, omnideconv::build_model(single_cell_data, cell_type_annotations, "bisque"), "bisque", single_cell_data, cell_type_annotations), "Bisque")
 }

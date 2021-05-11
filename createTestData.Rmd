@@ -19,7 +19,7 @@ The goal is to create small test data sets that are as close to the ground truth
 
 # Loading data
 
-You might need to change the path in this chunk of code in the Rmd as I won't include the datasets. Make sure you made the methods from the immunedeconv2 package available somehow!
+You might need to change the path in this chunk of code in the Rmd as I won't include the datasets. Make sure you made the methods from the omnideconv package available somehow!
 
 ```{r loadData, echo=T}
 DATADIR = "F:/Katharina/Kathi"
@@ -35,10 +35,10 @@ colnames(sc) <- obs$Run
 
 transform_refData <- t(RefData)
 
-source("immunedeconv2/R/deconvolution_algorithms.R")
-source("immunedeconv2/R/MOMF.R")
-source("immunedeconv2/R/bisque.R")
-source("immunedeconv2/R/data_processing.R")
+source("omnideconv/R/deconvolution_algorithms.R")
+source("omnideconv/R/MOMF.R")
+source("omnideconv/R/bisque.R")
+source("omnideconv/R/data_processing.R")
 ```
 
 # Preparing the data

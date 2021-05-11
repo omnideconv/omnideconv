@@ -1,3 +1,3 @@
 library(testthat)
-library(immunedeconv2)
+library(omnideconv)
 

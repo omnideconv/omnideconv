@@ -1,153 +1,153 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/index.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/index.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/RefData.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/RefData.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/anndata_check_load.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/anndata_check_load.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/anndata_to_singlecellexperiment.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/anndata_to_singlecellexperiment.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/build_anndata.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/build_anndata.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/build_model.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/build_model.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/build_model_bisque.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/build_model_bisque.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/build_model_cibersortx.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/build_model_cibersortx.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/build_model_dwls.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/build_model_dwls.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/build_model_momf.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/build_model_momf.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/build_model_scaden.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/build_model_scaden.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/bulk.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/bulk.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/bulk_small.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/bulk_small.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/cell_type_annotations.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/cell_type_annotations.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/cell_type_annotations_small.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/cell_type_annotations_small.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/deconvolute.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/deconvolute_bisque.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute_bisque.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/deconvolute_cibersortx.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute_cibersortx.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/deconvolute_dwls.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute_dwls.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/deconvolute_momf.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute_momf.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/deconvolute_scaden.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute_scaden.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/deconvolution_methods.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolution_methods.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/deescape_blanks.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/deescape_blanks.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/docker_available.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/docker_available.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/docker_connectable.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/docker_connectable.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/escape_blanks.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/escape_blanks.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/get_single_cell_expression_set.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/get_single_cell_expression_set.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/init_python.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/init_python.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/install_scaden.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/install_scaden.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/makeBenchmarkingScatterplot.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/makeBenchmarkingScatterplot.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/matrix_to_singlecellexperiment.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/matrix_to_singlecellexperiment.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/plotDeconvResult.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/plotDeconvResult.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/python_available.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/python_available.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/read_anndata.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/read_anndata.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/scaden_checkload.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/scaden_checkload.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/scaden_predict.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/scaden_predict.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/scaden_process.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/scaden_process.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/scaden_simulate.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/scaden_simulate.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/scaden_simulate_example.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/scaden_simulate_example.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/scaden_train.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/scaden_train.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/sces_are_identical.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/sces_are_identical.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/set_cibersortx_credentials.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/set_cibersortx_credentials.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/set_python.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/set_python.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/single_cell_data.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/single_cell_data.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/single_cell_data_small.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/single_cell_data_small.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/singlecellexperiment_to_anndata.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/singlecellexperiment_to_anndata.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/singlecellexperiment_to_matrix.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/singlecellexperiment_to_matrix.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/verbose_wrapper.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/verbose_wrapper.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/reference/write_anndata.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/write_anndata.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/immunedeconv2/articles/immunedeconv2_vignette.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/articles/omnideconv_vignette.html</loc>
   </url>
 </urlset>

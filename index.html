@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Second generation methods for immune cell deconvolution • immunedeconv2</title>
+<title>Second generation methods for immune cell deconvolution • omnideconv</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -30,7 +30,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">immunedeconv2</a>
+        <a class="navbar-link" href="index.html">omnideconv</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
       </span>
     </div>
@@ -54,14 +54,14 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/immunedeconv2_vignette.html">immunedeconv2_vignette</a>
+      <a href="articles/omnideconv_vignette.html">omnideconv_vignette</a>
     </li>
   </ul>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/icbi-lab/immunedeconv2/">
+  <a href="https://github.com/icbi-lab/omnideconv/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -78,19 +78,19 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="immunedeconv2" class="section level1">
+<div id="omnideconv" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#immunedeconv2" class="anchor"></a>immunedeconv2</h1></div>
+<a href="#omnideconv" class="anchor"></a>omnideconv</h1></div>
 <!-- badges: start -->
 
-<p>The goal of immunedeconv2 is to unify second generation immune deconvolution methods in an R package.</p>
+<p>The goal of omnideconv is to unify second generation immune deconvolution methods in an R package.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>Install the CRAN package devtools and use it to install immunedeconv2 from <a href="https://github.com/">GitHub</a>:</p>
+<p>Install the CRAN package devtools and use it to install omnideconv from <a href="https://github.com/">GitHub</a>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"icbi-lab/immunedeconv2"</span><span class="op">)</span></code></pre></div>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"icbi-lab/omnideconv"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
@@ -101,7 +101,7 @@
 <h3 class="hasAnchor">
 <a href="#1-build-a-signature-matrix" class="anchor"></a>1. Build a Signature Matrix</h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">immunedeconv2</span><span class="fu">::</span><span class="fu"><a href="reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, 
+<code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, 
     method <span class="op">=</span> <span class="st">"dwls"</span><span class="op">)</span></code></pre></div>
 <p>In this method, single_cell_data is a matrix of single cell RNA-seq data with genes in rows and cells in columns, cell_type_annotations a vector that contains an annotation for each cell in your single_cell_data, and the possible methods are:</p>
 <ul>
@@ -109,137 +109,137 @@
 <li>DWLS (“dwls”)</li>
 <li>MOMF (“momf”)</li>
 <li>Scaden (“scaden”)</li>
+<li>CibersortX (“cibersortx”)</li>
 </ul>
 </div>
 <div id="2-deconvolute" class="section level3">
 <h3 class="hasAnchor">
 <a href="#2-deconvolute" class="anchor"></a>2. Deconvolute</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">immunedeconv2</span><span class="fu">::</span><span class="fu"><a href="reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="va">signature_matrix</span>, method <span class="op">=</span> <span class="st">"dwls"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="va">signature_matrix</span>, method <span class="op">=</span> <span class="st">"dwls"</span><span class="op">)</span></code></pre></div>
 <p>Here, bulk is your bulk RNA-seq data as a matrix with genes in rows and samples in column, signature_matrix is the signature matrix you created in the previous step and the method can again be one of the four methods listed above.</p>
 <p>This is, what the cell type properties in your bulk RNA-seq data computed in the deconvolution step could look like:</p>
 <table class="table">
 <colgroup>
-<col width="20%">
-<col width="10%">
-<col width="10%">
-<col width="10%">
-<col width="10%">
-<col width="10%">
-<col width="10%">
-<col width="10%">
-<col width="10%">
+<col width="3%">
+<col width="80%">
+<col width="1%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="1%">
+<col width="2%">
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
-<th align="right">HD30_PBMC_0</th>
-<th align="right">HD30_PBMC_1</th>
-<th align="right">HD30_PBMC_3</th>
-<th align="right">HD30_PBMC_7</th>
-<th align="right">HD31_PBMC_0</th>
-<th align="right">HD31_PBMC_1</th>
-<th align="right">HD31_PBMC_3</th>
-<th align="right">HD31_PBMC_7</th>
+<th align="right">B$ <em>c<strong>e</strong>l<strong>l<em>|</em>M</strong>a<strong>c</strong>r<strong>o</strong>p<strong>h</strong>a<strong>g</strong>e</em>|*M<strong>o</strong>n<strong>o</strong>c<strong>y</strong>t**e* <em>c<strong>o</strong>n<strong>v</strong>e<strong>n</strong>t<strong>i</strong>o<strong>n</strong>a<strong>l<em>|</em>M</strong>o<strong>n</strong>o<strong>c</strong>y<strong>t</strong>e</em> <em>n<strong>o</strong>n</em> − <em>c<strong>o</strong>n<strong>v</strong>e<strong>n</strong>t<strong>i</strong>o<strong>n</strong>a<strong>l<em>|</em>N</strong>K</em> *c<strong>e</strong>l**l<em>|</em>T* *c<strong>e</strong>l**l* *C**D<em>4|</em>T* *c<strong>e</strong>l**l* *C**D<em>8|</em>T* *c<strong>e</strong>l**l* *d<strong>i</strong>v<strong>i</strong>d<strong>i</strong>n**g<em>|</em>T* *c<strong>e</strong>l**l* $regulatory</th>
+<th align="right"></th>
+<th align="right"></th>
+<th align="right"></th>
+<th align="right"></th>
+<th align="right"></th>
+<th align="right"></th>
+<th align="right"></th>
+<th align="right"></th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">T_cell_CD4</td>
-<td align="right">0.00000</td>
-<td align="right">0.00000</td>
-<td align="right">0.07258</td>
-<td align="right">0.05122</td>
-<td align="right">0.10743</td>
-<td align="right">0.14894</td>
-<td align="right">0.12130</td>
-<td align="right">0.08902</td>
-</tr>
-<tr class="even">
-<td align="left">Macrophage</td>
-<td align="right">0.00000</td>
-<td align="right">0.00000</td>
-<td align="right">0.00000</td>
-<td align="right">0.00000</td>
-<td align="right">0.00000</td>
-<td align="right">0.00000</td>
-<td align="right">0.00000</td>
-<td align="right">0.00000</td>
-</tr>
-<tr class="odd">
-<td align="left">T_cell_dividing</td>
-<td align="right">0.00000</td>
-<td align="right">0.00000</td>
-<td align="right">0.00000</td>
-<td align="right">0.00000</td>
-<td align="right">0.00000</td>
-<td align="right">0.00000</td>
-<td align="right">0.00000</td>
-<td align="right">0.00000</td>
-</tr>
-<tr class="even">
-<td align="left">T_cell_CD8</td>
-<td align="right">0.00561</td>
-<td align="right">0.00000</td>
-<td align="right">0.00000</td>
-<td align="right">0.00000</td>
-<td align="right">0.02555</td>
-<td align="right">0.02204</td>
-<td align="right">0.02990</td>
-<td align="right">0.04345</td>
-</tr>
-<tr class="odd">
-<td align="left">Monocyte_conventional</td>
-<td align="right">0.51934</td>
-<td align="right">0.67510</td>
-<td align="right">0.51368</td>
-<td align="right">0.44150</td>
-<td align="right">0.71617</td>
-<td align="right">0.68077</td>
-<td align="right">0.71674</td>
-<td align="right">0.69114</td>
-</tr>
-<tr class="even">
-<td align="left">Monocyte_non-conventional</td>
-<td align="right">0.13378</td>
-<td align="right">0.00696</td>
-<td align="right">0.05744</td>
-<td align="right">0.03053</td>
-<td align="right">0.00000</td>
-<td align="right">0.00000</td>
-<td align="right">0.00000</td>
-<td align="right">0.00000</td>
-</tr>
-<tr class="odd">
-<td align="left">T_cell_regulatory</td>
-<td align="right">0.02325</td>
-<td align="right">0.02595</td>
-<td align="right">0.01876</td>
-<td align="right">0.01590</td>
-<td align="right">0.00937</td>
-<td align="right">0.00818</td>
-<td align="right">0.01516</td>
-<td align="right">0.03003</td>
-</tr>
-<tr class="even">
-<td align="left">B_cell</td>
+<td align="left">HD30_PBMC_0</td>
 <td align="right">0.12816</td>
+<td align="right">0</td>
+<td align="right">0.51934</td>
+<td align="right">0.13378</td>
+<td align="right">0.18987</td>
+<td align="right">0.00000</td>
+<td align="right">0.00561</td>
+<td align="right">0</td>
+<td align="right">0.02325</td>
+</tr>
+<tr class="even">
+<td align="left">HD30_PBMC_1</td>
 <td align="right">0.09559</td>
-<td align="right">0.17181</td>
-<td align="right">0.28474</td>
-<td align="right">0.08652</td>
-<td align="right">0.09561</td>
-<td align="right">0.05961</td>
-<td align="right">0.06928</td>
+<td align="right">0</td>
+<td align="right">0.67510</td>
+<td align="right">0.00696</td>
+<td align="right">0.19640</td>
+<td align="right">0.00000</td>
+<td align="right">0.00000</td>
+<td align="right">0</td>
+<td align="right">0.02595</td>
 </tr>
 <tr class="odd">
-<td align="left">NK_cell</td>
-<td align="right">0.18987</td>
-<td align="right">0.19640</td>
+<td align="left">HD30_PBMC_3</td>
+<td align="right">0.17181</td>
+<td align="right">0</td>
+<td align="right">0.51368</td>
+<td align="right">0.05744</td>
 <td align="right">0.16574</td>
+<td align="right">0.07258</td>
+<td align="right">0.00000</td>
+<td align="right">0</td>
+<td align="right">0.01876</td>
+</tr>
+<tr class="even">
+<td align="left">HD30_PBMC_7</td>
+<td align="right">0.28474</td>
+<td align="right">0</td>
+<td align="right">0.44150</td>
+<td align="right">0.03053</td>
 <td align="right">0.17612</td>
+<td align="right">0.05122</td>
+<td align="right">0.00000</td>
+<td align="right">0</td>
+<td align="right">0.01590</td>
+</tr>
+<tr class="odd">
+<td align="left">HD31_PBMC_0</td>
+<td align="right">0.08652</td>
+<td align="right">0</td>
+<td align="right">0.71617</td>
+<td align="right">0.00000</td>
 <td align="right">0.05495</td>
+<td align="right">0.10743</td>
+<td align="right">0.02555</td>
+<td align="right">0</td>
+<td align="right">0.00937</td>
+</tr>
+<tr class="even">
+<td align="left">HD31_PBMC_1</td>
+<td align="right">0.09561</td>
+<td align="right">0</td>
+<td align="right">0.68077</td>
+<td align="right">0.00000</td>
 <td align="right">0.04447</td>
+<td align="right">0.14894</td>
+<td align="right">0.02204</td>
+<td align="right">0</td>
+<td align="right">0.00818</td>
+</tr>
+<tr class="odd">
+<td align="left">HD31_PBMC_3</td>
+<td align="right">0.05961</td>
+<td align="right">0</td>
+<td align="right">0.71674</td>
+<td align="right">0.00000</td>
 <td align="right">0.05728</td>
+<td align="right">0.12130</td>
+<td align="right">0.02990</td>
+<td align="right">0</td>
+<td align="right">0.01516</td>
+</tr>
+<tr class="even">
+<td align="left">HD31_PBMC_7</td>
+<td align="right">0.06928</td>
+<td align="right">0</td>
+<td align="right">0.69114</td>
+<td align="right">0.00000</td>
 <td align="right">0.07708</td>
+<td align="right">0.08902</td>
+<td align="right">0.04345</td>
+<td align="right">0</td>
+<td align="right">0.03003</td>
 </tr>
 </tbody>
 </table>
@@ -257,6 +257,8 @@
 <ul>
 <li>Bisque: Jew, B., Alvarez, M., Rahmani, E., Miao, Z., Ko, A., Garske, K. M., Sul, J. H., Pietiläinen, K. H., Pajukanta, P., &amp; Halperin, E. (2020). Publisher Correction: Accurate estimation of cell composition in bulk expression through robust integration of single-cell information. Nature Communications, 11(1), 2891. <a href="https://doi.org/10.1038/s41467-020-16607-9" class="uri">https://doi.org/10.1038/s41467-020-16607-9</a>
 </li>
+<li>CibersortX: Newman, A. M., Liu, C. L., Green, M. R., Gentles, A. J., Feng, W., Xu, Y., Hoang, C. D., Diehn, M., &amp; Alizadeh, A. A. (2015). Robust enumeration of cell subsets from tissue expression profiles. Nature Methods, 12(5), 453–457. <a href="https://doi.org/10.1038/nmeth.3337" class="uri">https://doi.org/10.1038/nmeth.3337</a>
+</li>
 <li>DWLS: Tsoucas, D., Dong, R., Chen, H., Zhu, Q., Guo, G., &amp; Yuan, G.-C. (2019). Accurate estimation of cell-type composition from gene expression data. Nature Communications, 10(1), 2975. <a href="https://doi.org/10.1038/s41467-019-10802-z" class="uri">https://doi.org/10.1038/s41467-019-10802-z</a>
 </li>
 <li>MOMF: Xifang Sun, Shiquan Sun, and Sheng Yang. An efficient and flexible method for deconvoluting bulk RNAseq data with single-cell RNAseq data, 2019, DIO: 10.5281/zenodo.3373980</li>
@@ -271,7 +273,7 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/icbi-lab/immunedeconv2/">https://​github.com/​icbi-lab/​immunedeconv2/​</a>
+<li>Browse source code at <br><a href="https://github.com/icbi-lab/omnideconv/">https://​github.com/​icbi-lab/​omnideconv/​</a>
 </li>
 </ul>
 </div>
@@ -295,7 +297,7 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/icbi-lab/immunedeconv2/actions"><img src="https://github.com/icbi-lab/immunedeconv2/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/icbi-lab/omnideconv/actions"><img src="https://github.com/icbi-lab/omnideconv/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 </div>

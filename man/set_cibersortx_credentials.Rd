@@ -14,3 +14,7 @@ set_cibersortx_credentials(email, token)
 \description{
 Setting the CibersortX Credentials
 }
+\examples{
+set_cibersortx_credentials("max.mustermann@online.de","7250fe7ajc322eeta192d163d62e6399")
+
+}

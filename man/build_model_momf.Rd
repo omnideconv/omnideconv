@@ -2,7 +2,7 @@
 % Please edit documentation in R/MOMF.R
 \name{build_model_momf}
 \alias{build_model_momf}
-\title{Calculates the signature model with bisque}
+\title{Calculates the signature model with MOMF}
 \usage{
 build_model_momf(
   single_cell_object,
@@ -21,5 +21,5 @@ build_model_momf(
 The signature matrix. Rows are genes, columns are cell types.
 }
 \description{
-Calculates the signature model with bisque
+Calculates the signature model with MOMF
 }

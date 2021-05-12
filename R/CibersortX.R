@@ -25,14 +25,14 @@ set_cibersortx_credentials = function(email, token) {
 #' @param k_max Maximum condition number (default: 999). Will be added to the file name.
 #' @param ... Additional parameters supplied to the algorithm. Options are:
 #' \itemize{
-#'  \item G_min: <int> Minimum number of genes per cell type in sig. matrix (default: 300)
-#'  \item G_max: <int> Maximum number of genes per cell type in sig. matrix (default: 500)
-#'  \item q_value: <int> Q-value threshold for differential expression (default: 0.01)
-#'  \item filter: <bool> Remove non-hematopoietic genes (default: FALSE)
-#'  \item remake: <bool> Remake signature gene matrix (default: False)
-#'  \item replicates: <int> Number of replicates to use for building scRNAseq reference file (default: 5)
-#'  \item sampling: <float> Fraction of available single cell GEPs selected using random sampling (default: 0.5)
-#'  \item fraction: <float> Fraction of cells of same identity showing evidence of expression (default: 0.75)
+#'  \item G_min <int> Minimum number of genes per cell type in sig. matrix (default: 300)
+#'  \item G_max <int> Maximum number of genes per cell type in sig. matrix (default: 500)
+#'  \item q_value <int> Q-value threshold for differential expression (default: 0.01)
+#'  \item filter <bool> Remove non-hematopoietic genes (default: FALSE)
+#'  \item remake <bool> Remake signature gene matrix (default: False)
+#'  \item replicates <int> Number of replicates to use for building scRNAseq reference file (default: 5)
+#'  \item sampling <float> Fraction of available single cell GEPs selected using random sampling (default: 0.5)
+#'  \item fraction <float> Fraction of cells of same identity showing evidence of expression (default: 0.75)
 #'}
 #'
 #' @return The signature matrix. Rows are genes, columns are cell types.
@@ -113,13 +113,13 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
 #' @param label The label which will be added to the file name. Default is "none", adding no label at all.
 #' @param ... Additional parameters supplied to the algorithm. Options are:
 #' \itemize{
-#'  \item perm: <int> No. of permutations for p-value calculation (default: 0)
-#'  \item rmbatch_B_mode: <bool>  Run B-mode batch correction (default: FALSE)
-#'  \item rmbatch_S_mode: <bool>  Run S-mode batch correction (default: FALSE)
-#'  \item source_GEPs: <file_name>  Signature matrix GEPs for batch correction (default: sigmatrix)
-#'  \item qn: <bool>  Run quantile normalization (default: FALSE)
-#'  \item absolute: <bool>  Run absolute mode (default: FALSE)
-#'  \item abs_method: <char>  Pick absolute method ("sig.score" (default) or "no.sumto1")
+#'  \item perm <int> No. of permutations for p-value calculation (default: 0)
+#'  \item rmbatch_B_mode <bool>  Run B-mode batch correction (default: FALSE)
+#'  \item rmbatch_S_mode <bool>  Run S-mode batch correction (default: FALSE)
+#'  \item source_GEPs <file_name>  Signature matrix GEPs for batch correction (default: sigmatrix)
+#'  \item qn <bool>  Run quantile normalization (default: FALSE)
+#'  \item absolute <bool>  Run absolute mode (default: FALSE)
+#'  \item abs_method <char>  Pick absolute method ("sig.score" (default) or "no.sumto1")
 #'}
 #'
 #' @return A matrix with the probabilities of each cell-type for each individual. Rows are individuals, columns are cell types.
@@ -265,15 +265,15 @@ get_method_options <- function(method = c("create_sig","impute_cell_fractions"),
 #' Creation of the options of the "get signature matrix" docker command
 #'
 #' @param refsample The filename of the single cell data
-#' @param G_min: <int> Minimum number of genes per cell type in sig. matrix (default: 300)
-#' @param G_max: <int> Maximum number of genes per cell type in sig. matrix (default: 500)
-#' @param q_value: <int> Q-value threshold for differential expression (default: 0.01)
-#' @param filter: <bool> Remove non-hematopoietic genes (default: FALSE)
-#' @param k_max: <int> Maximum condition number (default: 999). Will be added to the file name.
-#' @param remake: <bool> Remake signature gene matrix (default: False)
-#' @param replicates: <int> Number of replicates to use for building scRNAseq reference file (default: 5)
-#' @param sampling: <float> Fraction of available single cell GEPs selected using random sampling (default: 0.5)
-#' @param fraction: <float> Fraction of cells of same identity showing evidence of expression (default: 0.75)
+#' @param G_min <int> Minimum number of genes per cell type in sig. matrix (default: 300)
+#' @param G_max <int> Maximum number of genes per cell type in sig. matrix (default: 500)
+#' @param q_value <int> Q-value threshold for differential expression (default: 0.01)
+#' @param filter <bool> Remove non-hematopoietic genes (default: FALSE)
+#' @param k_max <int> Maximum condition number (default: 999). Will be added to the file name.
+#' @param remake <bool> Remake signature gene matrix (default: False)
+#' @param replicates <int> Number of replicates to use for building scRNAseq reference file (default: 5)
+#' @param sampling <float> Fraction of available single cell GEPs selected using random sampling (default: 0.5)
+#' @param fraction <float> Fraction of cells of same identity showing evidence of expression (default: 0.75)
 #'
 #'
 #' @return A string in the correct format for the docker command, containing all parameters.
@@ -291,14 +291,14 @@ get_signature_matrix_options <- function(refsample, G_min = 300, G_max = 500, q_
 #'
 #' @param sigmatrix The filename of the signature matrix
 #' @param mixture The filename of the bulk expression data
-#' @param perm: <int> No. of permutations for p-value calculation (default: 0)
+#' @param perm <int> No. of permutations for p-value calculation (default: 0)
 #' @param label The label which will be added to the file name. Default is "none", adding no label at all.
-#' @param rmbatch_B_mode: <bool>  Run B-mode batch correction (default: FALSE)
-#' @param rmbatch_S_mode: <bool>  Run S-mode batch correction (default: FALSE)
-#' @param source_GEPs: <file_name>  Signature matrix GEPs for batch correction (default: sigmatrix)
-#' @param qn: <bool>  Run quantile normalization (default: FALSE)
-#' @param absolute: <bool>  Run absolute mode (default: FALSE)
-#' @param abs_method: <char>  Pick absolute method ("sig.score" (default) or "no.sumto1")
+#' @param rmbatch_B_mode <bool>  Run B-mode batch correction (default: FALSE)
+#' @param rmbatch_S_mode <bool>  Run S-mode batch correction (default: FALSE)
+#' @param source_GEPs <file_name>  Signature matrix GEPs for batch correction (default: sigmatrix)
+#' @param qn <bool>  Run quantile normalization (default: FALSE)
+#' @param absolute <bool>  Run absolute mode (default: FALSE)
+#' @param abs_method <char>  Pick absolute method ("sig.score" (default) or "no.sumto1")
 #'
 #' @return A string in the correct format for the docker command, containing all parameters.
 #'

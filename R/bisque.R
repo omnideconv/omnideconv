@@ -33,7 +33,7 @@ deconvolute_bisque <- function (bulk_eset, signature_matrix, single_cell_object 
 
   if (is.null(single_cell_object)||is.null(cell_type_annotations))
     base::stop("Single cell data (sc.eset) not provided. Call as: deconvolute(bulk_gene_expression, signature, \"bisque\", single_cell_object, cell_type_annotations)")
-  sc.eset <- get_single_cell_expression_set(single_cell_object, colnames(single_cell_object), rownames(single_cell_object), cell_type_annotations)
+  sc.eset <- omnideconv:::get_single_cell_expression_set(single_cell_object, colnames(single_cell_object), rownames(single_cell_object), cell_type_annotations)
   cell.types <- "cellType"
   subject.names <- "SubjectName"
   if ((!methods::is(sc.eset, "ExpressionSet")) || (!methods::is(bulk_eset,

@@ -260,7 +260,6 @@ scaden_predict <- function(model_dir, bulk_data, verbose = FALSE){
 #' and list$bulk = example bulk data.
 #' @export
 #'
-#' @examples
 scaden_simulate_example <- function(example_data_path = NULL, verbose = FALSE){
 
 

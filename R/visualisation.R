@@ -6,12 +6,13 @@
 #' @import dplyr
 #' @import ggplot2
 #' @return the ggplot object
-#' @export
 #'
 #' @examples
 #' model <- omnideconv::build_model(single_cell_data, cell_type_annotations, "bisque")
-#' devonvolution <- omnideconv::deconvolute(bulk, model, "bisque", single_cell_data, cell_type_annotations)
+#' deconvolution <- omnideconv::deconvolute(bulk, model, "bisque", single_cell_data, cell_type_annotations)
 #' plotDeconvResult(deconvolution, "Bisque")
+#'
+#' @export
 plotDeconvResult <- function(deconv_result, method_name = "", file_name = NULL){
 
   plot <- cbind(deconv_result, samples= rownames(deconv_result)) %>%

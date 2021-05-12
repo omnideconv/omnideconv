@@ -1,5 +1,4 @@
-
-#' Calculates the signature model with bisque
+#' Calculates the signature model with MOMF
 #'
 #' @param single_cell_object A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.
 #' @param cell_type_annotations A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object
@@ -8,7 +7,6 @@
 #' @return The signature matrix. Rows are genes, columns are cell types.
 #' @export
 #'
-#' @examples
 build_model_momf <- function(single_cell_object, cell_type_annotations, bulk_gene_expression){
   if (is.null(bulk_gene_expression)){
     base::stop("'bulk_gene_expression' argument is required for MOMF")
@@ -28,7 +26,6 @@ build_model_momf <- function(single_cell_object, cell_type_annotations, bulk_gen
 #' @return cell proportion matrix
 #' @export
 #'
-#' @examples
 deconvolute_momf <- function(bulk_gene_expression, signature, single_cell_object,
                              verbose = FALSE, method = "KL", ...){
   #MOMF needs a list of the single_cell_object with cells x genes and the bulk RNA seq data with individuals x genes

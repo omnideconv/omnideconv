@@ -7,9 +7,7 @@
 #' @param varm Key-indexed multi-dimensional variables annotation of length #variables.
 #'
 #' @return AnnData object
-#' @export
 #'
-#' @examples
 build_anndata <- function(x, obs, var, obsm = NULL, varm = NULL){
 
   anndata_check_load()
@@ -29,9 +27,7 @@ build_anndata <- function(x, obs, var, obsm = NULL, varm = NULL){
 #' @param path path to .h5ad formatted file
 #'
 #' @return AnnData object
-#' @export
 #'
-#' @examples
 read_anndata <- function(path){
   anndata_check_load()
   data <- anndata::read_h5ad(path)
@@ -43,9 +39,6 @@ read_anndata <- function(path){
 #' @param data AnnData object
 #' @param path path where AnnData object should be written to (.h5ad format)
 #'
-#' @export
-#'
-#' @examples
 write_anndata <- function(data, path){
   anndata_check_load()
   data$write_h5ad(path)
@@ -54,8 +47,6 @@ write_anndata <- function(data, path){
 #' Checks if anndata package is loaded
 #'
 #' If called and python environment is not set up, this is realized. Else, it checks if the anndata package is loaded, and if not, it does this.
-#'
-#' @export
 #'
 anndata_check_load <- function(){
   if (!python_available()){

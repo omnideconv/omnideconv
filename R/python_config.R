@@ -4,9 +4,6 @@
 #'
 #' @param path_to_python_binaries Path to python binaries
 #'
-#' @export
-#'
-#' @examples
 set_python <- function(path_to_python_binaries){
   reticulate::use_python(python = path_to_python_binaries)
 }
@@ -16,9 +13,6 @@ set_python <- function(path_to_python_binaries){
 #'
 #' @param python (optional) If own python should be used please indicate it's binaries
 #'
-#' @export
-#'
-#' @examples
 init_python <- function(python=NULL){
   if (!reticulate::py_available()){
     if (is.null(python)){
@@ -44,9 +38,7 @@ init_python <- function(python=NULL){
 #' Checks if python is available in environment
 #'
 #' @return boolean
-#' @export
 #'
-#' @examples
 python_available<- function(){
   return(reticulate::py_available())
 }

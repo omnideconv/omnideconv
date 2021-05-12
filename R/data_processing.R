@@ -6,10 +6,8 @@
 #' @param cell_types A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object.
 #'
 #' @return A Biobase::ExpressionSet of the input data.
-#' @export
 #' @importClassesFrom Biobase AnnotatedDataFrame
 #'
-#' @examples
 get_single_cell_expression_set <- function(single_cell_matrix, sample_names, genes, cell_types){
 
 
@@ -38,9 +36,7 @@ get_single_cell_expression_set <- function(single_cell_matrix, sample_names, gen
 #' @param ad AnnData object
 #'
 #' @return SingleCellObject
-#' @export
 #'
-#' @examples
 anndata_to_singlecellexperiment <- function(ad){
   ad <- ad$transpose()
   X_mat <- ad$X
@@ -83,9 +79,7 @@ anndata_to_singlecellexperiment <- function(ad){
 #' @param X_name Name of the assay in the SingleCellExperiment to interpret as the X matrix of the AnnData object (default: first in assay list)
 #'
 #' @return AnnData object
-#' @export
 #'
-#' @examples
 singlecellexperiment_to_anndata <- function(sce, X_name = NULL){
   if (is.null(X_name)) {
     if (length(SummarizedExperiment::assays(sce)) == 0) {
@@ -178,9 +172,7 @@ singlecellexperiment_to_anndata <- function(sce, X_name = NULL){
 #' @param named_metadata_list A named list containing unstructured metadata information (optional)
 #'
 #' @return SingleCellExperiment
-#' @export
 #'
-#' @examples
 matrix_to_singlecellexperiment <- function(matrix, cell_labels, named_metadata_list=list()){
   gene_labels <- rownames(matrix)
   sce <- SingleCellExperiment::SingleCellExperiment(list(X=matrix),
@@ -198,9 +190,7 @@ matrix_to_singlecellexperiment <- function(matrix, cell_labels, named_metadata_l
 #' @param cell_type_column_name name of the column that stores the cell-type labels in the colData object of the provided SingleCellExperiment
 #'
 #' @return named list: ..$matrix: matrix object, ..$annotation_vector
-#' @export
 #'
-#' @examples
 singlecellexperiment_to_matrix <- function(sce, assay_name=NULL, cell_type_column_name=NULL){
   if (is.null(assay_name)) {
     if (length(SummarizedExperiment::assays(sce)) == 0) {
@@ -230,9 +220,7 @@ singlecellexperiment_to_matrix <- function(sce, assay_name=NULL, cell_type_colum
 #' @param b SingleCellExperiments
 #'
 #' @return boolean
-#' @export
 #'
-#' @examples
 sces_are_identical <- function(a,b){
   same <- TRUE
   assays_a <- as.list(SummarizedExperiment::assays(a))

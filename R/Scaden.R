@@ -4,9 +4,6 @@
 #' A python environment can be defined by set_virtualenv() or set_python() command.
 #' Alternatively a new environment can be created via create_virtualenv() method.
 #'
-#' @export
-#'
-
 install_scaden <- function() {
   reticulate::py_install("scaden",pip=TRUE)
 
@@ -32,7 +29,6 @@ install_scaden <- function() {
 #' @return Scaden model
 #' @export
 #'
-#' @examples
 build_model_scaden <- function(single_cell_object, celltype_labels, bulk_gene_expression = NULL,
                                model_path = NULL, batch_size = 128, learning_rate = 0.0001,
                                steps = 5000, var_cutoff = NULL, cells = 100, samples = 1000,
@@ -74,7 +70,6 @@ build_model_scaden <- function(single_cell_object, celltype_labels, bulk_gene_ex
 #' @return Cell type fractions per sample.
 #' @export
 #'
-#' @examples
 deconvolute_scaden <- function(model, bulk_data, verbose = FALSE){
   if (!verbose){
     if (Sys.info()['sysname']=="Windows"){
@@ -102,13 +97,11 @@ deconvolute_scaden <- function(model, bulk_data, verbose = FALSE){
 #' @param verbose Defines verbosity of function call (default: false)
 #'
 #' @return Scaden model
-#' @export
 #'
-#' @examples
 scaden_train <- function(h5ad_processed, batch_size = 128, learning_rate = 0.0001,
                          model_path = NULL, steps = 5000, verbose = FALSE){
 
-  base::message("Training model")
+  if (verbose) base::message("Training model")
 
   # create temporary directory where Scaden input files should be saved at.
   tmp_dir <- tempdir()
@@ -170,12 +163,10 @@ scaden_train <- function(h5ad_processed, batch_size = 128, learning_rate = 0.000
 #' @param verbose Defines verbosity of function call (default: false)
 #'
 #' @return processed training file. (.h5ad format)
-#' @export
 #'
-#' @examples
 scaden_process <- function(h5ad, bulk_data, var_cutoff = NULL, verbose = FALSE){
 
-  base::message("Processing training data for model creation ...")
+  if (verbose) base::message("Processing training data for model creation ...")
 
 
 
@@ -222,13 +213,10 @@ scaden_process <- function(h5ad, bulk_data, var_cutoff = NULL, verbose = FALSE){
 #' @param verbose Defines verbosity of function call (default: false)
 #'
 #' @return Cell type fractions per sample
-#' @export
 #'
-#' @examples
 scaden_predict <- function(model_dir, bulk_data, verbose = FALSE){
 
-  base::message("Predicting cell type proportions")
-
+  if (verbose) base::message("Predicting cell type proportions")
 
   current_wd <- base::getwd()
 
@@ -320,62 +308,55 @@ scaden_simulate_example <- function(example_data_path = NULL, verbose = FALSE){
 #' @param verbose Defines verbosity of function call (default: false)
 #'
 #' @return Simulated bulk data of known cell type fractions
-#' @export
 #'
-#' @examples
 scaden_simulate <- function(celltype_labels, gene_labels, single_cell_object, cells = 100,
                             samples = 1000, dataset_name = "scaden" , verbose = FALSE){
 
+  if (verbose) base::message("Simulating training data from single cell experiment: ", samples, " samples of ",cells, " cells")
+
+  current_wd <- base::getwd()
 
 
-    base::message("Simulating training data from single cell experiment: ", samples, " samples of ",cells, " cells")
-
-    current_wd <- base::getwd()
-
-
-    output <- tryCatch(
-      {
-        tmp_dir <- tempdir()
-        dir.create(tmp_dir,showWarnings = FALSE)
-        base::setwd(tmp_dir)
-        if (dir.exists(dataset_name)){
-          unlink(dataset_name, recursive = TRUE)
-        }
-        dir.create(dataset_name,showWarnings = FALSE)
-        base::setwd(paste0(tmp_dir,"/",dataset_name))
-
-        colnames(single_cell_object)<-gene_labels
-        cell_types <- data.frame("Celltype"=celltype_labels)
-
-        utils::write.table(single_cell_object,paste0(tmp_dir,"/",dataset_name,"/",dataset_name,"_counts.txt") ,sep = "\t",row.names = TRUE,col.names = NA,quote = FALSE)
-        utils::write.table(cell_types,paste0(tmp_dir,"/",dataset_name,"/",dataset_name,"_celltypes.txt") ,quote = FALSE,row.names = FALSE,col.names = TRUE)
-        base::setwd(tmp_dir)
-
-        system(paste("scaden simulate --data",paste0(tmp_dir,"/",dataset_name),"-n",samples,"-c",cells,"--pattern *_counts.txt"), ignore.stdout = !verbose, ignore.stderr = !verbose)
-
-
-        read_anndata(paste0(tmp_dir,"/data.h5ad"))
-      },
-      error=function(cond) {
-        base::stop(cond)
-      },
-      warning=function(cond) {
-        base::warning(cond)
-      },
-      finally={
-        base::setwd(current_wd)
+  output <- tryCatch(
+    {
+      tmp_dir <- tempdir()
+      dir.create(tmp_dir,showWarnings = FALSE)
+      base::setwd(tmp_dir)
+      if (dir.exists(dataset_name)){
+        unlink(dataset_name, recursive = TRUE)
       }
-    )
-    return(output)
+      dir.create(dataset_name,showWarnings = FALSE)
+      base::setwd(paste0(tmp_dir,"/",dataset_name))
+
+      colnames(single_cell_object)<-gene_labels
+      cell_types <- data.frame("Celltype"=celltype_labels)
+
+      utils::write.table(single_cell_object,paste0(tmp_dir,"/",dataset_name,"/",dataset_name,"_counts.txt") ,sep = "\t",row.names = TRUE,col.names = NA,quote = FALSE)
+      utils::write.table(cell_types,paste0(tmp_dir,"/",dataset_name,"/",dataset_name,"_celltypes.txt") ,quote = FALSE,row.names = FALSE,col.names = TRUE)
+      base::setwd(tmp_dir)
+
+      system(paste("scaden simulate --data",paste0(tmp_dir,"/",dataset_name),"-n",samples,"-c",cells,"--pattern *_counts.txt"), ignore.stdout = !verbose, ignore.stderr = !verbose)
+
+
+      read_anndata(paste0(tmp_dir,"/data.h5ad"))
+    },
+    error=function(cond) {
+      base::stop(cond)
+    },
+    warning=function(cond) {
+      base::warning(cond)
+    },
+    finally={
+      base::setwd(current_wd)
+    }
+  )
+  return(output)
 }
 
 #' Checks if scaden is installed.
 #'
 #' If it is available, the python module is imported.
 #'
-#' @export
-#'
-#' @examples
 scaden_checkload <- function(){
   if (python_available()){
     if (reticulate::py_module_available("scaden")){

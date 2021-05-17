@@ -212,7 +212,7 @@ knitr::include_graphics("images/momf_prop.png")
 knitr::include_graphics("images/scaden_prop.png")
 knitr::include_graphics("images/dwls_prop.png")
 ```
-```{r plots2, echo=FALSE, out.width="80%", fig.cap="Figure 4: Results of the example workflow in 2.6 but with other algorithms. The results differ from the bisque cell proportions and show more homogeneity. MOMF, DWLS and CibersortX predict mostly conventional monocytes, while Scaden shows a very mixed picture."}
+```{r plots2, echo=FALSE, out.width="80%", fig.align='center', fig.cap="Figure 4: Results of the example workflow in 2.6 but with other algorithms. The results differ from the bisque cell proportions and show more homogeneity. MOMF, DWLS and CibersortX predict mostly conventional monocytes, while Scaden shows a very mixed picture."}
 knitr::include_graphics("images/cibersortx_prop.png")
 ```
 

@@ -56,6 +56,12 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, method
   }
 
   cell_type_annotations <- escape_blanks(cell_type_annotations)
+  rownames(single_cell_object) <- escape_blanks(rownames(single_cell_object))
+  colnames(single_cell_object) <- escape_blanks(colnames(single_cell_object))
+  if (!is.null(bulk_gene_expression)){
+    rownames(bulk_gene_expression) <- escape_blanks(rownames(bulk_gene_expression))
+    colnames(bulk_gene_expression) <- escape_blanks(colnames(bulk_gene_expression))
+  }
 
   signature <- switch(tolower(method),
                       bisque = build_model_bisque(single_cell_object,cell_type_annotations, ...),
@@ -67,6 +73,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, method
   )
 
   rownames(signature) <- deescape_blanks(rownames(signature))
+  colnames(signature) <- deescape_blanks(colnames(signature))
 
   return(signature)
 }
@@ -113,13 +120,26 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   if (class(bulk_gene_expression)[[1]]!="matrix")
     bulk_gene_expression <- base::as.matrix(bulk_gene_expression)
 
+  #TODO: What does this do?
   if (! "character" %in% class(signature)){
     colnames(signature) <- escape_blanks(colnames(signature))
   }
 
+
+  rownames(bulk_gene_expression) <- escape_blanks(rownames(bulk_gene_expression))
+  colnames(bulk_gene_expression) <- escape_blanks(colnames(bulk_gene_expression))
+  rownames(signature) <- escape_blanks(rownames(signature))
+  colnames(signature) <- escape_blanks(colnames(signature))
+  if (!is.null(single_cell_object)){
+    rownames(single_cell_object) <- escape_blanks(rownames(single_cell_object))
+    colnames(single_cell_object) <- escape_blanks(colnames(single_cell_object))
+  }
+  if (!is.null(cell_type_annotations)){
+    cell_type_annotations <- escape_blanks(cell_type_annotations)
+  }
+
   deconv <- switch(tolower(method),
                    bisque = {
-                     cell_type_annotations <- escape_blanks(cell_type_annotations)
                      bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
                      #Necessary for bisque, because bisqueReferenceDecomp needs to access internal bisque-package methods
                      base::environment(deconvolute_bisque) <- base::environment(BisqueRNA::SimulateData)
@@ -134,6 +154,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 
   #Alphabetical order of celltypes
   deconv <- deconv[,order(colnames(deconv))]
+  rownames(deconv) <- deescape_blanks(rownames(deconv))
   colnames(deconv) <- deescape_blanks(colnames(deconv))
   return(deconv)
 }

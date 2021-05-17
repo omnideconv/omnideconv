@@ -98,7 +98,7 @@ the list below.
     <https://doi.org/10.1038/s41467-019-10802-z>
 -   MOMF: Xifang Sun, Shiquan Sun, and Sheng Yang. An efficient and
     flexible method for deconvoluting bulk RNAseq data with single-cell
-    RNAseq data, 2019, DIO: 10.5281/zenodo.3373980
+    RNAseq data, 2019, DOI: 10.5281/zenodo.3373980
 -   Scaden: Menden, K., Marouf, M., Oller, S., Dalmia, A., Kloiber, K.,
     Heutink, P., & Bonn, S. (n.d.). Deep-learning-based cell composition
     analysis from tissue expression profiles.

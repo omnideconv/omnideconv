@@ -38,7 +38,7 @@ docker_connectable <- function(){
 #' @return The String without blanks
 #'
 escape_blanks <- function(string){
-  return(gsub(" ", "$_$", string))
+  return(gsub(" ", "._._._", string))
 }
 
 #' Removes the substitutions "$_$" and turns them back into blanks
@@ -48,7 +48,7 @@ escape_blanks <- function(string){
 #' @return The String with blanks
 #'
 deescape_blanks <- function(string){
-  return(gsub("\\$_\\$", " ", string))
+  return(gsub("._._._", " ", string))
 }
 
 

@@ -18,6 +18,11 @@ build_model_dwls <- function(scdata,
                              verbose = FALSE,
                              diff.cutoff = 0.5,
                              pval.cutoff = 0.01) {
+
+  if (length(method)>1){
+    method <- method[1]
+  }
+
   if (method == "MAST"){
     return(buildSignatureMatrixUsingMAST(scdata,id,path,verbose,diff.cutoff,pval.cutoff))
   } else if (method == "Seurat"){
@@ -43,7 +48,7 @@ build_model_dwls <- function(scdata,
 deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c("OLS","SVR","DampenedWLS"), verbose = FALSE){
 
   if (length(dwls_submethod)>1){
-    dwls_submethod <- "OLS"
+    dwls_submethod <- dwls_submethod[1]
   }
 
   if (verbose){

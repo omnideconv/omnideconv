@@ -46,7 +46,8 @@ anndata_to_singlecellexperiment <- function(ad){
 
   assays_list <- list()
   assays_list[['X']]<- X_mat
-  assays_list <- c(assays_list,ad$layers)
+  assays_list <- c(assays_list,lapply(ad$layers$keys(),function(x)ad$layers[x]))
+  names(assays_list) = c('X',ad$layers$keys())
 
   meta_list <- list()
   meta_list[ad$uns_keys()]<-ad$uns

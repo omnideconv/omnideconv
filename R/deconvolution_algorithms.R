@@ -72,8 +72,12 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, method
                       cibersortx = build_model_cibersortx(single_cell_object,cell_type_annotations,verbose = verbose, ...)
   )
 
-  rownames(signature) <- deescape_blanks(rownames(signature))
-  colnames(signature) <- deescape_blanks(colnames(signature))
+
+  #Only do if it is a matrix and not the path to the matrix
+  if (! "character" %in% class(signature)){
+    rownames(signature) <- deescape_blanks(rownames(signature))
+    colnames(signature) <- deescape_blanks(colnames(signature))
+  }
 
   return(signature)
 }
@@ -120,16 +124,14 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   if (class(bulk_gene_expression)[[1]]!="matrix")
     bulk_gene_expression <- base::as.matrix(bulk_gene_expression)
 
-  #TODO: What does this do?
-  if (! "character" %in% class(signature)){
-    colnames(signature) <- escape_blanks(colnames(signature))
-  }
-
 
   rownames(bulk_gene_expression) <- escape_blanks(rownames(bulk_gene_expression))
   colnames(bulk_gene_expression) <- escape_blanks(colnames(bulk_gene_expression))
-  rownames(signature) <- escape_blanks(rownames(signature))
-  colnames(signature) <- escape_blanks(colnames(signature))
+  #Only do if it is a matrix and not the path to the matrix
+  if (! "character" %in% class(signature)){
+    rownames(signature) <- escape_blanks(rownames(signature))
+    colnames(signature) <- escape_blanks(colnames(signature))
+  }
   if (!is.null(single_cell_object)){
     rownames(single_cell_object) <- escape_blanks(rownames(single_cell_object))
     colnames(single_cell_object) <- escape_blanks(colnames(single_cell_object))

@@ -168,8 +168,6 @@ scaden_process <- function(h5ad, bulk_data, var_cutoff = NULL, verbose = FALSE){
 
   if (verbose) base::message("Processing training data for model creation ...")
 
-
-
   out <- tryCatch(
     {
       tmp_dir <- tempdir()

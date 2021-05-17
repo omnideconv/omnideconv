@@ -58,7 +58,8 @@ makeBenchmarkingScatterplot <- function(result_list, file_name = NULL){
   names(li) <- names(result_list)
   li <- lapply(li, function(x) tidyr::pivot_longer(data.frame(x), !c("sample", "method"), names_to = "cell_type", values_to = "predicted_fraction"))
   df <- dplyr::bind_rows(li)
-  df$cell_type <- gsub(" ", "_", df$cell_type)
+  #Should not be needed anymore
+  #df$cell_type <- gsub(" ", "_", df$cell_type)
   load("data/RefData.RData")
   names(RefData) <- c("T_cell", "Monocyte", "B_cell", "DC", "NK_cell")
   RefData$sample <- rownames(RefData)

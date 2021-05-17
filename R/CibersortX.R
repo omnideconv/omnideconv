@@ -42,61 +42,61 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
                                          verbose = FALSE, input_dir = NULL,
                                          output_dir = NULL, display_heatmap = FALSE,
                                          k_max=999, ...){
-  if (docker_available()){
-    if (docker_connectable()){
-      temp_dir <- tempdir()
-      if (is.null(input_dir)){
-        input_dir <- temp_dir
-      }
-      if (is.null(output_dir)){
-        output_dir <- temp_dir
-      }
-
-      if (class(single_cell_object)[1]!="character"){
-        transform_and_save_single_cell(single_cell_object,cell_type_annotations,input_dir,verbose)
-        single_cell_object_filename <- "sample_file_for_cibersort.txt"
-      } else {
-        single_cell_object_filename <- single_cell_object
-      }
-      command_to_run <- create_docker_command(input_dir, output_dir, method = "create_sig", verbose = verbose, refsample=single_cell_object_filename, k_max=k_max)
-
-      if (!verbose){
-        if (Sys.info()['sysname']=="Windows"){
-          base::message("The windows implementation requires verbose mode. It is now switched on.")
-          verbose <- TRUE
-        }
-      }
-
-      filebase <- paste0("CIBERSORTx_sample_file_for_cibersort_inferred_phenoclasses.CIBERSORTx_sample_file_for_cibersort_inferred_refsample.bm.K",k_max)
-      filename_sig_matrix <- paste0(filebase,".txt")
-      full_path <- paste0(input_dir,"/",filename_sig_matrix)
-
-      if (file.exists(full_path))
-        file.remove(full_path)
-
-      code <- system(command_to_run, ignore.stdout = !verbose, ignore.stderr = !verbose)
-      if (code!=0){
-        base::message(paste("Something went wrong: Error code ",code,". Please try again with \"verbose=TRUE\""))
-      }
-
-      if (display_heatmap){
-        filename_heatmap <- paste0(filebase,".pdf")
-        Biobase::openPDF(normalizePath(paste0(output_dir,"/",filename_heatmap)))
-      }
-
-      sig_matrix <- verbose_wrapper(verbose)(as.data.frame(readr::read_tsv(paste0(output_dir,"/",filename_sig_matrix))))
-      rownames(sig_matrix)<-sig_matrix$NAME
-
-      return(as.matrix.data.frame(sig_matrix[,-1]))
-    } else {
-      base::message("Error durching connection to docker. Please check whether you can
-          call 'docker ps' in the command line and get a (possibly empty) list and not an error message")
-    }
-
-  } else {
+  if (!docker_available()){
     base::message("Installation of docker can not be found. Please check whether you can
           call 'docker' in the command line and get a help menu")
+    return(NULL)
   }
+  if (!docker_connectable()){
+    base::message("Error durching connection to docker. Please check whether you can
+        call 'docker ps' in the command line and get a (possibly empty) list and not an error message")
+    return(NULL)
+  }
+  temp_dir <- tempdir()
+  if (is.null(input_dir)){
+    input_dir <- temp_dir
+  }
+  if (is.null(output_dir)){
+    output_dir <- temp_dir
+  }
+
+  if (class(single_cell_object)[1]!="character"){
+    transform_and_save_single_cell(single_cell_object,cell_type_annotations,input_dir,verbose)
+    single_cell_object_filename <- "sample_file_for_cibersort.txt"
+  } else {
+    single_cell_object_filename <- single_cell_object
+  }
+  command_to_run <- create_docker_command(input_dir, output_dir, method = "create_sig", verbose = verbose, refsample=single_cell_object_filename, k_max=k_max)
+
+  if (!verbose){
+    if (Sys.info()['sysname']=="Windows"){
+      base::message("The windows implementation requires verbose mode. It is now switched on.")
+      verbose <- TRUE
+    }
+  }
+
+  filebase <- paste0("CIBERSORTx_sample_file_for_cibersort_inferred_phenoclasses.CIBERSORTx_sample_file_for_cibersort_inferred_refsample.bm.K",k_max)
+  filename_sig_matrix <- paste0(filebase,".txt")
+  full_path <- paste0(input_dir,"/",filename_sig_matrix)
+
+  if (file.exists(full_path))
+    file.remove(full_path)
+
+  code <- system(command_to_run, ignore.stdout = !verbose, ignore.stderr = !verbose)
+  if (code!=0){
+    base::message(paste("Something went wrong: Error code ",code,". Please try again with \"verbose=TRUE\""))
+  }
+
+  if (display_heatmap){
+    filename_heatmap <- paste0(filebase,".pdf")
+    Biobase::openPDF(normalizePath(paste0(output_dir,"/",filename_heatmap)))
+  }
+
+  sig_matrix <- verbose_wrapper(verbose)(as.data.frame(readr::read_tsv(paste0(output_dir,"/",filename_sig_matrix))))
+  rownames(sig_matrix)<-sig_matrix$NAME
+
+  return(as.matrix.data.frame(sig_matrix[,-1]))
+
 }
 
 #' Deconvolute with CibersortX
@@ -128,61 +128,61 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
 deconvolute_cibersortx <- function(bulk_gene_expression, signature, verbose = FALSE,
                                   input_dir = NULL, output_dir = NULL,
                                   display_extra_info = FALSE , label = "none", ...){
-  if (docker_available()){
-    if (docker_connectable()){
-      temp_dir <- tempdir()
-      if (is.null(input_dir))
-        input_dir <- temp_dir
-      if (is.null(output_dir))
-        output_dir <- temp_dir
-
-      if (class(signature)[1]!="character"){
-        sig <- paste0(input_dir,"/signature_matrix.txt")
-        readr::write_tsv(data.frame("NAME"=rownames(signature),signature),sig)
-        sigmatrix_filename <- "signature_matrix.txt"
-      } else {
-        sigmatrix_filename <- signature
-      }
-      if (class(bulk_gene_expression)[1]!="character"){
-        transform_and_save_bulk(bulk_gene_expression,input_dir,verbose)
-        bulk_gene_expression_filename <- "mixture_file_for_cibersort.txt"
-      } else {
-        bulk_gene_expression_filename <- bulk_gene_expression
-      }
-      filename_cell_props <- paste0("CIBERSORTx_",label,"_Results.txt")
-      command_to_run <- create_docker_command(input_dir,output_dir,method = "impute_cell_fractions",verbose = verbose,
-                                              sigmatrix=sigmatrix_filename, mixture <- bulk_gene_expression_filename, label = label)
-
-      if (!verbose){
-        if (Sys.info()['sysname']=="Windows"){
-          base::message("The windows implementation requires verbose mode. It is now switched on.")
-          verbose <- TRUE
-        }
-      }
-
-      code <- system(command_to_run, ignore.stdout = !verbose, ignore.stderr = !verbose)
-      if (code!=0){
-        base::message(paste("Something went wrong: Error code ",code,". Please try again with \"verbose=TRUE\""))
-      }
-
-      cell_props <- verbose_wrapper(verbose)(as.data.frame(readr::read_tsv(paste0(output_dir,"/",filename_cell_props))))
-      rownames(cell_props)<-cell_props$Mixture
-      cell_props <- cell_props[,-1]
-
-      extra_cols <- c("P.value","Correlation","RMSE", "P-value")
-      if (display_extra_info){
-        print(cell_props[,extra_cols])
-      }
-
-      return(as.matrix.data.frame(cell_props[,! names(cell_props) %in% extra_cols]))
-    } else {
-      base::message("Error durching connection to docker. Please check whether you can
-            call 'docker ps' in the command line and get a (possibly empty) list and not an error message")
-    }
-  } else {
-    print("Installation of docker can not be found. Please check whether you can
+  if (!docker_available()){
+    base::message("Installation of docker can not be found. Please check whether you can
           call 'docker' in the command line and get a help menu")
+    return(NULL)
   }
+  if (!docker_connectable()){
+    base::message("Error durching connection to docker. Please check whether you can
+        call 'docker ps' in the command line and get a (possibly empty) list and not an error message")
+    return(NULL)
+  }
+  temp_dir <- tempdir()
+  if (is.null(input_dir))
+    input_dir <- temp_dir
+  if (is.null(output_dir))
+    output_dir <- temp_dir
+
+  if (class(signature)[1]!="character"){
+    sig <- paste0(input_dir,"/signature_matrix.txt")
+    readr::write_tsv(data.frame("NAME"=rownames(signature),signature),sig)
+    sigmatrix_filename <- "signature_matrix.txt"
+  } else {
+    sigmatrix_filename <- signature
+  }
+  if (class(bulk_gene_expression)[1]!="character"){
+    transform_and_save_bulk(bulk_gene_expression,input_dir,verbose)
+    bulk_gene_expression_filename <- "mixture_file_for_cibersort.txt"
+  } else {
+    bulk_gene_expression_filename <- bulk_gene_expression
+  }
+  filename_cell_props <- paste0("CIBERSORTx_",label,"_Results.txt")
+  command_to_run <- create_docker_command(input_dir,output_dir,method = "impute_cell_fractions",verbose = verbose,
+                                          sigmatrix=sigmatrix_filename, mixture <- bulk_gene_expression_filename, label = label)
+
+  if (!verbose){
+    if (Sys.info()['sysname']=="Windows"){
+      base::message("The windows implementation requires verbose mode. It is now switched on.")
+      verbose <- TRUE
+    }
+  }
+
+  code <- system(command_to_run, ignore.stdout = !verbose, ignore.stderr = !verbose)
+  if (code!=0){
+    base::message(paste("Something went wrong: Error code ",code,". Please try again with \"verbose=TRUE\""))
+  }
+
+  cell_props <- verbose_wrapper(verbose)(as.data.frame(readr::read_tsv(paste0(output_dir,"/",filename_cell_props))))
+  rownames(cell_props)<-cell_props$Mixture
+  cell_props <- cell_props[,-1]
+
+  extra_cols <- c("P.value","Correlation","RMSE", "P-value")
+  if (display_extra_info){
+    print(cell_props[,extra_cols])
+  }
+
+  return(as.matrix.data.frame(cell_props[,! names(cell_props) %in% extra_cols]))
 }
 
 #' Creation of the single cell data file in the CibersortX required format
@@ -253,7 +253,7 @@ create_docker_command <- function(in_dir, out_dir, method = c("create_sig","impu
 #' @return A string in the correct format for the docker command, containing all parameters of the desired method.
 #'
 get_method_options <- function(method = c("create_sig","impute_cell_fractions"), ...){
-  if (method=="create_sig"){
+  if (method == "create_sig"){
     return(get_signature_matrix_options(...))
   } else if (method == "impute_cell_fractions"){
     return(get_cell_fractions_options(...))

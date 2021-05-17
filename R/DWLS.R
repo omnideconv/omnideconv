@@ -99,7 +99,6 @@ deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c(
     base::message("Deconvolution sucessful!")
   }
   result <- t(res)
-  colnames(result) <- gsub("_", " ", colnames(result))
   return (result)
 }
 
@@ -648,8 +647,6 @@ buildSignatureMatrixUsingMAST <- function(scdata,
                              verbose = FALSE,
                              diff.cutoff = 0.5,
                              pval.cutoff = 0.01) {
-  id <- gsub(" ", "_", id)
-
   #compute differentially expressed genes for each cell type
   list_cluster_table <-
     DEAnalysisMAST(scdata, id, path, verbose = verbose)

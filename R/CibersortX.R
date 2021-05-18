@@ -67,6 +67,7 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
     single_cell_object_filename <- single_cell_object
   }
   command_to_run <- create_docker_command(input_dir, output_dir, method = "create_sig", verbose = verbose, refsample=single_cell_object_filename, k_max=k_max)
+  print(command_to_run)
 
   if (!verbose){
     if (Sys.info()['sysname']=="Windows"){

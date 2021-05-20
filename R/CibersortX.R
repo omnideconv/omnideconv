@@ -52,6 +52,8 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
         call 'docker ps' in the command line and get a (possibly empty) list and not an error message")
     return(NULL)
   }
+  assertthat::assert_that(exists("cibersortx_email", envir=config_env), msg="CibersortX email for credentials is missing. Please call set_cibersortx_credentials(email,token) first.")
+  assertthat::assert_that(exists("cibersortx_token", envir=config_env), msg="CibersortX token for credentials is missing. Please call set_cibersortx_credentials(email,token) first.")
   temp_dir <- tempdir()
   if (is.null(input_dir)){
     input_dir <- temp_dir
@@ -67,7 +69,10 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
     single_cell_object_filename <- single_cell_object
   }
   command_to_run <- create_docker_command(input_dir, output_dir, method = "create_sig", verbose = verbose, refsample=single_cell_object_filename, k_max=k_max)
-  print(command_to_run)
+
+  if (verbose){
+    base::message(command_to_run)
+  }
 
   if (!verbose){
     if (Sys.info()['sysname']=="Windows"){
@@ -139,6 +144,8 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature, verbose = FA
         call 'docker ps' in the command line and get a (possibly empty) list and not an error message")
     return(NULL)
   }
+  assertthat::assert_that(exists("cibersortx_email", envir=config_env), msg="CibersortX email for credentials is missing. Please call set_cibersortx_credentials(email,token) first.")
+  assertthat::assert_that(exists("cibersortx_token", envir=config_env), msg="CibersortX token for credentials is missing. Please call set_cibersortx_credentials(email,token) first.")
   temp_dir <- tempdir()
   if (is.null(input_dir))
     input_dir <- temp_dir
@@ -161,6 +168,9 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature, verbose = FA
   filename_cell_props <- paste0("CIBERSORTx_",label,"_Results.txt")
   command_to_run <- create_docker_command(input_dir,output_dir,method = "impute_cell_fractions",verbose = verbose,
                                           sigmatrix=sigmatrix_filename, mixture <- bulk_gene_expression_filename, label = label)
+  if (verbose){
+    base::message(command_to_run)
+  }
 
   if (!verbose){
     if (Sys.info()['sysname']=="Windows"){

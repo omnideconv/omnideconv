@@ -74,7 +74,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, method
 
 
   #Only do if it is a matrix and not the path to the matrix
-  if (! "character" %in% class(signature)){
+  if (! "character" %in% class(signature) & !is.null(signature)){
     rownames(signature) <- deescape_blanks(rownames(signature))
     colnames(signature) <- deescape_blanks(colnames(signature))
   }
@@ -154,10 +154,12 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
                    cibersortx = deconvolute_cibersortx(bulk_gene_expression, signature,verbose = verbose, ...)
   )
 
-  #Alphabetical order of celltypes
-  deconv <- deconv[,order(colnames(deconv))]
-  rownames(deconv) <- deescape_blanks(rownames(deconv))
-  colnames(deconv) <- deescape_blanks(colnames(deconv))
+  if (!is.null(signature)){
+    #Alphabetical order of celltypes
+    deconv <- deconv[,order(colnames(deconv))]
+    rownames(deconv) <- deescape_blanks(rownames(deconv))
+    colnames(deconv) <- deescape_blanks(colnames(deconv))
+  }
   return(deconv)
 }
 

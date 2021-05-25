@@ -192,10 +192,11 @@ scaden_process <- function(h5ad, bulk_data, var_cutoff = NULL, verbose = FALSE){
     },
     error=function(cond){
       base::message("Error preprocessing training data! Make sure training data is not in logarithmic space!")
+      base::message(cond)
     },
     warning = function(cond){
       if (verbose){
-        message(cond)
+        base::message(cond)
       }
     }
   )
@@ -326,6 +327,7 @@ scaden_simulate <- function(celltype_labels, gene_labels, single_cell_object, ce
       base::setwd(paste0(tmp_dir,"/",dataset_name))
 
       colnames(single_cell_object)<-gene_labels
+      rownames(single_cell_object)<-0:(length(rownames(single_cell_object))-1)
       cell_types <- data.frame("Celltype"=celltype_labels)
 
       utils::write.table(single_cell_object,paste0(tmp_dir,"/",dataset_name,"/",dataset_name,"_counts.txt") ,sep = "\t",row.names = TRUE,col.names = NA,quote = FALSE)

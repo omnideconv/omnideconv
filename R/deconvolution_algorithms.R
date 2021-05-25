@@ -154,7 +154,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
                    cibersortx = deconvolute_cibersortx(bulk_gene_expression, signature,verbose = verbose, ...)
   )
 
-  if (!is.null(signature)){
+  if (!is.null(deconv)){
     #Alphabetical order of celltypes
     deconv <- deconv[,order(colnames(deconv))]
     rownames(deconv) <- deescape_blanks(rownames(deconv))

@@ -35,19 +35,54 @@ sc.eset <- Biobase::ExpressionSet(assayData=matrixRightFormat,
 model_bisque <- BisqueRNA::GenerateSCReference(sc.eset,"cellType")
 utils::write.csv(model_bisque,"test_models/bisque_model_small.csv")
 result_bisque <- t(BisqueRNA::ReferenceBasedDecomposition(Biobase::ExpressionSet(assayData = bulk_small),sc.eset,use.overlap = FALSE)$bulk.props)
+result_bisque <- result_bisque[,order(colnames(result_bisque))]
 utils::write.csv(result_bisque,"test_results/bisque_result_small.csv")
 
-
+#MOMF
 model_momf <- MOMF::momf.computeRef(sc_object_small, cell_annotations_small)
 utils::write.csv(model_momf,"test_models/momf_model_small.csv")
 GList <- list(X1 = t(sc_object_small), X2 = t(bulk_small))
 result_momf <- MOMF::momf.fit(DataX = GList, DataPriorU=model_momf)$cell.prop
+result_momf <- result_momf[,order(colnames(result_momf))]
 utils::write.csv(result_momf,"test_results/momf_result_small.csv")
 
+#DWLS
 cell_annotations_small_temp <- gsub(" ","_",cell_annotations_small)
 model_dwls <- buildSignatureMatrixMAST(sc_object_small,cell_annotations_small_temp,tempdir())
+tr <- trimData(model_dwls,bulk_small)
+
+allCounts_DWLS<-NULL
+allCounts_OLS<-NULL
+allCounts_SVR<-NULL
+for(i in 1:ncol(tr$bulk)){
+  bulk_i<-tr$bulk[,i]
+  solOLS<-solveOLS(tr$sig,bulk_i)
+  solDWLS<-solveDampenedWLS(tr$sig,bulk_i)
+  solSVR<-solveSVR(tr$sig,bulk_i)
+
+  allCounts_DWLS<-cbind(allCounts_DWLS,solDWLS)
+  allCounts_OLS<-cbind(allCounts_OLS,solOLS)
+  allCounts_SVR<-cbind(allCounts_SVR,solSVR)
+}
+
+colnames(allCounts_DWLS)<-colnames(tr$bulk)
+colnames(allCounts_OLS)<-colnames(tr$bulk)
+colnames(allCounts_SVR)<-colnames(tr$bulk)
+
 colnames(model_dwls) <- gsub("_"," ",colnames(model_dwls))
 utils::write.csv(model_dwls,"test_models/dwls_model_small.csv")
+allCounts_DWLS <- t(allCounts_DWLS)
+allCounts_OLS <- t(allCounts_OLS)
+allCounts_SVR <- t(allCounts_SVR)
+allCounts_DWLS <- allCounts_DWLS[,order(colnames(allCounts_DWLS))]
+allCounts_OLS <- allCounts_OLS[,order(colnames(allCounts_OLS))]
+allCounts_SVR <- allCounts_SVR[,order(colnames(allCounts_SVR))]
+colnames(allCounts_DWLS) <- gsub("_"," ",colnames(allCounts_DWLS))
+colnames(allCounts_OLS) <- gsub("_"," ",colnames(allCounts_OLS))
+colnames(allCounts_SVR) <- gsub("_"," ",colnames(allCounts_SVR))
+utils::write.csv(allCounts_DWLS,"test_results/dwls_dwls_result_small.csv")
+utils::write.csv(allCounts_OLS,"test_results/dwls_ols_result_small.csv")
+utils::write.csv(allCounts_SVR,"test_results/dwls_svr_result_small.csv")
 
 
 
@@ -64,9 +99,10 @@ utils::write.csv(model_dwls,"test_models/dwls_model_small.csv")
 ## DWLS Stuff
 
 #trim bulk and single-cell data to contain the same genes
+#CHANGED FROM THE ORIGINAL FUNCTION TO WORK WITH OUR DATA
 trimData<-function(Signature,bulkData){
-  Genes<-intersect(rownames(Signature),names(bulkData))
-  B<-bulkData[Genes]
+  Genes<-intersect(rownames(Signature),rownames(bulkData))
+  B<-bulkData[Genes,]
   S<-Signature[Genes,]
   return(list("sig"=S,"bulk"=B))
 }
@@ -78,20 +114,26 @@ solveOLS<-function(S,B){
   d<-t(S)%*%B
   A<-cbind(diag(dim(S)[2]))
   bzero<-c(rep(0,dim(S)[2]))
-  solution<-solve.QP(D,d,A,bzero)$solution
+  sc <- norm(D, "2")
+  solution<-solve.QP(D/ sc, d / sc,A,bzero)$solution
   names(solution)<-colnames(S)
-  print(round(solution/sum(solution),5))
+  #print(round(solution/sum(solution),5))
   return(solution/sum(solution))
 }
 
 #return cell number, not proportion
 #do not print output
+#CHANGED FROM THE ORIGINAL FUNCTION TO WORK
 solveOLSInternal<-function(S,B){
   D<-t(S)%*%S
   d<-t(S)%*%B
   A<-cbind(diag(dim(S)[2]))
   bzero<-c(rep(0,dim(S)[2]))
-  solution<-solve.QP(D,d,A,bzero)$solution
+
+
+  sc <- norm(D, "2")
+  solution<-solve.QP(D/sc, d / sc,A,bzero)$solution
+  #solution<-solve.QP(D, d,A,bzero)$solution
   names(solution)<-colnames(S)
   return(solution)
 }
@@ -115,7 +157,7 @@ solveDampenedWLS<-function(S,B){
     iterations<-iterations+1
     changes<-c(changes,change)
   }
-  print(round(solution/sum(solution),5))
+  #print(round(solution/sum(solution),5))
   return(solution/sum(solution))
 }
 
@@ -162,7 +204,7 @@ findDampeningConstant<-function(S,B,goldStandard){
       set.seed(seeds[i]) #make nondeterministic
       subset<-sample(length(ws),size=length(ws)*0.5) #randomly select half of gene set
       #solve dampened weighted least squares for subset
-      fit = lm (B[subset] ~ -1+S[subset,],weights=wsDampened[subset])
+      fit = lm (B[subset] ~ -1+S[subset,,drop=FALSE],weights=wsDampened[subset])
       sol<-fit$coef*sum(goldStandard)/sum(fit$coef)
       solutions<-cbind(solutions,sol)
     }
@@ -188,85 +230,6 @@ solveSVR<-function(S,B){
   names(coef)<-colnames(S)
   print(round(coef/sum(coef),5))
   return(coef/sum(coef))
-}
-
-#perform DE analysis using Seurat
-DEAnalysis<-function(scdata,id,path){
-  exprObj<-CreateSeuratObject(raw.data=as.data.frame(scdata), project = "DE")
-  exprObj2<-SetIdent(exprObj,ident.use=as.vector(id))
-  print("Calculating differentially expressed genes:")
-  for (i in unique(id)){
-    de_group <- FindMarkers(object=exprObj2, ident.1 = i, ident.2 = NULL,
-                            only.pos = TRUE, test.use = "bimod")
-    save(de_group,file=paste(path,"/de_",i,".RData",sep=""))
-  }
-}
-
-#build signature matrix using genes identified by DEAnalysis()
-buildSignatureMatrixUsingSeurat<-function(scdata,id,path,diff.cutoff=0.5,pval.cutoff=0.01){
-
-  #perform differential expression analysis
-  DEAnalysis(scdata,id,path)
-
-  numberofGenes<-c()
-  for (i in unique(id)){
-    load(file=paste(path,"/de_",i,".RData",sep=""))
-    DEGenes<-rownames(de_group)[intersect(which(de_group$p_val_adj<pval.cutoff),which(de_group$avg_logFC>diff.cutoff))]
-    nonMir = grep("MIR|Mir", DEGenes, invert = T)
-    assign(paste("cluster_lrTest.table.",i,sep=""),de_group[which(rownames(de_group)%in%DEGenes[nonMir]),])
-    numberofGenes<-c(numberofGenes,length(DEGenes[nonMir]))
-  }
-
-  #need to reduce number of genes
-  #for each subset, order significant genes by decreasing fold change, choose between 50 and 200 genes
-  #choose matrix with lowest condition number
-  conditionNumbers<-c()
-  for(G in 50:200){
-    Genes<-c()
-    j=1
-    for (i in unique(id)){
-      if(numberofGenes[j]>0){
-        temp<-paste("cluster_lrTest.table.",i,sep="")
-        temp<-as.name(temp)
-        temp<-eval(parse(text = temp))
-        temp<-temp[order(temp$p_val_adj,decreasing=TRUE),]
-        Genes<-c(Genes,(rownames(temp)[1:min(G,numberofGenes[j])]))
-      }
-      j=j+1
-    }
-    Genes<-unique(Genes)
-    #make signature matrix
-    ExprSubset<-scdata[Genes,]
-    Sig<-NULL
-    for (i in unique(id)){
-      Sig<-cbind(Sig,(apply(ExprSubset,1,function(y) mean(y[which(id==i)]))))
-    }
-    colnames(Sig)<-unique(id)
-    conditionNumbers<-c(conditionNumbers,kappa(Sig))
-  }
-  G<-which.min(conditionNumbers)+min(49,numberofGenes-1) #G is optimal gene number
-  #
-  Genes<-c()
-  j=1
-  for (i in unique(id)){
-    if(numberofGenes[j]>0){
-      temp<-paste("cluster_lrTest.table.",i,sep="")
-      temp<-as.name(temp)
-      temp<-eval(parse(text = temp))
-      temp<-temp[order(temp$p_val_adj,decreasing=TRUE),]
-      Genes<-c(Genes,(rownames(temp)[1:min(G,numberofGenes[j])]))
-    }
-    j=j+1
-  }
-  Genes<-unique(Genes)
-  ExprSubset<-scdata[Genes,]
-  Sig<-NULL
-  for (i in unique(id)){
-    Sig<-cbind(Sig,(apply(ExprSubset,1,function(y) mean(y[which(id==i)]))))
-  }
-  colnames(Sig)<-unique(id)
-  save(Sig,file=paste(path,"/Sig.RData",sep=""))
-  return(Sig)
 }
 
 ##alternative differential expression method using MAST
@@ -329,8 +292,8 @@ DEAnalysisMAST<-function(scdata,id,path){
     DE <- bigtable[bigtable$log2_fc >diff.cutoff,]
     dim(DE)
     if(dim(DE)[1]>1){
-      data.1                 = data.used.log2[,cells.coord.list1]
-      data.2                 = data.used.log2[,cells.coord.list2]
+      data.1                 = data.used.log2[,cells.coord.list1,drop=FALSE]
+      data.2                 = data.used.log2[,cells.coord.list2,drop=FALSE]
       genes.list = rownames(DE)
       log2fold_change        = cbind(genes.list, DE$log2_fc)
       colnames(log2fold_change) = c("gene.name", "log2fold_change")
@@ -437,3 +400,4 @@ buildSignatureMatrixMAST<-function(scdata,id,path,diff.cutoff=0.5,pval.cutoff=0.
   save(Sig,file=paste(path,"/Sig.RData",sep=""))
   return(Sig)
 }
+

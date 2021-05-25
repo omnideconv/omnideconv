@@ -7,7 +7,7 @@
 deconvolute_dwls(
   bulk_gene_expression,
   signature,
-  dwls_submethod = c("OLS", "SVR", "DampenedWLS"),
+  dwls_submethod = c("DampenedWLS", "OLS", "SVR"),
   verbose = FALSE
 )
 }

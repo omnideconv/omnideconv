@@ -45,7 +45,7 @@ build_model_dwls <- function(scdata,
 #' @export
 #'
 
-deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c("OLS","SVR","DampenedWLS"), verbose = FALSE){
+deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c("DampenedWLS","OLS","SVR"), verbose = FALSE){
 
   if (length(dwls_submethod)>1){
     dwls_submethod <- dwls_submethod[1]
@@ -57,8 +57,8 @@ deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c(
 
   # trim data
   Genes<-base::intersect(rownames(signature),rownames(bulk_gene_expression))
-  bulk<-bulk_gene_expression[Genes,]
-  sig<-signature[Genes,]
+  bulk<-bulk_gene_expression[Genes, ,drop=FALSE]
+  sig<-signature[Genes, ,drop=FALSE]
   if (class(bulk)[[1]]=="numeric"||class(sig)[[1]]=="numeric"){
     base::stop("Either bulk data or signature matrix just contains one row!")
   }
@@ -71,7 +71,7 @@ deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c(
     for (i in 1:ncol(bulk)){
       bulk_i<-bulk[,i]
       sol<-solveOLS(sig,bulk_i,verbose)
-      sol<-round(sol,5)
+      #sol<-round(sol,5)
       solutionsOLS<-cbind(solutionsOLS,sol)
     }
     colnames(solutionsOLS)<-colnames(bulk)
@@ -81,7 +81,7 @@ deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c(
     for (i in 1:ncol(bulk)){
       bulk_i<-bulk[,i]
       sol<-solveSVR(sig,bulk_i)
-      sol<-round(sol,5)
+      #sol<-round(sol,5)
       solutionsSVR<-cbind(solutionsSVR,sol)
     }
     colnames(solutionsSVR)<-colnames(bulk)
@@ -91,7 +91,7 @@ deconvolute_dwls = function(bulk_gene_expression, signature, dwls_submethod = c(
     for (i in 1:ncol(bulk)){
       bulk_i<-bulk[,i]
       sol<-solveDampenedWLS(sig,bulk_i,verbose)
-      sol<-round(sol,5)
+      #sol<-round(sol,5)
       solutionsDampenedWLS<-cbind(solutionsDampenedWLS,sol)
     }
     colnames(solutionsDampenedWLS)<-colnames(bulk)
@@ -269,7 +269,7 @@ findDampeningConstant <- function(S, B, goldStandard) {
       subset <-
         sample(length(ws), size = length(ws) * 0.5) #randomly select half of gene set
       #solve dampened weighted least squares for subset
-      fit = lm (B[subset] ~ -1 + S[subset, ], weights = wsDampened[subset])
+      fit = lm (B[subset] ~ -1 + S[subset, ,drop=FALSE], weights = wsDampened[subset])
       sol <- fit$coef * sum(goldStandard) / sum(fit$coef)
       solutions <- base::cbind(solutions, sol)
     }
@@ -415,7 +415,7 @@ buildSignatureMatrixUsingSeurat <- function(scdata,
     }
     Genes <- unique(Genes)
     #make signature matrix
-    ExprSubset <- scdata[Genes, ]
+    ExprSubset <- scdata[Genes, ,drop=FALSE]
     Sig <- NULL
     for (i in unique(id)) {
       Sig <-
@@ -441,7 +441,7 @@ buildSignatureMatrixUsingSeurat <- function(scdata,
     j = j + 1
   }
   Genes <- unique(Genes)
-  ExprSubset <- scdata[Genes, ]
+  ExprSubset <- scdata[Genes, ,drop=FALSE]
   Sig <- NULL
   for (i in unique(id)) {
     Sig <-
@@ -543,8 +543,7 @@ DEAnalysisMAST <- function(scdata, id, path, verbose = FALSE) {
     dim(DE)
     if (dim(DE)[1] > 1) {
       data.1                 = data.used.log2[, cells.coord.list1, drop = FALSE]
-      data.2                 = data.used.log2[, cells.coord.list2, drop =
-                                                FALSE]
+      data.2                 = data.used.log2[, cells.coord.list2, drop = FALSE]
       genes.list = rownames(DE)
       log2fold_change        = base::cbind(genes.list, DE$log2_fc)
       colnames(log2fold_change) = c("gene.name", "log2fold_change")
@@ -704,7 +703,7 @@ buildSignatureMatrixUsingMAST <- function(scdata,
     }
     Genes <- unique(Genes)
     #make signature matrix
-    ExprSubset <- scdata[Genes, ]
+    ExprSubset <- scdata[Genes, ,drop=FALSE]
     Sig <- NULL
     for (i in unique(id)) {
       Sig <-
@@ -729,7 +728,7 @@ buildSignatureMatrixUsingMAST <- function(scdata,
     j = j + 1
   }
   Genes <- unique(Genes)
-  ExprSubset <- scdata[Genes, ]
+  ExprSubset <- scdata[Genes, ,drop=FALSE]
   Sig <- NULL
   for (i in unique(id)) {
     Sig <-

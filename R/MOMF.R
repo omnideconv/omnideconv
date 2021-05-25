@@ -45,5 +45,5 @@ deconvolute_momf <- function(bulk_gene_expression, signature, single_cell_object
     base::stop("Something went wrong. Please switch on verbose mode")
   }
   #return slot in result with cell proportion matrix
-  return(result$cell.prop)
+  return(result)
 }

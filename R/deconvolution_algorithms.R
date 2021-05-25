@@ -148,7 +148,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
                      deconvolute_bisque(bulk_eset, signature, single_cell_object,
                                         cell_type_annotations, verbose = verbose)$bulk.props
                    },
-                   momf=deconvolute_momf(bulk_gene_expression, signature, single_cell_object, verbose = verbose, ...),
+                   momf=deconvolute_momf(bulk_gene_expression, signature, single_cell_object, verbose = verbose, ...)$cell.prop,
                    scaden = deconvolute_scaden(signature, bulk_gene_expression, verbose = verbose, ...),
                    dwls = deconvolute_dwls(bulk_gene_expression, signature, verbose = verbose, ...),
                    cibersortx = deconvolute_cibersortx(bulk_gene_expression, signature,verbose = verbose, ...)

@@ -161,3 +161,167 @@ deconvolute_bisque <- function (bulk_eset, signature_matrix, single_cell_object 
                         transformed.bulk = Y.pred)
   return(results)
 }
+
+test_deconv <- function (bulk.eset, sc.eset, markers = NULL, cell.types = "cellType",
+          subject.names = "SubjectName", use.overlap = TRUE, verbose = TRUE,
+          old.cpm = TRUE)
+{
+  if ((!methods::is(sc.eset, "ExpressionSet")) || (!methods::is(bulk.eset,
+                                                                "ExpressionSet"))) {
+    base::stop("Expression data should be in ExpressionSet")
+  }
+  else if (!cell.types %in% Biobase::varLabels(sc.eset)) {
+    base::stop(base::sprintf("Cell type label \"%s\" ",
+                             cell.types), "not found in single-cell ExpressionSet varLabels.")
+  }
+  else if (!subject.names %in% Biobase::varLabels(sc.eset)) {
+    base::stop(base::sprintf("Individual label \"%s\"",
+                             subject.names), " not found in single-cell ExpressionSet varLabels.")
+  }
+  n.sc.individuals <- base::length(base::levels(base::factor(sc.eset[[subject.names]])))
+  if (n.sc.individuals == 1) {
+    base::stop("Only one individual detected in single-cell data. At least ",
+               "two subjects are needed (three or more recommended).")
+  }
+  else if (n.sc.individuals == 2) {
+    base::warning("Only two individuals detected in single-cell data. While ",
+                  "Bisque will run, we recommend at least three subjects for",
+                  " reliable performance.")
+  }
+  n.cell.types <- base::length(base::levels(base::factor(sc.eset[[cell.types]])))
+  if (n.cell.types == 1) {
+    base::stop("Single-cell pheno data indicates only one cell type",
+               " present. No need for decomposition.")
+  }
+  if (verbose) {
+    base::message(base::sprintf("Decomposing into %i cell types.",
+                                n.cell.types))
+  }
+  if (use.overlap) {
+    samples <- GetOverlappingSamples(sc.eset, bulk.eset,
+                                     subject.names, verbose)
+  }
+  if (base::is.null(markers)) {
+    markers <- Biobase::featureNames(sc.eset)
+  }
+  else {
+    markers <- base::unique(base::unlist(markers))
+  }
+  genes <- GetOverlappingGenes(sc.eset, bulk.eset, markers,
+                               verbose)
+  if (old.cpm) {
+    sc.eset <- Biobase::ExpressionSet(assayData = Biobase::exprs(sc.eset)[genes,
+    ], phenoData = sc.eset@phenoData)
+    bulk.eset <- Biobase::ExpressionSet(assayData = Biobase::exprs(bulk.eset)[genes,
+    ], phenoData = bulk.eset@phenoData)
+  }
+  if (verbose) {
+    base::message("Converting single-cell counts to CPM and ",
+                  "filtering zero variance genes.")
+  }
+  sc.eset <- CountsToCPM(sc.eset)
+  if (!old.cpm) {
+    sc.eset <- Biobase::ExpressionSet(assayData = Biobase::exprs(sc.eset)[genes,
+    ], phenoData = sc.eset@phenoData)
+  }
+  sc.eset <- FilterZeroVarianceGenes(sc.eset, verbose)
+  if (verbose) {
+    base::message("Converting bulk counts to CPM and filtering",
+                  " unexpressed genes.")
+  }
+  bulk.eset <- CountsToCPM(bulk.eset)
+  if (!old.cpm) {
+    bulk.eset <- Biobase::ExpressionSet(assayData = Biobase::exprs(bulk.eset)[genes,
+    ], phenoData = bulk.eset@phenoData)
+  }
+  bulk.eset <- FilterUnexpressedGenes(bulk.eset, verbose)
+  genes <- base::intersect(Biobase::featureNames(sc.eset),
+                           Biobase::featureNames(bulk.eset))
+  if (base::length(genes) == 0) {
+    base::stop("Zero genes remaining after filtering and ",
+               "intersecting bulk, single-cell, and marker genes.")
+  }
+  if (verbose) {
+    n.cells <- base::ncol(sc.eset)
+    base::message("Generating single-cell based reference from ",
+                  sprintf("%i cells.\n", n.cells))
+  }
+  sc.ref <- GenerateSCReference(sc.eset, cell.types)[genes,
+                                                     , drop = F]
+  sc.props <- CalculateSCCellProportions(sc.eset, subject.names,
+                                         cell.types)
+  sc.props <- sc.props[base::colnames(sc.ref), , drop = F]
+  if (use.overlap) {
+    if (verbose) {
+      base::message("Learning bulk transformation from overlapping samples.")
+    }
+    Y.train <- sc.ref %*% sc.props[, samples$overlapping,
+                                   drop = F]
+    X.train <- Biobase::exprs(bulk.eset)[genes, samples$overlapping,
+                                         drop = F]
+    X.pred <- Biobase::exprs(bulk.eset)[genes, samples$remaining,
+                                        drop = F]
+    template <- base::numeric(base::length(samples$remaining))
+    base::names(template) <- samples$remaining
+    if (verbose) {
+      base::message("Applying transformation to bulk samples and decomposing.")
+    }
+    Y.pred <- base::matrix(base::vapply(X = genes, FUN = SupervisedTransformBulk,
+                                        FUN.VALUE = template, Y.train, X.train, X.pred,
+                                        USE.NAMES = TRUE), nrow = base::length(samples$remaining))
+    sample.names <- samples$remaining
+  }
+  else {
+    if (verbose) {
+      base::message("Inferring bulk transformation from single-cell alone.")
+    }
+    Y.train <- sc.ref %*% sc.props
+    X.pred <- Biobase::exprs(bulk.eset)[genes, , drop = F]
+    sample.names <- base::colnames(Biobase::exprs(bulk.eset))
+    template <- base::numeric(base::length(sample.names))
+    base::names(template) <- sample.names
+    if (verbose) {
+      base::message("Applying transformation to bulk samples and decomposing.")
+    }
+    Y.pred <- base::matrix(base::vapply(X = genes, FUN = SemisupervisedTransformBulk,
+                                        FUN.VALUE = template, Y.train, X.pred, USE.NAMES = TRUE),
+                           nrow = base::length(sample.names))
+  }
+  indices <- base::apply(Y.pred, MARGIN = 2, FUN = function(column) {
+    base::anyNA(column)
+  })
+  if (base::any(indices)) {
+    if (verbose) {
+      n.dropped <- base::sum(indices)
+      base::message(base::sprintf("Dropped an additional %i genes",
+                                  n.dropped), " for which a transformation could not be learned.")
+    }
+    if (sum(!indices) == 0) {
+      base::stop("Zero genes left for decomposition.")
+    }
+    Y.pred <- Y.pred[, !indices, drop = F]
+    sc.ref <- sc.ref[!indices, , drop = F]
+  }
+  E <- base::matrix(1, nrow = n.cell.types, ncol = n.cell.types)
+  f <- base::rep(1, n.cell.types)
+  G <- base::diag(n.cell.types)
+  h <- base::rep(0, n.cell.types)
+  results <- base::as.matrix(base::apply(Y.pred, 1, function(b) {
+    sol <- limSolve::lsei(sc.ref, b, E, f, G, h)
+    sol.p <- sol$X
+    sol.r <- base::sqrt(sol$solutionNorm)
+    return(base::append(sol.p, sol.r))
+  }))
+  base::rownames(results) <- base::append(base::colnames(sc.ref),
+                                          "rnorm")
+  base::colnames(results) <- sample.names
+  rnorm <- results["rnorm", , drop = T]
+  base::names(rnorm) <- sample.names
+  Y.pred <- base::t(Y.pred)
+  base::rownames(Y.pred) <- base::rownames(sc.ref)
+  base::colnames(Y.pred) <- sample.names
+  results <- base::list(bulk.props = results[base::colnames(sc.ref),
+                                             , drop = F], sc.props = sc.props, rnorm = rnorm, genes.used = base::rownames(sc.ref),
+                        transformed.bulk = Y.pred)
+  return(results)
+}

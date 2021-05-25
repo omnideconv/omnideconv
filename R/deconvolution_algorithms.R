@@ -145,8 +145,12 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
                      bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
                      #Necessary for bisque, because bisqueReferenceDecomp needs to access internal bisque-package methods
                      base::environment(deconvolute_bisque) <- base::environment(BisqueRNA::SimulateData)
-                     deconvolute_bisque(bulk_eset, signature, single_cell_object,
-                                        cell_type_annotations, verbose = verbose)$bulk.props
+                     print(deconvolute_bisque(bulk_eset, signature, single_cell_object,
+                                              cell_type_annotations, verbose = verbose)$bulk.props)
+                     base::environment(test_deconv) <- base::environment(BisqueRNA::SimulateData)
+                     print(test_deconv(bulk_eset, get_single_cell_expression_set(single_cell_object, colnames(single_cell_object), rownames(single_cell_object), cell_type_annotations),
+                                              verbose = verbose,use.overlap=FALSE)$bulk.props)
+                     return(NULL)
                    },
                    momf=deconvolute_momf(bulk_gene_expression, signature, single_cell_object, verbose = verbose, ...)$cell.prop,
                    scaden = deconvolute_scaden(signature, bulk_gene_expression, verbose = verbose, ...),

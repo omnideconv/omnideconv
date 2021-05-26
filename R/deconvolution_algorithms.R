@@ -64,10 +64,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, method
   }
 
   signature <- switch(tolower(method),
-                      bisque = {
-                        base::environment(build_model_bisque) <- base::environment(BisqueRNA::SimulateData)
-                        build_model_bisque(single_cell_object,cell_type_annotations, verbose = verbose, ...)
-                      },
+                      bisque = build_model_bisque(single_cell_object,cell_type_annotations, verbose = verbose, ...),
                       #momf needs bulk set and signature matrix containing the same genes
                       momf = build_model_momf(single_cell_object,cell_type_annotations,bulk_gene_expression, ...),
                       scaden = build_model_scaden(single_cell_object,cell_type_annotations, bulk_gene_expression, verbose = verbose, ...),
@@ -144,11 +141,8 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   }
 
   deconv <- switch(tolower(method),
-                   bisque = {
-                     base::environment(deconvolute_bisque) <- base::environment(BisqueRNA::SimulateData)
-                     deconvolute_bisque(bulk_gene_expression, signature, single_cell_object,
-                                 cell_type_annotations, verbose = verbose, ...)$bulk.props
-                   },
+                   bisque = deconvolute_bisque(bulk_gene_expression, signature, single_cell_object,
+                                 cell_type_annotations, verbose = verbose, ...)$bulk_props,
                    momf=deconvolute_momf(bulk_gene_expression, signature, single_cell_object, verbose = verbose, ...)$cell.prop,
                    scaden = deconvolute_scaden(signature, bulk_gene_expression, verbose = verbose, ...),
                    dwls = deconvolute_dwls(bulk_gene_expression, signature, verbose = verbose, ...),

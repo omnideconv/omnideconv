@@ -340,7 +340,7 @@ scaden_simulate <- function(celltype_labels, gene_labels, single_cell_object, ce
       value_to_set_infinities_to <- max(temp_output$X[is.finite(temp_output$X)])
       number_of_infs <- sum(temp_output$X==Inf)
       temp_output$X[temp_output$X==Inf] <- value_to_set_infinities_to*2
-      if (verbose){
+      if (verbose & number_of_infs>0){
         base::message(paste0(number_of_infs," Inf values were replaced by twice the maximum value (",
                              value_to_set_infinities_to,"*2)"))
       }

@@ -17,6 +17,18 @@ Rows are genes, columns are samples. Row and column names need to be set.}
 
 \item{cell_type_annotations}{A Vector of the cell type annotations. Has to
 be in the same order as the samples in single_cell_object}
+
+\item{old_cpm}{Prior to version 1.0.4 (updated in July 2020), the package
+converted counts to CPM after subsetting the marker genes. Github user
+randel pointed out that the order of these operations should be switched.
+Thanks randel! This option is provided for replication of older BisqueRNA
+but should be enabled, especially for small marker gene sets.
+We briefly tested this change on the cortex and adipose datasets.
+The original and new order of operations produce estimates that have an
+average correlation of 0.87 for the cortex and 0.84 for the adipose within
+each cell type.}
+
+\item{verbose}{Whether the algorithm should print out what it is doing.}
 }
 \value{
 The signature matrix. Rows are genes, columns are cell types.

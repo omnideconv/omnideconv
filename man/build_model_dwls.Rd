@@ -7,6 +7,7 @@
 build_model_dwls(
   scdata,
   id,
+  method = c("MAST", "Seurat"),
   path,
   verbose = FALSE,
   diff.cutoff = 0.5,
@@ -17,6 +18,8 @@ build_model_dwls(
 \item{scdata}{A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.}
 
 \item{id}{A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object}
+
+\item{method}{The method used to create the signature matrix. Options are "MAST" and "Seurat"}
 
 \item{path}{The path where the generated files will be saved. If path=NULL, the generated files will be discarded.}
 

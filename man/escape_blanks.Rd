@@ -2,7 +2,7 @@
 % Please edit documentation in R/helper.R
 \name{escape_blanks}
 \alias{escape_blanks}
-\title{Removes blanks by substituting them with "$_$" which should not be used naturally}
+\title{Removes blanks by substituting them with ".\emph{.}._" which should not be used naturally}
 \usage{
 escape_blanks(string)
 }
@@ -13,5 +13,5 @@ escape_blanks(string)
 The String without blanks
 }
 \description{
-Removes blanks by substituting them with "$_$" which should not be used naturally
+Removes blanks by substituting them with ".\emph{.}._" which should not be used naturally
 }

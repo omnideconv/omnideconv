@@ -23,6 +23,10 @@ reference:
       - deconvolute_scaden
       - deconvolute_bisque
       - deconvolute_cibersortx
+  - title: Environment
+    desc: Methods needed to set credentials or change variables in the environment.
+    contents:
+      - set_cibersortx_credentials
   - title: Datasets
     desc: List of datasets provided by the package.
     contents:
@@ -32,38 +36,8 @@ reference:
       - cell_type_annotations_small
       - single_cell_data
       - single_cell_data_small
-  - title: Helper
-    desc: Helper functions to extract repeating checks or work with non-R related tasks like Python or Docker.
+  - title: Visualisation
+    desc: Methods which produce plots with different methods.
     contents:
-      - init_python
-      - install_scaden
-      - python_available
-      - set_python
-      - set_cibersortx_credentials
-      - docker_available
-      - docker_connectable
-      - verbose_wrapper
-  - title: Scaden
-    desc: Functions and objects related to the Scaden deconvolution_methods.
-    contents:
-      - scaden_checkload
-      - scaden_predict
-      - scaden_process
-      - scaden_simulate
-      - scaden_simulate_example
-      - scaden_train
-  - title: Anndata
-    desc: Functions related to anndata.
-    contents:
-      - anndata_check_load
-      - build_anndata
-      - read_anndata
-      - write_anndata
-  - title: Data conversion
-    desc: Functions for data conversion.
-    contents:
-      - get_single_cell_expression_set
-      - anndata_to_singlecellexperiment
-      - singlecellexperiment_to_anndata
-      - matrix_to_singlecellexperiment
-      - singlecellexperiment_to_matrix
+      - makeBenchmarkingScatterplot
+      - plotDeconvResult

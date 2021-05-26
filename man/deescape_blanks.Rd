@@ -2,7 +2,7 @@
 % Please edit documentation in R/helper.R
 \name{deescape_blanks}
 \alias{deescape_blanks}
-\title{Removes the substitutions "$_$" and turns them back into blanks}
+\title{Removes the substitutions ".\emph{.}._" and turns them back into blanks}
 \usage{
 deescape_blanks(string)
 }
@@ -13,5 +13,5 @@ deescape_blanks(string)
 The String with blanks
 }
 \description{
-Removes the substitutions "$_$" and turns them back into blanks
+Removes the substitutions ".\emph{.}._" and turns them back into blanks
 }

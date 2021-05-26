@@ -6,9 +6,13 @@
 #' @import dplyr
 #' @import ggplot2
 #' @return the ggplot object
-#' @export
 #'
-#' @examples plotDeconvResult(omnideconv::deconvolute(bulk, omnideconv::build_model(single_cell_data, cell_type_annotations, "bisque"), "bisque", single_cell_data, cell_type_annotations), "Bisque")
+#' @examples
+#' model <- omnideconv::build_model(single_cell_data, cell_type_annotations, "bisque")
+#' deconvolution <- omnideconv::deconvolute(bulk, model, "bisque", single_cell_data, cell_type_annotations)
+#' plotDeconvResult(deconvolution, "Bisque")
+#'
+#' @export
 plotDeconvResult <- function(deconv_result, method_name = "", file_name = NULL){
 
   plot <- cbind(deconv_result, samples= rownames(deconv_result)) %>%
@@ -54,7 +58,8 @@ makeBenchmarkingScatterplot <- function(result_list, file_name = NULL){
   names(li) <- names(result_list)
   li <- lapply(li, function(x) tidyr::pivot_longer(data.frame(x), !c("sample", "method"), names_to = "cell_type", values_to = "predicted_fraction"))
   df <- dplyr::bind_rows(li)
-  df$cell_type <- gsub(" ", "_", df$cell_type)
+  #Should not be needed anymore
+  #df$cell_type <- gsub(" ", "_", df$cell_type)
   load("data/RefData.RData")
   names(RefData) <- c("T_cell", "Monocyte", "B_cell", "DC", "NK_cell")
   RefData$sample <- rownames(RefData)

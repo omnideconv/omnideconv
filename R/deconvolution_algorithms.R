@@ -56,9 +56,15 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, method
   }
 
   cell_type_annotations <- escape_blanks(cell_type_annotations)
+  rownames(single_cell_object) <- escape_blanks(rownames(single_cell_object))
+  colnames(single_cell_object) <- escape_blanks(colnames(single_cell_object))
+  if (!is.null(bulk_gene_expression)){
+    rownames(bulk_gene_expression) <- escape_blanks(rownames(bulk_gene_expression))
+    colnames(bulk_gene_expression) <- escape_blanks(colnames(bulk_gene_expression))
+  }
 
   signature <- switch(tolower(method),
-                      bisque = build_model_bisque(single_cell_object,cell_type_annotations, ...),
+                      bisque = build_model_bisque(single_cell_object,cell_type_annotations, verbose = verbose, ...),
                       #momf needs bulk set and signature matrix containing the same genes
                       momf = build_model_momf(single_cell_object,cell_type_annotations,bulk_gene_expression, ...),
                       scaden = build_model_scaden(single_cell_object,cell_type_annotations, bulk_gene_expression, verbose = verbose, ...),
@@ -66,7 +72,12 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, method
                       cibersortx = build_model_cibersortx(single_cell_object,cell_type_annotations,verbose = verbose, ...)
   )
 
-  rownames(signature) <- deescape_blanks(rownames(signature))
+
+  #Only do if it is a matrix and not the path to the matrix
+  if (! "character" %in% class(signature) & !is.null(signature)){
+    rownames(signature) <- deescape_blanks(rownames(signature))
+    colnames(signature) <- deescape_blanks(colnames(signature))
+  }
 
   return(signature)
 }
@@ -113,28 +124,37 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   if (class(bulk_gene_expression)[[1]]!="matrix")
     bulk_gene_expression <- base::as.matrix(bulk_gene_expression)
 
+
+  rownames(bulk_gene_expression) <- escape_blanks(rownames(bulk_gene_expression))
+  colnames(bulk_gene_expression) <- escape_blanks(colnames(bulk_gene_expression))
+  #Only do if it is a matrix and not the path to the matrix
   if (! "character" %in% class(signature)){
+    rownames(signature) <- escape_blanks(rownames(signature))
     colnames(signature) <- escape_blanks(colnames(signature))
+  }
+  if (!is.null(single_cell_object)){
+    rownames(single_cell_object) <- escape_blanks(rownames(single_cell_object))
+    colnames(single_cell_object) <- escape_blanks(colnames(single_cell_object))
+  }
+  if (!is.null(cell_type_annotations)){
+    cell_type_annotations <- escape_blanks(cell_type_annotations)
   }
 
   deconv <- switch(tolower(method),
-                   bisque = {
-                     cell_type_annotations <- escape_blanks(cell_type_annotations)
-                     bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
-                     #Necessary for bisque, because bisqueReferenceDecomp needs to access internal bisque-package methods
-                     base::environment(deconvolute_bisque) <- base::environment(BisqueRNA::SimulateData)
-                     deconvolute_bisque(bulk_eset, signature, single_cell_object,
-                                        cell_type_annotations, verbose = verbose)$bulk.props
-                   },
-                   momf=deconvolute_momf(bulk_gene_expression, signature, single_cell_object, verbose = verbose, ...),
+                   bisque = deconvolute_bisque(bulk_gene_expression, signature, single_cell_object,
+                                 cell_type_annotations, verbose = verbose, ...)$bulk_props,
+                   momf=deconvolute_momf(bulk_gene_expression, signature, single_cell_object, verbose = verbose, ...)$cell.prop,
                    scaden = deconvolute_scaden(signature, bulk_gene_expression, verbose = verbose, ...),
                    dwls = deconvolute_dwls(bulk_gene_expression, signature, verbose = verbose, ...),
                    cibersortx = deconvolute_cibersortx(bulk_gene_expression, signature,verbose = verbose, ...)
   )
 
-  #Alphabetical order of celltypes
-  deconv <- deconv[,order(colnames(deconv))]
-  colnames(deconv) <- deescape_blanks(colnames(deconv))
+  if (!is.null(deconv)){
+    #Alphabetical order of celltypes
+    deconv <- deconv[,order(colnames(deconv))]
+    rownames(deconv) <- deescape_blanks(rownames(deconv))
+    colnames(deconv) <- deescape_blanks(colnames(deconv))
+  }
   return(deconv)
 }
 

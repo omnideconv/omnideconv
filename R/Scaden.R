@@ -330,14 +330,22 @@ scaden_simulate <- function(celltype_labels, gene_labels, single_cell_object, ce
       rownames(single_cell_object)<-0:(length(rownames(single_cell_object))-1)
       cell_types <- data.frame("Celltype"=celltype_labels)
 
-      utils::write.table(single_cell_object,paste0(tmp_dir,"/",dataset_name,"/",dataset_name,"_counts.txt") ,sep = "\t",row.names = TRUE,col.names = NA,quote = FALSE)
+      utils::write.table(format(single_cell_object, digits=0),paste0(tmp_dir,"/",dataset_name,"/",dataset_name,"_counts.txt") ,sep = "\t",row.names = TRUE,col.names = NA,quote = FALSE)
       utils::write.table(cell_types,paste0(tmp_dir,"/",dataset_name,"/",dataset_name,"_celltypes.txt") ,quote = FALSE,row.names = FALSE,col.names = TRUE)
       base::setwd(tmp_dir)
 
       system(paste("scaden simulate --data",paste0(tmp_dir,"/",dataset_name),"-n",samples,"-c",cells,"--pattern *_counts.txt"), ignore.stdout = !verbose, ignore.stderr = !verbose)
 
-
-      read_anndata(paste0(tmp_dir,"/data.h5ad"))
+      #Workaround to not have any Inf values in the simulated data
+      temp_output <- read_anndata(paste0(tmp_dir,"/data.h5ad"))
+      value_to_set_infinities_to <- max(temp_output$X[is.finite(temp_output$X)])
+      number_of_infs <- sum(temp_output$X==Inf)
+      temp_output$X[temp_output$X==Inf] <- value_to_set_infinities_to*2
+      if (verbose){
+        base::message(paste0(number_of_infs," Inf values were replaced by twice the maximum value (",
+                             value_to_set_infinities_to,"*2)"))
+      }
+      temp_output
     },
     error=function(cond) {
       base::stop(cond)

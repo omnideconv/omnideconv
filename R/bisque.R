@@ -177,17 +177,17 @@ deconvolute_bisque <- function (bulk_gene_expression, signature_matrix, single_c
   sc.ref <- signature_matrix[genes, , drop = FALSE]
   sc.props <- CalculateSCCellProportions(sc.eset, subject.names,
                                          cell.types)
-  sc.props <- sc.props[base::colnames(sc.ref), , drop = F]
+  sc.props <- sc.props[base::colnames(sc.ref), , drop = FALSE]
   if (use.overlap) {
     if (verbose) {
       base::message("Learning bulk transformation from overlapping samples.")
     }
     Y.train <- sc.ref %*% sc.props[, samples$overlapping,
-                                   drop = F]
+                                   drop = FALSE]
     X.train <- Biobase::exprs(bulk.eset)[genes, samples$overlapping,
-                                         drop = F]
+                                         drop = FALSE]
     X.pred <- Biobase::exprs(bulk.eset)[genes, samples$remaining,
-                                        drop = F]
+                                        drop = FALSE]
     template <- base::numeric(base::length(samples$remaining))
     base::names(template) <- samples$remaining
     if (verbose) {
@@ -203,7 +203,7 @@ deconvolute_bisque <- function (bulk_gene_expression, signature_matrix, single_c
       base::message("Inferring bulk transformation from single-cell alone.")
     }
     Y.train <- sc.ref %*% sc.props
-    X.pred <- Biobase::exprs(bulk.eset)[genes, , drop = F]
+    X.pred <- Biobase::exprs(bulk.eset)[genes, , drop = FALSE]
     sample.names <- base::colnames(Biobase::exprs(bulk.eset))
     template <- base::numeric(base::length(sample.names))
     base::names(template) <- sample.names
@@ -226,8 +226,8 @@ deconvolute_bisque <- function (bulk_gene_expression, signature_matrix, single_c
     if (sum(!indices) == 0) {
       base::stop("Zero genes left for decomposition.")
     }
-    Y.pred <- Y.pred[, !indices, drop = F]
-    sc.ref <- sc.ref[!indices, , drop = F]
+    Y.pred <- Y.pred[, !indices, drop = FALSE]
+    sc.ref <- sc.ref[!indices, , drop = FALSE]
   }
   E <- base::matrix(1, nrow = n.cell.types, ncol = n.cell.types)
   f <- base::rep(1, n.cell.types)
@@ -242,13 +242,13 @@ deconvolute_bisque <- function (bulk_gene_expression, signature_matrix, single_c
   base::rownames(results) <- base::append(base::colnames(sc.ref),
                                           "rnorm")
   base::colnames(results) <- sample.names
-  rnorm <- results["rnorm", , drop = T]
+  rnorm <- results["rnorm", , drop = TRUE]
   base::names(rnorm) <- sample.names
   Y.pred <- base::t(Y.pred)
   base::rownames(Y.pred) <- base::rownames(sc.ref)
   base::colnames(Y.pred) <- sample.names
   results <- base::list(bulk.props = t(results[base::colnames(sc.ref),
-                                             , drop = F]), sc.props = sc.props, rnorm = rnorm, genes.used = base::rownames(sc.ref),
+                                             , drop = FALSE]), sc.props = sc.props, rnorm = rnorm, genes.used = base::rownames(sc.ref),
                         transformed.bulk = Y.pred)
   return(results)
 }

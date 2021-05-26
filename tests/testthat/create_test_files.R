@@ -31,6 +31,11 @@ colnames(matrixRightFormat) <- row.names(sc.pdata)
 rownames(matrixRightFormat) <- rownames(sc_object_small)
 sc.eset <- Biobase::ExpressionSet(assayData=matrixRightFormat,
                               phenoData=sc.pdata)
+sc.eset <- Biobase::ExpressionSet(assayData = Biobase::exprs(sc.eset),
+                                  phenoData = sc.eset@phenoData)
+sc.eset <- BisqueRNA:::CountsToCPM(sc.eset)
+sc.eset <- BisqueRNA:::FilterZeroVarianceGenes(sc.eset, FALSE)
+
 
 model_bisque <- BisqueRNA::GenerateSCReference(sc.eset,"cellType")
 utils::write.csv(model_bisque,"test_models/bisque_model_small.csv")

@@ -4,12 +4,19 @@
 \alias{build_model_bisque}
 \title{Calculates the signature model with bisque}
 \usage{
-build_model_bisque(single_cell_object, cell_type_annotations)
+build_model_bisque(
+  single_cell_object,
+  cell_type_annotations,
+  old_cpm = TRUE,
+  verbose = FALSE
+)
 }
 \arguments{
-\item{single_cell_object}{A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.}
+\item{single_cell_object}{A matrix or dataframe with the single-cell data.
+Rows are genes, columns are samples. Row and column names need to be set.}
 
-\item{cell_type_annotations}{A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object}
+\item{cell_type_annotations}{A Vector of the cell type annotations. Has to
+be in the same order as the samples in single_cell_object}
 }
 \value{
 The signature matrix. Rows are genes, columns are cell types.

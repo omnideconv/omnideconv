@@ -40,7 +40,10 @@
 
 
 <meta property="og:title" content="Calculates the decomposition using the bisque algorithm — deconvolute_bisque" />
-<meta property="og:description" content="Generates a reference profile based on single-cell data. Learns a transformation of bulk expression based  on  observed  single-cell  proportions  and  performs  NNLS  regression  on  these  transformed values to estimate cell proportions." />
+<meta property="og:description" content="Generates a reference profile based on single-cell data. Learns a
+transformation of bulk expression based  on  observed  single-cell
+proportions  and  performs  NNLS  regression  on  these  transformed
+values to estimate cell proportions." />
 
 
 
@@ -121,28 +124,37 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Calculates the decomposition using the bisque algorithm</h1>
-    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/bisque.R'><code>R/bisque.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/Bisque.R'><code>R/Bisque.R</code></a></small>
     <div class="hidden name"><code>deconvolute_bisque.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Generates a reference profile based on single-cell data. Learns a transformation of bulk expression based  on  observed  single-cell  proportions  and  performs  NNLS  regression  on  these  transformed values to estimate cell proportions.</p>
+    <p>Generates a reference profile based on single-cell data. Learns a
+transformation of bulk expression based  on  observed  single-cell
+proportions  and  performs  NNLS  regression  on  these  transformed
+values to estimate cell proportions.</p>
     </div>
 
     <pre class="usage"><span class='fu'>deconvolute_bisque</span><span class='op'>(</span>
-  <span class='va'>bulk_eset</span>,
+  <span class='va'>bulk_gene_expression</span>,
   <span class='va'>signature_matrix</span>,
   single_cell_object <span class='op'>=</span> <span class='cn'>NULL</span>,
   cell_type_annotations <span class='op'>=</span> <span class='cn'>NULL</span>,
-  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>
+  markers <span class='op'>=</span> <span class='cn'>NULL</span>,
+  cell_types <span class='op'>=</span> <span class='st'>"cellType"</span>,
+  subject_names <span class='op'>=</span> <span class='st'>"SubjectName"</span>,
+  use_overlap <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  old_cpm <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>bulk_eset</th>
-      <td><p>An Expression Set containing bulk data.</p></td>
+      <th>bulk_gene_expression</th>
+      <td><p>A matrix or dataframe with the bulk data. Rows
+are genes, columns are samples.</p></td>
     </tr>
     <tr>
       <th>signature_matrix</th>
@@ -150,21 +162,64 @@
     </tr>
     <tr>
       <th>single_cell_object</th>
-      <td><p>A Matrix with the single-cell data. Rows are genes and columns are samples.</p></td>
+      <td><p>A Matrix with the single-cell data. Rows are genes
+and columns are samples.</p></td>
     </tr>
     <tr>
       <th>cell_type_annotations</th>
-      <td><p>A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object.</p></td>
+      <td><p>A Vector of the cell type annotations. Has to
+be in the same order as the samples in single_cell_object.</p></td>
+    </tr>
+    <tr>
+      <th>markers</th>
+      <td><p>Structure, such as character vector, containing marker genes
+to be used in decomposition. <code><a href='https://rdrr.io/r/base/unique.html'>base::unique(base::unlist(markers))</a></code> should
+return a simple vector containing each gene name. If no argument or NULL
+provided, the method will use all available genes for decomposition.</p></td>
+    </tr>
+    <tr>
+      <th>cell_types</th>
+      <td><p>Character string. Name of phenoData attribute in sc.eset
+indicating cell type label for each cell</p></td>
+    </tr>
+    <tr>
+      <th>subject_names</th>
+      <td><p>Character string. Name of phenoData attribute in sc.eset
+indicating individual label for each cell</p></td>
+    </tr>
+    <tr>
+      <th>use_overlap</th>
+      <td><p>Boolean. Whether to use and expect overlapping samples
+in decomposition.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
       <td><p>Whether the algorithm should print out what it is doing.</p></td>
     </tr>
+    <tr>
+      <th>old_cpm</th>
+      <td><p>Prior to version 1.0.4 (updated in July 2020), the package
+converted counts to CPM after subsetting the marker genes. Github user
+randel pointed out that the order of these operations should be switched.
+Thanks randel! This option is provided for replication of older BisqueRNA
+but should be enabled, especially for small marker gene sets.
+We briefly tested this change on the cortex and adipose datasets.
+The original and new order of operations produce estimates that have an
+average correlation of 0.87 for the cortex and 0.84 for the adipose within
+each cell type.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list. Slot bulk.props contains a matrix of cell type proportion estimates with cell types as rows and individuals as columns. Slot sc.props contains a matrix of cell type proportions estimated directly from counting single-cell data. Slot rnorm contains Euclidean norm of the residuals for each individual’s proportion estimates. Slot genes.used contains vector of genes used in decomposition.Slot transformed.bulk contains the transformed bulk expression used for decomposition. These values are generated by applying a linear transformation to the CPM expression.</p>
+    <p>A list. Slot bulk_props contains a matrix of cell type proportion
+estimates with cell types as rows and individuals as columns. Slot sc_props
+contains a matrix of cell type proportions estimated directly from counting
+single-cell data. Slot rnorm contains Euclidean norm of the residuals for
+each individual's proportion estimates. Slot genes_used contains vector of
+genes used in decomposition.Slot transformed_bulk contains the transformed
+bulk expression used for decomposition. These values are generated by
+applying a linear transformation to the CPM expression.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -178,7 +178,7 @@
         <td>
           <p><code><a href="build_model_momf.html">build_model_momf()</a></code> </p>
         </td>
-        <td><p>Calculates the signature model with bisque</p></td>
+        <td><p>Calculates the signature model with MOMF</p></td>
       </tr><tr>
         
         <td>
@@ -250,6 +250,25 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
+          <h2 id="section-environment" class="hasAnchor"><a href="#section-environment" class="anchor"></a>Environment</h2>
+          <p class="section-desc"><p>Methods needed to set credentials or change variables in the environment.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="set_cibersortx_credentials.html">set_cibersortx_credentials()</a></code> </p>
+        </td>
+        <td><p>Setting the CibersortX Credentials</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
           <h2 id="section-datasets" class="hasAnchor"><a href="#section-datasets" class="anchor"></a>Datasets</h2>
           <p class="section-desc"><p>List of datasets provided by the package.</p></p>
         </th>
@@ -299,8 +318,8 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-helper" class="hasAnchor"><a href="#section-helper" class="anchor"></a>Helper</h2>
-          <p class="section-desc"><p>Helper functions to extract repeating checks or work with non-R related tasks like Python or Docker.</p></p>
+          <h2 id="section-visualisation" class="hasAnchor"><a href="#section-visualisation" class="anchor"></a>Visualisation</h2>
+          <p class="section-desc"><p>Methods which produce plots with different methods.</p></p>
         </th>
       </tr>
       
@@ -311,180 +330,15 @@
       <tr>
         
         <td>
-          <p><code><a href="init_python.html">init_python()</a></code> </p>
+          <p><code><a href="makeBenchmarkingScatterplot.html">makeBenchmarkingScatterplot()</a></code> </p>
         </td>
-        <td><p>Initiates python environment</p></td>
+        <td><p>Make a Scatterplot for Benchmarking</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="install_scaden.html">install_scaden()</a></code> </p>
+          <p><code><a href="plotDeconvResult.html">plotDeconvResult()</a></code> </p>
         </td>
-        <td><p>Install Scaden</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="python_available.html">python_available()</a></code> </p>
-        </td>
-        <td><p>Checks if python is available in environment</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="set_python.html">set_python()</a></code> </p>
-        </td>
-        <td><p>Defines python path.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="set_cibersortx_credentials.html">set_cibersortx_credentials()</a></code> </p>
-        </td>
-        <td><p>Setting the CibersortX Credentials</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="docker_available.html">docker_available()</a></code> </p>
-        </td>
-        <td><p>Docker availability check</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="docker_connectable.html">docker_connectable()</a></code> </p>
-        </td>
-        <td><p>Docker connectability check</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="verbose_wrapper.html">verbose_wrapper()</a></code> </p>
-        </td>
-        <td><p>A wrapper function whether to suppress messages</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-scaden" class="hasAnchor"><a href="#section-scaden" class="anchor"></a>Scaden</h2>
-          <p class="section-desc"><p>Functions and objects related to the Scaden deconvolution_methods.</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="scaden_checkload.html">scaden_checkload()</a></code> </p>
-        </td>
-        <td><p>Checks if scaden is installed.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scaden_predict.html">scaden_predict()</a></code> </p>
-        </td>
-        <td><p>Predict cell proportions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scaden_process.html">scaden_process()</a></code> </p>
-        </td>
-        <td><p>Pre-processes training data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scaden_simulate.html">scaden_simulate()</a></code> </p>
-        </td>
-        <td><p>Simulates training data from scRNA data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scaden_simulate_example.html">scaden_simulate_example()</a></code> </p>
-        </td>
-        <td><p>Simulates example Data provided by Scaden</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scaden_train.html">scaden_train()</a></code> </p>
-        </td>
-        <td><p>Trains a Scaden model</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-anndata" class="hasAnchor"><a href="#section-anndata" class="anchor"></a>Anndata</h2>
-          <p class="section-desc"><p>Functions related to anndata.</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="anndata_check_load.html">anndata_check_load()</a></code> </p>
-        </td>
-        <td><p>Checks if anndata package is loaded</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="build_anndata.html">build_anndata()</a></code> </p>
-        </td>
-        <td><p>Create anndata object from single cell expression matrix, cell type labels and gene symbols</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_anndata.html">read_anndata()</a></code> </p>
-        </td>
-        <td><p>Read anndata object (.h5ad format)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="write_anndata.html">write_anndata()</a></code> </p>
-        </td>
-        <td><p>Write anndata object (.h5ad format)</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-data-conversion" class="hasAnchor"><a href="#section-data-conversion" class="anchor"></a>Data conversion</h2>
-          <p class="section-desc"><p>Functions for data conversion.</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="get_single_cell_expression_set.html">get_single_cell_expression_set()</a></code> </p>
-        </td>
-        <td><p>Generating a single cell expression set</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="anndata_to_singlecellexperiment.html">anndata_to_singlecellexperiment()</a></code> </p>
-        </td>
-        <td><p>Convert AnnData to SingleCellExperiment</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="singlecellexperiment_to_anndata.html">singlecellexperiment_to_anndata()</a></code> </p>
-        </td>
-        <td><p>Convert SingleCellExperiment to AnnData object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="matrix_to_singlecellexperiment.html">matrix_to_singlecellexperiment()</a></code> </p>
-        </td>
-        <td><p>Convert count matrix to SingleCellExperiment</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="singlecellexperiment_to_matrix.html">singlecellexperiment_to_matrix()</a></code> </p>
-        </td>
-        <td><p>Convert SingleCellExperiment to Matrix + annotation vector for celltypes</p></td>
+        <td><p>Plot deconvolution results as a barplot</p></td>
       </tr>
     </tbody>
     </table>

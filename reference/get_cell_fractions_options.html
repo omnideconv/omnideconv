@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculates the signature model with MOMF — build_model_momf • omnideconv</title>
+<title>Creation of the options of the "get cell fractions" docker command — get_cell_fractions_options • omnideconv</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Calculates the signature model with MOMF — build_model_momf" />
-<meta property="og:description" content="Calculates the signature model with MOMF" />
+<meta property="og:title" content="Creation of the options of the "get cell fractions" docker command — get_cell_fractions_options" />
+<meta property="og:description" content="Creation of the options of the &quot;get cell fractions&quot; docker command" />
 
 
 
@@ -120,41 +120,76 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculates the signature model with MOMF</h1>
-    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/MOMF.R'><code>R/MOMF.R</code></a></small>
-    <div class="hidden name"><code>build_model_momf.Rd</code></div>
+    <h1>Creation of the options of the "get cell fractions" docker command</h1>
+    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/CibersortX.R'><code>R/CibersortX.R</code></a></small>
+    <div class="hidden name"><code>get_cell_fractions_options.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculates the signature model with MOMF</p>
+    <p>Creation of the options of the "get cell fractions" docker command</p>
     </div>
 
-    <pre class="usage"><span class='fu'>build_model_momf</span><span class='op'>(</span>
-  <span class='va'>single_cell_object</span>,
-  <span class='va'>cell_type_annotations</span>,
-  <span class='va'>bulk_gene_expression</span>
+    <pre class="usage"><span class='fu'>get_cell_fractions_options</span><span class='op'>(</span>
+  <span class='va'>sigmatrix</span>,
+  <span class='va'>mixture</span>,
+  perm <span class='op'>=</span> <span class='fl'>0</span>,
+  label <span class='op'>=</span> <span class='st'>"none"</span>,
+  rmbatch_B_mode <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  rmbatch_S_mode <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  source_GEPs <span class='op'>=</span> <span class='va'>sigmatrix</span>,
+  qn <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  absolute <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  abs_method <span class='op'>=</span> <span class='st'>"sig.score"</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>single_cell_object</th>
-      <td><p>A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.</p></td>
+      <th>sigmatrix</th>
+      <td><p>The filename of the signature matrix</p></td>
     </tr>
     <tr>
-      <th>cell_type_annotations</th>
-      <td><p>A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object</p></td>
+      <th>mixture</th>
+      <td><p>The filename of the bulk expression data</p></td>
     </tr>
     <tr>
-      <th>bulk_gene_expression</th>
-      <td><p>A matrix of bulk data. Rows are genes, columns are samples. Necessary for MOMF, defaults to NULL.Row and column names need to be set.</p></td>
+      <th>perm</th>
+      <td><p>&lt;int&gt; No. of permutations for p-value calculation (default: 0)</p></td>
+    </tr>
+    <tr>
+      <th>label</th>
+      <td><p>The label which will be added to the file name. Default is "none", adding no label at all.</p></td>
+    </tr>
+    <tr>
+      <th>rmbatch_B_mode</th>
+      <td><p>&lt;bool&gt;  Run B-mode batch correction (default: FALSE)</p></td>
+    </tr>
+    <tr>
+      <th>rmbatch_S_mode</th>
+      <td><p>&lt;bool&gt;  Run S-mode batch correction (default: FALSE)</p></td>
+    </tr>
+    <tr>
+      <th>source_GEPs</th>
+      <td><p>&lt;file_name&gt;  Signature matrix GEPs for batch correction (default: sigmatrix)</p></td>
+    </tr>
+    <tr>
+      <th>qn</th>
+      <td><p>&lt;bool&gt;  Run quantile normalization (default: FALSE)</p></td>
+    </tr>
+    <tr>
+      <th>absolute</th>
+      <td><p>&lt;bool&gt;  Run absolute mode (default: FALSE)</p></td>
+    </tr>
+    <tr>
+      <th>abs_method</th>
+      <td><p>&lt;char&gt;  Pick absolute method ("sig.score" (default) or "no.sumto1")</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The signature matrix. Rows are genes, columns are cell types.</p>
+    <p>A string in the correct format for the docker command, containing all parameters.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

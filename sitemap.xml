@@ -4,6 +4,12 @@
     <loc>https://icbi-lab.github.io/omnideconv/index.html</loc>
   </url>
   <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/DEAnalysis.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/DEAnalysisMAST.html</loc>
+  </url>
+  <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/RefData.html</loc>
   </url>
   <url>
@@ -11,6 +17,12 @@
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/anndata_to_singlecellexperiment.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/buildSignatureMatrixUsingMAST.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/buildSignatureMatrixUsingSeurat.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/build_anndata.html</loc>
@@ -46,6 +58,9 @@
     <loc>https://icbi-lab.github.io/omnideconv/reference/cell_type_annotations_small.html</loc>
   </url>
   <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/create_docker_command.html</loc>
+  </url>
+  <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute.html</loc>
   </url>
   <url>
@@ -77,6 +92,18 @@
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/escape_blanks.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/findDampeningConstant.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/get_cell_fractions_options.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/get_method_options.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/get_signature_matrix_options.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/get_single_cell_expression_set.html</loc>
@@ -140,6 +167,27 @@
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/singlecellexperiment_to_matrix.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/solveDampenedWLS.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/solveDampenedWLSj.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/solveOLS.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/solveOLSInternal.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/solveSVR.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/transform_and_save_bulk.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/transform_and_save_single_cell.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/verbose_wrapper.html</loc>

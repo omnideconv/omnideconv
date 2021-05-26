@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculates the signature model with MOMF — build_model_momf • omnideconv</title>
+<title>Creation of the bulk data file in the CibersortX required format — transform_and_save_bulk • omnideconv</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Calculates the signature model with MOMF — build_model_momf" />
-<meta property="og:description" content="Calculates the signature model with MOMF" />
+<meta property="og:title" content="Creation of the bulk data file in the CibersortX required format — transform_and_save_bulk" />
+<meta property="og:description" content="Creation of the bulk data file in the CibersortX required format" />
 
 
 
@@ -120,41 +120,37 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculates the signature model with MOMF</h1>
-    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/MOMF.R'><code>R/MOMF.R</code></a></small>
-    <div class="hidden name"><code>build_model_momf.Rd</code></div>
+    <h1>Creation of the bulk data file in the CibersortX required format</h1>
+    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/CibersortX.R'><code>R/CibersortX.R</code></a></small>
+    <div class="hidden name"><code>transform_and_save_bulk.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculates the signature model with MOMF</p>
+    <p>Creation of the bulk data file in the CibersortX required format</p>
     </div>
 
-    <pre class="usage"><span class='fu'>build_model_momf</span><span class='op'>(</span>
-  <span class='va'>single_cell_object</span>,
-  <span class='va'>cell_type_annotations</span>,
-  <span class='va'>bulk_gene_expression</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>transform_and_save_bulk</span><span class='op'>(</span><span class='va'>bulk</span>, <span class='va'>path</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>single_cell_object</th>
-      <td><p>A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.</p></td>
+      <th>bulk</th>
+      <td><p>The bulk data as a matrix.</p></td>
     </tr>
     <tr>
-      <th>cell_type_annotations</th>
-      <td><p>A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object</p></td>
+      <th>path</th>
+      <td><p>The folder in which the file should be saved.</p></td>
     </tr>
     <tr>
-      <th>bulk_gene_expression</th>
-      <td><p>A matrix of bulk data. Rows are genes, columns are samples. Necessary for MOMF, defaults to NULL.Row and column names need to be set.</p></td>
+      <th>verbose</th>
+      <td><p>Whether to create any output.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The signature matrix. Rows are genes, columns are cell types.</p>
+    <p>The path to the bulk data file</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -64,7 +64,10 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, method
   }
 
   signature <- switch(tolower(method),
-                      bisque = build_model_bisque(single_cell_object,cell_type_annotations, ...),
+                      bisque = {
+                        base::environment(build_model_bisque) <- base::environment(BisqueRNA::SimulateData)
+                        build_model_bisque(single_cell_object,cell_type_annotations, verbose = verbose, ...)
+                      },
                       #momf needs bulk set and signature matrix containing the same genes
                       momf = build_model_momf(single_cell_object,cell_type_annotations,bulk_gene_expression, ...),
                       scaden = build_model_scaden(single_cell_object,cell_type_annotations, bulk_gene_expression, verbose = verbose, ...),
@@ -142,15 +145,9 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 
   deconv <- switch(tolower(method),
                    bisque = {
-                     bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
-                     #Necessary for bisque, because bisqueReferenceDecomp needs to access internal bisque-package methods
                      base::environment(deconvolute_bisque) <- base::environment(BisqueRNA::SimulateData)
-                     print(deconvolute_bisque(bulk_eset, signature, single_cell_object,
-                                              cell_type_annotations, verbose = verbose)$bulk.props)
-                     base::environment(test_deconv) <- base::environment(BisqueRNA::SimulateData)
-                     print(test_deconv(bulk_eset, get_single_cell_expression_set(single_cell_object, colnames(single_cell_object), rownames(single_cell_object), cell_type_annotations),
-                                              verbose = verbose,use.overlap=FALSE)$bulk.props)
-                     return(NULL)
+                     deconvolute_bisque(bulk_gene_expression, signature, single_cell_object,
+                                 cell_type_annotations, verbose = verbose, ...)$bulk.props
                    },
                    momf=deconvolute_momf(bulk_gene_expression, signature, single_cell_object, verbose = verbose, ...)$cell.prop,
                    scaden = deconvolute_scaden(signature, bulk_gene_expression, verbose = verbose, ...),

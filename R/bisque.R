@@ -1,13 +1,31 @@
 #' Calculates the signature model with bisque
 #'
-#' @param single_cell_object A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.
-#' @param cell_type_annotations A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object
+#' @param single_cell_object A matrix or dataframe with the single-cell data.
+#'  Rows are genes, columns are samples. Row and column names need to be set.
+#' @param cell_type_annotations A Vector of the cell type annotations. Has to
+#'  be in the same order as the samples in single_cell_object
 #'
 #' @return The signature matrix. Rows are genes, columns are cell types.
 #' @export
 #'
-build_model_bisque <- function(single_cell_object, cell_type_annotations){
+build_model_bisque <- function(single_cell_object, cell_type_annotations, old_cpm = TRUE, verbose = FALSE){
   sc_eset <- get_single_cell_expression_set(single_cell_object, colnames(single_cell_object), rownames(single_cell_object), cell_type_annotations)
+
+  if (old_cpm) {
+    sc_eset <- Biobase::ExpressionSet(assayData = Biobase::exprs(sc_eset),
+                                      phenoData = sc_eset@phenoData)
+  }
+  if (verbose) {
+    base::message("Converting single-cell counts to CPM and ",
+                  "filtering zero variance genes.")
+  }
+  sc_eset <- CountsToCPM(sc_eset)
+  if (!old_cpm) {
+    sc_eset <- Biobase::ExpressionSet(assayData = Biobase::exprs(sc_eset),
+                                      phenoData = sc_eset@phenoData)
+  }
+  sc_eset <- FilterZeroVarianceGenes(sc_eset, verbose)
+
   BisqueRNA::GenerateSCReference(sc_eset,"cellType")
 }
 
@@ -15,157 +33,65 @@ build_model_bisque <- function(single_cell_object, cell_type_annotations){
 
 #' Calculates the decomposition using the bisque algorithm
 #'
-#' Generates a reference profile based on single-cell data. Learns a transformation of bulk expression based  on  observed  single-cell  proportions  and  performs  NNLS  regression  on  these  transformed values to estimate cell proportions.
+#' Generates a reference profile based on single-cell data. Learns a
+#' transformation of bulk expression based  on  observed  single-cell
+#' proportions  and  performs  NNLS  regression  on  these  transformed
+#' values to estimate cell proportions.
 #'
-#' @param bulk_eset An Expression Set containing bulk data.
+#' @param bulk_gene_expression A matrix or dataframe with the bulk data. Rows
+#'   are genes, columns are samples.
 #' @param signature_matrix The Signature matrix.
-#' @param single_cell_object A Matrix with the single-cell data. Rows are genes and columns are samples.
-#' @param cell_type_annotations A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object.
+#' @param single_cell_object A Matrix with the single-cell data. Rows are genes
+#'  and columns are samples.
+#' @param cell_type_annotations A Vector of the cell type annotations. Has to
+#'  be in the same order as the samples in single_cell_object.
+#' @param markers Structure, such as character vector, containing marker genes
+#'   to be used in decomposition. `base::unique(base::unlist(markers))` should
+#'   return a simple vector containing each gene name. If no argument or NULL
+#'   provided, the method will use all available genes for decomposition.
+#' @param cell.types Character string. Name of phenoData attribute in sc.eset
+#'   indicating cell type label for each cell
+#' @param subject.names Character string. Name of phenoData attribute in sc.eset
+#'   indicating individual label for each cell
+#' @param use.overlap Boolean. Whether to use and expect overlapping samples
+#'   in decomposition.
+#' @param verbose Boolean. Whether to print log info during decomposition.
+#'   Errors will be printed regardless.
+#' @param old.cpm Prior to version 1.0.4 (updated in July 2020), the package
+#'   converted counts to CPM after subsetting the marker genes. Github user
+#'   randel pointed out that the order of these operations should be switched.
+#'   Thanks randel! This option is provided for replication of older BisqueRNA
+#'   but should be enabled, especially for small marker gene sets.
+#'   We briefly tested this change on the cortex and adipose datasets.
+#'   The original and new order of operations produce estimates that have an
+#'   average correlation of 0.87 for the cortex and 0.84 for the adipose within
+#'   each cell type.
 #' @param verbose Whether the algorithm should print out what it is doing.
 #'
-#' @return A list. Slot bulk.props contains a matrix of cell type proportion estimates with cell types as rows and individuals as columns. Slot sc.props contains a matrix of cell type proportions estimated directly from counting single-cell data. Slot rnorm contains Euclidean norm of the residuals for each individual’s proportion estimates. Slot genes.used contains vector of genes used in decomposition.Slot transformed.bulk contains the transformed bulk expression used for decomposition. These values are generated by applying a linear transformation to the CPM expression.
+#' @return A list. Slot bulk.props contains a matrix of cell type proportion
+#'  estimates with cell types as rows and individuals as columns. Slot sc.props
+#'  contains a matrix of cell type proportions estimated directly from counting
+#'  single-cell data. Slot rnorm contains Euclidean norm of the residuals for
+#'  each individual’s proportion estimates. Slot genes.used contains vector of
+#'  genes used in decomposition.Slot transformed.bulk contains the transformed
+#'  bulk expression used for decomposition. These values are generated by
+#'  applying a linear transformation to the CPM expression.
 #' @export
 #'
-deconvolute_bisque <- function (bulk_eset, signature_matrix, single_cell_object = NULL,
-                                cell_type_annotations = NULL, verbose = FALSE){
-  # Method is BisqueRNA::ReferenceBasedDecomposition, I only removed not needed parameters
-  # and added the signature matrix (so it wont be recalculated every time the method is called)
+deconvolute_bisque <- function (bulk_gene_expression, signature_matrix, single_cell_object = NULL,
+                         cell_type_annotations = NULL , markers = NULL, cell.types = "cellType",
+          subject.names = "SubjectName", use.overlap = FALSE, verbose = FALSE,
+          old.cpm = TRUE){
+
+  # Method is BisqueRNA::ReferenceBasedDecomposition, I only added the
+  # signature matrix (so ones from other method can be used)
 
   if (is.null(single_cell_object)||is.null(cell_type_annotations))
-    base::stop("Single cell data (sc.eset) not provided. Call as: deconvolute(bulk_gene_expression, signature, \"bisque\", single_cell_object, cell_type_annotations)")
+    base::stop("Single cell object or cell type annotations not provided. Call as: deconvolute(bulk_gene_expression, signature, \"bisque\", single_cell_object, cell_type_annotations)")
   sc.eset <- omnideconv:::get_single_cell_expression_set(single_cell_object, colnames(single_cell_object), rownames(single_cell_object), cell_type_annotations)
-  cell.types <- "cellType"
-  subject.names <- "SubjectName"
-  if ((!methods::is(sc.eset, "ExpressionSet")) || (!methods::is(bulk_eset,
-                                                                "ExpressionSet"))) {
-    base::stop("Expression data should be in ExpressionSet")
-  }
-  else if (!cell.types %in% Biobase::varLabels(sc.eset)) {
-    base::stop(base::sprintf("Cell type label \"%s\" ",
-                             cell.types), "not found in single-cell ExpressionSet varLabels.")
-  }
-  else if (!subject.names %in% Biobase::varLabels(sc.eset)) {
-    base::stop(base::sprintf("Individual label \"%s\"",
-                             subject.names), " not found in single-cell ExpressionSet varLabels.")
-  }
-  n.sc.individuals <- base::length(base::levels(base::factor(sc.eset[[subject.names]])))
-  if (n.sc.individuals == 1) {
-    base::stop("Only one individual detected in single-cell data. At least ",
-               "two subjects are needed (three or more recommended).")
-  }
-  else if (n.sc.individuals == 2) {
-    base::warning("Only two individuals detected in single-cell data. While ",
-                  "Bisque will run, we recommend at least three subjects for",
-                  " reliable performance.")
-  }
-  n.cell.types <- base::length(base::levels(base::factor(sc.eset[[cell.types]])))
-  if (n.cell.types == 1) {
-    base::stop("Single-cell pheno data indicates only one cell type",
-               " present. No need for decomposition.")
-  }
-  if (verbose) {
-    base::message(base::sprintf("Decomposing into %i cell types.",
-                                n.cell.types))
-  }
-  markers <- Biobase::featureNames(sc.eset)
-  genes <- GetOverlappingGenes(sc.eset, bulk_eset, markers,
-                               verbose)
+  bulk.eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
 
-  sc.eset <- Biobase::ExpressionSet(assayData = Biobase::exprs(sc.eset)[genes,
-  ], phenoData = sc.eset@phenoData)
-  bulk_eset <- Biobase::ExpressionSet(assayData = Biobase::exprs(bulk_eset)[genes,
-  ], phenoData = bulk_eset@phenoData)
 
-  if (verbose) {
-    base::message("Converting single-cell counts to CPM and ",
-                  "filtering zero variance genes.")
-  }
-  sc.eset <- CountsToCPM(sc.eset)
-  sc.eset <- FilterZeroVarianceGenes(sc.eset, verbose)
-  if (verbose) {
-    base::message("Converting bulk counts to CPM and filtering",
-                  " unexpressed genes.")
-  }
-  bulk_eset <- CountsToCPM(bulk_eset)
-  bulk_eset <- Biobase::ExpressionSet(assayData = Biobase::exprs(bulk_eset)[genes,
-  ], phenoData = bulk_eset@phenoData)
-
-  bulk_eset <- FilterUnexpressedGenes(bulk_eset, verbose)
-  genes <- base::intersect(Biobase::featureNames(sc.eset),
-                           Biobase::featureNames(bulk_eset))
-  #IMPORTANT: This line with the intersection is a difference from the original algorithm
-  genes <- base::intersect(genes,rownames(signature_matrix))
-  if (base::length(genes) == 0) {
-    base::stop("Zero genes remaining after filtering and ",
-               "intersecting bulk, single-cell, and marker genes.")
-  }
-  if (verbose) {
-    n.cells <- base::ncol(sc.eset)
-    base::message("Generating single-cell based reference from ",
-                  sprintf("%i cells.\n", n.cells))
-  }
-  sc.ref <- signature_matrix[genes, , drop = FALSE]
-  sc.props <- CalculateSCCellProportions(sc.eset, subject.names,
-                                         cell.types)
-  sc.props <- sc.props[base::colnames(sc.ref), , drop = FALSE]
-  if (verbose) {
-    base::message("Inferring bulk transformation from single-cell alone.")
-  }
-  Y.train <- sc.ref %*% sc.props
-  X.pred <- Biobase::exprs(bulk_eset)[genes, , drop = FALSE]
-  sample.names <- base::colnames(Biobase::exprs(bulk_eset))
-  template <- base::numeric(base::length(sample.names))
-  base::names(template) <- sample.names
-  if (verbose) {
-    base::message("Applying transformation to bulk samples and decomposing.")
-  }
-  Y.pred <- base::matrix(base::vapply(X = genes, FUN = SemisupervisedTransformBulk,
-                                      FUN.VALUE = template, Y.train, X.pred, USE.NAMES = TRUE),
-                         nrow = base::length(sample.names))
-
-  indices <- base::apply(Y.pred, MARGIN = 2, FUN = function(column) {
-    base::anyNA(column)
-  })
-  if (base::any(indices)) {
-    if (verbose) {
-      n.dropped <- base::sum(indices)
-      base::message(base::sprintf("Dropped an additional %i genes",
-                                  n.dropped), " for which a transformation could not be learned.")
-    }
-    if (sum(!indices) == 0) {
-      base::stop("Zero genes left for decomposition.")
-    }
-    Y.pred <- Y.pred[, !indices, drop = FALSE]
-    sc.ref <- sc.ref[!indices, , drop = FALSE]
-  }
-  E <- base::matrix(1, nrow = n.cell.types, ncol = n.cell.types)
-  f <- base::rep(1, n.cell.types)
-  G <- base::diag(n.cell.types)
-  h <- base::rep(0, n.cell.types)
-  results <- base::as.matrix(base::apply(Y.pred, 1, function(b) {
-    sol <- limSolve::lsei(sc.ref, b, E, f, G, h)
-    sol.p <- sol$X
-    sol.r <- base::sqrt(sol$solutionNorm)
-    return(base::append(sol.p, sol.r))
-  }))
-  base::rownames(results) <- base::append(base::colnames(sc.ref),
-                                          "rnorm")
-  base::colnames(results) <- sample.names
-  rnorm <- results["rnorm", , drop = TRUE]
-  base::names(rnorm) <- sample.names
-  Y.pred <- base::t(Y.pred)
-  base::rownames(Y.pred) <- base::rownames(sc.ref)
-  base::colnames(Y.pred) <- sample.names
-  results <- base::list(bulk.props = t(results[base::colnames(sc.ref),
-                                             , drop = FALSE]), sc.props = sc.props, rnorm = rnorm, genes.used = base::rownames(sc.ref),
-                        transformed.bulk = Y.pred)
-  return(results)
-}
-
-test_deconv <- function (bulk.eset, sc.eset, markers = NULL, cell.types = "cellType",
-          subject.names = "SubjectName", use.overlap = TRUE, verbose = TRUE,
-          old.cpm = TRUE)
-{
   if ((!methods::is(sc.eset, "ExpressionSet")) || (!methods::is(bulk.eset,
                                                                 "ExpressionSet"))) {
     base::stop("Expression data should be in ExpressionSet")
@@ -237,6 +163,8 @@ test_deconv <- function (bulk.eset, sc.eset, markers = NULL, cell.types = "cellT
   bulk.eset <- FilterUnexpressedGenes(bulk.eset, verbose)
   genes <- base::intersect(Biobase::featureNames(sc.eset),
                            Biobase::featureNames(bulk.eset))
+  #IMPORTANT: This line with the intersection is a difference from the original algorithm
+  genes <- base::intersect(genes,rownames(signature_matrix))
   if (base::length(genes) == 0) {
     base::stop("Zero genes remaining after filtering and ",
                "intersecting bulk, single-cell, and marker genes.")
@@ -246,8 +174,7 @@ test_deconv <- function (bulk.eset, sc.eset, markers = NULL, cell.types = "cellT
     base::message("Generating single-cell based reference from ",
                   sprintf("%i cells.\n", n.cells))
   }
-  sc.ref <- GenerateSCReference(sc.eset, cell.types)[genes,
-                                                     , drop = F]
+  sc.ref <- signature_matrix[genes, , drop = FALSE]
   sc.props <- CalculateSCCellProportions(sc.eset, subject.names,
                                          cell.types)
   sc.props <- sc.props[base::colnames(sc.ref), , drop = F]
@@ -320,8 +247,8 @@ test_deconv <- function (bulk.eset, sc.eset, markers = NULL, cell.types = "cellT
   Y.pred <- base::t(Y.pred)
   base::rownames(Y.pred) <- base::rownames(sc.ref)
   base::colnames(Y.pred) <- sample.names
-  results <- base::list(bulk.props = results[base::colnames(sc.ref),
-                                             , drop = F], sc.props = sc.props, rnorm = rnorm, genes.used = base::rownames(sc.ref),
+  results <- base::list(bulk.props = t(results[base::colnames(sc.ref),
+                                             , drop = F]), sc.props = sc.props, rnorm = rnorm, genes.used = base::rownames(sc.ref),
                         transformed.bulk = Y.pred)
   return(results)
 }

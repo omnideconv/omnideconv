@@ -257,7 +257,6 @@ scaden_predict <- function(model_dir, bulk_data, verbose = FALSE){
 #'
 #' @return List with list$simulated_h5ad =  example training data
 #' and list$bulk = example bulk data.
-#' @export
 #'
 scaden_simulate_example <- function(example_data_path = NULL, verbose = FALSE){
 

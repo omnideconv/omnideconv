@@ -43,6 +43,21 @@ test_that("DWLS deconvolution works", {
   expect_equal(info = "deconvolution result for dwls is correct", object = deconvolution_svr, expected = check_result_svr)
 })
 
+
+test_that("CibersortX deconvolution works", {
+  set_cibersortx_credentials("konstantin.pelz@tum.de","27308ae0ef1458d381becac46ca7e480")
+  cibersort_model <- as.matrix(read.csv("test_models/cibersortx_model_small.tsv", row.names = 1,check.names = FALSE, sep = "\t"))
+  deconvolution <- deconvolute(bulk_small,cibersort_model, method = "cibersortx")
+
+  expect_equal(info = "columns of deconvolution equal to columns of signature (same celltypes in same order)", object = sort(colnames(deconvolution)), expected = sort(colnames(cibersort_model)))
+  expect_equal(info = "deconvolution contains same samples as in bulk (not same order)", object =  sort(rownames(deconvolution)) , expected = sort(colnames(bulk_small)))
+
+  check_result <- as.matrix(read.csv("test_results/cibersortx_result_small.tsv",row.names = 1,check.names = FALSE,sep="\t"))
+  check_result <- check_result[,unique(cell_annotations_small)]
+  check_result <- check_result[,sort(colnames(check_result))]
+  expect_equal(info = "deconvolution result is correct", object = deconvolution, expected = check_result)
+})
+
 test_that("Scaden deconvolution works", {
   model_dir <- paste0(tempdir(),"/model")
   skip_if_not(dir.exists(model_dir), message = "skipping deconvolution test")

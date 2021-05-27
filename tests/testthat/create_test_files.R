@@ -92,13 +92,36 @@ utils::write.csv(allCounts_SVR,"test_results/dwls_svr_result_small.csv")
 
 
 
-## CibersortX was created with the command line
+## CibersortX
+single_cell <- rbind(cell_annotations_small,sc_object_small)
+rownames(single_cell)<-c("GeneSymbol",rownames(sc_object_small))
+single_cell <- data.frame("GeneSymbol"= rownames(single_cell),single_cell)
 
+write.table(single_cell,"sample_file_for_cibersort.txt",sep = "\t",quote = F, row.names = F, col.names = F)
+write.table(data.frame("Gene"=rownames(bulk_small),bulk_small),"mixture_file_for_cibersort.txt",sep = "\t",quote = F, row.names = F)
 
+root <- dirname(rstudioapi::getSourceEditorContext()$path)
+email <- "konstantin.pelz@tum.de"
+token <- "27308ae0ef1458d381becac46ca7e480"
+signature_command <- paste0("docker run -v ",root,":/src/data -v ",root,"/test_models:/src/outdir cibersortx/fractions --username ",email," --token ",token," --single_cell TRUE --refsample sample_file_for_cibersort.txt")
+system(signature_command)
+file.rename(paste0(root,"/test_models/CIBERSORTx_sample_file_for_cibersort_inferred_phenoclasses.CIBERSORTx_sample_file_for_cibersort_inferred_refsample.bm.K999.txt"),
+            paste0(root,"/test_models/cibersortx_model_small.tsv"))
+file.remove(paste0(root,"/test_models/CIBERSORTx_sample_file_for_cibersort_inferred_phenoclasses.CIBERSORTx_sample_file_for_cibersort_inferred_refsample.bm.K999.pdf"))
+file.remove(paste0(root,"/test_models/CIBERSORTx_sample_file_for_cibersort_inferred_phenoclasses.txt"))
+file.remove(paste0(root,"/test_models/CIBERSORTx_sample_file_for_cibersort_inferred_refsample.txt"))
+file.remove(paste0(root,"/test_models/CIBERSORTx_cell_type_sourceGEP.txt"))
 
+result_command <- paste0("docker run -v ",root,":/src/data -v ",root,"/test_results:/src/outdir cibersortx/fractions --username ",email," --token ",token," --single_cell TRUE --mixture mixture_file_for_cibersort.txt --sigmatrix cibersortx_model_small.tsv")
+file.copy(paste0(root,"/test_models/cibersortx_model_small.tsv"),
+          paste0(root,"/cibersortx_model_small.tsv"))
+system(result_command)
+file.rename(paste0(root,"/test_results/CIBERSORTx_Results.txt"),
+            paste0(root,"/test_results/cibersortx_result_small.tsv"))
 
-
-
+file.remove(paste0(root,"/cibersortx_model_small.tsv"))
+file.remove(paste0(root,"/sample_file_for_cibersort.txt"))
+file.remove(paste0(root,"/mixture_file_for_cibersort.txt"))
 
 
 ## DWLS Stuff

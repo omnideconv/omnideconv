@@ -1,14 +1,3 @@
-#' Install Scaden
-#'
-#' Install Scaden into a previously defined python environment.
-#' A python environment can be defined by set_virtualenv() or set_python() command.
-#' Alternatively a new environment can be created via create_virtualenv() method.
-#'
-install_scaden <- function() {
-  reticulate::py_install("scaden",pip=TRUE)
-
-}
-
 #' Builds Scaden Model from scRNA data
 #'
 #' The model is saved in a defined directory.
@@ -82,6 +71,17 @@ deconvolute_scaden <- function(model, bulk_data, verbose = FALSE){
   prediction <- scaden_predict(model,bulk_data, verbose = verbose)
 
   return(t(prediction))
+}
+
+#' Install Scaden
+#'
+#' Install Scaden into a previously defined python environment.
+#' A python environment can be defined by set_virtualenv() or set_python() command.
+#' Alternatively a new environment can be created via create_virtualenv() method.
+#'
+install_scaden <- function() {
+  reticulate::py_install("scaden",pip=TRUE)
+
 }
 
 
@@ -364,24 +364,15 @@ scaden_simulate <- function(celltype_labels, gene_labels, single_cell_object, ce
 #' If it is available, the python module is imported.
 #'
 scaden_checkload <- function(){
-  if (python_available()){
-    if (reticulate::py_module_available("scaden")){
-      reticulate::import("scaden")
-    }
-    else{
-      install_scaden()
-      reticulate::import("scaden")
-    }
-  }
-  else{
+  if (!python_available()){
     base::message("Setting up python environment..")
     init_python()
-    if (python_available()){
-      install_scaden()
-      reticulate::import("scaden")
-    }
-    else{
+    if (!python_available()){
       base::stop("Could not initiate miniconda python environment. Please set up manually with init_python(python=your/python/version)")
     }
   }
+  if (!reticulate::py_module_available("scaden")){
+    install_scaden()
+  }
+  reticulate::import("scaden")
 }

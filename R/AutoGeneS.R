@@ -7,7 +7,7 @@
 #' @return The signature matrix. Rows are genes, columns are cell types.
 #' @export
 #'
-build_model_momf <- function(single_cell_object, cell_type_annotations, bulk_gene_expression){
+build_model_autogenes <- function(single_cell_object, cell_type_annotations, bulk_gene_expression){
 }
 
 #' Deconvolution Analysis using AutoGeneS
@@ -22,7 +22,7 @@ build_model_momf <- function(single_cell_object, cell_type_annotations, bulk_gen
 #' @return cell proportion matrix
 #' @export
 #'
-deconvolute_momf <- function(bulk_gene_expression, signature, single_cell_object,
+deconvolute_autogenes <- function(bulk_gene_expression, signature, single_cell_object,
                              verbose = FALSE, method = "KL", ...){
 }
 

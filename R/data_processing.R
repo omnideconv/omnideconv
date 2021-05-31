@@ -30,6 +30,26 @@ get_single_cell_expression_set <- function(single_cell_matrix, sample_names, gen
                                 phenoData=sc_pdata))
 }
 
+#' Save as .h5ad
+#'
+#' Transform a single_cell_matrix into an anndata object and saves it
+#'
+#' @param single_cell_object A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.
+#' Alternatively a SingleCellExperiment or an AnnData object can be provided. In that case, note that cell-type labels need to be indicated either directly providing a vector (cell_type_annotations)
+#' or by indicating the column name that indicates the cell-type labels (cell_type_column_name). (Anndata: obs object, SingleCellExperiment: colData object)
+#' @param cell_type_annotations A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object
+#'
+#' @return The path to the saved .h5ad file
+#'
+save_as_h5ad <- function(single_cell_object, cell_type_annotations){
+
+  sce <- matrix_to_singlecellexperiment(single_cell_object, cell_type_annotations)
+  ad <- singlecellexperiment_to_anndata(sce_converted)
+  path <- tempfile(fileext =".h5ad")
+  write_anndata(ad,path)
+  return(path)
+}
+
 
 #' Convert AnnData to SingleCellExperiment
 #'

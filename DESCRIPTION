@@ -57,7 +57,8 @@ Imports:
     tidyr,
     readr,
     magrittr,
-    Seurat
+    Seurat,
+    here
 Suggests: 
     testthat (>= 2.0.0),
     knitr,

@@ -7,7 +7,17 @@
 #' @return The signature matrix. Rows are genes, columns are cell types.
 #' @export
 #'
-build_model_autogenes <- function(single_cell_object, cell_type_annotations, bulk_gene_expression){
+build_model_autogenes <- function(single_cell_object, cell_type_annotations, bulk_gene_expression = NULL){
+  if (!is.null(bulk_gene_expression)){
+    single_cell_object <- single_cell_object[intersect(rownames(single_cell_object),rownames(bulk_gene_expression)),]
+  }
+  saved_h5ad <- save_as_h5ad(single_cell_object,cell_type_annotations)
+
+  path_to_build_model_python_script <- paste0(here(),"/R/train_model.py")
+  parameters <- get_buildmodel_parameters()
+
+  system(paste("python3",path_to_build_model_python_script,parameters), ignore.stdout = !verbose, ignore.stderr = !verbose)
+  return()
 }
 
 #' Deconvolution Analysis using AutoGeneS
@@ -56,4 +66,8 @@ autogenes_checkload <- function(){
     install_autogenes()
   }
   reticulate::import("autogenes")
+}
+
+get_buildmodel_parameters <- function(){
+
 }

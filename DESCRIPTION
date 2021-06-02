@@ -58,7 +58,7 @@ Imports:
     readr,
     magrittr,
     Seurat,
-    here
+    glue
 Suggests: 
     testthat (>= 2.0.0),
     knitr,

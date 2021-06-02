@@ -4,20 +4,49 @@
 #' @param cell_type_annotations A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object
 #' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples. Necessary for MOMF, defaults to NULL.Row and column names need to be set.
 #'
-#' @return The signature matrix. Rows are genes, columns are cell types.
+#' @return The path to the pickle file needed for the deconvolution with autogenes.
 #' @export
 #'
-build_model_autogenes <- function(single_cell_object, cell_type_annotations, bulk_gene_expression = NULL){
+#'
+build_model_autogenes <- function(single_cell_object, cell_type_annotations, bulk_gene_expression = NULL,
+                                  ngen=2,mode="standard",nfeatures=NULL,weights=c(-1,1),objectives=c("correlation","distance"),seed=0,verbose=FALSE,population_size=100,
+                                  offspring_size=50,crossover_pb=0.7,mutation_pb=0.3,mutate_flip_pb=1E-3,crossover_thres=1000,ind_standard_pb=0.1,plot_weights=NULL,
+                                  plot_objectives=c(0,1),index=NULL,close_to=NULL,plot=FALSE){
   if (!is.null(bulk_gene_expression)){
     single_cell_object <- single_cell_object[intersect(rownames(single_cell_object),rownames(bulk_gene_expression)),]
   }
-  saved_h5ad <- save_as_h5ad(single_cell_object,cell_type_annotations)
 
-  path_to_build_model_python_script <- paste0(here(),"/R/train_model.py")
-  parameters <- get_buildmodel_parameters()
+  sce <- matrix_to_singlecellexperiment(single_cell_object,cell_type_annotations)
+  #TODO: Not export it as global
+  ad <<- singlecellexperiment_to_anndata(sce)
 
-  system(paste("python3",path_to_build_model_python_script,"-sc",saved_h5ad,"-out autogenes.pickle",parameters), ignore.stdout = !verbose, ignore.stderr = !verbose)
-  return()
+  autogenes_checkload()
+  if (verbose){
+    base::message("import autogenes as ag")
+    base::message("ag.init(r.ad,celltype_key='label')")
+  }
+  py_run_string("import autogenes as ag")
+  py_run_string("ag.init(r.ad,celltype_key='label')")
+
+  command <- glue("ag.optimize(ngen={ngen},weights={create_tuple_string(weights)},objectives={create_tuple_string(objectives,strings=TRUE)},verbose={transform_boolean(verbose)},nfeatures={nfeatures},seed={seed},mode={quote_string(mode)},population_size={population_size},offspring_size={offspring_size},crossover_pb={crossover_pb},mutation_pb={mutation_pb},mutate_flip_pb={mutate_flip_pb},crossover_thres={crossover_thres},ind_standard_pb={ind_standard_pb})", .transformer = null_transformer("None"))
+  if (verbose){
+    base::message(command)
+  }
+  py_run_string(command)
+  if (plot){
+    command <- glue("ag.plot()")
+    if (verbose){
+      base::message(command)
+    }
+    py_run_string(command)
+  }
+  filename <- tempfile(fileext = ".pickle")
+  command <- glue('ag.save(r{quote_string(filename)})')
+  if (verbose){
+    base::message(command)
+  }
+  py_run_string(command)
+  return(filename)
 }
 
 #' Deconvolution Analysis using AutoGeneS
@@ -32,8 +61,35 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations, bul
 #' @return cell proportion matrix
 #' @export
 #'
-deconvolute_autogenes <- function(bulk_gene_expression, signature, single_cell_object,
-                             verbose = FALSE, method = "KL", ...){
+deconvolute_autogenes <- function(bulk_gene_expression, signature, model=c("nusvr","nnls","linear"),
+                                  nu=0.5,C=0.5,kernel="linear",degree=3,gamme="scale",coef0=0.0,
+                                  shrinking=TRUE,tol=1E-3,cache_size=200,verbose = FALSE,max_iter=-1,
+                                  weights=NULL,index=NULL,close_to=NULL){
+  if(length(model)>1){
+    model <- model[1]
+  }
+
+  py_run_string("ag.load(r{quote_string(signature)})")
+  py_run_string("ag.select(weights={create_tuple_string(weights)},index={index,close_to={close_to)")
+  if (verbose){
+    base::message(glue("ag.load({signature})"))
+    base::message(glue("ag.select(weights={weights},index={index},close_to={close_to)"))
+    py_run_string("sel = ag.selection()")
+    py_run_string("genes = ag.adata().var_names")
+    base::message("The following genes are used for the deconvolution")
+    #TODO: Change into base::message
+    print(py$genes[py$sel])
+  }
+
+  py_run_string("coef = ag.deconvolve({bulk_data, model={model, nu={nu, C={C,
+                kernel={kernel, degree={degree,gamma={gamma, coef0={coef0,
+                shrinking={shrinking, tol={tol,cache_size={cache_size,
+                verbose={verbose, max_iter={max_iter)")
+  res <- py$coef
+  py_run_string("cell_types = ag.adata().obs_names")
+  colnames(res) <- py$cell_types
+  rownames(res) <- rownames(bulk_data)
+  return(res)
 }
 
 
@@ -87,22 +143,36 @@ get_buildmodel_parameters_autogenes <- function(ngen=2,mode="standard",nfeatures
   return(string)
 }
 
-
-get_deconvolute_parameters_autogenes <- function(ngen=2,mode="standard",nfeatures=NULL,weights=c(-1,1),objectives=c("correlation","distance"),seed=0,verbose=FALSE,population_size=100,
-                                      offspring_size=50,crossover_pb=0.7,mutation_pb=0.3,mutate_flip_pb=1E-3,crossover_thres=1000,ind_standard_pb=0.1,plot_weights=NULL,
-                                      plot_objectives=c(0,1),index=NULL,close_to=NULL,plot=FALSE){
-  string <- paste("-ngen",ngen,"-mode",mode,"-nfeatures",nfeatures,"-weights",paste(weights,collapse = " "),"-objectives",paste(objectives,collapse = " "),"-seed",seed,
-                  "-verbose",verbose,"-population_size",population_size,"-offspring_size",offspring_size,"-crossover_pb",crossover_pb,"-mutation_pb",mutation_pb,
-                  "-mutate_flip_pb",mutate_flip_pb,"-crossover_thres",crossover_thres,"-ind_standard_pb",ind_standard_pb,"-plot",plot,"-plot_objectives",
-                  paste(plot_objectives,collapse = " "))
-  if (plot_weights){
-    string <- paste(string,"-plot_weights",paste(plot_weights,collapse = " "))
+create_tuple_string <- function(vector_of_elements,strings=FALSE){
+  if(is.null(vector_of_elements)){
+    return("None")
   }
-  if (index){
-    string <- paste(string,"-index",paste(index,collapse = " "))
+  if (strings){
+    if(length(vector_of_elements)==1){
+      return(quote_string(vector_of_elements))
+    }
+    return(paste0('("',paste(vector_of_elements,collapse = '","'),'")'))
   }
-  if (close_to){
-    string <- paste(string,"-close_to",paste(close_to,collapse = " "))
+  if(length(vector_of_elements)==1){
+    return(vector_of_elements)
   }
-  return(string)
+  return(paste0('(',paste(vector_of_elements,collapse = ','),')'))
+}
+transform_boolean <- function(bool){
+  if(bool){
+    return("True")
+  }
+  return("False")
+}
+quote_string <- function(string){
+  return(paste0('"',string,'"'))
+}
+null_transformer <- function(str = "NULL") {
+  function(text, envir) {
+    out <- glue::identity_transformer(text, envir)
+    if (is.null(out)) {
+      return(str)
+    }
+    out
+  }
 }

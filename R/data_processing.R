@@ -44,7 +44,7 @@ get_single_cell_expression_set <- function(single_cell_matrix, sample_names, gen
 save_as_h5ad <- function(single_cell_object, cell_type_annotations){
 
   sce <- matrix_to_singlecellexperiment(single_cell_object, cell_type_annotations)
-  ad <- singlecellexperiment_to_anndata(sce_converted)
+  ad <- singlecellexperiment_to_anndata(sce)
   path <- tempfile(fileext =".h5ad")
   write_anndata(ad,path)
   return(path)

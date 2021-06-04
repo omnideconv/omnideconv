@@ -7,24 +7,57 @@
 deconvolute_autogenes(
   bulk_gene_expression,
   signature,
-  single_cell_object,
+  model = c("nusvr", "nnls", "linear"),
+  nu = 0.5,
+  C = 0.5,
+  kernel = "linear",
+  degree = 3,
+  gamma = "scale",
+  coef0 = 0,
+  shrinking = TRUE,
+  tol = 0.001,
+  cache_size = 200,
   verbose = FALSE,
-  method = "KL",
-  ...
+  max_iter = -1,
+  weights = NULL,
+  index = NULL,
+  close_to = NULL
 )
 }
 \arguments{
 \item{bulk_gene_expression}{Dataframe or matrix of bulk RNA-seq data (genes x individuals)}
 
-\item{signature}{Signature Matrix (genes x individuals from scRNA-seq)}
+\item{signature}{Path to a .pickle file, created with the build_model method}
 
-\item{single_cell_object}{scRNA-seq Object (genes x cells)}
+\item{model}{Regression model. Available options: NuSVR ("nusvr"), non-negative least squares("nnls") and linear model ("linear")}
 
-\item{verbose}{Whether the algorithm should print out what it is doing.}
+\item{nu}{Nu parameter for NuSVR}
 
-\item{method}{Determines which divergence to use. Options: Kullback-Leibler "KL", Itakura-Saito "IS". Defaults to "KL"}
+\item{C}{C parameter for NuSVR}
 
-\item{...}{additional parameters}
+\item{kernel}{Kernel parameter for NuSVR}
+
+\item{degree}{Degree parameter for NuSVR}
+
+\item{gamma}{Gamma parameter for NuSVR}
+
+\item{coef0}{Coef0 parameter for NuSVR}
+
+\item{shrinking}{Shrinking parameter for NuSVR}
+
+\item{tol}{Tol parameter for NuSVR}
+
+\item{cache_size}{Cache_size parameter for NuSVR}
+
+\item{verbose}{Whether the algorithm should print out what it is doing}
+
+\item{max_iter}{Max_iter parameter for NuSVR}
+
+\item{weights}{Select Solution: Weights with which to weight the objective values. For example, (-1,2) will minimize the first objective and maximize the the second (with more weight)}
+
+\item{index}{Select Solution: If one int is passed, return pareto\link{index} If two ints are passed, the first is an objective (0 for the first). The second is the nth element if the solutions have been sorted by the objective in ascending order. For example, (0,1) will return the solution that has the second-lowest value in the first objective. (1,-1) will return the solution with the highest value in the second objective}
+
+\item{close_to}{Select Solution: Select the solution whose objective value is close to a certain value. Assumes (objective,value). For example, (0,100) will select the solution whose value for the first objective is closest to 100}
 }
 \value{
 cell proportion matrix

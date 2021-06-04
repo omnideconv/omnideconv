@@ -60,8 +60,16 @@ test_that("CibersortX deconvolution works", {
 
 test_that("Scaden deconvolution works", {
   model_dir <- paste0(tempdir(),"/model")
-  skip_if_not(dir.exists(model_dir), message = "skipping deconvolution test")
+  skip_if_not(dir.exists(model_dir), message = "skipping scaden deconvolution test")
   deconvolution <- deconvolute(bulk_small,model_dir, method = "scaden")
+  expect_equal(info = "deconvolution contains same samples as in bulk (not same order)", object =  sort(rownames(deconvolution)) , expected = sort(colnames(bulk_small)))
+})
+
+test_that("Autogenes deconvolution works", {
+  files <- file.info(list.files(tempdir(), full.names = T,pattern = "\\.pickle$"))
+  skip_if(nrow(files)==0,message = "skipping autogenes deconvolution")
+  model <- rownames(files)[which.max(files$mtime)]
+  deconvolution <- deconvolute(bulk_small,model, method = "autogenes")
   expect_equal(info = "deconvolution contains same samples as in bulk (not same order)", object =  sort(rownames(deconvolution)) , expected = sort(colnames(bulk_small)))
 })
 

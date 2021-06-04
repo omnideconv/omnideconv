@@ -1,14 +1,15 @@
 #' List of supported immune deconvolution methods
 #'
 #' The methods currently supported are
-#' `Bisque`, `MOMF`, `DWLS`, `Scaden`, `CibersortX`
+#' `Bisque`, `MOMF`, `DWLS`, `Scaden`, `CibersortX`, `AutoGeneS`
 #'
 #' The object is a named vector. The names correspond to the display name of the method,
 #' the values to the internal name.
 #'
 #' @export
 deconvolution_methods = c("Bisque" = "bisque", "MOMF" = "momf", "DWLS" = "dwls",
-                          "Scaden" = "scaden", "CibersortX" = "cibersortx")
+                          "Scaden" = "scaden", "CibersortX" = "cibersortx",
+                          "AutoGeneS" = "autogenes")
 
 
 #' Building the signature matrix
@@ -69,7 +70,8 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, method
                       momf = build_model_momf(single_cell_object,cell_type_annotations,bulk_gene_expression, ...),
                       scaden = build_model_scaden(single_cell_object,cell_type_annotations, bulk_gene_expression, verbose = verbose, ...),
                       dwls = build_model_dwls(as.data.frame(single_cell_object), cell_type_annotations, path = NULL, verbose = verbose, ...),
-                      cibersortx = build_model_cibersortx(single_cell_object,cell_type_annotations,verbose = verbose, ...)
+                      cibersortx = build_model_cibersortx(single_cell_object,cell_type_annotations,verbose = verbose, ...),
+                      autogenes = build_model_autogenes(single_cell_object,cell_type_annotations,verbose = verbose, ...)
   )
 
 
@@ -146,7 +148,8 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
                    momf=deconvolute_momf(bulk_gene_expression, signature, single_cell_object, verbose = verbose, ...)$cell.prop,
                    scaden = deconvolute_scaden(signature, bulk_gene_expression, verbose = verbose, ...),
                    dwls = deconvolute_dwls(bulk_gene_expression, signature, verbose = verbose, ...),
-                   cibersortx = deconvolute_cibersortx(bulk_gene_expression, signature,verbose = verbose, ...)
+                   cibersortx = deconvolute_cibersortx(bulk_gene_expression, signature,verbose = verbose, ...),
+                   autogenes = deconvolute_autogenes(bulk_gene_expression, signature,verbose = verbose, ...)
   )
 
   if (!is.null(deconv)){

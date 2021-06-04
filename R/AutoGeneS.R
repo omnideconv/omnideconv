@@ -2,18 +2,40 @@
 #'
 #' @param single_cell_object A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.
 #' @param cell_type_annotations A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object
-#' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples. Necessary for MOMF, defaults to NULL.Row and column names need to be set.
+#' @param bulk_gene_expression OPTIONAL: A matrix of bulk data. Rows are genes, columns are samples. If the bulk data is supplied, the single cell object loses all gene rows not contained in the bulk data as not to create solution sets with them
+#' @param ngen Number of generations. The higher, the longer it takes
+#' @param mode In standard mode, the number of genes of a selection is allowed to vary arbitrarily. In fixed mode, the number of selected genes is fixed (using nfeatures)
+#' @param nfeatures Number of genes to be selected in fixed mode
+#' @param weights Weights applied to the objectives. For the optimization, only the sign is relevant: 1 means to maximize the respective objective, -1 to minimize it and 0 means to ignore it. The weight supplied here will be the default weight for selection. There must be as many weights as there are objectives
+#' @param objectives The objectives to maximize or minimize. Must have the same length as weights. The default objectives (correlation, distance) can be referred to using strings. For custom objectives, a function has to be passed
+#' @param seed Seed for random number generators
+#' @param population_size Size of every generation (mu parameter)
+#' @param offspring_size Number of individuals created in every generation (lambda parameter)
+#' @param crossover_pb Crossover probability
+#' @param mutation_pb Mutation probability
+#' @param mutate_flip_pb Mutation flipping probability (fixed mode)
+#' @param crossover_thres Crossover threshold (standard mode)
+#' @param ind_standard_pb Probability used to generate initial population in standard mode
+#' @param plot_weights Plotting: Weights with which to weight the objective values. For example, (-1,2) will minimize the first objective and maximize the the second (with higher weight)
+#' @param plot_objectives Plotting: The objectives to be plotted. Contains indices of objectives. The first index refers to the objective that is plotted on the x-axis. For example, (2,1) will plot the third objective on the x-axis and the second on the y-axis
+#' @param index Plotting: If one int is passed, return pareto[index] If two ints are passed, the first is an objective (0 for the first). The second is the nth element if the solutions have been sorted by the objective in ascending order. For example, (0,1) will return the solution that has the second-lowest value in the first objective. (1,-1) will return the solution with the highest value in the second objective
+#' @param close_to Plotting: Select the solution whose objective value is closest to a certain value. Assumes (objective,value). For example, (0,100) will select the solution whose value for the first objective is closest to 100
+#' @param plot Whether to produce a plot at all
+#' @param verbose Whether to produce an output on the console
 #'
 #' @return The path to the pickle file needed for the deconvolution with autogenes.
 #' @export
 #'
 #'
 build_model_autogenes <- function(single_cell_object, cell_type_annotations, bulk_gene_expression = NULL,
-                                  ngen=2,mode="standard",nfeatures=NULL,weights=c(-1,1),objectives=c("correlation","distance"),seed=0,verbose=FALSE,population_size=100,
+                                  ngen=2,mode=c("standard","fixed"),nfeatures=NULL,weights=c(-1,1),objectives=c("correlation","distance"),seed=0,population_size=100,
                                   offspring_size=50,crossover_pb=0.7,mutation_pb=0.3,mutate_flip_pb=1E-3,crossover_thres=1000,ind_standard_pb=0.1,plot_weights=NULL,
-                                  plot_objectives=c(0,1),index=NULL,close_to=NULL,plot=FALSE){
+                                  plot_objectives=c(0,1),index=NULL,close_to=NULL,plot=FALSE,verbose=FALSE){
   if (!is.null(bulk_gene_expression)){
     single_cell_object <- single_cell_object[intersect(rownames(single_cell_object),rownames(bulk_gene_expression)),]
+  }
+  if (length(mode)>1){
+    mode <- mode[1]
   }
 
   sce <- matrix_to_singlecellexperiment(single_cell_object,cell_type_annotations)
@@ -61,11 +83,22 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations, bul
 #' Deconvolution Analysis using AutoGeneS
 #'
 #' @param bulk_gene_expression Dataframe or matrix of bulk RNA-seq data (genes x individuals)
-#' @param signature Signature Matrix (genes x individuals from scRNA-seq)
-#' @param single_cell_object scRNA-seq Object (genes x cells)
-#' @param method Determines which divergence to use. Options: Kullback-Leibler "KL", Itakura-Saito "IS". Defaults to "KL"
-#' @param verbose Whether the algorithm should print out what it is doing.
-#' @param ... additional parameters
+#' @param signature Path to a .pickle file, created with the build_model method
+#' @param model Regression model. Available options: NuSVR ("nusvr"), non-negative least squares("nnls") and linear model ("linear")
+#' @param nu Nu parameter for NuSVR
+#' @param C C parameter for NuSVR
+#' @param kernel Kernel parameter for NuSVR
+#' @param degree Degree parameter for NuSVR
+#' @param gamma Gamma parameter for NuSVR
+#' @param coef0 Coef0 parameter for NuSVR
+#' @param shrinking Shrinking parameter for NuSVR
+#' @param tol Tol parameter for NuSVR
+#' @param cache_size Cache_size parameter for NuSVR
+#' @param max_iter Max_iter parameter for NuSVR
+#' @param weights Select Solution: Weights with which to weight the objective values. For example, (-1,2) will minimize the first objective and maximize the the second (with more weight)
+#' @param index Select Solution: If one int is passed, return pareto[index] If two ints are passed, the first is an objective (0 for the first). The second is the nth element if the solutions have been sorted by the objective in ascending order. For example, (0,1) will return the solution that has the second-lowest value in the first objective. (1,-1) will return the solution with the highest value in the second objective
+#' @param close_to Select Solution: Select the solution whose objective value is close to a certain value. Assumes (objective,value). For example, (0,100) will select the solution whose value for the first objective is closest to 100
+#' @param verbose Whether the algorithm should print out what it is doing
 #'
 #' @return cell proportion matrix
 #' @export
@@ -76,6 +109,10 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature, model=c("nusv
                                   weights=NULL,index=NULL,close_to=NULL){
   if(length(model)>1){
     model <- model[1]
+  }
+
+  if (!file.exists(signature)){
+    base::stop("The signature parameter has to be a file path to a .pickle file, created with the build_model method. This file was not found.")
   }
 
   if (verbose){
@@ -104,6 +141,7 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature, model=c("nusv
     #TODO: Change into base::message
     print(reticulate::py$genes[reticulate::py$sel])
   }
+  #TODO: Change to not go into global environment
   bulk_data <<- t(bulk_gene_expression)
   command <- glue::glue("coef = ag.deconvolve(r.bulk_data, model={quote_string(model)}, nu={nu}, C={C},
                 kernel={quote_string(kernel)}, degree={degree},gamma={quote_string(gamma)}, coef0={coef0},
@@ -156,25 +194,12 @@ autogenes_checkload <- function(){
   reticulate::import("autogenes")
 }
 
-get_buildmodel_parameters_autogenes <- function(ngen=2,mode="standard",nfeatures=NULL,weights=c(-1,1),objectives=c("correlation","distance"),seed=0,verbose=FALSE,population_size=100,
-                                      offspring_size=50,crossover_pb=0.7,mutation_pb=0.3,mutate_flip_pb=1E-3,crossover_thres=1000,ind_standard_pb=0.1,plot_weights=NULL,
-                                      plot_objectives=c(0,1),index=NULL,close_to=NULL,plot=FALSE){
-  string <- paste("-ngen",ngen,"-mode",mode,"-nfeatures",nfeatures,"-weights",paste(weights,collapse = " "),"-objectives",paste(objectives,collapse = " "),"-seed",seed,
-                  "-verbose",verbose,"-population_size",population_size,"-offspring_size",offspring_size,"-crossover_pb",crossover_pb,"-mutation_pb",mutation_pb,
-                  "-mutate_flip_pb",mutate_flip_pb,"-crossover_thres",crossover_thres,"-ind_standard_pb",ind_standard_pb,"-plot",plot,"-plot_objectives",
-                  paste(plot_objectives,collapse = " "))
-  if (plot_weights){
-    string <- paste(string,"-plot_weights",paste(plot_weights,collapse = " "))
-  }
-  if (index){
-    string <- paste(string,"-index",paste(index,collapse = " "))
-  }
-  if (close_to){
-    string <- paste(string,"-close_to",paste(close_to,collapse = " "))
-  }
-  return(string)
-}
-
+#' Creates a string that is evaluated by python as a collection of values
+#'
+#' @param vector_of_elements A vector of strings or numbers
+#' @param strings Whether the input consists of strings that need to be quoted
+#'
+#' @return The formatted string
 create_tuple_string <- function(vector_of_elements,strings=FALSE){
   if(is.null(vector_of_elements)){
     return("None")
@@ -190,15 +215,33 @@ create_tuple_string <- function(vector_of_elements,strings=FALSE){
   }
   return(paste0('(',paste(vector_of_elements,collapse = ','),')'))
 }
+
+#' Transforms the R TRUE and FALSE into Pythons True and False
+#'
+#' @param bool The original boolean
+#'
+#' @return The python readable boolean
 transform_boolean <- function(bool){
   if(bool){
     return("True")
   }
   return("False")
 }
+
+#' Surrounds a string with quotes
+#'
+#' @param string The string to be quoted
+#'
+#' @return The quoted string
 quote_string <- function(string){
   return(paste0('"',string,'"'))
 }
+
+#' Null transformer for glue: Replaces NULL values with something else
+#'
+#' @param str The replacement string
+#'
+#' @return A function used for the transformation
 null_transformer <- function(str = "NULL") {
   function(text, envir) {
     out <- glue::identity_transformer(text, envir)

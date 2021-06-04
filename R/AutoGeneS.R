@@ -25,27 +25,36 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations, bul
     base::message("import autogenes as ag")
     base::message("ag.init(r.ad,celltype_key='label')")
   }
-  py_run_string("import autogenes as ag")
-  py_run_string("ag.init(r.ad,celltype_key='label')")
+  reticulate::py_run_string("import autogenes as ag")
+  reticulate::py_run_string("ag.init(r.ad,celltype_key='label')")
 
-  command <- glue("ag.optimize(ngen={ngen},weights={create_tuple_string(weights)},objectives={create_tuple_string(objectives,strings=TRUE)},verbose={transform_boolean(verbose)},nfeatures={nfeatures},seed={seed},mode={quote_string(mode)},population_size={population_size},offspring_size={offspring_size},crossover_pb={crossover_pb},mutation_pb={mutation_pb},mutate_flip_pb={mutate_flip_pb},crossover_thres={crossover_thres},ind_standard_pb={ind_standard_pb})", .transformer = null_transformer("None"))
+  command <- glue::glue("ag.optimize(ngen={ngen},weights={create_tuple_string(weights)},objectives={create_tuple_string(objectives,strings=TRUE)},verbose={transform_boolean(verbose)},nfeatures={nfeatures},seed={seed},mode={quote_string(mode)},population_size={population_size},offspring_size={offspring_size},crossover_pb={crossover_pb},mutation_pb={mutation_pb},mutate_flip_pb={mutate_flip_pb},crossover_thres={crossover_thres},ind_standard_pb={ind_standard_pb})", .transformer = null_transformer("None"))
   if (verbose){
     base::message(command)
   }
-  py_run_string(command)
+  reticulate::py_run_string(command)
   if (plot){
-    command <- glue("ag.plot()")
+
+    if (sum(!sapply(list(weights,index,close_to),is.null))>1){
+      base::stop('When selecting a solution in autogenes only one of the parameters "plot_weights", "index" and "close_to" can be used')
+    }
+    all_params <- list(glue::glue(",weights={create_tuple_string(plot_weights)}", .transformer = null_transformer("None")),
+                       glue::glue(",index={create_tuple_string(index)}", .transformer = null_transformer("None")),
+                       glue::glue(",close_to={close_to}", .transformer = null_transformer("None")))
+    criterion <- paste0(unlist(all_params[!sapply(list(weights,index,close_to),is.null)])," ")
+
+    command <- glue::glue("ag.plot(objectives={create_tuple_string(plot_objectives)}{criterion})", .transformer = null_transformer("None"))
     if (verbose){
       base::message(command)
     }
-    py_run_string(command)
+    reticulate::py_run_string(command)
   }
   filename <- tempfile(fileext = ".pickle")
-  command <- glue('ag.save(r{quote_string(filename)})')
+  command <- glue::glue('ag.save(r{quote_string(filename)})')
   if (verbose){
     base::message(command)
   }
-  py_run_string(command)
+  reticulate::py_run_string(command)
   return(filename)
 }
 
@@ -62,32 +71,55 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations, bul
 #' @export
 #'
 deconvolute_autogenes <- function(bulk_gene_expression, signature, model=c("nusvr","nnls","linear"),
-                                  nu=0.5,C=0.5,kernel="linear",degree=3,gamme="scale",coef0=0.0,
+                                  nu=0.5,C=0.5,kernel="linear",degree=3,gamma="scale",coef0=0.0,
                                   shrinking=TRUE,tol=1E-3,cache_size=200,verbose = FALSE,max_iter=-1,
                                   weights=NULL,index=NULL,close_to=NULL){
   if(length(model)>1){
     model <- model[1]
   }
 
-  py_run_string("ag.load(r{quote_string(signature)})")
-  py_run_string("ag.select(weights={create_tuple_string(weights)},index={index,close_to={close_to)")
   if (verbose){
-    base::message(glue("ag.load({signature})"))
-    base::message(glue("ag.select(weights={weights},index={index},close_to={close_to)"))
-    py_run_string("sel = ag.selection()")
-    py_run_string("genes = ag.adata().var_names")
-    base::message("The following genes are used for the deconvolution")
-    #TODO: Change into base::message
-    print(py$genes[py$sel])
+    base::message(glue::glue("ag.load(r{quote_string(signature)})", .transformer = null_transformer("None")))
   }
+  reticulate::py_run_string(glue::glue("ag.load(r{quote_string(signature)})", .transformer = null_transformer("None")))
 
-  py_run_string("coef = ag.deconvolve({bulk_data, model={model, nu={nu, C={C,
-                kernel={kernel, degree={degree,gamma={gamma, coef0={coef0,
-                shrinking={shrinking, tol={tol,cache_size={cache_size,
-                verbose={verbose, max_iter={max_iter)")
-  res <- py$coef
-  py_run_string("cell_types = ag.adata().obs_names")
-  colnames(res) <- py$cell_types
+  if (sum(!sapply(list(weights,index,close_to),is.null))>1){
+    base::stop('When selecting a solution in autogenes only one of the parameters "weights", "index" and "close_to" can be used')
+  }
+  all_params <- list(glue::glue("weights={create_tuple_string(weights)}", .transformer = null_transformer("None")),
+                     glue::glue("index={create_tuple_string(index)}", .transformer = null_transformer("None")),
+                     glue::glue("close_to={close_to}", .transformer = null_transformer("None")))
+  command = paste0("ag.select(",unlist(all_params[!sapply(list(weights,index,close_to),is.null)]),")")
+  if (verbose){
+    base::message(command)
+  }
+  reticulate::py_run_string(command)
+
+  if (verbose){
+    base::message("sel = ag.selection()")
+    reticulate::py_run_string("sel = ag.selection()")
+    base::message("genes = ag.adata().var_names")
+    reticulate::py_run_string("genes = ag.adata().var_names")
+    base::message("The following genes are used for the deconvolution:")
+    #TODO: Change into base::message
+    print(reticulate::py$genes[reticulate::py$sel])
+  }
+  bulk_data <<- t(bulk_gene_expression)
+  command <- glue::glue("coef = ag.deconvolve(r.bulk_data, model={quote_string(model)}, nu={nu}, C={C},
+                kernel={quote_string(kernel)}, degree={degree},gamma={quote_string(gamma)}, coef0={coef0},
+                shrinking={transform_boolean(shrinking)}, tol={tol},cache_size={cache_size},
+                verbose={transform_boolean(verbose)}, max_iter={max_iter})", .transformer = null_transformer("None"))
+  if (verbose){
+    base::message(command)
+  }
+  reticulate::py_run_string(command)
+  res <- reticulate::py$coef
+  if (verbose){
+    base::message("")
+    base::message("cell_types = ag.adata().obs_names")
+  }
+  reticulate::py_run_string("cell_types = ag.adata().obs_names")
+  colnames(res) <- reticulate::py$cell_types
   rownames(res) <- rownames(bulk_data)
   return(res)
 }

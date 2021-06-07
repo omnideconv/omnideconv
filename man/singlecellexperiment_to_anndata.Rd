@@ -9,7 +9,8 @@ singlecellexperiment_to_anndata(sce, X_name = NULL)
 \arguments{
 \item{sce}{object of type SingleCellExperiment}
 
-\item{X_name}{Name of the assay in the SingleCellExperiment to interpret as the X matrix of the AnnData object (default: first in assay list)}
+\item{X_name}{Name of the assay in the SingleCellExperiment to interpret as the X matrix of the
+AnnData object (default: first in assay list)}
 }
 \value{
 AnnData object

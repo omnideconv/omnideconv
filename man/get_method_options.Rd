@@ -7,12 +7,14 @@
 get_method_options(method = c("create_sig", "impute_cell_fractions"), ...)
 }
 \arguments{
-\item{method}{The method for which the parameter string should be generated. Options are "create_sig" and "impute_cell_fractions".}
+\item{method}{The method for which the parameter string should be generated. Options are
+"create_sig" and "impute_cell_fractions".}
 
 \item{...}{The parameter values itself, being passed on to the correct method.}
 }
 \value{
-A string in the correct format for the docker command, containing all parameters of the desired method.
+A string in the correct format for the docker command, containing all parameters of the
+desired method.
 }
 \description{
 Creation of the additional parameter sting for the docker command

@@ -8,12 +8,14 @@
 matrix with genes x samples
 }
 \source{
-Hoek et al. (2015), PLOS ONE, https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0118528
+Hoek et al. (2015), PLOS ONE,
+https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0118528
 }
 \usage{
 bulk
 }
 \description{
-A dataset of eight RNA-seq samples from patients vaccinated with trivalent inactivated influenza vaccine (TIV)
+A dataset of eight RNA-seq samples from patients vaccinated with trivalent inactivated influenza
+vaccine (TIV)
 }
 \keyword{datasets}

@@ -32,11 +32,14 @@ get_signature_matrix_options(
 
 \item{remake}{<bool> Remake signature gene matrix (default: False)}
 
-\item{replicates}{<int> Number of replicates to use for building scRNAseq reference file (default: 5)}
+\item{replicates}{<int> Number of replicates to use for building scRNAseq reference file
+(default: 5)}
 
-\item{sampling}{<float> Fraction of available single cell GEPs selected using random sampling (default: 0.5)}
+\item{sampling}{<float> Fraction of available single cell GEPs selected using random sampling
+(default: 0.5)}
 
-\item{fraction}{<float> Fraction of cells of same identity showing evidence of expression (default: 0.75)}
+\item{fraction}{<float> Fraction of cells of same identity showing evidence of expression
+(default: 0.75)}
 }
 \value{
 A string in the correct format for the docker command, containing all parameters.

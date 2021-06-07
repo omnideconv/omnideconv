@@ -18,7 +18,8 @@ get_single_cell_expression_set(
 
 \item{genes}{A vector of the names of the genes, basically rownames(single_cell_matrix).}
 
-\item{cell_types}{A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object.}
+\item{cell_types}{A Vector of the cell type annotations. Has to be in the same order as the
+samples in single_cell_object.}
 }
 \value{
 A Biobase::ExpressionSet of the input data.

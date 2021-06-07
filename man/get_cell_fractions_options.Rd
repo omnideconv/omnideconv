@@ -24,7 +24,8 @@ get_cell_fractions_options(
 
 \item{perm}{<int> No. of permutations for p-value calculation (default: 0)}
 
-\item{label}{The label which will be added to the file name. Default is "none", adding no label at all.}
+\item{label}{The label which will be added to the file name. Default is "none", adding no label
+at all.}
 
 \item{rmbatch_B_mode}{<bool>  Run B-mode batch correction (default: FALSE)}
 

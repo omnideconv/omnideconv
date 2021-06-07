@@ -8,12 +8,15 @@
 matrix with genes x cells
 }
 \source{
-Maynard et al. (2020), Cell, https://www.sciencedirect.com/science/article/pii/S0092867420308825
+Maynard et al. (2020), Cell,
+https://www.sciencedirect.com/science/article/pii/S0092867420308825
 }
 \usage{
 single_cell_data
 }
 \description{
-A subset of TPM-normalized single-cell RNA-seq gene expression, containing 300 cells with types "T cell CD4", "T cell CD8", "T cell dividing", "T cell regulatory", "B cell", "Monocyte conventional", "Monocyte non-conventional", "Macrophage", "NK cell"
+A subset of TPM-normalized single-cell RNA-seq gene expression, containing 300 cells with types
+"T cell CD4", "T cell CD8", "T cell dividing", "T cell regulatory", "B cell",
+"Monocyte conventional", "Monocyte non-conventional", "Macrophage", "NK cell"
 }
 \keyword{datasets}

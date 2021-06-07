@@ -8,7 +8,8 @@
 matrix with samples x cell types
 }
 \source{
-Hoek et al. (2015), PLOS ONE, https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0118528
+Hoek et al. (2015), PLOS ONE,
+https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0118528
 }
 \usage{
 RefData

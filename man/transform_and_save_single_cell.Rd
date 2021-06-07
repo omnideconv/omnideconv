@@ -9,7 +9,8 @@ transform_and_save_single_cell(sc_matrix, cell_types, path, verbose = FALSE)
 \arguments{
 \item{sc_matrix}{The single cell data as a matrix.}
 
-\item{cell_types}{A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object}
+\item{cell_types}{A Vector of the cell type annotations. Has to be in the same order as the
+samples in single_cell_object}
 
 \item{path}{The folder in which the file should be saved.}
 

@@ -8,7 +8,8 @@ makeBenchmarkingScatterplot(result_list, file_name = NULL)
 }
 \arguments{
 \item{result_list}{named list containing all deconvolution results that should be considered,
-cell type annotations need to contain "T cell", "DC", "Mono", "NK", "B cell" in any way to be included}
+cell type annotations need to contain "T cell", "DC", "Mono", "NK", "B cell" in any way to be
+included}
 
 \item{file_name}{(optional) plot is saved in this file}
 }

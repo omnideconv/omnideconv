@@ -8,7 +8,8 @@
 vector with 50 elements
 }
 \source{
-Maynard et al. (2020), Cell, https://www.sciencedirect.com/science/article/pii/S0092867420308825
+Maynard et al. (2020), Cell,
+https://www.sciencedirect.com/science/article/pii/S0092867420308825
 }
 \usage{
 cell_type_annotations_small

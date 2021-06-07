@@ -11,7 +11,8 @@ matrix_to_singlecellexperiment(
 )
 }
 \arguments{
-\item{matrix}{Matrix of single cell data (rows: genes, columns: cells), the row names of the matrix should be labeled with gene labels}
+\item{matrix}{Matrix of single cell data (rows: genes, columns: cells), the row names of the
+matrix should be labeled with gene labels}
 
 \item{cell_labels}{Annotation vector for celltypes (e.g columns of matrix)}
 

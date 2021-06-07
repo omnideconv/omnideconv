@@ -29,7 +29,8 @@ deconvolute_autogenes(
 
 \item{signature}{Path to a .pickle file, created with the build_model method}
 
-\item{model}{Regression model. Available options: NuSVR ("nusvr"), non-negative least squares("nnls") and linear model ("linear")}
+\item{model}{Regression model. Available options: NuSVR ("nusvr"), non-negative least
+squares("nnls") and linear model ("linear")}
 
 \item{nu}{Nu parameter for NuSVR}
 
@@ -53,14 +54,23 @@ deconvolute_autogenes(
 
 \item{max_iter}{Max_iter parameter for NuSVR}
 
-\item{weights}{Select Solution: Weights with which to weight the objective values. For example, (-1,2) will minimize the first objective and maximize the the second (with more weight)}
+\item{weights}{Select Solution: Weights with which to weight the objective values. For example,
+(-1,2) will minimize the first objective and maximize the the second (with more weight)}
 
-\item{index}{Select Solution: If one int is passed, return pareto\link{index} If two ints are passed, the first is an objective (0 for the first). The second is the nth element if the solutions have been sorted by the objective in ascending order. For example, (0,1) will return the solution that has the second-lowest value in the first objective. (1,-1) will return the solution with the highest value in the second objective}
+\item{index}{Select Solution: If one int is passed, return pareto\link{index} If two ints are passed,
+the first is an objective (0 for the first). The second is the nth element if the solutions
+have been sorted by the objective in ascending order. For example, (0,1) will return the
+solution that has the second-lowest value in the first objective. (1,-1) will return the
+solution with the highest value in the second objective}
 
-\item{close_to}{Select Solution: Select the solution whose objective value is close to a certain value. Assumes (objective,value). For example, (0,100) will select the solution whose value for the first objective is closest to 100}
+\item{close_to}{Select Solution: Select the solution whose objective value is close to a certain
+value. Assumes (objective,value). For example, (0,100) will select the solution whose value
+for the first objective is closest to 100}
 }
 \value{
-A list with two elements: 'proportions' is the matrix of cell proportions and 'genes_used' is a vector containing the names of the genes used for the deconvolution, what is called "solution" by AutoGeneS
+A list with two elements: 'proportions' is the matrix of cell proportions and
+'genes_used' is a vector containing the names of the genes used for the deconvolution, what
+is called "solution" by AutoGeneS
 }
 \description{
 Deconvolution Analysis using AutoGeneS

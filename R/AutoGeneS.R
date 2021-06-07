@@ -23,7 +23,7 @@
 #' @param plot Whether to produce a plot at all
 #' @param verbose Whether to produce an output on the console
 #'
-#' @return A reticulate 'python.builtin.module' needed for the deconvolution with autogenes.
+#' @return The path to the pickle file needed for the deconvolution with autogenes
 #' @export
 #'
 #'
@@ -61,6 +61,7 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations, bul
   }
 
   if (plot){
+    print("plotting")
     if (sum(!sapply(list(weights,index,close_to),is.null))>1){
       base::stop('When selecting a solution in autogenes only one of the parameters "plot_weights", "index" and "close_to" can be used. It is also possible to use none of them')
     }
@@ -72,16 +73,23 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations, bul
     } else if (!is.null(close_to)){
       ag$plot(objectives=plot_objectives,close_to=as.integer(close_to))
     } else {
+      print("befoire")
       ag$plot(objectives=plot_objectives)
+      print("after")
     }
   }
-  return(ag)
+  filename <- tempfile(fileext = ".pickle")
+  ag$save(filename)
+  if (verbose){
+    base::message("Successfully saved")
+  }
+  return(filename)
 }
 
 #' Deconvolution Analysis using AutoGeneS
 #'
 #' @param bulk_gene_expression Dataframe or matrix of bulk RNA-seq data (genes x individuals)
-#' @param signature A reticulate 'python.builtin.module', created with the build_model method
+#' @param signature Path to a .pickle file, created with the build_model method
 #' @param model Regression model. Available options: NuSVR ("nusvr"), non-negative least squares("nnls") and linear model ("linear")
 #' @param nu Nu parameter for NuSVR
 #' @param C C parameter for NuSVR
@@ -109,15 +117,15 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature, model=c("nusv
     model <- model[1]
   }
 
-  if (class(signature)[1]!="python.builtin.module"){
-    base::stop("The signature parameter has to be a reticulate python module, created with the build_model method. The class of the supplied signature is not 'python.builtin.module'")
+  if (!file.exists(signature)){
+    base::stop("The signature parameter has to be a file path to a .pickle file, created with the build_model method. This file was not found.")
   }
 
   if (sum(!sapply(list(weights,index,close_to),is.null))>1){
     base::stop('When selecting a solution in autogenes only one of the parameters "weights", "index" and "close_to" can be used')
   }
-
-  ag <- signature
+  ag <- reticulate::import("autogenes")
+  ag$load(signature)
 
   if (!is.null(weights)){
     ag$select(weights=weights)
@@ -129,12 +137,11 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature, model=c("nusv
     ag$select()
   }
 
+  selection <- ag$selection()
+  genes <- ag$adata()$var_names
+  genes_used <- genes[selection]
   if (verbose){
-    selection <- ag$selection()
-    genes <- ag$adata()$var_names
-    base::message("The following genes are used for the deconvolution:")
-    #TODO: Change into base::message
-    print(genes[selection])
+    base::message(length(genes_used),"genes are used for the deconvolution")
   }
 
   bulk_data <- t(bulk_gene_expression)
@@ -145,7 +152,7 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature, model=c("nusv
 
   colnames(result) <- ag$adata()$obs_names
   rownames(result) <- rownames(bulk_data)
-  return(result)
+  return(list(proportions=result,genes_used=genes_used))
 }
 
 

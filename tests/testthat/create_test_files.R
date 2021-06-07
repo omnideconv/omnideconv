@@ -124,6 +124,25 @@ file.remove(paste0(root,"/sample_file_for_cibersort.txt"))
 file.remove(paste0(root,"/mixture_file_for_cibersort.txt"))
 
 
+## AutoGeneS
+#First the data was saved as a h5ad file with the 'save_as_h5ad' method.
+#Then, the following python script was used:
+#
+#import pandas as pd
+#import autogenes as ag
+#import scanpy as sc
+#
+#adata = sc.read_h5ad("test.h5ad")
+#ag.init(adata,celltype_key='label')
+#ag.optimize()
+#bulk_data = pd.read_csv('bulk_small.csv',index_col=0).transpose()
+#coef = ag.deconvolve(bulk_data)
+#res = pd.DataFrame(coef,columns=ag.adata().obs_names,index=bulk_data.index)
+#res.to_csv("autogenes_result_small.csv",sep="\t")
+
+
+
+
 ## DWLS Stuff
 
 #trim bulk and single-cell data to contain the same genes

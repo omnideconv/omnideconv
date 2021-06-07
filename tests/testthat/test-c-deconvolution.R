@@ -71,5 +71,8 @@ test_that("Autogenes deconvolution works", {
   model <- rownames(files)[which.max(files$mtime)]
   deconvolution <- deconvolute(bulk_small,model, method = "autogenes")
   expect_equal(info = "deconvolution contains same samples as in bulk (not same order)", object =  sort(rownames(deconvolution)) , expected = sort(colnames(bulk_small)))
+
+  check_result <- as.matrix(read.csv("test_results/autogenes_result_small.csv",row.names = 1,check.names = FALSE, sep = "\t"))
+  expect_equal(info = "deconvolution result is correct", object = deconvolution, expected = check_result, tolerance=1e-5)
 })
 

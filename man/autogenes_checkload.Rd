@@ -2,10 +2,10 @@
 % Please edit documentation in R/AutoGeneS.R
 \name{autogenes_checkload}
 \alias{autogenes_checkload}
-\title{Checks if scaden is installed.}
+\title{Checks if python and the autogenes module are available and installs them if they are not.}
 \usage{
 autogenes_checkload()
 }
 \description{
-If it is available, the python module is imported.
+Checks if python and the autogenes module are available and installs them if they are not.
 }

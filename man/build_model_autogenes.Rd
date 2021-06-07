@@ -75,7 +75,7 @@ build_model_autogenes(
 \item{verbose}{Whether to produce an output on the console}
 }
 \value{
-The path to the pickle file needed for the deconvolution with autogenes.
+A reticulate 'python.builtin.module' needed for the deconvolution with autogenes.
 }
 \description{
 Calculates the signature model with AutoGeneS

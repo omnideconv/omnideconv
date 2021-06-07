@@ -100,7 +100,7 @@ single_cell <- data.frame("GeneSymbol"= rownames(single_cell),single_cell)
 write.table(single_cell,"sample_file_for_cibersort.txt",sep = "\t",quote = F, row.names = F, col.names = F)
 write.table(data.frame("Gene"=rownames(bulk_small),bulk_small),"mixture_file_for_cibersort.txt",sep = "\t",quote = F, row.names = F)
 
-root <- dirname(rstudioapi::getSourceEditorContext()$path)
+root <- dirname(getwd()) #Alternatively rstudioapi::getSourceEditorContext()$path can be used
 email <- "konstantin.pelz@tum.de"
 token <- "27308ae0ef1458d381becac46ca7e480"
 signature_command <- paste0("docker run -v ",root,":/src/data -v ",root,"/test_models:/src/outdir cibersortx/fractions --username ",email," --token ",token," --single_cell TRUE --refsample sample_file_for_cibersort.txt")

@@ -23,7 +23,7 @@
 #' @param plot Whether to produce a plot at all
 #' @param verbose Whether to produce an output on the console
 #'
-#' @return The path to the pickle file needed for the deconvolution with autogenes.
+#' @return A reticulate 'python.builtin.module' needed for the deconvolution with autogenes.
 #' @export
 #'
 #'
@@ -81,7 +81,7 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations, bul
 #' Deconvolution Analysis using AutoGeneS
 #'
 #' @param bulk_gene_expression Dataframe or matrix of bulk RNA-seq data (genes x individuals)
-#' @param signature Path to a .pickle file, created with the build_model method
+#' @param signature A reticulate 'python.builtin.module', created with the build_model method
 #' @param model Regression model. Available options: NuSVR ("nusvr"), non-negative least squares("nnls") and linear model ("linear")
 #' @param nu Nu parameter for NuSVR
 #' @param C C parameter for NuSVR
@@ -162,9 +162,7 @@ install_autogenes <- function() {
 
 }
 
-#' Checks if scaden is installed.
-#'
-#' If it is available, the python module is imported.
+#' Checks if python and the autogenes module are available and installs them if they are not.
 #'
 autogenes_checkload <- function(){
   if (!python_available()){
@@ -176,64 +174,5 @@ autogenes_checkload <- function(){
   }
   if (!reticulate::py_module_available("autogenes")){
     install_autogenes()
-  }
-  reticulate::import("autogenes")
-}
-
-#' Creates a string that is evaluated by python as a collection of values
-#'
-#' @param vector_of_elements A vector of strings or numbers
-#' @param strings Whether the input consists of strings that need to be quoted
-#'
-#' @return The formatted string
-create_tuple_string <- function(vector_of_elements,strings=FALSE){
-  if(is.null(vector_of_elements)){
-    return("None")
-  }
-  if (strings){
-    if(length(vector_of_elements)==1){
-      return(quote_string(vector_of_elements))
-    }
-    return(paste0('("',paste(vector_of_elements,collapse = '","'),'")'))
-  }
-  if(length(vector_of_elements)==1){
-    return(vector_of_elements)
-  }
-  return(paste0('(',paste(vector_of_elements,collapse = ','),')'))
-}
-
-#' Transforms the R TRUE and FALSE into Pythons True and False
-#'
-#' @param bool The original boolean
-#'
-#' @return The python readable boolean
-transform_boolean <- function(bool){
-  if(bool){
-    return("True")
-  }
-  return("False")
-}
-
-#' Surrounds a string with quotes
-#'
-#' @param string The string to be quoted
-#'
-#' @return The quoted string
-quote_string <- function(string){
-  return(paste0('"',string,'"'))
-}
-
-#' Null transformer for glue: Replaces NULL values with something else
-#'
-#' @param str The replacement string
-#'
-#' @return A function used for the transformation
-null_transformer <- function(str = "NULL") {
-  function(text, envir) {
-    out <- glue::identity_transformer(text, envir)
-    if (is.null(out)) {
-      return(str)
-    }
-    out
   }
 }

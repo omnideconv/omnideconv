@@ -27,7 +27,7 @@ deconvolute_autogenes(
 \arguments{
 \item{bulk_gene_expression}{Dataframe or matrix of bulk RNA-seq data (genes x individuals)}
 
-\item{signature}{Path to a .pickle file, created with the build_model method}
+\item{signature}{A reticulate 'python.builtin.module', created with the build_model method}
 
 \item{model}{Regression model. Available options: NuSVR ("nusvr"), non-negative least squares("nnls") and linear model ("linear")}
 

@@ -39,45 +39,43 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations, bul
   }
 
   sce <- matrix_to_singlecellexperiment(single_cell_object,cell_type_annotations)
-  #TODO: Not export it as global
-  ad <<- singlecellexperiment_to_anndata(sce)
+  ad <- singlecellexperiment_to_anndata(sce)
 
   autogenes_checkload()
-  if (verbose){
-    base::message("import autogenes as ag")
-    base::message("ag.init(r.ad,celltype_key='label')")
-  }
-  reticulate::py_run_string("import autogenes as ag")
-  reticulate::py_run_string("ag.init(r.ad,celltype_key='label')")
+  ag <- reticulate::import("autogenes")
+  ag$init(ad,celltype_key="label")
 
-  command <- glue::glue("ag.optimize(ngen={ngen},weights={create_tuple_string(weights)},objectives={create_tuple_string(objectives,strings=TRUE)},verbose={transform_boolean(verbose)},nfeatures={nfeatures},seed={seed},mode={quote_string(mode)},population_size={population_size},offspring_size={offspring_size},crossover_pb={crossover_pb},mutation_pb={mutation_pb},mutate_flip_pb={mutate_flip_pb},crossover_thres={crossover_thres},ind_standard_pb={ind_standard_pb})", .transformer = null_transformer("None"))
-  if (verbose){
-    base::message(command)
+  if (mode=="standard"){
+  ag$optimize(ngen=as.integer(ngen),weights=as.integer(weights),objectives=objectives,verbose=verbose,
+              seed=as.integer(seed),mode=mode,population_size=as.integer(population_size),
+              offspring_size=as.integer(offspring_size),crossover_pb=crossover_pb,mutation_pb=mutation_pb,
+              crossover_thres=as.integer(crossover_thres),
+              ind_standard_pb=ind_standard_pb)
+  } else if (mode=="fixed"){
+    ag$optimize(ngen=as.integer(ngen),weights=as.integer(weights),objectives=objectives,verbose=verbose,
+                nfeatures=as.integer(nfeatures),seed=as.integer(seed),mode=mode,population_size=as.integer(population_size),
+                offspring_size=as.integer(offspring_size),crossover_pb=crossover_pb,mutation_pb=mutation_pb,
+                mutate_flip_pb=mutate_flip_pb)
+  } else {
+    base::stop(paste0("Mode ",mode," not recognized. Please try 'standard' or 'fixed'"))
   }
-  reticulate::py_run_string(command)
+
   if (plot){
-
     if (sum(!sapply(list(weights,index,close_to),is.null))>1){
-      base::stop('When selecting a solution in autogenes only one of the parameters "plot_weights", "index" and "close_to" can be used')
+      base::stop('When selecting a solution in autogenes only one of the parameters "plot_weights", "index" and "close_to" can be used. It is also possible to use none of them')
     }
-    all_params <- list(glue::glue(",weights={create_tuple_string(plot_weights)}", .transformer = null_transformer("None")),
-                       glue::glue(",index={create_tuple_string(index)}", .transformer = null_transformer("None")),
-                       glue::glue(",close_to={close_to}", .transformer = null_transformer("None")))
-    criterion <- paste0(unlist(all_params[!sapply(list(weights,index,close_to),is.null)])," ")
-
-    command <- glue::glue("ag.plot(objectives={create_tuple_string(plot_objectives)}{criterion})", .transformer = null_transformer("None"))
-    if (verbose){
-      base::message(command)
+    plot_objectives <- as.integer(plot_objectives)
+    if (!is.null(plot_weights)){
+      ag$plot(objectives=plot_objectives,weights=as.integer(plot_weights))
+    } else if (!is.null(index)){
+      ag$plot(objectives=plot_objectives,index=as.integer(index))
+    } else if (!is.null(close_to)){
+      ag$plot(objectives=plot_objectives,close_to=as.integer(close_to))
+    } else {
+      ag$plot(objectives=plot_objectives)
     }
-    reticulate::py_run_string(command)
   }
-  filename <- tempfile(fileext = ".pickle")
-  command <- glue::glue('ag.save(r{quote_string(filename)})')
-  if (verbose){
-    base::message(command)
-  }
-  reticulate::py_run_string(command)
-  return(filename)
+  return(ag)
 }
 
 #' Deconvolution Analysis using AutoGeneS
@@ -111,55 +109,43 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature, model=c("nusv
     model <- model[1]
   }
 
-  if (!file.exists(signature)){
-    base::stop("The signature parameter has to be a file path to a .pickle file, created with the build_model method. This file was not found.")
+  if (class(signature)[1]!="python.builtin.module"){
+    base::stop("The signature parameter has to be a reticulate python module, created with the build_model method. The class of the supplied signature is not 'python.builtin.module'")
   }
-
-  if (verbose){
-    base::message(glue::glue("ag.load(r{quote_string(signature)})", .transformer = null_transformer("None")))
-  }
-  reticulate::py_run_string(glue::glue("ag.load(r{quote_string(signature)})", .transformer = null_transformer("None")))
 
   if (sum(!sapply(list(weights,index,close_to),is.null))>1){
     base::stop('When selecting a solution in autogenes only one of the parameters "weights", "index" and "close_to" can be used')
   }
-  all_params <- list(glue::glue("weights={create_tuple_string(weights)}", .transformer = null_transformer("None")),
-                     glue::glue("index={create_tuple_string(index)}", .transformer = null_transformer("None")),
-                     glue::glue("close_to={close_to}", .transformer = null_transformer("None")))
-  command = paste0("ag.select(",unlist(all_params[!sapply(list(weights,index,close_to),is.null)]),")")
-  if (verbose){
-    base::message(command)
+
+  ag <- signature
+
+  if (!is.null(weights)){
+    ag$select(weights=weights)
+  } else if (!is.null(index)){
+    ag$select(index=index)
+  } else if (!is.null(close_to)){
+    ag$select(close_to=close_to)
+  } else {
+    ag$select()
   }
-  reticulate::py_run_string(command)
 
   if (verbose){
-    base::message("sel = ag.selection()")
-    reticulate::py_run_string("sel = ag.selection()")
-    base::message("genes = ag.adata().var_names")
-    reticulate::py_run_string("genes = ag.adata().var_names")
+    selection <- ag$selection()
+    genes <- ag$adata()$var_names
     base::message("The following genes are used for the deconvolution:")
     #TODO: Change into base::message
-    print(reticulate::py$genes[reticulate::py$sel])
+    print(genes[selection])
   }
-  #TODO: Change to not go into global environment
-  bulk_data <<- t(bulk_gene_expression)
-  command <- glue::glue("coef = ag.deconvolve(r.bulk_data, model={quote_string(model)}, nu={nu}, C={C},
-                kernel={quote_string(kernel)}, degree={degree},gamma={quote_string(gamma)}, coef0={coef0},
-                shrinking={transform_boolean(shrinking)}, tol={tol},cache_size={cache_size},
-                verbose={transform_boolean(verbose)}, max_iter={max_iter})", .transformer = null_transformer("None"))
-  if (verbose){
-    base::message(command)
-  }
-  reticulate::py_run_string(command)
-  res <- reticulate::py$coef
-  if (verbose){
-    base::message("")
-    base::message("cell_types = ag.adata().obs_names")
-  }
-  reticulate::py_run_string("cell_types = ag.adata().obs_names")
-  colnames(res) <- reticulate::py$cell_types
-  rownames(res) <- rownames(bulk_data)
-  return(res)
+
+  bulk_data <- t(bulk_gene_expression)
+  result <- ag$deconvolve(bulk_data, model=model, nu=nu, C=C,
+                        kernel=kernel, degree=as.integer(degree),gamma=gamma, coef0=coef0,
+                        shrinking=shrinking, tol=tol,cache_size=as.integer(cache_size),
+                        verbose=verbose, max_iter=as.integer(max_iter))
+
+  colnames(result) <- ag$adata()$obs_names
+  rownames(result) <- rownames(bulk_data)
+  return(result)
 }
 
 

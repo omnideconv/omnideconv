@@ -162,7 +162,8 @@
     </tr>
     <tr>
       <th>model</th>
-      <td><p>Regression model. Available options: NuSVR ("nusvr"), non-negative least squares("nnls") and linear model ("linear")</p></td>
+      <td><p>Regression model. Available options: NuSVR ("nusvr"), non-negative least
+squares("nnls") and linear model ("linear")</p></td>
     </tr>
     <tr>
       <th>nu</th>
@@ -210,21 +211,30 @@
     </tr>
     <tr>
       <th>weights</th>
-      <td><p>Select Solution: Weights with which to weight the objective values. For example, (-1,2) will minimize the first objective and maximize the the second (with more weight)</p></td>
+      <td><p>Select Solution: Weights with which to weight the objective values. For example,
+(-1,2) will minimize the first objective and maximize the the second (with more weight)</p></td>
     </tr>
     <tr>
       <th>index</th>
-      <td><p>Select Solution: If one int is passed, return paretoindex If two ints are passed, the first is an objective (0 for the first). The second is the nth element if the solutions have been sorted by the objective in ascending order. For example, (0,1) will return the solution that has the second-lowest value in the first objective. (1,-1) will return the solution with the highest value in the second objective</p></td>
+      <td><p>Select Solution: If one int is passed, return paretoindex If two ints are passed,
+the first is an objective (0 for the first). The second is the nth element if the solutions
+have been sorted by the objective in ascending order. For example, (0,1) will return the
+solution that has the second-lowest value in the first objective. (1,-1) will return the
+solution with the highest value in the second objective</p></td>
     </tr>
     <tr>
       <th>close_to</th>
-      <td><p>Select Solution: Select the solution whose objective value is close to a certain value. Assumes (objective,value). For example, (0,100) will select the solution whose value for the first objective is closest to 100</p></td>
+      <td><p>Select Solution: Select the solution whose objective value is close to a certain
+value. Assumes (objective,value). For example, (0,100) will select the solution whose value
+for the first objective is closest to 100</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list with two elements: 'proportions' is the matrix of cell proportions and 'genes_used' is a vector containing the names of the genes used for the deconvolution, what is called "solution" by AutoGeneS</p>
+    <p>A list with two elements: 'proportions' is the matrix of cell proportions and
+'genes_used' is a vector containing the names of the genes used for the deconvolution, what
+is called "solution" by AutoGeneS</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

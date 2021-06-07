@@ -61,7 +61,6 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations, bul
   }
 
   if (plot){
-    print("plotting")
     if (sum(!sapply(list(weights,index,close_to),is.null))>1){
       base::stop('When selecting a solution in autogenes only one of the parameters "plot_weights", "index" and "close_to" can be used. It is also possible to use none of them')
     }
@@ -73,9 +72,7 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations, bul
     } else if (!is.null(close_to)){
       ag$plot(objectives=plot_objectives,close_to=as.integer(close_to))
     } else {
-      print("befoire")
       ag$plot(objectives=plot_objectives)
-      print("after")
     }
   }
   filename <- tempfile(fileext = ".pickle")
@@ -106,7 +103,7 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations, bul
 #' @param close_to Select Solution: Select the solution whose objective value is close to a certain value. Assumes (objective,value). For example, (0,100) will select the solution whose value for the first objective is closest to 100
 #' @param verbose Whether the algorithm should print out what it is doing
 #'
-#' @return cell proportion matrix
+#' @return A list with two elements: 'proportions' is the matrix of cell proportions and 'genes_used' is a vector containing the names of the genes used for the deconvolution, what is called "solution" by AutoGeneS
 #' @export
 #'
 deconvolute_autogenes <- function(bulk_gene_expression, signature, model=c("nusvr","nnls","linear"),

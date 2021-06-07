@@ -27,7 +27,7 @@ deconvolute_autogenes(
 \arguments{
 \item{bulk_gene_expression}{Dataframe or matrix of bulk RNA-seq data (genes x individuals)}
 
-\item{signature}{A reticulate 'python.builtin.module', created with the build_model method}
+\item{signature}{Path to a .pickle file, created with the build_model method}
 
 \item{model}{Regression model. Available options: NuSVR ("nusvr"), non-negative least squares("nnls") and linear model ("linear")}
 
@@ -60,7 +60,7 @@ deconvolute_autogenes(
 \item{close_to}{Select Solution: Select the solution whose objective value is close to a certain value. Assumes (objective,value). For example, (0,100) will select the solution whose value for the first objective is closest to 100}
 }
 \value{
-cell proportion matrix
+A list with two elements: 'proportions' is the matrix of cell proportions and 'genes_used' is a vector containing the names of the genes used for the deconvolution, what is called "solution" by AutoGeneS
 }
 \description{
 Deconvolution Analysis using AutoGeneS

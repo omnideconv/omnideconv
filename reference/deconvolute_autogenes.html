@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculates the decomposition using the bisque algorithm — deconvolute_bisque • omnideconv</title>
+<title>Deconvolution Analysis using AutoGeneS — deconvolute_autogenes • omnideconv</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,8 @@
 
 
 
-<meta property="og:title" content="Calculates the decomposition using the bisque algorithm — deconvolute_bisque" />
-<meta property="og:description" content="Generates a reference profile based on single-cell data. Learns a
-transformation of bulk expression based  on  observed  single-cell
-proportions  and  performs  NNLS  regression  on  these  transformed
-values to estimate cell proportions." />
+<meta property="og:title" content="Deconvolution Analysis using AutoGeneS — deconvolute_autogenes" />
+<meta property="og:description" content="Deconvolution Analysis using AutoGeneS" />
 
 
 
@@ -123,29 +120,33 @@ values to estimate cell proportions." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculates the decomposition using the bisque algorithm</h1>
-    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/bisque.R'><code>R/bisque.R</code></a></small>
-    <div class="hidden name"><code>deconvolute_bisque.Rd</code></div>
+    <h1>Deconvolution Analysis using AutoGeneS</h1>
+    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/AutoGeneS.R'><code>R/AutoGeneS.R</code></a></small>
+    <div class="hidden name"><code>deconvolute_autogenes.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Generates a reference profile based on single-cell data. Learns a
-transformation of bulk expression based  on  observed  single-cell
-proportions  and  performs  NNLS  regression  on  these  transformed
-values to estimate cell proportions.</p>
+    <p>Deconvolution Analysis using AutoGeneS</p>
     </div>
 
-    <pre class="usage"><span class='fu'>deconvolute_bisque</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>deconvolute_autogenes</span><span class='op'>(</span>
   <span class='va'>bulk_gene_expression</span>,
-  <span class='va'>signature_matrix</span>,
-  single_cell_object <span class='op'>=</span> <span class='cn'>NULL</span>,
-  cell_type_annotations <span class='op'>=</span> <span class='cn'>NULL</span>,
-  markers <span class='op'>=</span> <span class='cn'>NULL</span>,
-  cell_types <span class='op'>=</span> <span class='st'>"cellType"</span>,
-  subject_names <span class='op'>=</span> <span class='st'>"SubjectName"</span>,
-  use_overlap <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>signature</span>,
+  model <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"nusvr"</span>, <span class='st'>"nnls"</span>, <span class='st'>"linear"</span><span class='op'>)</span>,
+  nu <span class='op'>=</span> <span class='fl'>0.5</span>,
+  C <span class='op'>=</span> <span class='fl'>0.5</span>,
+  kernel <span class='op'>=</span> <span class='st'>"linear"</span>,
+  degree <span class='op'>=</span> <span class='fl'>3</span>,
+  gamma <span class='op'>=</span> <span class='st'>"scale"</span>,
+  coef0 <span class='op'>=</span> <span class='fl'>0</span>,
+  shrinking <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  tol <span class='op'>=</span> <span class='fl'>0.001</span>,
+  cache_size <span class='op'>=</span> <span class='fl'>200</span>,
   verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  old_cpm <span class='op'>=</span> <span class='cn'>TRUE</span>
+  max_iter <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span>,
+  weights <span class='op'>=</span> <span class='cn'>NULL</span>,
+  index <span class='op'>=</span> <span class='cn'>NULL</span>,
+  close_to <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -153,73 +154,77 @@ values to estimate cell proportions.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>bulk_gene_expression</th>
-      <td><p>A matrix or dataframe with the bulk data. Rows
-are genes, columns are samples.</p></td>
+      <td><p>Dataframe or matrix of bulk RNA-seq data (genes x individuals)</p></td>
     </tr>
     <tr>
-      <th>signature_matrix</th>
-      <td><p>The Signature matrix.</p></td>
+      <th>signature</th>
+      <td><p>A reticulate 'python.builtin.module', created with the build_model method</p></td>
     </tr>
     <tr>
-      <th>single_cell_object</th>
-      <td><p>A Matrix with the single-cell data. Rows are genes
-and columns are samples.</p></td>
+      <th>model</th>
+      <td><p>Regression model. Available options: NuSVR ("nusvr"), non-negative least squares("nnls") and linear model ("linear")</p></td>
     </tr>
     <tr>
-      <th>cell_type_annotations</th>
-      <td><p>A Vector of the cell type annotations. Has to
-be in the same order as the samples in single_cell_object.</p></td>
+      <th>nu</th>
+      <td><p>Nu parameter for NuSVR</p></td>
     </tr>
     <tr>
-      <th>markers</th>
-      <td><p>Structure, such as character vector, containing marker genes
-to be used in decomposition. <code><a href='https://rdrr.io/r/base/unique.html'>base::unique(base::unlist(markers))</a></code> should
-return a simple vector containing each gene name. If no argument or NULL
-provided, the method will use all available genes for decomposition.</p></td>
+      <th>C</th>
+      <td><p>C parameter for NuSVR</p></td>
     </tr>
     <tr>
-      <th>cell_types</th>
-      <td><p>Character string. Name of phenoData attribute in sc.eset
-indicating cell type label for each cell</p></td>
+      <th>kernel</th>
+      <td><p>Kernel parameter for NuSVR</p></td>
     </tr>
     <tr>
-      <th>subject_names</th>
-      <td><p>Character string. Name of phenoData attribute in sc.eset
-indicating individual label for each cell</p></td>
+      <th>degree</th>
+      <td><p>Degree parameter for NuSVR</p></td>
     </tr>
     <tr>
-      <th>use_overlap</th>
-      <td><p>Boolean. Whether to use and expect overlapping samples
-in decomposition.</p></td>
+      <th>gamma</th>
+      <td><p>Gamma parameter for NuSVR</p></td>
+    </tr>
+    <tr>
+      <th>coef0</th>
+      <td><p>Coef0 parameter for NuSVR</p></td>
+    </tr>
+    <tr>
+      <th>shrinking</th>
+      <td><p>Shrinking parameter for NuSVR</p></td>
+    </tr>
+    <tr>
+      <th>tol</th>
+      <td><p>Tol parameter for NuSVR</p></td>
+    </tr>
+    <tr>
+      <th>cache_size</th>
+      <td><p>Cache_size parameter for NuSVR</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>Whether the algorithm should print out what it is doing.</p></td>
+      <td><p>Whether the algorithm should print out what it is doing</p></td>
     </tr>
     <tr>
-      <th>old_cpm</th>
-      <td><p>Prior to version 1.0.4 (updated in July 2020), the package
-converted counts to CPM after subsetting the marker genes. Github user
-randel pointed out that the order of these operations should be switched.
-Thanks randel! This option is provided for replication of older BisqueRNA
-but should be enabled, especially for small marker gene sets.
-We briefly tested this change on the cortex and adipose datasets.
-The original and new order of operations produce estimates that have an
-average correlation of 0.87 for the cortex and 0.84 for the adipose within
-each cell type.</p></td>
+      <th>max_iter</th>
+      <td><p>Max_iter parameter for NuSVR</p></td>
+    </tr>
+    <tr>
+      <th>weights</th>
+      <td><p>Select Solution: Weights with which to weight the objective values. For example, (-1,2) will minimize the first objective and maximize the the second (with more weight)</p></td>
+    </tr>
+    <tr>
+      <th>index</th>
+      <td><p>Select Solution: If one int is passed, return paretoindex If two ints are passed, the first is an objective (0 for the first). The second is the nth element if the solutions have been sorted by the objective in ascending order. For example, (0,1) will return the solution that has the second-lowest value in the first objective. (1,-1) will return the solution with the highest value in the second objective</p></td>
+    </tr>
+    <tr>
+      <th>close_to</th>
+      <td><p>Select Solution: Select the solution whose objective value is close to a certain value. Assumes (objective,value). For example, (0,100) will select the solution whose value for the first objective is closest to 100</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list. Slot bulk_props contains a matrix of cell type proportion
-estimates with cell types as rows and individuals as columns. Slot sc_props
-contains a matrix of cell type proportions estimated directly from counting
-single-cell data. Slot rnorm contains Euclidean norm of the residuals for
-each individual's proportion estimates. Slot genes_used contains vector of
-genes used in decomposition.Slot transformed_bulk contains the transformed
-bulk expression used for decomposition. These values are generated by
-applying a linear transformation to the CPM expression.</p>
+    <p>cell proportion matrix</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -19,6 +19,9 @@
     <loc>https://icbi-lab.github.io/omnideconv/reference/anndata_to_singlecellexperiment.html</loc>
   </url>
   <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/autogenes_checkload.html</loc>
+  </url>
+  <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/buildSignatureMatrixUsingMAST.html</loc>
   </url>
   <url>
@@ -29,6 +32,9 @@
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/build_model.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/build_model_autogenes.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/build_model_bisque.html</loc>
@@ -62,6 +68,9 @@
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute_autogenes.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute_bisque.html</loc>
@@ -112,6 +121,9 @@
     <loc>https://icbi-lab.github.io/omnideconv/reference/init_python.html</loc>
   </url>
   <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/install_autogenes.html</loc>
+  </url>
+  <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/install_scaden.html</loc>
   </url>
   <url>
@@ -128,6 +140,9 @@
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/read_anndata.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/save_as_h5ad.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/scaden_checkload.html</loc>

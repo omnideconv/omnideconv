@@ -4,9 +4,9 @@
 #'
 #' @return A function which will suppress messages or not, depending on the verbose parameter
 #'
-verbose_wrapper <- function(verbose){
-  return (function(method){
-    if(verbose){
+verbose_wrapper <- function(verbose) {
+  return(function(method) {
+    if (verbose) {
       base::suppressMessages(method)
     } else {
       method
@@ -19,16 +19,16 @@ verbose_wrapper <- function(verbose){
 #'
 #' @return A boolean value whether docker is available on the system
 #'
-docker_available <- function(){
-  return(system("docker",ignore.stdout = TRUE,ignore.stderr = TRUE)==0)
+docker_available <- function() {
+  return(system("docker", ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
 }
 
 #' Docker connectability check
 #'
 #' @return A boolean value whether it is possible to connect to docker
 #'
-docker_connectable <- function(){
-  return(system("docker ps",ignore.stdout = TRUE,ignore.stderr = TRUE)==0)
+docker_connectable <- function() {
+  return(system("docker ps", ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
 }
 
 #' Removes blanks by substituting them with "._._._" which should not be used naturally
@@ -37,7 +37,7 @@ docker_connectable <- function(){
 #'
 #' @return The String without blanks
 #'
-escape_blanks <- function(string){
+escape_blanks <- function(string) {
   return(gsub(" ", "._._._", string))
 }
 
@@ -47,7 +47,7 @@ escape_blanks <- function(string){
 #'
 #' @return The String with blanks
 #'
-deescape_blanks <- function(string){
+deescape_blanks <- function(string) {
   return(gsub("._._._", " ", string))
 }
 
@@ -60,7 +60,7 @@ deescape_blanks <- function(string){
 #'
 #' @param path_to_python_binaries Path to python binaries
 #'
-set_python <- function(path_to_python_binaries){
+set_python <- function(path_to_python_binaries) {
   reticulate::use_python(python = path_to_python_binaries)
 }
 
@@ -69,23 +69,26 @@ set_python <- function(path_to_python_binaries){
 #'
 #' @param python (optional) If own python should be used please indicate it's binaries
 #'
-init_python <- function(python=NULL){
-  if (!reticulate::py_available()){
-    if (is.null(python)){
-      if(!dir.exists(reticulate::miniconda_path())){
+init_python <- function(python = NULL) {
+  if (!reticulate::py_available()) {
+    if (is.null(python)) {
+      if (!dir.exists(reticulate::miniconda_path())) {
         base::message("Setting up miniconda environment..")
         suppressMessages(reticulate::install_miniconda())
       }
-      reticulate::use_miniconda(condaenv = "r-reticulate",required = TRUE)
+      reticulate::use_miniconda(condaenv = "r-reticulate", required = TRUE)
       config <- reticulate::py_config()
-      if (!python_available()){
+      if (!python_available()) {
         base::message("Python not available")
         print(config)
-        base::message("Please indicate your version of python calling init_python(python=your/python)")
+        base::message(
+          "Please indicate your version of python ",
+          "calling init_python(python=your/python)"
+        )
       }
     }
-    else{
-      reticulate::use_python(python= python)
+    else {
+      reticulate::use_python(python = python)
       reticulate::py_config()
     }
   }
@@ -95,6 +98,6 @@ init_python <- function(python=NULL){
 #'
 #' @return boolean
 #'
-python_available<- function(){
+python_available <- function() {
   return(reticulate::py_available())
 }

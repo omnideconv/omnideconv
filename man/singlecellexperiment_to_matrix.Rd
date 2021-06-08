@@ -13,9 +13,11 @@ singlecellexperiment_to_matrix(
 \arguments{
 \item{sce}{SingleCellExperiment}
 
-\item{assay_name}{name of the assay that should be returned as matrix. (default: first in assay list)}
+\item{assay_name}{name of the assay that should be returned as matrix. (default: first in assay
+list)}
 
-\item{cell_type_column_name}{name of the column that stores the cell-type labels in the colData object of the provided SingleCellExperiment}
+\item{cell_type_column_name}{name of the column that stores the cell-type labels in the colData
+object of the provided SingleCellExperiment}
 }
 \value{
 named list: ..$matrix: matrix object, ..$annotation_vector

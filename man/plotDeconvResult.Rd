@@ -9,7 +9,8 @@ plotDeconvResult(deconv_result, method_name = "", file_name = NULL)
 \arguments{
 \item{deconv_result}{result from deconvolution()}
 
-\item{method_name}{(optional) title of plot is set to the name of the method used for deconvolution}
+\item{method_name}{(optional) title of plot is set to the name of the method used for
+deconvolution}
 
 \item{file_name}{(optional) plot is saved in this file}
 }
@@ -21,7 +22,9 @@ Plot deconvolution results as a barplot
 }
 \examples{
 model <- omnideconv::build_model(single_cell_data, cell_type_annotations, "bisque")
-deconvolution <- omnideconv::deconvolute(bulk, model, "bisque", single_cell_data, cell_type_annotations)
+deconvolution <- omnideconv::deconvolute(
+  bulk, model, "bisque", single_cell_data,
+  cell_type_annotations
+)
 plotDeconvResult(deconvolution, "Bisque")
-
 }

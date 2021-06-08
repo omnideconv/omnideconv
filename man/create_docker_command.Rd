@@ -13,11 +13,14 @@ create_docker_command(
 )
 }
 \arguments{
-\item{in_dir}{The folder in which the input files can be found (or are created in). Default is a temporary directory.}
+\item{in_dir}{The folder in which the input files can be found (or are created in). Default is
+a temporary directory.}
 
-\item{out_dir}{The directory in which the output files are saved. Default is a temporary directory.}
+\item{out_dir}{The directory in which the output files are saved. Default is a temporary
+directory.}
 
-\item{method}{Which docker command should be be created. For signature matrix creation use "create_sig", for cell type deconvolution use "impute_cell_fractions".}
+\item{method}{Which docker command should be be created. For signature matrix creation use
+"create_sig", for cell type deconvolution use "impute_cell_fractions".}
 
 \item{verbose}{Whether to generate any output.}
 

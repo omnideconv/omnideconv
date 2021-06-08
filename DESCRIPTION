@@ -56,8 +56,7 @@ Imports:
     dplyr,
     tidyr,
     readr,
-    magrittr,
-    Seurat
+    magrittr
 Suggests: 
     testthat (>= 2.0.0),
     knitr,

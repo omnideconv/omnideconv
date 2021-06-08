@@ -16,27 +16,33 @@ deconvolute(
 )
 }
 \arguments{
-\item{bulk_gene_expression}{A matrix or dataframe with the bulk data. Rows are genes, columns are samples.}
+\item{bulk_gene_expression}{A matrix or dataframe with the bulk data. Rows are genes, columns
+are samples.}
 
 \item{signature}{The signature matrix.}
 
 \item{method}{A string specifying the method.
-Supported methods are \"bisque\", \"momf\", \"dwls\", \"scaden\", \"cibersortx\", \"...\"}
+Supported methods are 'bisque', 'momf', 'dwls', 'scaden', 'cibersortx' and 'autogenes'}
 
 \item{single_cell_object}{Needed for deconvolution with MOMF and Bisque. Defaults to NULL.
-Alternatively a SingleCellExperiment or an AnnData object can be provided. In that case, note that cell-type labels need to be indicated either directly providing a vector (cell_type_annotations)
-or by indicating the column name that indicates the cell-type labels (cell_type_column_name). (Anndata: obs object, SingleCellExperiment: colData object)}
+Alternatively a SingleCellExperiment or an AnnData object can be provided. In that case, note
+that cell-type labels need to be indicated either directly providing a vector
+(cell_type_annotations) or by indicating the column name that indicates the cell-type labels
+(cell_type_column_name). (Anndata: obs object, SingleCellExperiment: colData object)}
 
 \item{cell_type_annotations}{Needed for deconvolution with Bisque. Defaults to NULL.}
 
-\item{cell_type_column_name}{Name of the column in (Anndata: obs , SingleCellExperiment: colData), that contains the cell-type labels. Is only used if no cell_type_annotations vector is provided.}
+\item{cell_type_column_name}{Name of the column in (Anndata: obs, SingleCellExperiment: colData),
+that contains the cell-type labels. Is only used if no cell_type_annotations vector
+is provided.}
 
 \item{verbose}{Whether the algorithms should print out what they are doing.}
 
 \item{...}{Additional parameters, passed to the algorithm used.}
 }
 \value{
-A matrix with the probabilities of each cell-type for each individual. Rows are individuals, columns are cell types.
+A matrix with the probabilities of each cell-type for each individual. Rows are
+individuals, columns are cell types.
 }
 \description{
 Deconvolution

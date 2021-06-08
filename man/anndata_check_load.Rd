@@ -7,5 +7,6 @@
 anndata_check_load()
 }
 \description{
-If called and python environment is not set up, this is realized. Else, it checks if the anndata package is loaded, and if not, it does this.
+If called and python environment is not set up, this is realized. Else, it checks if the anndata
+package is loaded, and if not, it does this.
 }

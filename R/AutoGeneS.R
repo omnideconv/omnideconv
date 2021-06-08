@@ -72,24 +72,22 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations,
   ag <- reticulate::import("autogenes")
   ag$init(ad, celltype_key = "label")
 
+  params <- list(ngen = as.integer(ngen), weights = as.integer(weights), objectives = objectives,
+                 verbose = verbose, seed = as.integer(seed), mode = mode,
+                 population_size = as.integer(population_size),
+                 offspring_size = as.integer(offspring_size), crossover_pb = crossover_pb,
+                 mutation_pb = mutation_pb)
+
   if (mode == "standard") {
-    ag$optimize(
-      ngen = as.integer(ngen), weights = as.integer(weights), objectives = objectives,
-      verbose = verbose, seed = as.integer(seed), mode = mode,
-      population_size = as.integer(population_size), offspring_size = as.integer(offspring_size),
-      crossover_pb = crossover_pb, mutation_pb = mutation_pb,
-      crossover_thres = as.integer(crossover_thres), ind_standard_pb = ind_standard_pb
-    )
+    params <- c(params, crossover_thres = as.integer(crossover_thres),
+                ind_standard_pb = ind_standard_pb)
   } else if (mode == "fixed") {
-    ag$optimize(
-      ngen = as.integer(ngen), weights = as.integer(weights), objectives = objectives,
-      verbose = verbose, nfeatures = as.integer(nfeatures), seed = as.integer(seed), mode = mode,
-      population_size = as.integer(population_size), offspring_size = as.integer(offspring_size),
-      crossover_pb = crossover_pb, mutation_pb = mutation_pb, mutate_flip_pb = mutate_flip_pb
-    )
+    params <- c(params, nfeatures = as.integer(nfeatures), mutate_flip_pb = mutate_flip_pb)
   } else {
     base::stop(paste0("Mode ", mode, " not recognized. Please try 'standard' or 'fixed'"))
   }
+
+  do.call(ag$optimize,params)
 
   if (plot) {
     if (sum(!sapply(list(weights, index, close_to), is.null)) > 1) {

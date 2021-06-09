@@ -20,9 +20,11 @@ build_model_scaden(
 )
 }
 \arguments{
-\item{single_cell_object}{A matrix or dataframe with the single-cell data. Rows are genes, columns are samples.}
+\item{single_cell_object}{A matrix or dataframe with the single-cell data. Rows are genes,
+columns are samples.}
 
-\item{celltype_labels}{Vector of celltype labels. Order corresponds to rows in single_cell_object matrix.}
+\item{celltype_labels}{Vector of celltype labels. Order corresponds to rows in
+single_cell_object matrix.}
 
 \item{bulk_gene_expression}{Matrix of bulk RNA expression. (rows :genes, columns: samples)}
 
@@ -34,7 +36,9 @@ build_model_scaden(
 
 \item{steps}{Training of model: Number of training steps (default: 5000)}
 
-\item{var_cutoff}{Training data processing: Filter out genes with a variance less than the specified cutoff. A low cutoff is recommended,this should only remove genes that are obviously uninformative. (default NULL)}
+\item{var_cutoff}{Training data processing: Filter out genes with a variance less than the
+specified cutoff. A low cutoff is recommended,this should only remove genes that are obviously
+uninformative. (default NULL)}
 
 \item{cells}{Bulk simulation: Number of cells per sample (default: 100)}
 

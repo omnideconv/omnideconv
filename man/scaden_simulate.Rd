@@ -15,9 +15,11 @@ scaden_simulate(
 )
 }
 \arguments{
-\item{celltype_labels}{Vector of celltype labels. Order corresponds to rows in single_cell_object matrix.}
+\item{celltype_labels}{Vector of celltype labels. Order corresponds to rows in
+single_cell_object matrix.}
 
-\item{gene_labels}{Vector of gene labels. Order corresponds to columns in single_cell_object matrix.}
+\item{gene_labels}{Vector of gene labels. Order corresponds to columns in
+single_cell_object matrix.}
 
 \item{single_cell_object}{Matrix or dataframe of scRNA data. Rows=cells and columns=genes}
 

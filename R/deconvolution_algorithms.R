@@ -43,6 +43,9 @@ deconvolution_methods <- c(
 build_model <- function(single_cell_object, cell_type_annotations = NULL,
                         method = deconvolution_methods, bulk_gene_expression = NULL, verbose = TRUE,
                         cell_type_column_name = NULL, ...) {
+  method <- tolower(method)
+  check_and_install(method)
+
   if (class(single_cell_object)[[1]] == "AnnDataR6") {
     single_cell_object <- anndata_to_singlecellexperiment(ad)
   }
@@ -78,7 +81,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
     colnames(bulk_gene_expression) <- escape_blanks(colnames(bulk_gene_expression))
   }
 
-  signature <- switch(tolower(method),
+  signature <- switch(method,
     bisque = build_model_bisque(single_cell_object, cell_type_annotations, verbose = verbose, ...),
     # momf needs bulk set and signature matrix containing the same genes
     momf = build_model_momf(single_cell_object, cell_type_annotations, bulk_gene_expression, ...),
@@ -135,6 +138,9 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
 deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_methods,
                         single_cell_object = NULL, cell_type_annotations = NULL,
                         cell_type_column_name = NULL, verbose = FALSE, ...) {
+  method <- tolower(method)
+  check_and_install(method)
+
   if (class(single_cell_object)[[1]] == "AnnDataR6") {
     single_cell_object <- anndata_to_singlecellexperiment(ad)
   }
@@ -179,7 +185,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
     cell_type_annotations <- escape_blanks(cell_type_annotations)
   }
 
-  deconv <- switch(tolower(method),
+  deconv <- switch(method,
     bisque = deconvolute_bisque(bulk_gene_expression, signature, single_cell_object,
       cell_type_annotations,
       verbose = verbose, ...
@@ -202,4 +208,45 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
     colnames(deconv) <- deescape_blanks(colnames(deconv))
   }
   return(deconv)
+}
+
+
+#' The dependencies for each method
+#'
+required_packages <- list(
+  "bisque" = c("BisqueRNA", "limSolve"),
+  "momf" = c("grst/MOMF"),
+  "dwls" = c("quadprog", "reshape", "e1071", "ROCR", "varhandle", "MAST", "magrittr"),
+  "scaden" = c("reticulate"),
+  "cibersortx" = c(),
+  "autogenes" = c("reticulate")
+)
+
+#' Checking and installing all dependencies for the specific methods
+#'
+#' @param method The name of the method that is used
+check_and_install <- function(method) {
+  setRepositories(graphics = FALSE, ind = c(1, 2, 3, 4, 5))
+  if (!method %in% deconvolution_methods) {
+    base::stop(
+      paste(
+        "Method", method,
+        "not recognized. Please refer to 'deconvolution_methods' for the integrated methods."
+      )
+    )
+  }
+  packages <- required_packages[[method]]
+  github_pkgs <- grep("^.*?/.*?$", packages, value = TRUE)
+  cran_pkgs <- packages[!(packages %in% github_pkgs)]
+  sapply(cran_pkgs, function(pkgname) {
+    if (!requireNamespace(pkgname, quietly = TRUE)) {
+      utils::install.packages(pkgname)
+    }
+  })
+  sapply(github_pkgs, function(pkgname) {
+    bare_pkgname <- sub(".*?/", "", pkgname)
+    if (!requireNamespace(bare_pkgname, quietly = TRUE)) {
+      remotes::install_github(pkgname)
+    }
+  })
 }

@@ -15,19 +15,24 @@ build_model_dwls(
 )
 }
 \arguments{
-\item{scdata}{A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.}
+\item{scdata}{A matrix or dataframe with the single-cell data. Rows are genes, columns are
+samples. Row and column names need to be set.}
 
-\item{id}{A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object}
+\item{id}{A Vector of the cell type annotations. Has to be in the same order as the samples in
+single_cell_object}
 
 \item{method}{The method used to create the signature matrix. Options are "MAST" and "Seurat"}
 
-\item{path}{The path where the generated files will be saved. If path=NULL, the generated files will be discarded.}
+\item{path}{The path where the generated files will be saved. If path=NULL, the generated files
+will be discarded.}
 
 \item{verbose}{Whether to output what DWLS is doing}
 
-\item{diff.cutoff}{Cutoff to determine the FC-limit. How low can the lowest fold change be to still be considered differentially expressed?}
+\item{diff.cutoff}{Cutoff to determine the FC-limit. How low can the lowest fold change be to
+still be considered differentially expressed?}
 
-\item{pval.cutoff}{Cutoff to determine the pVal-limit. How high can the highest p-Value be to still be considered statistically significant?}
+\item{pval.cutoff}{Cutoff to determine the pVal-limit. How high can the highest p-Value be to
+still be considered statistically significant?}
 }
 \value{
 The signature matrix. Rows are genes, columns are cell types.

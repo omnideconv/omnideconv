@@ -25,7 +25,7 @@ A list. Slot bulk.props contains a matrix of cell type proportion estimates with
 types as rows and individuals as columns.
 }
 \description{
-Generates a reference profile based on single-cell data. Learns a transformation of bulk
+generates a reference profile based on single-cell data. Learns a transformation of bulk
 expression based on observed single-cell proportions and performs NNLS regression on these
 transformed values to estimate cell proportions.
 }

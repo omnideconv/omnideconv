@@ -30,7 +30,7 @@ get_single_cell_expression_set <- function(single_cell_matrix, sample_names, gen
       "cellType"
     )
   )
-  sc_pdata <- new("AnnotatedDataFrame",
+  sc_pdata <- methods::new("AnnotatedDataFrame",
     data = sc_pheno,
     varMetadata = sc_meta
   )

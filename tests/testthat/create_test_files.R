@@ -443,7 +443,7 @@ DEAnalysisMAST <- function(scdata, id, path) {
       cluster_lrTest.table <- lrTest.table[rev(order(lrTest.table$Auc)), ]
 
       # . 4 save results
-      write.csv(cluster_lrTest.table, file = paste(path, "/", i, "_lrTest.csv", sep = ""))
+      utils::write.csv(cluster_lrTest.table, file = paste(path, "/", i, "_lrTest.csv", sep = ""))
       save(cluster_lrTest.table, file = paste(path, "/", i, "_MIST.RData", sep = ""))
     }
   }

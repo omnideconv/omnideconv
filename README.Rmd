@@ -57,7 +57,7 @@ In this method, single_cell_data is a matrix of single cell RNA-seq data with ge
 * DWLS ("dwls")
 * MOMF ("momf")
 * Scaden ("scaden")
-* CibersortX ("cibersortx")
+* CibersortX ("cibersortx") 
 
 ### 2. Deconvolute 
 

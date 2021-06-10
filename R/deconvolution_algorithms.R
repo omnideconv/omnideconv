@@ -226,7 +226,6 @@ required_packages <- list(
 #'
 #' @param method The name of the method that is used
 check_and_install <- function(method) {
-  setRepositories(graphics = FALSE, ind = c(1, 2, 3, 4, 5))
   if (!method %in% deconvolution_methods) {
     base::stop(
       paste(
@@ -238,14 +237,23 @@ check_and_install <- function(method) {
   packages <- required_packages[[method]]
   github_pkgs <- grep("^.*?/.*?$", packages, value = TRUE)
   cran_pkgs <- packages[!(packages %in% github_pkgs)]
+  repositories_set <- FALSE
   sapply(cran_pkgs, function(pkgname) {
     if (!requireNamespace(pkgname, quietly = TRUE)) {
+      if (!repositories_set) {
+        utils::setRepositories(graphics = FALSE, ind = c(1, 2, 3, 4, 5))
+        repositories_set <- TRUE
+      }
       utils::install.packages(pkgname)
     }
   })
   sapply(github_pkgs, function(pkgname) {
     bare_pkgname <- sub(".*?/", "", pkgname)
     if (!requireNamespace(bare_pkgname, quietly = TRUE)) {
+      if (!repositories_set) {
+        utils::setRepositories(graphics = FALSE, ind = c(1, 2, 3, 4, 5))
+        repositories_set <- TRUE
+      }
       remotes::install_github(pkgname)
     }
   })

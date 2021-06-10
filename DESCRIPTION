@@ -20,7 +20,7 @@ Authors@R:
              email = "k.reinisch@campus.lmu.de"))
 Description: Collection of second generation methods for immune cell
     deconvolution from bulk RNA-seq samples.
-License: BSD_3_clause + file LICENSE.md
+License: BSD_3_clause + file LICENSE
 URL: https://github.com/icbi-lab/omnideconv
 Depends:
     R (>= 4.0.0)

@@ -43,6 +43,9 @@
     <loc>https://icbi-lab.github.io/omnideconv/reference/build_signature_matrix_using_Seurat.html</loc>
   </url>
   <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/build_signature_matrix_using_mast.html</loc>
+  </url>
+  <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/bulk.html</loc>
   </url>
   <url>
@@ -65,6 +68,9 @@
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/de_analysis.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/de_analysis_mast.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute.html</loc>

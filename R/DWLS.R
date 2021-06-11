@@ -291,7 +291,7 @@ find_dampening_constant <- function(S, B, gold_standard) {
     }
 
     solutions_sd <-
-      base::cbind(solutions_sd, base::apply(solutions, 1, sd))
+      base::cbind(solutions_sd, base::apply(solutions, 1, stats::sd))
   }
   # choose dampening constant that results in least cross-validation variance
   j <- which.min(base::colMeans(solutions_sd^2))

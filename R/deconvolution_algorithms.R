@@ -47,7 +47,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
   check_and_install(method)
 
   if (class(single_cell_object)[[1]] == "AnnDataR6") {
-    single_cell_object <- anndata_to_singlecellexperiment(ad)
+    single_cell_object <- anndata_to_singlecellexperiment(single_cell_object)
   }
 
   if (class(single_cell_object)[[1]] == "SingleCellExperiment") {
@@ -142,7 +142,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   check_and_install(method)
 
   if (class(single_cell_object)[[1]] == "AnnDataR6") {
-    single_cell_object <- anndata_to_singlecellexperiment(ad)
+    single_cell_object <- anndata_to_singlecellexperiment(single_cell_object)
   }
 
   if (class(single_cell_object)[[1]] == "SingleCellExperiment") {

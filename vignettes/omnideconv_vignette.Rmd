@@ -16,8 +16,8 @@ knitr::opts_chunk$set(
   fig.dpi = 96,
   collapse = TRUE,
   comment = "#>",
-  tidy.opts=list(width.cutoff=60),
-  tidy=TRUE,
+  tidy.opts = list(width.cutoff = 60),
+  tidy = TRUE,
   message = FALSE,
   warning = FALSE
 )
@@ -156,21 +156,21 @@ library(ggplot2)
 To give you a feeling for the data, this is what a few rows and columns of our small single cell RNA-seq dataset look like. This specific selection of rows and columns was performed as the first rows and columns just show zeros. Do not be alarmed by a great number of zeros in your single cell data, this is normal:
 
 ```{r showSc}
-knitr::kable(single_cell_data[170:175, 9:13], caption="Table 1: Example of TPM-normalized single cell data.")
+knitr::kable(single_cell_data[170:175, 9:13], caption = "Table 1: Example of TPM-normalized single cell data.")
 ```
 
 Now we build the signature matrix with Bisque and look at the values for the first few genes. 
 
 ```{r signatureExample}
 signatureMatrix <- omnideconv::build_model(single_cell_data, cell_type_annotations, "bisque")
-knitr::kable(signatureMatrix[1:5,], caption = "Table 2: Signature matrix created with Bisque.")
+knitr::kable(signatureMatrix[1:5, ], caption = "Table 2: Signature matrix created with Bisque.")
 ```
 
 We can use this signature matrix to run the deconvolution with Bisque.
 
 ```{r deconvExample}
 omnideconv::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations) %>%
-knitr::kable(caption = "Table 3: Deconvoluted cell type proportions calculated with Bisque and the signature matrix from the last step.")
+  knitr::kable(caption = "Table 3: Deconvoluted cell type proportions calculated with Bisque and the signature matrix from the last step.")
 ```
 
 ## Plot Results
@@ -187,24 +187,29 @@ omnideconv::plotDeconvResult(res_bisque, method = "Bisque")
 The scatterplot shown below depicts the same results and message as the barplot above, it is just another idea of how to visualize the results. Note that our package does not provide a method for this, but the plot can be recreated with this code.
 
 ```{r plot2, fig.width=7, fig.height=4, fig.cap="Figure 3: Same cell type proportions as in Figure 2, just visualized on a cell type level."}
-data.frame(res_bisque, samples= rownames(res_bisque)) %>% pivot_longer(!samples, names_to ="cell_type", values_to="predicted_fraction") %>%
-ggplot(aes(y=samples, x=predicted_fraction, color=cell_type))+geom_point(size=3)+facet_wrap(~cell_type)+labs(title="Bisque", y="sample", x="predicted fraction", color="cell type")+scale_fill_brewer(palette="Paired")
+data.frame(res_bisque, samples = rownames(res_bisque)) %>%
+  pivot_longer(!samples, names_to = "cell_type", values_to = "predicted_fraction") %>%
+  ggplot(aes(y = samples, x = predicted_fraction, color = cell_type)) +
+  geom_point(size = 3) +
+  facet_wrap(~cell_type) +
+  labs(title = "Bisque", y = "sample", x = "predicted fraction", color = "cell type") +
+  scale_fill_brewer(palette = "Paired")
 ```
 
 In the next figures you can see how the other methods are used and how the cell proportions would be distributed based on their calculations. Interestingly, the predicted cell fractions differ a lot between the methods. This is further addressed in section 4.
 
 ```{r otherMethods, fig.width=7, fig.height=4, results='hide', eval=FALSE}
 res_momf <- omnideconv::build_model(single_cell_data, cell_type_annotations, "momf", bulk) %>%
-omnideconv::deconvolute(bulk_gene_expression = bulk, method = "momf", single_cell_object = single_cell_data)
+  omnideconv::deconvolute(bulk_gene_expression = bulk, method = "momf", single_cell_object = single_cell_data)
 omnideconv::plotDeconvResult(res_momf, method = "MOMF")
 res_scaden <- omnideconv::build_model(single_cell_object = single_cell_data, cell_type_annotations = cell_type_annotations, method = "scaden", bulk) %>%
- omnideconv::deconvolute(bulk_gene_expression = bulk, method = "scaden", single_cell_object = single_cell_data)
+  omnideconv::deconvolute(bulk_gene_expression = bulk, method = "scaden", single_cell_object = single_cell_data)
 omnideconv::plotDeconvResult(res_scaden, method = "Scaden")
 res_dwls <- omnideconv::build_model(single_cell_data, cell_type_annotations, "dwls") %>%
-omnideconv::deconvolute(bulk_gene_expression = bulk, method = "dwls")
+  omnideconv::deconvolute(bulk_gene_expression = bulk, method = "dwls")
 omnideconv::plotDeconvResult(res_dwls, method = "DWLS")
 res_ciber <- omnideconv::build_model(single_cell_data, cell_type_annotations, "cibersortx") %>%
-omnideconv::deconvolute(bulk_gene_expression = bulk, method = "cibersortx")
+  omnideconv::deconvolute(bulk_gene_expression = bulk, method = "cibersortx")
 omnideconv::plotDeconvResult(res_ciber, method = "CibersortX")
 ```
 ```{r plots, echo=FALSE, out.width="80%", fig.align='center'}
@@ -299,7 +304,7 @@ Scaden is an exception as it does not produce a signature matrix but a perceptro
 It is now possible to use every method which takes in a signature matrix (everything except Scaden) with all other signature methods. This is done by intersecting the genes of the bulk data, single cell data and the signature matrix. In theory, this should not remove any data, as most methods are unable to run with a different number of genes in the signature matrix and the rest of the data. Nevertheless, this property should be evaluated when the whole packages is benchmarked in detail.
 
 ```{r benchmarkingInterchangeMatrix, echo=FALSE}
-knitr::kable(data.frame(Deconv_method=c("Bisque", "CibersortX", "DWLS", "MOMF", "Scaden"), Bisque=c("yes", "(yes)", "(yes)", "yes", "-"), CibersortX=c("yes", "yes", "yes", "yes", "-"), DWLS=c("yes", "yes", "yes", "yes", "-"), MOMF=c("yes", "(yes)", "(yes)", "yes", "-"), Scaden=c("-", "-", "-", "-", "yes")), caption = "Table 5: Interchangeability table: Row names determine the deconvolution method, column names determine which tool is used to build the signature matrix. '(yes)' indicates that intersecting the genes of bulk data, single cell data and signature matrix is necessary.")
+knitr::kable(data.frame(Deconv_method = c("Bisque", "CibersortX", "DWLS", "MOMF", "Scaden"), Bisque = c("yes", "(yes)", "(yes)", "yes", "-"), CibersortX = c("yes", "yes", "yes", "yes", "-"), DWLS = c("yes", "yes", "yes", "yes", "-"), MOMF = c("yes", "(yes)", "(yes)", "yes", "-"), Scaden = c("-", "-", "-", "-", "yes")), caption = "Table 5: Interchangeability table: Row names determine the deconvolution method, column names determine which tool is used to build the signature matrix. '(yes)' indicates that intersecting the genes of bulk data, single cell data and signature matrix is necessary.")
 ```
 
 ```{r benchmarkingInterchangePlots, echo=FALSE, out.width="45%"}
@@ -323,4 +328,3 @@ We regularly met and were all involved in the general decision making process. T
 
 
 # 6. Reference
-

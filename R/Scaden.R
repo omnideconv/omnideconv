@@ -113,6 +113,7 @@ install_scaden <- function() {
 #' @param steps Number of training steps
 #' @param verbose Defines verbosity of function call (default: false)
 #'
+#'
 #' @return Scaden model
 #'
 scaden_train <- function(h5ad_processed, batch_size = 128, learning_rate = 0.0001,

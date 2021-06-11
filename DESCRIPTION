@@ -2,67 +2,70 @@ Package: omnideconv
 Title: Second generation methods for immune cell deconvolution
 Version: 0.0.0.9000
 Authors@R: 
-   c(person(given = "Konstantin",
-           family = "Pelz",
-           role = c("aut", "cre"),
-           email = "konstantin.pelz@online.de"),
-    person(given = "Nicolas",
-           family = "Goedert",
-           role = c("aut"),
-           email = "nicolasgoedert1997@gmail.com"),
-    person(given = "Yuyu",
-           family = "Liang",
-           role = c("aut"),
-           email = "yuyuleung0903@yahoo.com"),
-    person(given = "Katharina",
-           family = "Reinisch",
-           role = c("aut"),
-           email = "k.reinisch@campus.lmu.de"))
-Description: Collection of second generation methods for immune cell deconvolution from bulk RNA-seq samples
-License: BSD_3_clause + file LICENSE.md
-Encoding: UTF-8
-LazyData: true
+    c(person(given = "Konstantin",
+             family = "Pelz",
+             role = c("aut", "cre"),
+             email = "konstantin.pelz@online.de"),
+      person(given = "Nicolas",
+             family = "Goedert",
+             role = "aut",
+             email = "nicolasgoedert1997@gmail.com"),
+      person(given = "Yuyu",
+             family = "Liang",
+             role = "aut",
+             email = "yuyuleung0903@yahoo.com"),
+      person(given = "Katharina",
+             family = "Reinisch",
+             role = "aut",
+             email = "k.reinisch@campus.lmu.de"))
+Description: Collection of second generation methods for immune cell
+    deconvolution from bulk RNA-seq samples.
+License: BSD_3_clause + file LICENSE
 URL: https://github.com/icbi-lab/omnideconv
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
-Config/testthat/edition: 2
 Depends:
-   R (>= 4.0.0)
-biocViews:
+    R (>= 4.0.0)
 Imports: 
-    matlib,
-    BisqueRNA,
-    limSolve,
-    methods,
-    reticulate,
     anndata,
+    assertthat,
+    Biobase,
+    dplyr,
+    ggplot2,
+    matlib,
+    methods,
+    pkgdown,
+    RColorBrewer,
+    readr,
+    remotes,
+    S4Vectors,
+    Seurat,
+    SingleCellExperiment,
+    stringr,
+    SummarizedExperiment,
+    tidyr,
+    utils
+Suggests: 
+    BisqueRNA,
+    devtools,
+    e1071,
+    knitr,
+    limSolve,
+    magrittr,
+    MAST,
+    MOMF,
     quadprog,
     reshape,
-    e1071,
-    Seurat,
-    ROCR,
-    varhandle,
-    MAST,
-    stringr,
-    MOMF,
-    SummarizedExperiment,
-    Biobase,
-    SingleCellExperiment,
-    S4Vectors,
-    pkgdown,
-    assertthat,
-    ggplot2,
-    RColorBrewer,
-    dplyr,
-    tidyr,
-    readr,
-    magrittr
-Suggests: 
-    testthat (>= 2.0.0),
-    knitr,
+    reticulate,
     rmarkdown,
-    devtools
+    ROCR,
+    testthat (>= 2.0.0),
+    varhandle
+VignetteBuilder: 
+    knitr
 Remotes:
     grst/MOMF
-VignetteBuilder: knitr
-
+biocViews:
+Config/testthat/edition: 2
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1

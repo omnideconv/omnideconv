@@ -31,7 +31,7 @@ The basic workflow is the following:
 ### 1. Build a Signature Matrix
 
 ``` r
-omnideconv::build_model(single_cell_data, cell_type_annotations, 
+omnideconv::build_model(single_cell_data, cell_type_annotations,
     method = "dwls")
 ```
 
@@ -60,16 +60,16 @@ listed above.
 This is, what the cell type properties in your bulk RNA-seq data
 computed in the deconvolution step could look like:
 
-|               |  B cell | Macrophage | Monocyte conventional | Monocyte non-conventional | NK cell | T cell CD4 | T cell CD8 | T cell dividing | T cell regulatory |
-|:--------------|--------:|-----------:|----------------------:|--------------------------:|--------:|-----------:|-----------:|----------------:|------------------:|
-| HD30\_PBMC\_0 | 0.12816 |          0 |               0.51934 |                   0.13378 | 0.18987 |    0.00000 |    0.00561 |               0 |           0.02325 |
-| HD30\_PBMC\_1 | 0.09559 |          0 |               0.67510 |                   0.00696 | 0.19640 |    0.00000 |    0.00000 |               0 |           0.02595 |
-| HD30\_PBMC\_3 | 0.17181 |          0 |               0.51368 |                   0.05744 | 0.16574 |    0.07258 |    0.00000 |               0 |           0.01876 |
-| HD30\_PBMC\_7 | 0.28474 |          0 |               0.44150 |                   0.03053 | 0.17612 |    0.05122 |    0.00000 |               0 |           0.01590 |
-| HD31\_PBMC\_0 | 0.08652 |          0 |               0.71617 |                   0.00000 | 0.05495 |    0.10743 |    0.02555 |               0 |           0.00937 |
-| HD31\_PBMC\_1 | 0.09561 |          0 |               0.68077 |                   0.00000 | 0.04447 |    0.14894 |    0.02204 |               0 |           0.00818 |
-| HD31\_PBMC\_3 | 0.05961 |          0 |               0.71674 |                   0.00000 | 0.05728 |    0.12130 |    0.02990 |               0 |           0.01516 |
-| HD31\_PBMC\_7 | 0.06928 |          0 |               0.69114 |                   0.00000 | 0.07708 |    0.08902 |    0.04345 |               0 |           0.03003 |
+|               |    B cell | Macrophage | Monocyte conventional | Monocyte non-conventional |   NK cell | T cell CD4 | T cell CD8 | T cell dividing | T cell regulatory |
+|:--------------|----------:|-----------:|----------------------:|--------------------------:|----------:|-----------:|-----------:|----------------:|------------------:|
+| HD30\_PBMC\_0 | 0.0800780 |      0e+00 |             0.2764050 |                 0.1427114 | 0.1385384 |  0.3316996 |  0.0277395 |       0.0026353 |         0.0001929 |
+| HD30\_PBMC\_1 | 0.0735586 |      1e-06 |             0.3554604 |                 0.1236851 | 0.1253645 |  0.2968113 |  0.0243933 |       0.0007228 |         0.0000029 |
+| HD30\_PBMC\_3 | 0.0862939 |      0e+00 |             0.2591685 |                 0.1246382 | 0.1305280 |  0.3595342 |  0.0360420 |       0.0037421 |         0.0000530 |
+| HD30\_PBMC\_7 | 0.1156300 |      0e+00 |             0.3316376 |                 0.0226567 | 0.1140384 |  0.3596168 |  0.0545500 |       0.0017350 |         0.0001355 |
+| HD31\_PBMC\_0 | 0.1141260 |      3e-07 |             0.4713667 |                 0.0024376 | 0.0511600 |  0.3026050 |  0.0571770 |       0.0010128 |         0.0001147 |
+| HD31\_PBMC\_1 | 0.1143393 |      0e+00 |             0.4559677 |                 0.0000000 | 0.0408233 |  0.3235003 |  0.0651854 |       0.0001089 |         0.0000752 |
+| HD31\_PBMC\_3 | 0.0865631 |      0e+00 |             0.4423767 |                 0.0000000 | 0.0486223 |  0.3520335 |  0.0686691 |       0.0015950 |         0.0001403 |
+| HD31\_PBMC\_7 | 0.0930244 |      0e+00 |             0.4262222 |                 0.0000000 | 0.0583644 |  0.3587579 |  0.0632944 |       0.0000000 |         0.0003367 |
 
 ### Learn More
 
@@ -98,7 +98,7 @@ the list below.
     <https://doi.org/10.1038/s41467-019-10802-z>
 -   MOMF: Xifang Sun, Shiquan Sun, and Sheng Yang. An efficient and
     flexible method for deconvoluting bulk RNAseq data with single-cell
-    RNAseq data, 2019, DOI: 10.5281/zenodo.3373980
+    RNAseq data, 2019, DIO: 10.5281/zenodo.3373980
 -   Scaden: Menden, K., Marouf, M., Oller, S., Dalmia, A., Kloiber, K.,
     Heutink, P., & Bonn, S. (n.d.). Deep-learning-based cell composition
     analysis from tissue expression profiles.

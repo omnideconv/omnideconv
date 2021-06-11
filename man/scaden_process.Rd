@@ -11,7 +11,8 @@ scaden_process(h5ad, bulk_data, var_cutoff = NULL, verbose = FALSE)
 
 \item{bulk_data}{Bulk RNA-seq data. (genes x individuals)}
 
-\item{var_cutoff}{Filter out genes with a variance less than the specified cutoff. A low cutoff is recommended,this should only remove genes that are obviously uninformative.}
+\item{var_cutoff}{Filter out genes with a variance less than the specified cutoff. A low cutoff
+is recommended,this should only remove genes that are obviously uninformative.}
 
 \item{verbose}{Defines verbosity of function call (default: false)}
 }

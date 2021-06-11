@@ -21,8 +21,11 @@ deconvolute_dwls(
 \item{verbose}{Whether the algorithm should print out what it is doing.}
 }
 \value{
-A list. Slot bulk.props contains a matrix of cell type proportion estimates with cell types as rows and individuals as columns.
+A list. Slot bulk.props contains a matrix of cell type proportion estimates with cell
+types as rows and individuals as columns.
 }
 \description{
-Generates a reference profile based on single-cell data. Learns a transformation of bulk expression based  on  observed  single-cell  proportions  and  performs  NNLS  regression  on  these  transformed values to estimate cell proportions.
+generates a reference profile based on single-cell data. Learns a transformation of bulk
+expression based on observed single-cell proportions and performs NNLS regression on these
+transformed values to estimate cell proportions.
 }

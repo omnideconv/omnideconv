@@ -2,36 +2,41 @@
 % Please edit documentation in R/DWLS.R
 \name{build_model_dwls}
 \alias{build_model_dwls}
-\title{Signature matrix creation with DWLS using genes identified by DEAnalysisMAST()}
+\title{Signature matrix creation with DWLS using genes identified by de_analysis_mast()}
 \usage{
 build_model_dwls(
   scdata,
   id,
-  method = c("MAST", "Seurat"),
+  method = c("mast", "seurat"),
   path,
   verbose = FALSE,
-  diff.cutoff = 0.5,
-  pval.cutoff = 0.01
+  diff_cutoff = 0.5,
+  pval_cutoff = 0.01
 )
 }
 \arguments{
-\item{scdata}{A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.}
+\item{scdata}{A matrix or dataframe with the single-cell data. Rows are genes, columns are
+samples. Row and column names need to be set.}
 
-\item{id}{A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object}
+\item{id}{A Vector of the cell type annotations. Has to be in the same order as the samples in
+single_cell_object}
 
-\item{method}{The method used to create the signature matrix. Options are "MAST" and "Seurat"}
+\item{method}{The method used to create the signature matrix. Options are "mast" and "seurat"}
 
-\item{path}{The path where the generated files will be saved. If path=NULL, the generated files will be discarded.}
+\item{path}{The path where the generated files will be saved. If path=NULL, the generated files
+will be discarded.}
 
 \item{verbose}{Whether to output what DWLS is doing}
 
-\item{diff.cutoff}{Cutoff to determine the FC-limit. How low can the lowest fold change be to still be considered differentially expressed?}
+\item{diff_cutoff}{Cutoff to determine the FC-limit. How low can the lowest fold change be to
+still be considered differentially expressed?}
 
-\item{pval.cutoff}{Cutoff to determine the pVal-limit. How high can the highest p-Value be to still be considered statistically significant?}
+\item{pval_cutoff}{Cutoff to determine the pVal-limit. How high can the highest p-Value be to
+still be considered statistically significant?}
 }
 \value{
 The signature matrix. Rows are genes, columns are cell types.
 }
 \description{
-Signature matrix creation with DWLS using genes identified by DEAnalysisMAST()
+Signature matrix creation with DWLS using genes identified by de_analysis_mast()
 }

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Simulates training data from scRNA data — scaden_simulate • omnideconv</title>
+<title>Performing DE analysis using Seurat — de_analysis • omnideconv</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Simulates training data from scRNA data — scaden_simulate" />
-<meta property="og:description" content="Simulates training data from scRNA data" />
+<meta property="og:title" content="Performing DE analysis using Seurat — de_analysis" />
+<meta property="og:description" content="When path = NULL, the generated files in the processes will not be saved and output" />
 
 
 
@@ -120,63 +120,37 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Simulates training data from scRNA data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/Scaden.R'><code>R/Scaden.R</code></a></small>
-    <div class="hidden name"><code>scaden_simulate.Rd</code></div>
+    <h1>Performing DE analysis using Seurat</h1>
+    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/DWLS.R'><code>R/DWLS.R</code></a></small>
+    <div class="hidden name"><code>de_analysis.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Simulates training data from scRNA data</p>
+    <p>When path = NULL, the generated files in the processes will not be saved and output</p>
     </div>
 
-    <pre class="usage"><span class='fu'>scaden_simulate</span><span class='op'>(</span>
-  <span class='va'>celltype_labels</span>,
-  <span class='va'>gene_labels</span>,
-  <span class='va'>single_cell_object</span>,
-  cells <span class='op'>=</span> <span class='fl'>100</span>,
-  samples <span class='op'>=</span> <span class='fl'>1000</span>,
-  dataset_name <span class='op'>=</span> <span class='st'>"scaden"</span>,
-  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>de_analysis</span><span class='op'>(</span><span class='va'>scdata</span>, <span class='va'>id</span>, path <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>celltype_labels</th>
-      <td><p>Vector of celltype labels. Order corresponds to rows in
-single_cell_object matrix.</p></td>
+      <th>scdata</th>
+      <td><p>The single cell data matrix</p></td>
     </tr>
     <tr>
-      <th>gene_labels</th>
-      <td><p>Vector of gene labels. Order corresponds to columns in
-single_cell_object matrix.</p></td>
+      <th>id</th>
+      <td><p>A Vector of the cell type annotations</p></td>
     </tr>
     <tr>
-      <th>single_cell_object</th>
-      <td><p>Matrix or dataframe of scRNA data. Rows=cells and columns=genes</p></td>
-    </tr>
-    <tr>
-      <th>cells</th>
-      <td><p>Bulk simulation: Number of cells per sample (default: 100)</p></td>
-    </tr>
-    <tr>
-      <th>samples</th>
-      <td><p>Bulk simulation: Number of samples to simulate (default: 1000)</p></td>
-    </tr>
-    <tr>
-      <th>dataset_name</th>
-      <td><p>Name of dataset</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>Defines verbosity of function call (default: false)</p></td>
+      <th>path</th>
+      <td><p>OPTIONAL path for saving generated files</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Simulated bulk data of known cell type fractions</p>
+    <p>List with the differentially expressed genes for each cell type</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

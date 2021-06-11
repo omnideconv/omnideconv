@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Signature matrix creation with DWLS using genes identified by DEAnalysisMAST() — build_model_dwls • omnideconv</title>
+<title>Signature matrix creation with DWLS using genes identified by de_analysis_mast() — build_model_dwls • omnideconv</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Signature matrix creation with DWLS using genes identified by DEAnalysisMAST() — build_model_dwls" />
-<meta property="og:description" content="Signature matrix creation with DWLS using genes identified by DEAnalysisMAST()" />
+<meta property="og:title" content="Signature matrix creation with DWLS using genes identified by de_analysis_mast() — build_model_dwls" />
+<meta property="og:description" content="Signature matrix creation with DWLS using genes identified by de_analysis_mast()" />
 
 
 
@@ -120,23 +120,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Signature matrix creation with DWLS using genes identified by DEAnalysisMAST()</h1>
+    <h1>Signature matrix creation with DWLS using genes identified by de_analysis_mast()</h1>
     <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/DWLS.R'><code>R/DWLS.R</code></a></small>
     <div class="hidden name"><code>build_model_dwls.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Signature matrix creation with DWLS using genes identified by DEAnalysisMAST()</p>
+    <p>Signature matrix creation with DWLS using genes identified by de_analysis_mast()</p>
     </div>
 
     <pre class="usage"><span class='fu'>build_model_dwls</span><span class='op'>(</span>
   <span class='va'>scdata</span>,
   <span class='va'>id</span>,
-  method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"MAST"</span>, <span class='st'>"Seurat"</span><span class='op'>)</span>,
+  method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mast"</span>, <span class='st'>"seurat"</span><span class='op'>)</span>,
   <span class='va'>path</span>,
   verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  diff.cutoff <span class='op'>=</span> <span class='fl'>0.5</span>,
-  pval.cutoff <span class='op'>=</span> <span class='fl'>0.01</span>
+  diff_cutoff <span class='op'>=</span> <span class='fl'>0.5</span>,
+  pval_cutoff <span class='op'>=</span> <span class='fl'>0.01</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -144,31 +144,36 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>scdata</th>
-      <td><p>A matrix or dataframe with the single-cell data. Rows are genes, columns are samples. Row and column names need to be set.</p></td>
+      <td><p>A matrix or dataframe with the single-cell data. Rows are genes, columns are
+samples. Row and column names need to be set.</p></td>
     </tr>
     <tr>
       <th>id</th>
-      <td><p>A Vector of the cell type annotations. Has to be in the same order as the samples in single_cell_object</p></td>
+      <td><p>A Vector of the cell type annotations. Has to be in the same order as the samples in
+single_cell_object</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>The method used to create the signature matrix. Options are "MAST" and "Seurat"</p></td>
+      <td><p>The method used to create the signature matrix. Options are "mast" and "seurat"</p></td>
     </tr>
     <tr>
       <th>path</th>
-      <td><p>The path where the generated files will be saved. If path=NULL, the generated files will be discarded.</p></td>
+      <td><p>The path where the generated files will be saved. If path=NULL, the generated files
+will be discarded.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
       <td><p>Whether to output what DWLS is doing</p></td>
     </tr>
     <tr>
-      <th>diff.cutoff</th>
-      <td><p>Cutoff to determine the FC-limit. How low can the lowest fold change be to still be considered differentially expressed?</p></td>
+      <th>diff_cutoff</th>
+      <td><p>Cutoff to determine the FC-limit. How low can the lowest fold change be to
+still be considered differentially expressed?</p></td>
     </tr>
     <tr>
-      <th>pval.cutoff</th>
-      <td><p>Cutoff to determine the pVal-limit. How high can the highest p-Value be to still be considered statistically significant?</p></td>
+      <th>pval_cutoff</th>
+      <td><p>Cutoff to determine the pVal-limit. How high can the highest p-Value be to
+still be considered statistically significant?</p></td>
     </tr>
     </table>
 

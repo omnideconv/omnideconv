@@ -12,7 +12,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Second generation methods for immune cell deconvolution">
-<meta property="og:description" content="Collection of second generation methods for immune cell deconvolution from bulk RNA-seq samples">
+<meta property="og:description" content="Collection of second generation methods for immune cell
+    deconvolution from bulk RNA-seq samples.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -101,7 +102,7 @@
 <h3 class="hasAnchor">
 <a href="#1-build-a-signature-matrix" class="anchor"></a>1. Build a Signature Matrix</h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, 
+<code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>,
     method <span class="op">=</span> <span class="st">"dwls"</span><span class="op">)</span></code></pre></div>
 <p>In this method, single_cell_data is a matrix of single cell RNA-seq data with genes in rows and cells in columns, cell_type_annotations a vector that contains an annotation for each cell in your single_cell_data, and the possible methods are:</p>
 <ul>
@@ -122,15 +123,15 @@
 <table class="table">
 <colgroup>
 <col width="9%">
-<col width="5%">
+<col width="6%">
 <col width="7%">
 <col width="14%">
-<col width="17%">
-<col width="5%">
+<col width="16%">
+<col width="6%">
 <col width="7%">
 <col width="7%">
 <col width="10%">
-<col width="12%">
+<col width="11%">
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
@@ -147,99 +148,99 @@
 <tbody>
 <tr class="odd">
 <td align="left">HD30_PBMC_0</td>
-<td align="right">0.12816</td>
-<td align="right">0</td>
-<td align="right">0.51934</td>
-<td align="right">0.13378</td>
-<td align="right">0.18987</td>
-<td align="right">0.00000</td>
-<td align="right">0.00561</td>
-<td align="right">0</td>
-<td align="right">0.02325</td>
+<td align="right">0.0800780</td>
+<td align="right">0e+00</td>
+<td align="right">0.2764050</td>
+<td align="right">0.1427114</td>
+<td align="right">0.1385384</td>
+<td align="right">0.3316996</td>
+<td align="right">0.0277395</td>
+<td align="right">0.0026353</td>
+<td align="right">0.0001929</td>
 </tr>
 <tr class="even">
 <td align="left">HD30_PBMC_1</td>
-<td align="right">0.09559</td>
-<td align="right">0</td>
-<td align="right">0.67510</td>
-<td align="right">0.00696</td>
-<td align="right">0.19640</td>
-<td align="right">0.00000</td>
-<td align="right">0.00000</td>
-<td align="right">0</td>
-<td align="right">0.02595</td>
+<td align="right">0.0735586</td>
+<td align="right">1e-06</td>
+<td align="right">0.3554604</td>
+<td align="right">0.1236851</td>
+<td align="right">0.1253645</td>
+<td align="right">0.2968113</td>
+<td align="right">0.0243933</td>
+<td align="right">0.0007228</td>
+<td align="right">0.0000029</td>
 </tr>
 <tr class="odd">
 <td align="left">HD30_PBMC_3</td>
-<td align="right">0.17181</td>
-<td align="right">0</td>
-<td align="right">0.51368</td>
-<td align="right">0.05744</td>
-<td align="right">0.16574</td>
-<td align="right">0.07258</td>
-<td align="right">0.00000</td>
-<td align="right">0</td>
-<td align="right">0.01876</td>
+<td align="right">0.0862939</td>
+<td align="right">0e+00</td>
+<td align="right">0.2591685</td>
+<td align="right">0.1246382</td>
+<td align="right">0.1305280</td>
+<td align="right">0.3595342</td>
+<td align="right">0.0360420</td>
+<td align="right">0.0037421</td>
+<td align="right">0.0000530</td>
 </tr>
 <tr class="even">
 <td align="left">HD30_PBMC_7</td>
-<td align="right">0.28474</td>
-<td align="right">0</td>
-<td align="right">0.44150</td>
-<td align="right">0.03053</td>
-<td align="right">0.17612</td>
-<td align="right">0.05122</td>
-<td align="right">0.00000</td>
-<td align="right">0</td>
-<td align="right">0.01590</td>
+<td align="right">0.1156300</td>
+<td align="right">0e+00</td>
+<td align="right">0.3316376</td>
+<td align="right">0.0226567</td>
+<td align="right">0.1140384</td>
+<td align="right">0.3596168</td>
+<td align="right">0.0545500</td>
+<td align="right">0.0017350</td>
+<td align="right">0.0001355</td>
 </tr>
 <tr class="odd">
 <td align="left">HD31_PBMC_0</td>
-<td align="right">0.08652</td>
-<td align="right">0</td>
-<td align="right">0.71617</td>
-<td align="right">0.00000</td>
-<td align="right">0.05495</td>
-<td align="right">0.10743</td>
-<td align="right">0.02555</td>
-<td align="right">0</td>
-<td align="right">0.00937</td>
+<td align="right">0.1141260</td>
+<td align="right">3e-07</td>
+<td align="right">0.4713667</td>
+<td align="right">0.0024376</td>
+<td align="right">0.0511600</td>
+<td align="right">0.3026050</td>
+<td align="right">0.0571770</td>
+<td align="right">0.0010128</td>
+<td align="right">0.0001147</td>
 </tr>
 <tr class="even">
 <td align="left">HD31_PBMC_1</td>
-<td align="right">0.09561</td>
-<td align="right">0</td>
-<td align="right">0.68077</td>
-<td align="right">0.00000</td>
-<td align="right">0.04447</td>
-<td align="right">0.14894</td>
-<td align="right">0.02204</td>
-<td align="right">0</td>
-<td align="right">0.00818</td>
+<td align="right">0.1143393</td>
+<td align="right">0e+00</td>
+<td align="right">0.4559677</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0408233</td>
+<td align="right">0.3235003</td>
+<td align="right">0.0651854</td>
+<td align="right">0.0001089</td>
+<td align="right">0.0000752</td>
 </tr>
 <tr class="odd">
 <td align="left">HD31_PBMC_3</td>
-<td align="right">0.05961</td>
-<td align="right">0</td>
-<td align="right">0.71674</td>
-<td align="right">0.00000</td>
-<td align="right">0.05728</td>
-<td align="right">0.12130</td>
-<td align="right">0.02990</td>
-<td align="right">0</td>
-<td align="right">0.01516</td>
+<td align="right">0.0865631</td>
+<td align="right">0e+00</td>
+<td align="right">0.4423767</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0486223</td>
+<td align="right">0.3520335</td>
+<td align="right">0.0686691</td>
+<td align="right">0.0015950</td>
+<td align="right">0.0001403</td>
 </tr>
 <tr class="even">
 <td align="left">HD31_PBMC_7</td>
-<td align="right">0.06928</td>
-<td align="right">0</td>
-<td align="right">0.69114</td>
-<td align="right">0.00000</td>
-<td align="right">0.07708</td>
-<td align="right">0.08902</td>
-<td align="right">0.04345</td>
-<td align="right">0</td>
-<td align="right">0.03003</td>
+<td align="right">0.0930244</td>
+<td align="right">0e+00</td>
+<td align="right">0.4262222</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0583644</td>
+<td align="right">0.3587579</td>
+<td align="right">0.0632944</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0003367</td>
 </tr>
 </tbody>
 </table>
@@ -261,7 +262,7 @@
 </li>
 <li>DWLS: Tsoucas, D., Dong, R., Chen, H., Zhu, Q., Guo, G., &amp; Yuan, G.-C. (2019). Accurate estimation of cell-type composition from gene expression data. Nature Communications, 10(1), 2975. <a href="https://doi.org/10.1038/s41467-019-10802-z" class="uri">https://doi.org/10.1038/s41467-019-10802-z</a>
 </li>
-<li>MOMF: Xifang Sun, Shiquan Sun, and Sheng Yang. An efficient and flexible method for deconvoluting bulk RNAseq data with single-cell RNAseq data, 2019, DOI: 10.5281/zenodo.3373980</li>
+<li>MOMF: Xifang Sun, Shiquan Sun, and Sheng Yang. An efficient and flexible method for deconvoluting bulk RNAseq data with single-cell RNAseq data, 2019, DIO: 10.5281/zenodo.3373980</li>
 <li>Scaden: Menden, K., Marouf, M., Oller, S., Dalmia, A., Kloiber, K., Heutink, P., &amp; Bonn, S. (n.d.). Deep-learning-based cell composition analysis from tissue expression profiles. <a href="https://doi.org/10.1101/659227" class="uri">https://doi.org/10.1101/659227</a>
 </li>
 </ul>
@@ -280,8 +281,9 @@
 <div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
-<li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/BSD-3-Clause">BSD_3_clause</a> + file <a href="LICENSE-text.html">LICENSE</a>.md</small></li>
+<li>
+<a href="https://opensource.org/licenses/BSD-3-Clause">BSD_3_clause</a> + file <a href="LICENSE-text.html">LICENSE</a>
+</li>
 </ul>
 </div>
 <div class="developers">

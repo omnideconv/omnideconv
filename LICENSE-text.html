@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Simulates training data from scRNA data — scaden_simulate • omnideconv</title>
+<title>License • omnideconv</title>
 
 
 <!-- jquery -->
@@ -18,8 +18,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
-<link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script>
+<link rel="stylesheet" href="bootstrap-toc.css">
+<script src="bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
@@ -33,14 +33,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script>
+<link href="pkgdown.css" rel="stylesheet">
+<script src="pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Simulates training data from scRNA data — scaden_simulate" />
-<meta property="og:description" content="Simulates training data from scRNA data" />
+<meta property="og:title" content="License" />
 
 
 
@@ -59,7 +58,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-topic">
+    <div class="container template-title-body">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -71,7 +70,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">omnideconv</a>
+        <a class="navbar-link" href="index.html">omnideconv</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
       </span>
     </div>
@@ -79,13 +78,13 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
+  <a href="index.html">
     <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -95,7 +94,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/omnideconv_vignette.html">omnideconv_vignette</a>
+      <a href="articles/omnideconv_vignette.html">omnideconv_vignette</a>
     </li>
   </ul>
 </li>
@@ -118,73 +117,70 @@
       </header>
 
 <div class="row">
-  <div class="col-md-9 contents">
+  <div class="contents col-md-9">
     <div class="page-header">
-    <h1>Simulates training data from scRNA data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/Scaden.R'><code>R/Scaden.R</code></a></small>
-    <div class="hidden name"><code>scaden_simulate.Rd</code></div>
+      <h1>License</h1>
     </div>
 
-    <div class="ref-description">
-    <p>Simulates training data from scRNA data</p>
-    </div>
+<pre># License
 
-    <pre class="usage"><span class='fu'>scaden_simulate</span><span class='op'>(</span>
-  <span class='va'>celltype_labels</span>,
-  <span class='va'>gene_labels</span>,
-  <span class='va'>single_cell_object</span>,
-  cells <span class='op'>=</span> <span class='fl'>100</span>,
-  samples <span class='op'>=</span> <span class='fl'>1000</span>,
-  dataset_name <span class='op'>=</span> <span class='st'>"scaden"</span>,
-  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span></pre>
+This package is distributed under the BSD 3-clause license. Be aware that
+the methods included in this package may have different license conditions.
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>celltype_labels</th>
-      <td><p>Vector of celltype labels. Order corresponds to rows in
-single_cell_object matrix.</p></td>
-    </tr>
-    <tr>
-      <th>gene_labels</th>
-      <td><p>Vector of gene labels. Order corresponds to columns in
-single_cell_object matrix.</p></td>
-    </tr>
-    <tr>
-      <th>single_cell_object</th>
-      <td><p>Matrix or dataframe of scRNA data. Rows=cells and columns=genes</p></td>
-    </tr>
-    <tr>
-      <th>cells</th>
-      <td><p>Bulk simulation: Number of cells per sample (default: 100)</p></td>
-    </tr>
-    <tr>
-      <th>samples</th>
-      <td><p>Bulk simulation: Number of samples to simulate (default: 1000)</p></td>
-    </tr>
-    <tr>
-      <th>dataset_name</th>
-      <td><p>Name of dataset</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>Defines verbosity of function call (default: false)</p></td>
-    </tr>
-    </table>
+```
+Copyright 2018 Gregor Sturm
+Copyright 2018 Pieris Pharmaceuticals GmbH
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
-    <p>Simulated bulk data of known cell type fractions</p>
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+```
+
+## quanTIseq license
+
+```
+Copyright (c) 2017, Division of Bioinformatics, Innsbruck Medical University
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following
+   disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+```
+
+## TIMER license
+
+GPL v2.
+See https://github.com/hanfeisun/TIMER/blob/536c5cc992039b0b424d139183c750fa030bac73/LICENSE for the full text.
+
+## Other methods
+All other methods are provided as separate packages. Their respective license conditions apply.
+</pre>
 
   </div>
+
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
+
 </div>
+
 
 
       <footer>

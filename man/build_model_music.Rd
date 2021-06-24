@@ -5,9 +5,9 @@
 \title{Prepare Design matrix and Cross-subject Variance for MuSiC Deconvolution}
 \usage{
 build_model_music(
+  single_cell_object,
+  cell_type_annotations,
   bulk_gene_expression,
-  single_cell_object = NULL,
-  cell_type_annotations = NULL,
   non_zero = TRUE,
   markers = NULL,
   clusters = "cellType",
@@ -19,14 +19,14 @@ build_model_music(
 )
 }
 \arguments{
-\item{bulk_gene_expression}{A matrix or dataframe with the bulk data. Rows
-are genes, columns are samples.}
-
 \item{single_cell_object}{A Matrix with the single-cell data. Rows are genes
 and columns are samples.}
 
 \item{cell_type_annotations}{A Vector of the cell type annotations. Has to
 be in the same order as the samples in single_cell_object.}
+
+\item{bulk_gene_expression}{A matrix or dataframe with the bulk data. Rows
+are genes, columns are samples.}
 
 \item{non_zero}{logical, default as TRUE. If true, remove all gene with zero expression.}
 

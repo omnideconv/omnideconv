@@ -3,12 +3,12 @@
 #' This function is used for generating cell type specific cross-subject mean and variance for each
 #' gene. Cell type specific library size is also calculated.
 #'
-#' @param bulk_gene_expression A matrix or dataframe with the bulk data. Rows
-#'   are genes, columns are samples.
 #' @param single_cell_object A Matrix with the single-cell data. Rows are genes
 #'  and columns are samples.
 #' @param cell_type_annotations A Vector of the cell type annotations. Has to
 #'  be in the same order as the samples in single_cell_object.
+#' @param bulk_gene_expression A matrix or dataframe with the bulk data. Rows
+#'   are genes, columns are samples.
 #' @param non_zero logical, default as TRUE. If true, remove all gene with zero expression.
 #' @param markers vector or list of gene names. Default as NULL. If NULL, then use all genes
 #'  provided.
@@ -29,10 +29,10 @@
 #'     * gene by celltype matrix of cross-subject variation
 #'
 #' @export
-build_model_music <- function(bulk_gene_expression, single_cell_object = NULL,
-                              cell_type_annotations = NULL, non_zero = TRUE, markers = NULL,
-                              clusters = "cellType", samples = "SubjectName", select_ct = NULL,
-                              cell_size = NULL, ct_cov = FALSE, verbose = FALSE) {
+build_model_music <- function(single_cell_object, cell_type_annotations, bulk_gene_expression,
+                              non_zero = TRUE, markers = NULL, clusters = "cellType",
+                              samples = "SubjectName", select_ct = NULL, cell_size = NULL,
+                              ct_cov = FALSE, verbose = FALSE) {
   if (is.null(single_cell_object) || is.null(cell_type_annotations)) {
     base::stop(
       "Single cell object or cell type annotations not provided. Call as: ",
@@ -40,7 +40,10 @@ build_model_music <- function(bulk_gene_expression, single_cell_object = NULL,
       "cell_type_annotations)"
     )
   }
-  sc_eset <- omnideconv:::get_single_cell_expression_set(
+  if (is.null(bulk_gene_expression)) {
+    base::stop("'bulk_gene_expression' argument is required for MuSiC")
+  }
+  sc_eset <- get_single_cell_expression_set(
     single_cell_object, colnames(single_cell_object),
     rownames(single_cell_object), cell_type_annotations
   )
@@ -53,7 +56,7 @@ build_model_music <- function(bulk_gene_expression, single_cell_object = NULL,
   } else {
     sc_markers <- intersect(bulk_gene, unlist(markers))
   }
-  sc_basis <- music_basis(sc_eset,
+  sc_basis <- MuSiC::music_basis(sc_eset,
     non.zero = non_zero, markers = sc_markers, clusters = clusters,
     samples = samples, select.ct = select_ct, cell_size = cell_size,
     ct.cov = ct_cov, verbose = verbose
@@ -139,7 +142,7 @@ deconvolute_music <- function(bulk_gene_expression, signature_data, markers = NU
     names(M.S) <- my_ms_names
   }
 
-  Yjg <- relative.ab(exprs(bulk_eset)[m.bulk, ])
+  Yjg <- MuSiC::relative.ab(exprs(bulk_eset)[m.bulk, ])
   N.bulk <- ncol(bulk_eset)
   if (ct_cov) {
     Sigma.ct <- signature_data$Sigma.ct[, m.sc]
@@ -163,7 +166,7 @@ deconvolute_music <- function(bulk_gene_expression, signature_data, markers = NU
         if (verbose) message(paste(colnames(Yjg)[i], "has common genes", sum(Yjg[, i] != 0), "..."))
       }
 
-      lm.D1.weighted <- music.iter.ct(Yjg.temp, D1.temp, M.S, Sigma.ct.temp,
+      lm.D1.weighted <- MuSiC::music.iter.ct(Yjg.temp, D1.temp, M.S, Sigma.ct.temp,
         iter.max = iter.max,
         nu = nu, eps = eps, centered = centered, normalize = normalize
       )
@@ -210,7 +213,7 @@ deconvolute_music <- function(bulk_gene_expression, signature_data, markers = NU
         if (verbose) message(paste(colnames(Yjg)[i], "has common genes", sum(Yjg[, i] != 0), "..."))
       }
 
-      lm.D1.weighted <- music.iter(Yjg.temp, D1.temp, M.S, Sigma.temp,
+      lm.D1.weighted <- MuSiC::music.iter(Yjg.temp, D1.temp, M.S, Sigma.temp,
         iter.max = iter.max,
         nu = nu, eps = eps, centered = centered, normalize = normalize
       )

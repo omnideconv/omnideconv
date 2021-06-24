@@ -197,8 +197,10 @@ file.remove(paste0(root, "/mixture_file_for_cibersort.txt"))
 # res.to_csv("autogenes_result_small.csv",sep="\t")
 
 ## MuSiC
-result_music <- music_prop(bulk.eset = bulk_expression_set,sc.eset = single_cell_expression_set,
-                     clusters = "cellType", samples = "SubjectName")$Est.prop.weighted
+result_music <- music_prop(
+  bulk.eset = bulk_expression_set, sc.eset = single_cell_expression_set,
+  clusters = "cellType", samples = "SubjectName"
+)$Est.prop.weighted
 result_music <- result_music[, order(colnames(result_music))]
 utils::write.csv(result_music, "test_results/music_result_small.csv")
 

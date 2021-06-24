@@ -31,9 +31,8 @@
 #' @export
 build_model_music <- function(bulk_gene_expression, single_cell_object = NULL,
                               cell_type_annotations = NULL, non_zero = TRUE, markers = NULL,
-                              clusters = 'cellType', samples = 'SubjectName', select_ct = NULL,
-                              cell_size = NULL, ct_cov = FALSE, verbose = FALSE){
-
+                              clusters = "cellType", samples = "SubjectName", select_ct = NULL,
+                              cell_size = NULL, ct_cov = FALSE, verbose = FALSE) {
   if (is.null(single_cell_object) || is.null(cell_type_annotations)) {
     base::stop(
       "Single cell object or cell type annotations not provided. Call as: ",
@@ -47,16 +46,18 @@ build_model_music <- function(bulk_gene_expression, single_cell_object = NULL,
   )
   bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
 
-  bulk_gene = rownames(bulk_eset)[rowMeans(exprs(bulk_eset)) != 0]
-  bulk_eset = bulk_eset[bulk_gene, , drop = FALSE]
-  if(is.null(markers)){
-    sc_markers = bulk_gene
-  }else{
-    sc_markers = intersect(bulk_gene, unlist(markers))
+  bulk_gene <- rownames(bulk_eset)[rowMeans(exprs(bulk_eset)) != 0]
+  bulk_eset <- bulk_eset[bulk_gene, , drop = FALSE]
+  if (is.null(markers)) {
+    sc_markers <- bulk_gene
+  } else {
+    sc_markers <- intersect(bulk_gene, unlist(markers))
   }
-  sc_basis = music_basis(sc_eset, non.zero = non_zero, markers = sc_markers, clusters = clusters,
-                         samples = samples, select.ct = select_ct, cell_size = cell_size,
-                         ct.cov = ct_cov, verbose = verbose)
+  sc_basis <- music_basis(sc_eset,
+    non.zero = non_zero, markers = sc_markers, clusters = clusters,
+    samples = samples, select.ct = select_ct, cell_size = cell_size,
+    ct.cov = ct_cov, verbose = verbose
+  )
   return(sc_basis)
 }
 
@@ -89,136 +90,151 @@ build_model_music <- function(bulk_gene_expression, single_cell_object = NULL,
 #'    * Variance of MuSiC estimates
 #' @export
 deconvolute_music <- function(bulk_gene_expression, signature_data, markers = NULL,
-                              clusters = 'cellType', samples = 'SubjectName', cell_size = NULL,
+                              clusters = "cellType", samples = "SubjectName", cell_size = NULL,
                               ct_cov = FALSE, verbose = FALSE, iter.max = 1000, nu = 0.0001,
-                              eps = 0.01, centered = FALSE, normalize = FALSE){
-
-
+                              eps = 0.01, centered = FALSE, normalize = FALSE) {
   bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
 
-  bulk_gene = rownames(bulk_eset)[rowMeans(exprs(bulk_eset)) != 0]
-  bulk_eset = bulk_eset[bulk_gene, , drop = FALSE]
-  if(is.null(markers)){
-    sc_markers = bulk_gene
-  }else{
-    sc_markers = intersect(bulk_gene, unlist(markers))
+  bulk_gene <- rownames(bulk_eset)[rowMeans(exprs(bulk_eset)) != 0]
+  bulk_eset <- bulk_eset[bulk_gene, , drop = FALSE]
+  if (is.null(markers)) {
+    sc_markers <- bulk_gene
+  } else {
+    sc_markers <- intersect(bulk_gene, unlist(markers))
   }
-  cm_gene = intersect( rownames(signature_data$Disgn.mtx), bulk_gene )
-  if(is.null(markers)){
-    if(length(cm_gene)< 0.2*min(length(bulk_gene), nrow(signature_data$Disgn.mtx)) )
+  cm_gene <- intersect(rownames(signature_data$Disgn.mtx), bulk_gene)
+  if (is.null(markers)) {
+    if (length(cm_gene) < 0.2 * min(length(bulk_gene), nrow(signature_data$Disgn.mtx))) {
       stop("Too few common genes!")
-  }else{
-    if(length(cm_gene)< 0.2*length(unlist(markers)))
+    }
+  } else {
+    if (length(cm_gene) < 0.2 * length(unlist(markers))) {
       stop("Too few common genes!")
+    }
   }
-  if(verbose){message(paste('Used', length(cm_gene), 'common genes...'))}
+  if (verbose) {
+    message(paste("Used", length(cm_gene), "common genes..."))
+  }
 
-  m.sc = match(cm_gene, rownames(signature_data$Disgn.mtx))
-  m.bulk = match(cm_gene, bulk_gene)
-  D1 = signature_data$Disgn.mtx[m.sc, ]
-  M.S = colMeans(signature_data$S, na.rm = T)
+  m.sc <- match(cm_gene, rownames(signature_data$Disgn.mtx))
+  m.bulk <- match(cm_gene, bulk_gene)
+  D1 <- signature_data$Disgn.mtx[m.sc, ]
+  M.S <- colMeans(signature_data$S, na.rm = T)
 
-  if(!is.null(cell_size)){
-    if(!is.data.frame(cell_size)){
-      stop("cell_size paramter should be a data.frame with 1st column for cell type names and 2nd",
-           "column for cell sizes")
-    }else if(sum(names(M.S) %in% cell_size[, 1]) != length(names(M.S))){
+  if (!is.null(cell_size)) {
+    if (!is.data.frame(cell_size)) {
+      stop(
+        "cell_size paramter should be a data.frame with 1st column for cell type names and 2nd",
+        "column for cell sizes"
+      )
+    } else if (sum(names(M.S) %in% cell_size[, 1]) != length(names(M.S))) {
       stop("Cell type names in cell_size must match clusters")
-    }else if (any(is.na(as.numeric(cell_size[, 2])))){
+    } else if (any(is.na(as.numeric(cell_size[, 2])))) {
       stop("Cell sizes should all be numeric")
     }
     my_ms_names <- names(M.S)
     cell_size <- cell_size[my_ms_names %in% cell_size[, 1], ]
-    M.S <- cell_size[match(my_ms_names, cell_size[, 1]),]
+    M.S <- cell_size[match(my_ms_names, cell_size[, 1]), ]
     M.S <- M.S[, 2]
     names(M.S) <- my_ms_names
   }
 
-  Yjg = relative.ab(exprs(bulk_eset)[m.bulk, ]); N.bulk = ncol(bulk_eset);
-  if(ct_cov){
-    Sigma.ct = signature_data$Sigma.ct[, m.sc];
+  Yjg <- relative.ab(exprs(bulk_eset)[m.bulk, ])
+  N.bulk <- ncol(bulk_eset)
+  if (ct_cov) {
+    Sigma.ct <- signature_data$Sigma.ct[, m.sc]
 
-    Est.prop.allgene = NULL
-    Est.prop.weighted = NULL
-    Weight.gene = NULL
-    r.squared.full = NULL
-    Var.prop = NULL
+    Est.prop.allgene <- NULL
+    Est.prop.weighted <- NULL
+    Weight.gene <- NULL
+    r.squared.full <- NULL
+    Var.prop <- NULL
 
-    for(i in 1:N.bulk){
-      if(sum(Yjg[, i] == 0) > 0){
-        D1.temp = D1[Yjg[, i]!=0, ];
-        Yjg.temp = Yjg[Yjg[, i]!=0, i];
-        Sigma.ct.temp = Sigma.ct[, Yjg[,i]!=0];
-        if(verbose) message(paste(colnames(Yjg)[i], 'has common genes', sum(Yjg[, i] != 0), '...'))
-      }else{
-        D1.temp = D1;
-        Yjg.temp = Yjg[, i];
-        Sigma.ct.temp = Sigma.ct;
-        if(verbose) message(paste(colnames(Yjg)[i], 'has common genes', sum(Yjg[, i] != 0), '...'))
+    for (i in 1:N.bulk) {
+      if (sum(Yjg[, i] == 0) > 0) {
+        D1.temp <- D1[Yjg[, i] != 0, ]
+        Yjg.temp <- Yjg[Yjg[, i] != 0, i]
+        Sigma.ct.temp <- Sigma.ct[, Yjg[, i] != 0]
+        if (verbose) message(paste(colnames(Yjg)[i], "has common genes", sum(Yjg[, i] != 0), "..."))
+      } else {
+        D1.temp <- D1
+        Yjg.temp <- Yjg[, i]
+        Sigma.ct.temp <- Sigma.ct
+        if (verbose) message(paste(colnames(Yjg)[i], "has common genes", sum(Yjg[, i] != 0), "..."))
       }
 
-      lm.D1.weighted = music.iter.ct(Yjg.temp, D1.temp, M.S, Sigma.ct.temp, iter.max = iter.max,
-                                     nu = nu, eps = eps, centered = centered, normalize = normalize)
-      Est.prop.allgene = rbind(Est.prop.allgene, lm.D1.weighted$p.nnls)
-      Est.prop.weighted = rbind(Est.prop.weighted, lm.D1.weighted$p.weight)
-      weight.gene.temp = rep(NA, nrow(Yjg))
-      weight.gene.temp[Yjg[,i]!=0] = lm.D1.weighted$weight.gene
-      Weight.gene = cbind(Weight.gene, weight.gene.temp)
-      r.squared.full = c(r.squared.full, lm.D1.weighted$R.squared)
-      Var.prop = rbind(Var.prop, lm.D1.weighted$var.p)
+      lm.D1.weighted <- music.iter.ct(Yjg.temp, D1.temp, M.S, Sigma.ct.temp,
+        iter.max = iter.max,
+        nu = nu, eps = eps, centered = centered, normalize = normalize
+      )
+      Est.prop.allgene <- rbind(Est.prop.allgene, lm.D1.weighted$p.nnls)
+      Est.prop.weighted <- rbind(Est.prop.weighted, lm.D1.weighted$p.weight)
+      weight.gene.temp <- rep(NA, nrow(Yjg))
+      weight.gene.temp[Yjg[, i] != 0] <- lm.D1.weighted$weight.gene
+      Weight.gene <- cbind(Weight.gene, weight.gene.temp)
+      r.squared.full <- c(r.squared.full, lm.D1.weighted$R.squared)
+      Var.prop <- rbind(Var.prop, lm.D1.weighted$var.p)
     }
-  }else{
-    Sigma = signature_data$Sigma[m.sc, ];
+  } else {
+    Sigma <- signature_data$Sigma[m.sc, ]
 
-    valid.ct = (colSums(is.na(Sigma)) == 0)&(colSums(is.na(D1)) == 0)&(!is.na(M.S))
+    valid.ct <- (colSums(is.na(Sigma)) == 0) & (colSums(is.na(D1)) == 0) & (!is.na(M.S))
 
-    if(sum(valid.ct)<=1){
+    if (sum(valid.ct) <= 1) {
       stop("Not enough valid cell type!")
     }
 
-    if(verbose){message(paste('Used', sum(valid.ct), 'cell types in deconvolution...' ))}
+    if (verbose) {
+      message(paste("Used", sum(valid.ct), "cell types in deconvolution..."))
+    }
 
-    D1 = D1[, valid.ct]; M.S = M.S[valid.ct]; Sigma = Sigma[, valid.ct];
+    D1 <- D1[, valid.ct]
+    M.S <- M.S[valid.ct]
+    Sigma <- Sigma[, valid.ct]
 
-    Est.prop.allgene = NULL
-    Est.prop.weighted = NULL
-    Weight.gene = NULL
-    r.squared.full = NULL
-    Var.prop = NULL
-    for(i in 1:N.bulk){
-      if(sum(Yjg[, i] == 0) > 0){
-        D1.temp = D1[Yjg[, i]!=0, ];
-        Yjg.temp = Yjg[Yjg[, i]!=0, i];
-        Sigma.temp = Sigma[Yjg[,i]!=0, ];
-        if(verbose) message(paste(colnames(Yjg)[i], 'has common genes', sum(Yjg[, i] != 0), '...'))
-      }else{
-        D1.temp = D1;
-        Yjg.temp = Yjg[, i];
-        Sigma.temp = Sigma;
-        if(verbose) message(paste(colnames(Yjg)[i], 'has common genes', sum(Yjg[, i] != 0), '...'))
+    Est.prop.allgene <- NULL
+    Est.prop.weighted <- NULL
+    Weight.gene <- NULL
+    r.squared.full <- NULL
+    Var.prop <- NULL
+    for (i in 1:N.bulk) {
+      if (sum(Yjg[, i] == 0) > 0) {
+        D1.temp <- D1[Yjg[, i] != 0, ]
+        Yjg.temp <- Yjg[Yjg[, i] != 0, i]
+        Sigma.temp <- Sigma[Yjg[, i] != 0, ]
+        if (verbose) message(paste(colnames(Yjg)[i], "has common genes", sum(Yjg[, i] != 0), "..."))
+      } else {
+        D1.temp <- D1
+        Yjg.temp <- Yjg[, i]
+        Sigma.temp <- Sigma
+        if (verbose) message(paste(colnames(Yjg)[i], "has common genes", sum(Yjg[, i] != 0), "..."))
       }
 
-      lm.D1.weighted = music.iter(Yjg.temp, D1.temp, M.S, Sigma.temp, iter.max = iter.max,
-                                  nu = nu, eps = eps, centered = centered, normalize = normalize)
-      Est.prop.allgene = rbind(Est.prop.allgene, lm.D1.weighted$p.nnls)
-      Est.prop.weighted = rbind(Est.prop.weighted, lm.D1.weighted$p.weight)
-      weight.gene.temp = rep(NA, nrow(Yjg))
-      weight.gene.temp[Yjg[,i]!=0] = lm.D1.weighted$weight.gene
-      Weight.gene = cbind(Weight.gene, weight.gene.temp)
-      r.squared.full = c(r.squared.full, lm.D1.weighted$R.squared)
-      Var.prop = rbind(Var.prop, lm.D1.weighted$var.p)
+      lm.D1.weighted <- music.iter(Yjg.temp, D1.temp, M.S, Sigma.temp,
+        iter.max = iter.max,
+        nu = nu, eps = eps, centered = centered, normalize = normalize
+      )
+      Est.prop.allgene <- rbind(Est.prop.allgene, lm.D1.weighted$p.nnls)
+      Est.prop.weighted <- rbind(Est.prop.weighted, lm.D1.weighted$p.weight)
+      weight.gene.temp <- rep(NA, nrow(Yjg))
+      weight.gene.temp[Yjg[, i] != 0] <- lm.D1.weighted$weight.gene
+      Weight.gene <- cbind(Weight.gene, weight.gene.temp)
+      r.squared.full <- c(r.squared.full, lm.D1.weighted$R.squared)
+      Var.prop <- rbind(Var.prop, lm.D1.weighted$var.p)
     }
   }
-  colnames(Est.prop.weighted) = colnames(D1)
-  rownames(Est.prop.weighted) = colnames(Yjg)
-  colnames(Est.prop.allgene) = colnames(D1)
-  rownames(Est.prop.allgene) = colnames(Yjg)
-  names(r.squared.full) = colnames(Yjg)
-  colnames(Weight.gene) = colnames(Yjg)
-  rownames(Weight.gene) = cm_gene
-  colnames(Var.prop) = colnames(D1)
-  rownames(Var.prop) = colnames(Yjg)
+  colnames(Est.prop.weighted) <- colnames(D1)
+  rownames(Est.prop.weighted) <- colnames(Yjg)
+  colnames(Est.prop.allgene) <- colnames(D1)
+  rownames(Est.prop.allgene) <- colnames(Yjg)
+  names(r.squared.full) <- colnames(Yjg)
+  colnames(Weight.gene) <- colnames(Yjg)
+  rownames(Weight.gene) <- cm_gene
+  colnames(Var.prop) <- colnames(D1)
+  rownames(Var.prop) <- colnames(Yjg)
 
-  return(list(Est.prop.weighted = Est.prop.weighted, Est.prop.allgene = Est.prop.allgene,
-              Weight.gene = Weight.gene, r.squared.full = r.squared.full, Var.prop = Var.prop))
+  return(list(
+    Est.prop.weighted = Est.prop.weighted, Est.prop.allgene = Est.prop.allgene,
+    Weight.gene = Weight.gene, r.squared.full = r.squared.full, Var.prop = Var.prop
+  ))
 }

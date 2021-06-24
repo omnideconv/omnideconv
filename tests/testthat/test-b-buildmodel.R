@@ -88,7 +88,12 @@ test_that("AutoGeneS build model works", {
 })
 
 test_that("MuSiC build model works", {
-  model <- build_model(sc_object_small, cell_annotations_small, method = "music",
-                       bulk_gene_expression = bulk_small)
-  expect_equal(info="The MuSiC Model contains five elements", object=length(model),expected=5)
+  model <- build_model(sc_object_small, cell_annotations_small,
+    method = "music",
+    bulk_gene_expression = bulk_small
+  )
+  expect_equal(
+    info = "The MuSiC Model contains five elements", object = length(model),
+    expected = 5
+  )
 })

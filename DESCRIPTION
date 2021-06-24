@@ -52,14 +52,14 @@ Suggests:
     magrittr,
     MAST,
     MOMF,
+    MuSiC,
     quadprog,
     reshape,
     reticulate,
     rmarkdown,
     ROCR,
     testthat (>= 2.0.0),
-    varhandle,
-    MuSiC
+    varhandle
 VignetteBuilder: 
     knitr
 Remotes:

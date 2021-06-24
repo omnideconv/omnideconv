@@ -96,16 +96,16 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
       verbose = verbose, ...
     ),
     autogenes = build_model_autogenes(single_cell_object, cell_type_annotations,
-                                      verbose = verbose, ...
+      verbose = verbose, ...
     ),
     music = build_model_music(single_cell_object, cell_type_annotations, bulk_gene_expression,
-                                      verbose = verbose, ...
+      verbose = verbose, ...
     )
   )
 
 
   # Only do if it is a matrix and not the path to the matrix
-  if (!"character" %in% class(signature) & !is.null(signature) & "list"!=class(signature)) {
+  if (!"character" %in% class(signature) & !is.null(signature) & "list" != class(signature)) {
     rownames(signature) <- deescape_blanks(rownames(signature))
     colnames(signature) <- deescape_blanks(colnames(signature))
   }
@@ -176,7 +176,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   rownames(bulk_gene_expression) <- escape_blanks(rownames(bulk_gene_expression))
   colnames(bulk_gene_expression) <- escape_blanks(colnames(bulk_gene_expression))
   # Only do if it is a matrix and not the path to the matrix
-  if (!"character" %in% class(signature) & "list"!=class(signature)) {
+  if (!"character" %in% class(signature) & "list" != class(signature)) {
     rownames(signature) <- escape_blanks(rownames(signature))
     colnames(signature) <- escape_blanks(colnames(signature))
   }
@@ -200,10 +200,10 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
     dwls = deconvolute_dwls(bulk_gene_expression, signature, verbose = verbose, ...),
     cibersortx = deconvolute_cibersortx(bulk_gene_expression, signature, verbose = verbose, ...),
     autogenes = deconvolute_autogenes(bulk_gene_expression, signature,
-                                      verbose = verbose, ...
+      verbose = verbose, ...
     )$proportions,
     music = deconvolute_music(bulk_gene_expression, signature,
-                                      verbose = verbose, ...
+      verbose = verbose, ...
     )$Est.prop.weighted
   )
 

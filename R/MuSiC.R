@@ -49,7 +49,7 @@ build_model_music <- function(single_cell_object, cell_type_annotations, bulk_ge
   )
   bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
 
-  bulk_gene <- rownames(bulk_eset)[rowMeans(exprs(bulk_eset)) != 0]
+  bulk_gene <- rownames(bulk_eset)[rowMeans(Biobase::exprs(bulk_eset)) != 0]
   bulk_eset <- bulk_eset[bulk_gene, , drop = FALSE]
   if (is.null(markers)) {
     sc_markers <- bulk_gene
@@ -98,7 +98,7 @@ deconvolute_music <- function(bulk_gene_expression, signature_data, markers = NU
                               eps = 0.01, centered = FALSE, normalize = FALSE) {
   bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
 
-  bulk_gene <- rownames(bulk_eset)[rowMeans(exprs(bulk_eset)) != 0]
+  bulk_gene <- rownames(bulk_eset)[rowMeans(Biobase::exprs(bulk_eset)) != 0]
   bulk_eset <- bulk_eset[bulk_gene, , drop = FALSE]
   if (is.null(markers)) {
     sc_markers <- bulk_gene
@@ -142,7 +142,7 @@ deconvolute_music <- function(bulk_gene_expression, signature_data, markers = NU
     names(M.S) <- my_ms_names
   }
 
-  Yjg <- MuSiC::relative.ab(exprs(bulk_eset)[m.bulk, ])
+  Yjg <- MuSiC::relative.ab(Biobase::exprs(bulk_eset)[m.bulk, ])
   N.bulk <- ncol(bulk_eset)
   if (ct_cov) {
     Sigma.ct <- signature_data$Sigma.ct[, m.sc]

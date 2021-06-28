@@ -3,3 +3,4 @@ styler
 git2r
 lintr
 usethis
+roxygen2

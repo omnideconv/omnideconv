@@ -57,7 +57,12 @@ jobs:
           renv::restore()
           renv::install(scan(".pre-commit.r_requirements.txt", what=character(), sep="\n"))
         shell: Rscript {0}
-
+      
+      - name: Install correct Pre-Commit version
+        run: |
+          remotes::install_github("lorenzwalthert/precommit@v0.1.3.9010")
+        shell: Rscript {0}
+      
       - name: Cache pre-commit
         uses: actions/cache@v2
         with:

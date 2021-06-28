@@ -186,11 +186,11 @@ test_that("Autogenes deconvolution works", {
 })
 
 test_that("MuSiC deconvolution works", {
-  model <- build_model(sc_object_small, cell_annotations_small,
+  deconvolution <- deconvolute(bulk_small, NULL,
     method = "music",
-    bulk_gene_expression = bulk_small
+    single_cell_object = sc_object_small,
+    cell_type_annotations = cell_annotations_small
   )
-  deconvolution <- deconvolute(bulk_small, model, method = "music")
   expect_equal(
     info = "deconvolution contains same samples as in bulk (not same order)",
     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))

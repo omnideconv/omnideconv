@@ -6,14 +6,16 @@
 \usage{
 deconvolute_music(
   bulk_gene_expression,
-  signature_data,
+  single_cell_object,
+  cell_type_annotations,
   markers = NULL,
   clusters = "cellType",
   samples = "SubjectName",
+  select_ct = NULL,
   cell_size = NULL,
   ct_cov = FALSE,
   verbose = FALSE,
-  iter.max = 1000,
+  iter_max = 1000,
   nu = 1e-04,
   eps = 0.01,
   centered = FALSE,
@@ -24,32 +26,39 @@ deconvolute_music(
 \item{bulk_gene_expression}{A matrix or dataframe with the bulk data. Rows
 are genes, columns are samples.}
 
-\item{signature_data}{Preprocessed single cell data from the build_model_music method}
+\item{single_cell_object}{A Matrix with the single-cell data. Rows are genes
+and columns are samples.}
+
+\item{cell_type_annotations}{A Vector of the cell type annotations. Has to
+be in the same order as the samples in single_cell_object.}
 
 \item{markers}{vector or list of gene names, default as NULL. If NULL, use all genes that
 provided by both bulk and single cell dataset.}
 
-\item{clusters}{character, the phenoData of single cell dataset used as clusters;}
+\item{clusters}{character, the phenoData of single cell dataset used as clusters.}
 
-\item{samples}{character,the phenoData of single cell dataset used as samples;}
+\item{samples}{character,the phenoData of single cell dataset used as samples.}
+
+\item{select_ct}{vector of cell types. Default as NULL. If NULL, then use all cell types
+provided.}
 
 \item{cell_size}{data.frame of cell sizes. 1st column contains the names of cell types, 2nd
 column has the cell sizes per cell type. Default as NULL. If NULL, then estimate cell size from
-data;}
+data.}
 
-\item{ct_cov}{logical. If TRUE, use the covariance across cell types;}
+\item{ct_cov}{logical. If TRUE, use the covariance across cell types.}
 
 \item{verbose}{logical, default as TRUE.}
 
-\item{iter.max}{numeric, maximum iteration number}
+\item{iter_max}{numeric, maximum iteration number}
 
-\item{nu}{regulation parameter, take care of weight when taking recipical}
+\item{nu}{regulation parameter, take care of weight when taking recipical.}
 
-\item{eps}{Thredshold of convergence}
+\item{eps}{Thredshold of convergence.}
 
-\item{centered}{logic, substract avg of Y and D}
+\item{centered}{logic, substract avg of Y and D.}
 
-\item{normalize}{logic, divide Y and D by their standard deviation}
+\item{normalize}{logic, divide Y and D by their standard deviation.}
 }
 \value{
 a list with elements:
@@ -62,5 +71,6 @@ a list with elements:
 }
 }
 \description{
-This function is to calculate the MuSiC deconvolution proportions
+This function is to calculate the MuSiC deconvolution proportions.
+IMPORTANT: No model is needed. Everything is done inside this method.
 }

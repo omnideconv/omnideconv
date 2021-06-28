@@ -2,61 +2,10 @@
 % Please edit documentation in R/MuSiC.R
 \name{build_model_music}
 \alias{build_model_music}
-\title{Prepare Design matrix and Cross-subject Variance for MuSiC Deconvolution}
+\title{No model is build as MuSiC does both steps in one.}
 \usage{
-build_model_music(
-  single_cell_object,
-  cell_type_annotations,
-  bulk_gene_expression,
-  non_zero = TRUE,
-  markers = NULL,
-  clusters = "cellType",
-  samples = "SubjectName",
-  select_ct = NULL,
-  cell_size = NULL,
-  ct_cov = FALSE,
-  verbose = FALSE
-)
-}
-\arguments{
-\item{single_cell_object}{A Matrix with the single-cell data. Rows are genes
-and columns are samples.}
-
-\item{cell_type_annotations}{A Vector of the cell type annotations. Has to
-be in the same order as the samples in single_cell_object.}
-
-\item{bulk_gene_expression}{A matrix or dataframe with the bulk data. Rows
-are genes, columns are samples.}
-
-\item{non_zero}{logical, default as TRUE. If true, remove all gene with zero expression.}
-
-\item{markers}{vector or list of gene names. Default as NULL. If NULL, then use all genes
-provided.}
-
-\item{clusters}{character, the phenoData used as clusters;}
-
-\item{samples}{character,the phenoData used as samples;}
-
-\item{select_ct}{vector of cell types. Default as NULL. If NULL, then use all cell types
-provided.}
-
-\item{cell_size}{data.frame of cell sizes. 1st column contains the names of cell types, 2nd
-column has the cell sizes per cell type. Default as NULL. If NULL, then estimate cell size
-from data.}
-
-\item{ct_cov}{logical. If TRUE, use the covariance across cell types.}
-
-\item{verbose}{logical, default as TRUE.}
-}
-\value{
-a list of
-* gene by cell type matrix of Design matrix
-* subject by celltype matrix of Library size
-* vector of average library size for each cell type
-* gene by celltype matrix of average relative abudance
-* gene by celltype matrix of cross-subject variation
+build_model_music()
 }
 \description{
-This function is used for generating cell type specific cross-subject mean and variance for each
-gene. Cell type specific library size is also calculated.
+Please use the deconvolute method with you single cell and bulk rna seq data to use MuSiC.
 }

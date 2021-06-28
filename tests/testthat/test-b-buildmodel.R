@@ -92,8 +92,5 @@ test_that("MuSiC build model works", {
     method = "music",
     bulk_gene_expression = bulk_small
   )
-  expect_equal(
-    info = "The MuSiC Model contains five elements", object = length(model),
-    expected = 5
-  )
+  expect_null(info = "The MuSiC Model is null (which it should be)", object = model)
 })

@@ -2,3 +2,5 @@ docopt
 styler
 git2r
 lintr
+usethis
+precommit

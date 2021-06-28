@@ -31,7 +31,7 @@
 #' @param plot_objectives Plotting: The objectives to be plotted. Contains indices of objectives.
 #'   The first index refers to the objective that is plotted on the x-axis. For example, (2,1) will
 #'     plot the third objective on the x-axis and the second on the y-axis
-#' @param index Plotting: If one int is passed, return pareto[index] If two ints are passed, the
+#' @param index Plotting: If one int is passed, return pareto\[index\] If two ints are passed, the
 #'   first is an objective (0 for the first). The second is the nth element if the solutions have
 #'   been sorted by the objective in ascending order. For example, (0,1) will return the solution
 #'   that has the second-lowest value in the first objective. (1,-1) will return the solution with
@@ -137,7 +137,7 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations,
 #' @param max_iter Max_iter parameter for NuSVR
 #' @param weights Select Solution: Weights with which to weight the objective values. For example,
 #'   (-1,2) will minimize the first objective and maximize the the second (with more weight)
-#' @param index Select Solution: If one int is passed, return pareto[index] If two ints are passed,
+#' @param index Select Solution: If one int is passed, return pareto\[index\] If two ints are passed,
 #'   the first is an objective (0 for the first). The second is the nth element if the solutions
 #'   have been sorted by the objective in ascending order. For example, (0,1) will return the
 #'   solution that has the second-lowest value in the first objective. (1,-1) will return the

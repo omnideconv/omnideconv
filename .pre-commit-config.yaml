@@ -1,3 +1,14 @@
+ci:
+    autofix_commit_msg: |
+        [pre-commit.ci] auto fixes from pre-commit.com hooks
+
+        for more information, see https://pre-commit.ci
+    autofix_prs: true
+    autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
+    autoupdate_schedule: weekly
+    skip: []
+    submodules: false
+
 # All available hooks: https://pre-commit.com/hooks.html
 # R specific hooks: https://github.com/lorenzwalthert/precommit
 repos:
@@ -40,7 +51,7 @@ repos:
     -   id: deps-in-desc
         args: [--allow_private_imports]
 -   repo: https://github.com/dhersz/dhmisc
-    rev: v0.0.0.9005
+    rev: v0.0.0.9014
     hooks:
     -   id: mod-readme-rmd-rendered
 -   repo: https://github.com/pre-commit/pre-commit-hooks

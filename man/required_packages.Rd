@@ -5,7 +5,7 @@
 \alias{required_packages}
 \title{The dependencies for each method}
 \format{
-An object of class \code{list} of length 6.
+An object of class \code{list} of length 7.
 }
 \usage{
 required_packages

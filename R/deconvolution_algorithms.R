@@ -1,7 +1,7 @@
 #' List of supported immune deconvolution methods
 #'
 #' The methods currently supported are
-#' `Bisque`, `MOMF`, `DWLS`, `Scaden`, `CibersortX`, `AutoGeneS`
+#' `Bisque`, `MOMF`, `DWLS`, `Scaden`, `CibersortX`, `AutoGeneS`, `MuSiC`
 #'
 #' The object is a named vector. The names correspond to the display name of the method,
 #' the values to the internal name.
@@ -10,7 +10,7 @@
 deconvolution_methods <- c(
   "Bisque" = "bisque", "MOMF" = "momf", "DWLS" = "dwls",
   "Scaden" = "scaden", "CibersortX" = "cibersortx",
-  "AutoGeneS" = "autogenes"
+  "AutoGeneS" = "autogenes", "MuSiC" = "music"
 )
 
 
@@ -97,12 +97,13 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
     ),
     autogenes = build_model_autogenes(single_cell_object, cell_type_annotations,
       verbose = verbose, ...
-    )
+    ),
+    music = build_model_music()
   )
 
 
-  # Only do if it is a matrix and not the path to the matrix
-  if (!"character" %in% class(signature) & !is.null(signature)) {
+  # Only do if it is a matrix or dataframe
+  if ("matrix" %in% class(signature) || "data.frame" %in% class(signature)) {
     rownames(signature) <- deescape_blanks(rownames(signature))
     colnames(signature) <- deescape_blanks(colnames(signature))
   }
@@ -172,8 +173,8 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 
   rownames(bulk_gene_expression) <- escape_blanks(rownames(bulk_gene_expression))
   colnames(bulk_gene_expression) <- escape_blanks(colnames(bulk_gene_expression))
-  # Only do if it is a matrix and not the path to the matrix
-  if (!"character" %in% class(signature)) {
+  # Only do if it is a matrix or dataframe
+  if ("matrix" %in% class(signature) || "data.frame" %in% class(signature)) {
     rownames(signature) <- escape_blanks(rownames(signature))
     colnames(signature) <- escape_blanks(colnames(signature))
   }
@@ -198,7 +199,10 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
     cibersortx = deconvolute_cibersortx(bulk_gene_expression, signature, verbose = verbose, ...),
     autogenes = deconvolute_autogenes(bulk_gene_expression, signature,
       verbose = verbose, ...
-    )$proportions
+    )$proportions,
+    music = deconvolute_music(bulk_gene_expression, single_cell_object, cell_type_annotations,
+      verbose = verbose, ...
+    )$Est.prop.weighted
   )
 
   if (!is.null(deconv)) {
@@ -219,7 +223,8 @@ required_packages <- list(
   "dwls" = c("quadprog", "reshape", "e1071", "ROCR", "varhandle", "MAST", "magrittr"),
   "scaden" = c("reticulate"),
   "cibersortx" = c(),
-  "autogenes" = c("reticulate")
+  "autogenes" = c("reticulate"),
+  "music" = c("xuranw/MuSiC")
 )
 
 #' Checking and installing all dependencies for the specific methods

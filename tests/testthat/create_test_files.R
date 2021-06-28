@@ -48,6 +48,9 @@ sc.eset <- Biobase::ExpressionSet(
   assayData = Biobase::exprs(sc.eset),
   phenoData = sc.eset@phenoData
 )
+single_cell_expression_set <- sc.eset
+bulk_expression_set <- Biobase::ExpressionSet(assayData = bulk_small)
+
 sc.eset <- BisqueRNA:::CountsToCPM(sc.eset)
 sc.eset <- BisqueRNA:::FilterZeroVarianceGenes(sc.eset, FALSE)
 
@@ -193,7 +196,13 @@ file.remove(paste0(root, "/mixture_file_for_cibersort.txt"))
 # res = pd.DataFrame(coef,columns=ag.adata().obs_names,index=bulk_data.index)
 # res.to_csv("autogenes_result_small.csv",sep="\t")
 
-
+## MuSiC
+result_music <- music_prop(
+  bulk.eset = bulk_expression_set, sc.eset = single_cell_expression_set,
+  clusters = "cellType", samples = "SubjectName"
+)$Est.prop.weighted
+result_music <- result_music[, order(colnames(result_music))]
+utils::write.csv(result_music, "test_results/music_result_small.csv")
 
 
 ## DWLS Stuff

@@ -57,7 +57,7 @@ squares("nnls") and linear model ("linear")}
 \item{weights}{Select Solution: Weights with which to weight the objective values. For example,
 (-1,2) will minimize the first objective and maximize the the second (with more weight)}
 
-\item{index}{Select Solution: If one int is passed, return pareto\link{index} If two ints are passed,
+\item{index}{Select Solution: If one int is passed, return pareto[index] If two ints are passed,
 the first is an objective (0 for the first). The second is the nth element if the solutions
 have been sorted by the objective in ascending order. For example, (0,1) will return the
 solution that has the second-lowest value in the first objective. (1,-1) will return the

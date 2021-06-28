@@ -79,7 +79,7 @@ objectives, a function has to be passed}
 The first index refers to the objective that is plotted on the x-axis. For example, (2,1) will
 plot the third objective on the x-axis and the second on the y-axis}
 
-\item{index}{Plotting: If one int is passed, return pareto\link{index} If two ints are passed, the
+\item{index}{Plotting: If one int is passed, return pareto[index] If two ints are passed, the
 first is an objective (0 for the first). The second is the nth element if the solutions have
 been sorted by the objective in ascending order. For example, (0,1) will return the solution
 that has the second-lowest value in the first objective. (1,-1) will return the solution with

@@ -30,9 +30,7 @@ Imports:
     Biobase,
     dplyr,
     ggplot2,
-    matlib,
     methods,
-    pkgdown,
     RColorBrewer,
     readr,
     remotes,
@@ -52,6 +50,8 @@ Suggests:
     magrittr,
     MAST,
     MOMF,
+    MuSiC,
+    pkgdown,
     quadprog,
     reshape,
     reticulate,
@@ -62,7 +62,8 @@ Suggests:
 VignetteBuilder: 
     knitr
 Remotes:
-    grst/MOMF
+    grst/MOMF,
+    xuranw/MuSiC
 biocViews:
 Config/testthat/edition: 2
 Encoding: UTF-8

@@ -47,7 +47,6 @@ test_that("MOMF deconvolution works", {
     info = "deconvolution contains same samples as in bulk (not same order)",
     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
   )
-
   check_result <- as.matrix(read.csv("test_results/momf_result_small.csv",
     row.names = 1,
     check.names = FALSE
@@ -183,5 +182,26 @@ test_that("Autogenes deconvolution works", {
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
     expected = check_result, tolerance = 1e-5
+  )
+})
+
+test_that("MuSiC deconvolution works", {
+  deconvolution <- deconvolute(bulk_small, NULL,
+    method = "music",
+    single_cell_object = sc_object_small,
+    cell_type_annotations = cell_annotations_small
+  )
+  expect_equal(
+    info = "deconvolution contains same samples as in bulk (not same order)",
+    object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
+  )
+
+  check_result <- as.matrix(read.csv("test_results/music_result_small.csv",
+    row.names = 1,
+    check.names = FALSE
+  ))
+  expect_equal(
+    info = "deconvolution result is correct", object = deconvolution,
+    expected = check_result
   )
 })

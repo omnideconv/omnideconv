@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Prepare Design matrix and Cross-subject Variance for MuSiC Deconvolution — build_model_music • omnideconv</title>
+<title>No model is build as MuSiC does both steps in one. — build_model_music • omnideconv</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Prepare Design matrix and Cross-subject Variance for MuSiC Deconvolution — build_model_music" />
-<meta property="og:description" content="This function is used for generating cell type specific cross-subject mean and variance for each
-gene. Cell type specific library size is also calculated." />
+<meta property="og:title" content="No model is build as MuSiC does both steps in one. — build_model_music" />
+<meta property="og:description" content="Please use the deconvolute method with you single cell and bulk rna seq data to use MuSiC." />
 
 
 
@@ -121,94 +120,18 @@ gene. Cell type specific library size is also calculated." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Prepare Design matrix and Cross-subject Variance for MuSiC Deconvolution</h1>
+    <h1>No model is build as MuSiC does both steps in one.</h1>
     <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/MuSiC.R'><code>R/MuSiC.R</code></a></small>
     <div class="hidden name"><code>build_model_music.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function is used for generating cell type specific cross-subject mean and variance for each
-gene. Cell type specific library size is also calculated.</p>
+    <p>Please use the deconvolute method with you single cell and bulk rna seq data to use MuSiC.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>build_model_music</span><span class='op'>(</span>
-  <span class='va'>single_cell_object</span>,
-  <span class='va'>cell_type_annotations</span>,
-  <span class='va'>bulk_gene_expression</span>,
-  non_zero <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  markers <span class='op'>=</span> <span class='cn'>NULL</span>,
-  clusters <span class='op'>=</span> <span class='st'>"cellType"</span>,
-  samples <span class='op'>=</span> <span class='st'>"SubjectName"</span>,
-  select_ct <span class='op'>=</span> <span class='cn'>NULL</span>,
-  cell_size <span class='op'>=</span> <span class='cn'>NULL</span>,
-  ct_cov <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>build_model_music</span><span class='op'>(</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>single_cell_object</th>
-      <td><p>A Matrix with the single-cell data. Rows are genes
-and columns are samples.</p></td>
-    </tr>
-    <tr>
-      <th>cell_type_annotations</th>
-      <td><p>A Vector of the cell type annotations. Has to
-be in the same order as the samples in single_cell_object.</p></td>
-    </tr>
-    <tr>
-      <th>bulk_gene_expression</th>
-      <td><p>A matrix or dataframe with the bulk data. Rows
-are genes, columns are samples.</p></td>
-    </tr>
-    <tr>
-      <th>non_zero</th>
-      <td><p>logical, default as TRUE. If true, remove all gene with zero expression.</p></td>
-    </tr>
-    <tr>
-      <th>markers</th>
-      <td><p>vector or list of gene names. Default as NULL. If NULL, then use all genes
-provided.</p></td>
-    </tr>
-    <tr>
-      <th>clusters</th>
-      <td><p>character, the phenoData used as clusters;</p></td>
-    </tr>
-    <tr>
-      <th>samples</th>
-      <td><p>character,the phenoData used as samples;</p></td>
-    </tr>
-    <tr>
-      <th>select_ct</th>
-      <td><p>vector of cell types. Default as NULL. If NULL, then use all cell types
-provided.</p></td>
-    </tr>
-    <tr>
-      <th>cell_size</th>
-      <td><p>data.frame of cell sizes. 1st column contains the names of cell types, 2nd
-column has the cell sizes per cell type. Default as NULL. If NULL, then estimate cell size
-from data.</p></td>
-    </tr>
-    <tr>
-      <th>ct_cov</th>
-      <td><p>logical. If TRUE, use the covariance across cell types.</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>logical, default as TRUE.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>a list of
-* gene by cell type matrix of Design matrix
-* subject by celltype matrix of Library size
-* vector of average library size for each cell type
-* gene by celltype matrix of average relative abudance
-* gene by celltype matrix of cross-subject variation</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

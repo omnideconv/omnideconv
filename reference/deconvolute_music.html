@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The dependencies for each method — required_packages • omnideconv</title>
+<title>MuSiC Deconvolution — deconvolute_music • omnideconv</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="The dependencies for each method — required_packages" />
-<meta property="og:description" content="The dependencies for each method" />
+<meta property="og:title" content="MuSiC Deconvolution — deconvolute_music" />
+<meta property="og:description" content="This function is to calculate the MuSiC deconvolution proportions" />
 
 
 
@@ -120,21 +120,102 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>The dependencies for each method</h1>
-    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/deconvolution_algorithms.R'><code>R/deconvolution_algorithms.R</code></a></small>
-    <div class="hidden name"><code>required_packages.Rd</code></div>
+    <h1>MuSiC Deconvolution</h1>
+    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/MuSiC.R'><code>R/MuSiC.R</code></a></small>
+    <div class="hidden name"><code>deconvolute_music.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The dependencies for each method</p>
+    <p>This function is to calculate the MuSiC deconvolution proportions</p>
     </div>
 
-    <pre class="usage"><span class='va'>required_packages</span></pre>
+    <pre class="usage"><span class='fu'>deconvolute_music</span><span class='op'>(</span>
+  <span class='va'>bulk_gene_expression</span>,
+  <span class='va'>signature_data</span>,
+  markers <span class='op'>=</span> <span class='cn'>NULL</span>,
+  clusters <span class='op'>=</span> <span class='st'>"cellType"</span>,
+  samples <span class='op'>=</span> <span class='st'>"SubjectName"</span>,
+  cell_size <span class='op'>=</span> <span class='cn'>NULL</span>,
+  ct_cov <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  iter.max <span class='op'>=</span> <span class='fl'>1000</span>,
+  nu <span class='op'>=</span> <span class='fl'>1e-04</span>,
+  eps <span class='op'>=</span> <span class='fl'>0.01</span>,
+  centered <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  normalize <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>bulk_gene_expression</th>
+      <td><p>A matrix or dataframe with the bulk data. Rows
+are genes, columns are samples.</p></td>
+    </tr>
+    <tr>
+      <th>signature_data</th>
+      <td><p>Preprocessed single cell data from the build_model_music method</p></td>
+    </tr>
+    <tr>
+      <th>markers</th>
+      <td><p>vector or list of gene names, default as NULL. If NULL, use all genes that
+provided by both bulk and single cell dataset.</p></td>
+    </tr>
+    <tr>
+      <th>clusters</th>
+      <td><p>character, the phenoData of single cell dataset used as clusters;</p></td>
+    </tr>
+    <tr>
+      <th>samples</th>
+      <td><p>character,the phenoData of single cell dataset used as samples;</p></td>
+    </tr>
+    <tr>
+      <th>cell_size</th>
+      <td><p>data.frame of cell sizes. 1st column contains the names of cell types, 2nd
+column has the cell sizes per cell type. Default as NULL. If NULL, then estimate cell size from
+data;</p></td>
+    </tr>
+    <tr>
+      <th>ct_cov</th>
+      <td><p>logical. If TRUE, use the covariance across cell types;</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>logical, default as TRUE.</p></td>
+    </tr>
+    <tr>
+      <th>iter.max</th>
+      <td><p>numeric, maximum iteration number</p></td>
+    </tr>
+    <tr>
+      <th>nu</th>
+      <td><p>regulation parameter, take care of weight when taking recipical</p></td>
+    </tr>
+    <tr>
+      <th>eps</th>
+      <td><p>Thredshold of convergence</p></td>
+    </tr>
+    <tr>
+      <th>centered</th>
+      <td><p>logic, substract avg of Y and D</p></td>
+    </tr>
+    <tr>
+      <th>normalize</th>
+      <td><p>logic, divide Y and D by their standard deviation</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class <code>list</code> of length 7.</p>
+    <p>a list with elements:</p><ul>
+<li><p>Estimates of MuSiC</p></li>
+<li><p>Estimates of NNLS</p></li>
+<li><p>Weight of MuSiC</p></li>
+<li><p>r.squared of MuSiC</p></li>
+<li><p>Variance of MuSiC estimates</p></li>
+</ul>
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

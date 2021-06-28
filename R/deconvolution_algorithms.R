@@ -105,7 +105,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
 
 
   # Only do if it is a matrix and not the path to the matrix or a list
-  if (!"character" %in% class(signature) && !is.null(signature) && "list" != class(signature)) {
+  if (!"character" %in% class(signature) && !is.null(signature) && !"list" %in% class(signature)){
     rownames(signature) <- deescape_blanks(rownames(signature))
     colnames(signature) <- deescape_blanks(colnames(signature))
   }
@@ -176,7 +176,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   rownames(bulk_gene_expression) <- escape_blanks(rownames(bulk_gene_expression))
   colnames(bulk_gene_expression) <- escape_blanks(colnames(bulk_gene_expression))
   # Only do if it is a matrix and not the path to the matrix or a list
-  if (!"character" %in% class(signature) && "list" != class(signature)) {
+  if (!"character" %in% class(signature) && !"list" %in% class(signature)) {
     rownames(signature) <- escape_blanks(rownames(signature))
     colnames(signature) <- escape_blanks(colnames(signature))
   }
@@ -226,7 +226,7 @@ required_packages <- list(
   "scaden" = c("reticulate"),
   "cibersortx" = c(),
   "autogenes" = c("reticulate"),
-  "music" = c("PelzKo/MuSiC")
+  "music" = c("xuranw/MuSiC")
 )
 
 #' Checking and installing all dependencies for the specific methods

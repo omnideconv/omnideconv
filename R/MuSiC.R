@@ -27,7 +27,7 @@
 #'     * vector of average library size for each cell type
 #'     * gene by celltype matrix of average relative abudance
 #'     * gene by celltype matrix of cross-subject variation
-#'
+#' @importFrom Biobase exprs pData
 #' @export
 build_model_music <- function(single_cell_object, cell_type_annotations, bulk_gene_expression,
                               non_zero = TRUE, markers = NULL, clusters = "cellType",
@@ -91,6 +91,7 @@ build_model_music <- function(single_cell_object, cell_type_annotations, bulk_ge
 #'    * Weight of MuSiC
 #'    * r.squared of MuSiC
 #'    * Variance of MuSiC estimates
+#' @importFrom Biobase exprs pData
 #' @export
 deconvolute_music <- function(bulk_gene_expression, signature_data, markers = NULL,
                               clusters = "cellType", samples = "SubjectName", cell_size = NULL,
@@ -119,6 +120,8 @@ deconvolute_music <- function(bulk_gene_expression, signature_data, markers = NU
     message(paste("Used", length(cm_gene), "common genes..."))
   }
 
+  # This is the same method as in the music package, just split up so we can have our two methods
+  # build_model and deconvolute
   m.sc <- match(cm_gene, rownames(signature_data$Disgn.mtx))
   m.bulk <- match(cm_gene, bulk_gene)
   D1 <- signature_data$Disgn.mtx[m.sc, ]

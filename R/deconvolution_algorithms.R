@@ -224,7 +224,8 @@ required_packages <- list(
   "scaden" = c("reticulate"),
   "cibersortx" = c(),
   "autogenes" = c("reticulate"),
-  "music" = c("xuranw/MuSiC")
+  "music" = c("xuranw/MuSiC"),
+  "scdc" = c("meichendong/SCDC")
 )
 
 #' Checking and installing all dependencies for the specific methods

@@ -57,15 +57,15 @@ Suggests:
     reticulate,
     rmarkdown,
     ROCR,
+    SCDC,
     testthat (>= 2.0.0),
-    varhandle,
-    SCDC
+    varhandle
 VignetteBuilder: 
     knitr
 Remotes:
     grst/MOMF,
-    xuranw/MuSiC,
-    meichendong/SCDC
+    meichendong/SCDC,
+    xuranw/MuSiC
 biocViews:
 Config/testthat/edition: 2
 Encoding: UTF-8

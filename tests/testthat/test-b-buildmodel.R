@@ -89,8 +89,13 @@ test_that("AutoGeneS build model works", {
 
 test_that("MuSiC build model works", {
   model <- build_model(sc_object_small, cell_annotations_small,
-    method = "music",
-    bulk_gene_expression = bulk_small
+    method = "music"
   )
   expect_null(info = "The MuSiC Model is null (which it should be)", object = model)
+})
+test_that("SCDC build model works", {
+  model <- build_model(sc_object_small, cell_annotations_small,
+    method = "scdc"
+  )
+  expect_null(info = "The SCDC Model is null (which it should be)", object = model)
 })

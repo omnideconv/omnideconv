@@ -10,7 +10,7 @@
 deconvolution_methods <- c(
   "Bisque" = "bisque", "MOMF" = "momf", "DWLS" = "dwls",
   "Scaden" = "scaden", "CibersortX" = "cibersortx",
-  "AutoGeneS" = "autogenes", "MuSiC" = "music"
+  "AutoGeneS" = "autogenes", "MuSiC" = "music", "SCDC" = "scdc"
 )
 
 
@@ -98,7 +98,8 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
     autogenes = build_model_autogenes(single_cell_object, cell_type_annotations,
       verbose = verbose, ...
     ),
-    music = build_model_music()
+    music = build_model_music(),
+    scdc = build_model_scdc()
   )
 
 
@@ -202,7 +203,10 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
     )$proportions,
     music = deconvolute_music(bulk_gene_expression, single_cell_object, cell_type_annotations,
       verbose = verbose, ...
-    )$Est.prop.weighted
+    )$Est.prop.weighted,
+    scdc = deconvolute_scdc(bulk_gene_expression, single_cell_object, cell_type_annotations,
+      verbose = verbose, ...
+    )$prop.est.mvw
   )
 
   if (!is.null(deconv)) {

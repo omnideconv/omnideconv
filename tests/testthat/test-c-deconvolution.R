@@ -205,3 +205,25 @@ test_that("MuSiC deconvolution works", {
     expected = check_result
   )
 })
+
+test_that("SCDC deconvolution works", {
+  deconvolution <- deconvolute(bulk_small, NULL,
+    method = "scdc",
+    single_cell_object = sc_object_small,
+    cell_type_annotations = cell_annotations_small,
+    weight_basis = FALSE
+  )
+  expect_equal(
+    info = "deconvolution contains same samples as in bulk (not same order)",
+    object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
+  )
+
+  check_result <- as.matrix(read.csv("test_results/scdc_result_small.csv",
+    row.names = 1,
+    check.names = FALSE
+  ))
+  expect_equal(
+    info = "deconvolution result is correct", object = deconvolution,
+    expected = check_result
+  )
+})

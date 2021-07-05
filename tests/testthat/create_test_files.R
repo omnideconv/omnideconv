@@ -204,6 +204,16 @@ result_music <- music_prop(
 result_music <- result_music[, order(colnames(result_music))]
 utils::write.csv(result_music, "test_results/music_result_small.csv")
 
+## SCDC
+result_scdc <- SCDC_prop(
+  bulk.eset = bulk_expression_set, sc.eset = single_cell_expression_set,
+  ct.varname = "cellType", sample = "SubjectName",
+  ct.sub = unique(single_cell_expression_set@phenoData@data[, "cellType"]),
+  weight.basis = FALSE
+)$prop.est.mvw
+result_scdc <- result_scdc[, order(colnames(result_scdc))]
+utils::write.csv(result_scdc, "test_results/scdc_result_small.csv")
+
 
 ## DWLS Stuff
 

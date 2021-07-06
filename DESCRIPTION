@@ -44,6 +44,7 @@ Imports:
 Suggests: 
     BisqueRNA,
     devtools,
+    dotCall64,
     e1071,
     knitr,
     limSolve,

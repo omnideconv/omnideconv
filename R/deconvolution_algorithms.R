@@ -225,7 +225,7 @@ required_packages <- list(
   "cibersortx" = c(),
   "autogenes" = c("reticulate"),
   "music" = c("xuranw/MuSiC"),
-  "cpm" = c("scBio")
+  "cpm" = c("scBio", "dotCall64")
 )
 
 #' Checking and installing all dependencies for the specific methods

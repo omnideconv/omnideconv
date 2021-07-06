@@ -7,6 +7,7 @@ library(Seurat)
 library(ROCR)
 library(varhandle)
 library(MAST)
+library(scBio)
 
 bulk_small <- as.matrix(utils::read.csv("small_test_data/bulk_small.csv", row.names = 1))
 sc_object_small <- as.matrix(utils::read.csv("small_test_data/sc_object_small.csv", row.names = 1))
@@ -207,7 +208,12 @@ utils::write.csv(result_music, "test_results/music_result_small.csv")
 
 
 ## CPM
-result_cpm <- CPM(sc_object_small, cell_annotations_small, bulk_small, cellSpace)
+# cellSpace <- scores(pcaMethods::pca(t(sc_object_small), method="svd", nPcs=2))
+# Cell space creation with seurat instead
+# result_cpm <- CPM(sc_object_small, cell_annotations_small, bulk_small, cellSpace,
+#                  quantifyTypes = TRUE, typeTransformation = TRUE)$cellTypePredictions
+# result_cpm <- result_cpm[, order(colnames(result_cpm))]
+# utils::write.csv(result_cpm, "test_results/cpm_result_small.csv")
 
 
 ## DWLS Stuff

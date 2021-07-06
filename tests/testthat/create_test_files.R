@@ -205,6 +205,11 @@ result_music <- result_music[, order(colnames(result_music))]
 utils::write.csv(result_music, "test_results/music_result_small.csv")
 
 
+
+## CPM
+result_cpm <- CPM(sc_object_small, cell_annotations_small, bulk_small, cellSpace)
+
+
 ## DWLS Stuff
 
 # trim bulk and single-cell data to contain the same genes

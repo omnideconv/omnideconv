@@ -10,7 +10,7 @@
 deconvolution_methods <- c(
   "Bisque" = "bisque", "MOMF" = "momf", "DWLS" = "dwls",
   "Scaden" = "scaden", "CibersortX" = "cibersortx",
-  "AutoGeneS" = "autogenes", "MuSiC" = "music"
+  "AutoGeneS" = "autogenes", "MuSiC" = "music", "CPM" = "cpm"
 )
 
 
@@ -224,7 +224,8 @@ required_packages <- list(
   "scaden" = c("reticulate"),
   "cibersortx" = c(),
   "autogenes" = c("reticulate"),
-  "music" = c("xuranw/MuSiC")
+  "music" = c("xuranw/MuSiC"),
+  "cpm" = c("scBio")
 )
 
 #' Checking and installing all dependencies for the specific methods

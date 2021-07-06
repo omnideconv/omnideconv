@@ -57,6 +57,7 @@ Suggests:
     reticulate,
     rmarkdown,
     ROCR,
+    scBio,
     testthat (>= 2.0.0),
     varhandle
 VignetteBuilder: 

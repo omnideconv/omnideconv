@@ -214,6 +214,40 @@ result_scdc <- SCDC_prop(
 result_scdc <- result_scdc[, order(colnames(result_scdc))]
 utils::write.csv(result_scdc, "test_results/scdc_result_small.csv")
 
+eset_one <- getESET(single_cell_data,
+  fdata = rownames(single_cell_data),
+  pdata = cbind(
+    cellname = cell_type_annotations,
+    subjects = paste("patient", rep(1, ncol(single_cell_data)))
+  )
+)
+eset_two <- getESET(single_cell_data_small,
+  fdata = rownames(single_cell_data_small),
+  pdata = cbind(
+    cellname = cell_type_annotations_small,
+    subjects = paste("patient", rep(1, ncol(single_cell_data_small)))
+  )
+)
+eset_three <- getESET(sc_object_small,
+  fdata = rownames(sc_object_small),
+  pdata = cbind(
+    cellname = cell_annotations_small,
+    subjects = paste("patient", rep(1, ncol(sc_object_small)))
+  )
+)
+
+result_scdc_ensemble <- SCDC_ENSEMBLE(
+  bulk.eset = bulk_expression_set, sc.eset.list = list(eset_one, eset_two, eset_three),
+  ct.varname = "cellname", sample = "subjects",
+  ct.sub = Reduce(intersect, sapply(sc.eset.list, function(x) {
+    unique(x@phenoData@data[, "cellname"])
+  }))
+)
+props <- wt_prop(result_scdc_ensemble$w_table, result_scdc_ensemble$prop.only)
+props <- props[, order(colnames(props))]
+utils::write.csv(props, "test_results/scdc_result_ensemble.csv")
+
+
 
 ## DWLS Stuff
 

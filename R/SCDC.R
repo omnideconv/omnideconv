@@ -1,7 +1,3 @@
-# Requires raw read counts.
-# Works best with multiple cells per single cell sample
-
-
 #' No model is build as SCDC does both steps in one.
 #'
 #' Please use the deconvolute method with your single cell and bulk rna seq data to use SCDC.
@@ -27,6 +23,9 @@ build_model_scdc <- function() {
 #' SCDC_ENSEMBLE can be used by supplying lists to the parameters single_cell_object and
 #' cell_type_annotations. To name the single cell data sets, supply a vector with their
 #' corresponding names to names_sc_objects.
+#'
+#' Requires raw read counts.
+#' Works best with multiple cells per single cell patient/subject
 #'
 #' @param bulk_gene_expression Dataframe or matrix of bulk RNA-seq data (genes x individuals)
 #' @param single_cell_object A matrix or dataframe with the single-cell data. Rows are genes,
@@ -90,9 +89,14 @@ deconvolute_scdc <- function(bulk_gene_expression, single_cell_object, cell_type
           "with \"quality_control=FALSE\""
         )
       }
-      sc_obj <- get_single_cell_expression_set(sc_obj, colnames(sc_obj), rownames(sc_obj), cell_anno)
+      sc_obj <- get_single_cell_expression_set(
+        sc_obj, colnames(sc_obj), rownames(sc_obj),
+        cell_anno
+      )
     }
     if (quality_control) {
+      # SCDC always supplies two types of each method, one normal one and one if all the single
+      # cells are from the same individual (_ONE)
       if (length(unique(sc_obj@phenoData@data[, sample])) > 1) {
         sc_obj <- SCDC::SCDC_qc(sc_obj, ct_varname, sample, ct_sub,
           iter_max = iter_max, nu = nu,
@@ -112,7 +116,11 @@ deconvolute_scdc <- function(bulk_gene_expression, single_cell_object, cell_type
   }, list(unlist(single_cell_object)), list(unlist(cell_type_annotations)))
   bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
 
+  # If multiple sc sets are supplied, the _ENSAMBLE method is used, otherwise the _prop one
   if (length(sc_eset) == 1) {
+    # The SCDC_prop method and the SCDC_ENSEMBLE method have different default values for iter_max
+    # and epsilon. That is my solution to indicate the different default values in the method
+    # header while still supplying them to the final method
     if (is.null(iter_max)) {
       iter_max <- 1000
     }
@@ -121,6 +129,8 @@ deconvolute_scdc <- function(bulk_gene_expression, single_cell_object, cell_type
     }
     sc_eset <- sc_eset[[1]]
 
+    # SCDC always supplies two types of each method, one normal one and one if all the single
+    # cells are from the same individual (_ONE)
     if (length(unique(sc_eset@phenoData@data[, sample])) > 1) {
       return(SCDC::SCDC_prop(bulk_eset, sc_eset,
         ct.varname = ct_varname, sample = sample,
@@ -138,6 +148,9 @@ deconvolute_scdc <- function(bulk_gene_expression, single_cell_object, cell_type
     }
   } else {
     # Using the normal defaults of the method
+    # The SCDC_prop method and the SCDC_ENSEMBLE method have different default values for iter_max
+    # and epsilon. That is my solution to indicate the different default values in the method
+    # header while still supplying them to the final method
     if (is.null(iter_max)) {
       iter_max <- 2000
     }

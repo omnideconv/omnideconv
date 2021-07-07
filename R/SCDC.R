@@ -31,14 +31,12 @@ build_model_scdc <- function() {
 #' @param single_cell_object A matrix or dataframe with the single-cell data. Rows are genes,
 #'   columns are samples. Row and column names need to be set. This can also be a list of objects,
 #'   if SCDC_ENSEMBLE should be used.
-#'   You can also supply one or or a list of Biobase expression sets, but it will not be guaranteed
-#'   that everything works. If there are unexpected results, compare your expression sets with the
-#'   output of the get_single_cell_expression_set function.
 #' @param cell_type_annotations A Vector of the cell type annotations. Has to be in the same order
 #'   as the samples in single_cell_object. This can also be a list of vectors, if SCDC_ENSEMBLE
 #'   should be used.
 #' @param batch_ids A vector of the ids of the samples or individuals.
-#' @param ct_sub vector. a subset of cell types that are selected to construct basis matrix.
+#' @param ct_sub vector. a subset of cell types that are selected to construct basis matrix. NULL
+#'   means that all are used.
 #' @param ct_varname character string specifying the variable name for 'cell types'.
 #' @param sample character string specifying the variable name for subject/samples.
 #' @param iter_max the maximum number of iteration in WNNLS. If the parameter is NULL, the default
@@ -69,11 +67,11 @@ build_model_scdc <- function() {
 #' @export
 deconvolute_scdc <- function(bulk_gene_expression, single_cell_object, cell_type_annotations,
                              batch_ids, ct_varname = "cellType", sample = "batchId",
-                             ct_sub = unique(cell_type_annotations),
-                             iter_max = NULL, nu = 1e-04, epsilon = NULL, truep = NULL,
-                             weight_basis = TRUE, ct_cell_size = NULL, Transform_bisque = FALSE,
-                             grid_search = FALSE, search_length = 0.05, names_sc_objects = NULL,
-                             qcthreshold = 0.7, verbose = FALSE, quality_control = FALSE) {
+                             ct_sub = NULL, iter_max = NULL, nu = 1e-04, epsilon = NULL,
+                             truep = NULL, weight_basis = TRUE, ct_cell_size = NULL,
+                             Transform_bisque = FALSE, grid_search = FALSE, search_length = 0.05,
+                             names_sc_objects = NULL, qcthreshold = 0.7, verbose = FALSE,
+                             quality_control = FALSE) {
   if (is.null(single_cell_object) || is.null(cell_type_annotations) || is.null(batch_ids)) {
     base::stop(
       "Single cell object or cell type annotations not provided. Call as: ",
@@ -81,17 +79,29 @@ deconvolute_scdc <- function(bulk_gene_expression, single_cell_object, cell_type
       "cell_type_annotations, batch_ids)"
     )
   }
-  sc_eset <- mapply(function(sc_obj, cell_anno) {
+  if (!"list" %in% class(single_cell_object)) {
+    single_cell_object <- list(single_cell_object)
+    cell_type_annotations <- list(cell_type_annotations)
+    batch_ids <- list(batch_ids)
+    if (is.null(ct_sub)) {
+      ct_sub <- unique(unlist(cell_type_annotations))
+    }
+  }
+  if (is.null(ct_sub)) {
+    ct_sub <- Reduce(intersect, cell_type_annotations)
+  }
+
+  sc_eset <- mapply(function(sc_obj, cell_anno, batch_ids_curr) {
     if (!"ExpressionSet" %in% class(sc_obj)) {
-      if (length(batch_ids) == length(unique(batch_ids))) {
+      if (length(batch_ids_curr) == length(unique(batch_ids_curr))) {
         base::message(
-          "Did not find multiple cells from one subject. If an error regarding the ",
-          "number of valid cell types occurs, try with \"weight_basis=FALSE\" or ",
+          "Each batch_id of at least one list item only contained one cell. If an error regarding ",
+          "the number of valid cell types occurs, try with \"weight_basis=FALSE\" or ",
           "with \"quality_control=FALSE\""
         )
       }
       sc_obj <- get_single_cell_expression_set(
-        sc_obj, batch_ids, rownames(sc_obj),
+        sc_obj, batch_ids_curr, rownames(sc_obj),
         cell_anno
       )
     }
@@ -114,7 +124,7 @@ deconvolute_scdc <- function(bulk_gene_expression, single_cell_object, cell_type
       }
     }
     return(sc_obj)
-  }, list(unlist(single_cell_object)), list(unlist(cell_type_annotations)))
+  }, single_cell_object, cell_type_annotations, batch_ids)
   bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
 
   # If multiple sc sets are supplied, the _ENSAMBLE method is used, otherwise the _prop one

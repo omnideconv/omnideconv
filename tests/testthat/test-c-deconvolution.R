@@ -224,4 +224,31 @@ test_that("SCDC deconvolution works", {
     info = "deconvolution result is correct", object = deconvolution,
     expected = check_result
   )
+
+
+  deconvolution_ensemble <- deconvolute(bulk_small, NULL,
+    method = "scdc",
+    single_cell_object = list(
+      single_cell_data,
+      sc_object_small
+    ),
+    cell_type_annotations = list(
+      cell_type_annotations,
+      cell_annotations_small
+    ),
+    batch_ids = list(batch_ids, batch_ids_small)
+  )
+  expect_equal(
+    info = "deconvolution contains same samples as in bulk (not same order)",
+    object = sort(rownames(deconvolution_ensemble)), expected = sort(colnames(bulk_small))
+  )
+
+  check_result <- as.matrix(read.csv("test_results/scdc_result_ensemble.csv",
+    row.names = 1,
+    check.names = FALSE
+  ))
+  expect_equal(
+    info = "deconvolution result is correct", object = deconvolution_ensemble,
+    expected = check_result
+  )
 })

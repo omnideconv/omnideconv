@@ -13,7 +13,7 @@ library(SCDC)
 bulk_small <- as.matrix(utils::read.csv("small_test_data/bulk_small.csv", row.names = 1))
 sc_object_small <- as.matrix(utils::read.csv("small_test_data/sc_object_small.csv", row.names = 1))
 cell_annotations_small <- readr::read_lines("small_test_data/cell_annotations_small.txt")
-batch_ids_small <- readr::read_lines("small_test_data/batch_ids_small.txt")
+batch_ids_small_from_file <- readr::read_lines("small_test_data/batch_ids_small.txt")
 
 
 matrixRightFormat <- sc_object_small
@@ -22,7 +22,7 @@ sc.pheno <- data.frame(
   check.names = F, check.rows = F,
   stringsAsFactors = F,
   row.names = colnames(sc_object_small),
-  batchId = batch_ids_small,
+  batchId = batch_ids_small_from_file,
   cellType = cell_annotations_small
 )
 sc.meta <- data.frame(
@@ -218,28 +218,23 @@ eset_one <- getESET(single_cell_data,
   fdata = rownames(single_cell_data),
   pdata = cbind(
     cellname = cell_type_annotations,
-    subjects = paste("patient", rep(1, ncol(single_cell_data)))
+    subjects = batch_ids
   )
 )
-eset_two <- getESET(single_cell_data_small,
-  fdata = rownames(single_cell_data_small),
-  pdata = cbind(
-    cellname = cell_type_annotations_small,
-    subjects = paste("patient", rep(1, ncol(single_cell_data_small)))
-  )
-)
-eset_three <- getESET(sc_object_small,
+eset_two <- getESET(sc_object_small,
   fdata = rownames(sc_object_small),
   pdata = cbind(
     cellname = cell_annotations_small,
-    subjects = paste("patient", rep(1, ncol(sc_object_small)))
+    subjects = batch_ids_small_from_file
   )
 )
 
+eset_list <- list(one = eset_one, two = eset_two)
+
 result_scdc_ensemble <- SCDC_ENSEMBLE(
-  bulk.eset = bulk_expression_set, sc.eset.list = list(eset_one, eset_two, eset_three),
+  bulk.eset = bulk_expression_set, sc.eset.list = eset_list,
   ct.varname = "cellname", sample = "subjects",
-  ct.sub = Reduce(intersect, sapply(sc.eset.list, function(x) {
+  ct.sub = Reduce(intersect, sapply(eset_list, function(x) {
     unique(x@phenoData@data[, "cellname"])
   }))
 )

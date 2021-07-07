@@ -81,10 +81,14 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, batch_
     rownames(bulk_gene_expression) <- escape_blanks(rownames(bulk_gene_expression))
     colnames(bulk_gene_expression) <- escape_blanks(colnames(bulk_gene_expression))
   }
+  if (!is.null(batch_ids)) {
+    batch_ids <- escape_blanks(batch_ids)
+  }
 
   signature <- switch(method,
     bisque = build_model_bisque(single_cell_object, cell_type_annotations, batch_ids,
-                                verbose = verbose, ...),
+      verbose = verbose, ...
+    ),
     # momf needs bulk set and signature matrix containing the same genes
     momf = build_model_momf(single_cell_object, cell_type_annotations, bulk_gene_expression, ...),
     scaden = build_model_scaden(single_cell_object, cell_type_annotations, bulk_gene_expression,
@@ -184,16 +188,37 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
     colnames(signature) <- escape_blanks(colnames(signature))
   }
   if (!is.null(single_cell_object)) {
-    rownames(single_cell_object) <- escape_blanks(rownames(single_cell_object))
-    colnames(single_cell_object) <- escape_blanks(colnames(single_cell_object))
+    if ("matrix" %in% class(single_cell_object) || "data.frame" %in% class(single_cell_object)) {
+      rownames(single_cell_object) <- escape_blanks(rownames(single_cell_object))
+      colnames(single_cell_object) <- escape_blanks(colnames(single_cell_object))
+    } else {
+      single_cell_object <- lapply(single_cell_object, function(sc) {
+        rownames(sc) <- escape_blanks(rownames(sc))
+        colnames(sc) <- escape_blanks(colnames(sc))
+        sc
+      })
+    }
   }
   if (!is.null(cell_type_annotations)) {
-    cell_type_annotations <- escape_blanks(cell_type_annotations)
+    if ("character" %in% class(cell_type_annotations)) {
+      cell_type_annotations <- escape_blanks(cell_type_annotations)
+    } else {
+      cell_type_annotations <- lapply(cell_type_annotations, escape_blanks)
+    }
+  }
+
+  if (!is.null(batch_ids)) {
+    if ("character" %in% class(batch_ids)) {
+      batch_ids <- escape_blanks(batch_ids)
+    } else {
+      batch_ids <- lapply(batch_ids, escape_blanks)
+    }
   }
 
   deconv <- switch(method,
     bisque = deconvolute_bisque(bulk_gene_expression, signature, single_cell_object,
-      cell_type_annotations, batch_ids, verbose = verbose, ...
+      cell_type_annotations, batch_ids,
+      verbose = verbose, ...
     )$bulk_props,
     momf = deconvolute_momf(bulk_gene_expression, signature, single_cell_object,
       verbose = verbose, ...
@@ -205,21 +230,23 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
       verbose = verbose, ...
     )$proportions,
     music = deconvolute_music(bulk_gene_expression, single_cell_object, cell_type_annotations,
-                              batch_ids,
+      batch_ids,
       verbose = verbose, ...
     )$Est.prop.weighted,
     scdc = {
       res <- deconvolute_scdc(bulk_gene_expression, single_cell_object, cell_type_annotations,
-                              batch_ids,
-      verbose = verbose, ...
+        batch_ids,
+        verbose = verbose, ...
       )
-      if ("prop.est.mvw" %in% names(res)){
+      if ("prop.est.mvw" %in% names(res)) {
         res$prop.est.mvw
-      } else if ("w_table" %in% names(res)){
+      } else if ("w_table" %in% names(res)) {
         wt_prop(res$w_table, res$prop.only)
       } else {
-        base::message("There seems to be an error, as the result of deconvolute_scdc did not ",
-                      "contain prop.est.mvw or w_table")
+        base::message(
+          "There seems to be an error, as the result of deconvolute_scdc did not ",
+          "contain prop.est.mvw or w_table"
+        )
         res
       }
     }

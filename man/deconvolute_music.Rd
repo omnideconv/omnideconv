@@ -8,9 +8,10 @@ deconvolute_music(
   bulk_gene_expression,
   single_cell_object,
   cell_type_annotations,
+  batch_ids,
   markers = NULL,
   clusters = "cellType",
-  samples = "SubjectName",
+  samples = "batchId",
   select_ct = NULL,
   cell_size = NULL,
   ct_cov = FALSE,
@@ -31,6 +32,8 @@ and columns are samples.}
 
 \item{cell_type_annotations}{A Vector of the cell type annotations. Has to
 be in the same order as the samples in single_cell_object.}
+
+\item{batch_ids}{A vector of the ids of the samples or individuals.}
 
 \item{markers}{vector or list of gene names, default as NULL. If NULL, use all genes that
 provided by both bulk and single cell dataset.}

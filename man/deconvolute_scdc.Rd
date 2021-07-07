@@ -8,9 +8,10 @@ deconvolute_scdc(
   bulk_gene_expression,
   single_cell_object,
   cell_type_annotations,
+  batch_ids,
   ct_varname = "cellType",
-  sample = "SubjectName",
-  ct_sub = NULL,
+  sample = "batchId",
+  ct_sub = unique(cell_type_annotations),
   iter_max = NULL,
   nu = 1e-04,
   epsilon = NULL,
@@ -39,6 +40,8 @@ output of the get_single_cell_expression_set function.}
 \item{cell_type_annotations}{A Vector of the cell type annotations. Has to be in the same order
 as the samples in single_cell_object. This can also be a list of vectors, if SCDC_ENSEMBLE
 should be used.}
+
+\item{batch_ids}{A vector of the ids of the samples or individuals.}
 
 \item{ct_varname}{character string specifying the variable name for 'cell types'.}
 
@@ -93,4 +96,7 @@ IMPORTANT: No model is needed. Everything is done inside this method.
 SCDC_ENSEMBLE can be used by supplying lists to the parameters single_cell_object and
 cell_type_annotations. To name the single cell data sets, supply a vector with their
 corresponding names to names_sc_objects.
+
+Requires raw read counts.
+Works best with multiple cells per single cell patient/subject
 }

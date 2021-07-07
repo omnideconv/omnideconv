@@ -4,6 +4,7 @@
 #'   Rows are genes, columns are samples. Row and column names need to be set.
 #' @param cell_type_annotations A Vector of the cell type annotations. Has to
 #'   be in the same order as the samples in single_cell_object
+#' @param batch_ids A vector of the ids of the samples or individuals.
 #' @param old_cpm Prior to version 1.0.4 (updated in July 2020), the package
 #'   converted counts to CPM after subsetting the marker genes. Github user
 #'   randel pointed out that the order of these operations should be switched.
@@ -18,10 +19,10 @@
 #' @return The signature matrix. Rows are genes, columns are cell types.
 #' @export
 #'
-build_model_bisque <- function(single_cell_object, cell_type_annotations, old_cpm = TRUE,
+build_model_bisque <- function(single_cell_object, cell_type_annotations, batch_ids, old_cpm = TRUE,
                                verbose = FALSE) {
   sc_eset <- get_single_cell_expression_set(
-    single_cell_object, colnames(single_cell_object),
+    single_cell_object, batch_ids,
     rownames(single_cell_object), cell_type_annotations
   )
 
@@ -65,6 +66,7 @@ build_model_bisque <- function(single_cell_object, cell_type_annotations, old_cp
 #'  and columns are samples.
 #' @param cell_type_annotations A Vector of the cell type annotations. Has to
 #'  be in the same order as the samples in single_cell_object.
+#' @param batch_ids A vector of the ids of the samples or individuals.
 #' @param markers Structure, such as character vector, containing marker genes
 #'   to be used in decomposition. `base::unique(base::unlist(markers))` should
 #'   return a simple vector containing each gene name. If no argument or NULL
@@ -98,23 +100,23 @@ build_model_bisque <- function(single_cell_object, cell_type_annotations, old_cp
 #'  applying a linear transformation to the CPM expression.
 #' @export
 #'
-deconvolute_bisque <- function(bulk_gene_expression, signature_matrix, single_cell_object = NULL,
-                               cell_type_annotations = NULL, markers = NULL,
-                               cell_types = "cellType", subject_names = "SubjectName",
+deconvolute_bisque <- function(bulk_gene_expression, signature_matrix, single_cell_object,
+                               cell_type_annotations, batch_ids, markers = NULL,
+                               cell_types = "cellType", subject_names = "batchId",
                                use_overlap = FALSE, verbose = FALSE, old_cpm = TRUE) {
 
   # Method is BisqueRNA::ReferenceBasedDecomposition, I only added the
   # signature matrix (so ones from other method can be used)
 
-  if (is.null(single_cell_object) || is.null(cell_type_annotations)) {
+  if (is.null(single_cell_object) || is.null(cell_type_annotations) || is.null(batch_ids)) {
     base::stop(
       "Single cell object or cell type annotations not provided. Call as: ",
       "deconvolute(bulk_gene_expression, signature, \"bisque\", single_cell_object, ",
-      "cell_type_annotations)"
+      "cell_type_annotations, batch_ids)"
     )
   }
   sc_eset <- get_single_cell_expression_set(
-    single_cell_object, colnames(single_cell_object),
+    single_cell_object, batch_ids,
     rownames(single_cell_object), cell_type_annotations
   )
   bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)

@@ -1,11 +1,10 @@
 bulk_small <- as.matrix(utils::read.csv("small_test_data/bulk_small.csv", row.names = 1))
 sc_object_small <- as.matrix(utils::read.csv("small_test_data/sc_object_small.csv", row.names = 1))
-cell_annotations_small <- utils::read.csv("small_test_data/cell_annotations_small.csv",
-  row.names = 1
-)$x
+cell_annotations_small <- readr::read_lines("small_test_data/cell_annotations_small.txt")
+batch_ids_small <- readr::read_lines("small_test_data/batch_ids_small.txt")
 
 test_that("Bisque GenerateSCReference works", {
-  signature <- build_model(sc_object_small, cell_annotations_small, method = "bisque")
+  signature <- build_model(sc_object_small, cell_annotations_small, batch_ids_small, method = "bisque")
   expect_equal(
     info = "signature matrix has same amount of columns as unique cell types in single
                cell matrix", object = ncol(signature),

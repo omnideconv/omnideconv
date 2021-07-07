@@ -37,6 +37,7 @@ build_model_scdc <- function() {
 #' @param cell_type_annotations A Vector of the cell type annotations. Has to be in the same order
 #'   as the samples in single_cell_object. This can also be a list of vectors, if SCDC_ENSEMBLE
 #'   should be used.
+#' @param batch_ids A vector of the ids of the samples or individuals.
 #' @param ct_sub vector. a subset of cell types that are selected to construct basis matrix.
 #' @param ct_varname character string specifying the variable name for 'cell types'.
 #' @param sample character string specifying the variable name for subject/samples.
@@ -67,22 +68,22 @@ build_model_scdc <- function() {
 #' @return Estimated proportion, basis matrix, predicted gene expression levels for bulk samples
 #' @export
 deconvolute_scdc <- function(bulk_gene_expression, single_cell_object, cell_type_annotations,
-                             ct_varname = "cellType", sample = "SubjectName",
+                             batch_ids, ct_varname = "cellType", sample = "batchId",
                              ct_sub = unique(cell_type_annotations),
                              iter_max = NULL, nu = 1e-04, epsilon = NULL, truep = NULL,
                              weight_basis = TRUE, ct_cell_size = NULL, Transform_bisque = FALSE,
                              grid_search = FALSE, search_length = 0.05, names_sc_objects = NULL,
                              qcthreshold = 0.7, verbose = FALSE, quality_control = FALSE) {
-  if (is.null(single_cell_object) || is.null(cell_type_annotations)) {
+  if (is.null(single_cell_object) || is.null(cell_type_annotations) || is.null(batch_ids)) {
     base::stop(
       "Single cell object or cell type annotations not provided. Call as: ",
       "deconvolute(bulk_gene_expression, NULL, \"scdc\", single_cell_object, ",
-      "cell_type_annotations)"
+      "cell_type_annotations, batch_ids)"
     )
   }
   sc_eset <- mapply(function(sc_obj, cell_anno) {
     if (!"ExpressionSet" %in% class(sc_obj)) {
-      if (length(colnames(sc_obj)) == length(unique(colnames(sc_obj)))) {
+      if (length(batch_ids) == length(unique(batch_ids))) {
         base::message(
           "Did not find multiple cells from one subject. If an error regarding the ",
           "number of valid cell types occurs, try with \"weight_basis=FALSE\" or ",
@@ -90,7 +91,7 @@ deconvolute_scdc <- function(bulk_gene_expression, single_cell_object, cell_type
         )
       }
       sc_obj <- get_single_cell_expression_set(
-        sc_obj, colnames(sc_obj), rownames(sc_obj),
+        sc_obj, batch_ids, rownames(sc_obj),
         cell_anno
       )
     }

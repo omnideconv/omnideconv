@@ -1,8 +1,7 @@
 bulk_small <- as.matrix(utils::read.csv("small_test_data/bulk_small.csv", row.names = 1))
 sc_object_small <- as.matrix(utils::read.csv("small_test_data/sc_object_small.csv", row.names = 1))
-cell_annotations_small <- utils::read.csv("small_test_data/cell_annotations_small.csv",
-  row.names = 1
-)$x
+cell_annotations_small <- readr::read_lines("small_test_data/cell_annotations_small.txt")
+batch_ids_small <- readr::read_lines("small_test_data/batch_ids_small.txt")
 
 test_that("Bisque deconvolution works", {
   bisque_model <- as.matrix(read.csv("test_models/bisque_model_small.csv",
@@ -10,8 +9,7 @@ test_that("Bisque deconvolution works", {
     check.names = FALSE
   ))
   deconvolution <- deconvolute(bulk_small, bisque_model,
-    method = "bisque", sc_object_small,
-    cell_annotations_small
+    method = "bisque", sc_object_small, cell_annotations_small, batch_ids_small
   )
   expect_equal(
     info = "rows of deconvolution equal to columns of signature (same celltypes in same order)",
@@ -189,7 +187,8 @@ test_that("MuSiC deconvolution works", {
   deconvolution <- deconvolute(bulk_small, NULL,
     method = "music",
     single_cell_object = sc_object_small,
-    cell_type_annotations = cell_annotations_small
+    cell_type_annotations = cell_annotations_small,
+    batch_ids = batch_ids_small
   )
   expect_equal(
     info = "deconvolution contains same samples as in bulk (not same order)",
@@ -208,10 +207,9 @@ test_that("MuSiC deconvolution works", {
 
 test_that("SCDC deconvolution works", {
   deconvolution <- deconvolute(bulk_small, NULL,
-    method = "scdc",
-    single_cell_object = sc_object_small,
+    method = "scdc", single_cell_object = sc_object_small,
     cell_type_annotations = cell_annotations_small,
-    weight_basis = FALSE
+    batch_ids = batch_ids_small
   )
   expect_equal(
     info = "deconvolution contains same samples as in bulk (not same order)",

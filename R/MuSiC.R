@@ -26,6 +26,7 @@ build_model_music <- function() {
 #'  and columns are samples.
 #' @param cell_type_annotations A Vector of the cell type annotations. Has to
 #'  be in the same order as the samples in single_cell_object.
+#' @param batch_ids A vector of the ids of the samples or individuals.
 #' @param markers vector or list of gene names, default as NULL. If NULL, use all genes that
 #'  provided by both bulk and single cell dataset.
 #' @param clusters character, the phenoData of single cell dataset used as clusters.
@@ -53,19 +54,19 @@ build_model_music <- function() {
 #' @importFrom Biobase exprs pData
 #' @export
 deconvolute_music <- function(bulk_gene_expression, single_cell_object, cell_type_annotations,
-                              markers = NULL, clusters = "cellType", samples = "SubjectName",
+                              batch_ids, markers = NULL, clusters = "cellType", samples = "batchId",
                               select_ct = NULL, cell_size = NULL, ct_cov = FALSE, verbose = FALSE,
                               iter_max = 1000, nu = 0.0001, eps = 0.01, centered = FALSE,
                               normalize = FALSE) {
-  if (is.null(single_cell_object) || is.null(cell_type_annotations)) {
+  if (is.null(single_cell_object) || is.null(cell_type_annotations) || is.null(batch_ids)) {
     base::stop(
       "Single cell object or cell type annotations not provided. Call as: ",
       "deconvolute(bulk_gene_expression, NULL, \"music\", single_cell_object, ",
-      "cell_type_annotations)"
+      "cell_type_annotations, batch_ids)"
     )
   }
   sc_eset <- get_single_cell_expression_set(
-    single_cell_object, colnames(single_cell_object),
+    single_cell_object, batch_ids,
     rownames(single_cell_object), cell_type_annotations
   )
   bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)

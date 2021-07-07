@@ -7,12 +7,13 @@ library(Seurat)
 library(ROCR)
 library(varhandle)
 library(MAST)
+library(MuSiC)
+library(SCDC)
 
 bulk_small <- as.matrix(utils::read.csv("small_test_data/bulk_small.csv", row.names = 1))
 sc_object_small <- as.matrix(utils::read.csv("small_test_data/sc_object_small.csv", row.names = 1))
-cell_annotations_small <- utils::read.csv("small_test_data/cell_annotations_small.csv",
-  row.names = 1
-)$x
+cell_annotations_small <- readr::read_lines("small_test_data/cell_annotations_small.txt")
+batch_ids_small <- readr::read_lines("small_test_data/batch_ids_small.txt")
 
 
 matrixRightFormat <- sc_object_small
@@ -21,16 +22,16 @@ sc.pheno <- data.frame(
   check.names = F, check.rows = F,
   stringsAsFactors = F,
   row.names = colnames(sc_object_small),
-  SubjectName = colnames(sc_object_small),
+  batchId = batch_ids_small,
   cellType = cell_annotations_small
 )
 sc.meta <- data.frame(
   labelDescription = c(
-    "SubjectName",
+    "batchId",
     "cellType"
   ),
   row.names = c(
-    "SubjectName",
+    "batchId",
     "cellType"
   )
 )
@@ -58,8 +59,8 @@ sc.eset <- BisqueRNA:::FilterZeroVarianceGenes(sc.eset, FALSE)
 model_bisque <- BisqueRNA::GenerateSCReference(sc.eset, "cellType")
 utils::write.csv(model_bisque, "test_models/bisque_model_small.csv")
 result_bisque <- t(BisqueRNA::ReferenceBasedDecomposition(
-  Biobase::ExpressionSet(assayData = bulk_small), sc.eset,
-  use.overlap = FALSE
+  Biobase::ExpressionSet(assayData = bulk_small), single_cell_expression_set,
+  use.overlap = FALSE, subject.names = "batchId"
 )$bulk.props)
 result_bisque <- result_bisque[, order(colnames(result_bisque))]
 utils::write.csv(result_bisque, "test_results/bisque_result_small.csv")
@@ -126,7 +127,7 @@ write.table(data.frame("Gene" = rownames(bulk_small), bulk_small), "mixture_file
   sep = "\t", quote = F, row.names = F
 )
 
-root <- dirname(getwd()) # Alternatively rstudioapi::getSourceEditorContext()$path can be used
+root <- getwd() # Alternatively rstudioapi::getSourceEditorContext()$path can be used
 email <- "konstantin.pelz@tum.de"
 token <- "27308ae0ef1458d381becac46ca7e480"
 signature_command <- paste0(
@@ -199,7 +200,7 @@ file.remove(paste0(root, "/mixture_file_for_cibersort.txt"))
 ## MuSiC
 result_music <- music_prop(
   bulk.eset = bulk_expression_set, sc.eset = single_cell_expression_set,
-  clusters = "cellType", samples = "SubjectName"
+  clusters = "cellType", samples = "batchId"
 )$Est.prop.weighted
 result_music <- result_music[, order(colnames(result_music))]
 utils::write.csv(result_music, "test_results/music_result_small.csv")
@@ -207,9 +208,8 @@ utils::write.csv(result_music, "test_results/music_result_small.csv")
 ## SCDC
 result_scdc <- SCDC_prop(
   bulk.eset = bulk_expression_set, sc.eset = single_cell_expression_set,
-  ct.varname = "cellType", sample = "SubjectName",
-  ct.sub = unique(single_cell_expression_set@phenoData@data[, "cellType"]),
-  weight.basis = FALSE
+  ct.varname = "cellType", sample = "batchId",
+  ct.sub = unique(single_cell_expression_set@phenoData@data[, "cellType"])
 )$prop.est.mvw
 result_scdc <- result_scdc[, order(colnames(result_scdc))]
 utils::write.csv(result_scdc, "test_results/scdc_result_small.csv")

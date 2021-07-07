@@ -9,10 +9,10 @@
 #' @return the ggplot object
 #'
 #' @examples
-#' model <- omnideconv::build_model(single_cell_data, cell_type_annotations, "bisque")
+#' model <- omnideconv::build_model(single_cell_data, cell_type_annotations, batch_ids, "bisque")
 #' deconvolution <- omnideconv::deconvolute(
 #'   bulk, model, "bisque", single_cell_data,
-#'   cell_type_annotations
+#'   cell_type_annotations, batch_ids
 #' )
 #' plotDeconvResult(deconvolution, "Bisque")
 #' @export

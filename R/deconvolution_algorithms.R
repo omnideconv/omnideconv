@@ -26,6 +26,7 @@ deconvolution_methods <- c(
 #'   SingleCellExperiment: colData object)
 #' @param cell_type_annotations A Vector of the cell type annotations. Has to be in the same order
 #'   as the samples in single_cell_object
+#' @param batch_ids A vector of the ids of the samples or individuals.
 #' @param method A string specifying the method.
 #'   Supported methods are 'bisque', 'momf', 'dwls', 'scaden', 'cibersortx' and 'autogenes'
 #' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples. Necessary
@@ -40,7 +41,7 @@ deconvolution_methods <- c(
 #' @export
 #'
 #' @examples
-build_model <- function(single_cell_object, cell_type_annotations = NULL,
+build_model <- function(single_cell_object, cell_type_annotations = NULL, batch_ids = NULL,
                         method = deconvolution_methods, bulk_gene_expression = NULL, verbose = TRUE,
                         cell_type_column_name = NULL, ...) {
   method <- tolower(method)
@@ -82,7 +83,8 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
   }
 
   signature <- switch(method,
-    bisque = build_model_bisque(single_cell_object, cell_type_annotations, verbose = verbose, ...),
+    bisque = build_model_bisque(single_cell_object, cell_type_annotations, batch_ids,
+                                verbose = verbose, ...),
     # momf needs bulk set and signature matrix containing the same genes
     momf = build_model_momf(single_cell_object, cell_type_annotations, bulk_gene_expression, ...),
     scaden = build_model_scaden(single_cell_object, cell_type_annotations, bulk_gene_expression,
@@ -125,7 +127,9 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
 #'   that cell-type labels need to be indicated either directly providing a vector
 #'   (cell_type_annotations) or by indicating the column name that indicates the cell-type labels
 #'   (cell_type_column_name). (Anndata: obs object, SingleCellExperiment: colData object)
-#' @param cell_type_annotations Needed for deconvolution with Bisque. Defaults to NULL.
+#' @param cell_type_annotations Needed for deconvolution with Bisque, MuSiC and SCDC.
+#'   Defaults to NULL.
+#' @param batch_ids A vector of the ids of the samples or individuals. Defaults to NULL.
 #' @param verbose Whether the algorithms should print out what they are doing.
 #' @param ... Additional parameters, passed to the algorithm used.
 #' @param cell_type_column_name Name of the column in (Anndata: obs, SingleCellExperiment: colData),
@@ -138,7 +142,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
 #'
 #' @examples
 deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_methods,
-                        single_cell_object = NULL, cell_type_annotations = NULL,
+                        single_cell_object = NULL, cell_type_annotations = NULL, batch_ids = NULL,
                         cell_type_column_name = NULL, verbose = FALSE, ...) {
   method <- tolower(method)
   check_and_install(method)
@@ -189,8 +193,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 
   deconv <- switch(method,
     bisque = deconvolute_bisque(bulk_gene_expression, signature, single_cell_object,
-      cell_type_annotations,
-      verbose = verbose, ...
+      cell_type_annotations, batch_ids, verbose = verbose, ...
     )$bulk_props,
     momf = deconvolute_momf(bulk_gene_expression, signature, single_cell_object,
       verbose = verbose, ...
@@ -202,11 +205,24 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
       verbose = verbose, ...
     )$proportions,
     music = deconvolute_music(bulk_gene_expression, single_cell_object, cell_type_annotations,
+                              batch_ids,
       verbose = verbose, ...
     )$Est.prop.weighted,
-    scdc = deconvolute_scdc(bulk_gene_expression, single_cell_object, cell_type_annotations,
+    scdc = {
+      res <- deconvolute_scdc(bulk_gene_expression, single_cell_object, cell_type_annotations,
+                              batch_ids,
       verbose = verbose, ...
-    )$prop.est.mvw
+      )
+      if ("prop.est.mvw" %in% names(res)){
+        res$prop.est.mvw
+      } else if ("w_table" %in% names(res)){
+        wt_prop(res$w_table, res$prop.only)
+      } else {
+        base::message("There seems to be an error, as the result of deconvolute_scdc did not ",
+                      "contain prop.est.mvw or w_table")
+        res
+      }
+    }
   )
 
   if (!is.null(deconv)) {
@@ -229,14 +245,14 @@ required_packages <- list(
   "cibersortx" = c(),
   "autogenes" = c("reticulate"),
   "music" = c("xuranw/MuSiC"),
-  "scdc" = c("meichendong/SCDC")
+  "scdc" = c("grst/SCDC")
 )
 
 #' Checking and installing all dependencies for the specific methods
 #'
 #' @param method The name of the method that is used
 check_and_install <- function(method) {
-  if (!method %in% deconvolution_methods) {
+  if (!(method %in% deconvolution_methods)[[1]]) {
     base::stop(
       paste(
         "Method", method,
@@ -244,6 +260,7 @@ check_and_install <- function(method) {
       )
     )
   }
+  method <- method[[1]]
   packages <- required_packages[[method]]
   github_pkgs <- grep("^.*?/.*?$", packages, value = TRUE)
   cran_pkgs <- packages[!(packages %in% github_pkgs)]

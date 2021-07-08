@@ -11,7 +11,7 @@ deconvolute_scdc(
   batch_ids,
   ct_varname = "cellType",
   sample = "batchId",
-  ct_sub = unique(cell_type_annotations),
+  ct_sub = NULL,
   iter_max = NULL,
   nu = 1e-04,
   epsilon = NULL,
@@ -32,10 +32,7 @@ deconvolute_scdc(
 
 \item{single_cell_object}{A matrix or dataframe with the single-cell data. Rows are genes,
 columns are samples. Row and column names need to be set. This can also be a list of objects,
-if SCDC_ENSEMBLE should be used.
-You can also supply one or or a list of Biobase expression sets, but it will not be guaranteed
-that everything works. If there are unexpected results, compare your expression sets with the
-output of the get_single_cell_expression_set function.}
+if SCDC_ENSEMBLE should be used.}
 
 \item{cell_type_annotations}{A Vector of the cell type annotations. Has to be in the same order
 as the samples in single_cell_object. This can also be a list of vectors, if SCDC_ENSEMBLE
@@ -47,7 +44,8 @@ should be used.}
 
 \item{sample}{character string specifying the variable name for subject/samples.}
 
-\item{ct_sub}{vector. a subset of cell types that are selected to construct basis matrix.}
+\item{ct_sub}{vector. a subset of cell types that are selected to construct basis matrix. NULL
+means that all are used.}
 
 \item{iter_max}{the maximum number of iteration in WNNLS. If the parameter is NULL, the default
 value of 1000 for a single single cell object and 2000 for a list is chosen.}

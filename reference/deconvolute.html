@@ -135,6 +135,7 @@
   method <span class='op'>=</span> <span class='va'>deconvolution_methods</span>,
   single_cell_object <span class='op'>=</span> <span class='cn'>NULL</span>,
   cell_type_annotations <span class='op'>=</span> <span class='cn'>NULL</span>,
+  batch_ids <span class='op'>=</span> <span class='cn'>NULL</span>,
   cell_type_column_name <span class='op'>=</span> <span class='cn'>NULL</span>,
   verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>...</span>
@@ -167,7 +168,12 @@ that cell-type labels need to be indicated either directly providing a vector
     </tr>
     <tr>
       <th>cell_type_annotations</th>
-      <td><p>Needed for deconvolution with Bisque. Defaults to NULL.</p></td>
+      <td><p>Needed for deconvolution with Bisque, MuSiC and SCDC.
+Defaults to NULL.</p></td>
+    </tr>
+    <tr>
+      <th>batch_ids</th>
+      <td><p>A vector of the ids of the samples or individuals. Defaults to NULL.</p></td>
     </tr>
     <tr>
       <th>cell_type_column_name</th>

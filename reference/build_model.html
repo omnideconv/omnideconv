@@ -132,6 +132,7 @@
     <pre class="usage"><span class='fu'>build_model</span><span class='op'>(</span>
   <span class='va'>single_cell_object</span>,
   cell_type_annotations <span class='op'>=</span> <span class='cn'>NULL</span>,
+  batch_ids <span class='op'>=</span> <span class='cn'>NULL</span>,
   method <span class='op'>=</span> <span class='va'>deconvolution_methods</span>,
   bulk_gene_expression <span class='op'>=</span> <span class='cn'>NULL</span>,
   verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
@@ -155,6 +156,10 @@ SingleCellExperiment: colData object)</p></td>
       <th>cell_type_annotations</th>
       <td><p>A Vector of the cell type annotations. Has to be in the same order
 as the samples in single_cell_object</p></td>
+    </tr>
+    <tr>
+      <th>batch_ids</th>
+      <td><p>A vector of the ids of the samples or individuals.</p></td>
     </tr>
     <tr>
       <th>method</th>

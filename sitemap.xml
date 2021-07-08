@@ -16,6 +16,12 @@
     <loc>https://icbi-lab.github.io/omnideconv/reference/autogenes_checkload.html</loc>
   </url>
   <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/batch_ids.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/batch_ids_small.html</loc>
+  </url>
+  <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/build_anndata.html</loc>
   </url>
   <url>
@@ -41,6 +47,9 @@
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/build_model_scaden.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/build_model_scdc.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/build_signature_matrix_using_Seurat.html</loc>
@@ -98,6 +107,9 @@
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute_scaden.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute_scdc.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolution_methods.html</loc>

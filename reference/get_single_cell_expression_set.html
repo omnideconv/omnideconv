@@ -131,7 +131,7 @@
 
     <pre class="usage"><span class='fu'>get_single_cell_expression_set</span><span class='op'>(</span>
   <span class='va'>single_cell_matrix</span>,
-  <span class='va'>sample_names</span>,
+  <span class='va'>batch_ids</span>,
   <span class='va'>genes</span>,
   <span class='va'>cell_types</span>
 <span class='op'>)</span></pre>
@@ -144,8 +144,8 @@
       <td><p>The single-cell matrix. Rows are genes, columns are samples.</p></td>
     </tr>
     <tr>
-      <th>sample_names</th>
-      <td><p>A vector of the names of the samples, basically colnames(single_cell_matrix).</p></td>
+      <th>batch_ids</th>
+      <td><p>A vector of the ids of the samples or individuals.</p></td>
     </tr>
     <tr>
       <th>genes</th>

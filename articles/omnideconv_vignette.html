@@ -151,6 +151,13 @@ Figure 1: (a) Schematic of the tumor environment. <span class="citation">(Fridma
 <li>Annotations are in the same order as the columns of the single cell matrix</li>
 </ul>
 </li>
+<li>Batch ids
+<ul>
+<li>Vector containing batch ids, so sample or patient ids</li>
+<li>Ids are in the same order as the columns of the single cell matrix</li>
+<li>This is only necessary for Bisque, MuSiC and SCDC</li>
+</ul>
+</li>
 <li>Bulk RNA-seq data
 <ul>
 <li>
@@ -169,6 +176,7 @@ Figure 1: (a) Schematic of the tumor environment. <span class="citation">(Fridma
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"single_cell_data"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"cell_type_annotations"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"batch_ids"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bulk"</span><span class="op">)</span></code></pre></div>
 <p>For the small dataset, append "_small" to the names, e.g. </p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -179,7 +187,7 @@ Figure 1: (a) Schematic of the tumor environment. <span class="citation">(Fridma
 <a href="#signature-matrix" class="anchor"></a>Signature Matrix</h2>
 <p>To calculate a cell-type-specific expression signature, you can use the build_model function with the single cell RNA-seq matrix (rows are genes, columns are samples) and cell type annotations specified above. Alternatively a SingleCellExperiment or an AnnData object can be provided. The parameter method can be set to one of the five methods listed below. More information of the methods is provided in section 3.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="va">method</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="va">batch_ids</span>, <span class="va">method</span><span class="op">)</span></code></pre></div>
 <ul>
 <li>Bisque (“bisque”)</li>
 <li>DWLS (“dwls”)</li>
@@ -276,7 +284,7 @@ Figure 1: (a) Schematic of the tumor environment. <span class="citation">(Fridma
 </table>
 <p>Now we build the signature matrix with Bisque and look at the values for the first few genes.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">signatureMatrix</span> <span class="op">&lt;-</span> <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="st">"bisque"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">signatureMatrix</span> <span class="op">&lt;-</span> <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="va">batch_ids</span>, <span class="st">"bisque"</span><span class="op">)</span>
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">signatureMatrix</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span>, caption <span class="op">=</span> <span class="st">"Table 2: Signature matrix created with Bisque."</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <caption>Table 2: Signature matrix created with Bisque.</caption>
@@ -369,7 +377,7 @@ Figure 1: (a) Schematic of the tumor environment. <span class="citation">(Fridma
 </table>
 <p>We can use this signature matrix to run the deconvolution with Bisque.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="va">signatureMatrix</span>, <span class="st">"bisque"</span>, <span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="va">signatureMatrix</span>, <span class="st">"bisque"</span>, <span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="va">batch_ids</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>caption <span class="op">=</span> <span class="st">"Table 3: Deconvoluted cell type proportions calculated with Bisque and the signature matrix from the last step."</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <caption>Table 3: Deconvoluted cell type proportions calculated with Bisque and the signature matrix from the last step.</caption>
@@ -400,99 +408,99 @@ Figure 1: (a) Schematic of the tumor environment. <span class="citation">(Fridma
 <tbody>
 <tr class="odd">
 <td align="left">HD30_PBMC_0</td>
+<td align="right">0.0752348</td>
+<td align="right">0.3279673</td>
 <td align="right">0.0000000</td>
-<td align="right">0.3585694</td>
+<td align="right">0.1928275</td>
+<td align="right">0.1157468</td>
 <td align="right">0.0000000</td>
-<td align="right">0.1100106</td>
-<td align="right">0.1943287</td>
-<td align="right">0.0000000</td>
-<td align="right">0.2599062</td>
-<td align="right">0.0771851</td>
+<td align="right">0.2476388</td>
+<td align="right">0.0405849</td>
 <td align="right">0.0000000</td>
 </tr>
 <tr class="even">
 <td align="left">HD30_PBMC_1</td>
+<td align="right">0.0946699</td>
+<td align="right">0.2369768</td>
 <td align="right">0.0000000</td>
-<td align="right">0.1737575</td>
-<td align="right">0.0000000</td>
-<td align="right">0.3341939</td>
-<td align="right">0.2759501</td>
+<td align="right">0.2771160</td>
+<td align="right">0.1841842</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
-<td align="right">0.2160985</td>
-<td align="right">0.0000000</td>
+<td align="right">0.1510271</td>
+<td align="right">0.0560260</td>
 </tr>
 <tr class="odd">
 <td align="left">HD30_PBMC_3</td>
+<td align="right">0.0602259</td>
+<td align="right">0.2950833</td>
 <td align="right">0.0000000</td>
-<td align="right">0.1468793</td>
 <td align="right">0.0000000</td>
-<td align="right">0.0000000</td>
-<td align="right">0.2127336</td>
-<td align="right">0.5192231</td>
-<td align="right">0.0000000</td>
-<td align="right">0.1211640</td>
+<td align="right">0.1302926</td>
+<td align="right">0.3863414</td>
+<td align="right">0.0250551</td>
+<td align="right">0.1030017</td>
 <td align="right">0.0000000</td>
 </tr>
 <tr class="even">
 <td align="left">HD30_PBMC_7</td>
-<td align="right">0.0802428</td>
-<td align="right">0.1270633</td>
+<td align="right">0.1323095</td>
+<td align="right">0.2725436</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
-<td align="right">0.1668873</td>
-<td align="right">0.2567403</td>
-<td align="right">0.3105256</td>
-<td align="right">0.0585406</td>
+<td align="right">0.0958389</td>
+<td align="right">0.2481188</td>
+<td align="right">0.2069026</td>
+<td align="right">0.0442866</td>
 <td align="right">0.0000000</td>
 </tr>
 <tr class="odd">
 <td align="left">HD31_PBMC_0</td>
 <td align="right">0.0000000</td>
-<td align="right">0.3745653</td>
-<td align="right">0.3786145</td>
+<td align="right">0.3538145</td>
+<td align="right">0.3214841</td>
+<td align="right">0.0008447</td>
 <td align="right">0.0000000</td>
-<td align="right">0.0000000</td>
-<td align="right">0.1289113</td>
-<td align="right">0.1179089</td>
+<td align="right">0.1512070</td>
+<td align="right">0.1726497</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
 </tr>
 <tr class="even">
 <td align="left">HD31_PBMC_1</td>
 <td align="right">0.0000000</td>
-<td align="right">0.1945518</td>
-<td align="right">0.1705781</td>
-<td align="right">0.2386456</td>
+<td align="right">0.2680325</td>
+<td align="right">0.1534036</td>
+<td align="right">0.2065352</td>
 <td align="right">0.0000000</td>
-<td align="right">0.3962245</td>
-<td align="right">0.0000000</td>
+<td align="right">0.3318735</td>
+<td align="right">0.0401551</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
 </tr>
 <tr class="odd">
 <td align="left">HD31_PBMC_3</td>
-<td align="right">0.1266814</td>
-<td align="right">0.2048089</td>
-<td align="right">0.2634606</td>
-<td align="right">0.0584546</td>
+<td align="right">0.0829607</td>
+<td align="right">0.2636350</td>
+<td align="right">0.2164043</td>
+<td align="right">0.0486072</td>
 <td align="right">0.0000000</td>
-<td align="right">0.0000000</td>
-<td align="right">0.0251348</td>
-<td align="right">0.0000000</td>
-<td align="right">0.3214596</td>
+<td align="right">0.0489893</td>
+<td align="right">0.1429412</td>
+<td align="right">0.0042570</td>
+<td align="right">0.1922052</td>
 </tr>
 <tr class="even">
 <td align="left">HD31_PBMC_7</td>
 <td align="right">0.0000000</td>
-<td align="right">0.4915380</td>
-<td align="right">0.1212267</td>
+<td align="right">0.4294987</td>
+<td align="right">0.1509425</td>
 <td align="right">0.0000000</td>
 <td align="right">0.0000000</td>
+<td align="right">0.0450099</td>
+<td align="right">0.1830187</td>
 <td align="right">0.0000000</td>
-<td align="right">0.1131888</td>
-<td align="right">0.0000000</td>
-<td align="right">0.2740465</td>
+<td align="right">0.1915303</td>
 </tr>
 </tbody>
 </table>
@@ -503,7 +511,7 @@ Figure 1: (a) Schematic of the tumor environment. <span class="citation">(Fridma
 <p>Additionally, we provide some methods for visualisation. In this and the benchmarking section you can find examples of how to use them. For the plotDeconvResult method, you can additionally provide a method and file name to add a title to your plot and save it. The colors are assigned in the order of the alphabet. As long as the exact same cell types are used throughout the analysis, the color assigned to each cell type will be the same.</p>
 <p>Please note that the cell fractions depicted in this section are not representative for deconvolution analysis of “real” data. They are based on our sample dataset, which is very small compared to the usual datasets used in deconvolution analysis and also contains a limited number of cell types. Using such a small subset leads to a big information loss and the results are biased. However, the goal of this section is to give an example how the results can be visualized and to draw attention to the big differences between the results of the five methods implemented.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">res_bisque</span> <span class="op">&lt;-</span> <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="va">signatureMatrix</span>, <span class="st">"bisque"</span>, <span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">res_bisque</span> <span class="op">&lt;-</span> <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="va">signatureMatrix</span>, <span class="st">"bisque"</span>, <span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="va">batch_ids</span><span class="op">)</span>
 <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/plotDeconvResult.html">plotDeconvResult</a></span><span class="op">(</span><span class="va">res_bisque</span>, method <span class="op">=</span> <span class="st">"Bisque"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <img src="omnideconv_vignette_files/figure-html/plot-1.png" alt="Figure 2: Cell type proportions of the last step visualized. Very heterogenous results, HD30 show a lot of T cell dividing and NK cell, while HD31 show a lot of monocytes." width="672"><p class="caption">

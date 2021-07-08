@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>MuSiC Deconvolution — deconvolute_music • omnideconv</title>
+<title>SCDC Deconvolution — deconvolute_scdc • omnideconv</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="MuSiC Deconvolution — deconvolute_music" />
-<meta property="og:description" content="This function is to calculate the MuSiC deconvolution proportions.
+<meta property="og:title" content="SCDC Deconvolution — deconvolute_scdc" />
+<meta property="og:description" content="This function is to calculate the SCDC deconvolution proportions.
 IMPORTANT: No model is needed. Everything is done inside this method." />
 
 
@@ -121,33 +121,37 @@ IMPORTANT: No model is needed. Everything is done inside this method." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>MuSiC Deconvolution</h1>
-    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/MuSiC.R'><code>R/MuSiC.R</code></a></small>
-    <div class="hidden name"><code>deconvolute_music.Rd</code></div>
+    <h1>SCDC Deconvolution</h1>
+    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/SCDC.R'><code>R/SCDC.R</code></a></small>
+    <div class="hidden name"><code>deconvolute_scdc.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function is to calculate the MuSiC deconvolution proportions.
+    <p>This function is to calculate the SCDC deconvolution proportions.
 IMPORTANT: No model is needed. Everything is done inside this method.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>deconvolute_music</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>deconvolute_scdc</span><span class='op'>(</span>
   <span class='va'>bulk_gene_expression</span>,
   <span class='va'>single_cell_object</span>,
   <span class='va'>cell_type_annotations</span>,
   <span class='va'>batch_ids</span>,
-  markers <span class='op'>=</span> <span class='cn'>NULL</span>,
-  clusters <span class='op'>=</span> <span class='st'>"cellType"</span>,
-  samples <span class='op'>=</span> <span class='st'>"batchId"</span>,
-  select_ct <span class='op'>=</span> <span class='cn'>NULL</span>,
-  cell_size <span class='op'>=</span> <span class='cn'>NULL</span>,
-  ct_cov <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  iter_max <span class='op'>=</span> <span class='fl'>1000</span>,
+  ct_varname <span class='op'>=</span> <span class='st'>"cellType"</span>,
+  sample <span class='op'>=</span> <span class='st'>"batchId"</span>,
+  ct_sub <span class='op'>=</span> <span class='cn'>NULL</span>,
+  iter_max <span class='op'>=</span> <span class='cn'>NULL</span>,
   nu <span class='op'>=</span> <span class='fl'>1e-04</span>,
-  eps <span class='op'>=</span> <span class='fl'>0.01</span>,
-  centered <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  normalize <span class='op'>=</span> <span class='cn'>FALSE</span>
+  epsilon <span class='op'>=</span> <span class='cn'>NULL</span>,
+  truep <span class='op'>=</span> <span class='cn'>NULL</span>,
+  weight_basis <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  ct_cell_size <span class='op'>=</span> <span class='cn'>NULL</span>,
+  Transform_bisque <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  grid_search <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  search_length <span class='op'>=</span> <span class='fl'>0.05</span>,
+  names_sc_objects <span class='op'>=</span> <span class='cn'>NULL</span>,
+  qcthreshold <span class='op'>=</span> <span class='fl'>0.7</span>,
+  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  quality_control <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -155,87 +159,111 @@ IMPORTANT: No model is needed. Everything is done inside this method.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>bulk_gene_expression</th>
-      <td><p>A matrix or dataframe with the bulk data. Rows
-are genes, columns are samples.</p></td>
+      <td><p>Dataframe or matrix of bulk RNA-seq data (genes x individuals)</p></td>
     </tr>
     <tr>
       <th>single_cell_object</th>
-      <td><p>A Matrix with the single-cell data. Rows are genes
-and columns are samples.</p></td>
+      <td><p>A matrix or dataframe with the single-cell data. Rows are genes,
+columns are samples. Row and column names need to be set. This can also be a list of objects,
+if SCDC_ENSEMBLE should be used.</p></td>
     </tr>
     <tr>
       <th>cell_type_annotations</th>
-      <td><p>A Vector of the cell type annotations. Has to
-be in the same order as the samples in single_cell_object.</p></td>
+      <td><p>A Vector of the cell type annotations. Has to be in the same order
+as the samples in single_cell_object. This can also be a list of vectors, if SCDC_ENSEMBLE
+should be used.</p></td>
     </tr>
     <tr>
       <th>batch_ids</th>
       <td><p>A vector of the ids of the samples or individuals.</p></td>
     </tr>
     <tr>
-      <th>markers</th>
-      <td><p>vector or list of gene names, default as NULL. If NULL, use all genes that
-provided by both bulk and single cell dataset.</p></td>
+      <th>ct_varname</th>
+      <td><p>character string specifying the variable name for 'cell types'.</p></td>
     </tr>
     <tr>
-      <th>clusters</th>
-      <td><p>character, the phenoData of single cell dataset used as clusters.</p></td>
+      <th>sample</th>
+      <td><p>character string specifying the variable name for subject/samples.</p></td>
     </tr>
     <tr>
-      <th>samples</th>
-      <td><p>character,the phenoData of single cell dataset used as samples.</p></td>
-    </tr>
-    <tr>
-      <th>select_ct</th>
-      <td><p>vector of cell types. Default as NULL. If NULL, then use all cell types
-provided.</p></td>
-    </tr>
-    <tr>
-      <th>cell_size</th>
-      <td><p>data.frame of cell sizes. 1st column contains the names of cell types, 2nd
-column has the cell sizes per cell type. Default as NULL. If NULL, then estimate cell size from
-data.</p></td>
-    </tr>
-    <tr>
-      <th>ct_cov</th>
-      <td><p>logical. If TRUE, use the covariance across cell types.</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>logical, default as TRUE.</p></td>
+      <th>ct_sub</th>
+      <td><p>vector. a subset of cell types that are selected to construct basis matrix. NULL
+means that all are used.</p></td>
     </tr>
     <tr>
       <th>iter_max</th>
-      <td><p>numeric, maximum iteration number</p></td>
+      <td><p>the maximum number of iteration in WNNLS. If the parameter is NULL, the default
+value of 1000 for a single single cell object and 2000 for a list is chosen.</p></td>
     </tr>
     <tr>
       <th>nu</th>
-      <td><p>regulation parameter, take care of weight when taking recipical.</p></td>
+      <td><p>a small constant to facilitate the calculation of variance</p></td>
     </tr>
     <tr>
-      <th>eps</th>
-      <td><p>Thredshold of convergence.</p></td>
+      <th>epsilon</th>
+      <td><p>a small constant number used for convergence criteria. If the parameter is NULL,
+the default value of 0.01 for a single single cell object and 0.001 for a list is chosen.</p></td>
     </tr>
     <tr>
-      <th>centered</th>
-      <td><p>logic, substract avg of Y and D.</p></td>
+      <th>truep</th>
+      <td><p>true cell-type proportions for bulk samples if known</p></td>
     </tr>
     <tr>
-      <th>normalize</th>
-      <td><p>logic, divide Y and D by their standard deviation.</p></td>
+      <th>weight_basis</th>
+      <td><p>Whether to use the Basis Matrix adjusted for maximal variance weight,
+created by the SCDC_basis function</p></td>
+    </tr>
+    <tr>
+      <th>ct_cell_size</th>
+      <td><p>default is NULL, which means the "library size" is calculated based on the
+data. Users can specify a vector of cell size factors corresponding to the ct.sub according to
+prior knowledge. The vector should be named: names(ct_cell_size input) should not be NULL.</p></td>
+    </tr>
+    <tr>
+      <th>Transform_bisque</th>
+      <td><p>The bulk sample transformation from bisqueRNA. Aiming to reduce the
+systematic difference between single cells and bulk samples.</p></td>
+    </tr>
+    <tr>
+      <th>grid_search</th>
+      <td><p>logical. whether to allow grid search method to derive the ENSEMBLE weights.</p></td>
+    </tr>
+    <tr>
+      <th>search_length</th>
+      <td><p>a number between 0 to 0.5. if using "Grid search", the step length used.
+Smaller search.length derives more accurate optimization results.</p></td>
+    </tr>
+    <tr>
+      <th>names_sc_objects</th>
+      <td><p>A vector with the names of the single cell objects. Only used if
+a list of single cell objects is supplied. If it remains NULL, the objects are named by their
+index.</p></td>
+    </tr>
+    <tr>
+      <th>qcthreshold</th>
+      <td><p>The probability threshold used to filter out questionable cells, only used if
+quality_control = TRUE.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Whether to create any output.</p></td>
+    </tr>
+    <tr>
+      <th>quality_control</th>
+      <td><p>Whether to perform the SCDC_qc quality control method.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a list with elements:</p><ul>
-<li><p>Estimates of MuSiC</p></li>
-<li><p>Estimates of NNLS</p></li>
-<li><p>Weight of MuSiC</p></li>
-<li><p>r.squared of MuSiC</p></li>
-<li><p>Variance of MuSiC estimates</p></li>
-</ul>
+    <p>Estimated proportion, basis matrix, predicted gene expression levels for bulk samples</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
+    <p>SCDC_ENSEMBLE can be used by supplying lists to the parameters single_cell_object and
+cell_type_annotations. To name the single cell data sets, supply a vector with their
+corresponding names to names_sc_objects.</p>
+<p>Requires raw read counts.
+Works best with multiple cells per single cell patient/subject</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

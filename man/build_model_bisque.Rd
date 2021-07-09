@@ -7,6 +7,7 @@
 build_model_bisque(
   single_cell_object,
   cell_type_annotations,
+  batch_ids,
   old_cpm = TRUE,
   verbose = FALSE
 )
@@ -17,6 +18,8 @@ Rows are genes, columns are samples. Row and column names need to be set.}
 
 \item{cell_type_annotations}{A Vector of the cell type annotations. Has to
 be in the same order as the samples in single_cell_object}
+
+\item{batch_ids}{A vector of the ids of the samples or individuals.}
 
 \item{old_cpm}{Prior to version 1.0.4 (updated in July 2020), the package
 converted counts to CPM after subsetting the marker genes. Github user

@@ -7,6 +7,7 @@
 build_model(
   single_cell_object,
   cell_type_annotations = NULL,
+  batch_ids = NULL,
   method = deconvolution_methods,
   bulk_gene_expression = NULL,
   verbose = TRUE,
@@ -24,6 +25,8 @@ SingleCellExperiment: colData object)}
 
 \item{cell_type_annotations}{A Vector of the cell type annotations. Has to be in the same order
 as the samples in single_cell_object}
+
+\item{batch_ids}{A vector of the ids of the samples or individuals.}
 
 \item{method}{A string specifying the method.
 Supported methods are 'bisque', 'momf', 'dwls', 'scaden', 'cibersortx' and 'autogenes'}

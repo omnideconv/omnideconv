@@ -94,3 +94,10 @@ test_that("MuSiC build model works", {
   )
   expect_null(info = "The MuSiC Model is null (which it should be)", object = model)
 })
+test_that("CPM build model works", {
+  model <- build_model(sc_object_small, cell_annotations_small,
+    method = "cpm",
+    bulk_gene_expression = bulk_small
+  )
+  expect_null(info = "The CPM Model is null (which it should be)", object = model)
+})

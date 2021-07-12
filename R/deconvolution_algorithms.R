@@ -202,7 +202,10 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
     )$proportions,
     music = deconvolute_music(bulk_gene_expression, single_cell_object, cell_type_annotations,
       verbose = verbose, ...
-    )$Est.prop.weighted
+    )$Est.prop.weighted,
+    cpm = deconvolute_cpm(bulk_gene_expression, single_cell_object, cell_type_annotations,
+      verbose = verbose, ...
+    )$cellTypePredictions
   )
 
   if (!is.null(deconv)) {

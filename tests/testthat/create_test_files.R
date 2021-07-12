@@ -208,12 +208,47 @@ utils::write.csv(result_music, "test_results/music_result_small.csv")
 
 
 ## CPM
-# cellSpace <- scores(pcaMethods::pca(t(sc_object_small), method="svd", nPcs=2))
+# cellSpace <- pcaMethods::scores(pcaMethods::pca(t(sc_object_small), method="svd", nPcs=2))
 # Cell space creation with seurat instead
-# result_cpm <- CPM(sc_object_small, cell_annotations_small, bulk_small, cellSpace,
-#                  quantifyTypes = TRUE, typeTransformation = TRUE)$cellTypePredictions
-# result_cpm <- result_cpm[, order(colnames(result_cpm))]
-# utils::write.csv(result_cpm, "test_results/cpm_result_small.csv")
+sce <- omnideconv:::matrix_to_singlecellexperiment(sc_object_small, cell_annotations_small)
+seurat <- as.Seurat(sce, counts = "X", data = NULL)
+
+seurat <- NormalizeData(seurat)
+all.genes <- rownames(seurat)
+seurat <- ScaleData(seurat, features = all.genes)
+seurat <- FindVariableFeatures(seurat)
+seurat <- RunPCA(seurat, features = VariableFeatures(object = seurat))
+pca_embedding <- seurat@reductions$pca@cell.embeddings[, 1:2]
+
+
+seurat <- RunUMAP(seurat, dims = 1:10)
+umap_embedding <- seurat@reductions$umap@cell.embeddings
+
+
+seurat <- RunTSNE(seurat)
+tsne_embedding <- seurat@reductions$tsne@cell.embeddings
+
+
+
+result_cpm_pca <- CPM(sc_object_small, cell_annotations_small, bulk_small, pca_embedding,
+  quantifyTypes = TRUE, typeTransformation = TRUE
+)$cellTypePredictions
+result_cpm_pca <- result_cpm_pca[, order(colnames(result_cpm_pca))]
+utils::write.csv(result_cpm_pca, "test_results/cpm_pca_result_small.csv")
+
+
+result_cpm_umap <- CPM(sc_object_small, cell_annotations_small, bulk_small, umap_embedding,
+  quantifyTypes = TRUE, typeTransformation = TRUE
+)$cellTypePredictions
+result_cpm_umap <- result_cpm_umap[, order(colnames(result_cpm_umap))]
+utils::write.csv(result_cpm_umap, "test_results/cpm_umap_result_small.csv")
+
+
+result_cpm_tsne <- CPM(sc_object_small, cell_annotations_small, bulk_small, tsne_embedding,
+  quantifyTypes = TRUE, typeTransformation = TRUE
+)$cellTypePredictions
+result_cpm_tsne <- result_cpm_tsne[, order(colnames(result_cpm_tsne))]
+utils::write.csv(result_cpm_tsne, "test_results/cpm_tsne_result_small.csv")
 
 
 ## DWLS Stuff

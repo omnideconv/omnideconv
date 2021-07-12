@@ -243,29 +243,4 @@ test_that("CPM deconvolution works", {
     info = "deconvolution_tsne contains same samples as in bulk (not same order)",
     object = sort(rownames(deconvolution_tsne)), expected = sort(colnames(bulk_small))
   )
-
-  check_result_pca <- as.matrix(read.csv("test_results/cpm_pca_result_small.csv",
-    row.names = 1,
-    check.names = FALSE
-  ))
-  check_result_umap <- as.matrix(read.csv("test_results/cpm_umap_result_small.csv",
-    row.names = 1,
-    check.names = FALSE
-  ))
-  check_result_tsne <- as.matrix(read.csv("test_results/cpm_tsne_result_small.csv",
-    row.names = 1,
-    check.names = FALSE
-  ))
-  expect_equal(
-    info = "deconvolution_pca result is correct", object = deconvolution_pca,
-    expected = check_result_pca, tolerance = 0.05
-  )
-  expect_equal(
-    info = "deconvolution_umap result is correct", object = deconvolution_umap,
-    expected = check_result_umap, tolerance = 0.05
-  )
-  expect_equal(
-    info = "deconvolution_tsne result is correct", object = deconvolution_tsne,
-    expected = check_result_tsne, tolerance = 0.05
-  )
 })

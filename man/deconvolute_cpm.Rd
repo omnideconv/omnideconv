@@ -67,6 +67,8 @@ if calculate_CI = TRUE.}
 \description{
 This function is to calculate the CPM deconvolution proportions.
 IMPORTANT: No model is needed. Everything is done inside this method.
+This method is NOT deterministic, so if it is run multiple times, it will create different
+outputs.
 }
 \details{
 This function initiate the Cellular Population Mapping (CPM) algorithm - a deconvolution

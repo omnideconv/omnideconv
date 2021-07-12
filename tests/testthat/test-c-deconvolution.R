@@ -205,6 +205,10 @@ test_that("MuSiC deconvolution works", {
   )
 })
 
+
+# This warning can be ignored (according to https://github.com/satijalab/seurat/issues/1249):
+# Warning in irlba(A = t(x = object), nv = npcs, ...) :
+# You're computing too large a percentage of total singular values, use a standard svd instead.
 test_that("CPM deconvolution works", {
   deconvolution_pca <- deconvolute(bulk_small, NULL,
     method = "cpm",

@@ -242,7 +242,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
       if ("prop.est.mvw" %in% names(res)) {
         res$prop.est.mvw
       } else if ("w_table" %in% names(res)) {
-        wt_prop(res$w_table, res$prop.only)
+        SCDC::wt_prop(res$w_table, res$prop.only)
       } else {
         base::message(
           "There seems to be an error, as the result of deconvolute_scdc did not ",
@@ -252,7 +252,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
       }
     },
     cpm = deconvolute_cpm(bulk_gene_expression, single_cell_object, cell_type_annotations,
-                          verbose = verbose, ...
+      verbose = verbose, ...
     )$cellTypePredictions
   )
 

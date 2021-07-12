@@ -1,11 +1,10 @@
 bulk_small <- as.matrix(utils::read.csv("small_test_data/bulk_small.csv", row.names = 1))
 sc_object_small <- as.matrix(utils::read.csv("small_test_data/sc_object_small.csv", row.names = 1))
-cell_annotations_small <- utils::read.csv("small_test_data/cell_annotations_small.csv",
-  row.names = 1
-)$x
+cell_annotations_small <- readr::read_lines("small_test_data/cell_annotations_small.txt")
+batch_ids_small <- readr::read_lines("small_test_data/batch_ids_small.txt")
 
 test_that("Bisque GenerateSCReference works", {
-  signature <- build_model(sc_object_small, cell_annotations_small, method = "bisque")
+  signature <- build_model(sc_object_small, cell_annotations_small, batch_ids_small, method = "bisque")
   expect_equal(
     info = "signature matrix has same amount of columns as unique cell types in single
                cell matrix", object = ncol(signature),
@@ -89,15 +88,21 @@ test_that("AutoGeneS build model works", {
 
 test_that("MuSiC build model works", {
   model <- build_model(sc_object_small, cell_annotations_small,
-    method = "music",
-    bulk_gene_expression = bulk_small
+    method = "music"
   )
   expect_null(info = "The MuSiC Model is null (which it should be)", object = model)
 })
+test_that("SCDC build model works", {
+  model <- build_model(sc_object_small, cell_annotations_small,
+    method = "scdc"
+  )
+  expect_null(info = "The SCDC Model is null (which it should be)", object = model)
+})
+
 test_that("CPM build model works", {
   model <- build_model(sc_object_small, cell_annotations_small,
-    method = "cpm",
-    bulk_gene_expression = bulk_small
+                       method = "cpm",
+                       bulk_gene_expression = bulk_small
   )
   expect_null(info = "The CPM Model is null (which it should be)", object = model)
 })

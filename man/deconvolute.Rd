@@ -10,6 +10,7 @@ deconvolute(
   method = deconvolution_methods,
   single_cell_object = NULL,
   cell_type_annotations = NULL,
+  batch_ids = NULL,
   cell_type_column_name = NULL,
   verbose = FALSE,
   ...
@@ -30,7 +31,10 @@ that cell-type labels need to be indicated either directly providing a vector
 (cell_type_annotations) or by indicating the column name that indicates the cell-type labels
 (cell_type_column_name). (Anndata: obs object, SingleCellExperiment: colData object)}
 
-\item{cell_type_annotations}{Needed for deconvolution with Bisque. Defaults to NULL.}
+\item{cell_type_annotations}{Needed for deconvolution with Bisque, MuSiC and SCDC.
+Defaults to NULL.}
+
+\item{batch_ids}{A vector of the ids of the samples or individuals. Defaults to NULL.}
 
 \item{cell_type_column_name}{Name of the column in (Anndata: obs, SingleCellExperiment: colData),
 that contains the cell-type labels. Is only used if no cell_type_annotations vector

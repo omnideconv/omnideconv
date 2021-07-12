@@ -6,7 +6,7 @@
 \usage{
 get_single_cell_expression_set(
   single_cell_matrix,
-  sample_names,
+  batch_ids,
   genes,
   cell_types
 )
@@ -14,7 +14,7 @@ get_single_cell_expression_set(
 \arguments{
 \item{single_cell_matrix}{The single-cell matrix. Rows are genes, columns are samples.}
 
-\item{sample_names}{A vector of the names of the samples, basically colnames(single_cell_matrix).}
+\item{batch_ids}{A vector of the ids of the samples or individuals.}
 
 \item{genes}{A vector of the names of the genes, basically rownames(single_cell_matrix).}
 

@@ -7,11 +7,12 @@
 deconvolute_bisque(
   bulk_gene_expression,
   signature_matrix,
-  single_cell_object = NULL,
-  cell_type_annotations = NULL,
+  single_cell_object,
+  cell_type_annotations,
+  batch_ids,
   markers = NULL,
   cell_types = "cellType",
-  subject_names = "SubjectName",
+  subject_names = "batchId",
   use_overlap = FALSE,
   verbose = FALSE,
   old_cpm = TRUE
@@ -28,6 +29,8 @@ and columns are samples.}
 
 \item{cell_type_annotations}{A Vector of the cell type annotations. Has to
 be in the same order as the samples in single_cell_object.}
+
+\item{batch_ids}{A vector of the ids of the samples or individuals.}
 
 \item{markers}{Structure, such as character vector, containing marker genes
 to be used in decomposition. \code{base::unique(base::unlist(markers))} should

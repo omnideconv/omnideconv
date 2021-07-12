@@ -1,7 +1,7 @@
 #' Generating a single cell expression set
 #'
 #' @param single_cell_matrix The single-cell matrix. Rows are genes, columns are samples.
-#' @param sample_names A vector of the names of the samples, basically colnames(single_cell_matrix).
+#' @param batch_ids A vector of the ids of the samples or individuals.
 #' @param genes A vector of the names of the genes, basically rownames(single_cell_matrix).
 #' @param cell_types A Vector of the cell type annotations. Has to be in the same order as the
 #'   samples in single_cell_object.
@@ -9,24 +9,24 @@
 #' @return A Biobase::ExpressionSet of the input data.
 #' @importClassesFrom Biobase AnnotatedDataFrame
 #'
-get_single_cell_expression_set <- function(single_cell_matrix, sample_names, genes, cell_types) {
+get_single_cell_expression_set <- function(single_cell_matrix, batch_ids, genes, cell_types) {
 
 
   # individual.ids and cell.types should be in the same order as in sampleNames
   sc_pheno <- data.frame(
     check.names = FALSE, check.rows = FALSE,
     stringsAsFactors = FALSE,
-    row.names = sample_names,
-    SubjectName = sample_names,
+    row.names = colnames(single_cell_matrix),
+    batchId = batch_ids,
     cellType = cell_types
   )
   sc_meta <- data.frame(
     labelDescription = c(
-      "SubjectName",
+      "batchId",
       "cellType"
     ),
     row.names = c(
-      "SubjectName",
+      "batchId",
       "cellType"
     )
   )

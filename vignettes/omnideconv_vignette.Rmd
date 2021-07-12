@@ -80,6 +80,10 @@ First of all, you need some data to run the deconvolution with.
 * Cell type annotations
     - Vector containing cell type annotations
     - Annotations are in the same order as the columns of the single cell matrix
+* Batch ids
+    - Vector containing batch ids, so sample or patient ids
+    - Ids are in the same order as the columns of the single cell matrix
+    - This is only necessary for Bisque, MuSiC and SCDC
 * Bulk RNA-seq data
     - *Genes* x *Samples* matrix
     - Rownames (gene names) are provided in the same format as in the sc RNA-seq data, for instance HGNC symbols
@@ -94,6 +98,7 @@ You can simply load the provided sample data with:
 ```r
 data("single_cell_data")
 data("cell_type_annotations")
+data("batch_ids")
 data("bulk")
 ```
 For the small dataset, append "_small" to the names, e.g. 
@@ -106,7 +111,7 @@ data("single_cell_data_small")
 To calculate a cell-type-specific expression signature, you can use the build_model function with the single cell RNA-seq matrix (rows are genes, columns are samples) and cell type annotations specified above. Alternatively a SingleCellExperiment or an AnnData object can be provided. The parameter method can be set to one of the five methods listed below. More information of the methods is provided in section 3.
 
 ```{r signature, eval=FALSE}
-omnideconv::build_model(single_cell_data, cell_type_annotations, method)
+omnideconv::build_model(single_cell_data, cell_type_annotations, batch_ids, method)
 ```
 
 * Bisque ("bisque")
@@ -137,6 +142,7 @@ Similar to the build_model function, specific parameters can be passed on to the
 load("../data/cell_type_annotations.RData")
 load("../data/bulk.RData")
 load("../data/single_cell_data.RData")
+load("../data/batch_ids.RData")
 load("../data/RefData.RData")
 ```
 
@@ -161,14 +167,14 @@ knitr::kable(single_cell_data[170:175, 9:13], caption = "Table 1: Example of TPM
 Now we build the signature matrix with Bisque and look at the values for the first few genes. 
 
 ```{r signatureExample}
-signatureMatrix <- omnideconv::build_model(single_cell_data, cell_type_annotations, "bisque")
+signatureMatrix <- omnideconv::build_model(single_cell_data, cell_type_annotations, batch_ids, "bisque")
 knitr::kable(signatureMatrix[1:5, ], caption = "Table 2: Signature matrix created with Bisque.")
 ```
 
 We can use this signature matrix to run the deconvolution with Bisque.
 
 ```{r deconvExample}
-omnideconv::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations) %>%
+omnideconv::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations, batch_ids) %>%
   knitr::kable(caption = "Table 3: Deconvoluted cell type proportions calculated with Bisque and the signature matrix from the last step.")
 ```
 
@@ -179,7 +185,7 @@ Additionally, we provide some methods for visualisation. In this and the benchma
 Please note that the cell fractions depicted in this section are not representative for deconvolution analysis of "real" data. They are based on our sample dataset, which is very small compared to the usual datasets used in deconvolution analysis and also contains a limited number of cell types. Using such a small subset leads to a big information loss and the results are biased. However, the goal of this section is to give an example how the results can be visualized and to draw attention to the big differences between the results of the five methods implemented.
 
 ```{r plot, fig.width=7, fig.height=4, fig.cap="Figure 2: Cell type proportions of the last step visualized. Very heterogenous results, HD30 show a lot of T cell dividing and NK cell, while HD31 show a lot of monocytes."}
-res_bisque <- omnideconv::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations)
+res_bisque <- omnideconv::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations, batch_ids)
 omnideconv::plotDeconvResult(res_bisque, method = "Bisque")
 ```
 

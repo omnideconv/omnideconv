@@ -53,7 +53,7 @@
 #'   https://www.sciencedirect.com/science/article/pii/S0092867420308825
 "single_cell_data_small"
 
-#' Cell type annotations for the example sigle-cell RNA-seq dataset from Maynard et al.
+#' Cell type annotations for the example single-cell RNA-seq dataset from Maynard et al.
 #'
 #' cell types are in the same order as cells in the sc RNA-seq matrix
 #'
@@ -63,7 +63,7 @@
 #'   https://www.sciencedirect.com/science/article/pii/S0092867420308825
 "cell_type_annotations"
 
-#' Cell type annotations for the small example sigle-cell RNA-seq dataset from Maynard et al.
+#' Cell type annotations for the small example single-cell RNA-seq dataset from Maynard et al.
 #'
 #' cell types are in the same order as cells in the small sc RNA-seq matrix
 #'
@@ -72,3 +72,24 @@
 #' @source Maynard et al. (2020), Cell,
 #'   https://www.sciencedirect.com/science/article/pii/S0092867420308825
 "cell_type_annotations_small"
+
+#' Batch ids for the example single-cell RNA-seq dataset from Maynard et al.
+#'
+#' The batch ids (in this case sample ids) are in the same order as cells in the sc RNA-seq matrix
+#'
+#' @format vector with 300 elements
+#'
+#' @source Maynard et al. (2020), Cell,
+#'   https://www.sciencedirect.com/science/article/pii/S0092867420308825
+"batch_ids"
+
+#' Batch ids for the small example single-cell RNA-seq dataset from Maynard et al.
+#'
+#' The batch ids (in this case sample ids) are in the same order as cells in the small sc RNA-seq
+#' matrix
+#'
+#' @format vector with 50 elements
+#'
+#' @source Maynard et al. (2020), Cell,
+#'   https://www.sciencedirect.com/science/article/pii/S0092867420308825
+"batch_ids_small"

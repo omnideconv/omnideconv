@@ -59,12 +59,14 @@ Suggests:
     rmarkdown,
     ROCR,
     scBio,
+    SCDC,
     testthat (>= 2.0.0),
     varhandle
 VignetteBuilder: 
     knitr
 Remotes:
     grst/MOMF,
+    grst/SCDC,
     xuranw/MuSiC
 biocViews:
 Config/testthat/edition: 2

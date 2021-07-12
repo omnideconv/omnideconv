@@ -1,7 +1,5 @@
 sc_object_small <- as.matrix(utils::read.csv("small_test_data/sc_object_small.csv", row.names = 1))
-cell_annotations_small <- utils::read.csv("small_test_data/cell_annotations_small.csv",
-  row.names = 1
-)$x
+cell_annotations_small <- readr::read_lines("small_test_data/cell_annotations_small.txt")
 
 test_that("Matrix/SingleCellExperiment conversion works", {
   sce <- matrix_to_singlecellexperiment(sc_object_small, cell_annotations_small)

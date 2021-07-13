@@ -8,7 +8,6 @@ deconvolute_cpm(
   bulk_gene_expression,
   single_cell_object,
   cell_type_annotations,
-  batch_ids,
   cell_space = "PCA",
   no_cores = NULL,
   neighborhood_size = 10,
@@ -27,8 +26,6 @@ and columns are samples.}
 
 \item{cell_type_annotations}{A Vector of the cell type annotations. Has to
 be in the same order as the samples in single_cell_object.}
-
-\item{batch_ids}{A vector of the ids of the samples or individuals.}
 
 \item{cell_space}{The cell state space corresponding to the single-cell RNA-seq data. It can be
 a vector for a 1-dim space or a 2D matrix for a two space where each column represents a

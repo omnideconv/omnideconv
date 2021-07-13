@@ -192,7 +192,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
     if ("matrix" %in% class(single_cell_object) || "data.frame" %in% class(single_cell_object)) {
       rownames(single_cell_object) <- escape_blanks(rownames(single_cell_object))
       colnames(single_cell_object) <- escape_blanks(colnames(single_cell_object))
-    } else {
+    } else if ("list" %in% class(single_cell_object)) {
       single_cell_object <- lapply(single_cell_object, function(sc) {
         rownames(sc) <- escape_blanks(rownames(sc))
         colnames(sc) <- escape_blanks(colnames(sc))
@@ -203,7 +203,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   if (!is.null(cell_type_annotations)) {
     if ("character" %in% class(cell_type_annotations)) {
       cell_type_annotations <- escape_blanks(cell_type_annotations)
-    } else {
+    } else if ("list" %in% class(cell_type_annotations)) {
       cell_type_annotations <- lapply(cell_type_annotations, escape_blanks)
     }
   }
@@ -211,7 +211,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   if (!is.null(batch_ids)) {
     if ("character" %in% class(batch_ids)) {
       batch_ids <- escape_blanks(batch_ids)
-    } else {
+    } else if ("list" %in% class(batch_ids)) {
       batch_ids <- lapply(batch_ids, escape_blanks)
     }
   }

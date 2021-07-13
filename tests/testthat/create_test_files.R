@@ -9,6 +9,7 @@ library(varhandle)
 library(MAST)
 library(MuSiC)
 library(SCDC)
+library(scBio)
 
 bulk_small <- as.matrix(utils::read.csv("small_test_data/bulk_small.csv", row.names = 1))
 sc_object_small <- as.matrix(utils::read.csv("small_test_data/sc_object_small.csv", row.names = 1))

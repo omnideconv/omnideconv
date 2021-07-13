@@ -10,7 +10,7 @@
 deconvolution_methods <- c(
   "Bisque" = "bisque", "MOMF" = "momf", "DWLS" = "dwls",
   "Scaden" = "scaden", "CibersortX" = "cibersortx",
-  "AutoGeneS" = "autogenes", "MuSiC" = "music", "SCDC" = "scdc"
+  "AutoGeneS" = "autogenes", "MuSiC" = "music", "SCDC" = "scdc", "CPM" = "cpm"
 )
 
 
@@ -105,7 +105,8 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, batch_
       verbose = verbose, ...
     ),
     music = build_model_music(),
-    scdc = build_model_scdc()
+    scdc = build_model_scdc(),
+    cpm = build_model_cpm()
   )
 
 
@@ -191,7 +192,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
     if ("matrix" %in% class(single_cell_object) || "data.frame" %in% class(single_cell_object)) {
       rownames(single_cell_object) <- escape_blanks(rownames(single_cell_object))
       colnames(single_cell_object) <- escape_blanks(colnames(single_cell_object))
-    } else {
+    } else if ("list" %in% class(single_cell_object)) {
       single_cell_object <- lapply(single_cell_object, function(sc) {
         rownames(sc) <- escape_blanks(rownames(sc))
         colnames(sc) <- escape_blanks(colnames(sc))
@@ -202,7 +203,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   if (!is.null(cell_type_annotations)) {
     if ("character" %in% class(cell_type_annotations)) {
       cell_type_annotations <- escape_blanks(cell_type_annotations)
-    } else {
+    } else if ("list" %in% class(cell_type_annotations)) {
       cell_type_annotations <- lapply(cell_type_annotations, escape_blanks)
     }
   }
@@ -210,7 +211,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   if (!is.null(batch_ids)) {
     if ("character" %in% class(batch_ids)) {
       batch_ids <- escape_blanks(batch_ids)
-    } else {
+    } else if ("list" %in% class(batch_ids)) {
       batch_ids <- lapply(batch_ids, escape_blanks)
     }
   }
@@ -241,7 +242,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
       if ("prop.est.mvw" %in% names(res)) {
         res$prop.est.mvw
       } else if ("w_table" %in% names(res)) {
-        wt_prop(res$w_table, res$prop.only)
+        SCDC::wt_prop(res$w_table, res$prop.only)
       } else {
         base::message(
           "There seems to be an error, as the result of deconvolute_scdc did not ",
@@ -249,7 +250,10 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
         )
         res
       }
-    }
+    },
+    cpm = deconvolute_cpm(bulk_gene_expression, single_cell_object, cell_type_annotations,
+      verbose = verbose, ...
+    )$cellTypePredictions
   )
 
   if (!is.null(deconv)) {
@@ -272,7 +276,8 @@ required_packages <- list(
   "cibersortx" = c(),
   "autogenes" = c("reticulate"),
   "music" = c("xuranw/MuSiC"),
-  "scdc" = c("grst/SCDC")
+  "scdc" = c("grst/SCDC"),
+  "cpm" = c("scBio", "dotCall64")
 )
 
 #' Checking and installing all dependencies for the specific methods

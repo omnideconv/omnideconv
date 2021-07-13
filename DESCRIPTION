@@ -44,6 +44,7 @@ Imports:
 Suggests: 
     BisqueRNA,
     devtools,
+    dotCall64,
     e1071,
     knitr,
     limSolve,
@@ -57,6 +58,7 @@ Suggests:
     reticulate,
     rmarkdown,
     ROCR,
+    scBio,
     SCDC,
     testthat (>= 2.0.0),
     varhandle

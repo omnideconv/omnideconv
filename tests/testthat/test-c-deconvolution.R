@@ -205,6 +205,48 @@ test_that("MuSiC deconvolution works", {
   )
 })
 
+
+# This warning can be ignored (according to https://github.com/satijalab/seurat/issues/1249):
+# Warning in irlba(A = t(x = object), nv = npcs, ...) :
+# You're computing too large a percentage of total singular values, use a standard svd instead.
+test_that("CPM deconvolution works", {
+  deconvolution_pca <- deconvolute(bulk_small, NULL,
+    method = "cpm",
+    single_cell_object = sc_object_small,
+    cell_type_annotations = cell_annotations_small,
+    cell_space = "PCA"
+  )
+
+  deconvolution_umap <- deconvolute(bulk_small, NULL,
+    method = "cpm",
+    single_cell_object = sc_object_small,
+    cell_type_annotations = cell_annotations_small,
+    cell_space = "UMAP"
+  )
+
+  deconvolution_tsne <- deconvolute(bulk_small, NULL,
+    method = "cpm",
+    single_cell_object = sc_object_small,
+    cell_type_annotations = cell_annotations_small,
+    cell_space = "TSNE"
+  )
+  expect_equal(
+    info = "deconvolution_pca contains same samples as in bulk (not same order)",
+    object = sort(rownames(deconvolution_pca)), expected = sort(colnames(bulk_small))
+  )
+
+  expect_equal(
+    info = "deconvolution_umap contains same samples as in bulk (not same order)",
+    object = sort(rownames(deconvolution_umap)), expected = sort(colnames(bulk_small))
+  )
+
+  expect_equal(
+    info = "deconvolution_tsne contains same samples as in bulk (not same order)",
+    object = sort(rownames(deconvolution_tsne)), expected = sort(colnames(bulk_small))
+  )
+})
+
+
 test_that("SCDC deconvolution works", {
   deconvolution <- deconvolute(bulk_small, NULL,
     method = "scdc", single_cell_object = sc_object_small,

@@ -210,8 +210,7 @@ scaden_process <- function(h5ad, bulk_data, var_cutoff = NULL, verbose = FALSE) 
         system(paste("scaden process", h5ad_tmp, bulk_data_tmp, "--processed_path", processed_h5ad),
           ignore.stdout = !verbose, ignore.stderr = !verbose
         )
-      }
-      else {
+      } else {
         system(paste(
           "scaden process", h5ad_tmp, bulk_data_tmp, "--processed_path", processed_h5ad,
           "--var_cutoff", var_cutoff
@@ -304,8 +303,7 @@ scaden_simulate_example <- function(example_data_path = NULL, verbose = FALSE) {
     tmp_dir <- tempdir()
     dir.create(tmp_dir, showWarnings = FALSE)
     base::setwd(tmp_dir)
-  }
-  else {
+  } else {
     base::setwd(example_data_path)
   }
 

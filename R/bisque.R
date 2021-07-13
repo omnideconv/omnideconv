@@ -127,14 +127,12 @@ deconvolute_bisque <- function(bulk_gene_expression, signature_matrix, single_ce
     "ExpressionSet"
   ))) {
     base::stop("Expression data should be in ExpressionSet")
-  }
-  else if (!cell_types %in% Biobase::varLabels(sc_eset)) {
+  } else if (!cell_types %in% Biobase::varLabels(sc_eset)) {
     base::stop(base::sprintf(
       "Cell type label \"%s\" ",
       cell_types
     ), "not found in single-cell ExpressionSet varLabels.")
-  }
-  else if (!subject_names %in% Biobase::varLabels(sc_eset)) {
+  } else if (!subject_names %in% Biobase::varLabels(sc_eset)) {
     base::stop(base::sprintf(
       "Individual label \"%s\"",
       subject_names
@@ -146,8 +144,7 @@ deconvolute_bisque <- function(bulk_gene_expression, signature_matrix, single_ce
       "Only one individual detected in single-cell data. At least ",
       "two subjects are needed (three or more recommended)."
     )
-  }
-  else if (n_sc_individuals == 2) {
+  } else if (n_sc_individuals == 2) {
     base::warning(
       "Only two individuals detected in single-cell data. While ",
       "Bisque will run, we recommend at least three subjects for ",
@@ -175,8 +172,7 @@ deconvolute_bisque <- function(bulk_gene_expression, signature_matrix, single_ce
   }
   if (base::is.null(markers)) {
     markers <- Biobase::featureNames(sc_eset)
-  }
-  else {
+  } else {
     markers <- base::unique(base::unlist(markers))
   }
   genes <- BisqueRNA:::GetOverlappingGenes(
@@ -270,8 +266,7 @@ deconvolute_bisque <- function(bulk_gene_expression, signature_matrix, single_ce
       USE.NAMES = TRUE
     ), nrow = base::length(samples$remaining))
     sample_names <- samples$remaining
-  }
-  else {
+  } else {
     if (verbose) {
       base::message("Inferring bulk transformation from single-cell alone.")
     }

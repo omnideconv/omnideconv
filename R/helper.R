@@ -86,8 +86,7 @@ init_python <- function(python = NULL) {
           "calling init_python(python=your/python)"
         )
       }
-    }
-    else {
+    } else {
       reticulate::use_python(python = python)
       reticulate::py_config()
     }

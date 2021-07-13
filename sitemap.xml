@@ -37,6 +37,9 @@
     <loc>https://icbi-lab.github.io/omnideconv/reference/build_model_cibersortx.html</loc>
   </url>
   <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/build_model_cpm.html</loc>
+  </url>
+  <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/build_model_dwls.html</loc>
   </url>
   <url>
@@ -62,6 +65,9 @@
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/bulk_small.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/calculate_cell_embedding.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/cell_type_annotations.html</loc>
@@ -95,6 +101,9 @@
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute_cibersortx.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute_cpm.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute_dwls.html</loc>

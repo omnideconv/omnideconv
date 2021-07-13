@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>List of supported immune deconvolution methods — deconvolution_methods • omnideconv</title>
+<title>Calculation of the cell_space parameter needed by CPM — calculate_cell_embedding • omnideconv</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="List of supported immune deconvolution methods — deconvolution_methods" />
-<meta property="og:description" content="The methods currently supported are
-Bisque, MOMF, DWLS, Scaden, CibersortX, AutoGeneS, MuSiC" />
+<meta property="og:title" content="Calculation of the cell_space parameter needed by CPM — calculate_cell_embedding" />
+<meta property="og:description" content="Calculation of the cell_space parameter needed by CPM" />
 
 
 
@@ -121,26 +120,44 @@ Bisque, MOMF, DWLS, Scaden, CibersortX, AutoGeneS, MuSiC" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>List of supported immune deconvolution methods</h1>
-    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/deconvolution_algorithms.R'><code>R/deconvolution_algorithms.R</code></a></small>
-    <div class="hidden name"><code>deconvolution_methods.Rd</code></div>
+    <h1>Calculation of the cell_space parameter needed by CPM</h1>
+    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/CPM.R'><code>R/CPM.R</code></a></small>
+    <div class="hidden name"><code>calculate_cell_embedding.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The methods currently supported are
-<code>Bisque</code>, <code>MOMF</code>, <code>DWLS</code>, <code>Scaden</code>, <code>CibersortX</code>, <code>AutoGeneS</code>, <code>MuSiC</code></p>
+    <p>Calculation of the cell_space parameter needed by CPM</p>
     </div>
 
-    <pre class="usage"><span class='va'>deconvolution_methods</span></pre>
+    <pre class="usage"><span class='fu'>calculate_cell_embedding</span><span class='op'>(</span>
+  <span class='va'>single_cell_object</span>,
+  <span class='va'>cell_type_annotations</span>,
+  method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"PCA"</span>, <span class='st'>"UMAP"</span>, <span class='st'>"TSNE"</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>single_cell_object</th>
+      <td><p>A Matrix with the single-cell data. Rows are genes
+and columns are samples.</p></td>
+    </tr>
+    <tr>
+      <th>cell_type_annotations</th>
+      <td><p>A Vector of the cell type annotations. Has to
+be in the same order as the samples in single_cell_object.</p></td>
+    </tr>
+    <tr>
+      <th>method</th>
+      <td><p>Either "PCA", "UMAP" or "TSNE"</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class <code>character</code> of length 9.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The object is a named vector. The names correspond to the display name of the method,
-the values to the internal name.</p>
+    <p>A matrix with two dimensions. The rows are the cells, the columns are the two dimensions
+calculated by Seurat</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -21,7 +21,7 @@ build_model_bseqsc <- function(single_cell_object, cell_type_annotations, marker
   if (is.null(markers) || is.null(batch_ids)) {
     base::stop("'markers' and 'batch_ids' argument is required for BSEQ-sc")
   }
-  return(bseqsc::bseqsc_basis(single_cell_object, markers_small, cell_type_annotations,
+  return(bseqsc::bseqsc_basis(single_cell_object, markers, cell_type_annotations,
     batch_ids,
     ct.scale = ct_scale, limit = limit
   ))
@@ -48,8 +48,7 @@ build_model_bseqsc <- function(single_cell_object, cell_type_annotations, marker
 deconvolute_bseqsc <- function(bulk_gene_expression, signature = NULL, log = NULL, ...,
                                verbose = FALSE) {
   return(bseqsc::bseqsc_proportions(bulk_gene_expression,
-    reference = signature_bseq, log = log,
-    verbose = verbose, ...
+    reference = signature, log = log, verbose = verbose, ...
   ))
 }
 

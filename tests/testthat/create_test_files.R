@@ -251,14 +251,14 @@ utils::write.csv(props, "test_results/scdc_result_ensemble.csv")
 
 ## BSEQ-sc
 
-signature_bseq <-
+signature_bseqsc <-
   bseqsc_basis(sc_object_small, markers_small, cell_annotations_small, batch_ids_small_from_file)
-utils::write.csv(signature_bseq, "test_models/bseq_model_small.csv")
-bseqsc_config("C:/Users/Konstantin/Downloads/CIBERSORT.R")
-bseq_props <- bseqsc_proportions(bulk_small, reference = signature_bseq)
-bseq_props <- t(bseq_props$coefficients)
-bseq_props <- bseq_props[, order(colnames(bseq_props))]
-utils::write.csv(bseq_props, "test_results/bseq_result_small.csv")
+utils::write.csv(signature_bseqsc, "test_models/bseq_model_small.csv")
+# bseqsc_config("C:/Users/Konstantin/Downloads/CIBERSORT.R")
+# bseqsc_props <- bseqsc_proportions(bulk_small, reference = signature_bseqsc)
+# bseqsc_props <- t(bseqsc_props$coefficients)
+# bseqsc_props <- bseqsc_props[, order(colnames(bseqsc_props))]
+# utils::write.csv(bseqsc_props, "test_results/bseqsc_result_small.csv")
 
 ## DWLS Stuff
 

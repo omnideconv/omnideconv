@@ -10,7 +10,8 @@
 deconvolution_methods <- c(
   "Bisque" = "bisque", "MOMF" = "momf", "DWLS" = "dwls",
   "Scaden" = "scaden", "CibersortX" = "cibersortx",
-  "AutoGeneS" = "autogenes", "MuSiC" = "music", "SCDC" = "scdc", "CPM" = "cpm"
+  "AutoGeneS" = "autogenes", "MuSiC" = "music", "SCDC" = "scdc", "CPM" = "cpm",
+  "BSEQ-sc" = "bseqsc"
 )
 
 
@@ -86,6 +87,9 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, batch_
   }
   if (!is.null(batch_ids)) {
     batch_ids <- escape_blanks(batch_ids)
+  }
+  if (!is.null(markers)) {
+    names(markers) <- escape_blanks(names(markers))
   }
 
   signature <- switch(method,

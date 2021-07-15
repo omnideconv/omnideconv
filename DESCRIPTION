@@ -66,10 +66,9 @@ Suggests:
 VignetteBuilder: 
     knitr
 Remotes:
-    ,
     grst/MOMF,
     grst/SCDC,
-    shenorrlab/bseqsc
+    shenorrlab/bseqsc,
     xuranw/MuSiC
 biocViews:
 Config/testthat/edition: 2

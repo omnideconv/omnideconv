@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Building the signature matrix — build_model • omnideconv</title>
+<title>Setup BSeq-SC External Dependencies — bseqsc_config • omnideconv</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Building the signature matrix — build_model" />
-<meta property="og:description" content="The single_cell_object is expected to have rownames() and colnames()" />
+<meta property="og:title" content="Setup BSeq-SC External Dependencies — bseqsc_config" />
+<meta property="og:description" content="Configure bseqsc by setting up CIBERSORT source code." />
 
 
 
@@ -120,83 +120,52 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Building the signature matrix</h1>
-    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/deconvolution_algorithms.R'><code>R/deconvolution_algorithms.R</code></a></small>
-    <div class="hidden name"><code>build_model.Rd</code></div>
+    <h1>Setup BSeq-SC External Dependencies</h1>
+    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/BSEQ_sc.R'><code>R/BSEQ_sc.R</code></a></small>
+    <div class="hidden name"><code>bseqsc_config.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The single_cell_object is expected to have rownames() and colnames()</p>
+    <p>Configure <code>bseqsc</code> by setting up <code>CIBERSORT</code> source code.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>build_model</span><span class='op'>(</span>
-  <span class='va'>single_cell_object</span>,
-  cell_type_annotations <span class='op'>=</span> <span class='cn'>NULL</span>,
-  batch_ids <span class='op'>=</span> <span class='cn'>NULL</span>,
-  method <span class='op'>=</span> <span class='va'>deconvolution_methods</span>,
-  bulk_gene_expression <span class='op'>=</span> <span class='cn'>NULL</span>,
-  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  cell_type_column_name <span class='op'>=</span> <span class='cn'>NULL</span>,
-  markers <span class='op'>=</span> <span class='cn'>NULL</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>bseqsc_config</span><span class='op'>(</span>file <span class='op'>=</span> <span class='cn'>NULL</span>, error <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>single_cell_object</th>
-      <td><p>A matrix or dataframe with the single-cell data. Rows are genes,
-columns are samples. Row and column names need to be set. Alternatively a SingleCellExperiment
-or an AnnData object can be provided. In that case, note that cell-type labels need to be
-indicated either directly providing a vector (cell_type_annotations) or by indicating the
-column name that indicates the cell-type labels (cell_type_column_name). (Anndata: obs object,
-SingleCellExperiment: colData object)</p></td>
+      <th>file</th>
+      <td><p>path to the CIBERSORT source R code.</p></td>
     </tr>
     <tr>
-      <th>cell_type_annotations</th>
-      <td><p>A Vector of the cell type annotations. Has to be in the same order
-as the samples in single_cell_object</p></td>
-    </tr>
-    <tr>
-      <th>batch_ids</th>
-      <td><p>A vector of the ids of the samples or individuals.</p></td>
-    </tr>
-    <tr>
-      <th>method</th>
-      <td><p>A string specifying the method.
-Supported methods are 'bisque', 'momf', 'dwls', 'scaden', 'cibersortx' and 'autogenes'</p></td>
-    </tr>
-    <tr>
-      <th>bulk_gene_expression</th>
-      <td><p>A matrix of bulk data. Rows are genes, columns are samples. Necessary
-for MOMF, defaults to NULL. Row and column names need to be set</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>Whether the algorithms should print out what they are doing</p></td>
-    </tr>
-    <tr>
-      <th>cell_type_column_name</th>
-      <td><p>Name of the column in (Anndata: obs, SingleCellExperiment: colData),
-that contains the cell-type labels. Is only used if no cell_type_annotations vector is
-provided.</p></td>
-    </tr>
-    <tr>
-      <th>markers</th>
-      <td><p>Named list of cell type marker genes.
-The type of gene identifiers (names(markers)) must be the same as the ones used as feature/row names in the
-single_cell_object.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional parameters, passed to the algorithm used</p></td>
+      <th>error</th>
+      <td><p>logical that indicates if an error should be thrown
+if configuration failed.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The signature matrix. Rows are genes, columns are cell types</p>
+    <p>the path where the file was copied, or <code>NULL</code> if <code>bseqsc</code> is not correctly
+configured.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p><code>BSeq-sc</code> uses <code>CIBERSORT</code> to estimate cell type proportions, based on reference expression profiles.
+Due to licensing requirements, source code for this algorithm needs to be
+downloaded separately from its website http://cibersort.stanford.edu.
+It is released under the Stanford Non-Commercial License.
+In order to use it with <code>bseqsc</code> you will need to:</p><ol>
+<li><p>Got to http://cibersort.stanford.edu</p></li>
+<li><p>Register and log in</p></li>
+<li><p>Download the latest R source code from the <a href='http://cibersort.stanford.edu/download.php'>Download section</a>.</p></li>
+<li><p>Configure <code>bseqsc</code> by pointing it to the downloaded file. This is
+done using the function <code>bseqsc_config</code>, which will copy the given R
+source file into the <code>R-data/bseqsc</code> sub-directory in the user's home
+directory for subsequent usage:</p></li>
+</ol><pre><span class='fu'>bseqsc_config</span><span class='op'>(</span><span class='st'>'path/to/downloaded/source/CIBERSORT.R'</span><span class='op'>)</span>
+</pre>
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

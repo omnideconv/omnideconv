@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Building the signature matrix — build_model • omnideconv</title>
+<title>Calculates the signature model with BSEQ-sc — build_model_bseqsc • omnideconv</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Building the signature matrix — build_model" />
-<meta property="og:description" content="The single_cell_object is expected to have rownames() and colnames()" />
+<meta property="og:title" content="Calculates the signature model with BSEQ-sc — build_model_bseqsc" />
+<meta property="og:description" content="Calculates the signature model with BSEQ-sc" />
 
 
 
@@ -120,25 +120,22 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Building the signature matrix</h1>
-    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/deconvolution_algorithms.R'><code>R/deconvolution_algorithms.R</code></a></small>
-    <div class="hidden name"><code>build_model.Rd</code></div>
+    <h1>Calculates the signature model with BSEQ-sc</h1>
+    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/BSEQ_sc.R'><code>R/BSEQ_sc.R</code></a></small>
+    <div class="hidden name"><code>build_model_bseqsc.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The single_cell_object is expected to have rownames() and colnames()</p>
+    <p>Calculates the signature model with BSEQ-sc</p>
     </div>
 
-    <pre class="usage"><span class='fu'>build_model</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>build_model_bseqsc</span><span class='op'>(</span>
   <span class='va'>single_cell_object</span>,
-  cell_type_annotations <span class='op'>=</span> <span class='cn'>NULL</span>,
-  batch_ids <span class='op'>=</span> <span class='cn'>NULL</span>,
-  method <span class='op'>=</span> <span class='va'>deconvolution_methods</span>,
-  bulk_gene_expression <span class='op'>=</span> <span class='cn'>NULL</span>,
-  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  cell_type_column_name <span class='op'>=</span> <span class='cn'>NULL</span>,
-  markers <span class='op'>=</span> <span class='cn'>NULL</span>,
-  <span class='va'>...</span>
+  <span class='va'>cell_type_annotations</span>,
+  <span class='va'>markers</span>,
+  <span class='va'>batch_ids</span>,
+  ct_scale <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  limit <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -147,40 +144,12 @@
     <tr>
       <th>single_cell_object</th>
       <td><p>A matrix or dataframe with the single-cell data. Rows are genes,
-columns are samples. Row and column names need to be set. Alternatively a SingleCellExperiment
-or an AnnData object can be provided. In that case, note that cell-type labels need to be
-indicated either directly providing a vector (cell_type_annotations) or by indicating the
-column name that indicates the cell-type labels (cell_type_column_name). (Anndata: obs object,
-SingleCellExperiment: colData object)</p></td>
+columns are samples. Row and column names need to be set.</p></td>
     </tr>
     <tr>
       <th>cell_type_annotations</th>
       <td><p>A Vector of the cell type annotations. Has to be in the same order
 as the samples in single_cell_object</p></td>
-    </tr>
-    <tr>
-      <th>batch_ids</th>
-      <td><p>A vector of the ids of the samples or individuals.</p></td>
-    </tr>
-    <tr>
-      <th>method</th>
-      <td><p>A string specifying the method.
-Supported methods are 'bisque', 'momf', 'dwls', 'scaden', 'cibersortx' and 'autogenes'</p></td>
-    </tr>
-    <tr>
-      <th>bulk_gene_expression</th>
-      <td><p>A matrix of bulk data. Rows are genes, columns are samples. Necessary
-for MOMF, defaults to NULL. Row and column names need to be set</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>Whether the algorithms should print out what they are doing</p></td>
-    </tr>
-    <tr>
-      <th>cell_type_column_name</th>
-      <td><p>Name of the column in (Anndata: obs, SingleCellExperiment: colData),
-that contains the cell-type labels. Is only used if no cell_type_annotations vector is
-provided.</p></td>
     </tr>
     <tr>
       <th>markers</th>
@@ -189,14 +158,24 @@ The type of gene identifiers (names(markers)) must be the same as the ones used 
 single_cell_object.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Additional parameters, passed to the algorithm used</p></td>
+      <th>batch_ids</th>
+      <td><p>A vector of the ids of the samples or individuals.</p></td>
+    </tr>
+    <tr>
+      <th>ct_scale</th>
+      <td><p>logical that indicates if the single cell expresson profiles
+should be rescaled according to their cell type average total count.</p></td>
+    </tr>
+    <tr>
+      <th>limit</th>
+      <td><p>logical that indicates if the returned basis matrix should only contain
+cell types listed in <code>markers</code>..</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The signature matrix. Rows are genes, columns are cell types</p>
+    <p>The signature matrix. Rows are genes, columns are cell types.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

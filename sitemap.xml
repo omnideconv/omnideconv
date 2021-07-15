@@ -22,6 +22,9 @@
     <loc>https://icbi-lab.github.io/omnideconv/reference/batch_ids_small.html</loc>
   </url>
   <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/bseqsc_config.html</loc>
+  </url>
+  <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/build_anndata.html</loc>
   </url>
   <url>
@@ -32,6 +35,9 @@
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/build_model_bisque.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/build_model_bseqsc.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/build_model_cibersortx.html</loc>
@@ -98,6 +104,9 @@
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute_bisque.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute_bseqsc.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute_cibersortx.html</loc>

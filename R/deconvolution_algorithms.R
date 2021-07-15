@@ -67,8 +67,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, batch_
           "Either provide cell type annotations as vector (cell_type_annotations) or the ",
           "name of the column that stores label information!"
         )
-      }
-      else {
+      } else {
         cell_type_annotations <- matrix_and_annotation$annotation_vector
       }
     }
@@ -177,8 +176,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
           "Either provide cell type annotations as vector (cell_type_annotations) or the ",
           "name of the column that stores label information!"
         )
-      }
-      else {
+      } else {
         cell_type_annotations <- matrix_and_annotation$annotation_vector
       }
     }

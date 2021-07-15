@@ -15,6 +15,11 @@ bulk_small <- as.matrix(utils::read.csv("small_test_data/bulk_small.csv", row.na
 sc_object_small <- as.matrix(utils::read.csv("small_test_data/sc_object_small.csv", row.names = 1))
 cell_annotations_small <- readr::read_lines("small_test_data/cell_annotations_small.txt")
 batch_ids_small_from_file <- readr::read_lines("small_test_data/batch_ids_small.txt")
+marker_genes <- readr::read_lines("small_test_data/marker_genes_small.txt")
+
+markers_small <- list(marker_genes[1:9], marker_genes[10:14], marker_genes[15:20])
+names(markers_small) <- sort(unique(cell_annotations_small))
+
 
 
 matrixRightFormat <- sc_object_small
@@ -244,6 +249,16 @@ props <- props[, order(colnames(props))]
 utils::write.csv(props, "test_results/scdc_result_ensemble.csv")
 
 
+## BSEQ-sc
+
+signature_bseq <-
+  bseqsc_basis(sc_object_small, markers_small, cell_annotations_small, batch_ids_small_from_file)
+utils::write.csv(signature_bseq, "test_models/bseq_model_small.csv")
+bseqsc_config("C:/Users/Konstantin/Downloads/CIBERSORT.R")
+bseq_props <- bseqsc_proportions(bulk_small, reference = signature_bseq)
+bseq_props <- t(bseq_props$coefficients)
+bseq_props <- bseq_props[, order(colnames(bseq_props))]
+utils::write.csv(bseq_props, "test_results/bseq_result_small.csv")
 
 ## DWLS Stuff
 

@@ -35,6 +35,9 @@ deconvolution_methods <- c(
 #' @param cell_type_column_name Name of the column in (Anndata: obs, SingleCellExperiment: colData),
 #'   that contains the cell-type labels. Is only used if no cell_type_annotations vector is
 #'   provided.
+#' @param markers Named list of cell type marker genes.
+#'   The type of gene identifiers (names(markers)) must be the same as the ones used as feature/row names in the
+#'   single_cell_object.
 #' @param ... Additional parameters, passed to the algorithm used
 #'
 #' @return The signature matrix. Rows are genes, columns are cell types
@@ -43,7 +46,7 @@ deconvolution_methods <- c(
 #' @examples
 build_model <- function(single_cell_object, cell_type_annotations = NULL, batch_ids = NULL,
                         method = deconvolution_methods, bulk_gene_expression = NULL, verbose = TRUE,
-                        cell_type_column_name = NULL, ...) {
+                        cell_type_column_name = NULL, markers = NULL, ...) {
   method <- tolower(method)
   check_and_install(method)
 
@@ -106,8 +109,10 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, batch_
     ),
     music = build_model_music(),
     scdc = build_model_scdc(),
-    cpm = build_model_cpm()
+    cpm = build_model_cpm(),
+    bseqsc = build_model_bseqsc(single_cell_object, cell_type_annotations, markers, batch_ids, ...)
   )
+
 
 
   # Only do if it is a matrix or dataframe
@@ -253,7 +258,10 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
     },
     cpm = deconvolute_cpm(bulk_gene_expression, single_cell_object, cell_type_annotations,
       verbose = verbose, ...
-    )$cellTypePredictions
+    )$cellTypePredictions,
+    bseqsc = t(deconvolute_bseqsc(bulk_gene_expression, signature,
+      verbose = verbose, ...
+    )$coefficients)
   )
 
   if (!is.null(deconv)) {
@@ -277,7 +285,8 @@ required_packages <- list(
   "autogenes" = c("reticulate"),
   "music" = c("xuranw/MuSiC"),
   "scdc" = c("grst/SCDC"),
-  "cpm" = c("scBio", "dotCall64")
+  "cpm" = c("scBio", "dotCall64"),
+  "bseqsc" = c("shenorrlab/bseqsc")
 )
 
 #' Checking and installing all dependencies for the specific methods

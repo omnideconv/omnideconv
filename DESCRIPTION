@@ -44,6 +44,7 @@ Imports:
 Suggests: 
     BisqueRNA,
     bseqsc,
+    CDSeq,
     devtools,
     dotCall64,
     e1071,
@@ -68,6 +69,7 @@ VignetteBuilder:
 Remotes:
     grst/MOMF,
     grst/SCDC,
+    kkang7/CDSeq_R_Package,
     shenorrlab/bseqsc,
     xuranw/MuSiC
 biocViews:

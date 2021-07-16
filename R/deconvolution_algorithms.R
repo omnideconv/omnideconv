@@ -11,7 +11,7 @@ deconvolution_methods <- c(
   "Bisque" = "bisque", "MOMF" = "momf", "DWLS" = "dwls",
   "Scaden" = "scaden", "CibersortX" = "cibersortx",
   "AutoGeneS" = "autogenes", "MuSiC" = "music", "SCDC" = "scdc", "CPM" = "cpm",
-  "BSEQ-sc" = "bseqsc"
+  "BSEQ-sc" = "bseqsc", "CDSeq" = "cdseq"
 )
 
 
@@ -288,7 +288,8 @@ required_packages <- list(
   "music" = c("xuranw/MuSiC"),
   "scdc" = c("grst/SCDC"),
   "cpm" = c("scBio", "dotCall64"),
-  "bseqsc" = c("shenorrlab/bseqsc")
+  "bseqsc" = c("shenorrlab/bseqsc"),
+  "cdseq" = c("kkang7/CDSeq_R_Package")
 )
 
 #' Checking and installing all dependencies for the specific methods

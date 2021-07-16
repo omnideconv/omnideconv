@@ -260,6 +260,34 @@ utils::write.csv(signature_bseqsc, "test_models/bseq_model_small.csv")
 # bseqsc_props <- bseqsc_props[, order(colnames(bseqsc_props))]
 # utils::write.csv(bseqsc_props, "test_results/bseqsc_result_small.csv")
 
+
+## CDSeq
+
+cdseq_res <- CDSeq::CDSeq(
+  bulk_data = bulk_small,
+  cell_type_number = length(unique(cell_annotations_small))
+)
+
+cdseq_gep <- cdseq_res$estGEP
+cdseq_prop <- cdseq_res$estProp
+cdseq_prop
+cell_annotations_as_df <- cbind(colnames(sc_object_small), cell_annotations_small)
+colnames(cell_annotations_as_df) <- c("cell_id", "cell_type")
+cell_annotations_as_df <- data.frame(cell_annotations_as_df)
+props <- CDSeq::cellTypeAssignSCRNA(
+  cdseq_gep = cdseq_gep, # CDSeq-estimated cell-type-specific GEPs
+  cdseq_prop = cdseq_prop, # CDSeq-estimated cell type proportions
+  sc_gep = sc_object_small, # PBMC single cell data
+  sc_annotation = cell_annotations_as_df, # PBMC single data annotations
+  plot_umap = 0,
+  plot_tsne = 0
+)
+props$input_list$cdseq_prop
+props$cdseq_prop_merged
+
+
+
+
 ## DWLS Stuff
 
 # trim bulk and single-cell data to contain the same genes

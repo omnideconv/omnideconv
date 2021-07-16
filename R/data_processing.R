@@ -250,8 +250,7 @@ singlecellexperiment_to_matrix <- function(sce, assay_name = NULL, cell_type_col
     base::warning("Please provide the column name that contains the cell type labels! (colData
                   object of SingleCellExperiment/ obs object of AnnData)")
     cell_labels <- NULL
-  }
-  else {
+  } else {
     cell_labels <- SingleCellExperiment::colData(sce)[[cell_type_column_name]]
   }
 
@@ -274,8 +273,7 @@ sces_are_identical <- function(a, b) {
   if (length(assays_a) != length(assays_b)) {
     same <- FALSE
     message("number of assays not identical")
-  }
-  else {
+  } else {
     if (!identical(rownames(a), rownames(b))) {
       same <- FALSE
       message("rownames not identical")

@@ -36,9 +36,9 @@ deconvolution_methods <- c(
 #' @param cell_type_column_name Name of the column in (Anndata: obs, SingleCellExperiment: colData),
 #'   that contains the cell-type labels. Is only used if no cell_type_annotations vector is
 #'   provided.
-#' @param markers Named list of cell type marker genes.
-#'   The type of gene identifiers (names(markers)) must be the same as the ones used as feature/row names in the
-#'   single_cell_object.
+#' @param markers Named list of cell type marker genes. This parameter is only used by BSEQ-sc.
+#'   The type of gene identifiers (names(markers)) must be the same as the ones used as feature/row
+#'   names in the single_cell_object.
 #' @param ... Additional parameters, passed to the algorithm used
 #'
 #' @return The signature matrix. Rows are genes, columns are cell types

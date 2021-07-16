@@ -5,8 +5,8 @@
 #' @param cell_type_annotations A Vector of the cell type annotations. Has to be in the same order
 #'   as the samples in single_cell_object
 #' @param markers Named list of cell type marker genes.
-#'   The type of gene identifiers (names(markers)) must be the same as the ones used as feature/row names in the
-#'   single_cell_object.
+#'   The type of gene identifiers (names(markers)) must be the same as the ones used as feature/row
+#'   names in the single_cell_object.
 #' @param batch_ids A vector of the ids of the samples or individuals.
 #' @param ct_scale logical that indicates if the single cell expresson profiles
 #'   should be rescaled according to their cell type average total count.
@@ -27,7 +27,7 @@ build_model_bseqsc <- function(single_cell_object, cell_type_annotations, marker
   ))
 }
 
-#' Deconvolution Analysis using MOMF (via Nonnegative Factorization)
+#' Deconvolution Analysis using BSEQ-sc
 #'
 #' @param bulk_gene_expression Dataframe or matrix of bulk RNA-seq data (genes x individuals)
 #' @param signature Signature Matrix (genes x individuals from scRNA-seq)
@@ -57,7 +57,8 @@ deconvolute_bseqsc <- function(bulk_gene_expression, signature = NULL, log = NUL
 #'
 #' Configure `bseqsc` by setting up `CIBERSORT` source code.
 #'
-#' `BSeq-sc` uses `CIBERSORT` to estimate cell type proportions, based on reference expression profiles.
+#' `BSeq-sc` uses `CIBERSORT` to estimate cell type proportions, based on reference
+#'  expression profiles.
 #'  Due to licensing requirements, source code for this algorithm needs to be
 #'  downloaded separately from its website http://cibersort.stanford.edu.
 #'  It is released under the Stanford Non-Commercial License.

@@ -2,6 +2,10 @@ bulk_small <- as.matrix(utils::read.csv("small_test_data/bulk_small.csv", row.na
 sc_object_small <- as.matrix(utils::read.csv("small_test_data/sc_object_small.csv", row.names = 1))
 cell_annotations_small <- readr::read_lines("small_test_data/cell_annotations_small.txt")
 batch_ids_small <- readr::read_lines("small_test_data/batch_ids_small.txt")
+marker_genes <- readr::read_lines("small_test_data/marker_genes_small.txt")
+
+markers_small <- list(marker_genes[1:9], marker_genes[10:14], marker_genes[15:20])
+names(markers_small) <- sort(unique(cell_annotations_small))
 
 test_that("Bisque GenerateSCReference works", {
   signature <- build_model(sc_object_small, cell_annotations_small, batch_ids_small, method = "bisque")
@@ -101,8 +105,25 @@ test_that("SCDC build model works", {
 
 test_that("CPM build model works", {
   model <- build_model(sc_object_small, cell_annotations_small,
-                       method = "cpm",
-                       bulk_gene_expression = bulk_small
+    method = "cpm",
+    bulk_gene_expression = bulk_small
   )
   expect_null(info = "The CPM Model is null (which it should be)", object = model)
+})
+
+
+test_that("BSEQ-sc build model works", {
+  signature <- build_model(sc_object_small, cell_annotations_small,
+    method = "bseqsc",
+    batch_ids = batch_ids_small_from_file, markers = markers_small
+  )
+  expect_equal(
+    info = "signature matrix has same amount of columns as unique cell types in single cell matrix",
+    object = ncol(signature), expected = length(unique(cell_annotations_small))
+  )
+  check_signature <- as.matrix(read.csv("test_models/bseqsc_model_small.csv",
+    row.names = 1,
+    check.names = FALSE
+  ))
+  expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
 })

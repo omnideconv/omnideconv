@@ -12,6 +12,7 @@ build_model(
   bulk_gene_expression = NULL,
   verbose = TRUE,
   cell_type_column_name = NULL,
+  markers = NULL,
   ...
 )
 }
@@ -39,6 +40,10 @@ for MOMF, defaults to NULL. Row and column names need to be set}
 \item{cell_type_column_name}{Name of the column in (Anndata: obs, SingleCellExperiment: colData),
 that contains the cell-type labels. Is only used if no cell_type_annotations vector is
 provided.}
+
+\item{markers}{Named list of cell type marker genes.
+The type of gene identifiers (names(markers)) must be the same as the ones used as feature/row names in the
+single_cell_object.}
 
 \item{...}{Additional parameters, passed to the algorithm used}
 }

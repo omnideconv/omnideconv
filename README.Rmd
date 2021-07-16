@@ -39,7 +39,7 @@ The main functions of this package are to build a signature matrix and deconvolu
 
 The basic workflow is the following:
 
-```{r load datasets, echo = FALSE}
+```{r load-datasets, echo = FALSE}
 load("data/bulk.RData")
 load("data/cell_type_annotations.RData")
 load("data/single_cell_data.RData")

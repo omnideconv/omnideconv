@@ -43,6 +43,7 @@ Imports:
     utils
 Suggests: 
     BisqueRNA,
+    bseqsc,
     devtools,
     dotCall64,
     e1071,
@@ -67,6 +68,7 @@ VignetteBuilder:
 Remotes:
     grst/MOMF,
     grst/SCDC,
+    shenorrlab/bseqsc,
     xuranw/MuSiC
 biocViews:
 Config/testthat/edition: 2

@@ -287,7 +287,7 @@ required_packages <- list(
   "autogenes" = c("reticulate"),
   "music" = c("xuranw/MuSiC"),
   "scdc" = c("grst/SCDC"),
-  "cpm" = c("scBio", "dotCall64"),
+  "cpm" = c("amitfrish/scBio"),
   "bseqsc" = c("shenorrlab/bseqsc"),
   "cdseq" = c("kkang7/CDSeq_R_Package")
 )

@@ -279,10 +279,12 @@ props <- CDSeq::cellTypeAssignSCRNA(
   cdseq_prop = cdseq_prop, # CDSeq-estimated cell type proportions
   sc_gep = sc_object_small, # PBMC single cell data
   sc_annotation = cell_annotations_as_df, # PBMC single data annotations
+  sc_batch = batch_ids_small_from_file,
   plot_umap = 0,
-  plot_tsne = 0
+  plot_tsne = 0,
+  verbose = TRUE
 )
-props$input_list$cdseq_prop
+?props$input_list$cdseq_prop
 props$cdseq_prop_merged
 
 

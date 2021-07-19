@@ -46,7 +46,6 @@ Suggests:
     bseqsc,
     CDSeq,
     devtools,
-    dotCall64,
     e1071,
     knitr,
     limSolve,
@@ -67,6 +66,7 @@ Suggests:
 VignetteBuilder: 
     knitr
 Remotes:
+    amitfrish/scBio,
     grst/MOMF,
     grst/SCDC,
     kkang7/CDSeq_R_Package,

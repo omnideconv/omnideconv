@@ -1,6 +1,7 @@
 #' Generating a single cell expression set
 #'
-#' @param single_cell_matrix The single-cell matrix. Rows are genes, columns are samples.
+#' @param single_cell_matrix A matrix with the single-cell data. Rows are genes, columns are
+#'   samples. Row and column names need to be set.
 #' @param batch_ids A vector of the ids of the samples or individuals.
 #' @param genes A vector of the names of the genes, basically rownames(single_cell_matrix).
 #' @param cell_types A Vector of the cell type annotations. Has to be in the same order as the
@@ -196,16 +197,6 @@ singlecellexperiment_to_anndata <- function(sce, X_name = NULL) {
   return(ad)
 }
 
-
-# SingleCellExperiment_to_Seurat <- function(sce){
-#   seu <- Seurat::as.Seurat(sce)
-#   return(seu)
-# }
-#
-# Seurat_to_SingleCellExperiment <- function(seu){
-#   sce <- Seurat::as.SingleCellExperiment(seu)
-#   return(sce)
-# }
 
 #' Convert count matrix to SingleCellExperiment
 #'

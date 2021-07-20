@@ -5,7 +5,7 @@
 \title{Simulates training data from scRNA data}
 \usage{
 scaden_simulate(
-  celltype_labels,
+  cell_type_annotations,
   gene_labels,
   single_cell_object,
   cells = 100,
@@ -15,7 +15,7 @@ scaden_simulate(
 )
 }
 \arguments{
-\item{celltype_labels}{Vector of celltype labels. Order corresponds to rows in
+\item{cell_type_annotations}{Vector of celltype labels. Order corresponds to rows in
 single_cell_object matrix.}
 
 \item{gene_labels}{Vector of gene labels. Order corresponds to columns in
@@ -29,7 +29,7 @@ single_cell_object matrix.}
 
 \item{dataset_name}{Name of dataset}
 
-\item{verbose}{Defines verbosity of function call (default: false)}
+\item{verbose}{Whether to produce an output on the console. (default: false)}
 }
 \value{
 Simulated bulk data of known cell type fractions

@@ -7,20 +7,22 @@
 deconvolute_momf(
   bulk_gene_expression,
   signature,
-  single_cell_object,
+  single_cell_object = NULL,
   verbose = FALSE,
   method = "KL",
   ...
 )
 }
 \arguments{
-\item{bulk_gene_expression}{Dataframe or matrix of bulk RNA-seq data (genes x individuals)}
+\item{bulk_gene_expression}{A matrix of bulk data. Rows are genes, columns are samples.
+Row and column names need to be set.}
 
-\item{signature}{Signature Matrix (genes x individuals from scRNA-seq)}
+\item{signature}{The signature matrix. Rows are genes, columns are cell types.}
 
-\item{single_cell_object}{scRNA-seq Object (genes x cells)}
+\item{single_cell_object}{A matrix with the single-cell data. Rows are genes, columns are
+samples. Row and column names need to be set.}
 
-\item{verbose}{Whether the algorithm should print out what it is doing.}
+\item{verbose}{Whether to produce an output on the console.}
 
 \item{method}{Determines which divergence to use. Options: Kullback-Leibler "KL",
 Itakura-Saito "IS". Defaults to "KL"}

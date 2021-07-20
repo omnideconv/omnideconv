@@ -30,71 +30,73 @@ build_model_autogenes(
 )
 }
 \arguments{
-\item{single_cell_object}{A matrix or dataframe with the single-cell data. Rows are genes,
-columns are samples. Row and column names need to be set.}
+\item{single_cell_object}{A matrix with the single-cell data. Rows are genes, columns are
+samples. Row and column names need to be set.}
 
-\item{cell_type_annotations}{A Vector of the cell type annotations. Has to be in the same order
-as the samples in single_cell_object}
+\item{cell_type_annotations}{A vector of the cell type annotations. Has to be in the same order
+as the samples in single_cell_object.}
 
 \item{bulk_gene_expression}{OPTIONAL: A matrix of bulk data. Rows are genes, columns are samples.
-If the bulk data is supplied, the single cell object loses all gene rows not contained in the
-bulk data as not to create solution sets with them}
+Row and column names need to be set. If the bulk data is supplied, the single cell object
+loses all gene rows not contained in the bulk data as not to create solution sets with them.}
 
-\item{ngen}{Number of generations. The higher, the longer it takes}
+\item{ngen}{Number of generations. The higher, the longer it takes.}
 
 \item{mode}{In standard mode, the number of genes of a selection is allowed to vary arbitrarily.
-In fixed mode, the number of selected genes is fixed (using nfeatures)}
+In fixed mode, the number of selected genes is fixed (using nfeatures).}
 
-\item{nfeatures}{Number of genes to be selected in fixed mode}
+\item{nfeatures}{Number of genes to be selected in fixed mode.}
 
 \item{weights}{Weights applied to the objectives. For the optimization, only the sign is
 relevant: 1 means to maximize the respective objective, -1 to minimize it and 0 means to ignore
 it. The weight supplied here will be the default weight for selection. There must be as many
-weights as there are objectives}
+weights as there are objectives.}
 
 \item{objectives}{The objectives to maximize or minimize. Must have the same length as weights.
 The default objectives (correlation, distance) can be referred to using strings. For custom
-objectives, a function has to be passed}
+objectives, a function has to be passed.}
 
-\item{seed}{Seed for random number generators}
+\item{seed}{Seed for random number generators.}
 
-\item{population_size}{Size of every generation (mu parameter)}
+\item{population_size}{Size of every generation (mu parameter).}
 
-\item{offspring_size}{Number of individuals created in every generation (lambda parameter)}
+\item{offspring_size}{Number of individuals created in every generation (lambda parameter).}
 
-\item{crossover_pb}{Crossover probability}
+\item{crossover_pb}{Crossover probability.}
 
-\item{mutation_pb}{Mutation probability}
+\item{mutation_pb}{Mutation probability.}
 
-\item{mutate_flip_pb}{Mutation flipping probability (fixed mode)}
+\item{mutate_flip_pb}{Mutation flipping probability (fixed mode).}
 
-\item{crossover_thres}{Crossover threshold (standard mode)}
+\item{crossover_thres}{Crossover threshold (standard mode).}
 
-\item{ind_standard_pb}{Probability used to generate initial population in standard mode}
+\item{ind_standard_pb}{Probability used to generate initial population in standard mode.}
 
 \item{plot_weights}{Plotting: Weights with which to weight the objective values. For example,
-(-1,2) will minimize the first objective and maximize the the second (with higher weight)}
+(-1,2) will minimize the first objective and maximize the the second (with higher weight).}
 
 \item{plot_objectives}{Plotting: The objectives to be plotted. Contains indices of objectives.
 The first index refers to the objective that is plotted on the x-axis. For example, (2,1) will
-plot the third objective on the x-axis and the second on the y-axis}
+plot the third objective on the x-axis and the second on the y-axis.}
 
 \item{index}{Plotting: If one int is passed, return pareto[index] If two ints are passed, the
 first is an objective (0 for the first). The second is the nth element if the solutions have
 been sorted by the objective in ascending order. For example, (0,1) will return the solution
 that has the second-lowest value in the first objective. (1,-1) will return the solution with
-the highest value in the second objective}
+the highest value in the second objective.}
 
 \item{close_to}{Plotting: Select the solution whose objective value is closest to a certain
 value. Assumes (objective,value). For example, (0,100) will select the solution whose value
-for the first objective is closest to 100}
+for the first objective is closest to 100.}
 
-\item{plot}{Whether to produce a plot at all}
+\item{plot}{Whether to produce a plot at all. This just hands over the reticulate plot and
+has some visualization problems. To get a normal plot, use the pickle file, open it in python
+and use the plot method there.}
 
-\item{verbose}{Whether to produce an output on the console}
+\item{verbose}{Whether to produce an output on the console.}
 }
 \value{
-The path to the pickle file needed for the deconvolution with autogenes
+The path to the pickle file needed for the deconvolution with AutoGeneS.
 }
 \description{
 Calculates the signature model with AutoGeneS

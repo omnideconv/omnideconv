@@ -18,11 +18,11 @@ deconvolute_dwls(
 
 \item{dwls_submethod}{Three alternative methods in DWLS: OLS, SVR, and DampenedWLS.}
 
-\item{verbose}{Whether the algorithm should print out what it is doing.}
+\item{verbose}{Whether to produce an output on the console.}
 }
 \value{
-A list. Slot bulk.props contains a matrix of cell type proportion estimates with cell
-types as rows and individuals as columns.
+A matrix of cell type proportion estimates with cell types as rows and individuals as
+columns.
 }
 \description{
 generates a reference profile based on single-cell data. Learns a transformation of bulk

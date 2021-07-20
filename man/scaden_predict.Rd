@@ -4,14 +4,14 @@
 \alias{scaden_predict}
 \title{Predict cell proportions}
 \usage{
-scaden_predict(model_dir, bulk_data, verbose = FALSE)
+scaden_predict(model_dir, bulk_gene_expression, verbose = FALSE)
 }
 \arguments{
 \item{model_dir}{Directory where model is saved}
 
-\item{bulk_data}{Bulk RNA-seq data. (genes x bulk_RNA samples)}
+\item{bulk_gene_expression}{Bulk RNA-seq data. (genes x bulk_RNA samples)}
 
-\item{verbose}{Defines verbosity of function call (default: false)}
+\item{verbose}{Whether to produce an output on the console. (default: false)}
 }
 \value{
 Cell type fractions per sample

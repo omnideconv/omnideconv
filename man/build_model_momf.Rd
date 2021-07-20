@@ -11,14 +11,14 @@ build_model_momf(
 )
 }
 \arguments{
-\item{single_cell_object}{A matrix or dataframe with the single-cell data. Rows are genes,
-columns are samples. Row and column names need to be set.}
+\item{single_cell_object}{A matrix with the single-cell data. Rows are genes, columns are
+samples. Row and column names need to be set.}
 
-\item{cell_type_annotations}{A Vector of the cell type annotations. Has to be in the same order
+\item{cell_type_annotations}{A vector of the cell type annotations. Has to be in the same order
 as the samples in single_cell_object}
 
-\item{bulk_gene_expression}{A matrix of bulk data. Rows are genes, columns are samples.
-Necessary for MOMF, defaults to NULL.Row and column names need to be set.}
+\item{bulk_gene_expression}{A matrix of bulk data. Rows are genes, columns are samples. Row and
+column names need to be set.}
 }
 \value{
 The signature matrix. Rows are genes, columns are cell types.

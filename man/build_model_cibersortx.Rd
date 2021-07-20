@@ -16,13 +16,13 @@ build_model_cibersortx(
 )
 }
 \arguments{
-\item{single_cell_object}{A matrix or dataframe with the single-cell data. Rows are genes,
-columns are samples. Row and column names need to be set.}
+\item{single_cell_object}{A matrix with the single-cell data. Rows are genes, columns are
+samples. Row and column names need to be set.}
 
-\item{cell_type_annotations}{A Vector of the cell type annotations. Has to be in the same order
-as the samples in single_cell_object}
+\item{cell_type_annotations}{A vector of the cell type annotations. Has to be in the same order
+as the samples in single_cell_object.}
 
-\item{verbose}{Whether CibersortX should print out what it is doing.}
+\item{verbose}{Whether to produce an output on the console.}
 
 \item{input_dir}{The directory in which the input files can be found (or are created in).
 Default is a temporary directory.}
@@ -36,17 +36,17 @@ directory.}
 
 \item{...}{Additional parameters supplied to the algorithm. Options are:
 \itemize{
-\item G_min <int> Minimum number of genes per cell type in sig. matrix (default: 300)
-\item G_max <int> Maximum number of genes per cell type in sig. matrix (default: 500)
-\item q_value <int> Q-value threshold for differential expression (default: 0.01)
-\item filter <bool> Remove non-hematopoietic genes (default: FALSE)
-\item remake <bool> Remake signature gene matrix (default: False)
+\item G_min <int> Minimum number of genes per cell type in sig. matrix (default: 300).
+\item G_max <int> Maximum number of genes per cell type in sig. matrix (default: 500).
+\item q_value <int> Q-value threshold for differential expression (default: 0.01).
+\item filter <bool> Remove non-hematopoietic genes (default: FALSE).
+\item remake <bool> Remake signature gene matrix (default: False).
 \item replicates <int> Number of replicates to use for building scRNAseq reference file
-(default: 5)
+(default: 5).
 \item sampling <float> Fraction of available single cell GEPs selected using random sampling
-(default: 0.5)
+(default: 0.5).
 \item fraction <float> Fraction of cells of same identity showing evidence of expression
-(default: 0.75)
+(default: 0.75).
 }}
 }
 \value{

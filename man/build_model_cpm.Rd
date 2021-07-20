@@ -6,6 +6,9 @@
 \usage{
 build_model_cpm()
 }
+\value{
+NULL.
+}
 \description{
 Please use the deconvolute method with you single cell and bulk rna seq data to use CPM.
 }

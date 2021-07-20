@@ -20,7 +20,7 @@ build_signature_matrix_using_mast(
 
 \item{path}{OPTIONAL path for saving generated files}
 
-\item{verbose}{Whether to print output}
+\item{verbose}{Whether to produce an output on the console.}
 
 \item{diff_cutoff}{The FC cutoff}
 

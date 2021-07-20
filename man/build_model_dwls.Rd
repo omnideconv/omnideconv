@@ -2,11 +2,11 @@
 % Please edit documentation in R/DWLS.R
 \name{build_model_dwls}
 \alias{build_model_dwls}
-\title{Signature matrix creation with DWLS using genes identified by de_analysis_mast()}
+\title{Signature matrix creation with DWLS using genes identified by a differential analysis}
 \usage{
 build_model_dwls(
-  scdata,
-  id,
+  single_cell_object,
+  cell_type_annotations,
   method = c("mast", "seurat"),
   path,
   verbose = FALSE,
@@ -15,18 +15,18 @@ build_model_dwls(
 )
 }
 \arguments{
-\item{scdata}{A matrix or dataframe with the single-cell data. Rows are genes, columns are
+\item{single_cell_object}{A matrix with the single-cell data. Rows are genes, columns are
 samples. Row and column names need to be set.}
 
-\item{id}{A Vector of the cell type annotations. Has to be in the same order as the samples in
-single_cell_object}
+\item{cell_type_annotations}{A vector of the cell type annotations. Has to be in the same order
+as the samples in single_cell_object.}
 
 \item{method}{The method used to create the signature matrix. Options are "mast" and "seurat"}
 
 \item{path}{The path where the generated files will be saved. If path=NULL, the generated files
 will be discarded.}
 
-\item{verbose}{Whether to output what DWLS is doing}
+\item{verbose}{Whether to produce an output on the console.}
 
 \item{diff_cutoff}{Cutoff to determine the FC-limit. How low can the lowest fold change be to
 still be considered differentially expressed?}
@@ -38,5 +38,5 @@ still be considered statistically significant?}
 The signature matrix. Rows are genes, columns are cell types.
 }
 \description{
-Signature matrix creation with DWLS using genes identified by de_analysis_mast()
+Signature matrix creation with DWLS using genes identified by a differential analysis
 }

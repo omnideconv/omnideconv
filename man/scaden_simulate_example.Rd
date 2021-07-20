@@ -9,7 +9,7 @@ scaden_simulate_example(example_data_path = NULL, verbose = FALSE)
 \arguments{
 \item{example_data_path}{Path to where example data should be saved. (directory)}
 
-\item{verbose}{Defines verbosity of function call (default: false)}
+\item{verbose}{Whether to produce an output on the console. (default: false)}
 }
 \value{
 List with list$simulated_h5ad =  example training data

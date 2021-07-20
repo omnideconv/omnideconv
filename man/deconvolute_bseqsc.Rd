@@ -2,7 +2,7 @@
 % Please edit documentation in R/BSEQ_sc.R
 \name{deconvolute_bseqsc}
 \alias{deconvolute_bseqsc}
-\title{Deconvolution Analysis using MOMF (via Nonnegative Factorization)}
+\title{Deconvolution Analysis using BSEQ-sc}
 \usage{
 deconvolute_bseqsc(
   bulk_gene_expression,
@@ -13,28 +13,25 @@ deconvolute_bseqsc(
 )
 }
 \arguments{
-\item{bulk_gene_expression}{Dataframe or matrix of bulk RNA-seq data (genes x individuals)}
+\item{bulk_gene_expression}{A matrix of bulk data. Rows are genes, columns are samples.
+Row and column names need to be set.}
 
-\item{signature}{Signature Matrix (genes x individuals from scRNA-seq)
+\item{signature}{The signature matrix. Rows are genes, columns are cell types.
 If \code{NULL} then a built-in reference for pancreatic islet cell sub-population
 is used (data PancreasIslet in bseqsc package).}
 
-\item{log}{logical that indicates if the data \code{x} is in in log-scale.
+\item{log}{Logical that indicates if the data \code{x} is in in log-scale.
 If \code{NULL}, then log scale is inferred by \link[xbioc:is_logscale]{xbioc::is_logscale}.}
 
-\item{...}{other arguments passed to \code{CIBERSORT}.}
+\item{...}{Other arguments passed to \code{CIBERSORT}.}
 
-\item{verbose}{logical that toggles log messages.}
+\item{verbose}{Whether to produce an output on the console.}
 }
 \value{
-a list with elements:
-\itemize{
-\item coef: matrix of estimated proportions (cell type x samples)
-\item stats: statistics computed by \code{CIBERSORT}
-}
-
-cell proportion matrix
+A list including:
+\item{coef}{The matrix of estimated proportions (cell type x samples).}
+\item{stats}{The statistics computed by \code{CIBERSORT}.}
 }
 \description{
-Deconvolution Analysis using MOMF (via Nonnegative Factorization)
+Deconvolution Analysis using BSEQ-sc
 }

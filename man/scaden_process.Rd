@@ -4,17 +4,17 @@
 \alias{scaden_process}
 \title{Pre-processes training data}
 \usage{
-scaden_process(h5ad, bulk_data, var_cutoff = NULL, verbose = FALSE)
+scaden_process(h5ad, bulk_gene_expression, var_cutoff = NULL, verbose = FALSE)
 }
 \arguments{
 \item{h5ad}{File that should be processed. Must be in AnnData format (.h5ad)}
 
-\item{bulk_data}{Bulk RNA-seq data. (genes x individuals)}
+\item{bulk_gene_expression}{Bulk RNA-seq data. (genes x individuals)}
 
 \item{var_cutoff}{Filter out genes with a variance less than the specified cutoff. A low cutoff
 is recommended,this should only remove genes that are obviously uninformative.}
 
-\item{verbose}{Defines verbosity of function call (default: false)}
+\item{verbose}{Whether to produce an output on the console. (default: false)}
 }
 \value{
 processed training file. (.h5ad format)

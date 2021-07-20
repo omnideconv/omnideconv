@@ -12,7 +12,8 @@ get_single_cell_expression_set(
 )
 }
 \arguments{
-\item{single_cell_matrix}{The single-cell matrix. Rows are genes, columns are samples.}
+\item{single_cell_matrix}{A matrix with the single-cell data. Rows are genes, columns are
+samples. Row and column names need to be set.}
 
 \item{batch_ids}{A vector of the ids of the samples or individuals.}
 

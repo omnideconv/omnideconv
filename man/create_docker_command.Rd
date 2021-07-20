@@ -22,12 +22,12 @@ directory.}
 \item{method}{Which docker command should be be created. For signature matrix creation use
 "create_sig", for cell type deconvolution use "impute_cell_fractions".}
 
-\item{verbose}{Whether to generate any output.}
+\item{verbose}{Whether to produce an output on the console.}
 
 \item{...}{The additional parameters for the command.}
 }
 \value{
-A valid docker command to be run
+A valid docker command to be run.
 }
 \description{
 Creation of the docker command

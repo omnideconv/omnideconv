@@ -11,10 +11,10 @@ transform_and_save_bulk(bulk, path, verbose = FALSE)
 
 \item{path}{The folder in which the file should be saved.}
 
-\item{verbose}{Whether to create any output.}
+\item{verbose}{Whether to produce an output on the console.}
 }
 \value{
-The path to the bulk data file
+The path to the bulk data file.
 }
 \description{
 Creation of the bulk data file in the CibersortX required format

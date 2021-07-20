@@ -11,11 +11,11 @@ calculate_cell_embedding(
 )
 }
 \arguments{
-\item{single_cell_object}{A Matrix with the single-cell data. Rows are genes
-and columns are samples.}
+\item{single_cell_object}{A matrix with the single-cell data. Rows are genes, columns are
+samples. Row and column names need to be set.}
 
-\item{cell_type_annotations}{A Vector of the cell type annotations. Has to
-be in the same order as the samples in single_cell_object.}
+\item{cell_type_annotations}{A vector of the cell type annotations. Has to be in the same order
+as the samples in single_cell_object.}
 
 \item{method}{Either "PCA", "UMAP" or "TSNE"}
 }

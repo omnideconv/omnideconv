@@ -1,11 +1,11 @@
 #' Calculates the signature model with MOMF
 #'
-#' @param single_cell_object A matrix or dataframe with the single-cell data. Rows are genes,
-#'   columns are samples. Row and column names need to be set.
-#' @param cell_type_annotations A Vector of the cell type annotations. Has to be in the same order
+#' @param single_cell_object A matrix with the single-cell data. Rows are genes, columns are
+#'   samples. Row and column names need to be set.
+#' @param cell_type_annotations A vector of the cell type annotations. Has to be in the same order
 #'   as the samples in single_cell_object
-#' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples.
-#'   Necessary for MOMF, defaults to NULL.Row and column names need to be set.
+#' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples. Row and
+#'   column names need to be set.
 #'
 #' @return The signature matrix. Rows are genes, columns are cell types.
 #' @export
@@ -25,19 +25,27 @@ build_model_momf <- function(single_cell_object, cell_type_annotations, bulk_gen
 
 #' Deconvolution Analysis using MOMF (via Nonnegative Factorization)
 #'
-#' @param bulk_gene_expression Dataframe or matrix of bulk RNA-seq data (genes x individuals)
-#' @param signature Signature Matrix (genes x individuals from scRNA-seq)
-#' @param single_cell_object scRNA-seq Object (genes x cells)
+#' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples.
+#'   Row and column names need to be set.
+#' @param signature The signature matrix. Rows are genes, columns are cell types.
+#' @param single_cell_object A matrix with the single-cell data. Rows are genes, columns are
+#'   samples. Row and column names need to be set.
 #' @param method Determines which divergence to use. Options: Kullback-Leibler "KL",
 #'   Itakura-Saito "IS". Defaults to "KL"
-#' @param verbose Whether the algorithm should print out what it is doing.
+#' @param verbose Whether to produce an output on the console.
 #' @param ... additional parameters
 #'
 #' @return cell proportion matrix
 #' @export
 #'
-deconvolute_momf <- function(bulk_gene_expression, signature, single_cell_object,
+deconvolute_momf <- function(bulk_gene_expression, signature, single_cell_object = NULL,
                              verbose = FALSE, method = "KL", ...) {
+  if (is.null(single_cell_object)) {
+    base::stop(
+      "The single cell data is required for the deconvolution with momf. Please call it ",
+      "with deconvolute(bulk,signature,'momf',single_cell_object = single_cell_data)"
+    )
+  }
   # MOMF needs a list of the single_cell_object with cells x genes and the bulk RNA seq data with
   # individuals x genes
   # IMPORTANT: This line with the intersection is a difference from the original algorithm

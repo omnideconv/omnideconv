@@ -40,7 +40,7 @@ Defaults to NULL.}
 that contains the cell-type labels. Is only used if no cell_type_annotations vector
 is provided.}
 
-\item{verbose}{Whether the algorithms should print out what they are doing.}
+\item{verbose}{Whether to produce an output on the console.}
 
 \item{...}{Additional parameters, passed to the algorithm used.}
 }
@@ -50,4 +50,21 @@ individuals, columns are cell types.
 }
 \description{
 Deconvolution
+}
+\examples{
+# More examples can be found in the unit tests at tests/testthat/test-c-deconvolute.R
+data("single_cell_data")
+data("cell_type_annotations")
+data("batch_ids")
+data("bulk")
+
+signature_matrix_bisque <- build_model(
+  single_cell_data, cell_type_annotations, "bisque",
+  batch_ids
+)
+deconv_bisque <- deconvolute(
+  bulk, signature_matrix_bisque, "bisque", single_cell_data,
+  cell_type_annotations, batch_ids
+)
+deconv_momf <- deconvolute(bulk_small, signature_matrix_bisque, "momf", single_cell_data_small)
 }

@@ -6,7 +6,7 @@
 \usage{
 build_model_scaden(
   single_cell_object,
-  celltype_labels,
+  cell_type_annotations,
   bulk_gene_expression = NULL,
   model_path = NULL,
   batch_size = 128,
@@ -20,36 +20,37 @@ build_model_scaden(
 )
 }
 \arguments{
-\item{single_cell_object}{A matrix or dataframe with the single-cell data. Rows are genes,
-columns are samples.}
+\item{single_cell_object}{A matrix with the single-cell data. Rows are genes, columns are
+samples. Row and column names need to be set.}
 
-\item{celltype_labels}{Vector of celltype labels. Order corresponds to rows in
-single_cell_object matrix.}
+\item{cell_type_annotations}{A vector of the cell type annotations. Has to be in the same order
+as the samples in single_cell_object.}
 
-\item{bulk_gene_expression}{Matrix of bulk RNA expression. (rows :genes, columns: samples)}
+\item{bulk_gene_expression}{A matrix of bulk data. Rows are genes, columns are samples.
+Row and column names need to be set.}
 
-\item{model_path}{Path where model directory should be created. (optional)}
+\item{model_path}{Path where model directory should be created (optional).}
 
-\item{batch_size}{Training  of model: Batch size to use for training. (default: 128)}
+\item{batch_size}{Training  of model: Batch size to use for training (default: 128).}
 
-\item{learning_rate}{Training of model: Learning rate used for training. (default: 0.0001)}
+\item{learning_rate}{Training of model: Learning rate used for training (default: 1E-4).}
 
-\item{steps}{Training of model: Number of training steps (default: 5000)}
+\item{steps}{Training of model: Number of training steps (default: 5000).}
 
 \item{var_cutoff}{Training data processing: Filter out genes with a variance less than the
 specified cutoff. A low cutoff is recommended,this should only remove genes that are obviously
-uninformative. (default NULL)}
+uninformative. (default NULL).}
 
-\item{cells}{Bulk simulation: Number of cells per sample (default: 100)}
+\item{cells}{Bulk simulation: Number of cells per sample (default: 100).}
 
-\item{samples}{Bulk simulation: Number of samples to simulate (default: 1000)}
+\item{samples}{Bulk simulation: Number of samples to simulate (default: 1000).}
 
-\item{dataset_name}{Bulk simulation: Name of simulated dataset (default scaden)}
+\item{dataset_name}{Bulk simulation: Name of simulated dataset (default scaden).}
 
-\item{verbose}{If true: Command line output of Scaden is shown (default: false)}
+\item{verbose}{Whether to produce an output on the console (default: false).}
 }
 \value{
-Scaden model
+The path to the scaden model.
 }
 \description{
 The model is saved in a defined directory.

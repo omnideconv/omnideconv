@@ -1,9 +1,9 @@
 #' Calculates the signature model with BSEQ-sc
 #'
-#' @param single_cell_object A matrix or dataframe with the single-cell data. Rows are genes,
-#'   columns are samples. Row and column names need to be set.
-#' @param cell_type_annotations A Vector of the cell type annotations. Has to be in the same order
-#'   as the samples in single_cell_object
+#' @param single_cell_object A matrix with the single-cell data. Rows are genes, columns are
+#'   samples. Row and column names need to be set.
+#' @param cell_type_annotations A vector of the cell type annotations. Has to be in the same order
+#'   as the samples in single_cell_object.
 #' @param markers Named list of cell type marker genes.
 #'   The type of gene identifiers (names(markers)) must be the same as the ones used as feature/row
 #'   names in the single_cell_object.
@@ -11,7 +11,7 @@
 #' @param ct_scale logical that indicates if the single cell expresson profiles
 #'   should be rescaled according to their cell type average total count.
 #' @param limit logical that indicates if the returned basis matrix should only contain
-#'   cell types listed in `markers`..
+#'   cell types listed in `markers`.
 #'
 #' @return The signature matrix. Rows are genes, columns are cell types.
 #' @export
@@ -29,20 +29,20 @@ build_model_bseqsc <- function(single_cell_object, cell_type_annotations, marker
 
 #' Deconvolution Analysis using BSEQ-sc
 #'
-#' @param bulk_gene_expression Dataframe or matrix of bulk RNA-seq data (genes x individuals)
-#' @param signature Signature Matrix (genes x individuals from scRNA-seq)
+#' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples.
+#'   Row and column names need to be set.
+#' @param signature The signature matrix. Rows are genes, columns are cell types.
 #'   If `NULL` then a built-in reference for pancreatic islet cell sub-population
 #'   is used (data PancreasIslet in bseqsc package).
-#' @param log logical that indicates if the data `x` is in in log-scale.
+#' @param log Logical that indicates if the data `x` is in in log-scale.
 #'   If `NULL`, then log scale is inferred by [xbioc::is_logscale].
-#' @param ... other arguments passed to `CIBERSORT`.
-#' @param verbose logical that toggles log messages.
+#' @param ... Other arguments passed to `CIBERSORT`.
+#' @param verbose Whether to produce an output on the console.
 #'
-#' @return a list with elements:
-#'   * coef: matrix of estimated proportions (cell type x samples)
-#'   * stats: statistics computed by `CIBERSORT`
+#' @return A list including:
+#' \item{coef}{The matrix of estimated proportions (cell type x samples).}
+#' \item{stats}{The statistics computed by `CIBERSORT`.}
 #'
-#' @return cell proportion matrix
 #' @export
 #'
 deconvolute_bseqsc <- function(bulk_gene_expression, signature = NULL, log = NULL, ...,
@@ -77,11 +77,11 @@ deconvolute_bseqsc <- function(bulk_gene_expression, signature = NULL, log = NUL
 #' bseqsc_config('path/to/downloaded/source/CIBERSORT.R')
 #' ```
 #'
-#' @param file path to the CIBERSORT source R code.
-#' @param error logical that indicates if an error should be thrown
+#' @param file Path to the CIBERSORT source R code.
+#' @param error Logical that indicates if an error should be thrown
 #' if configuration failed.
 #'
-#' @return the path where the file was copied, or `NULL` if `bseqsc` is not correctly
+#' @return The path where the file was copied, or `NULL` if `bseqsc` is not correctly
 #' configured.
 #'
 #' @export

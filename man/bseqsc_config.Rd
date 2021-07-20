@@ -7,20 +7,21 @@
 bseqsc_config(file = NULL, error = FALSE)
 }
 \arguments{
-\item{file}{path to the CIBERSORT source R code.}
+\item{file}{Path to the CIBERSORT source R code.}
 
-\item{error}{logical that indicates if an error should be thrown
+\item{error}{Logical that indicates if an error should be thrown
 if configuration failed.}
 }
 \value{
-the path where the file was copied, or \code{NULL} if \code{bseqsc} is not correctly
+The path where the file was copied, or \code{NULL} if \code{bseqsc} is not correctly
 configured.
 }
 \description{
 Configure \code{bseqsc} by setting up \code{CIBERSORT} source code.
 }
 \details{
-\code{BSeq-sc} uses \code{CIBERSORT} to estimate cell type proportions, based on reference expression profiles.
+\code{BSeq-sc} uses \code{CIBERSORT} to estimate cell type proportions, based on reference
+expression profiles.
 Due to licensing requirements, source code for this algorithm needs to be
 downloaded separately from its website http://cibersort.stanford.edu.
 It is released under the Stanford Non-Commercial License.

@@ -27,7 +27,8 @@ build_model_scdc <- function() {
 #' Requires raw read counts.
 #' Works best with multiple cells per single cell patient/subject
 #'
-#' @param bulk_gene_expression Dataframe or matrix of bulk RNA-seq data (genes x individuals)
+#' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples.
+#'   Row and column names need to be set.
 #' @param single_cell_object A matrix or dataframe with the single-cell data. Rows are genes,
 #'   columns are samples. Row and column names need to be set. This can also be a list of objects,
 #'   if SCDC_ENSEMBLE should be used.
@@ -41,12 +42,12 @@ build_model_scdc <- function() {
 #' @param sample character string specifying the variable name for subject/samples.
 #' @param iter_max the maximum number of iteration in WNNLS. If the parameter is NULL, the default
 #'   value of 1000 for a single single cell object and 2000 for a list is chosen.
-#' @param nu a small constant to facilitate the calculation of variance
+#' @param nu a small constant to facilitate the calculation of variance.
 #' @param epsilon a small constant number used for convergence criteria. If the parameter is NULL,
 #'   the default value of 0.01 for a single single cell object and 0.001 for a list is chosen.
-#' @param truep true cell-type proportions for bulk samples if known
+#' @param truep true cell-type proportions for bulk samples if known.
 #' @param weight_basis Whether to use the Basis Matrix adjusted for maximal variance weight,
-#'   created by the SCDC_basis function
+#'   created by the SCDC_basis function.
 #' @param ct_cell_size default is NULL, which means the "library size" is calculated based on the
 #'   data. Users can specify a vector of cell size factors corresponding to the ct.sub according to
 #'   prior knowledge. The vector should be named: names(ct_cell_size input) should not be NULL.
@@ -60,10 +61,26 @@ build_model_scdc <- function() {
 #'   index.
 #' @param qcthreshold The probability threshold used to filter out questionable cells, only used if
 #'   quality_control = TRUE.
-#' @param verbose Whether to create any output.
+#' @param verbose Whether to produce an output on the console.
 #' @param quality_control Whether to perform the SCDC_qc quality control method.
 #'
-#' @return Estimated proportion, basis matrix, predicted gene expression levels for bulk samples
+#' @return Depends on whether one or multiple single cell sets are used.\cr\cr
+#' One:
+#' \item{prop.est.mvw}{A matrix of cell type proportion estimates with cell types as rows and
+#'   individuals as columns.}
+#' \item{basis.mvw}{The signature matrix. Rows are genes, columns are cell types.}
+#' \item{yhat}{The predicted gene expression levels for the bulk samples.}
+#' \item{yeval}{The evaluation of the predicted gene expression levels.}
+#' \item{peval}{The evaluation of the deconvoluted proportions. Since we dont have a ground truth,
+#'   this is always NULL.}
+#'
+#' ENSEMBLE:
+#' \item{w_table}{A matrix with the suggested weights for each single cell dataset and some
+#'   statistical evaluation.}
+#' \item{prop.list}{A list of the "One:" outputs as seen above for each single cell dataset.}
+#' \item{prop.only}{A list of the prop.est.mvw values for each single cell dataset.}
+#' \item{gridres}{A matrix with the results of the gridsearch. NULL if grid_search = FALSE.}
+#'
 #' @export
 deconvolute_scdc <- function(bulk_gene_expression, single_cell_object, cell_type_annotations,
                              batch_ids, ct_varname = "cellType", sample = "batchId",

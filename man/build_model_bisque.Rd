@@ -13,11 +13,11 @@ build_model_bisque(
 )
 }
 \arguments{
-\item{single_cell_object}{A matrix or dataframe with the single-cell data.
-Rows are genes, columns are samples. Row and column names need to be set.}
+\item{single_cell_object}{A matrix with the single-cell data. Rows are genes, columns are
+samples. Row and column names need to be set.}
 
-\item{cell_type_annotations}{A Vector of the cell type annotations. Has to
-be in the same order as the samples in single_cell_object}
+\item{cell_type_annotations}{A Vector of the cell type annotations. Has to be in the same order
+as the samples in single_cell_object.}
 
 \item{batch_ids}{A vector of the ids of the samples or individuals.}
 
@@ -31,7 +31,7 @@ The original and new order of operations produce estimates that have an
 average correlation of 0.87 for the cortex and 0.84 for the adipose within
 each cell type.}
 
-\item{verbose}{Whether the algorithm should print out what it is doing.}
+\item{verbose}{Whether to produce an output on the console.}
 }
 \value{
 The signature matrix. Rows are genes, columns are cell types.

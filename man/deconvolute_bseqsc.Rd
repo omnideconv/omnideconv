@@ -2,7 +2,7 @@
 % Please edit documentation in R/BSEQ_sc.R
 \name{deconvolute_bseqsc}
 \alias{deconvolute_bseqsc}
-\title{Deconvolution Analysis using MOMF (via Nonnegative Factorization)}
+\title{Deconvolution Analysis using BSEQ-sc}
 \usage{
 deconvolute_bseqsc(
   bulk_gene_expression,
@@ -36,5 +36,5 @@ a list with elements:
 cell proportion matrix
 }
 \description{
-Deconvolution Analysis using MOMF (via Nonnegative Factorization)
+Deconvolution Analysis using BSEQ-sc
 }

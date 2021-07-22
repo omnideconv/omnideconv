@@ -20,7 +20,8 @@ configured.
 Configure \code{bseqsc} by setting up \code{CIBERSORT} source code.
 }
 \details{
-\code{BSeq-sc} uses \code{CIBERSORT} to estimate cell type proportions, based on reference expression profiles.
+\code{BSeq-sc} uses \code{CIBERSORT} to estimate cell type proportions, based on reference
+expression profiles.
 Due to licensing requirements, source code for this algorithm needs to be
 downloaded separately from its website http://cibersort.stanford.edu.
 It is released under the Stanford Non-Commercial License.

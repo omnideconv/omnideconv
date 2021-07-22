@@ -38,6 +38,9 @@ docker_connectable <- function() {
 #' @return The String without blanks
 #'
 escape_blanks <- function(string) {
+  if (is.null(string)) {
+    return(NULL)
+  }
   return(gsub(" ", "._._._", string))
 }
 
@@ -48,6 +51,9 @@ escape_blanks <- function(string) {
 #' @return The String with blanks
 #'
 deescape_blanks <- function(string) {
+  if (is.null(string)) {
+    return(NULL)
+  }
   return(gsub("._._._", " ", string))
 }
 
@@ -99,29 +105,4 @@ init_python <- function(python = NULL) {
 #'
 python_available <- function() {
   return(reticulate::py_available())
-}
-
-
-test <- function(sc, ca, bu, ba) {
-  cdseq_res <- CDSeq::CDSeq(
-    bulk_data = bu,
-    cell_type_number = length(unique(ca))
-  )
-
-  cdseq_gep <- cdseq_res$estGEP
-  cdseq_prop <- cdseq_res$estProp
-  cdseq_prop
-  cell_annotations_as_df <- cbind(colnames(sc), ca)
-  colnames(cell_annotations_as_df) <- c("cell_id", "cell_type")
-  cell_annotations_as_df <- data.frame(cell_annotations_as_df)
-  props <- CDSeq::cellTypeAssignSCRNA(
-    cdseq_gep = cdseq_gep, # CDSeq-estimated cell-type-specific GEPs
-    cdseq_prop = cdseq_prop, # CDSeq-estimated cell type proportions
-    sc_gep = sc_object_small, # PBMC single cell data
-    sc_annotation = cell_annotations_as_df, # PBMC single data annotations
-    sc_batch = ba,
-    plot_umap = 0,
-    plot_tsne = 0,
-    verbose = TRUE
-  )
 }

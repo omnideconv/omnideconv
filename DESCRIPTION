@@ -69,7 +69,7 @@ Remotes:
     amitfrish/scBio,
     grst/MOMF,
     grst/SCDC,
-    kkang7/CDSeq_R_Package,
+    PelzKo/CDSeq_R_Package,
     shenorrlab/bseqsc,
     xuranw/MuSiC
 biocViews:

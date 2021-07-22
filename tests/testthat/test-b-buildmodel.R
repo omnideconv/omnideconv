@@ -7,11 +7,6 @@ marker_genes <- readr::read_lines("small_test_data/marker_genes_small.txt")
 markers_small <- list(marker_genes[1:9], marker_genes[10:14], marker_genes[15:20])
 names(markers_small) <- sort(unique(cell_annotations_small))
 
-test_that("test", {
-  test(sc_object_small, cell_annotations_small, bulk_small, batch_ids_small)
-})
-
-
 test_that("Bisque GenerateSCReference works", {
   signature <- build_model(sc_object_small, cell_annotations_small, batch_ids_small, method = "bisque")
   expect_equal(
@@ -131,4 +126,11 @@ test_that("BSEQ-sc build model works", {
     check.names = FALSE
   ))
   expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
+})
+
+test_that("CDSeq build model works", {
+  model <- build_model(sc_object_small, cell_annotations_small,
+    method = "cdseq"
+  )
+  expect_null(info = "The CDSeq Model is null (which it should be)", object = model)
 })

@@ -294,3 +294,16 @@ test_that("SCDC deconvolution works", {
     expected = check_result
   )
 })
+
+test_that("CDSeq deconvolution works", {
+  deconvolution <- deconvolute(bulk_small, NULL,
+    method = "cdseq",
+    single_cell_object = sc_object_small,
+    cell_type_annotations = cell_annotations_small,
+    batch_ids = batch_ids_small
+  )
+  expect_equal(
+    info = "deconvolution contains same samples as in bulk (not same order)",
+    object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
+  )
+})

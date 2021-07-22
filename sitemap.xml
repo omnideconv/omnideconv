@@ -40,6 +40,9 @@
     <loc>https://icbi-lab.github.io/omnideconv/reference/build_model_bseqsc.html</loc>
   </url>
   <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/build_model_cdseq.html</loc>
+  </url>
+  <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/build_model_cibersortx.html</loc>
   </url>
   <url>
@@ -107,6 +110,9 @@
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute_bseqsc.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute_cdseq.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/deconvolute_cibersortx.html</loc>

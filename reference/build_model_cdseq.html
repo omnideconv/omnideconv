@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Deconvolution Analysis using BSEQ-sc — deconvolute_bseqsc • omnideconv</title>
+<title>No model is build as CDSeq does both steps in one. — build_model_cdseq • omnideconv</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Deconvolution Analysis using BSEQ-sc — deconvolute_bseqsc" />
-<meta property="og:description" content="Deconvolution Analysis using BSEQ-sc" />
+<meta property="og:title" content="No model is build as CDSeq does both steps in one. — build_model_cdseq" />
+<meta property="og:description" content="Please use the deconvolute method with your single cell and bulk rna seq data to use CDSeq." />
 
 
 
@@ -120,59 +120,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Deconvolution Analysis using BSEQ-sc</h1>
-    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/BSEQ_sc.R'><code>R/BSEQ_sc.R</code></a></small>
-    <div class="hidden name"><code>deconvolute_bseqsc.Rd</code></div>
+    <h1>No model is build as CDSeq does both steps in one.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/CDSeq.R'><code>R/CDSeq.R</code></a></small>
+    <div class="hidden name"><code>build_model_cdseq.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Deconvolution Analysis using BSEQ-sc</p>
+    <p>Please use the deconvolute method with your single cell and bulk rna seq data to use CDSeq.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>deconvolute_bseqsc</span><span class='op'>(</span>
-  <span class='va'>bulk_gene_expression</span>,
-  signature <span class='op'>=</span> <span class='cn'>NULL</span>,
-  log <span class='op'>=</span> <span class='cn'>NULL</span>,
-  <span class='va'>...</span>,
-  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>build_model_cdseq</span><span class='op'>(</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>bulk_gene_expression</th>
-      <td><p>Dataframe or matrix of bulk RNA-seq data (genes x individuals)</p></td>
-    </tr>
-    <tr>
-      <th>signature</th>
-      <td><p>Signature Matrix (genes x individuals from scRNA-seq)
-If <code>NULL</code> then a built-in reference for pancreatic islet cell sub-population
-is used (data PancreasIslet in bseqsc package).</p></td>
-    </tr>
-    <tr>
-      <th>log</th>
-      <td><p>logical that indicates if the data <code>x</code> is in in log-scale.
-If <code>NULL</code>, then log scale is inferred by <a href='https://rdrr.io/pkg/xbioc/man/is_logscale.html'>xbioc::is_logscale</a>.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>other arguments passed to <code>CIBERSORT</code>.</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>logical that toggles log messages.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>a list with elements:</p><ul>
-<li><p>coef: matrix of estimated proportions (cell type x samples)</p></li>
-<li><p>stats: statistics computed by <code>CIBERSORT</code></p></li>
-</ul>
-
-<p>cell proportion matrix</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

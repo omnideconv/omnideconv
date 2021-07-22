@@ -1,17 +1,17 @@
-#' List of supported immune deconvolution methods
+#' List of supported deconvolution methods
 #'
 #' The methods currently supported are
-#' `Bisque`, `MOMF`, `DWLS`, `Scaden`, `CibersortX`, `AutoGeneS`, `MuSiC`
+#' `AutoGeneS`, `Bisque`, `BSEQ-sc`, `CibersortX`, `CPM`, `DWLS`, `MOMF`, `MuSiC`, `Scaden`,
+#' `SCDC`
 #'
 #' The object is a named vector. The names correspond to the display name of the method,
 #' the values to the internal name.
 #'
 #' @export
 deconvolution_methods <- c(
-  "Bisque" = "bisque", "MOMF" = "momf", "DWLS" = "dwls",
-  "Scaden" = "scaden", "CibersortX" = "cibersortx",
-  "AutoGeneS" = "autogenes", "MuSiC" = "music", "SCDC" = "scdc", "CPM" = "cpm",
-  "BSEQ-sc" = "bseqsc"
+  "AutoGeneS" = "autogenes", "Bisque" = "bisque", "BSEQ-sc" = "bseqsc", "CibersortX" = "cibersortx",
+  "CPM" = "cpm", "DWLS" = "dwls", "MOMF" = "momf", "MuSiC" = "music", "Scaden" = "scaden",
+  "SCDC" = "scdc"
 )
 
 

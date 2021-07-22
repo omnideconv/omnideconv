@@ -13,11 +13,21 @@ deconvolution methods in an R package.
 
 ## Installation
 
-Install the CRAN package devtools and use it to install omnideconv from
+There are two ways to install it, the long one installing all packages
+needed for all methods and the short one, installing only the ones for
+basic functionality. If the short install is chosen, the required
+packages for methods are installed when the methods are used. Install
+the CRAN package devtools and use it to install omnideconv from
 [GitHub](https://github.com/):
 
 ``` r
 install.packages("devtools")
+
+# long/complete install
+devtools::install_github("icbi-lab/omnideconv", dependencies = c("Imports",
+    "Suggests"))
+
+# short/quick install
 devtools::install_github("icbi-lab/omnideconv")
 ```
 
@@ -40,11 +50,17 @@ data with genes in rows and cells in columns, cell\_type\_annotations a
 vector that contains an annotation for each cell in your
 single\_cell\_data, and the possible methods are:
 
+-   AutoGeneS (“autogenes”)
 -   Bisque (“bisque”)
+-   BSEQ-sc (“bseqsc”)
+-   CDSeq (“cdseq”)
+-   CibersortX (“cibersortx”)
+-   CPM (“cpm”)
 -   DWLS (“dwls”)
 -   MOMF (“momf”)
+-   MuSiC (“music”)
 -   Scaden (“scaden”)
--   CibersortX (“cibersortx”)
+-   SCDC (“scdc”)
 
 ### 2. Deconvolute
 
@@ -78,9 +94,9 @@ package.
 
 ## Available Methods
 
-More information about the second generation deconvolution metods
-unified in this package as well as their citations can be obtained from
-the list below.
+More information about the second generation deconvolution methods
+unified in this package can be obtained from the vignette and the list
+below.
 
 -   Bisque: Jew, B., Alvarez, M., Rahmani, E., Miao, Z., Ko, A.,
     Garske, K. M., Sul, J. H., Pietiläinen, K. H., Pajukanta, P., &
@@ -103,3 +119,30 @@ the list below.
     Heutink, P., & Bonn, S. (n.d.). Deep-learning-based cell composition
     analysis from tissue expression profiles.
     <https://doi.org/10.1101/659227>
+-   AutoGeneS: Aliee, H., & Theis, F. (2021). AutoGeneS: Automatic gene
+    selection using multi-objective optimization for RNA-seq
+    deconvolution. <https://doi.org/10.1101/2020.02.21.940650>
+-   MuSiC: Wang, X., Park, J., Susztak, K., Zhang, N. R., & Li, M.
+    (2019). Bulk tissue cell type deconvolution with multi-subject
+    single-cell expression reference. Nature Communications, 10(1), 380.
+    <https://doi.org/10.1038/s41467-018-08023-x>
+-   SCDC: Dong, M., Thennavan, A., Urrutia, E., Li, Y., Perou, C. M.,
+    Zou, F., & Jiang, Y. (2020). SCDC: bulk gene expression
+    deconvolution by multiple single-cell RNA sequencing references.
+    Briefings in Bioinformatics. <https://doi.org/10.1093/bib/bbz166>
+-   CPM: Frishberg, A., Peshes-Yaloz, N., Cohn, O., Rosentul, D.,
+    Steuerman, Y., Valadarsky, L., Yankovitz, G., Mandelboim, M.,
+    Iraqi, F. A., Amit, I., Mayo, L., Bacharach, E., & Gat-Viks, I.
+    (2019). Cell composition analysis of bulk genomics using single-cell
+    data. Nature Methods, 16(4), 327–332.
+    <https://doi.org/10.1038/s41592-019-0355-5>
+-   BSEQ-sc (“bseqsc”): Baron, M., Veres, A., Wolock, S. L., Faust, A.
+    L., Gaujoux, R., Vetere, A., Ryu, J. H., Wagner, B. K., Shen-Orr, S.
+    S., Klein, A. M., Melton, D. A., & Yanai, I. (2016). A Single-Cell
+    Transcriptomic Map of the Human and Mouse Pancreas Reveals Inter-
+    and Intra-cell Population Structure. In Cell Systems (Vol. 3, Issue
+    4, pp. 346–360.e4). <https://doi.org/10.1016/j.cels.2016.08.011>
+-   CDSeq: Kang, K., Huang, C., Li, Y. et al. CDSeqR: fast complete
+    deconvolution for gene expression data from bulk tissues. BMC
+    Bioinformatics 22, 262 (2021).
+    <https://doi.org/10.1186/s12859-021-04186-5>

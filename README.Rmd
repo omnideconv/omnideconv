@@ -62,17 +62,17 @@ omnideconv::build_model(single_cell_data, cell_type_annotations, method = "dwls"
 
 In this method, single_cell_data is a matrix of single cell RNA-seq data with genes in rows and cells in columns, cell_type_annotations a vector that contains an annotation for each cell in your single_cell_data, and the possible methods are:
 
-* Bisque ("bisque")
-* DWLS ("dwls")
-* MOMF ("momf")
-* Scaden ("scaden")
-* CibersortX ("cibersortx") 
 * AutoGeneS ("autogenes")
-* MuSiC ("music")
-* SCDC ("scdc")
-* CPM ("cpm")
+* Bisque ("bisque")
 * BSEQ-sc ("bseqsc")
 * CDSeq ("cdseq")
+* CibersortX ("cibersortx") 
+* CPM ("cpm")
+* DWLS ("dwls")
+* MOMF ("momf")
+* MuSiC ("music")
+* Scaden ("scaden")
+* SCDC ("scdc")
 
 ### 2. Deconvolute 
 

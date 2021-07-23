@@ -379,3 +379,32 @@ check_and_install <- function(method) {
     }
   })
 }
+
+
+#' Calculation of the condition number
+#'
+#' A problem with a low condition number is said to be well-conditioned, while a problem with a
+#' high condition number is said to be ill-conditioned. An ill-conditioned problem is one where, for
+#' a small change in the inputs (the independent variables) there is a large change in the answer or
+#' dependent variable.
+#'
+#' @param signature_matrix A signature matrix created with the build_model method
+#'
+#' @return The condition number
+#' @export
+#'
+#' @examples
+#' data("single_cell_data")
+#' data("cell_type_annotations")
+#' data("batch_ids")
+#' data("bulk")
+#'
+#' signature_matrix_bisque <- build_model(
+#'   single_cell_data, cell_type_annotations, "bisque",
+#'   batch_ids
+#' )
+#' cond_num <- calc_condition_number(signature_matrix_bisque)
+#' cond_num
+calc_condition_number <- function(signature_matrix) {
+  return(kappa(signature_matrix, exact = TRUE))
+}

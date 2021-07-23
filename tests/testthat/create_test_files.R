@@ -10,6 +10,7 @@ library(MAST)
 library(MuSiC)
 library(SCDC)
 library(scBio)
+library(CDSeq)
 
 bulk_small <- as.matrix(utils::read.csv("small_test_data/bulk_small.csv", row.names = 1))
 sc_object_small <- as.matrix(utils::read.csv("small_test_data/sc_object_small.csv", row.names = 1))
@@ -259,6 +260,36 @@ utils::write.csv(signature_bseqsc, "test_models/bseq_model_small.csv")
 # bseqsc_props <- t(bseqsc_props$coefficients)
 # bseqsc_props <- bseqsc_props[, order(colnames(bseqsc_props))]
 # utils::write.csv(bseqsc_props, "test_results/bseqsc_result_small.csv")
+
+
+## CDSeq
+
+# cdseq_res <- CDSeq::CDSeq(
+#  bulk_data = bulk,
+#  cell_type_number = length(unique(cell_type_annotations))
+# )
+
+# cdseq_gep <- cdseq_res$estGEP
+# cdseq_prop <- cdseq_res$estProp
+# cdseq_prop
+# cell_annotations_as_df <- cbind(colnames(single_cell_data), cell_type_annotations)
+# colnames(cell_annotations_as_df) <- c("cell_id", "cell_type")
+# cell_annotations_as_df <- data.frame(cell_annotations_as_df)
+# props <- CDSeq::cellTypeAssignSCRNA(
+#  cdseq_gep = cdseq_gep, # CDSeq-estimated cell-type-specific GEPs
+#  cdseq_prop = cdseq_prop, # CDSeq-estimated cell type proportions
+#  sc_gep = single_cell_data, # PBMC single cell data
+#  sc_annotation = cell_annotations_as_df, # PBMC single data annotations
+#  sc_batch = batch_ids,
+#  plot_umap = 0,
+#  plot_tsne = 0,
+#  verbose = TRUE
+# )
+# props$input_list$cdseq_prop
+# props$cdseq_prop_merged
+
+
+
 
 ## DWLS Stuff
 

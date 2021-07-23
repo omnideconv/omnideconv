@@ -44,8 +44,8 @@ Imports:
 Suggests: 
     BisqueRNA,
     bseqsc,
+    CDSeq,
     devtools,
-    dotCall64,
     e1071,
     knitr,
     limSolve,
@@ -66,8 +66,10 @@ Suggests:
 VignetteBuilder: 
     knitr
 Remotes:
+    amitfrish/scBio,
     grst/MOMF,
     grst/SCDC,
+    PelzKo/CDSeq_R_Package,
     shenorrlab/bseqsc,
     xuranw/MuSiC
 biocViews:

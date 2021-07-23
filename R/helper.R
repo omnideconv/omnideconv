@@ -38,6 +38,9 @@ docker_connectable <- function() {
 #' @return The String without blanks
 #'
 escape_blanks <- function(string) {
+  if (is.null(string)) {
+    return(NULL)
+  }
   return(gsub(" ", "._._._", string))
 }
 
@@ -48,6 +51,9 @@ escape_blanks <- function(string) {
 #' @return The String with blanks
 #'
 deescape_blanks <- function(string) {
+  if (is.null(string)) {
+    return(NULL)
+  }
   return(gsub("._._._", " ", string))
 }
 

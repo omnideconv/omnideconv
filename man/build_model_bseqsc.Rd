@@ -15,14 +15,14 @@ build_model_bseqsc(
 }
 \arguments{
 \item{single_cell_object}{A matrix or dataframe with the single-cell data. Rows are genes,
-columns are samples. Row and column names need to be set.}
+columns are samples. Row and column names need to be set. Raw counts are needed.}
 
 \item{cell_type_annotations}{A Vector of the cell type annotations. Has to be in the same order
 as the samples in single_cell_object}
 
 \item{markers}{Named list of cell type marker genes.
-The type of gene identifiers (names(markers)) must be the same as the ones used as feature/row names in the
-single_cell_object.}
+The type of gene identifiers (names(markers)) must be the same as the ones used as feature/row
+names in the single_cell_object.}
 
 \item{batch_ids}{A vector of the ids of the samples or individuals.}
 

@@ -1,7 +1,7 @@
 #' Calculates the signature model with BSEQ-sc
 #'
 #' @param single_cell_object A matrix or dataframe with the single-cell data. Rows are genes,
-#'   columns are samples. Row and column names need to be set.
+#'   columns are samples. Row and column names need to be set. Raw counts are needed.
 #' @param cell_type_annotations A Vector of the cell type annotations. Has to be in the same order
 #'   as the samples in single_cell_object
 #' @param markers Named list of cell type marker genes.

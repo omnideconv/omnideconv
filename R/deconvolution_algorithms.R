@@ -11,7 +11,7 @@ deconvolution_methods <- c(
   "Bisque" = "bisque", "MOMF" = "momf", "DWLS" = "dwls",
   "Scaden" = "scaden", "CibersortX" = "cibersortx",
   "AutoGeneS" = "autogenes", "MuSiC" = "music", "SCDC" = "scdc", "CPM" = "cpm",
-  "BSEQ-sc" = "bseqsc"
+  "BSEQ-sc" = "bseqsc", "CDSeq" = "cdseq"
 )
 
 
@@ -113,7 +113,8 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, batch_
     music = build_model_music(),
     scdc = build_model_scdc(),
     cpm = build_model_cpm(),
-    bseqsc = build_model_bseqsc(single_cell_object, cell_type_annotations, markers, batch_ids, ...)
+    bseqsc = build_model_bseqsc(single_cell_object, cell_type_annotations, markers, batch_ids, ...),
+    cdseq = build_model_cdseq()
   )
 
 
@@ -263,12 +264,16 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
     )$cellTypePredictions,
     bseqsc = t(deconvolute_bseqsc(bulk_gene_expression, signature,
       verbose = verbose, ...
-    )$coefficients)
+    )$coefficients),
+    cdseq = t(deconvolute_cdseq(bulk_gene_expression, single_cell_object, cell_type_annotations,
+      batch_ids,
+      verbose = verbose, ...
+    )$cdseq_prop_merged)
   )
 
   if (!is.null(deconv)) {
     # Alphabetical order of celltypes
-    deconv <- deconv[, order(colnames(deconv))]
+    deconv <- deconv[, order(colnames(deconv)), drop = FALSE]
     rownames(deconv) <- deescape_blanks(rownames(deconv))
     colnames(deconv) <- deescape_blanks(colnames(deconv))
   }
@@ -287,8 +292,9 @@ required_packages <- list(
   "autogenes" = c("reticulate"),
   "music" = c("xuranw/MuSiC"),
   "scdc" = c("grst/SCDC"),
-  "cpm" = c("scBio", "dotCall64"),
-  "bseqsc" = c("shenorrlab/bseqsc")
+  "cpm" = c("amitfrish/scBio"),
+  "bseqsc" = c("shenorrlab/bseqsc"),
+  "cdseq" = c("PelzKo/CDSeq_R_Package")
 )
 
 #' Checking and installing all dependencies for the specific methods
@@ -319,6 +325,9 @@ check_and_install <- function(method) {
   })
   sapply(github_pkgs, function(pkgname) {
     bare_pkgname <- sub(".*?/", "", pkgname)
+    if (bare_pkgname == "CDSeq_R_Package") {
+      bare_pkgname <- "CDSeq"
+    }
     if (!requireNamespace(bare_pkgname, quietly = TRUE)) {
       if (!repositories_set) {
         utils::setRepositories(graphics = FALSE, ind = c(1, 2, 3, 4, 5))

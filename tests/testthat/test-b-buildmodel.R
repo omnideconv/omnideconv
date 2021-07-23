@@ -125,3 +125,10 @@ test_that("BSEQ-sc build model works", {
   ))
   expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
 })
+
+test_that("CDSeq build model works", {
+  model <- build_model(sc_object_small, cell_annotations_small,
+    method = "cdseq"
+  )
+  expect_null(info = "The CDSeq Model is null (which it should be)", object = model)
+})

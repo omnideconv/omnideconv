@@ -3,7 +3,7 @@
 \docType{data}
 \name{deconvolution_methods}
 \alias{deconvolution_methods}
-\title{List of supported immune deconvolution methods}
+\title{List of supported deconvolution methods}
 \format{
 An object of class \code{character} of length 11.
 }
@@ -12,7 +12,8 @@ deconvolution_methods
 }
 \description{
 The methods currently supported are
-\code{Bisque}, \code{MOMF}, \code{DWLS}, \code{Scaden}, \code{CibersortX}, \code{AutoGeneS}, \code{MuSiC}
+\code{AutoGeneS}, \code{Bisque}, \code{BSEQ-sc}, \code{CibersortX}, \code{CPM}, \code{DWLS}, \code{MOMF}, \code{MuSiC}, \code{Scaden},
+\code{SCDC}
 }
 \details{
 The object is a named vector. The names correspond to the display name of the method,

@@ -113,7 +113,7 @@ test_that("CPM build model works", {
 
 test_that("BSEQ-sc build model works", {
   signature <- build_model(sc_object_small, cell_annotations_small, "bseqsc",
-    batch_ids = batch_ids_small_from_file, markers = markers_small
+    batch_ids = batch_ids_small, markers = markers_small
   )
   expect_equal(
     info = "signature matrix has same amount of columns as unique cell types in single cell matrix",

@@ -2,20 +2,22 @@
 % Please edit documentation in R/Scaden.R
 \name{deconvolute_scaden}
 \alias{deconvolute_scaden}
-\title{Performs deconvolution}
+\title{Performs deconvolution with Scaden}
 \usage{
-deconvolute_scaden(model, bulk_data, verbose = FALSE)
+deconvolute_scaden(model, bulk_gene_expression, verbose = FALSE)
 }
 \arguments{
 \item{model}{Path to the model directory}
 
-\item{bulk_data}{Matrix of bulk RNA expression. (genes x samples)}
+\item{bulk_gene_expression}{A matrix of bulk data. Rows are genes, columns are samples.
+Row and column names need to be set.}
 
-\item{verbose}{Defines verbosity of function call (default: false)}
+\item{verbose}{Whether to produce an output on the console (default: false).}
 }
 \value{
-Cell type fractions per sample.
+A matrix of cell type proportion estimates with cell types as rows and
+individuals as columns.
 }
 \description{
-Performs deconvolution
+Performs deconvolution with Scaden
 }

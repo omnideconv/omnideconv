@@ -7,8 +7,8 @@
 build_model(
   single_cell_object,
   cell_type_annotations = NULL,
-  batch_ids = NULL,
   method = deconvolution_methods,
+  batch_ids = NULL,
   bulk_gene_expression = NULL,
   verbose = TRUE,
   cell_type_column_name = NULL,
@@ -22,20 +22,20 @@ columns are samples. Row and column names need to be set. Alternatively a Single
 or an AnnData object can be provided. In that case, note that cell-type labels need to be
 indicated either directly providing a vector (cell_type_annotations) or by indicating the
 column name that indicates the cell-type labels (cell_type_column_name). (Anndata: obs object,
-SingleCellExperiment: colData object)}
+SingleCellExperiment: colData object).}
 
-\item{cell_type_annotations}{A Vector of the cell type annotations. Has to be in the same order
-as the samples in single_cell_object}
+\item{cell_type_annotations}{A vector of the cell type annotations. Has to be in the same order
+as the samples in single_cell_object.}
+
+\item{method}{A string specifying the method.
+Supported methods are the ones in the variable 'deconvolution_methods'}
 
 \item{batch_ids}{A vector of the ids of the samples or individuals.}
 
-\item{method}{A string specifying the method.
-Supported methods are 'bisque', 'momf', 'dwls', 'scaden', 'cibersortx' and 'autogenes'}
-
 \item{bulk_gene_expression}{A matrix of bulk data. Rows are genes, columns are samples. Necessary
-for MOMF, defaults to NULL. Row and column names need to be set}
+for MOMF and Scaden, defaults to NULL. Row and column names need to be set}
 
-\item{verbose}{Whether the algorithms should print out what they are doing}
+\item{verbose}{Whether to produce an output on the console.}
 
 \item{cell_type_column_name}{Name of the column in (Anndata: obs, SingleCellExperiment: colData),
 that contains the cell-type labels. Is only used if no cell_type_annotations vector is
@@ -48,8 +48,24 @@ names in the single_cell_object.}
 \item{...}{Additional parameters, passed to the algorithm used}
 }
 \value{
-The signature matrix. Rows are genes, columns are cell types
+The signature matrix. Rows are genes, columns are cell types.
 }
 \description{
 The single_cell_object is expected to have rownames() and colnames()
+}
+\examples{
+# More examples can be found in the unit tests at tests/testthat/test-b-buildmodel.R
+data("single_cell_data")
+data("cell_type_annotations")
+data("batch_ids")
+data("bulk")
+
+signature_matrix_bisque <- build_model(
+  single_cell_data, cell_type_annotations, "bisque",
+  batch_ids
+)
+pickle_path_autogenes <- build_model(single_cell_data, cell_type_annotations, "autogenes",
+  population_size = 500, offspring_size = 30,
+  crossover_pb = 0.3, verbose = TRUE
+)
 }

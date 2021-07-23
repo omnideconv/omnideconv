@@ -3,7 +3,7 @@
 #' Please use the deconvolute method with you single cell and bulk rna seq data to use CPM.
 #'
 #'
-#' @return NULL
+#' @return NULL.
 #'
 #' @export
 build_model_cpm <- function() {
@@ -33,19 +33,19 @@ build_model_cpm <- function() {
 #' between samples.
 #'
 #'
-#' @param bulk_gene_expression  A matrix or dataframe with the bulk data. Rows
-#'   are genes, columns are samples.
-#' @param single_cell_object A Matrix with the single-cell data. Rows are genes
-#'  and columns are samples.
-#' @param cell_type_annotations A Vector of the cell type annotations. Has to
-#'  be in the same order as the samples in single_cell_object.
+#' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples.
+#'   Row and column names need to be set.
+#' @param single_cell_object A matrix with the single-cell data. Rows are genes, columns are
+#'   samples. Row and column names need to be set.
+#' @param cell_type_annotations A vector of the cell type annotations. Has to be in the same order
+#'   as the samples in single_cell_object.
 #' @param cell_space The cell state space corresponding to the single-cell RNA-seq data. It can be
-#'  a vector for a 1-dim space or a 2D matrix for a two space where each column represents a
-#'  different dimension. The cell space should incorporate the similarities of cells within cell
-#'  types. Similarities between cells from different cell types, based on the cell space, are not
-#'  taken into account in CPM.
-#'  It is also possible to supply the string "PCA", "UMAP" or "TSNE" which calculates the cell
-#'  space using the corresponding method (using the Seurat implementation and default parameters).
+#'   a vector for a 1-dim space or a 2D matrix for a two space where each column represents a
+#'   different dimension. The cell space should incorporate the similarities of cells within cell
+#'   types. Similarities between cells from different cell types, based on the cell space, are not
+#'   taken into account in CPM.
+#'   It is also possible to supply the string "PCA", "UMAP" or "TSNE" which calculates the cell
+#'   space using the corresponding method (using the Seurat implementation and default parameters).
 #' @param no_cores A number for the amount of cores which will be used for the analysis. The
 #'   default (NULL) is total number of cores minus 1.
 #' @param neighborhood_size Cell neighborhood size which will be used for the analysis. This should
@@ -57,7 +57,7 @@ build_model_cpm <- function() {
 #'   The default is 5.
 #' @param calculate_CI A boolean parameter indicating whether the calculation of confidence
 #'   intervals is needed. The default is FALSE.
-#' @param verbose Whether the algorithm should print out what it is doing.
+#' @param verbose Whether to produce an output on the console.
 #' @return A list including:
 #' \item{predicted}{CPM predicted cell abundance matrix. Each row represents a sample and
 #'   each column a single cell.}
@@ -98,10 +98,10 @@ deconvolute_cpm <- function(bulk_gene_expression, single_cell_object, cell_type_
 
 #' Calculation of the cell_space parameter needed by CPM
 #'
-#' @param single_cell_object A Matrix with the single-cell data. Rows are genes
-#'  and columns are samples.
-#' @param cell_type_annotations A Vector of the cell type annotations. Has to
-#'  be in the same order as the samples in single_cell_object.
+#' @param single_cell_object A matrix with the single-cell data. Rows are genes, columns are
+#'   samples. Row and column names need to be set.
+#' @param cell_type_annotations A vector of the cell type annotations. Has to be in the same order
+#'   as the samples in single_cell_object.
 #' @param method Either "PCA", "UMAP" or "TSNE"
 #'
 #' @return A matrix with two dimensions. The rows are the cells, the columns are the two dimensions

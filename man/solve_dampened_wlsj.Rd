@@ -15,7 +15,7 @@ solve_dampened_wlsj(S, B, gold_standard, j, verbose = FALSE)
 
 \item{j}{The dampening constant}
 
-\item{verbose}{Whether to print output}
+\item{verbose}{Whether to produce an output on the console.}
 }
 \value{
 A vector with the cell type numbers for the sample

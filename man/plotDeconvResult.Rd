@@ -21,8 +21,8 @@ the ggplot object
 Plot deconvolution results as a barplot
 }
 \examples{
-model <- omnideconv::build_model(single_cell_data, cell_type_annotations, batch_ids, "bisque")
-deconvolution <- omnideconv::deconvolute(
+model <- build_model(single_cell_data, cell_type_annotations, "bisque", batch_ids)
+deconvolution <- deconvolute(
   bulk, model, "bisque", single_cell_data,
   cell_type_annotations, batch_ids
 )

@@ -24,7 +24,7 @@ scaden_train(
 
 \item{steps}{Number of training steps}
 
-\item{verbose}{Defines verbosity of function call (default: false)}
+\item{verbose}{Whether to produce an output on the console. (default: false)}
 }
 \value{
 Scaden model

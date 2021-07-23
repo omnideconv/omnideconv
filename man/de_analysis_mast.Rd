@@ -13,7 +13,7 @@ de_analysis_mast(scdata, id, path, verbose = FALSE)
 
 \item{path}{OPTIONAL path for saving generated files}
 
-\item{verbose}{Whether to print output}
+\item{verbose}{Whether to produce an output on the console.}
 }
 \value{
 A list with the cell types and their differentially expressed genes

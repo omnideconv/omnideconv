@@ -7,13 +7,13 @@
 bseqsc_config(file = NULL, error = FALSE)
 }
 \arguments{
-\item{file}{path to the CIBERSORT source R code.}
+\item{file}{Path to the CIBERSORT source R code.}
 
-\item{error}{logical that indicates if an error should be thrown
+\item{error}{Logical that indicates if an error should be thrown
 if configuration failed.}
 }
 \value{
-the path where the file was copied, or \code{NULL} if \code{bseqsc} is not correctly
+The path where the file was copied, or \code{NULL} if \code{bseqsc} is not correctly
 configured.
 }
 \description{

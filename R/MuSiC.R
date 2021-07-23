@@ -20,25 +20,25 @@ build_model_music <- function() {
 #' This function is to calculate the MuSiC deconvolution proportions.
 #' IMPORTANT: No model is needed. Everything is done inside this method.
 #'
-#' @param bulk_gene_expression  A matrix or dataframe with the bulk data. Rows
-#'   are genes, columns are samples.
-#' @param single_cell_object A Matrix with the single-cell data. Rows are genes
-#'  and columns are samples.
-#' @param cell_type_annotations A Vector of the cell type annotations. Has to
-#'  be in the same order as the samples in single_cell_object.
+#' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples.
+#'   Row and column names need to be set.
+#' @param single_cell_object A matrix with the single-cell data. Rows are genes, columns are
+#'   samples. Row and column names need to be set.
+#' @param cell_type_annotations A vector of the cell type annotations. Has to
+#'   be in the same order as the samples in single_cell_object.
 #' @param batch_ids A vector of the ids of the samples or individuals.
 #' @param markers vector or list of gene names, default as NULL. If NULL, use all genes that
-#'  provided by both bulk and single cell dataset.
+#'   provided by both bulk and single cell dataset.
 #' @param clusters character, the phenoData of single cell dataset used as clusters.
 #' @param samples character,the phenoData of single cell dataset used as samples.
 #' @param select_ct vector of cell types. Default as NULL. If NULL, then use all cell types
-#'  provided.
+#'   provided.
 #' @param cell_size data.frame of cell sizes. 1st column contains the names of cell types, 2nd
-#'  column has the cell sizes per cell type. Default as NULL. If NULL, then estimate cell size from
-#'  data.
+#'   column has the cell sizes per cell type. Default as NULL. If NULL, then estimate cell size
+#'   from data.
 #' @param ct_cov logical. If TRUE, use the covariance across cell types.
-#' @param verbose logical, default as TRUE.
-#' @param iter_max numeric, maximum iteration number
+#' @param verbose Whether to produce an output on the console.
+#' @param iter_max numeric, maximum iteration number.
 #' @param nu regulation parameter, take care of weight when taking recipical.
 #' @param eps Thredshold of convergence.
 #' @param centered logic, substract avg of Y and D.

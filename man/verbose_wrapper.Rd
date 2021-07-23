@@ -7,7 +7,7 @@
 verbose_wrapper(verbose)
 }
 \arguments{
-\item{verbose}{Whether to suppress messages}
+\item{verbose}{Whether to produce an output on the console.}
 }
 \value{
 A function which will suppress messages or not, depending on the verbose parameter

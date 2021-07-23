@@ -24,13 +24,13 @@ deconvolute_music(
 )
 }
 \arguments{
-\item{bulk_gene_expression}{A matrix or dataframe with the bulk data. Rows
-are genes, columns are samples.}
+\item{bulk_gene_expression}{A matrix of bulk data. Rows are genes, columns are samples.
+Row and column names need to be set.}
 
-\item{single_cell_object}{A Matrix with the single-cell data. Rows are genes
-and columns are samples.}
+\item{single_cell_object}{A matrix with the single-cell data. Rows are genes, columns are
+samples. Row and column names need to be set.}
 
-\item{cell_type_annotations}{A Vector of the cell type annotations. Has to
+\item{cell_type_annotations}{A vector of the cell type annotations. Has to
 be in the same order as the samples in single_cell_object.}
 
 \item{batch_ids}{A vector of the ids of the samples or individuals.}
@@ -46,14 +46,14 @@ provided by both bulk and single cell dataset.}
 provided.}
 
 \item{cell_size}{data.frame of cell sizes. 1st column contains the names of cell types, 2nd
-column has the cell sizes per cell type. Default as NULL. If NULL, then estimate cell size from
-data.}
+column has the cell sizes per cell type. Default as NULL. If NULL, then estimate cell size
+from data.}
 
 \item{ct_cov}{logical. If TRUE, use the covariance across cell types.}
 
-\item{verbose}{logical, default as TRUE.}
+\item{verbose}{Whether to produce an output on the console.}
 
-\item{iter_max}{numeric, maximum iteration number}
+\item{iter_max}{numeric, maximum iteration number.}
 
 \item{nu}{regulation parameter, take care of weight when taking recipical.}
 

@@ -11,7 +11,7 @@ solve_ols(S, B, verbose = FALSE)
 
 \item{B}{One column of the bulk data matrix, so one sample}
 
-\item{verbose}{Whether to print output}
+\item{verbose}{Whether to produce an output on the console.}
 }
 \value{
 A vector with the cell type proportions for the sample

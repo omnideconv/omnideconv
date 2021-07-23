@@ -1,13 +1,13 @@
-#' Signature matrix creation with DWLS using genes identified by de_analysis_mast()
+#' Signature matrix creation with DWLS using genes identified by a differential analysis
 #'
-#' @param scdata A matrix or dataframe with the single-cell data. Rows are genes, columns are
+#' @param single_cell_object A matrix with the single-cell data. Rows are genes, columns are
 #'   samples. Row and column names need to be set.
-#' @param id A Vector of the cell type annotations. Has to be in the same order as the samples in
-#'   single_cell_object
+#' @param cell_type_annotations A vector of the cell type annotations. Has to be in the same order
+#'   as the samples in single_cell_object.
 #' @param method The method used to create the signature matrix. Options are "mast" and "seurat"
 #' @param path The path where the generated files will be saved. If path=NULL, the generated files
 #'   will be discarded.
-#' @param verbose Whether to output what DWLS is doing
+#' @param verbose Whether to produce an output on the console.
 #' @param diff_cutoff Cutoff to determine the FC-limit. How low can the lowest fold change be to
 #'   still be considered differentially expressed?
 #' @param pval_cutoff Cutoff to determine the pVal-limit. How high can the highest p-Value be to
@@ -16,21 +16,22 @@
 #' @return The signature matrix. Rows are genes, columns are cell types.
 #' @export
 #'
-build_model_dwls <- function(scdata,
-                             id,
-                             method = c("mast", "seurat"),
-                             path,
-                             verbose = FALSE,
-                             diff_cutoff = 0.5,
-                             pval_cutoff = 0.01) {
+build_model_dwls <- function(single_cell_object, cell_type_annotations, method = c("mast", "seurat"), path, verbose = FALSE,
+                             diff_cutoff = 0.5, pval_cutoff = 0.01) {
   if (length(method) > 1) {
     method <- method[1]
   }
 
   if (method == "mast") {
-    return(build_signature_matrix_using_mast(scdata, id, path, verbose, diff_cutoff, pval_cutoff))
+    return(build_signature_matrix_using_mast(
+      single_cell_object, cell_type_annotations, path,
+      verbose, diff_cutoff, pval_cutoff
+    ))
   } else if (method == "seurat") {
-    return(build_signature_matrix_using_Seurat(scdata, id, path, verbose, diff_cutoff, pval_cutoff))
+    return(build_signature_matrix_using_Seurat(
+      single_cell_object, cell_type_annotations, path,
+      verbose, diff_cutoff, pval_cutoff
+    ))
   } else {
     base::stop("Could not find method " + method + ". Please try \"Mast\" or \"Seurat\"")
   }
@@ -44,11 +45,11 @@ build_model_dwls <- function(scdata,
 #' @param bulk_gene_expression An Expression Set containing bulk data.
 #' @param signature The Signature matrix.
 #' @param dwls_submethod Three alternative methods in DWLS: OLS, SVR, and DampenedWLS.
-#' @param verbose Whether the algorithm should print out what it is doing.
+#' @param verbose Whether to produce an output on the console.
 
 #'
-#' @return A list. Slot bulk.props contains a matrix of cell type proportion estimates with cell
-#'   types as rows and individuals as columns.
+#' @return A matrix of cell type proportion estimates with cell types as rows and individuals as
+#'   columns.
 #' @export
 #'
 
@@ -118,7 +119,7 @@ deconvolute_dwls <- function(bulk_gene_expression, signature,
 #'
 #' @param S Signature matrix
 #' @param B One column of the bulk data matrix, so one sample
-#' @param verbose Whether to print output
+#' @param verbose Whether to produce an output on the console.
 #'
 #' @return A vector with the cell type proportions for the sample
 #'
@@ -133,7 +134,7 @@ solve_ols <- function(S, B, verbose = FALSE) {
 #'
 #' @param S Signature matrix
 #' @param B One column of the bulk data matrix, so one sample
-#' @param verbose Whether to print output
+#' @param verbose Whether to produce an output on the console.
 #'
 #' @return A vector with the cell type numbers for the sample
 #'
@@ -173,7 +174,7 @@ solve_ols_internal <- function(S, B, verbose = FALSE) {
 #'
 #' @param S Signature matrix
 #' @param B One column of the bulk data matrix, so one sample
-#' @param verbose Whether to print output
+#' @param verbose Whether to produce an output on the console.
 #'
 #' @return A vector with the cell type numbers for the sample
 #'
@@ -210,7 +211,7 @@ solve_dampened_wls <- function(S, B, verbose = FALSE) {
 #' @param B One column of the bulk data matrix, so one sample
 #' @param gold_standard The average of all the solutions so far
 #' @param j The dampening constant
-#' @param verbose Whether to print output
+#' @param verbose Whether to produce an output on the console.
 #'
 #' @return A vector with the cell type numbers for the sample
 #'
@@ -379,7 +380,7 @@ de_analysis <- function(scdata, id, path = NULL) {
 #' @param scdata The single cell data matrix
 #' @param id A Vector of the cell type annotations
 #' @param path OPTIONAL path for saving generated files
-#' @param verbose Whether to output what DWLS is doing
+#' @param verbose Whether to produce an output on the console.
 #' @param diff_cutoff The FC cutoff
 #' @param pval_cutoff The pValue cutoff
 #'
@@ -534,7 +535,7 @@ m_auc <- function(data_m, group_v) {
 #' @param scdata The single cell data matrix
 #' @param id A Vector of the cell type annotations
 #' @param path OPTIONAL path for saving generated files
-#' @param verbose Whether to print output
+#' @param verbose Whether to produce an output on the console.
 #'
 #' @return A list with the cell types and their differentially expressed genes
 #'
@@ -668,7 +669,7 @@ de_analysis_mast <- function(scdata, id, path, verbose = FALSE) {
 #' @param scdata The single cell data matrix
 #' @param id A Vector of the cell type annotations
 #' @param path OPTIONAL path for saving generated files
-#' @param verbose Whether to print output
+#' @param verbose Whether to produce an output on the console.
 #' @param diff_cutoff The FC cutoff
 #' @param pval_cutoff The pValue cutoff
 #'

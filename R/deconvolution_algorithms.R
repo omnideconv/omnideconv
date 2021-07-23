@@ -1,17 +1,17 @@
-#' List of supported immune deconvolution methods
+#' List of supported deconvolution methods
 #'
 #' The methods currently supported are
-#' `Bisque`, `MOMF`, `DWLS`, `Scaden`, `CibersortX`, `AutoGeneS`, `MuSiC`
+#' `AutoGeneS`, `Bisque`, `BSEQ-sc`, `CibersortX`, `CPM`, `DWLS`, `MOMF`, `MuSiC`, `Scaden`,
+#' `SCDC`
 #'
 #' The object is a named vector. The names correspond to the display name of the method,
 #' the values to the internal name.
 #'
 #' @export
 deconvolution_methods <- c(
-  "Bisque" = "bisque", "MOMF" = "momf", "DWLS" = "dwls",
-  "Scaden" = "scaden", "CibersortX" = "cibersortx",
-  "AutoGeneS" = "autogenes", "MuSiC" = "music", "SCDC" = "scdc", "CPM" = "cpm",
-  "BSEQ-sc" = "bseqsc", "CDSeq" = "cdseq"
+  "AutoGeneS" = "autogenes", "Bisque" = "bisque", "BSEQ-sc" = "bseqsc", "CibersortX" = "cibersortx",
+  "CDSeq" = "cdseq", "CPM" = "cpm", "DWLS" = "dwls", "MOMF" = "momf", "MuSiC" = "music",
+  "Scaden" = "scaden", "SCDC" = "scdc"
 )
 
 
@@ -24,15 +24,15 @@ deconvolution_methods <- c(
 #'   or an AnnData object can be provided. In that case, note that cell-type labels need to be
 #'   indicated either directly providing a vector (cell_type_annotations) or by indicating the
 #'   column name that indicates the cell-type labels (cell_type_column_name). (Anndata: obs object,
-#'   SingleCellExperiment: colData object)
-#' @param cell_type_annotations A Vector of the cell type annotations. Has to be in the same order
-#'   as the samples in single_cell_object
+#'   SingleCellExperiment: colData object).
+#' @param cell_type_annotations A vector of the cell type annotations. Has to be in the same order
+#'   as the samples in single_cell_object.
 #' @param batch_ids A vector of the ids of the samples or individuals.
 #' @param method A string specifying the method.
-#'   Supported methods are 'bisque', 'momf', 'dwls', 'scaden', 'cibersortx' and 'autogenes'
+#'   Supported methods are the ones in the variable 'deconvolution_methods'
 #' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples. Necessary
-#'   for MOMF, defaults to NULL. Row and column names need to be set
-#' @param verbose Whether the algorithms should print out what they are doing
+#'   for MOMF and Scaden, defaults to NULL. Row and column names need to be set
+#' @param verbose Whether to produce an output on the console.
 #' @param cell_type_column_name Name of the column in (Anndata: obs, SingleCellExperiment: colData),
 #'   that contains the cell-type labels. Is only used if no cell_type_annotations vector is
 #'   provided.
@@ -41,13 +41,34 @@ deconvolution_methods <- c(
 #'   names in the single_cell_object.
 #' @param ... Additional parameters, passed to the algorithm used
 #'
-#' @return The signature matrix. Rows are genes, columns are cell types
+#' @return The signature matrix. Rows are genes, columns are cell types.
 #' @export
 #'
 #' @examples
-build_model <- function(single_cell_object, cell_type_annotations = NULL, batch_ids = NULL,
-                        method = deconvolution_methods, bulk_gene_expression = NULL, verbose = TRUE,
+#' # More examples can be found in the unit tests at tests/testthat/test-b-buildmodel.R
+#' data("single_cell_data")
+#' data("cell_type_annotations")
+#' data("batch_ids")
+#' data("bulk")
+#'
+#' signature_matrix_bisque <- build_model(
+#'   single_cell_data, cell_type_annotations, "bisque",
+#'   batch_ids
+#' )
+#' pickle_path_autogenes <- build_model(single_cell_data, cell_type_annotations, "autogenes",
+#'   population_size = 500, offspring_size = 30,
+#'   crossover_pb = 0.3, verbose = TRUE
+#' )
+build_model <- function(single_cell_object, cell_type_annotations = NULL,
+                        method = deconvolution_methods, batch_ids = NULL,
+                        bulk_gene_expression = NULL, verbose = TRUE,
                         cell_type_column_name = NULL, markers = NULL, ...) {
+  if (length(method) > 1) {
+    base::stop("Please only specify one method and not ", length(method), ": ", method)
+  }
+  if (method %in% names(deconvolution_methods)) {
+    method <- deconvolution_methods[[method]]
+  }
   method <- tolower(method)
   check_and_install(method)
 
@@ -144,7 +165,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, batch_
 #' @param cell_type_annotations Needed for deconvolution with Bisque, MuSiC and SCDC.
 #'   Defaults to NULL.
 #' @param batch_ids A vector of the ids of the samples or individuals. Defaults to NULL.
-#' @param verbose Whether the algorithms should print out what they are doing.
+#' @param verbose Whether to produce an output on the console.
 #' @param ... Additional parameters, passed to the algorithm used.
 #' @param cell_type_column_name Name of the column in (Anndata: obs, SingleCellExperiment: colData),
 #'   that contains the cell-type labels. Is only used if no cell_type_annotations vector
@@ -155,9 +176,30 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL, batch_
 #' @export
 #'
 #' @examples
+#' # More examples can be found in the unit tests at tests/testthat/test-c-deconvolute.R
+#' data("single_cell_data")
+#' data("cell_type_annotations")
+#' data("batch_ids")
+#' data("bulk")
+#'
+#' signature_matrix_bisque <- build_model(
+#'   single_cell_data, cell_type_annotations, "bisque",
+#'   batch_ids
+#' )
+#' deconv_bisque <- deconvolute(
+#'   bulk, signature_matrix_bisque, "bisque", single_cell_data,
+#'   cell_type_annotations, batch_ids
+#' )
+#' deconv_momf <- deconvolute(bulk_small, signature_matrix_bisque, "momf", single_cell_data_small)
 deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_methods,
                         single_cell_object = NULL, cell_type_annotations = NULL, batch_ids = NULL,
                         cell_type_column_name = NULL, verbose = FALSE, ...) {
+  if (length(method) > 1) {
+    base::stop("Please only specify one method and not ", length(method), ": ", method)
+  }
+  if (method %in% names(deconvolution_methods)) {
+    method <- deconvolution_methods[[method]]
+  }
   method <- tolower(method)
   check_and_install(method)
 

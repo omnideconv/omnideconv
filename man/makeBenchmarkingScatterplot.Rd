@@ -19,3 +19,24 @@ the ggplot object
 \description{
 Make a Scatterplot for Benchmarking
 }
+\examples{
+data("single_cell_data")
+data("cell_type_annotations")
+data("batch_ids")
+data("bulk")
+sig_bisque <- build_model(
+  single_cell_data, cell_type_annotations, "bisque",
+  batch_ids
+)
+res_bisque <- deconvolute(
+  bulk, sig_bisque, "bisque", single_cell_data,
+  cell_type_annotations, batch_ids
+)
+res_scdc <- deconvolute(bulk, NULL, "scdc", batch_ids,
+  single_cell_object = single_cell_data,
+  cell_type_annotations = cell_type_annotations
+)
+result_list <- c(SCDC = res_scdc, Bisque = res_bisque)
+# Not working yet
+# makeBenchmarkingScatterplot(result_list, "predictionVsGroundtruth.png")
+}

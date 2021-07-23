@@ -64,18 +64,23 @@ plotDeconvResult <- function(deconv_result, method_name = "", file_name = NULL) 
 #'   single_cell_object = single_cell_data,
 #'   cell_type_annotations = cell_type_annotations
 #' )
-#' result_list <- c(SCDC = res_scdc, Bisque = res_bisque)
+#' result_list <- list(SCDC = res_scdc, Bisque = res_bisque)
 #' # Not working yet
 #' # makeBenchmarkingScatterplot(result_list, "predictionVsGroundtruth.png")
 makeBenchmarkingScatterplot <- function(result_list, file_name = NULL) {
-  li <- lapply(result_list, function(x) {
-    cbind(x,
-      T_cell = rowSums(x[, grepl("T cell", colnames(x)), drop = FALSE]),
-      DC = rowSums(x[, grepl("DC", colnames(x)), drop = FALSE]),
-      Monocyte = rowSums(x[, grepl("Mono", colnames(x)), drop = FALSE]),
-      NK_cell = rowSums(x[, grepl("NK", colnames(x)), drop = FALSE]),
-      B_cell = rowSums(x[, grepl("B cell", colnames(x)), drop = FALSE])
-    )
+  cell_types <- sort(unique(colnames(result_list[[1]])))
+  # li <- lapply(result_list, function(elem) {
+  #  row_sums <- lapply(cell_types,function(type){rowSums(elem[, grepl(type, colnames(elem)), drop = FALSE])})
+  #  cbind(x,
+  #    T_cell = rowSums(x[, grepl("T cell", colnames(x)), drop = FALSE]),
+  #    DC = rowSums(x[, grepl("DC", colnames(x)), drop = FALSE]),
+  #    Monocyte = rowSums(x[, grepl("Mono", colnames(x)), drop = FALSE]),
+  #    NK_cell = rowSums(x[, grepl("NK", colnames(x)), drop = FALSE]),
+  #    B_cell = rowSums(x[, grepl("B cell", colnames(x)), drop = FALSE])
+  #  )
+  # })
+  li <- lapply(result_list, function(elem) {
+    cbind(elem, elem)
   })
   li <- lapply(li, function(x) cbind(x, sample = rownames(x)))
   li <- lapply(names(li), function(i) cbind(li[[i]], method = rep(i, nrow(li[[i]]))))
@@ -90,7 +95,7 @@ makeBenchmarkingScatterplot <- function(result_list, file_name = NULL) {
   # Should not be needed anymore
   # df$cell_type <- gsub(" ", "_", df$cell_type)
   load("data/RefData.RData")
-  names(RefData) <- c("T_cell", "Monocyte", "B_cell", "DC", "NK_cell")
+  names(RefData) <- cell_types
   RefData$sample <- rownames(RefData)
   plot <- tidyr::pivot_longer(RefData, !sample,
     names_to = "cell_type",
@@ -114,9 +119,9 @@ makeBenchmarkingScatterplot <- function(result_list, file_name = NULL) {
       axis.text = element_text(size = 12), axis.title = element_text(size = 13)
     ) +
     scale_color_manual(
-      values = c("deepskyblue", "springgreen3", "palevioletred1", "red", "blue"),
-      breaks = c("B_cell", "Monocyte", "DC", "NK_cell", "T_cell"),
-      labels = c("B cell", "Monocyte", "DC", "NK cell", "T cell")
+      values = rainbow(length(cell_types)),
+      breaks = cell_types,
+      labels = cell_types
     )
   if (!is.null(file_name)) {
     ggplot2::ggsave(file_name, plot, width = 6, height = 5)

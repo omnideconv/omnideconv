@@ -55,10 +55,10 @@ deconvolute_momf <- function(bulk_gene_expression, signature, single_cell_object
       rownames(signature)
     )
   GList <- list(
-    X1 = t(single_cell_object[relevant_genes, ]),
-    X2 = t(bulk_gene_expression[relevant_genes, ])
+    X1 = t(single_cell_object[relevant_genes, , drop = FALSE]),
+    X2 = t(bulk_gene_expression[relevant_genes, , drop = FALSE])
   )
-  signature <- signature[relevant_genes, ]
+  signature <- signature[relevant_genes, , drop = FALSE]
   if (!verbose) {
     sink(tempfile())
     result <- tryCatch(MOMF::momf.fit(DataX = GList, DataPriorU = signature, method = method, ...),

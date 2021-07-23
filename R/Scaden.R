@@ -31,6 +31,11 @@ build_model_scaden <- function(single_cell_object, cell_type_annotations, bulk_g
     base::stop("'bulk_gene_expression' argument is required for Scaden")
   }
 
+
+  if (ncol(bulk_gene_expression) < 2) {
+    base::stop("Scaden requires at least two bulk samples.")
+  }
+
   if (!verbose) {
     if (Sys.info()["sysname"] == "Windows") {
       base::message("The windows implementation requires verbose mode. It is now switched on.")

@@ -1,4 +1,5 @@
 bulk_small <- as.matrix(utils::read.csv("small_test_data/bulk_small.csv", row.names = 1))
+bulk_small <- bulk_small[, 1, drop = FALSE]
 sc_object_small <- as.matrix(utils::read.csv("small_test_data/sc_object_small.csv", row.names = 1))
 cell_annotations_small <- readr::read_lines("small_test_data/cell_annotations_small.txt")
 batch_ids_small <- readr::read_lines("small_test_data/batch_ids_small.txt")

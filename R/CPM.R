@@ -80,6 +80,10 @@ deconvolute_cpm <- function(bulk_gene_expression, single_cell_object, cell_type_
     )
   }
 
+  if (ncol(bulk_gene_expression) < 2) {
+    base::stop("CPM requires at least two bulk samples.")
+  }
+
   if ("character" %in% class(cell_space) && length(cell_space) == 1) {
     cell_space <- calculate_cell_embedding(single_cell_object, cell_type_annotations, cell_space)
   }

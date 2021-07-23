@@ -115,6 +115,9 @@ deconvolute_bisque <- function(bulk_gene_expression, signature, single_cell_obje
       "cell_type_annotations, batch_ids)"
     )
   }
+  if (ncol(bulk_gene_expression) < 2) {
+    base::stop("Bisque requires at least two bulk samples.")
+  }
   sc_eset <- get_single_cell_expression_set(
     single_cell_object, batch_ids,
     rownames(single_cell_object), cell_type_annotations
@@ -181,11 +184,11 @@ deconvolute_bisque <- function(bulk_gene_expression, signature, single_cell_obje
   )
   if (old_cpm) {
     sc_eset <- Biobase::ExpressionSet(
-      assayData = Biobase::exprs(sc_eset)[genes, ],
+      assayData = Biobase::exprs(sc_eset)[genes, , drop = FALSE],
       phenoData = sc_eset@phenoData
     )
     bulk_eset <- Biobase::ExpressionSet(
-      assayData = Biobase::exprs(bulk_eset)[genes, ],
+      assayData = Biobase::exprs(bulk_eset)[genes, , drop = FALSE],
       phenoData = bulk_eset@phenoData
     )
   }
@@ -198,7 +201,7 @@ deconvolute_bisque <- function(bulk_gene_expression, signature, single_cell_obje
   sc_eset <- BisqueRNA:::CountsToCPM(sc_eset)
   if (!old_cpm) {
     sc_eset <- Biobase::ExpressionSet(
-      assayData = Biobase::exprs(sc_eset)[genes, ],
+      assayData = Biobase::exprs(sc_eset)[genes, , drop = FALSE],
       phenoData = sc_eset@phenoData
     )
   }
@@ -212,7 +215,7 @@ deconvolute_bisque <- function(bulk_gene_expression, signature, single_cell_obje
   bulk_eset <- BisqueRNA:::CountsToCPM(bulk_eset)
   if (!old_cpm) {
     bulk_eset <- Biobase::ExpressionSet(
-      assayData = Biobase::exprs(bulk_eset)[genes, ],
+      assayData = Biobase::exprs(bulk_eset)[genes, , drop = FALSE],
       phenoData = bulk_eset@phenoData
     )
   }

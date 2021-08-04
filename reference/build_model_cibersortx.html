@@ -145,17 +145,17 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>single_cell_object</th>
-      <td><p>A matrix or dataframe with the single-cell data. Rows are genes,
-columns are samples. Row and column names need to be set.</p></td>
+      <td><p>A matrix with the single-cell data. Rows are genes, columns are
+samples. Row and column names need to be set.</p></td>
     </tr>
     <tr>
       <th>cell_type_annotations</th>
-      <td><p>A Vector of the cell type annotations. Has to be in the same order
-as the samples in single_cell_object</p></td>
+      <td><p>A vector of the cell type annotations. Has to be in the same order
+as the samples in single_cell_object.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>Whether CibersortX should print out what it is doing.</p></td>
+      <td><p>Whether to produce an output on the console.</p></td>
     </tr>
     <tr>
       <th>input_dir</th>
@@ -178,17 +178,17 @@ directory.</p></td>
     <tr>
       <th>...</th>
       <td><p>Additional parameters supplied to the algorithm. Options are:</p><ul>
-<li><p>G_min &lt;int&gt; Minimum number of genes per cell type in sig. matrix (default: 300)</p></li>
-<li><p>G_max &lt;int&gt; Maximum number of genes per cell type in sig. matrix (default: 500)</p></li>
-<li><p>q_value &lt;int&gt; Q-value threshold for differential expression (default: 0.01)</p></li>
-<li><p>filter &lt;bool&gt; Remove non-hematopoietic genes (default: FALSE)</p></li>
-<li><p>remake &lt;bool&gt; Remake signature gene matrix (default: False)</p></li>
+<li><p>G_min &lt;int&gt; Minimum number of genes per cell type in sig. matrix (default: 300).</p></li>
+<li><p>G_max &lt;int&gt; Maximum number of genes per cell type in sig. matrix (default: 500).</p></li>
+<li><p>q_value &lt;int&gt; Q-value threshold for differential expression (default: 0.01).</p></li>
+<li><p>filter &lt;bool&gt; Remove non-hematopoietic genes (default: FALSE).</p></li>
+<li><p>remake &lt;bool&gt; Remake signature gene matrix (default: False).</p></li>
 <li><p>replicates &lt;int&gt; Number of replicates to use for building scRNAseq reference file
-(default: 5)</p></li>
+(default: 5).</p></li>
 <li><p>sampling &lt;float&gt; Fraction of available single cell GEPs selected using random sampling
-(default: 0.5)</p></li>
+(default: 0.5).</p></li>
 <li><p>fraction &lt;float&gt; Fraction of cells of same identity showing evidence of expression
-(default: 0.75)</p></li>
+(default: 0.75).</p></li>
 </ul></td>
     </tr>
     </table>

@@ -159,7 +159,8 @@ IMPORTANT: No model is needed. Everything is done inside this method.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>bulk_gene_expression</th>
-      <td><p>Dataframe or matrix of bulk RNA-seq data (genes x individuals)</p></td>
+      <td><p>A matrix of bulk data. Rows are genes, columns are samples.
+Row and column names need to be set.</p></td>
     </tr>
     <tr>
       <th>single_cell_object</th>
@@ -197,7 +198,7 @@ value of 1000 for a single single cell object and 2000 for a list is chosen.</p>
     </tr>
     <tr>
       <th>nu</th>
-      <td><p>a small constant to facilitate the calculation of variance</p></td>
+      <td><p>a small constant to facilitate the calculation of variance.</p></td>
     </tr>
     <tr>
       <th>epsilon</th>
@@ -206,12 +207,12 @@ the default value of 0.01 for a single single cell object and 0.001 for a list i
     </tr>
     <tr>
       <th>truep</th>
-      <td><p>true cell-type proportions for bulk samples if known</p></td>
+      <td><p>true cell-type proportions for bulk samples if known.</p></td>
     </tr>
     <tr>
       <th>weight_basis</th>
       <td><p>Whether to use the Basis Matrix adjusted for maximal variance weight,
-created by the SCDC_basis function</p></td>
+created by the SCDC_basis function.</p></td>
     </tr>
     <tr>
       <th>ct_cell_size</th>
@@ -246,7 +247,7 @@ quality_control = TRUE.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>Whether to create any output.</p></td>
+      <td><p>Whether to produce an output on the console.</p></td>
     </tr>
     <tr>
       <th>quality_control</th>
@@ -256,7 +257,23 @@ quality_control = TRUE.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Estimated proportion, basis matrix, predicted gene expression levels for bulk samples</p>
+    <p>Depends on whether one or multiple single cell sets are used.<br /><br />
+One:</p>
+<dt>prop.est.mvw</dt><dd><p>A matrix of cell type proportion estimates with cell types as rows and
+individuals as columns.</p></dd>
+<dt>basis.mvw</dt><dd><p>The signature matrix. Rows are genes, columns are cell types.</p></dd>
+<dt>yhat</dt><dd><p>The predicted gene expression levels for the bulk samples.</p></dd>
+<dt>yeval</dt><dd><p>The evaluation of the predicted gene expression levels.</p></dd>
+<dt>peval</dt><dd><p>The evaluation of the deconvoluted proportions. Since we dont have a ground truth,
+this is always NULL.</p></dd>
+
+ENSEMBLE:
+<dt>w_table</dt><dd><p>A matrix with the suggested weights for each single cell dataset and some
+statistical evaluation.</p></dd>
+<dt>prop.list</dt><dd><p>A list of the "One:" outputs as seen above for each single cell dataset.</p></dd>
+<dt>prop.only</dt><dd><p>A list of the prop.est.mvw values for each single cell dataset.</p></dd>
+<dt>gridres</dt><dd><p>A matrix with the results of the gridsearch. NULL if grid_search = FALSE.</p></dd>
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>SCDC_ENSEMBLE can be used by supplying lists to the parameters single_cell_object and

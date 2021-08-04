@@ -147,7 +147,7 @@
         <td>
           <p><code><a href="deconvolution_methods.html">deconvolution_methods</a></code> </p>
         </td>
-        <td><p>List of supported immune deconvolution methods</p></td>
+        <td><p>List of supported deconvolution methods</p></td>
       </tr><tr>
         
         <td>
@@ -176,21 +176,9 @@
       <tr>
         
         <td>
-          <p><code><a href="build_model_momf.html">build_model_momf()</a></code> </p>
+          <p><code><a href="build_model_autogenes.html">build_model_autogenes()</a></code> </p>
         </td>
-        <td><p>Calculates the signature model with MOMF</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="build_model_dwls.html">build_model_dwls()</a></code> </p>
-        </td>
-        <td><p>Signature matrix creation with DWLS using genes identified by de_analysis_mast()</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="build_model_scaden.html">build_model_scaden()</a></code> </p>
-        </td>
-        <td><p>Builds Scaden Model from scRNA data</p></td>
+        <td><p>Calculates the signature model with AutoGeneS</p></td>
       </tr><tr>
         
         <td>
@@ -200,9 +188,51 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="build_model_bseqsc.html">build_model_bseqsc()</a></code> </p>
+        </td>
+        <td><p>Calculates the signature model with BSEQ-sc</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="build_model_cibersortx.html">build_model_cibersortx()</a></code> </p>
         </td>
         <td><p>Signature matrix creation with CibersortX</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="build_model_cpm.html">build_model_cpm()</a></code> </p>
+        </td>
+        <td><p>No model is build as CPM does not use a signature matrix.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="build_model_dwls.html">build_model_dwls()</a></code> </p>
+        </td>
+        <td><p>Signature matrix creation with DWLS using genes identified by a differential analysis</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="build_model_momf.html">build_model_momf()</a></code> </p>
+        </td>
+        <td><p>Calculates the signature model with MOMF</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="build_model_music.html">build_model_music()</a></code> </p>
+        </td>
+        <td><p>No model is build as MuSiC does both steps in one.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="build_model_scaden.html">build_model_scaden()</a></code> </p>
+        </td>
+        <td><p>Builds Scaden Model from scRNA data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="build_model_scdc.html">build_model_scdc()</a></code> </p>
+        </td>
+        <td><p>No model is build as SCDC does both steps in one.</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -219,21 +249,9 @@
       <tr>
         
         <td>
-          <p><code><a href="deconvolute_momf.html">deconvolute_momf()</a></code> </p>
+          <p><code><a href="deconvolute_autogenes.html">deconvolute_autogenes()</a></code> </p>
         </td>
-        <td><p>Deconvolution Analysis using MOMF (via Nonnegative Factorization)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="deconvolute_dwls.html">deconvolute_dwls()</a></code> </p>
-        </td>
-        <td><p>Calculates the decomposition using the dwls algorithm</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="deconvolute_scaden.html">deconvolute_scaden()</a></code> </p>
-        </td>
-        <td><p>Performs deconvolution</p></td>
+        <td><p>Deconvolution Analysis using AutoGeneS</p></td>
       </tr><tr>
         
         <td>
@@ -243,9 +261,51 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="deconvolute_bseqsc.html">deconvolute_bseqsc()</a></code> </p>
+        </td>
+        <td><p>Deconvolution Analysis using BSEQ-sc</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="deconvolute_cibersortx.html">deconvolute_cibersortx()</a></code> </p>
         </td>
         <td><p>Deconvolute with CibersortX</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="deconvolute_cpm.html">deconvolute_cpm()</a></code> </p>
+        </td>
+        <td><p>CPM Deconvolution</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="deconvolute_dwls.html">deconvolute_dwls()</a></code> </p>
+        </td>
+        <td><p>Calculates the decomposition using the dwls algorithm</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="deconvolute_momf.html">deconvolute_momf()</a></code> </p>
+        </td>
+        <td><p>Deconvolution Analysis using MOMF (via Nonnegative Factorization)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="deconvolute_music.html">deconvolute_music()</a></code> </p>
+        </td>
+        <td><p>MuSiC Deconvolution</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="deconvolute_scaden.html">deconvolute_scaden()</a></code> </p>
+        </td>
+        <td><p>Performs deconvolution with Scaden</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="deconvolute_scdc.html">deconvolute_scdc()</a></code> </p>
+        </td>
+        <td><p>SCDC Deconvolution</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -265,6 +325,12 @@
           <p><code><a href="set_cibersortx_credentials.html">set_cibersortx_credentials()</a></code> </p>
         </td>
         <td><p>Setting the CibersortX Credentials</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="bseqsc_config.html">bseqsc_config()</a></code> </p>
+        </td>
+        <td><p>Setup BSeq-SC External Dependencies</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -314,6 +380,18 @@
           <p><code><a href="single_cell_data_small.html">single_cell_data_small</a></code> </p>
         </td>
         <td><p>Small example sigle-cell RNA-seq dataset from Maynard et al.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="batch_ids.html">batch_ids</a></code> </p>
+        </td>
+        <td><p>Batch ids for the example single-cell RNA-seq dataset from Maynard et al.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="batch_ids_small.html">batch_ids_small</a></code> </p>
+        </td>
+        <td><p>Batch ids for the small example single-cell RNA-seq dataset from Maynard et al.</p></td>
       </tr>
     </tbody><tbody>
       <tr>

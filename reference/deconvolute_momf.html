@@ -132,7 +132,7 @@
     <pre class="usage"><span class='fu'>deconvolute_momf</span><span class='op'>(</span>
   <span class='va'>bulk_gene_expression</span>,
   <span class='va'>signature</span>,
-  <span class='va'>single_cell_object</span>,
+  single_cell_object <span class='op'>=</span> <span class='cn'>NULL</span>,
   verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
   method <span class='op'>=</span> <span class='st'>"KL"</span>,
   <span class='va'>...</span>
@@ -143,19 +143,21 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>bulk_gene_expression</th>
-      <td><p>Dataframe or matrix of bulk RNA-seq data (genes x individuals)</p></td>
+      <td><p>A matrix of bulk data. Rows are genes, columns are samples.
+Row and column names need to be set.</p></td>
     </tr>
     <tr>
       <th>signature</th>
-      <td><p>Signature Matrix (genes x individuals from scRNA-seq)</p></td>
+      <td><p>The signature matrix. Rows are genes, columns are cell types.</p></td>
     </tr>
     <tr>
       <th>single_cell_object</th>
-      <td><p>scRNA-seq Object (genes x cells)</p></td>
+      <td><p>A matrix with the single-cell data. Rows are genes, columns are
+samples. Row and column names need to be set.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>Whether the algorithm should print out what it is doing.</p></td>
+      <td><p>Whether to produce an output on the console.</p></td>
     </tr>
     <tr>
       <th>method</th>

@@ -131,7 +131,7 @@
 
     <pre class="usage"><span class='fu'>build_model_scaden</span><span class='op'>(</span>
   <span class='va'>single_cell_object</span>,
-  <span class='va'>celltype_labels</span>,
+  <span class='va'>cell_type_annotations</span>,
   bulk_gene_expression <span class='op'>=</span> <span class='cn'>NULL</span>,
   model_path <span class='op'>=</span> <span class='cn'>NULL</span>,
   batch_size <span class='op'>=</span> <span class='fl'>128</span>,
@@ -149,61 +149,62 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>single_cell_object</th>
-      <td><p>A matrix or dataframe with the single-cell data. Rows are genes,
-columns are samples.</p></td>
+      <td><p>A matrix with the single-cell data. Rows are genes, columns are
+samples. Row and column names need to be set.</p></td>
     </tr>
     <tr>
-      <th>celltype_labels</th>
-      <td><p>Vector of celltype labels. Order corresponds to rows in
-single_cell_object matrix.</p></td>
+      <th>cell_type_annotations</th>
+      <td><p>A vector of the cell type annotations. Has to be in the same order
+as the samples in single_cell_object.</p></td>
     </tr>
     <tr>
       <th>bulk_gene_expression</th>
-      <td><p>Matrix of bulk RNA expression. (rows :genes, columns: samples)</p></td>
+      <td><p>A matrix of bulk data. Rows are genes, columns are samples.
+Row and column names need to be set.</p></td>
     </tr>
     <tr>
       <th>model_path</th>
-      <td><p>Path where model directory should be created. (optional)</p></td>
+      <td><p>Path where model directory should be created (optional).</p></td>
     </tr>
     <tr>
       <th>batch_size</th>
-      <td><p>Training  of model: Batch size to use for training. (default: 128)</p></td>
+      <td><p>Training  of model: Batch size to use for training (default: 128).</p></td>
     </tr>
     <tr>
       <th>learning_rate</th>
-      <td><p>Training of model: Learning rate used for training. (default: 0.0001)</p></td>
+      <td><p>Training of model: Learning rate used for training (default: 1E-4).</p></td>
     </tr>
     <tr>
       <th>steps</th>
-      <td><p>Training of model: Number of training steps (default: 5000)</p></td>
+      <td><p>Training of model: Number of training steps (default: 5000).</p></td>
     </tr>
     <tr>
       <th>var_cutoff</th>
       <td><p>Training data processing: Filter out genes with a variance less than the
 specified cutoff. A low cutoff is recommended,this should only remove genes that are obviously
-uninformative. (default NULL)</p></td>
+uninformative. (default NULL).</p></td>
     </tr>
     <tr>
       <th>cells</th>
-      <td><p>Bulk simulation: Number of cells per sample (default: 100)</p></td>
+      <td><p>Bulk simulation: Number of cells per sample (default: 100).</p></td>
     </tr>
     <tr>
       <th>samples</th>
-      <td><p>Bulk simulation: Number of samples to simulate (default: 1000)</p></td>
+      <td><p>Bulk simulation: Number of samples to simulate (default: 1000).</p></td>
     </tr>
     <tr>
       <th>dataset_name</th>
-      <td><p>Bulk simulation: Name of simulated dataset (default scaden)</p></td>
+      <td><p>Bulk simulation: Name of simulated dataset (default scaden).</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>If true: Command line output of Scaden is shown (default: false)</p></td>
+      <td><p>Whether to produce an output on the console (default: false).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Scaden model</p>
+    <p>The path to the scaden model.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

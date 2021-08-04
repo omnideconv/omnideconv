@@ -159,88 +159,88 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>single_cell_object</th>
-      <td><p>A matrix or dataframe with the single-cell data. Rows are genes,
-columns are samples. Row and column names need to be set.</p></td>
+      <td><p>A matrix with the single-cell data. Rows are genes, columns are
+samples. Row and column names need to be set.</p></td>
     </tr>
     <tr>
       <th>cell_type_annotations</th>
-      <td><p>A Vector of the cell type annotations. Has to be in the same order
-as the samples in single_cell_object</p></td>
+      <td><p>A vector of the cell type annotations. Has to be in the same order
+as the samples in single_cell_object.</p></td>
     </tr>
     <tr>
       <th>bulk_gene_expression</th>
       <td><p>OPTIONAL: A matrix of bulk data. Rows are genes, columns are samples.
-If the bulk data is supplied, the single cell object loses all gene rows not contained in the
-bulk data as not to create solution sets with them</p></td>
+Row and column names need to be set. If the bulk data is supplied, the single cell object
+loses all gene rows not contained in the bulk data as not to create solution sets with them.</p></td>
     </tr>
     <tr>
       <th>ngen</th>
-      <td><p>Number of generations. The higher, the longer it takes</p></td>
+      <td><p>Number of generations. The higher, the longer it takes.</p></td>
     </tr>
     <tr>
       <th>mode</th>
       <td><p>In standard mode, the number of genes of a selection is allowed to vary arbitrarily.
-In fixed mode, the number of selected genes is fixed (using nfeatures)</p></td>
+In fixed mode, the number of selected genes is fixed (using nfeatures).</p></td>
     </tr>
     <tr>
       <th>nfeatures</th>
-      <td><p>Number of genes to be selected in fixed mode</p></td>
+      <td><p>Number of genes to be selected in fixed mode.</p></td>
     </tr>
     <tr>
       <th>weights</th>
       <td><p>Weights applied to the objectives. For the optimization, only the sign is
 relevant: 1 means to maximize the respective objective, -1 to minimize it and 0 means to ignore
 it. The weight supplied here will be the default weight for selection. There must be as many
-weights as there are objectives</p></td>
+weights as there are objectives.</p></td>
     </tr>
     <tr>
       <th>objectives</th>
       <td><p>The objectives to maximize or minimize. Must have the same length as weights.
 The default objectives (correlation, distance) can be referred to using strings. For custom
-objectives, a function has to be passed</p></td>
+objectives, a function has to be passed.</p></td>
     </tr>
     <tr>
       <th>seed</th>
-      <td><p>Seed for random number generators</p></td>
+      <td><p>Seed for random number generators.</p></td>
     </tr>
     <tr>
       <th>population_size</th>
-      <td><p>Size of every generation (mu parameter)</p></td>
+      <td><p>Size of every generation (mu parameter).</p></td>
     </tr>
     <tr>
       <th>offspring_size</th>
-      <td><p>Number of individuals created in every generation (lambda parameter)</p></td>
+      <td><p>Number of individuals created in every generation (lambda parameter).</p></td>
     </tr>
     <tr>
       <th>crossover_pb</th>
-      <td><p>Crossover probability</p></td>
+      <td><p>Crossover probability.</p></td>
     </tr>
     <tr>
       <th>mutation_pb</th>
-      <td><p>Mutation probability</p></td>
+      <td><p>Mutation probability.</p></td>
     </tr>
     <tr>
       <th>mutate_flip_pb</th>
-      <td><p>Mutation flipping probability (fixed mode)</p></td>
+      <td><p>Mutation flipping probability (fixed mode).</p></td>
     </tr>
     <tr>
       <th>crossover_thres</th>
-      <td><p>Crossover threshold (standard mode)</p></td>
+      <td><p>Crossover threshold (standard mode).</p></td>
     </tr>
     <tr>
       <th>ind_standard_pb</th>
-      <td><p>Probability used to generate initial population in standard mode</p></td>
+      <td><p>Probability used to generate initial population in standard mode.</p></td>
     </tr>
     <tr>
       <th>plot_weights</th>
       <td><p>Plotting: Weights with which to weight the objective values. For example,
-(-1,2) will minimize the first objective and maximize the the second (with higher weight)</p></td>
+(-1,2) will minimize the first objective and maximize the the second (with higher weight).</p></td>
     </tr>
     <tr>
       <th>plot_objectives</th>
       <td><p>Plotting: The objectives to be plotted. Contains indices of objectives.
 The first index refers to the objective that is plotted on the x-axis. For example, (2,1) will
-plot the third objective on the x-axis and the second on the y-axis</p></td>
+plot the third objective on the x-axis and the second on the y-axis.</p></td>
     </tr>
     <tr>
       <th>index</th>
@@ -248,27 +248,29 @@ plot the third objective on the x-axis and the second on the y-axis</p></td>
 first is an objective (0 for the first). The second is the nth element if the solutions have
 been sorted by the objective in ascending order. For example, (0,1) will return the solution
 that has the second-lowest value in the first objective. (1,-1) will return the solution with
-the highest value in the second objective</p></td>
+the highest value in the second objective.</p></td>
     </tr>
     <tr>
       <th>close_to</th>
       <td><p>Plotting: Select the solution whose objective value is closest to a certain
 value. Assumes (objective,value). For example, (0,100) will select the solution whose value
-for the first objective is closest to 100</p></td>
+for the first objective is closest to 100.</p></td>
     </tr>
     <tr>
       <th>plot</th>
-      <td><p>Whether to produce a plot at all</p></td>
+      <td><p>Whether to produce a plot at all. This just hands over the reticulate plot and
+has some visualization problems. To get a normal plot, use the pickle file, open it in python
+and use the plot method there.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>Whether to produce an output on the console</p></td>
+      <td><p>Whether to produce an output on the console.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The path to the pickle file needed for the deconvolution with autogenes</p>
+    <p>The path to the pickle file needed for the deconvolution with AutoGeneS.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

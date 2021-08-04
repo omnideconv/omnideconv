@@ -129,7 +129,7 @@
     <p>Predicts cell proportions in bulk RNA sample.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>scaden_predict</span><span class='op'>(</span><span class='va'>model_dir</span>, <span class='va'>bulk_data</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>scaden_predict</span><span class='op'>(</span><span class='va'>model_dir</span>, <span class='va'>bulk_gene_expression</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -139,12 +139,12 @@
       <td><p>Directory where model is saved</p></td>
     </tr>
     <tr>
-      <th>bulk_data</th>
+      <th>bulk_gene_expression</th>
       <td><p>Bulk RNA-seq data. (genes x bulk_RNA samples)</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>Defines verbosity of function call (default: false)</p></td>
+      <td><p>Whether to produce an output on the console. (default: false)</p></td>
     </tr>
     </table>
 

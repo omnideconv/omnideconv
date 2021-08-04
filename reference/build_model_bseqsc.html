@@ -143,13 +143,13 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>single_cell_object</th>
-      <td><p>A matrix or dataframe with the single-cell data. Rows are genes,
-columns are samples. Row and column names need to be set. Raw counts are needed.</p></td>
+      <td><p>A matrix with the single-cell data. Rows are genes, columns are
+samples. Row and column names need to be set.</p></td>
     </tr>
     <tr>
       <th>cell_type_annotations</th>
-      <td><p>A Vector of the cell type annotations. Has to be in the same order
-as the samples in single_cell_object</p></td>
+      <td><p>A vector of the cell type annotations. Has to be in the same order
+as the samples in single_cell_object.</p></td>
     </tr>
     <tr>
       <th>markers</th>
@@ -169,7 +169,7 @@ should be rescaled according to their cell type average total count.</p></td>
     <tr>
       <th>limit</th>
       <td><p>logical that indicates if the returned basis matrix should only contain
-cell types listed in <code>markers</code>..</p></td>
+cell types listed in <code>markers</code>.</p></td>
     </tr>
     </table>
 

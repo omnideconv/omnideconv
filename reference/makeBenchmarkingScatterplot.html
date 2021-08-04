@@ -129,7 +129,7 @@
     <p>Make a Scatterplot for Benchmarking</p>
     </div>
 
-    <pre class="usage"><span class='fu'>makeBenchmarkingScatterplot</span><span class='op'>(</span><span class='va'>result_list</span>, file_name <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>makeBenchmarkingScatterplot</span><span class='op'>(</span><span class='va'>result_list</span>, <span class='va'>ref_data</span>, file_name <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -137,8 +137,11 @@
     <tr>
       <th>result_list</th>
       <td><p>named list containing all deconvolution results that should be considered,
-cell type annotations need to contain "T cell", "DC", "Mono", "NK", "B cell" in any way to be
-included</p></td>
+cell type annotations need to contain the same cell types as the ones in ref_data</p></td>
+    </tr>
+    <tr>
+      <th>ref_data</th>
+      <td><p>reference cell types which are used as the ground truth</p></td>
     </tr>
     <tr>
       <th>file_name</th>
@@ -150,6 +153,39 @@ included</p></td>
 
     <p>the ggplot object</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"single_cell_data"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"cell_type_annotations"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"batch_ids"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"bulk"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"RefData"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>RefData</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"T_cell"</span>, <span class='st'>"Monocyte"</span>, <span class='st'>"B_cell"</span>, <span class='st'>"DC"</span>, <span class='st'>"NK_cell"</span><span class='op'>)</span>
+<span class='va'>sig_bisque</span> <span class='op'>&lt;-</span> <span class='fu'><a href='build_model.html'>build_model</a></span><span class='op'>(</span>
+  <span class='va'>single_cell_data</span>, <span class='va'>cell_type_annotations</span>, <span class='st'>"bisque"</span>,
+  <span class='va'>batch_ids</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Converting single-cell counts to CPM and filtering zero variance genes.</span></div><div class='output co'>#&gt; <span class='message'>Filtered 0 zero variance genes.</span></div><div class='input'><span class='va'>res_bisque</span> <span class='op'>&lt;-</span> <span class='fu'><a href='deconvolute.html'>deconvolute</a></span><span class='op'>(</span>
+  <span class='va'>bulk</span>, <span class='va'>sig_bisque</span>, <span class='st'>"bisque"</span>, <span class='va'>single_cell_data</span>,
+  <span class='va'>cell_type_annotations</span>, <span class='va'>batch_ids</span>
+<span class='op'>)</span>
+<span class='va'>res_scdc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='deconvolute.html'>deconvolute</a></span><span class='op'>(</span><span class='va'>bulk</span>, <span class='cn'>NULL</span>, <span class='st'>"scdc"</span>, <span class='va'>batch_ids</span>,
+  single_cell_object <span class='op'>=</span> <span class='va'>single_cell_data</span>,
+  cell_type_annotations <span class='op'>=</span> <span class='va'>cell_type_annotations</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='warning'>Warning: no non-missing arguments to min; returning Inf</span></div><div class='output co'>#&gt; <span class='message'>Creating Basis Matrix adjusted for maximal variance weight</span></div><div class='output co'>#&gt; <span class='message'>Used 2303 common genes...</span></div><div class='output co'>#&gt; <span class='message'>Used 9 cell types in deconvolution...</span></div><div class='output co'>#&gt; <span class='message'>HD30_PBMC_0 has common genes 2099 ...</span></div><div class='output co'>#&gt; <span class='message'>WNNLS Converged at iteration 17</span></div><div class='output co'>#&gt; <span class='message'>HD30_PBMC_1 has common genes 2126 ...</span></div><div class='output co'>#&gt; <span class='message'>WNNLS Converged at iteration 21</span></div><div class='output co'>#&gt; <span class='message'>HD30_PBMC_3 has common genes 2118 ...</span></div><div class='output co'>#&gt; <span class='message'>WNNLS Converged at iteration 19</span></div><div class='output co'>#&gt; <span class='message'>HD30_PBMC_7 has common genes 2109 ...</span></div><div class='output co'>#&gt; <span class='message'>WNNLS Converged at iteration 15</span></div><div class='output co'>#&gt; <span class='message'>HD31_PBMC_0 has common genes 2143 ...</span></div><div class='output co'>#&gt; <span class='message'>WNNLS Converged at iteration 15</span></div><div class='output co'>#&gt; <span class='message'>HD31_PBMC_1 has common genes 2086 ...</span></div><div class='output co'>#&gt; <span class='message'>WNNLS Converged at iteration 21</span></div><div class='output co'>#&gt; <span class='message'>HD31_PBMC_3 has common genes 2038 ...</span></div><div class='output co'>#&gt; <span class='message'>WNNLS Converged at iteration 14</span></div><div class='output co'>#&gt; <span class='message'>HD31_PBMC_7 has common genes 2104 ...</span></div><div class='output co'>#&gt; <span class='message'>WNNLS Converged at iteration 17</span></div><div class='input'><span class='va'>result_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>SCDC <span class='op'>=</span> <span class='va'>res_scdc</span>, Bisque <span class='op'>=</span> <span class='va'>res_bisque</span><span class='op'>)</span>
+<span class='va'>result_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>result_list</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>elem</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix.data.frame</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
+    T_cell <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span><span class='op'>(</span><span class='va'>elem</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span><span class='op'>(</span><span class='st'>"T cell"</span>, <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>elem</span><span class='op'>)</span><span class='op'>)</span>, drop <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>]</span><span class='op'>)</span>,
+    DC <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span><span class='op'>(</span><span class='va'>elem</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span><span class='op'>(</span><span class='st'>"DC"</span>, <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>elem</span><span class='op'>)</span><span class='op'>)</span>, drop <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>]</span><span class='op'>)</span>,
+    Monocyte <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span><span class='op'>(</span><span class='va'>elem</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span><span class='op'>(</span><span class='st'>"Mono"</span>, <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>elem</span><span class='op'>)</span><span class='op'>)</span>, drop <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>]</span><span class='op'>)</span>,
+    NK_cell <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span><span class='op'>(</span><span class='va'>elem</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span><span class='op'>(</span><span class='st'>"NK"</span>, <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>elem</span><span class='op'>)</span><span class='op'>)</span>, drop <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>]</span><span class='op'>)</span>,
+    B_cell <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>rowSums</a></span><span class='op'>(</span><span class='va'>elem</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span><span class='op'>(</span><span class='st'>"B cell"</span>, <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>elem</span><span class='op'>)</span><span class='op'>)</span>, drop <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>]</span><span class='op'>)</span>
+  <span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span><span class='op'>)</span>
+<span class='fu'>makeBenchmarkingScatterplot</span><span class='op'>(</span><span class='va'>result_list</span>, <span class='va'>RefData</span><span class='op'>)</span>
+</div><div class='img'><img src='makeBenchmarkingScatterplot-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># Alternative if you want to save the plot in a file</span>
+<span class='co'># makeBenchmarkingScatterplot(result_list, RefData, "predictionVsGroundtruth.png")</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

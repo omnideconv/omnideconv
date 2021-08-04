@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Performs deconvolution — deconvolute_scaden • omnideconv</title>
+<title>Performs deconvolution with Scaden — deconvolute_scaden • omnideconv</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Performs deconvolution — deconvolute_scaden" />
-<meta property="og:description" content="Performs deconvolution" />
+<meta property="og:title" content="Performs deconvolution with Scaden — deconvolute_scaden" />
+<meta property="og:description" content="Performs deconvolution with Scaden" />
 
 
 
@@ -120,16 +120,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Performs deconvolution</h1>
+    <h1>Performs deconvolution with Scaden</h1>
     <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/Scaden.R'><code>R/Scaden.R</code></a></small>
     <div class="hidden name"><code>deconvolute_scaden.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Performs deconvolution</p>
+    <p>Performs deconvolution with Scaden</p>
     </div>
 
-    <pre class="usage"><span class='fu'>deconvolute_scaden</span><span class='op'>(</span><span class='va'>model</span>, <span class='va'>bulk_data</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>deconvolute_scaden</span><span class='op'>(</span><span class='va'>model</span>, <span class='va'>bulk_gene_expression</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -139,18 +139,20 @@
       <td><p>Path to the model directory</p></td>
     </tr>
     <tr>
-      <th>bulk_data</th>
-      <td><p>Matrix of bulk RNA expression. (genes x samples)</p></td>
+      <th>bulk_gene_expression</th>
+      <td><p>A matrix of bulk data. Rows are genes, columns are samples.
+Row and column names need to be set.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>Defines verbosity of function call (default: false)</p></td>
+      <td><p>Whether to produce an output on the console (default: false).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Cell type fractions per sample.</p>
+    <p>A matrix of cell type proportion estimates with cell types as rows and
+individuals as columns.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -187,13 +187,21 @@ Figure 1: (a) Schematic of the tumor environment. <span class="citation">(Fridma
 <a href="#signature-matrix" class="anchor"></a>Signature Matrix</h2>
 <p>To calculate a cell-type-specific expression signature, you can use the build_model function with the single cell RNA-seq matrix (rows are genes, columns are samples) and cell type annotations specified above. Alternatively a SingleCellExperiment or an AnnData object can be provided. The parameter method can be set to one of the five methods listed below. More information of the methods is provided in section 3.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="va">batch_ids</span>, <span class="va">method</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="va">method</span><span class="op">)</span>
+<span class="co"># Bisque, MuSiC and SCDC require an additional parameter</span>
+<span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="va">method</span>, <span class="va">batch_ids</span><span class="op">)</span></code></pre></div>
 <ul>
 <li>Bisque (“bisque”)</li>
 <li>DWLS (“dwls”)</li>
 <li>MOMF (“momf”)</li>
 <li>Scaden (“scaden”)</li>
 <li>CibersortX (“cibersortx”)</li>
+<li>AutoGeneS (“autogenes”)</li>
+<li>MuSiC (“music”)</li>
+<li>SCDC (“scdc”)</li>
+<li>CPM (“cpm”)</li>
+<li>BSEQ-sc (“bseqsc”)</li>
+<li>CDSeq (“cdseq”)</li>
 </ul>
 <p>Note: MOMF and Scaden also require the bulk RNA-seq data to calculate a signature matrix. Please provide this parameter as well when running build_model with one of these two methods.</p>
 <p>Additional parameters for the different methods can be included in the method call as well. For further information on which options you have, see the documentation of each tool.</p>
@@ -284,7 +292,7 @@ Figure 1: (a) Schematic of the tumor environment. <span class="citation">(Fridma
 </table>
 <p>Now we build the signature matrix with Bisque and look at the values for the first few genes.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">signatureMatrix</span> <span class="op">&lt;-</span> <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="va">batch_ids</span>, <span class="st">"bisque"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">signatureMatrix</span> <span class="op">&lt;-</span> <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="st">"bisque"</span>, <span class="va">batch_ids</span><span class="op">)</span>
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">signatureMatrix</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span>, caption <span class="op">=</span> <span class="st">"Table 2: Signature matrix created with Bisque."</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <caption>Table 2: Signature matrix created with Bisque.</caption>

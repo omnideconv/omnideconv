@@ -30,5 +30,4 @@ signature_matrix_bisque <- build_model(
 )
 cond_num <- calc_condition_number(signature_matrix_bisque)
 cond_num
-
 }

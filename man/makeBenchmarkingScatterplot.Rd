@@ -41,16 +41,15 @@ res_scdc <- deconvolute(bulk, NULL, "scdc", batch_ids,
 )
 result_list <- list(SCDC = res_scdc, Bisque = res_bisque)
 result_list <- lapply(result_list, function(elem) {
- as.matrix.data.frame(data.frame(
-   T_cell = rowSums(elem[, grepl("T cell", colnames(elem)), drop = FALSE]),
-   DC = rowSums(elem[, grepl("DC", colnames(elem)), drop = FALSE]),
-   Monocyte = rowSums(elem[, grepl("Mono", colnames(elem)), drop = FALSE]),
-   NK_cell = rowSums(elem[, grepl("NK", colnames(elem)), drop = FALSE]),
-   B_cell = rowSums(elem[, grepl("B cell", colnames(elem)), drop = FALSE])
- ))
+  as.matrix.data.frame(data.frame(
+    T_cell = rowSums(elem[, grepl("T cell", colnames(elem)), drop = FALSE]),
+    DC = rowSums(elem[, grepl("DC", colnames(elem)), drop = FALSE]),
+    Monocyte = rowSums(elem[, grepl("Mono", colnames(elem)), drop = FALSE]),
+    NK_cell = rowSums(elem[, grepl("NK", colnames(elem)), drop = FALSE]),
+    B_cell = rowSums(elem[, grepl("B cell", colnames(elem)), drop = FALSE])
+  ))
 })
 makeBenchmarkingScatterplot(result_list, RefData)
-#Alternative if you want to save the plot in a file
-#makeBenchmarkingScatterplot(result_list, RefData, "predictionVsGroundtruth.png")
-
+# Alternative if you want to save the plot in a file
+# makeBenchmarkingScatterplot(result_list, RefData, "predictionVsGroundtruth.png")
 }

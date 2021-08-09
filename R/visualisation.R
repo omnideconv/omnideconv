@@ -39,8 +39,8 @@ plotDeconvResult <- function(deconv_result, method_name = "", file_name = NULL) 
 #' Make a Scatterplot for Benchmarking
 #'
 #' @param result_list named list containing all deconvolution results that should be considered,
-#'   cell type annotations need to contain "T cell", "DC", "Mono", "NK", "B cell" in any way to be
-#'   included
+#'   cell type annotations need to contain the same cell types as the ones in ref_data
+#' @param ref_data reference cell types which are used as the ground truth
 #' @param file_name (optional) plot is saved in this file
 #' @import dplyr
 #' @import ggplot2
@@ -52,6 +52,8 @@ plotDeconvResult <- function(deconv_result, method_name = "", file_name = NULL) 
 #' data("cell_type_annotations")
 #' data("batch_ids")
 #' data("bulk")
+#' data("RefData")
+#' names(RefData) <- c("T_cell", "Monocyte", "B_cell", "DC", "NK_cell")
 #' sig_bisque <- build_model(
 #'   single_cell_data, cell_type_annotations, "bisque",
 #'   batch_ids
@@ -64,23 +66,29 @@ plotDeconvResult <- function(deconv_result, method_name = "", file_name = NULL) 
 #'   single_cell_object = single_cell_data,
 #'   cell_type_annotations = cell_type_annotations
 #' )
-#' result_list <- c(SCDC = res_scdc, Bisque = res_bisque)
-#' # Not working yet
-#' # makeBenchmarkingScatterplot(result_list, "predictionVsGroundtruth.png")
-makeBenchmarkingScatterplot <- function(result_list, file_name = NULL) {
-  li <- lapply(result_list, function(x) {
-    cbind(x,
-      T_cell = rowSums(x[, grepl("T cell", colnames(x)), drop = FALSE]),
-      DC = rowSums(x[, grepl("DC", colnames(x)), drop = FALSE]),
-      Monocyte = rowSums(x[, grepl("Mono", colnames(x)), drop = FALSE]),
-      NK_cell = rowSums(x[, grepl("NK", colnames(x)), drop = FALSE]),
-      B_cell = rowSums(x[, grepl("B cell", colnames(x)), drop = FALSE])
-    )
-  })
-  li <- lapply(li, function(x) cbind(x, sample = rownames(x)))
+#' result_list <- list(SCDC = res_scdc, Bisque = res_bisque)
+#' result_list <- lapply(result_list, function(elem) {
+#'   as.matrix.data.frame(data.frame(
+#'     T_cell = rowSums(elem[, grepl("T cell", colnames(elem)), drop = FALSE]),
+#'     DC = rowSums(elem[, grepl("DC", colnames(elem)), drop = FALSE]),
+#'     Monocyte = rowSums(elem[, grepl("Mono", colnames(elem)), drop = FALSE]),
+#'     NK_cell = rowSums(elem[, grepl("NK", colnames(elem)), drop = FALSE]),
+#'     B_cell = rowSums(elem[, grepl("B cell", colnames(elem)), drop = FALSE])
+#'   ))
+#' })
+#' makeBenchmarkingScatterplot(result_list, RefData)
+#' # Alternative if you want to save the plot in a file
+#' # makeBenchmarkingScatterplot(result_list, RefData, "predictionVsGroundtruth.png")
+makeBenchmarkingScatterplot <- function(result_list, ref_data, file_name = NULL) {
+  cell_types <- sort(unique(colnames(result_list[[1]])))
+  if (!base::all.equal(sort(colnames(ref_data)), cell_types)) {
+    base::stop("Reference and prediction need to include the same cell types")
+  }
+
+  li <- lapply(result_list, function(x) cbind(x, sample = rownames(x)))
   li <- lapply(names(li), function(i) cbind(li[[i]], method = rep(i, nrow(li[[i]]))))
 
-  names(li) <- names(result_list)
+  # names(li) <- names(result_list)
   li <- lapply(li, function(x) {
     tidyr::pivot_longer(data.frame(x), !c("sample", "method"),
       names_to = "cell_type", values_to = "predicted_fraction"
@@ -89,10 +97,8 @@ makeBenchmarkingScatterplot <- function(result_list, file_name = NULL) {
   df <- dplyr::bind_rows(li)
   # Should not be needed anymore
   # df$cell_type <- gsub(" ", "_", df$cell_type)
-  load("data/RefData.RData")
-  names(RefData) <- c("T_cell", "Monocyte", "B_cell", "DC", "NK_cell")
-  RefData$sample <- rownames(RefData)
-  plot <- tidyr::pivot_longer(RefData, !sample,
+  ref_data$sample <- rownames(ref_data)
+  plot <- tidyr::pivot_longer(ref_data, !sample,
     names_to = "cell_type",
     values_to = "true_fraction"
   ) %>%
@@ -114,9 +120,9 @@ makeBenchmarkingScatterplot <- function(result_list, file_name = NULL) {
       axis.text = element_text(size = 12), axis.title = element_text(size = 13)
     ) +
     scale_color_manual(
-      values = c("deepskyblue", "springgreen3", "palevioletred1", "red", "blue"),
-      breaks = c("B_cell", "Monocyte", "DC", "NK_cell", "T_cell"),
-      labels = c("B cell", "Monocyte", "DC", "NK cell", "T cell")
+      values = RColorBrewer::brewer.pal(length(cell_types), "Accent"),
+      breaks = cell_types,
+      labels = cell_types
     )
   if (!is.null(file_name)) {
     ggplot2::ggsave(file_name, plot, width = 6, height = 5)

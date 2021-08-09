@@ -74,6 +74,7 @@ save_as_h5ad <- function(single_cell_object, cell_type_annotations) {
 #' @return SingleCellObject
 #'
 anndata_to_singlecellexperiment <- function(ad) {
+  anndata_check_load()
   ad <- ad$transpose()
   X_mat <- ad$X
   rownames(X_mat) <- ad$obs_names
@@ -119,6 +120,7 @@ anndata_to_singlecellexperiment <- function(ad) {
 #' @return AnnData object
 #'
 singlecellexperiment_to_anndata <- function(sce, X_name = NULL) {
+  anndata_check_load()
   if (is.null(X_name)) {
     if (length(SummarizedExperiment::assays(sce)) == 0) {
       stop("'sce' does not contain any assays")

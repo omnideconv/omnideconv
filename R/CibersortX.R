@@ -28,8 +28,8 @@ set_cibersortx_credentials <- function(email, token) {
 #' @param k_max Maximum condition number (default: 999). Will be added to the file name.
 #' @param ... Additional parameters supplied to the algorithm. Options are:
 #' \itemize{
-#'  \item G_min <int> Minimum number of genes per cell type in sig. matrix (default: 300).
-#'  \item G_max <int> Maximum number of genes per cell type in sig. matrix (default: 500).
+#'  \item g_min <int> Minimum number of genes per cell type in sig. matrix (default: 300).
+#'  \item g_max <int> Maximum number of genes per cell type in sig. matrix (default: 500).
 #'  \item q_value <int> Q-value threshold for differential expression (default: 0.01).
 #'  \item filter <bool> Remove non-hematopoietic genes (default: FALSE).
 #'  \item remake <bool> Remake signature gene matrix (default: False).
@@ -338,8 +338,8 @@ get_method_options <- function(method = c("create_sig", "impute_cell_fractions")
 #' Creation of the options of the "get signature matrix" docker command
 #'
 #' @param refsample The filename of the single cell data.
-#' @param G_min <int> Minimum number of genes per cell type in sig. matrix.
-#' @param G_max <int> Maximum number of genes per cell type in sig. matrix.
+#' @param g_min <int> Minimum number of genes per cell type in sig. matrix.
+#' @param g_max <int> Maximum number of genes per cell type in sig. matrix.
 #' @param q_value <int> Q-value threshold for differential expression.
 #' @param filter <bool> Remove non-hematopoietic genes.
 #' @param k_max <int> Maximum condition number. Will be added to the file name.
@@ -351,7 +351,7 @@ get_method_options <- function(method = c("create_sig", "impute_cell_fractions")
 #'
 #' @return A string in the correct format for the docker command, containing all parameters.
 #'
-get_signature_matrix_options <- function(refsample, G_min = 300, G_max = 500, q_value = 0.01,
+get_signature_matrix_options <- function(refsample, g_min = 300, g_max = 500, q_value = 0.01,
                                          filter = FALSE, k_max = 999, remake = FALSE,
                                          replicates = 5, sampling = 0.5, fraction = 0.75) {
   return(paste(

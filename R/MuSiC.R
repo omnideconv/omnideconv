@@ -3,7 +3,7 @@
 #' Please use the deconvolute method with your single cell and bulk rna seq data to use MuSiC.
 #'
 #'
-#' @return NULL
+#' @return NULL.
 #'
 #' @export
 build_model_music <- function() {

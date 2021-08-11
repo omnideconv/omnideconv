@@ -393,6 +393,7 @@ check_and_install <- function(method) {
 #' @return The condition number
 #' @export
 #'
+#'
 #' @examples
 #' data("single_cell_data")
 #' data("cell_type_annotations")

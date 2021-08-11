@@ -1,6 +1,6 @@
 #' No model is build as CPM does not use a signature matrix.
 #'
-#' Please use the deconvolute method with you single cell and bulk rna seq data to use CPM.
+#' Please use the deconvolute method with your single cell and bulk rna seq data to use CPM.
 #'
 #'
 #' @return NULL.

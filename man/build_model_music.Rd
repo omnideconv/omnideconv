@@ -6,6 +6,9 @@
 \usage{
 build_model_music()
 }
+\value{
+NULL.
+}
 \description{
 Please use the deconvolute method with your single cell and bulk rna seq data to use MuSiC.
 }

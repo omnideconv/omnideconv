@@ -355,7 +355,7 @@ get_signature_matrix_options <- function(refsample, g_min = 300, g_max = 500, q_
                                          filter = FALSE, k_max = 999, remake = FALSE,
                                          replicates = 5, sampling = 0.5, fraction = 0.75) {
   return(paste(
-    "--refsample", refsample, "--G.min", G_min, "--G.max", G_max, "--q.value", q_value, "--filter",
+    "--refsample", refsample, "--G.min", g_min, "--G.max", g_max, "--q.value", q_value, "--filter",
     filter, "--k.max", k_max, "--remake", remake, "--replicates", replicates, "--sampling",
     sampling, "--fraction", fraction
   ))

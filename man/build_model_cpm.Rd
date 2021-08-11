@@ -10,5 +10,5 @@ build_model_cpm()
 NULL.
 }
 \description{
-Please use the deconvolute method with you single cell and bulk rna seq data to use CPM.
+Please use the deconvolute method with your single cell and bulk rna seq data to use CPM.
 }

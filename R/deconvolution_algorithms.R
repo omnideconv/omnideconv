@@ -270,7 +270,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
     bisque = deconvolute_bisque(bulk_gene_expression, signature, single_cell_object,
       cell_type_annotations, batch_ids,
       verbose = verbose, ...
-    )$bulk_props,
+    )$bulk.props,
     momf = deconvolute_momf(bulk_gene_expression, signature, single_cell_object,
       verbose = verbose, ...
     )$cell.prop,
@@ -326,7 +326,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 #' The dependencies for each method
 #'
 required_packages <- list(
-  "bisque" = c("BisqueRNA", "limSolve"),
+  "bisque" = c("PelzKo/bisque"), # , "limSolve"),
   "momf" = c("grst/MOMF"),
   "dwls" = c("quadprog", "reshape", "e1071", "ROCR", "varhandle", "MAST", "magrittr"),
   "scaden" = c("reticulate"),
@@ -369,6 +369,8 @@ check_and_install <- function(method) {
     bare_pkgname <- sub(".*?/", "", pkgname)
     if (bare_pkgname == "CDSeq_R_Package") {
       bare_pkgname <- "CDSeq"
+    } else if (bare_pkgname == "bisque") {
+      bare_pkgname <- "BisqueRNA"
     }
     if (!requireNamespace(bare_pkgname, quietly = TRUE)) {
       if (!repositories_set) {

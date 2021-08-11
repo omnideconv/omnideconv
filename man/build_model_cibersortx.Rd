@@ -36,8 +36,8 @@ directory.}
 
 \item{...}{Additional parameters supplied to the algorithm. Options are:
 \itemize{
-\item G_min <int> Minimum number of genes per cell type in sig. matrix (default: 300).
-\item G_max <int> Maximum number of genes per cell type in sig. matrix (default: 500).
+\item g_min <int> Minimum number of genes per cell type in sig. matrix (default: 300).
+\item g_max <int> Maximum number of genes per cell type in sig. matrix (default: 500).
 \item q_value <int> Q-value threshold for differential expression (default: 0.01).
 \item filter <bool> Remove non-hematopoietic genes (default: FALSE).
 \item remake <bool> Remake signature gene matrix (default: False).

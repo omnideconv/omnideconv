@@ -6,8 +6,8 @@
 \usage{
 get_signature_matrix_options(
   refsample,
-  G_min = 300,
-  G_max = 500,
+  g_min = 300,
+  g_max = 500,
   q_value = 0.01,
   filter = FALSE,
   k_max = 999,
@@ -20,9 +20,9 @@ get_signature_matrix_options(
 \arguments{
 \item{refsample}{The filename of the single cell data.}
 
-\item{G_min}{<int> Minimum number of genes per cell type in sig. matrix.}
+\item{g_min}{<int> Minimum number of genes per cell type in sig. matrix.}
 
-\item{G_max}{<int> Maximum number of genes per cell type in sig. matrix.}
+\item{g_max}{<int> Maximum number of genes per cell type in sig. matrix.}
 
 \item{q_value}{<int> Q-value threshold for differential expression.}
 

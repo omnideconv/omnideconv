@@ -13,11 +13,14 @@ deconvolution methods in an R package.
 
 ## Installation
 
-There are two ways to install it, the long one installing all packages
+There are two ways to install it, the long one, installing all packages
 needed for all methods and the short one, installing only the ones for
-basic functionality. If the short install is chosen, the required
-packages for methods are installed when the methods are used. Install
-the CRAN package devtools and use it to install omnideconv from
+basic functionality.
+
+If the short install is chosen, the required packages for methods are
+installed when the methods are used.
+
+Install the CRAN package devtools and use it to install omnideconv from
 [GitHub](https://github.com/):
 
 ``` r
@@ -91,6 +94,15 @@ computed in the deconvolution step could look like:
 
 For more information and an example workflow see the vignette of this
 package.
+
+## Requirements
+
+Most methods do not require additional software/tokens, but there are a
+few exceptions: - A working version of Python is required for AutoGeneS
+and Scaden - A working version of Docker is required for CibersortX - A
+token for CibersortX is required from this website:
+<https://cibersortx.stanford.edu/> - The Cibersort source code is
+required for BSEQ-sc (see tutorial in ?omnideconv::bseqsc\_config)
 
 ## Available Methods
 

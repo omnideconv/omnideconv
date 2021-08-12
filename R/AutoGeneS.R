@@ -47,6 +47,8 @@
 #' @return The path to the pickle file needed for the deconvolution with AutoGeneS.
 #' @export
 #'
+#' @importFrom basilisk basiliskStart basiliskRun basiliskStop
+#'
 #'
 build_model_autogenes <- function(single_cell_object, cell_type_annotations,
                                   bulk_gene_expression = NULL, ngen = 2,
@@ -57,6 +59,7 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations,
                                   crossover_thres = 1000, ind_standard_pb = 0.1,
                                   plot_weights = NULL, plot_objectives = c(0, 1), index = NULL,
                                   close_to = NULL, plot = FALSE, verbose = FALSE) {
+
   if (!is.null(bulk_gene_expression)) {
     single_cell_object <- single_cell_object[intersect(
       rownames(single_cell_object),
@@ -70,54 +73,60 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations,
   sce <- matrix_to_singlecellexperiment(single_cell_object, cell_type_annotations)
   ad <- singlecellexperiment_to_anndata(sce)
 
-  autogenes_checkload()
-  ag <- reticulate::import("autogenes")
-  ag$init(ad, celltype_key = "label")
+  #autogenes_checkload()
 
-  params <- list(
-    ngen = as.integer(ngen), weights = as.integer(weights), objectives = objectives,
-    verbose = verbose, seed = as.integer(seed), mode = mode,
-    population_size = as.integer(population_size),
-    offspring_size = as.integer(offspring_size), crossover_pb = crossover_pb,
-    mutation_pb = mutation_pb
-  )
+  proc <- basiliskStart(autogenes_env)
+  on.exit(basiliskStop(proc))
+  filename <- basiliskRun(proc, function() {
+    ag <- reticulate::import("autogenes")
+    ag$init(ad, celltype_key = "label")
 
-  if (mode == "standard") {
-    params <- c(params,
-      crossover_thres = as.integer(crossover_thres),
-      ind_standard_pb = ind_standard_pb
+    params <- list(
+      ngen = as.integer(ngen), weights = as.integer(weights), objectives = objectives,
+      verbose = verbose, seed = as.integer(seed), mode = mode,
+      population_size = as.integer(population_size),
+      offspring_size = as.integer(offspring_size), crossover_pb = crossover_pb,
+      mutation_pb = mutation_pb
     )
-  } else if (mode == "fixed") {
-    params <- c(params, nfeatures = as.integer(nfeatures), mutate_flip_pb = mutate_flip_pb)
-  } else {
-    base::stop(paste0("Mode ", mode, " not recognized. Please try 'standard' or 'fixed'"))
-  }
 
-  do.call(ag$optimize, params)
-
-  if (plot) {
-    if (sum(!sapply(list(weights, index, close_to), is.null)) > 1) {
-      base::stop(
-        "When selecting a solution in autogenes only one of the parameters 'plot_weights', ",
-        "'index' and 'close_to' can be used. It is also possible to use none of them"
+    if (mode == "standard") {
+      params <- c(params,
+        crossover_thres = as.integer(crossover_thres),
+        ind_standard_pb = ind_standard_pb
       )
-    }
-    plot_objectives <- as.integer(plot_objectives)
-    if (!is.null(plot_weights)) {
-      ag$plot(objectives = plot_objectives, weights = as.integer(plot_weights))
-    } else if (!is.null(index)) {
-      ag$plot(objectives = plot_objectives, index = as.integer(index))
-    } else if (!is.null(close_to)) {
-      ag$plot(objectives = plot_objectives, close_to = as.integer(close_to))
+    } else if (mode == "fixed") {
+      params <- c(params, nfeatures = as.integer(nfeatures), mutate_flip_pb = mutate_flip_pb)
     } else {
-      ag$plot(objectives = plot_objectives)
+      base::stop(paste0("Mode ", mode, " not recognized. Please try 'standard' or 'fixed'"))
     }
-  }
-  filename <- tempfile(fileext = ".pickle")
-  ag$save(filename)
-  if (verbose) {
-    base::message("Successfully saved")
-  }
+
+    do.call(ag$optimize, params)
+
+    if (plot) {
+      if (sum(!sapply(list(weights, index, close_to), is.null)) > 1) {
+        base::stop(
+          "When selecting a solution in autogenes only one of the parameters 'plot_weights', ",
+          "'index' and 'close_to' can be used. It is also possible to use none of them"
+        )
+      }
+      plot_objectives <- as.integer(plot_objectives)
+      if (!is.null(plot_weights)) {
+        ag$plot(objectives = plot_objectives, weights = as.integer(plot_weights))
+      } else if (!is.null(index)) {
+        ag$plot(objectives = plot_objectives, index = as.integer(index))
+      } else if (!is.null(close_to)) {
+        ag$plot(objectives = plot_objectives, close_to = as.integer(close_to))
+      } else {
+        ag$plot(objectives = plot_objectives)
+      }
+    }
+    filename <- tempfile(fileext = ".pickle")
+    ag$save(filename)
+    if (verbose) {
+      base::message("Successfully saved")
+    }
+    filename
+  })
   return(filename)
 }
 
@@ -155,6 +164,8 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations,
 #'   is called "solution" by AutoGeneS.
 #' @export
 #'
+#' @importFrom basilisk basiliskStart basiliskRun basiliskStop
+#'
 deconvolute_autogenes <- function(bulk_gene_expression, signature,
                                   model = c("nusvr", "nnls", "linear"), nu = 0.5, C = 0.5,
                                   kernel = "linear", degree = 3, gamma = "scale", coef0 = 0.0,
@@ -177,37 +188,43 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature,
       "'index' and 'close_to' can be used"
     )
   }
-  ag <- reticulate::import("autogenes")
-  ag$load(signature)
 
-  if (!is.null(weights)) {
-    ag$select(weights = weights)
-  } else if (!is.null(index)) {
-    ag$select(index = index)
-  } else if (!is.null(close_to)) {
-    ag$select(close_to = close_to)
-  } else {
-    ag$select()
-  }
+  proc <- basiliskStart(autogenes_env)
+  on.exit(basiliskStop(proc))
+  result_list <- basiliskRun(proc, function() {
+    ag <- reticulate::import("autogenes")
+    ag$load(signature)
 
-  selection <- ag$selection()
-  genes <- ag$adata()$var_names
-  genes_used <- genes[selection]
-  if (verbose) {
-    base::message(length(genes_used), "genes are used for the deconvolution")
-  }
+    if (!is.null(weights)) {
+      ag$select(weights = weights)
+    } else if (!is.null(index)) {
+      ag$select(index = index)
+    } else if (!is.null(close_to)) {
+      ag$select(close_to = close_to)
+    } else {
+      ag$select()
+    }
 
-  bulk_data <- t(bulk_gene_expression)
-  result <- ag$deconvolve(bulk_data,
-    model = model, nu = nu, C = C,
-    kernel = kernel, degree = as.integer(degree), gamma = gamma, coef0 = coef0,
-    shrinking = shrinking, tol = tol, cache_size = as.integer(cache_size),
-    verbose = verbose, max_iter = as.integer(max_iter)
-  )
+    selection <- ag$selection()
+    genes <- ag$adata()$var_names
+    genes_used <- genes[selection]
+    if (verbose) {
+      base::message(length(genes_used), "genes are used for the deconvolution")
+    }
 
-  colnames(result) <- ag$adata()$obs_names
-  rownames(result) <- rownames(bulk_data)
-  return(list(proportions = result, genes_used = genes_used))
+    bulk_data <- t(bulk_gene_expression)
+    result <- ag$deconvolve(bulk_data,
+      model = model, nu = nu, C = C,
+      kernel = kernel, degree = as.integer(degree), gamma = gamma, coef0 = coef0,
+      shrinking = shrinking, tol = tol, cache_size = as.integer(cache_size),
+      verbose = verbose, max_iter = as.integer(max_iter)
+    )
+
+    colnames(result) <- ag$adata()$obs_names
+    rownames(result) <- rownames(bulk_data)
+    list(proportions = result, genes_used = genes_used)
+  })
+  return(result_list)
 }
 
 
@@ -219,24 +236,24 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature,
 #' A python environment can be defined by set_virtualenv() or set_python() command.
 #' Alternatively a new environment can be created via create_virtualenv() method.
 #'
-install_autogenes <- function() {
-  reticulate::py_install("autogenes", pip = TRUE)
-}
+#install_autogenes <- function() {
+#  reticulate::py_install("autogenes", pip = TRUE)
+#}
 
 #' Checks if python and the autogenes module are available and installs them if they are not.
 #'
-autogenes_checkload <- function() {
-  if (!python_available()) {
-    base::message("Setting up python environment..")
-    init_python()
-    if (!python_available()) {
-      base::stop(
-        "Could not initiate miniconda python environment. Please set up manually with ",
-        "init_python(python=your/python/version)"
-      )
-    }
-  }
-  if (!reticulate::py_module_available("autogenes")) {
-    install_autogenes()
-  }
-}
+#autogenes_checkload <- function() {
+#  if (!python_available()) {
+#    base::message("Setting up python environment..")
+#    init_python()
+#    if (!python_available()) {
+#      base::stop(
+#        "Could not initiate miniconda python environment. Please set up manually with ",
+#        "init_python(python=your/python/version)"
+#      )
+#    }
+#  }
+#  if (!reticulate::py_module_available("autogenes")) {
+#    install_autogenes()
+#  }
+#}

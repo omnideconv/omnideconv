@@ -27,6 +27,7 @@ Depends:
 Imports: 
     anndata,
     assertthat,
+    basilisk,
     Biobase,
     dplyr,
     ggplot2,
@@ -79,3 +80,4 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+StagedInstall: no

@@ -105,9 +105,9 @@ For more information and an example workflow see the vignette of this package.
 ## Requirements
 
 Most methods do not require additional software/tokens, but there are a few exceptions:
-- A working version of Docker is required for CibersortX
-- A token for CibersortX is required from this website: https://cibersortx.stanford.edu/
-- The Cibersort source code is required for BSEQ-sc (see tutorial in ?omnideconv::bseqsc_config)
+* A working version of Docker is required for CibersortX
+* A token for CibersortX is required from this website: https://cibersortx.stanford.edu/
+* The Cibersort source code is required for BSEQ-sc (see tutorial in ?omnideconv::bseqsc_config)
 
 ## Available methods, Licenses, Citations
 Note that, while *omnideconv* itself is free ([GPL 3.0](https://github.com/icbi-lab/omnideconv/blob/main/LICENSE)), you may need to obtain a license to use the individual methods. See the table below for more information. If you use this package in your work, please cite both our package and the method(s) you are using.
@@ -115,16 +115,13 @@ Note that, while *omnideconv* itself is free ([GPL 3.0](https://github.com/icbi-
 > CITATION
 
 
-## Available Methods
-
-More information about the second generation deconvolution methods unified in this package can be obtained from the vignette and the list below. 
 
 | method | license | citation |
 |--------|---------|----------|
 | [AutoGeneS](https://github.com/theislab/AutoGeneS/) | free ([MIT](https://github.com/theislab/AutoGeneS/blob/master/LICENSE)) | Aliee, H., & Theis, F. (2021). AutoGeneS: Automatic gene selection using multi-objective optimization for RNA-seq deconvolution. https://doi.org/10.1101/2020.02.21.940650 |
 | [Bisque](https://github.com/cozygene/bisque) | free ([GPL 3.0](https://github.com/cozygene/bisque/blob/master/DESCRIPTION)) | Jew, B., Alvarez, M., Rahmani, E., Miao, Z., Ko, A., Garske, K. M., Sul, J. H., Pietiläinen, K. H., Pajukanta, P., & Halperin, E. (2020). Publisher Correction: Accurate estimation of cell composition in bulk expression through robust integration of single-cell information. Nature Communications, 11(1), 2891. https://doi.org/10.1038/s41467-020-16607-9 |
 | [BSEQ-sc](https://github.com/shenorrLab/bseqsc) | free ([GPL 2.0](https://github.com/shenorrLab/bseqsc/blob/master/DESCRIPTION)) | Baron, M., Veres, A., Wolock, S. L., Faust, A. L., Gaujoux, R., Vetere, A., Ryu, J. H., Wagner, B. K., Shen-Orr, S. S., Klein, A. M., Melton, D. A., & Yanai, I. (2016). A Single-Cell Transcriptomic Map of the Human and Mouse Pancreas Reveals Inter- and Intra-cell Population Structure. In Cell Systems (Vol. 3, Issue 4, pp. 346–360.e4). https://doi.org/10.1016/j.cels.2016.08.011 |
-| [CDSeq](https://github.com/kkang7/CDSeq_R_Package) | free ([GPL 3.0.](https://github.com/kkang7/CDSeq_R_Package/blob/master/DESCRIPTION)) | Kang, K., Huang, C., Li, Y. et al. CDSeqR: fast complete deconvolution for gene expression data from bulk tissues. BMC Bioinformatics 22, 262 (2021). https://doi.org/10.1186/s12859-021-04186-5 |
+| [CDSeq](https://github.com/kkang7/CDSeq_R_Package) | free ([GPL 3.0](https://github.com/kkang7/CDSeq_R_Package/blob/master/DESCRIPTION)) | Kang, K., Huang, C., Li, Y. et al. CDSeqR: fast complete deconvolution for gene expression data from bulk tissues. BMC Bioinformatics 22, 262 (2021). https://doi.org/10.1186/s12859-021-04186-5 |
 | [CibersortX](https://cibersortx.stanford.edu/) | free for non-commerical use only | Newman, A. M., Liu, C. L., Green, M. R., Gentles, A. J., Feng, W., Xu, Y., Hoang, C. D., Diehn, M., & Alizadeh, A. A. (2015). Robust enumeration of cell subsets from tissue expression profiles. Nature Methods, 12(5), 453–457. https://doi.org/10.1038/nmeth.3337 |
 | [CPM](https://github.com/amitfrish/scBio) | free ([GPL 2.0](https://github.com/amitfrish/scBio/blob/master/DESCRIPTION)) | Frishberg, A., Peshes-Yaloz, N., Cohn, O., Rosentul, D., Steuerman, Y., Valadarsky, L., Yankovitz, G., Mandelboim, M., Iraqi, F. A., Amit, I., Mayo, L., Bacharach, E., & Gat-Viks, I. (2019). Cell composition analysis of bulk genomics using single-cell data. Nature Methods, 16(4), 327–332. https://doi.org/10.1038/s41592-019-0355-5 |
 | [DWLS](https://bitbucket.org/yuanlab/dwls/src/master/) | free ([GPL](https://bitbucket.org/yuanlab/dwls/src/master/DESCRIPTION))| Tsoucas, D., Dong, R., Chen, H., Zhu, Q., Guo, G., & Yuan, G.-C. (2019). Accurate estimation of cell-type composition from gene expression data. Nature Communications, 10(1), 2975. https://doi.org/10.1038/s41467-019-10802-z |

@@ -74,7 +74,7 @@ save_as_h5ad <- function(single_cell_object, cell_type_annotations) {
 #' @return SingleCellObject
 #'
 anndata_to_singlecellexperiment <- function(ad) {
-  anndata_check_load()
+  anndata_checkload()
   ad <- ad$transpose()
   X_mat <- ad$X
   rownames(X_mat) <- ad$obs_names
@@ -120,7 +120,7 @@ anndata_to_singlecellexperiment <- function(ad) {
 #' @return AnnData object
 #'
 singlecellexperiment_to_anndata <- function(sce, X_name = NULL) {
-  anndata_check_load()
+  anndata_checkload()
   if (is.null(X_name)) {
     if (length(SummarizedExperiment::assays(sce)) == 0) {
       stop("'sce' does not contain any assays")
@@ -322,7 +322,7 @@ sces_are_identical <- function(a, b) {
 #' @return AnnData object
 #'
 build_anndata <- function(x, obs, var, obsm = NULL, varm = NULL) {
-  anndata_check_load()
+  anndata_checkload()
 
   x <- as.matrix(x)
 
@@ -341,7 +341,7 @@ build_anndata <- function(x, obs, var, obsm = NULL, varm = NULL) {
 #' @return AnnData object
 #'
 read_anndata <- function(path) {
-  anndata_check_load()
+  anndata_checkload()
   data <- anndata::read_h5ad(path)
   return(data)
 }
@@ -352,7 +352,7 @@ read_anndata <- function(path) {
 #' @param path path where AnnData object should be written to (.h5ad format)
 #'
 write_anndata <- function(data, path) {
-  anndata_check_load()
+  anndata_checkload()
   data$write_h5ad(path)
 }
 
@@ -361,12 +361,17 @@ write_anndata <- function(data, path) {
 #' If called and python environment is not set up, this is realized. Else, it checks if the anndata
 #' package is loaded, and if not, it does this.
 #'
-anndata_check_load <- function() {
+anndata_checkload <- function() {
   if (!python_available()) {
+    base::message("Setting up python environment..")
     init_python()
-    anndata_check_load()
+    if (!python_available()) {
+      base::stop(
+        "Could not initiate miniconda python environment. Please set up manually with ",
+        "init_python(python=your/python/version)"
+      )
+    }
   }
-
   if (!reticulate::py_module_available("anndata")) {
     anndata::install_anndata()
   }

@@ -88,8 +88,7 @@ init_python <- function(python = NULL) {
         base::message("Python not available")
         print(config)
         base::message(
-          "Please indicate your version of python ",
-          "calling init_python(python=your/python)"
+          "Please indicate your version of python calling init_python(python=your/python)"
         )
       }
     } else {

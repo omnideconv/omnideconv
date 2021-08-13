@@ -411,3 +411,17 @@ check_and_install <- function(method) {
 calc_condition_number <- function(signature_matrix) {
   return(kappa(signature_matrix, exact = TRUE))
 }
+
+#' Install all python packages
+#'
+#' This makes sure a valid python installation exists and all needed packages are pulled and
+#' installed.
+#'
+#' @export
+#'
+install_all_python <- function() {
+  init_python()
+  anndata_checkload()
+  autogenes_checkload()
+  scaden_checkload()
+}

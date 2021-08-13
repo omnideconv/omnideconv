@@ -100,10 +100,13 @@ package.
 ## Requirements
 
 Most methods do not require additional software/tokens, but there are a
-few exceptions: \* A working version of Docker is required for
-CibersortX \* A token for CibersortX is required from this website:
-<https://cibersortx.stanford.edu/> \* The Cibersort source code is
-required for BSEQ-sc (see tutorial in ?omnideconv::bseqsc\_config)
+few exceptions:
+
+-   A working version of Docker is required for CibersortX
+-   A token for CibersortX is required from this website:
+    <https://cibersortx.stanford.edu/>
+-   The Cibersort source code is required for BSEQ-sc (see tutorial in
+    ?omnideconv::bseqsc\_config)
 
 ## Available methods, Licenses, Citations
 

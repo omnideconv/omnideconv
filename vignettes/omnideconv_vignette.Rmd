@@ -62,12 +62,23 @@ In this section, we want to present our package omnideconv by first giving an ov
 
 ## Installation and Setup
 
-Install the CRAN package devtools and use it to install omnideconv from [GitHub](https://github.com/):
+Install the CRAN package devtools and use it to install omnideconv from [GitHub](https://github.com/).:
 
 ``` {r installation, eval=FALSE}
 install.packages("devtools")
-devtools::install_github("grst/omnideconv")
+
+# long/complete install
+devtools::install_github("icbi-lab/omnideconv", dependencies = c("Imports", "Suggests"))
+omnideconv::install_all_python()
+
+# short/quick install, everything else is installed when it is needed
+devtools::install_github("icbi-lab/omnideconv")
 ```
+
+Most methods do not require additional software/tokens, but there are a few exceptions:
+- A working version of Docker is required for **CibersortX** (just follow this guide: https://docs.docker.com/engine/install/)
+- A token for **CibersortX** is required from this website: https://cibersortx.stanford.edu/
+- The Cibersort source code is required for **BSEQ-sc** (see tutorial in ?omnideconv::bseqsc_config)
 
 ## Input Data
 
@@ -84,6 +95,9 @@ First of all, you need some data to run the deconvolution with.
     - Vector containing batch ids, so sample or patient ids
     - Ids are in the same order as the columns of the single cell matrix
     - This is only necessary for Bisque, MuSiC and SCDC
+* (Marker genes)
+    - Vector containing gene names
+    - This is only necessary for BSEQ-sc
 * Bulk RNA-seq data
     - *Genes* x *Samples* matrix
     - Rownames (gene names) are provided in the same format as in the sc RNA-seq data, for instance HGNC symbols
@@ -116,21 +130,21 @@ omnideconv::build_model(single_cell_data, cell_type_annotations, method)
 omnideconv::build_model(single_cell_data, cell_type_annotations, method, batch_ids)
 ```
 
-* Bisque ("bisque")
-* DWLS ("dwls")
-* MOMF ("momf")
-* Scaden ("scaden")
-* CibersortX ("cibersortx") 
 * AutoGeneS ("autogenes")
-* MuSiC ("music")
-* SCDC ("scdc")
-* CPM ("cpm")
+* Bisque ("bisque")
 * BSEQ-sc ("bseqsc")
 * CDSeq ("cdseq")
+* CibersortX ("cibersortx") 
+* CPM ("cpm")
+* DWLS ("dwls")
+* MOMF ("momf")
+* MuSiC ("music")
+* Scaden ("scaden")
+* SCDC ("scdc")
 
-Note: MOMF and Scaden also require the bulk RNA-seq data to calculate a signature matrix. Please provide this parameter as well when running build_model with one of these two methods. 
+Note: CPM, MOMF and Scaden also require the bulk RNA-seq data to calculate a signature matrix. Please provide this parameter as well when running build_model with one of these methods. 
 
-Additional parameters for the different methods can be included in the method call as well. For further information on which options you have, see the documentation of each tool. 
+Additional parameters for the different methods can be included in the method call as well. For further information on which options you have, see the documentation of each tool by calling ?omnideconv::build_model_METHODNAME (e.g. ?omnideconv::build_model_bseqsc). 
 
 ## Deconvolution of Bulk RNA-seq Data
 
@@ -142,7 +156,8 @@ omnideconv::deconvolute(bulk, signature_matrix, method)
 
 Note: Bisque and MOMF additionally need the single cell RNA-seq matrix you used to build the signature matrix for their deconvolution. As a fifth parameter, Bisque also needs cell type annotations, which were already needed for building the model. 
 
-Similar to the build_model function, specific parameters can be passed on to the deconvolution methods through the deconvolute function. 
+Similar to the build_model function, specific parameters can be passed on to the deconvolution methods through the deconvolute function. See all options for
+the specific method by calling ?omnideconv::deconvolute_METHODNAME (e.g. ?omnideconv::deconvolute_autogenes).
 
 ## Example Workflow
 

@@ -74,7 +74,7 @@ save_as_h5ad <- function(single_cell_object, cell_type_annotations) {
 #' @return SingleCellObject
 #'
 anndata_to_singlecellexperiment <- function(ad) {
-  anndata_check_load()
+  # anndata_check_load()
   ad <- ad$transpose()
   X_mat <- ad$X
   rownames(X_mat) <- ad$obs_names
@@ -120,7 +120,7 @@ anndata_to_singlecellexperiment <- function(ad) {
 #' @return AnnData object
 #'
 singlecellexperiment_to_anndata <- function(sce, X_name = NULL) {
-  anndata_check_load()
+  # anndata_check_load()
   if (is.null(X_name)) {
     if (length(SummarizedExperiment::assays(sce)) == 0) {
       stop("'sce' does not contain any assays")
@@ -322,7 +322,7 @@ sces_are_identical <- function(a, b) {
 #' @return AnnData object
 #'
 build_anndata <- function(x, obs, var, obsm = NULL, varm = NULL) {
-  anndata_check_load()
+  # anndata_check_load()
 
   x <- as.matrix(x)
 
@@ -341,7 +341,7 @@ build_anndata <- function(x, obs, var, obsm = NULL, varm = NULL) {
 #' @return AnnData object
 #'
 read_anndata <- function(path) {
-  anndata_check_load()
+  # anndata_check_load()
   data <- anndata::read_h5ad(path)
   return(data)
 }
@@ -352,7 +352,7 @@ read_anndata <- function(path) {
 #' @param path path where AnnData object should be written to (.h5ad format)
 #'
 write_anndata <- function(data, path) {
-  anndata_check_load()
+  # anndata_check_load()
   data$write_h5ad(path)
 }
 
@@ -361,16 +361,16 @@ write_anndata <- function(data, path) {
 #' If called and python environment is not set up, this is realized. Else, it checks if the anndata
 #' package is loaded, and if not, it does this.
 #'
-anndata_check_load <- function() {
-  if (!python_available()) {
-    init_python()
-    anndata_check_load()
-  }
-
-  if (!reticulate::py_module_available("anndata")) {
-    anndata::install_anndata()
-  }
-}
+# anndata_check_load <- function() {
+#  if (!python_available()) {
+#    init_python()
+#    anndata_check_load()
+#  }
+#
+#  if (!reticulate::py_module_available("anndata")) {
+#    anndata::install_anndata()
+#  }
+# }
 
 anndata_is_identical <- function(a, b) {
   same <- TRUE

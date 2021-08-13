@@ -42,6 +42,9 @@ devtools::install_github("icbi-lab/omnideconv", dependencies = c("Imports", "Sug
 # short/quick install
 devtools::install_github("icbi-lab/omnideconv")
 ```
+
+For Docker, please refer to this tutorial to get a working version of Docker Desktop: https://docs.docker.com/engine/install/
+
 ## Usage
 
 The main functions of this package are to build a signature matrix and deconvolute bulk RNA-seq data based on this signature matrix.

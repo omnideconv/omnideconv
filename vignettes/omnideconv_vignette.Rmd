@@ -66,7 +66,7 @@ Install the CRAN package devtools and use it to install omnideconv from [GitHub]
 
 ``` {r installation, eval=FALSE}
 install.packages("devtools")
-devtools::install_github("grst/omnideconv")
+devtools::install_github("PelzKo/omnideconv")
 ```
 
 ## Input Data
@@ -330,27 +330,5 @@ Figure 8: Using the deconvolution method with signature matrices created by othe
 
 As can be concluded from this figure, interchanging matrices between the methods does not considerably improve the predictions. One might derive small improvements especially when building the signature matrix with Bisque or CibersortX, but the reason behind this needs further examination in the future.
 
-# 5. Installation
 
-There are two ways to install it, the long one, installing all packages needed for all methods and
-the short one, installing only the ones for basic functionality.
-
-If the short install is chosen, the required packages for methods are installed when the methods
-are used.
-
-Install the CRAN package devtools and use it to install omnideconv from [GitHub](https://github.com/):
-
-``` {r installation, eval=FALSE}
-install.packages("devtools")
-
-# long/complete install
-devtools::install_github("icbi-lab/omnideconv", dependencies = c("Imports", "Suggests"))
-
-# short/quick install
-devtools::install_github("icbi-lab/omnideconv")
-```
-
-For Docker, please refer to this tutorial to get a working version of Docker Desktop: https://docs.docker.com/engine/install/
-
-
-# 6. Reference
+# 5. Reference

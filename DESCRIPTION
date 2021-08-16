@@ -30,6 +30,7 @@ Imports:
     Biobase,
     dplyr,
     ggplot2,
+    Matrix,
     methods,
     RColorBrewer,
     readr,

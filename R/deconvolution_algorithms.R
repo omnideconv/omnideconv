@@ -1,7 +1,7 @@
 #' List of supported deconvolution methods
 #'
 #' The methods currently supported are
-#' `AutoGeneS`, `Bisque`, `BSEQ-sc`, `CibersortX`, `CPM`, `DWLS`, `MOMF`, `MuSiC`, `Scaden`,
+#' `AutoGeneS`, `Bisque`, `BSeq-sc`, `CibersortX`, `CPM`, `DWLS`, `MOMF`, `MuSiC`, `Scaden`,
 #' `SCDC`
 #'
 #' The object is a named vector. The names correspond to the display name of the method,
@@ -9,7 +9,7 @@
 #'
 #' @export
 deconvolution_methods <- c(
-  "AutoGeneS" = "autogenes", "Bisque" = "bisque", "BSEQ-sc" = "bseqsc", "CibersortX" = "cibersortx",
+  "AutoGeneS" = "autogenes", "Bisque" = "bisque", "BSeq-sc" = "bseqsc", "CibersortX" = "cibersortx",
   "CDSeq" = "cdseq", "CPM" = "cpm", "DWLS" = "dwls", "MOMF" = "momf", "MuSiC" = "music",
   "Scaden" = "scaden", "SCDC" = "scdc"
 )
@@ -36,7 +36,7 @@ deconvolution_methods <- c(
 #' @param cell_type_column_name Name of the column in (Anndata: obs, SingleCellExperiment: colData),
 #'   that contains the cell-type labels. Is only used if no cell_type_annotations vector is
 #'   provided.
-#' @param markers Named list of cell type marker genes. This parameter is only used by BSEQ-sc.
+#' @param markers Named list of cell type marker genes. This parameter is only used by BSeq-sc.
 #'   The type of gene identifiers (names(markers)) must be the same as the ones used as feature/row
 #'   names in the single_cell_object.
 #' @param ... Additional parameters, passed to the algorithm used

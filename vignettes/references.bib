@@ -202,3 +202,132 @@ url = {https://doi.org/10.1038/nrc3245},
 volume = {12},
 year = {2012}
 }
+
+@article {Aliee2020,
+	author = {Aliee, Hananeh and Theis, Fabian},
+	title = {AutoGeneS: Automatic gene selection using multi-objective optimization for RNA-seq deconvolution},
+	elocation-id = {2020.02.21.940650},
+	year = {2020},
+	doi = {10.1101/2020.02.21.940650},
+	publisher = {Cold Spring Harbor Laboratory},
+	abstract = {Tissues are complex systems of interacting cell types. Knowing cell-type proportions in a tissue is very important to identify which cells or cell types are targeted by a disease or perturbation. When measuring such responses using RNA-seq, bulk RNA-seq masks cellular heterogeneity. Hence, several computational methods have been proposed to infer cell-type proportions from bulk RNA samples. Their performance with noisy reference profiles highly depends on the set of genes undergoing deconvolution. These genes are often selected based on prior knowledge or a single-criterion test that might not be useful to dissect closely correlated cell types. In this work, we introduce AutoGeneS, a tool that automatically extracts informative genes and reveals the cellular heterogeneity of bulk RNA samples. AutoGeneS requires no prior knowledge about marker genes and selects genes by simultaneously optimizing multiple criteria: minimizing the correlation and maximizing the distance between cell types. It can be applied to reference profiles from various sources like single-cell experiments or sorted cell populations. Results from human samples of peripheral blood illustrate that AutoGeneS outperforms other methods. Our results also highlight the impact of our approach on analyzing bulk RNA samples with noisy single-cell reference profiles and closely correlated cell types. Ground truth cell proportions analyzed by flow cytometry confirmed the accuracy of the predictions of AutoGeneS in identifying cell-type proportions. AutoGeneS is available for use via a standalone Python package (https://github.com/theislab/AutoGeneS).},
+	URL = {https://www.biorxiv.org/content/early/2020/02/23/2020.02.21.940650},
+	eprint = {https://www.biorxiv.org/content/early/2020/02/23/2020.02.21.940650.full.pdf},
+	journal = {bioRxiv}
+}
+
+@article{Dong2020,
+    author = {Dong, Meichen and Thennavan, Aatish and Urrutia, Eugene and Li, Yun and Perou, Charles M and Zou, Fei and Jiang, Yuchao},
+    title = "{SCDC: bulk gene expression deconvolution by multiple single-cell RNA sequencing references}",
+    journal = {Briefings in Bioinformatics},
+    volume = {22},
+    number = {1},
+    pages = {416-427},
+    year = {2020},
+    month = {01},
+    abstract = "{Recent advances in single-cell RNA sequencing (scRNA-seq) enable characterization of transcriptomic profiles with single-cell resolution and circumvent averaging artifacts associated with traditional bulk RNA sequencing (RNA-seq) data. Here, we propose SCDC, a deconvolution method for bulk RNA-seq that leverages cell-type specific gene expression profiles from multiple scRNA-seq reference datasets. SCDC adopts an ENSEMBLE method to integrate deconvolution results from different scRNA-seq datasets that are produced in different laboratories and at different times, implicitly addressing the problem of batch-effect confounding. SCDC is benchmarked against existing methods using both in silico generated pseudo-bulk samples and experimentally mixed cell lines, whose known cell-type compositions serve as ground truths. We show that SCDC outperforms existing methods with improved accuracy of cell-type decomposition under both settings. To illustrate how the ENSEMBLE framework performs in complex tissues under different scenarios, we further apply our method to a human pancreatic islet dataset and a mouse mammary gland dataset. SCDC returns results that are more consistent with experimental designs and that reproduce more significant associations between cell-type proportions and measured phenotypes.}",
+    issn = {1477-4054},
+    doi = {10.1093/bib/bbz166},
+    url = {https://doi.org/10.1093/bib/bbz166},
+    eprint = {https://academic.oup.com/bib/article-pdf/22/1/416/35934957/scdc\_supp\_bbz166.pdf},
+}
+
+@Article{Baron2016,
+author={Baron, Maayan
+and Veres, Adrian
+and Wolock, Samuel L.
+and Faust, Aubrey L.
+and Gaujoux, Renaud
+and Vetere, Amedeo
+and Ryu, Jennifer Hyoje
+and Wagner, Bridget K.
+and Shen-Orr, Shai S.
+and Klein, Allon M.
+and Melton, Douglas A.
+and Yanai, Itai},
+title={A Single-Cell Transcriptomic Map of the Human and Mouse Pancreas Reveals Inter- and Intra-cell Population Structure},
+journal={Cell Systems},
+year={2016},
+month={Oct},
+day={26},
+publisher={Elsevier},
+volume={3},
+number={4},
+pages={346-360.e4},
+issn={2405-4712},
+doi={10.1016/j.cels.2016.08.011},
+url={https://doi.org/10.1016/j.cels.2016.08.011}
+}
+
+@Article{Wang2019,
+author={Wang, Xuran
+and Park, Jihwan
+and Susztak, Katalin
+and Zhang, Nancy R.
+and Li, Mingyao},
+title={Bulk tissue cell type deconvolution with multi-subject single-cell expression reference},
+journal={Nature Communications},
+year={2019},
+month={Jan},
+day={22},
+volume={10},
+number={1},
+pages={380},
+abstract={Knowledge of cell type composition in disease relevant tissues is an important step towards the identification of cellular targets of disease. We present MuSiC, a method that utilizes cell-type specific gene expression from single-cell RNA sequencing (RNA-seq) data to characterize cell type compositions from bulk RNA-seq data in complex tissues. By appropriate weighting of genes showing cross-subject and cross-cell consistency, MuSiC enables the transfer of cell type-specific gene expression information from one dataset to another. When applied to pancreatic islet and whole kidney expression data in human, mouse, and rats, MuSiC outperformed existing methods, especially for tissues with closely related cell types. MuSiC enables the characterization of cellular heterogeneity of complex tissues for understanding of disease mechanisms. As bulk tissue data are more easily accessible than single-cell RNA-seq, MuSiC allows the utilization of the vast amounts of disease relevant bulk tissue RNA-seq data for elucidating cell type contributions in disease.},
+issn={2041-1723},
+doi={10.1038/s41467-018-08023-x},
+url={https://doi.org/10.1038/s41467-018-08023-x}
+}
+
+@Article{Frishberg2019,
+author={Frishberg, Amit
+and Peshes-Yaloz, Naama
+and Cohn, Ofir
+and Rosentul, Diana
+and Steuerman, Yael
+and Valadarsky, Liran
+and Yankovitz, Gal
+and Mandelboim, Michal
+and Iraqi, Fuad A.
+and Amit, Ido
+and Mayo, Lior
+and Bacharach, Eran
+and Gat-Viks, Irit},
+title={Cell composition analysis of bulk genomics using single-cell data},
+journal={Nature Methods},
+year={2019},
+month={Apr},
+day={01},
+volume={16},
+number={4},
+pages={327-332},
+abstract={Single-cell RNA sequencing (scRNA-seq) is a rich resource of cellular heterogeneity, opening new avenues in the study of complex tissues. We introduce Cell Population Mapping (CPM), a deconvolution algorithm in which reference scRNA-seq profiles are leveraged to infer the composition of cell types and states from bulk transcriptome data (`scBio' CRAN R-package). Analysis of individual variations in lungs of influenza-virus-infected mice reveals that the relationship between cell abundance and clinical symptoms is a cell-state-specific property that varies gradually along the continuum of cell-activation states. The gradual change is confirmed in subsequent experiments and is further explained by a mathematical model in which clinical outcomes relate to cell-state dynamics along the activation process. Our results demonstrate the power of CPM in reconstructing the continuous spectrum of cell states within heterogeneous tissues.},
+issn={1548-7105},
+doi={10.1038/s41592-019-0355-5},
+url={https://doi.org/10.1038/s41592-019-0355-5}
+}
+
+@Article{Kang2021,
+author={Kang, Kai
+and Huang, Caizhi
+and Li, Yuanyuan
+and Umbach, David M.
+and Li, Leping},
+title={CDSeqR: fast complete deconvolution for gene expression data from bulk tissues},
+journal={BMC Bioinformatics},
+year={2021},
+month={May},
+day={24},
+volume={22},
+number={1},
+pages={262},
+abstract={Biological tissues consist of heterogenous populations of cells. Because gene expression patterns from bulk tissue samples reflect the contributions from all cells in the tissue, understanding the contribution of individual cell types to the overall gene expression in the tissue is fundamentally important. We recently developed a computational method, CDSeq, that can simultaneously estimate both sample-specific cell-type proportions and cell-type-specific gene expression profiles using only bulk RNA-Seq counts from multiple samples. Here we present an R implementation of CDSeq (CDSeqR) with significant performance improvement over the original implementation in MATLAB and an added new function to aid cell type annotation. The R package would be of interest for the broader R community.},
+issn={1471-2105},
+doi={10.1186/s12859-021-04186-5},
+url={https://doi.org/10.1186/s12859-021-04186-5}
+}
+
+
+
+
+

@@ -76,9 +76,10 @@ devtools::install_github("icbi-lab/omnideconv")
 ```
 
 Most methods do not require additional software/tokens, but there are a few exceptions:
-- A working version of Docker is required for **CibersortX** (just follow this guide: https://docs.docker.com/engine/install/)
-- A token for **CibersortX** is required from this website: https://cibersortx.stanford.edu/
-- The Cibersort source code is required for **BSEQ-sc** (see tutorial in ?omnideconv::bseqsc_config)
+
+* A working version of Docker is required for **CibersortX** (just follow this guide: https://docs.docker.com/engine/install/)
+* A token for **CibersortX** is required from this website: https://cibersortx.stanford.edu/
+* The Cibersort source code is required for **BSeq-sc** (see tutorial in ?omnideconv::bseqsc_config)
 
 ## Input Data
 
@@ -97,7 +98,7 @@ First of all, you need some data to run the deconvolution with.
     - This is only necessary for Bisque, MuSiC and SCDC
 * (Marker genes)
     - Vector containing gene names
-    - This is only necessary for BSEQ-sc
+    - This is only necessary for BSeq-sc
 * Bulk RNA-seq data
     - *Genes* x *Samples* matrix
     - Rownames (gene names) are provided in the same format as in the sc RNA-seq data, for instance HGNC symbols
@@ -132,7 +133,7 @@ omnideconv::build_model(single_cell_data, cell_type_annotations, method, batch_i
 
 * AutoGeneS ("autogenes")
 * Bisque ("bisque")
-* BSEQ-sc ("bseqsc")
+* BSeq-sc ("bseqsc")
 * CDSeq ("cdseq")
 * CibersortX ("cibersortx") 
 * CPM ("cpm")
@@ -148,16 +149,15 @@ Additional parameters for the different methods can be included in the method ca
 
 ## Deconvolution of Bulk RNA-seq Data
 
-After building the specific signature matrix, you can calculate the cell properties in bulk RNA-seq data with the deconvolute function. For this, you need to provide the bulk data, signature matrix and you can, again, choose between the five methods listed in the previous section. 
+After building the specific signature matrix, you can calculate the cell properties in bulk RNA-seq data with the deconvolute function. For this, you need to provide the bulk data, signature matrix and you can, again, choose between the methods listed in the previous section. 
 
 ```{r deconv, eval=FALSE}
 omnideconv::deconvolute(bulk, signature_matrix, method)
 ```
 
-Note: Bisque and MOMF additionally need the single cell RNA-seq matrix you used to build the signature matrix for their deconvolution. As a fifth parameter, Bisque also needs cell type annotations, which were already needed for building the model. 
+Note: Bisque and MOMF additionally need the single cell RNA-seq matrix you used to build the signature matrix for their deconvolution.
 
-Similar to the build_model function, specific parameters can be passed on to the deconvolution methods through the deconvolute function. See all options for
-the specific method by calling ?omnideconv::deconvolute_METHODNAME (e.g. ?omnideconv::deconvolute_autogenes).
+Similar to the build_model function, specific parameters can be passed on to the deconvolution methods through the deconvolute function. See all options for the specific method by calling ?omnideconv::deconvolute_METHODNAME (e.g. ?omnideconv::deconvolute_autogenes).
 
 ## Example Workflow
 
@@ -252,17 +252,30 @@ knitr::include_graphics("images/cibersortx_prop.png")
 # 3. Methods
 In this section, we provide a short overview over the deconvolution methods that can be used via this package.
 
-Please note that even though our package is freely available, the second generation immune deconvolution methods may not be. For instance, the usage of CibersortX requires a token bound to your IP address. For more information and to request such a token, please see the official website [CIBERSORTX](https://cibersortx.stanford.edu/).
+Please note that even though our package is freely available, the second generation immune deconvolution methods may not be. For instance, the usage of CibersortX requires a token. For more information and to request such a token, please see the official website [CIBERSORTX](https://cibersortx.stanford.edu/).
 
 ```{r mehods_table, echo=FALSE, out.width="80%", fig.cap="Table 4: Comparison of the methodes used in the package."}
 knitr::include_graphics("images/methods_table.png")
 ```
 
+## AutoGeneS
+AutoGeneS [@Aliee2020] selects marker genes based on a multi-objective optimization which simultaneously minimizes the correlation and maximizes the distance between cell-type signatures. Compared to approaches selecting genes only on differential expression it performs favorably with respect to closely related cell-types. The resulting signature matrix can be combined with different regression models out-of-the-box, including 𝜈-support vector regression (SVR).
+
 ## Bisque
 Bisque [@Jew2020] takes advantage of matched bulk and scRNA-seq samples to improve accuracy of cell-type estimates. Using linear regression, it corrects for platform-specific biases between pseudo-bulk reference profiles derived from scRNA-seq and bulk RNA-seq samples. It then applies NNLS-regression to deconvolute other bulk RNA-seq samples.
 
+## BSeq-sc
+Bseq-SC [@Baron2016] builds signature matrices by averaging a manually defined list of marker genes across cell-type-specific single-cell gene expression profiles. It leverages the CIBERSORT algorithm(Newman et al., 2015) to perform deconvolution.
+
+## CDSeq
+"Here we present an R implementation of CDSeq (CDSeqR) with significant performance improvement over the original implementation in MATLAB and an added new function to aid cell type annotation. We developed a novel strategy to substantially improve computational efficiency in both speed and memory usage. In addition, we designed and implemented a new function for annotating the CDSeq estimated cell types using single-cell RNA sequencing (scRNA-seq) data. This function allows users to readily interpret and visualize the CDSeq estimated cell types. In addition, this new function further allows the users to annotate CDSeq-estimated cell types using marker genes."
+From CDSeqR paper [@Kang2021]. Note: it performs also complete deconvolution.
+
 ## CibersortX
 CIBERSORTx [@Newman2019] is an extension to the original CIBERSORT algorithm [@Newman2015] that enables building signature matrices from scRNA-seq or sorted bulk RNA-seq samples based on differential gene expression analysis. To address technical biases they introduce two batch correction methods, one designed to mitigate batch effects between datasets, the other to address differences between sequencing protocols (e.g. 10x vs. full-length). Moreover, CIBERSORTx supports “complete” deconvolution, not only yielding cell-type proportions but disentangling bulk gene expression profiles into cell-type specific expression profiles.
+
+## CPM
+Cell Population Mapping (CPM) [@Frishberg2019] works independent of discrete cell-types. Instead of building a cell-type specific signature matrix, it directly uses the single-cell gene expression as reference and performs linear SVR to predict relative abundances of cell-states organized in a continuous 1-dimensional manifold or 2-dimensional space. To increase robustness, the results are averaged over independent predictions on random subsets of the single-cell RNA-seq dataset and smoothed over a neighborhood of the 10 nearest reference cells.
 
 ## DWLS
 Tsoucas et al. introduce dampened weighted least squares (DWLS)-regression [@Tsoucas2019], which improves over ordinary least squares regression or 𝜈-SVR in that it attributes higher weight to rare cell types and marker genes with a low average expression level. They show that their method achieves favorable performance when estimating the abundance of infrequent cell-types.
@@ -270,9 +283,14 @@ Tsoucas et al. introduce dampened weighted least squares (DWLS)-regression [@Tso
 ## MOMF
 With MOMF [@Sun2019], Multi-Omics Matrix Factorization, models the cell type specific mean in scRNA-seq data by also accounting for the uncertainty of these cell type specific mean gene expression levels. Alternating Direction Method of Multipliers algorithm is then used to estimate the parameters in bulk RNA-seq downstream analyses. 
 
+## MuSiC
+MuSiC [@Wang2019] does not pre-select marker genes but rather weights marker genes from low to high variance between subjects. It then performs non-negative least squares (NNLS)-regression to obtain cell-type estimates. To improve performance on closely related cell-types MuSiC incorporates hierarchical information from unsupervised clustering: It first deconvolves a gene expression profile into coarse cell-type clusters and subsequently uses more specific marker genes to estimate subtypes within these clusters. A recent extension of the MuSiC framework(Sosina et al., n.d.) addresses different mRNA contents of different cell-types, enabling MuSiC to generate absolute scores that can be compared both between samples and cell-types.
+
 ## Scaden
 Scaden [@Mendeneaba2619] leverages a deep neural network (DNN) for estimating cell-type proportions. Instead of explicitly building a signature matrix, the DNN implicitly learns which features are important for a certain cell type. The DNN is trained by simulating bulk RNA-seq samples with known cell-type proportions from scRNA-seq datasets. To increase robustness, the training process allows to flexibly integrate multiple scRNA-seq datasets and, optionally, bulk RNA-seq samples with “gold standard” measurements such as FACS.
 
+## SCDC
+SCDC [@Dong2020] is an extension to the MuSiC framework(Wang et al., 2019). It adds an additional scaling step to down-weight the impact of aberrant genes on the prediction and a filtering strategy for misclassified cells and doublets. Most importantly, it adds an Ensemble layer allowing for a combined prediction on multiple, independent scRNA-seq datasets. The latter implicitly addresses batch effects between datasets and has been shown to improve robustness and overall performance.
 
 # 4. Benchmarking
 To evaluate the performance of the methods used, we compared a data set with 17k cells [@Hoek2015] to its ground truth, measured with FACS. This data is also included in our benchmarking method, which takes the desired filename and -type as a parameter, as a testset.

@@ -250,7 +250,7 @@ props <- props[, order(colnames(props))]
 utils::write.csv(props, "test_results/scdc_result_ensemble.csv")
 
 
-## BSEQ-sc
+## BSeq-sc
 
 signature_bseqsc <-
   bseqsc_basis(sc_object_small, markers_small, cell_annotations_small, batch_ids_small_from_file)

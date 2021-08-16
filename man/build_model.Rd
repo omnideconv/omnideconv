@@ -41,7 +41,7 @@ for MOMF and Scaden, defaults to NULL. Row and column names need to be set}
 that contains the cell-type labels. Is only used if no cell_type_annotations vector is
 provided.}
 
-\item{markers}{Named list of cell type marker genes. This parameter is only used by BSEQ-sc.
+\item{markers}{Named list of cell type marker genes. This parameter is only used by BSeq-sc.
 The type of gene identifiers (names(markers)) must be the same as the ones used as feature/row
 names in the single_cell_object.}
 

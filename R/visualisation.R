@@ -81,7 +81,8 @@ plotDeconvResult <- function(deconv_result, method_name = "", file_name = NULL) 
 #' # makeBenchmarkingScatterplot(result_list, RefData, "predictionVsGroundtruth.png")
 makeBenchmarkingScatterplot <- function(result_list, ref_data, file_name = NULL) {
   cell_types <- sort(unique(colnames(result_list[[1]])))
-  if (!base::all.equal(sort(colnames(ref_data)), cell_types)) {
+  if (length(colnames(ref_data))!=cell_types ||
+      !base::all.equal(sort(colnames(ref_data)), cell_types)) {
     base::stop("Reference and prediction need to include the same cell types")
   }
 

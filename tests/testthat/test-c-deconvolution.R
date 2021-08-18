@@ -4,6 +4,7 @@ sc_object_small <- as.matrix(utils::read.csv("small_test_data/sc_object_small.cs
 cell_annotations_small <- readr::read_lines("small_test_data/cell_annotations_small.txt")
 batch_ids_small <- readr::read_lines("small_test_data/batch_ids_small.txt")
 
+
 test_that("Bisque deconvolution works", {
   bisque_model <- as.matrix(read.csv("test_models/bisque_model_small.csv",
     row.names = 1,

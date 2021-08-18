@@ -21,12 +21,22 @@ the ggplot object
 Make a Scatterplot for Benchmarking
 }
 \examples{
-data("single_cell_data")
-data("cell_type_annotations")
-data("batch_ids")
+data("single_cell_data_1")
+data("cell_type_annotations_1")
+data("batch_ids_1")
 data("bulk")
 data("RefData")
-names(RefData) <- c("T_cell", "Monocyte", "B_cell", "DC", "NK_cell")
+
+common_genes <- intersect(rownames(single_cell_data_1),rownames(bulk))[1:2000]
+
+single_cell_data <- single_cell_data_1[common_genes,1:500]
+cell_type_annotations <- cell_type_annotations_1[1:500]
+batch_ids <- batch_ids_1[1:500]
+bulk <- bulk[common_genes,]
+
+names(RefData) <- c("T", "Mono", "B", "DC", "NK")
+RefData <- RefData[,order(colnames(RefData))]
+
 sig_bisque <- build_model(
   single_cell_data, cell_type_annotations, "bisque",
   batch_ids
@@ -35,20 +45,17 @@ res_bisque <- deconvolute(
   bulk, sig_bisque, "bisque", single_cell_data,
   cell_type_annotations, batch_ids
 )
+#Merging the two T cell props
+res_bisque <- cbind(res_bisque,T = (res_bisque[,"CD4 T"]+res_bisque[,"CD8 T"]))[,-c(2,3)]
+
 res_scdc <- deconvolute(bulk, NULL, "scdc", batch_ids,
-  single_cell_object = single_cell_data,
-  cell_type_annotations = cell_type_annotations
+                         single_cell_object = single_cell_data,
+                         cell_type_annotations = cell_type_annotations
 )
+#Merging the two T cell props
+res_scdc <- cbind(res_scdc,T = (res_scdc[,"CD4 T"]+res_scdc[,"CD8 T"]))[,-c(2,3)]
+
 result_list <- list(SCDC = res_scdc, Bisque = res_bisque)
-result_list <- lapply(result_list, function(elem) {
-  as.matrix.data.frame(data.frame(
-    T_cell = rowSums(elem[, grepl("T cell", colnames(elem)), drop = FALSE]),
-    DC = rowSums(elem[, grepl("DC", colnames(elem)), drop = FALSE]),
-    Monocyte = rowSums(elem[, grepl("Mono", colnames(elem)), drop = FALSE]),
-    NK_cell = rowSums(elem[, grepl("NK", colnames(elem)), drop = FALSE]),
-    B_cell = rowSums(elem[, grepl("B cell", colnames(elem)), drop = FALSE])
-  ))
-})
 makeBenchmarkingScatterplot(result_list, RefData)
 # Alternative if you want to save the plot in a file
 # makeBenchmarkingScatterplot(result_list, RefData, "predictionVsGroundtruth.png")

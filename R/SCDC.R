@@ -8,7 +8,7 @@
 #' @export
 build_model_scdc <- function() {
   base::message(
-    "The deconvolution with SCDC is done in only one step. Please just use the",
+    "The deconvolution with SCDC is done in only one step. Please just use the ",
     "deconvolute method."
   )
 

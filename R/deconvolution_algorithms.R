@@ -46,10 +46,15 @@ deconvolution_methods <- c(
 #'
 #' @examples
 #' # More examples can be found in the unit tests at tests/testthat/test-b-buildmodel.R
-#' data("single_cell_data")
-#' data("cell_type_annotations")
-#' data("batch_ids")
+#' data("single_cell_data_1")
+#' data("cell_type_annotations_1")
+#' data("batch_ids_1")
 #' data("bulk")
+#'
+#' single_cell_data <- single_cell_data_1[1:2000, 1:500]
+#' cell_type_annotations <- cell_type_annotations_1[1:500]
+#' batch_ids <- batch_ids_1[1:500]
+#' bulk <- bulk[1:2000, ]
 #'
 #' signature_matrix_bisque <- build_model(
 #'   single_cell_data, cell_type_annotations, "bisque",
@@ -177,10 +182,15 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
 #'
 #' @examples
 #' # More examples can be found in the unit tests at tests/testthat/test-c-deconvolute.R
-#' data("single_cell_data")
-#' data("cell_type_annotations")
-#' data("batch_ids")
+#' data("single_cell_data_1")
+#' data("cell_type_annotations_1")
+#' data("batch_ids_1")
 #' data("bulk")
+#'
+#' single_cell_data <- single_cell_data_1[1:2000, 1:500]
+#' cell_type_annotations <- cell_type_annotations_1[1:500]
+#' batch_ids <- batch_ids_1[1:500]
+#' bulk <- bulk[1:2000, ]
 #'
 #' signature_matrix_bisque <- build_model(
 #'   single_cell_data, cell_type_annotations, "bisque",
@@ -190,7 +200,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
 #'   bulk, signature_matrix_bisque, "bisque", single_cell_data,
 #'   cell_type_annotations, batch_ids
 #' )
-#' deconv_momf <- deconvolute(bulk_small, signature_matrix_bisque, "momf", single_cell_data_small)
+#' deconv_momf <- deconvolute(bulk, signature_matrix_bisque, "momf", single_cell_data)
 deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_methods,
                         single_cell_object = NULL, cell_type_annotations = NULL, batch_ids = NULL,
                         cell_type_column_name = NULL, verbose = FALSE, ...) {
@@ -397,10 +407,15 @@ check_and_install <- function(method) {
 #'
 #'
 #' @examples
-#' data("single_cell_data")
-#' data("cell_type_annotations")
-#' data("batch_ids")
+#' data("single_cell_data_1")
+#' data("cell_type_annotations_1")
+#' data("batch_ids_1")
 #' data("bulk")
+#'
+#' single_cell_data <- single_cell_data_1[1:2000, 1:500]
+#' cell_type_annotations <- cell_type_annotations_1[1:500]
+#' batch_ids <- batch_ids_1[1:500]
+#' bulk <- bulk[1:2000, ]
 #'
 #' signature_matrix_bisque <- build_model(
 #'   single_cell_data, cell_type_annotations, "bisque",

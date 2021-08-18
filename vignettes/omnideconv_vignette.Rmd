@@ -112,7 +112,7 @@ knitr::kable(data.frame(
   Deconv_method = c("raw counts", "TPM", "library-normalized counts", "log scale", "natural scale"),
   AutoGeneS = c("yes", "yes", "yes", "yes", "yes"),
   Bisque = c("yes", "yes", "yes", "yes", "yes"),
-  BSeq-sc = c("yes", "yes", "yes", "yes", "yes"),
+  BSeq_sc = c("yes", "yes", "yes", "yes", "yes"),
   CDSeq = c("yes", "yes", "yes", "yes", "yes"),
   CibersortX = c("yes", "yes", "yes", "yes", "yes"),
   CPM = c("yes", "yes", "yes", "yes", "yes"),
@@ -120,8 +120,10 @@ knitr::kable(data.frame(
   MOMF = c("yes", "yes", "yes", "yes", "yes"),
   MuSiC = c("yes", "yes", "yes", "yes", "yes"),
   Scaden = c("yes", "yes", "yes", "yes", "yes"),
-  SCDC = c("yes", "yes", "yes", "yes", "yes")),
-  caption = "Table X: Bla bla")
+  SCDC = c("yes", "yes", "yes", "yes", "yes")
+),
+caption = "Table X: Bla bla"
+)
 ```
     
     
@@ -133,14 +135,10 @@ The single cell RNA-seq matrix and the corresponding cell type annotations consi
 You can simply load the provided sample data with:
 
 ```r
-data("single_cell_data")
-data("cell_type_annotations")
-data("batch_ids")
+data("single_cell_data_NUMBER")
+data("cell_type_annotations_NUMBER")
+data("batch_ids_NUMBER")
 data("bulk")
-```
-For the small dataset, append "_small" to the names, e.g. 
-```r
-data("single_cell_data_small")
 ```
 
 ## Signature Matrix
@@ -183,19 +181,11 @@ Similar to the build_model function, specific parameters can be passed on to the
 
 ## Example Workflow
 
-```{r loaddata, echo=FALSE, results='hide'}
-cell_type_annotations <- readRDS("../data/cell_type_annotations_for_vignette.rds")
-single_cell_data <- readRDS("../data/single_cell_data_for_vignette.rds")
-batch_ids <- readRDS("../data/batch_ids_for_vignette.rds")
-load("../data/bulk.RData")
-load("../data/RefData.RData")
-```
-
 This workflow provides a more detailed example of how to run the deconvolution with Bisque. 
 
 First of all, make sure you load all the libraries we need for this analysis. If the packages are not available, install them via install_packages().
 
-```{r loadLibs}
+```{r loadLibs, echo=FALSE}
 library(tidyr)
 library(dplyr)
 library(omnideconv)
@@ -203,10 +193,24 @@ library(RColorBrewer)
 library(ggplot2)
 ```
 
+Then we load one of the example data sets to work with.
+
+```{r loaddata, echo=FALSE}
+data("single_cell_data_1")
+data("cell_type_annotations_1")
+data("batch_ids_1")
+data("bulk")
+data("RefData")
+
+single_cell_data <- single_cell_data_1
+cell_type_annotations <- cell_type_annotations_1
+batch_ids <- batch_ids_1
+```
+
 To give you a feeling for the data, this is what a few rows and columns of our small single cell RNA-seq data set look like. This specific selection of rows and columns was performed as the first rows and columns just show zeros. Do not be alarmed by a great number of zeros in your single cell data, this is normal:
 
 ```{r showSc}
-knitr::kable(single_cell_data[101:105, 1:3], caption = "Table 1: Example of the raw single cell counts.")
+knitr::kable(single_cell_data[67:71, 1:3], caption = "Table 1: Example of the raw single cell counts.")
 ```
 
 Now we build the signature matrix with Bisque and look at the values for the first few genes. 
@@ -291,7 +295,7 @@ Scaden [@Mendeneaba2619] leverages a deep neural network (DNN) for estimating ce
 ## SCDC
 SCDC [@Dong2020] is an extension to the MuSiC framework(Wang et al., 2019). It adds an additional scaling step to down-weight the impact of aberrant genes on the prediction and a filtering strategy for misclassified cells and doublets. Most importantly, it adds an Ensemble layer allowing for a combined prediction on multiple, independent scRNA-seq datasets. The latter implicitly addresses batch effects between datasets and has been shown to improve robustness and overall performance.
 
-# 4. Benchmarking
+# 4. Comparing Methods
 To evaluate the performance of the methods used, we compared a data set with 17k cells [@Hoek2015] to its ground truth, measured with FACS. This data is also included in our benchmarking method, which takes the desired filename and -type as a parameter, as a testset.
 
 For this comparison, a perfect estimation of cell type fractions by one method would include that all points align to the diagonal line in the according facet.
@@ -371,8 +375,10 @@ knitr::kable(data.frame(
   MOMF = c("-", "yes", "?", "?", "(yes)", "?", "(yes)", "yes", "-", "-", "-"),
   MuSiC = c("-", "-", "-", "-", "-", "-", "-", "-", "yes", "-", "-"),
   Scaden = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "yes", "-"),
-  SCDC = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "yes")),
-  caption = "Table 5: Interchangeability table: Row names determine the deconvolution method, column names determine which tool is used to build the signature matrix. '(yes)' indicates that intersecting the genes of bulk data, single cell data and signature matrix is necessary.")
+  SCDC = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "yes")
+),
+caption = "Table 5: Interchangeability table: Row names determine the deconvolution method, column names determine which tool is used to build the signature matrix. '(yes)' indicates that intersecting the genes of bulk data, single cell data and signature matrix is necessary."
+)
 ```
 <!--
 ```{r benchmarkingInterchangePlots, echo=FALSE, out.width="45%"}

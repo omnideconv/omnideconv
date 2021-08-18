@@ -197,7 +197,7 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature,
     base::message(length(genes_used), "genes are used for the deconvolution")
   }
 
-  bulk_data <- t(bulk_gene_expression)
+  bulk_data <- data.frame(t(bulk_gene_expression))
   result <- ag$deconvolve(bulk_data,
     model = model, nu = nu, C = C,
     kernel = kernel, degree = as.integer(degree), gamma = gamma, coef0 = coef0,

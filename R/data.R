@@ -9,17 +9,6 @@
 #'   https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0118528
 "bulk"
 
-#' Small example RNA-seq dataset from Hoek et al.
-#'
-#' A dataset of eight RNA-seq samples from patients vaccinated with trivalent inactivated influenza
-#' vaccine (TIV) including only 100 genes
-#'
-#' @format matrix with genes x samples
-#'
-#' @source Hoek et al. (2015), PLOS ONE,
-#'   https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0118528
-"bulk_small"
-
 #' Gold standard measurements with FACS from Hoek et al.
 #'
 #' A dataset of cell-type fractions of eight RNA-seq samples measured with FACS
@@ -30,66 +19,101 @@
 #'   https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0118528
 "RefData"
 
-#' Example sigle-cell RNA-seq dataset from Maynard et al.
+#' Example single-cell RNA-seq dataset Number 1 from Hao et al.
 #'
-#' A subset of TPM-normalized single-cell RNA-seq gene expression, containing 300 cells with types
-#' "T cell CD4", "T cell CD8", "T cell dividing", "T cell regulatory", "B cell",
-#' "Monocyte conventional", "Monocyte non-conventional", "Macrophage", "NK cell"
+#' A subset of raw counts of single-cell RNA-seq gene expression, containing 2400 cells.
+#' his contains no cells which are in the other two subsets and all genes with only 0's in
+#' all cells are removed
 #'
-#' @format matrix with genes x cells
+#' @format A matrix with 19007 genes as rows and 2400 cells as columns
 #'
-#' @source Maynard et al. (2020), Cell,
-#'   https://www.sciencedirect.com/science/article/pii/S0092867420308825
-"single_cell_data"
+#' @source Hao et al. (2021): Integrated analysis of multimodal single-cell data.
+#'   In Cell 184 (13), 3573-3587.e29. DOI: 10.1016/j.cell.2021.04.048.
+"single_cell_data_1"
 
-#' Small example sigle-cell RNA-seq dataset from Maynard et al.
+#' Example single-cell RNA-seq dataset Number 2 from Hao et al.
 #'
-#' A small subset of TPM-normalized single-cell RNA-seq gene expression, containing 50 cells with
-#' types "T cell CD4", "T cell CD8", "B cell", "Monocyte conventional", "NK cell" and only 100 genes
+#' A subset of raw counts of single-cell RNA-seq gene expression, containing 2400 cells.
+#' his contains no cells which are in the other two subsets and all genes with only 0's in
+#' all cells are removed
 #'
-#' @format matrix with genes x cells
+#' @format A matrix with 19051 genes as rows and 2400 cells as columns
 #'
-#' @source Maynard et al. (2020), Cell,
-#'   https://www.sciencedirect.com/science/article/pii/S0092867420308825
-"single_cell_data_small"
+#' @source Hao et al. (2021): Integrated analysis of multimodal single-cell data.
+#'   In Cell 184 (13), 3573-3587.e29. DOI: 10.1016/j.cell.2021.04.048.
+"single_cell_data_2"
 
-#' Cell type annotations for the example single-cell RNA-seq dataset from Maynard et al.
+#' Example single-cell RNA-seq dataset Number 3 from Hao et al.
 #'
-#' cell types are in the same order as cells in the sc RNA-seq matrix
+#' A subset of raw counts of single-cell RNA-seq gene expression, containing 2400 cells.
+#' his contains no cells which are in the other two subsets and all genes with only 0's in
+#' all cells are removed
 #'
-#' @format vector with 300 elements
+#' @format A matrix with 19131 genes as rows and 2400 cells as columns
 #'
-#' @source Maynard et al. (2020), Cell,
-#'   https://www.sciencedirect.com/science/article/pii/S0092867420308825
-"cell_type_annotations"
+#' @source Hao et al. (2021): Integrated analysis of multimodal single-cell data.
+#'   In Cell 184 (13), 3573-3587.e29. DOI: 10.1016/j.cell.2021.04.048.
+"single_cell_data_3"
 
-#' Cell type annotations for the small example single-cell RNA-seq dataset from Maynard et al.
+#' Cell Type Annotations Number 1 from Hao et al.
 #'
-#' cell types are in the same order as cells in the small sc RNA-seq matrix
+#' The corresponding cell type annotations containing the classes
+#'    "B", "CD4 T", "CD8 T", "DC", "Mono" and "NK"
 #'
-#' @format vector with 50 elements
+#' @format A vector with the annotations. In the same order as the columns
 #'
-#' @source Maynard et al. (2020), Cell,
-#'   https://www.sciencedirect.com/science/article/pii/S0092867420308825
-"cell_type_annotations_small"
+#' @source Hao et al. (2021): Integrated analysis of multimodal single-cell data.
+#'   In Cell 184 (13), 3573-3587.e29. DOI: 10.1016/j.cell.2021.04.048.
+"cell_type_annotations_1"
 
-#' Batch ids for the example single-cell RNA-seq dataset from Maynard et al.
+#' Cell Type Annotations Number 2 from Hao et al.
 #'
-#' The batch ids (in this case sample ids) are in the same order as cells in the sc RNA-seq matrix
+#' The corresponding cell type annotations containing the classes
+#'    "B", "CD4 T", "CD8 T", "DC", "Mono" and "NK"
 #'
-#' @format vector with 300 elements
+#' @format A vector with the annotations. In the same order as the columns
 #'
-#' @source Maynard et al. (2020), Cell,
-#'   https://www.sciencedirect.com/science/article/pii/S0092867420308825
-"batch_ids"
+#' @source Hao et al. (2021): Integrated analysis of multimodal single-cell data.
+#'   In Cell 184 (13), 3573-3587.e29. DOI: 10.1016/j.cell.2021.04.048.
+"cell_type_annotations_2"
 
-#' Batch ids for the small example single-cell RNA-seq dataset from Maynard et al.
+#' Cell Type Annotations Number 3 from Hao et al.
 #'
-#' The batch ids (in this case sample ids) are in the same order as cells in the small sc RNA-seq
-#' matrix
+#' The corresponding cell type annotations containing the classes
+#'    "B", "CD4 T", "CD8 T", "DC", "Mono" and "NK"
 #'
-#' @format vector with 50 elements
+#' @format A vector with the annotations. In the same order as the columns
 #'
-#' @source Maynard et al. (2020), Cell,
-#'   https://www.sciencedirect.com/science/article/pii/S0092867420308825
-"batch_ids_small"
+#' @source Hao et al. (2021): Integrated analysis of multimodal single-cell data.
+#'   In Cell 184 (13), 3573-3587.e29. DOI: 10.1016/j.cell.2021.04.048.
+"cell_type_annotations_3"
+
+#' Patient ids Number 1 from Hao et al.
+#'
+#' The identifiers of patients of whom the cells were taken
+#'
+#' @format A vector with the patient ids. In the same order as the columns
+#'
+#' @source Hao et al. (2021): Integrated analysis of multimodal single-cell data.
+#'   In Cell 184 (13), 3573-3587.e29. DOI: 10.1016/j.cell.2021.04.048.
+"batch_ids_1"
+
+#' Patient ids Number 2 from Hao et al.
+#'
+#' The identifiers of patients of whom the cells were taken
+#'
+#' @format A vector with the patient ids. In the same order as the columns
+#'
+#' @source Hao et al. (2021): Integrated analysis of multimodal single-cell data.
+#'   In Cell 184 (13), 3573-3587.e29. DOI: 10.1016/j.cell.2021.04.048.
+"batch_ids_2"
+
+#' Patient ids Number 3 from Hao et al.
+#'
+#' The identifiers of patients of whom the cells were taken
+#'
+#' @format A vector with the patient ids. In the same order as the columns
+#'
+#' @source Hao et al. (2021): Integrated analysis of multimodal single-cell data.
+#'   In Cell 184 (13), 3573-3587.e29. DOI: 10.1016/j.cell.2021.04.048.
+"batch_ids_3"

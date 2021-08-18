@@ -21,6 +21,19 @@ the ggplot object
 Plot deconvolution results as a barplot
 }
 \examples{
+data("single_cell_data_1")
+data("cell_type_annotations_1")
+data("batch_ids_1")
+data("bulk")
+data("RefData")
+
+common_genes <- intersect(rownames(single_cell_data_1),rownames(bulk))[1:2000]
+
+single_cell_data <- single_cell_data_1[common_genes,1:500]
+cell_type_annotations <- cell_type_annotations_1[1:500]
+batch_ids <- batch_ids_1[1:500]
+bulk <- bulk[common_genes,]
+
 model <- build_model(single_cell_data, cell_type_annotations, "bisque", batch_ids)
 deconvolution <- deconvolute(
   bulk, model, "bisque", single_cell_data,

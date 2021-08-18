@@ -8,7 +8,7 @@
 #' @export
 build_model_cpm <- function() {
   base::message(
-    "The deconvolution with CPM is done in only one step. Please just use the",
+    "The deconvolution with CPM is done in only one step. Please just use the ",
     "deconvolute method."
   )
 

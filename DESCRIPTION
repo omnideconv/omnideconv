@@ -61,9 +61,9 @@ VignetteBuilder:
     knitr
 Remotes:
     amitfrish/scBio,
+    bitbucket::KonstantinPelz/dwls,
     grst/MOMF,
     grst/SCDC,
-    KonstantinPelz/dwls,
     PelzKo/bisque,
     PelzKo/CDSeq_R_Package,
     shenorrlab/bseqsc,

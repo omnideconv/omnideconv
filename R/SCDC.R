@@ -7,7 +7,7 @@
 #'
 #' @export
 build_model_scdc <- function() {
-  base::message(
+  message(
     "The deconvolution with SCDC is done in only one step. Please just use the",
     "deconvolute method."
   )
@@ -90,7 +90,7 @@ deconvolute_scdc <- function(bulk_gene_expression, single_cell_object, cell_type
                              names_sc_objects = NULL, qcthreshold = 0.7, verbose = FALSE,
                              quality_control = FALSE) {
   if (is.null(single_cell_object) || is.null(cell_type_annotations) || is.null(batch_ids)) {
-    base::stop(
+    stop(
       "Single cell object or cell type annotations not provided. Call as: ",
       "deconvolute(bulk_gene_expression, NULL, \"scdc\", single_cell_object, ",
       "cell_type_annotations, batch_ids)"
@@ -111,7 +111,7 @@ deconvolute_scdc <- function(bulk_gene_expression, single_cell_object, cell_type
   sc_eset <- mapply(function(sc_obj, cell_anno, batch_ids_curr) {
     if (!"ExpressionSet" %in% class(sc_obj)) {
       if (length(batch_ids_curr) == length(unique(batch_ids_curr))) {
-        base::message(
+        message(
           "Each batch_id of at least one list item only contained one cell. If an error regarding ",
           "the number of valid cell types occurs, try with \"weight_basis=FALSE\" or ",
           "with \"quality_control=FALSE\""
@@ -188,7 +188,7 @@ deconvolute_scdc <- function(bulk_gene_expression, single_cell_object, cell_type
 
     if (!is.null(names_sc_objects)) {
       if (length(sc_eset) != length(names_sc_objects)) {
-        base::stop(
+        stop(
           "The", length(names_sc_objects), "names supplied are not the same number of",
           "names as the number of single cell objects (", length(sc_eset), ")"
         )

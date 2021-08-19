@@ -12,10 +12,10 @@
 #'
 build_model_momf <- function(single_cell_object, cell_type_annotations, bulk_gene_expression) {
   if (is.null(bulk_gene_expression)) {
-    base::stop("'bulk_gene_expression' argument is required for MOMF")
+    stop("'bulk_gene_expression' argument is required for MOMF")
   }
   MOMF::momf.computeRef(
-    single_cell_object[base::intersect(
+    single_cell_object[intersect(
       rownames(single_cell_object),
       rownames(bulk_gene_expression)
     ), ],
@@ -41,7 +41,7 @@ build_model_momf <- function(single_cell_object, cell_type_annotations, bulk_gen
 deconvolute_momf <- function(bulk_gene_expression, signature, single_cell_object = NULL,
                              verbose = FALSE, method = "KL", ...) {
   if (is.null(single_cell_object)) {
-    base::stop(
+    stop(
       "The single cell data is required for the deconvolution with momf. Please call it ",
       "with deconvolute(bulk,signature,'momf',single_cell_object = single_cell_data)"
     )
@@ -50,8 +50,8 @@ deconvolute_momf <- function(bulk_gene_expression, signature, single_cell_object
   # individuals x genes
   # IMPORTANT: This line with the intersection is a difference from the original algorithm
   relevant_genes <-
-    base::intersect(
-      base::intersect(rownames(single_cell_object), rownames(bulk_gene_expression)),
+    intersect(
+      intersect(rownames(single_cell_object), rownames(bulk_gene_expression)),
       rownames(signature)
     )
   GList <- list(
@@ -68,7 +68,7 @@ deconvolute_momf <- function(bulk_gene_expression, signature, single_cell_object
     result <- MOMF::momf.fit(DataX = GList, DataPriorU = signature, method = method, ...)
   }
   if (is.null(result$cell.prop)) {
-    base::stop("Something went wrong. Please switch on verbose mode")
+    stop("Something went wrong. Please switch on verbose mode")
   }
   # return slot in result with cell proportion matrix
   return(result)

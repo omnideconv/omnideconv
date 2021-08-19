@@ -64,7 +64,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
                         bulk_gene_expression = NULL, verbose = TRUE,
                         cell_type_column_name = NULL, markers = NULL, ...) {
   if (length(method) > 1) {
-    base::stop("Please only specify one method and not ", length(method), ": ", method)
+    stop("Please only specify one method and not ", length(method), ": ", method)
   }
   if (method %in% names(deconvolution_methods)) {
     method <- deconvolution_methods[[method]]
@@ -84,7 +84,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
     single_cell_object <- matrix_and_annotation$matrix
     if (is.null(cell_type_annotations)) {
       if (is.null(cell_type_column_name)) {
-        base::stop(
+        stop(
           "Either provide cell type annotations as vector (cell_type_annotations) or the ",
           "name of the column that stores label information!"
         )
@@ -195,7 +195,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
                         single_cell_object = NULL, cell_type_annotations = NULL, batch_ids = NULL,
                         cell_type_column_name = NULL, verbose = FALSE, ...) {
   if (length(method) > 1) {
-    base::stop("Please only specify one method and not ", length(method), ": ", method)
+    stop("Please only specify one method and not ", length(method), ": ", method)
   }
   if (method %in% names(deconvolution_methods)) {
     method <- deconvolution_methods[[method]]
@@ -215,7 +215,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
     single_cell_object <- matrix_and_annotation$matrix
     if (is.null(cell_type_annotations)) {
       if (is.null(cell_type_column_name)) {
-        base::stop(
+        stop(
           "Either provide cell type annotations as vector (cell_type_annotations) or the ",
           "name of the column that stores label information!"
         )
@@ -227,7 +227,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 
 
   if (class(bulk_gene_expression)[[1]] != "matrix") {
-    bulk_gene_expression <- base::as.matrix(bulk_gene_expression)
+    bulk_gene_expression <- as.matrix(bulk_gene_expression)
   }
 
 
@@ -294,7 +294,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
       } else if ("w_table" %in% names(res)) {
         SCDC::wt_prop(res$w_table, res$prop.only)
       } else {
-        base::message(
+        message(
           "There seems to be an error, as the result of deconvolute_scdc did not ",
           "contain prop.est.mvw or w_table"
         )
@@ -344,7 +344,7 @@ required_packages <- list(
 #' @param method The name of the method that is used
 check_and_install <- function(method) {
   if (!(method %in% deconvolution_methods)[[1]]) {
-    base::stop(
+    stop(
       paste(
         "Method", method,
         "not recognized. Please refer to 'deconvolution_methods' for the integrated methods."

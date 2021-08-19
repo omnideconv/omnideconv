@@ -7,7 +7,7 @@
 verbose_wrapper <- function(verbose) {
   return(function(method) {
     if (!verbose) {
-      base::suppressMessages(method)
+      suppressMessages(method)
     } else {
       method
     }
@@ -79,15 +79,15 @@ init_python <- function(python = NULL) {
   if (!reticulate::py_available()) {
     if (is.null(python)) {
       if (!dir.exists(reticulate::miniconda_path())) {
-        base::message("Setting up miniconda environment..")
+        message("Setting up miniconda environment..")
         suppressMessages(reticulate::install_miniconda())
       }
       reticulate::use_miniconda(condaenv = "r-reticulate", required = TRUE)
       config <- reticulate::py_config()
       if (!python_available()) {
-        base::message("Python not available")
+        message("Python not available")
         print(config)
-        base::message(
+        message(
           "Please indicate your version of python ",
           "calling init_python(python=your/python)"
         )

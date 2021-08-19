@@ -33,7 +33,7 @@ as the samples in single_cell_object.}
 \item{batch_ids}{A vector of the ids of the samples or individuals.}
 
 \item{markers}{Structure, such as character vector, containing marker genes
-to be used in decomposition. \code{base::unique(base::unlist(markers))} should
+to be used in decomposition. \code{unique(unlist(markers))} should
 return a simple vector containing each gene name. If no argument or NULL
 provided, the method will use all available genes for decomposition.}
 

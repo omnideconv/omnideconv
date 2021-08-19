@@ -7,7 +7,7 @@
 #'
 #' @export
 build_model_music <- function() {
-  base::message(
+  message(
     "The deconvolution with MuSiC is done in only one step. Please just use the",
     "deconvolute method."
   )
@@ -59,7 +59,7 @@ deconvolute_music <- function(bulk_gene_expression, single_cell_object, cell_typ
                               iter_max = 1000, nu = 0.0001, eps = 0.01, centered = FALSE,
                               normalize = FALSE) {
   if (is.null(single_cell_object) || is.null(cell_type_annotations) || is.null(batch_ids)) {
-    base::stop(
+    stop(
       "Single cell object or cell type annotations not provided. Call as: ",
       "deconvolute(bulk_gene_expression, NULL, \"music\", single_cell_object, ",
       "cell_type_annotations, batch_ids)"

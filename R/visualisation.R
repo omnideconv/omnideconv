@@ -27,22 +27,22 @@
 #'   bulk, model, "bisque", single_cell_data,
 #'   cell_type_annotations, batch_ids
 #' )
-#' plotDeconvResult(deconvolution, "Bisque")
+#' plot_deconv_result(deconvolution, "Bisque")
 #' @export
-plotDeconvResult <- function(deconv_result, method_name = "", file_name = NULL) {
+plot_deconv_result <- function(deconv_result, method_name = "", file_name = NULL) {
   plot <- cbind(deconv_result, samples = rownames(deconv_result)) %>%
     as.data.frame() %>%
     tidyr::pivot_longer(!samples, names_to = "cell_type", values_to = "predicted_fraction") %>%
     ggplot2::ggplot(aes(y = samples, x = as.numeric(predicted_fraction), fill = cell_type)) +
-    geom_bar(stat = "identity", position = "stack") +
-    labs(title = method_name, y = "sample", x = "proportion", fill = "cell type")
+    ggplot2::geom_bar(stat = "identity", position = "stack") +
+    ggplot2::labs(title = method_name, y = "sample", x = "proportion", fill = "cell type")
 
   if (ncol(deconv_result) <= 12) {
-    plot <- plot + scale_fill_brewer(palette = "Paired")
+    plot <- plot + ggplot2::scale_fill_brewer(palette = "Paired")
   }
 
   if (!is.null(file_name)) {
-    ggsave(file_name, plot, width = 7, height = 4)
+    ggplot2::ggsave(file_name, plot, width = 7, height = 4)
   }
 
   return(plot)
@@ -74,7 +74,6 @@ plotDeconvResult <- function(deconv_result, method_name = "", file_name = NULL) 
 #' batch_ids <- batch_ids_1[1:500]
 #' bulk <- bulk[common_genes, ]
 #'
-#' names(RefData) <- c("T", "Mono", "B", "DC", "NK")
 #' RefData <- RefData[, order(colnames(RefData))]
 #'
 #' sig_bisque <- build_model(
@@ -85,39 +84,37 @@ plotDeconvResult <- function(deconv_result, method_name = "", file_name = NULL) 
 #'   bulk, sig_bisque, "bisque", single_cell_data,
 #'   cell_type_annotations, batch_ids
 #' )
-#' # Merging the two T cell props
-#' res_bisque <- cbind(res_bisque, T = (res_bisque[, "CD4 T"] + res_bisque[, "CD8 T"]))[, -c(2, 3)]
 #'
 #' res_scdc <- deconvolute(bulk, NULL, "scdc", batch_ids,
 #'   single_cell_object = single_cell_data,
 #'   cell_type_annotations = cell_type_annotations
 #' )
-#' # Merging the two T cell props
-#' res_scdc <- cbind(res_scdc, T = (res_scdc[, "CD4 T"] + res_scdc[, "CD8 T"]))[, -c(2, 3)]
 #'
 #' result_list <- list(SCDC = res_scdc, Bisque = res_bisque)
-#' makeBenchmarkingScatterplot(result_list, RefData)
+#'
+#' # Merging the two T cell props
+#' lapply(result_list, function(x) {
+#'   cbind(x, T = (x[, "CD4 T"] + x[, "CD8 T"]))[, -c(2, 3)]
+#' })
+#' make_benchmarking_scatterplot(result_list, RefData)
 #' # Alternative if you want to save the plot in a file
-#' # makeBenchmarkingScatterplot(result_list, RefData, "predictionVsGroundtruth.png")
-makeBenchmarkingScatterplot <- function(result_list, ref_data, file_name = NULL) {
+#' # make_benchmarking_scatterplot(result_list, RefData, "predictionVsGroundtruth.png")
+make_benchmarking_scatterplot <- function(result_list, ref_data, file_name = NULL) {
   cell_types <- sort(unique(colnames(result_list[[1]])))
   if (length(colnames(ref_data)) != length(cell_types) ||
-    !base::all.equal(sort(colnames(ref_data)), cell_types)) {
+    !identical(sort(colnames(ref_data)), cell_types)) {
     base::stop("Reference and prediction need to include the same cell types")
   }
 
   li <- lapply(result_list, function(x) cbind(x, sample = rownames(x)))
   li <- lapply(names(li), function(i) cbind(li[[i]], method = rep(i, nrow(li[[i]]))))
 
-  # names(li) <- names(result_list)
   li <- lapply(li, function(x) {
     tidyr::pivot_longer(data.frame(x), !c("sample", "method"),
       names_to = "cell_type", values_to = "predicted_fraction"
     )
   })
   df <- dplyr::bind_rows(li)
-  # Should not be needed anymore
-  # df$cell_type <- gsub(" ", "_", df$cell_type)
   ref_data$sample <- rownames(ref_data)
   plot <- tidyr::pivot_longer(ref_data, !sample,
     names_to = "cell_type",

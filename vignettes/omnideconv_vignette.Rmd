@@ -132,7 +132,7 @@ We also provide some sample data, a bigger and a smaller set of single cell RNA-
 
 The single cell RNA-seq matrix and the corresponding cell type annotations consist of immune cells that were obtained from clinical biopsies of metastatic lung cancer cells. They were profiled using the Smart-seq2 single cell technology. The bulk RNA-seq data from Hoek et al. consists of total RNA of blood samples of patients that were treated with an Influenza vaccination. The immune cells in these samples were purified and subjected to fluorescence activated cell sorting (FACS), which offers a ground truth of the underlying cell proportions.
 
-You can simply load the provided sample data with:
+You can simply load the three provided sample data like this, just substitute NUMBER with 1, 2 or 3:
 
 ```r
 data("single_cell_data_NUMBER")
@@ -195,13 +195,14 @@ library(ggplot2)
 
 Then we load one of the example data sets to work with.
 
-```{r loaddata, echo=FALSE}
+```{r loaddata}
 data("single_cell_data_1")
 data("cell_type_annotations_1")
 data("batch_ids_1")
 data("bulk")
 data("RefData")
 
+# This is just to make the variables nicer to work with
 single_cell_data <- single_cell_data_1
 cell_type_annotations <- cell_type_annotations_1
 batch_ids <- batch_ids_1
@@ -229,13 +230,13 @@ omnideconv::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_
 
 ## Plot Results
 
-Additionally, we provide some methods for visualisation. In this and the benchmarking section you can find examples of how to use them. For the plotDeconvResult method, you can additionally provide a method and file name to add a title to your plot and save it. The colors are assigned in the order of the alphabet. As long as the exact same cell types are used throughout the analysis, the color assigned to each cell type will be the same.
+Additionally, we provide some methods for visualisation. In this and the benchmarking section you can find examples of how to use them. For the plot_deconv_result method, you can additionally provide a method and file name to add a title to your plot and save it. The colors are assigned in the order of the alphabet. As long as the exact same cell types are used throughout the analysis, the color assigned to each cell type will be the same.
 
 Please note that the cell fractions depicted in this section are not representative for deconvolution analysis of "real" data. They are based on our sample dataset, which is very small compared to the usual datasets used in deconvolution analysis and also contains a limited number of cell types. Using such a small subset leads to a big information loss and the results are biased. However, the goal of this section is to give an example how the results can be visualized and to draw attention to the big differences between the results of the eleven methods implemented.
 
 ```{r plot, fig.width=7, fig.height=4, fig.cap="Figure 2: Cell type proportions of the last step visualized. Very heterogenous results, HD30 show a lot of T cell dividing and NK cell, while HD31 show a lot of monocytes."}
 res_bisque <- omnideconv::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations, batch_ids)
-omnideconv::plotDeconvResult(res_bisque, method = "Bisque")
+omnideconv::plot_deconv_result(res_bisque, method = "Bisque")
 ```
 
 The scatterplot shown below depicts the same results and message as the barplot above, it is just another idea of how to visualize the results. Note that our package does not provide a method for this, but the plot can be recreated with this code.
@@ -305,10 +306,21 @@ For this comparison, a perfect estimation of cell type fractions by one method w
 In the two figures shown below, the single cell RNA-seq data contains counts while the bulk RNA-seq data is TPM normalized. Our test data sets contain TPM normalized values as well.
 
 TODO: Alle Methoden
-<!--
-```{r benchmarking, fig.width=6, fig.height=7, eval=FALSE}
-result_list <- list(Bisque = res_bisque, CibersortX = res_ciber, DWLS = res_dwls, MOMF = res_momf, Scaden = res_scaden)
-omnideconv::makeBenchmarkingScatterplot(result_list, "predictionVsGroundtruth.png")
+
+```{r benchmarking, fig.width=6, fig.height=7}
+
+pickle_path_autogenes <- build_model(single_cell_data, cell_type_annotations, "autogenes")
+res_autogenes <- deconvolute(bulk, pickle_path_autogenes, "autogenes")
+
+# MuSiC does not require the build_model step
+res_scdc <- deconvolute(bulk, NULL, "scdc", single_cell_data, cell_type_annotations, batch_ids)
+
+# res_bisque was already calculated before
+result_list <- list(AutoGenes = res_autogenes, Bisque = res_bisque, SCDC = res_scdc)
+result_list <- lapply(result_list, function(x) {
+  cbind(x, T = (x[, "CD4 T"] + x[, "CD8 T"]))[, -c(2, 3)]
+})
+omnideconv::make_benchmarking_scatterplot(result_list, RefData)
 ```
 ```{r benchmarkingFigure, echo=FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("images/propgrid_tpm.png")
@@ -316,7 +328,7 @@ knitr::include_graphics("images/propgrid_tpm.png")
 ```{r benchmarkingFigure2, echo=FALSE, out.width="80%", fig.cap="Figure 5: TPM-normalized: Results of deconvoluting the whole dataset of Hoek et al. [@Hoek2015] while using the data from Maynard et al. [@Maynard2020] for the signature matrix creation. Both datasets are TPM normalized"}
 knitr::include_graphics("images/predictionVsGroundtruth.png")
 ```
-
+<!--
 All in all, the methods differ a lot in their predictions. Bisque shows very heterogenous results, which might be induced by its deconvolution method. More details on that are provided a few figures below. Predictions from Scaden, on the other hand, seem to be closest to the ground truth, even though the prediction of the T cell fraction is way off and also the dendritic cells are not that accurate. The results for these two cell types are very interesting, as all methods calculate their proportion wrong.
 
 The inaccuracy of the prediction of T cells could be induced by TPM normalization. To evaluate this theory, we analyzed the deconvolution results for unnormalized single cell RNA-seq and bulk RNA-seq data as well. The comparison of these predictions can be found in the figure below. 

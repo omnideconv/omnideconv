@@ -52,5 +52,5 @@ reference:
   - title: Visualisation
     desc: Methods which produce plots with different methods.
     contents:
-      - makeBenchmarkingScatterplot
-      - plotDeconvResult
+      - make_benchmarking_scatterplot
+      - plot_deconv_result

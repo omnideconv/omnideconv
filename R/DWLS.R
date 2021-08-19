@@ -8,29 +8,29 @@
 #' @param path The path where the generated files will be saved. If path=NULL, the generated files
 #'   will be discarded.
 #' @param verbose Whether to produce an output on the console.
-#' @param diff.cutoff Cutoff to determine the FC-limit. How low can the lowest fold change be to
+#' @param diff_cutoff Cutoff to determine the FC-limit. How low can the lowest fold change be to
 #'   still be considered differentially expressed?
-#' @param pval.cutoff Cutoff to determine the pVal-limit. How high can the highest p-Value be to
+#' @param pval_cutoff Cutoff to determine the pVal-limit. How high can the highest p-Value be to
 #'   still be considered statistically significant?
 #'
 #' @return The signature matrix. Rows are genes, columns are cell types.
 #' @export
 #'
 build_model_dwls <- function(single_cell_object, cell_type_annotations, method = c("mast", "seurat"), path, verbose = FALSE,
-                             diff.cutoff = 0.5, pval.cutoff = 0.01) {
+                             diff_cutoff = 0.5, pval_cutoff = 0.01) {
   if (length(method) > 1) {
     method <- method[1]
   }
 
   if (method == "mast") {
-    return(buildSignatureMatrixMAST(
+    return(DWLS::buildSignatureMatrixMAST(
       single_cell_object, cell_type_annotations, path,
-      verbose, diff.cutoff, pval.cutoff
+      verbose, diff_cutoff, pval_cutoff
     ))
   } else if (method == "seurat") {
-    return(buildSignatureMatrixUsingSeurat(
+    return(DWLS::buildSignatureMatrixUsingSeurat(
       single_cell_object, cell_type_annotations, path,
-      verbose, diff.cutoff, pval.cutoff
+      verbose, diff_cutoff, pval_cutoff
     ))
   } else {
     stop("Could not find method " + method + ". Please try \"Mast\" or \"Seurat\"")
@@ -78,7 +78,7 @@ deconvolute_dwls <- function(bulk_gene_expression, signature,
     solutions_ols <- NULL
     for (i in 1:ncol(bulk)) {
       bulk_i <- bulk[, i]
-      sol <- solveOLS(sig, bulk_i, verbose)
+      sol <- DWLS::solveOLS(sig, bulk_i, verbose)
       # sol<-round(sol,5)
       solutions_ols <- cbind(solutions_ols, sol)
     }
@@ -88,7 +88,7 @@ deconvolute_dwls <- function(bulk_gene_expression, signature,
     solutions_svr <- NULL
     for (i in 1:ncol(bulk)) {
       bulk_i <- bulk[, i]
-      sol <- solveSVR(sig, bulk_i, verbose)
+      sol <- DWLS::solveSVR(sig, bulk_i, verbose)
       # sol<-round(sol,5)
       solutions_svr <- cbind(solutions_svr, sol)
     }
@@ -98,7 +98,7 @@ deconvolute_dwls <- function(bulk_gene_expression, signature,
     solutions_dampened_wls <- NULL
     for (i in 1:ncol(bulk)) {
       bulk_i <- bulk[, i]
-      sol <- solveDampenedWLS(sig, bulk_i, verbose)
+      sol <- DWLS::solveDampenedWLS(sig, bulk_i, verbose)
       # sol<-round(sol,5)
       solutions_dampened_wls <- cbind(solutions_dampened_wls, sol)
     }

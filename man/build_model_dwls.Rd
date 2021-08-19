@@ -10,8 +10,8 @@ build_model_dwls(
   method = c("mast", "seurat"),
   path,
   verbose = FALSE,
-  diff.cutoff = 0.5,
-  pval.cutoff = 0.01
+  diff_cutoff = 0.5,
+  pval_cutoff = 0.01
 )
 }
 \arguments{
@@ -28,10 +28,10 @@ will be discarded.}
 
 \item{verbose}{Whether to produce an output on the console.}
 
-\item{diff.cutoff}{Cutoff to determine the FC-limit. How low can the lowest fold change be to
+\item{diff_cutoff}{Cutoff to determine the FC-limit. How low can the lowest fold change be to
 still be considered differentially expressed?}
 
-\item{pval.cutoff}{Cutoff to determine the pVal-limit. How high can the highest p-Value be to
+\item{pval_cutoff}{Cutoff to determine the pVal-limit. How high can the highest p-Value be to
 still be considered statistically significant?}
 }
 \value{

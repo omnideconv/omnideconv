@@ -46,6 +46,7 @@ Suggests:
     bseqsc,
     CDSeq,
     devtools,
+    dwls
     e1071,
     knitr,
     limSolve,
@@ -69,6 +70,7 @@ Remotes:
     amitfrish/scBio,
     grst/MOMF,
     grst/SCDC,
+    KonstantinPelz/dwls,
     PelzKo/bisque,
     PelzKo/CDSeq_R_Package,
     shenorrlab/bseqsc,

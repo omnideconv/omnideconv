@@ -328,7 +328,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 required_packages <- list(
   "bisque" = c("PelzKo/bisque"), # , "limSolve"),
   "momf" = c("grst/MOMF"),
-  "dwls" = c("quadprog", "reshape", "e1071", "ROCR", "varhandle", "MAST", "magrittr"),
+  "dwls" = c("KonstantinPelz/dwls"),
   "scaden" = c("reticulate"),
   "cibersortx" = c(),
   "autogenes" = c("reticulate"),
@@ -377,7 +377,11 @@ check_and_install <- function(method) {
         utils::setRepositories(graphics = FALSE, ind = c(1, 2, 3, 4, 5))
         repositories_set <- TRUE
       }
-      remotes::install_github(pkgname)
+      if (bare_pkgname == "dwls") {
+        remotes::install_bitbucket(pkgname)
+      } else {
+        remotes::install_github(pkgname)
+      }
     }
   })
 }

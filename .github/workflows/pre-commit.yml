@@ -60,7 +60,7 @@ jobs:
       
       - name: Install correct Pre-Commit version
         run: |
-          remotes::install_github("lorenzwalthert/precommit@v0.1.3.9010")
+          remotes::install_github("lorenzwalthert/precommit")
         shell: Rscript {0}
       
       - name: Cache pre-commit

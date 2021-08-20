@@ -65,6 +65,7 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations,
   }
   if (length(mode) > 1) {
     mode <- mode[1]
+    message(paste0(mode, " was chosen because multiple values were supplied for \"mode\""))
   }
 
   sce <- matrix_to_singlecellexperiment(single_cell_object, cell_type_annotations)
@@ -162,6 +163,7 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature,
                                   weights = NULL, index = NULL, close_to = NULL, verbose = FALSE) {
   if (length(model) > 1) {
     model <- model[1]
+    message(paste0(model, " was chosen because multiple values were supplied for \"model\""))
   }
 
   if (!file.exists(signature)) {

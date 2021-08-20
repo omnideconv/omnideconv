@@ -53,7 +53,7 @@ res_scdc <- deconvolute(bulk, NULL, "scdc", batch_ids,
 result_list <- list(SCDC = res_scdc, Bisque = res_bisque)
 
 # Merging the two T cell props
-lapply(result_list, function(x) {
+result_list <- lapply(result_list, function(x) {
   cbind(x, T = (x[, "CD4 T"] + x[, "CD8 T"]))[, -c(2, 3)]
 })
 make_benchmarking_scatterplot(result_list, RefData)

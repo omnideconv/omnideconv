@@ -147,8 +147,14 @@ To calculate a cell-type-specific expression signature, you can use the build_mo
 
 ```{r signature, eval=FALSE}
 omnideconv::build_model(single_cell_data, cell_type_annotations, method)
-# Bisque, MuSiC and SCDC require an additional parameter
-omnideconv::build_model(single_cell_data, cell_type_annotations, method, batch_ids)
+
+
+# Bisque, MuSiC and SCDC require the batch_ids as well
+omnideconv::build_model(single_cell_data, cell_type_annotations, method, batch_ids = batch_ids)
+# Bseq-sc requires the batch ids and marker genes for each cell type
+omnideconv::build_model(single_cell_data, cell_type_annotations, method, batch_ids = batch_ids, markers = markers)
+# CPM, MOMF and Scaden require the bulk RNA-seq data as well
+omnideconv::build_model(single_cell_data, cell_type_annotations, method, bulk_gene_expression = bulk)
 ```
 
 * AutoGeneS ("autogenes")
@@ -163,19 +169,21 @@ omnideconv::build_model(single_cell_data, cell_type_annotations, method, batch_i
 * Scaden ("scaden")
 * SCDC ("scdc")
 
-Note: CPM, MOMF and Scaden also require the bulk RNA-seq data to calculate a signature matrix. Please provide this parameter as well when running build_model with one of these methods. 
-
 Additional parameters for the different methods can be included in the method call as well. For further information on which options you have, see the documentation of each tool by calling ?omnideconv::build_model_METHODNAME (e.g. ?omnideconv::build_model_bseqsc). 
 
 ## Deconvolution of Bulk RNA-seq Data
 
-After building the specific signature matrix, you can calculate the cell properties in bulk RNA-seq data with the deconvolute function. For this, you need to provide the bulk data, signature matrix and you can, again, choose between the methods listed in the previous section. 
+After building the specific signature matrix, you can calculate the cell properties in bulk RNA-seq data with the deconvolute function. For this, you need to provide the bulk data, signature matrix and you can, again, choose between the methods listed in the previous section. An exception are CDSeq, CPM, MuSiC and SCDC which do not require a signature matrix, as they do everything in one step and the build method is neither used nor utilized.
 
 ```{r deconv, eval=FALSE}
 omnideconv::deconvolute(bulk, signature_matrix, method)
-```
 
-Note: Bisque and MOMF additionally need the single cell RNA-seq matrix you used to build the signature matrix for their deconvolution.
+
+# CPM and MOMF require the single cell data for deconvolution as well
+omnideconv::deconvolute(bulk, signature_matrix, method, single_cell_object = single_cell_data, cell_type_annotations = cell_type_annotations)
+# Bisque, CDSeq, MuSiC and SCDC require the single cell data and the batch ids
+omnideconv::deconvolute(bulk, signature_matrix, method, batch_ids = batch_ids, single_cell_object = single_cell_data, cell_type_annotations = cell_type_annotations)
+```
 
 Similar to the build_model function, specific parameters can be passed on to the deconvolution methods through the deconvolute function. See all options for the specific method by calling ?omnideconv::deconvolute_METHODNAME (e.g. ?omnideconv::deconvolute_autogenes).
 
@@ -307,7 +315,7 @@ In the two figures shown below, the single cell RNA-seq data contains counts whi
 
 TODO: Alle Methoden
 
-```{r benchmarking, fig.width=6, fig.height=7}
+```{r benchmarking, fig.width=6, fig.height=4}
 
 pickle_path_autogenes <- build_model(single_cell_data, cell_type_annotations, "autogenes")
 res_autogenes <- deconvolute(bulk, pickle_path_autogenes, "autogenes")
@@ -317,6 +325,8 @@ res_scdc <- deconvolute(bulk, NULL, "scdc", single_cell_data, cell_type_annotati
 
 # res_bisque was already calculated before
 result_list <- list(AutoGenes = res_autogenes, Bisque = res_bisque, SCDC = res_scdc)
+
+# This joins CD4 and CD8 T cells into on class so it can be compared with the reference data
 result_list <- lapply(result_list, function(x) {
   cbind(x, T = (x[, "CD4 T"] + x[, "CD8 T"]))[, -c(2, 3)]
 })

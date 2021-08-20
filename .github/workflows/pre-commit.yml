@@ -32,6 +32,7 @@ jobs:
         run: |
           sudo apt-get update -qq || (sudo rm /etc/apt/sources.list.d/* && sudo apt-get update -yqq)
           sudo apt-get install -y libcurl4-openssl-dev
+          
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -43,6 +44,7 @@ jobs:
           echo "UBUNTU_VERSION=`grep DISTRIB_RELEASE /etc/lsb-release | sed 's/.*=//g'`" >> $GITHUB_ENV
           mkdir -p .local/R/site-packages
           echo "R_LIBS_USER=`pwd`/.local/R/site-packages" >> $GITHUB_ENV
+          
       - name: Cache R packages
         uses: actions/cache@v2
         if: startsWith(runner.os, 'Linux')
@@ -51,16 +53,12 @@ jobs:
           key: precommit-${{env.UBUNTU_VERSION}}-renv-${{ hashFiles('.pre-commit.r_requirements.txt') }}-
           restore-keys: |
             precommit-${{env.UBUNTU_VERSION}}-renv-
+            
       - name: Install R packages
         run: |
           if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
           renv::restore()
           renv::install(scan(".pre-commit.r_requirements.txt", what=character(), sep="\n"))
-        shell: Rscript {0}
-      
-      - name: Install correct Pre-Commit version
-        run: |
-          remotes::install_github("lorenzwalthert/precommit")
         shell: Rscript {0}
       
       - name: Cache pre-commit

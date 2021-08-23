@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculates the signature model with BSeq-sc — build_model_bseqsc • omnideconv</title>
+<title>Plot deconvolution results as a barplot — plot_deconv_result • omnideconv</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Calculates the signature model with BSeq-sc — build_model_bseqsc" />
-<meta property="og:description" content="Calculates the signature model with BSeq-sc" />
+<meta property="og:title" content="Plot deconvolution results as a barplot — plot_deconv_result" />
+<meta property="og:description" content="Plot deconvolution results as a barplot" />
 
 
 
@@ -120,63 +120,60 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculates the signature model with BSeq-sc</h1>
-    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/BSEQ_sc.R'><code>R/BSEQ_sc.R</code></a></small>
-    <div class="hidden name"><code>build_model_bseqsc.Rd</code></div>
+    <h1>Plot deconvolution results as a barplot</h1>
+    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/visualisation.R'><code>R/visualisation.R</code></a></small>
+    <div class="hidden name"><code>plot_deconv_result.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculates the signature model with BSeq-sc</p>
+    <p>Plot deconvolution results as a barplot</p>
     </div>
 
-    <pre class="usage"><span class='fu'>build_model_bseqsc</span><span class='op'>(</span>
-  <span class='va'>single_cell_object</span>,
-  <span class='va'>cell_type_annotations</span>,
-  <span class='va'>markers</span>,
-  <span class='va'>batch_ids</span>,
-  ct_scale <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  limit <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>plot_deconv_result</span><span class='op'>(</span><span class='va'>deconv_result</span>, method_name <span class='op'>=</span> <span class='st'>""</span>, file_name <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>single_cell_object</th>
-      <td><p>A matrix with the single-cell data. Rows are genes, columns are
-samples. Row and column names need to be set.</p></td>
+      <th>deconv_result</th>
+      <td><p>result from deconvolution()</p></td>
     </tr>
     <tr>
-      <th>cell_type_annotations</th>
-      <td><p>A vector of the cell type annotations. Has to be in the same order
-as the samples in single_cell_object.</p></td>
+      <th>method_name</th>
+      <td><p>(optional) title of plot is set to the name of the method used for
+deconvolution</p></td>
     </tr>
     <tr>
-      <th>markers</th>
-      <td><p>Named list of cell type marker genes.
-The type of gene identifiers (names(markers)) must be the same as the ones used as feature/row
-names in the single_cell_object.</p></td>
-    </tr>
-    <tr>
-      <th>batch_ids</th>
-      <td><p>A vector of the ids of the samples or individuals.</p></td>
-    </tr>
-    <tr>
-      <th>ct_scale</th>
-      <td><p>logical that indicates if the single cell expresson profiles
-should be rescaled according to their cell type average total count.</p></td>
-    </tr>
-    <tr>
-      <th>limit</th>
-      <td><p>logical that indicates if the returned basis matrix should only contain
-cell types listed in <code>markers</code>.</p></td>
+      <th>file_name</th>
+      <td><p>(optional) plot is saved in this file</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The signature matrix. Rows are genes, columns are cell types.</p>
+    <p>the ggplot object</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"single_cell_data_1"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"cell_type_annotations_1"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"batch_ids_1"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"bulk"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"RefData"</span><span class='op'>)</span>
+
+<span class='va'>common_genes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>single_cell_data_1</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>bulk</span><span class='op'>)</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2000</span><span class='op'>]</span>
+
+<span class='va'>single_cell_data</span> <span class='op'>&lt;-</span> <span class='va'>single_cell_data_1</span><span class='op'>[</span><span class='va'>common_genes</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>500</span><span class='op'>]</span>
+<span class='va'>cell_type_annotations</span> <span class='op'>&lt;-</span> <span class='va'>cell_type_annotations_1</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>500</span><span class='op'>]</span>
+<span class='va'>batch_ids</span> <span class='op'>&lt;-</span> <span class='va'>batch_ids_1</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>500</span><span class='op'>]</span>
+<span class='va'>bulk</span> <span class='op'>&lt;-</span> <span class='va'>bulk</span><span class='op'>[</span><span class='va'>common_genes</span>, <span class='op'>]</span>
+
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='build_model.html'>build_model</a></span><span class='op'>(</span><span class='va'>single_cell_data</span>, <span class='va'>cell_type_annotations</span>, <span class='st'>"bisque"</span>, <span class='va'>batch_ids</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Converting single-cell counts to CPM and filtering zero variance genes.</span></div><div class='output co'>#&gt; <span class='message'>Filtered 329 zero variance genes.</span></div><div class='input'><span class='va'>deconvolution</span> <span class='op'>&lt;-</span> <span class='fu'><a href='deconvolute.html'>deconvolute</a></span><span class='op'>(</span>
+  <span class='va'>bulk</span>, <span class='va'>model</span>, <span class='st'>"bisque"</span>, <span class='va'>single_cell_data</span>,
+  <span class='va'>cell_type_annotations</span>, <span class='va'>batch_ids</span>
+<span class='op'>)</span>
+<span class='fu'>plot_deconv_result</span><span class='op'>(</span><span class='va'>deconvolution</span>, <span class='st'>"Bisque"</span><span class='op'>)</span>
+</div><div class='img'><img src='plot_deconv_result-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

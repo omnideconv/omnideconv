@@ -7,7 +7,7 @@
     <loc>https://icbi-lab.github.io/omnideconv/reference/RefData.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/omnideconv/reference/anndata_check_load.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/anndata_checkload.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/anndata_to_singlecellexperiment.html</loc>
@@ -16,10 +16,13 @@
     <loc>https://icbi-lab.github.io/omnideconv/reference/autogenes_checkload.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/omnideconv/reference/batch_ids.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/batch_ids_1.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/omnideconv/reference/batch_ids_small.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/batch_ids_2.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/batch_ids_3.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/bseqsc_config.html</loc>
@@ -67,19 +70,19 @@
     <loc>https://icbi-lab.github.io/omnideconv/reference/bulk.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/omnideconv/reference/bulk_small.html</loc>
-  </url>
-  <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/calc_condition_number.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/calculate_cell_embedding.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/omnideconv/reference/cell_type_annotations.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/cell_type_annotations_1.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/omnideconv/reference/cell_type_annotations_small.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/cell_type_annotations_2.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/cell_type_annotations_3.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/check_and_install.html</loc>
@@ -157,19 +160,22 @@
     <loc>https://icbi-lab.github.io/omnideconv/reference/init_python.html</loc>
   </url>
   <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/install_all_python.html</loc>
+  </url>
+  <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/install_autogenes.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/install_scaden.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/omnideconv/reference/makeBenchmarkingScatterplot.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/make_benchmarking_scatterplot.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/matrix_to_singlecellexperiment.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/omnideconv/reference/plotDeconvResult.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/plot_deconv_result.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/python_available.html</loc>
@@ -211,10 +217,13 @@
     <loc>https://icbi-lab.github.io/omnideconv/reference/set_python.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/omnideconv/reference/single_cell_data.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/single_cell_data_1.html</loc>
   </url>
   <url>
-    <loc>https://icbi-lab.github.io/omnideconv/reference/single_cell_data_small.html</loc>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/single_cell_data_2.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/single_cell_data_3.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/singlecellexperiment_to_anndata.html</loc>

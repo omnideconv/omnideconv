@@ -1,4 +1,3 @@
-precommit
 docopt
 styler
 git2r

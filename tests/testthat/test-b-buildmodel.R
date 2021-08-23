@@ -63,7 +63,7 @@ test_that("DWLS build signature matrix works", {
 })
 
 test_that("CibersortX build signature matrix works", {
-  set_cibersortx_credentials("konstantin.pelz@tum.de", "27308ae0ef1458d381becac46ca7e480")
+  set_cibersortx_credentials(Sys.getenv("CIBERSORTX_EMAIL"), Sys.getenv("CIBERSORTX_TOKEN"))
   signature <- build_model(sc_object_small, cell_annotations_small, "cibersortx")
   expect_equal(
     info = "signature matrix has same amount of columns as unique cell types in single

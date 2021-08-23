@@ -32,6 +32,7 @@ jobs:
       RSPM: ${{ matrix.config.rspm }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       CIBERSORTX_TOKEN: ${{ secrets.CIBERSORTX_TOKEN }}
+      CIBERSORTX_EMAIL: ${{ secrets.CIBERSORTX_EMAIL }}
 
     steps:
       - uses: actions/checkout@v2

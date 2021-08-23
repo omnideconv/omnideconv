@@ -45,6 +45,11 @@ jobs:
           mkdir -p .local/R/site-packages
           echo "R_LIBS_USER=`pwd`/.local/R/site-packages" >> $GITHUB_ENV
           
+      - name: Install correct Pre-Commit version
+        run: |
+          remotes::install_github("lorenzwalthert/precommit@v0.1.3.9014")
+        shell: Rscript {0}
+          
       - name: Cache R packages
         uses: actions/cache@v2
         if: startsWith(runner.os, 'Linux')

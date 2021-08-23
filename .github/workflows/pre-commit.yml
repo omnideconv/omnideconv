@@ -9,11 +9,10 @@ on:
     - main
     - master
 
-env:
-      GITHUB_PAT: ${{ secrets.PAT_GITHUB }}
-
 jobs:
   pre-commit:
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     runs-on: ubuntu-18.04
     if: >-
       !contains(github.event.head_commit.message, 'ci skip') &&

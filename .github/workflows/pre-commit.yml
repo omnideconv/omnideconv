@@ -9,6 +9,9 @@ on:
     - main
     - master
 
+env:
+      GITHUB_PAT: ${{ secrets.PAT_GITHUB }}
+
 jobs:
   pre-commit:
     runs-on: ubuntu-18.04

@@ -49,14 +49,14 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
                                    output_dir = NULL, display_heatmap = FALSE,
                                    k_max = 999, ...) {
   if (!docker_available()) {
-    base::message(
+    message(
       "Installation of docker can not be found. Please check whether you can ",
       "call 'docker' in the command line and get a help menu"
     )
     return(NULL)
   }
   if (!docker_connectable()) {
-    base::message(
+    message(
       "Error durching connection to docker. Please check whether you can ",
       "call 'docker ps' in the command line and get a (possibly empty) list and not an error",
       "message"
@@ -86,12 +86,12 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
   )
 
   if (verbose) {
-    base::message(command_to_run)
+    message(command_to_run)
   }
 
   if (!verbose) {
     if (Sys.info()["sysname"] == "Windows") {
-      base::message("The windows implementation requires verbose mode. It is now switched on.")
+      message("The windows implementation requires verbose mode. It is now switched on.")
       verbose <- TRUE
     }
   }
@@ -109,7 +109,7 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
 
   code <- system(command_to_run, ignore.stdout = !verbose, ignore.stderr = !verbose)
   if (code != 0) {
-    base::message(paste0(
+    message(paste0(
       "Something went wrong: Error code ", code, ". Please try again with ",
       "'verbose=TRUE'"
     ))
@@ -165,14 +165,14 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature, verbose = FA
                                    input_dir = NULL, output_dir = NULL,
                                    display_extra_info = FALSE, label = "none", ...) {
   if (!docker_available()) {
-    base::message(
+    message(
       "Installation of docker can not be found. Please check whether you can ",
       "call 'docker' in the command line and get a help menu"
     )
     return(NULL)
   }
   if (!docker_connectable()) {
-    base::message(
+    message(
       "Error durching connection to docker. Please check whether you can ",
       "call 'docker ps' in the command line and get a (possibly empty) list and not an error ",
       "message"
@@ -207,19 +207,19 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature, verbose = FA
     sigmatrix = sigmatrix_filename, mixture <- bulk_gene_expression_filename, label = label
   )
   if (verbose) {
-    base::message(command_to_run)
+    message(command_to_run)
   }
 
   if (!verbose) {
     if (Sys.info()["sysname"] == "Windows") {
-      base::message("The windows implementation requires verbose mode. It is now switched on.")
+      message("The windows implementation requires verbose mode. It is now switched on.")
       verbose <- TRUE
     }
   }
 
   code <- system(command_to_run, ignore.stdout = !verbose, ignore.stderr = !verbose)
   if (code != 0) {
-    base::message(paste0(
+    message(paste0(
       "Something went wrong: Error code ", code, ". Please try again with ",
       "'verbose=TRUE'"
     ))
@@ -257,7 +257,7 @@ transform_and_save_single_cell <- function(sc_matrix, cell_types, path, verbose 
   output_file <- paste0(path, "/sample_file_for_cibersort.txt")
   readr::write_tsv(output, output_file, col_names = FALSE)
   if (verbose) {
-    base::message(paste(
+    message(paste(
       "Single cell matrix was saved successfully and can be found at: ",
       output_file
     ))
@@ -277,7 +277,7 @@ transform_and_save_bulk <- function(bulk, path, verbose = FALSE) {
   output_file <- paste0(path, "/mixture_file_for_cibersort.txt")
   readr::write_tsv(data.frame("Gene" = rownames(bulk), bulk), output_file)
   if (verbose) {
-    base::message(paste(
+    message(paste(
       "Bulk data matrix was saved successfully and can be found at: ",
       output_file
     ))
@@ -331,7 +331,7 @@ get_method_options <- function(method = c("create_sig", "impute_cell_fractions")
   } else if (method == "impute_cell_fractions") {
     return(get_cell_fractions_options(...))
   } else {
-    base::stop(paste("Method", method, "is not valid"))
+    stop(paste("Method", method, "is not valid"))
   }
 }
 

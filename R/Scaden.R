@@ -28,17 +28,17 @@ build_model_scaden <- function(single_cell_object, cell_type_annotations, bulk_g
                                steps = 5000, var_cutoff = NULL, cells = 100, samples = 1000,
                                dataset_name = "scaden", verbose = FALSE) {
   if (is.null(bulk_gene_expression)) {
-    base::stop("'bulk_gene_expression' argument is required for Scaden")
+    stop("'bulk_gene_expression' argument is required for Scaden")
   }
 
 
   if (ncol(bulk_gene_expression) < 2) {
-    base::stop("Scaden requires at least two bulk samples.")
+    stop("Scaden requires at least two bulk samples.")
   }
 
   if (!verbose) {
     if (Sys.info()["sysname"] == "Windows") {
-      base::message("The windows implementation requires verbose mode. It is now switched on.")
+      message("The windows implementation requires verbose mode. It is now switched on.")
       verbose <- TRUE
     }
   }
@@ -48,7 +48,7 @@ build_model_scaden <- function(single_cell_object, cell_type_annotations, bulk_g
 
   single_cell_object <- t(single_cell_object)
   if (nrow(single_cell_object) != length(cell_type_annotations)) {
-    base::stop(
+    stop(
       "Celltype labels must be same length as samples (number of columns) ",
       "in single_cell_object!"
     )
@@ -88,7 +88,7 @@ build_model_scaden <- function(single_cell_object, cell_type_annotations, bulk_g
 deconvolute_scaden <- function(model, bulk_gene_expression, verbose = FALSE) {
   if (!verbose) {
     if (Sys.info()["sysname"] == "Windows") {
-      base::message("The windows implementation requires verbose mode. It is now switched on.")
+      message("The windows implementation requires verbose mode. It is now switched on.")
       verbose <- TRUE
     }
   }
@@ -126,7 +126,7 @@ install_scaden <- function() {
 #'
 scaden_train <- function(h5ad_processed, batch_size = 128, learning_rate = 0.0001,
                          model_path = NULL, steps = 5000, verbose = FALSE) {
-  if (verbose) base::message("Training model")
+  if (verbose) message("Training model")
 
   # create temporary directory where Scaden input files should be saved at.
   tmp_dir <- tempdir()
@@ -137,10 +137,10 @@ scaden_train <- function(h5ad_processed, batch_size = 128, learning_rate = 0.000
   write_anndata(h5ad_processed, h5ad_processed_tmp)
 
   if (is.null(model_path)) {
-    currentwd <- base::getwd()
+    currentwd <- getwd()
     model_path <- tryCatch(
       {
-        base::setwd(tmp_dir)
+        setwd(tmp_dir)
         model_path <- paste0(tmp_dir, "/model")
         if (dir.exists(model_path)) {
           unlink(model_path, recursive = TRUE)
@@ -149,14 +149,14 @@ scaden_train <- function(h5ad_processed, batch_size = 128, learning_rate = 0.000
         model_path
       },
       error = function(cond) {
-        base::setwd(currentwd)
-        base::stop(cond)
+        setwd(currentwd)
+        stop(cond)
       },
       warning = function(cond) {
-        base::warning(cond)
+        warning(cond)
       },
       finally = {
-        base::setwd(currentwd)
+        setwd(currentwd)
       }
     )
   }
@@ -173,7 +173,7 @@ scaden_train <- function(h5ad_processed, batch_size = 128, learning_rate = 0.000
   model_names <- c("m1024", "m256", "m512")
   for (model in model_names) {
     if (!(model %in% model_dirs)) {
-      base::stop("Model generation failed!")
+      stop("Model generation failed!")
     }
   }
 
@@ -195,7 +195,7 @@ scaden_train <- function(h5ad_processed, batch_size = 128, learning_rate = 0.000
 #' @return processed training file. (.h5ad format)
 #'
 scaden_process <- function(h5ad, bulk_gene_expression, var_cutoff = NULL, verbose = FALSE) {
-  if (verbose) base::message("Processing training data for model creation ...")
+  if (verbose) message("Processing training data for model creation ...")
 
   out <- tryCatch(
     {
@@ -229,15 +229,15 @@ scaden_process <- function(h5ad, bulk_gene_expression, var_cutoff = NULL, verbos
       read_anndata(processed_h5ad)
     },
     error = function(cond) {
-      base::message(
+      message(
         "Error preprocessing training data! Make sure training data is not in ",
         "logarithmic space!"
       )
-      base::message(cond)
+      message(cond)
     },
     warning = function(cond) {
       if (verbose) {
-        base::message(cond)
+        message(cond)
       }
     }
   )
@@ -255,15 +255,15 @@ scaden_process <- function(h5ad, bulk_gene_expression, var_cutoff = NULL, verbos
 #' @return Cell type fractions per sample
 #'
 scaden_predict <- function(model_dir, bulk_gene_expression, verbose = FALSE) {
-  if (verbose) base::message("Predicting cell type proportions")
+  if (verbose) message("Predicting cell type proportions")
 
-  current_wd <- base::getwd()
+  current_wd <- getwd()
 
   predictions <- tryCatch(
     {
       tmp_dir <- tempdir()
       dir.create(tmp_dir, showWarnings = FALSE)
-      base::setwd(tmp_dir)
+      setwd(tmp_dir)
 
       bulk_gene_expression_tmp <- tempfile(tmpdir = tmp_dir)
       utils::write.table(bulk_gene_expression,
@@ -281,13 +281,13 @@ scaden_predict <- function(model_dir, bulk_gene_expression, verbose = FALSE) {
       ))
     },
     error = function(cond) {
-      base::stop(cond)
+      stop(cond)
     },
     warning = function(cond) {
-      base::warning(cond)
+      warning(cond)
     },
     finally = {
-      base::setwd(current_wd)
+      setwd(current_wd)
     }
   )
 
@@ -305,14 +305,14 @@ scaden_predict <- function(model_dir, bulk_gene_expression, verbose = FALSE) {
 #' and list$bulk = example bulk data.
 #'
 scaden_simulate_example <- function(example_data_path = NULL, verbose = FALSE) {
-  current_wd <- base::getwd()
+  current_wd <- getwd()
 
   if (is.null(example_data_path)) {
     tmp_dir <- tempdir()
     dir.create(tmp_dir, showWarnings = FALSE)
-    base::setwd(tmp_dir)
+    setwd(tmp_dir)
   } else {
-    base::setwd(example_data_path)
+    setwd(example_data_path)
   }
 
 
@@ -329,7 +329,7 @@ scaden_simulate_example <- function(example_data_path = NULL, verbose = FALSE) {
   simulated_h5ad <- read_anndata(paste0(tmp_dir, "/data.h5ad"))
   bulk <- utils::read.table(paste0(tmp_dir, "/example_data/example_bulk_gene_expression.txt"))
 
-  base::setwd(current_wd)
+  setwd(current_wd)
   unlink(tmp_dir)
 
   output <- list("simulated_h5ad" = simulated_h5ad, "bulk" = bulk)
@@ -353,24 +353,24 @@ scaden_simulate_example <- function(example_data_path = NULL, verbose = FALSE) {
 scaden_simulate <- function(cell_type_annotations, gene_labels, single_cell_object, cells = 100,
                             samples = 1000, dataset_name = "scaden", verbose = FALSE) {
   if (verbose) {
-    base::message(
+    message(
       "Simulating training data from single cell experiment: ", samples,
       " samples of ", cells, " cells"
     )
   }
-  current_wd <- base::getwd()
+  current_wd <- getwd()
 
 
   output <- tryCatch(
     {
       tmp_dir <- tempdir()
       dir.create(tmp_dir, showWarnings = FALSE)
-      base::setwd(tmp_dir)
+      setwd(tmp_dir)
       if (dir.exists(dataset_name)) {
         unlink(dataset_name, recursive = TRUE)
       }
       dir.create(dataset_name, showWarnings = FALSE)
-      base::setwd(paste0(tmp_dir, "/", dataset_name))
+      setwd(paste0(tmp_dir, "/", dataset_name))
 
       colnames(single_cell_object) <- gene_labels
       rownames(single_cell_object) <- 0:(length(rownames(single_cell_object)) - 1)
@@ -386,7 +386,7 @@ scaden_simulate <- function(cell_type_annotations, gene_labels, single_cell_obje
       ),
       quote = FALSE, row.names = FALSE, col.names = TRUE
       )
-      base::setwd(tmp_dir)
+      setwd(tmp_dir)
 
       system(paste(
         "scaden simulate --data", paste0(tmp_dir, "/", dataset_name), "-n", samples,
@@ -401,7 +401,7 @@ scaden_simulate <- function(cell_type_annotations, gene_labels, single_cell_obje
       number_of_infs <- sum(temp_output$X == Inf)
       temp_output$X[temp_output$X == Inf] <- value_to_set_infinities_to * 2
       if (verbose & number_of_infs > 0) {
-        base::message(paste0(
+        message(paste0(
           number_of_infs, " Inf values were replaced by twice the maximum value (",
           value_to_set_infinities_to, "*2)"
         ))
@@ -409,13 +409,13 @@ scaden_simulate <- function(cell_type_annotations, gene_labels, single_cell_obje
       temp_output
     },
     error = function(cond) {
-      base::stop(cond)
+      stop(cond)
     },
     warning = function(cond) {
-      base::warning(cond)
+      warning(cond)
     },
     finally = {
-      base::setwd(current_wd)
+      setwd(current_wd)
     }
   )
   return(output)
@@ -427,10 +427,10 @@ scaden_simulate <- function(cell_type_annotations, gene_labels, single_cell_obje
 #'
 scaden_checkload <- function() {
   if (!python_available()) {
-    base::message("Setting up python environment..")
+    message("Setting up python environment..")
     init_python()
     if (!python_available()) {
-      base::stop(
+      stop(
         "Could not initiate miniconda python environment. Please set up manually with ",
         "init_python(python=your/python/version)"
       )

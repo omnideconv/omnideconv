@@ -91,14 +91,14 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations,
   } else if (mode == "fixed") {
     params <- c(params, nfeatures = as.integer(nfeatures), mutate_flip_pb = mutate_flip_pb)
   } else {
-    base::stop(paste0("Mode ", mode, " not recognized. Please try 'standard' or 'fixed'"))
+    stop(paste0("Mode ", mode, " not recognized. Please try 'standard' or 'fixed'"))
   }
 
   do.call(ag$optimize, params)
 
   if (plot) {
     if (sum(!sapply(list(weights, index, close_to), is.null)) > 1) {
-      base::stop(
+      stop(
         "When selecting a solution in autogenes only one of the parameters 'plot_weights', ",
         "'index' and 'close_to' can be used. It is also possible to use none of them"
       )
@@ -117,7 +117,7 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations,
   filename <- tempfile(fileext = ".pickle")
   ag$save(filename)
   if (verbose) {
-    base::message("Successfully saved")
+    message("Successfully saved")
   }
   return(filename)
 }
@@ -167,14 +167,14 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature,
   }
 
   if (!file.exists(signature)) {
-    base::stop(
+    stop(
       "The signature parameter has to be a file path to a .pickle file, created with the ",
       "build_model method. This file was not found."
     )
   }
 
   if (sum(!sapply(list(weights, index, close_to), is.null)) > 1) {
-    base::stop(
+    stop(
       "When selecting a solution in autogenes only one of the parameters 'weights', ",
       "'index' and 'close_to' can be used"
     )
@@ -196,7 +196,7 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature,
   genes <- ag$adata()$var_names
   genes_used <- genes[selection]
   if (verbose) {
-    base::message(length(genes_used), "genes are used for the deconvolution")
+    message(length(genes_used), "genes are used for the deconvolution")
   }
 
   bulk_data <- data.frame(t(bulk_gene_expression))
@@ -229,10 +229,10 @@ install_autogenes <- function() {
 #'
 autogenes_checkload <- function() {
   if (!python_available()) {
-    base::message("Setting up python environment..")
+    message("Setting up python environment..")
     init_python()
     if (!python_available()) {
-      base::stop(
+      stop(
         "Could not initiate miniconda python environment. Please set up manually with ",
         "init_python(python=your/python/version)"
       )

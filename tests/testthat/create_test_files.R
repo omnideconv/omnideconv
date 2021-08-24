@@ -1,12 +1,6 @@
 library(BisqueRNA)
 library(MOMF)
-library(reshape)
-library(quadprog)
-library(e1071)
 library(Seurat)
-library(ROCR)
-library(varhandle)
-library(MAST)
 library(MuSiC)
 library(SCDC)
 library(scBio)
@@ -84,7 +78,7 @@ utils::write.csv(result_momf, "test_results/momf_result_small.csv")
 # DWLS
 cell_annotations_small_temp <- gsub(" ", "_", cell_annotations_small)
 model_dwls <- DWLS::buildSignatureMatrixMAST(sc_object_small, cell_annotations_small_temp, tempdir())
-tr <- trim_dataOwn(model_dwls, bulk_small)
+tr <- trim_data_own(model_dwls, bulk_small)
 
 all_counts_dwls <- NULL
 all_counts_ols <- NULL
@@ -296,7 +290,7 @@ utils::write.csv(signature_bseqsc, "test_models/bseq_model_small.csv")
 
 # trim bulk and single-cell data to contain the same genes
 # CHANGED FROM THE ORIGINAL FUNCTION TO WORK WITH OUR DATA
-trim_data <- function(signature, bulk_data) {
+trim_data_own <- function(signature, bulk_data) {
   genes <- intersect(rownames(signature), rownames(bulk_data))
   b <- bulk_data[genes, ]
   s <- signature[genes, ]

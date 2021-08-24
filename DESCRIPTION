@@ -51,20 +51,14 @@ Suggests:
     e1071,
     knitr,
     limSolve,
-    magrittr,
-    MAST,
     MOMF,
     MuSiC,
     pkgdown,
-    quadprog,
-    reshape,
     reticulate,
     rmarkdown,
-    ROCR,
     scBio,
     SCDC,
-    testthat (>= 2.0.0),
-    varhandle
+    testthat (>= 2.0.0)
 VignetteBuilder: 
     knitr
 Remotes:

@@ -7,7 +7,7 @@
 #'
 #' @export
 build_model_cpm <- function() {
-  base::message(
+  message(
     "The deconvolution with CPM is done in only one step. Please just use the ",
     "deconvolute method."
   )
@@ -73,7 +73,7 @@ deconvolute_cpm <- function(bulk_gene_expression, single_cell_object, cell_type_
                             model_size = 50, min_selection = 5, calculate_CI = FALSE,
                             verbose = FALSE) {
   if (is.null(single_cell_object) || is.null(cell_type_annotations)) {
-    base::stop(
+    stop(
       "Single cell object or cell type annotations not provided. Call as: ",
       "deconvolute(bulk_gene_expression, NULL, \"cpm\", single_cell_object, ",
       "cell_type_annotations)"
@@ -81,7 +81,7 @@ deconvolute_cpm <- function(bulk_gene_expression, single_cell_object, cell_type_
   }
 
   if (ncol(bulk_gene_expression) < 2) {
-    base::stop("CPM requires at least two bulk samples.")
+    stop("CPM requires at least two bulk samples.")
   }
 
   if ("character" %in% class(cell_space) && length(cell_space) == 1) {
@@ -116,7 +116,7 @@ calculate_cell_embedding <- function(single_cell_object, cell_type_annotations,
     method <- method[1]
     message(paste0(method, " was chosen because multiple values were supplied for \"method\""))
   }
-  method <- base::tolower(method)
+  method <- tolower(method)
   sce <- matrix_to_singlecellexperiment(single_cell_object, cell_type_annotations)
   seurat <- Seurat::as.Seurat(sce, counts = "X", data = NULL)
 
@@ -134,5 +134,5 @@ calculate_cell_embedding <- function(single_cell_object, cell_type_annotations,
     seurat <- Seurat::RunTSNE(seurat)
     return(seurat@reductions$tsne@cell.embeddings)
   }
-  base::stop("Method ", method, " not recognized")
+  stop("Method ", method, " not recognized")
 }

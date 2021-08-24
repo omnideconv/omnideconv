@@ -240,7 +240,7 @@ singlecellexperiment_to_matrix <- function(sce, assay_name = NULL, cell_type_col
   X <- SummarizedExperiment::assay(sce, assay_name, withDimnames = T)
 
   if (is.null(cell_type_column_name)) {
-    base::warning("Please provide the column name that contains the cell type labels! (colData
+    warning("Please provide the column name that contains the cell type labels! (colData
                   object of SingleCellExperiment/ obs object of AnnData)")
     cell_labels <- NULL
   } else {
@@ -290,20 +290,20 @@ sces_are_identical <- function(a, b) {
       }
     }
 
-    a_col <- base::as.data.frame(SummarizedExperiment::colData(a))
-    b_col <- base::as.data.frame(SummarizedExperiment::colData(b))
+    a_col <- as.data.frame(SummarizedExperiment::colData(a))
+    b_col <- as.data.frame(SummarizedExperiment::colData(b))
 
     if (!identical(a_col, b_col)) {
       same <- FALSE
-      base::message("Coldata not identical")
+      message("Coldata not identical")
     }
 
-    a_row <- base::as.data.frame(SummarizedExperiment::rowData(a))
-    b_row <- base::as.data.frame(SummarizedExperiment::rowData(b))
+    a_row <- as.data.frame(SummarizedExperiment::rowData(a))
+    b_row <- as.data.frame(SummarizedExperiment::rowData(b))
 
     if (!identical(a_row, b_row)) {
       same <- FALSE
-      base::message("Rowdata not identical")
+      message("Rowdata not identical")
     }
   }
   return(same)
@@ -381,31 +381,31 @@ anndata_is_identical <- function(a, b) {
   same <- TRUE
 
   if (!identical(as.matrix(a$X), as.matrix(b$X))) {
-    base::message("X object is different")
+    message("X object is different")
     same <- FALSE
   }
   if (!identical(as.matrix(a$obs), as.matrix(b$obs))) {
-    base::message("obs object is different")
+    message("obs object is different")
     same <- FALSE
   }
   if (!identical(as.matrix(a$var), as.matrix(b$var))) {
-    base::message("var object is different")
+    message("var object is different")
     same <- FALSE
   }
   if (!all.equal(a$uns, b$uns)) {
-    base::message("uns object is different")
+    message("uns object is different")
     same <- FALSE
   }
   if (!all.equal(a$obsm, b$obsm)) {
-    base::message("obsm object is different")
+    message("obsm object is different")
     same <- FALSE
   }
   if (!all.equal(a$varm, b$varm)) {
-    base::message("varm object is different")
+    message("varm object is different")
     same <- FALSE
   }
   if (!all.equal(a$layers, b$layers)) {
-    base::message("layers object is different")
+    message("layers object is different")
     same <- FALSE
   }
   return(same)

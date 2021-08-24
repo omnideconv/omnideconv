@@ -33,7 +33,7 @@ build_model_bisque <- function(single_cell_object, cell_type_annotations, batch_
     )
   }
   if (verbose) {
-    base::message(
+    message(
       "Converting single-cell counts to CPM and ",
       "filtering zero variance genes."
     )
@@ -68,7 +68,7 @@ build_model_bisque <- function(single_cell_object, cell_type_annotations, batch_
 #'   as the samples in single_cell_object.
 #' @param batch_ids A vector of the ids of the samples or individuals.
 #' @param markers Structure, such as character vector, containing marker genes
-#'   to be used in decomposition. `base::unique(base::unlist(markers))` should
+#'   to be used in decomposition. `unique(unlist(markers))` should
 #'   return a simple vector containing each gene name. If no argument or NULL
 #'   provided, the method will use all available genes for decomposition.
 #' @param cell_types Character string. Name of phenoData attribute in sc.eset
@@ -109,14 +109,14 @@ deconvolute_bisque <- function(bulk_gene_expression, signature, single_cell_obje
   # signature matrix (so ones from other method can be used)
 
   if (is.null(single_cell_object) || is.null(cell_type_annotations) || is.null(batch_ids)) {
-    base::stop(
+    stop(
       "Single cell object or cell type annotations not provided. Call as: ",
       "deconvolute(bulk_gene_expression, signature, \"bisque\", single_cell_object, ",
       "cell_type_annotations, batch_ids)"
     )
   }
   if (ncol(bulk_gene_expression) < 2) {
-    base::stop("Bisque requires at least two bulk samples.")
+    stop("Bisque requires at least two bulk samples.")
   }
   sc_eset <- get_single_cell_expression_set(
     single_cell_object, batch_ids,

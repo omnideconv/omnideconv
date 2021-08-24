@@ -103,7 +103,7 @@ make_benchmarking_scatterplot <- function(result_list, ref_data, file_name = NUL
   cell_types <- sort(unique(colnames(result_list[[1]])))
   if (length(colnames(ref_data)) != length(cell_types) ||
     !identical(sort(colnames(ref_data)), cell_types)) {
-    base::stop("Reference and prediction need to include the same cell types")
+    stop("Reference and prediction need to include the same cell types")
   }
 
   li <- lapply(result_list, function(x) cbind(x, sample = rownames(x)))

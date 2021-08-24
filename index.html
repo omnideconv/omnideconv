@@ -88,16 +88,13 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>There are two ways to install it, the long one, installing all packages needed for all methods and the short one, installing only the ones for basic functionality.</p>
-<p>If the short install is chosen, the required packages for methods are installed when the methods are used. The same goes for required python packages.</p>
-<p>Install the CRAN package devtools and use it to install omnideconv from <a href="https://github.com/">GitHub</a>:</p>
+<p>There are two ways to install it, the long one installing all packages needed for all methods and the short one, installing only the ones for basic functionality. If the short install is chosen, the required packages for methods are installed when the methods are used. Install the CRAN package devtools and use it to install omnideconv from <a href="https://github.com/">GitHub</a>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
 
 <span class="co"># long/complete install</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"icbi-lab/omnideconv"</span>, dependencies <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Imports"</span>,
     <span class="st">"Suggests"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="reference/install_all_python.html">install_all_python</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># short/quick install</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"icbi-lab/omnideconv"</span><span class="op">)</span></code></pre></div>
@@ -117,7 +114,7 @@
 <ul>
 <li>AutoGeneS (“autogenes”)</li>
 <li>Bisque (“bisque”)</li>
-<li>BSeq-sc (“bseqsc”)</li>
+<li>BSEQ-sc (“bseqsc”)</li>
 <li>CDSeq (“cdseq”)</li>
 <li>CibersortX (“cibersortx”)</li>
 <li>CPM (“cpm”)</li>
@@ -266,103 +263,33 @@
 <p>For more information and an example workflow see the vignette of this package.</p>
 </div>
 </div>
-<div id="requirements" class="section level2">
+<div id="available-methods" class="section level2">
 <h2 class="hasAnchor">
-<a href="#requirements" class="anchor"></a>Requirements</h2>
-<p>Most methods do not require additional software/tokens, but there are a few exceptions:</p>
+<a href="#available-methods" class="anchor"></a>Available Methods</h2>
+<p>More information about the second generation deconvolution methods unified in this package can be obtained from the vignette and the list below.</p>
 <ul>
-<li>A working version of Docker is required for CibersortX</li>
-<li>A token for CibersortX is required from this website: <a href="https://cibersortx.stanford.edu/" class="uri">https://cibersortx.stanford.edu/</a>
+<li>Bisque: Jew, B., Alvarez, M., Rahmani, E., Miao, Z., Ko, A., Garske, K. M., Sul, J. H., Pietiläinen, K. H., Pajukanta, P., &amp; Halperin, E. (2020). Publisher Correction: Accurate estimation of cell composition in bulk expression through robust integration of single-cell information. Nature Communications, 11(1), 2891. <a href="https://doi.org/10.1038/s41467-020-16607-9" class="uri">https://doi.org/10.1038/s41467-020-16607-9</a>
 </li>
-<li>The Cibersort source code is required for BSeq-sc (see tutorial in ?omnideconv::bseqsc_config)</li>
+<li>CibersortX: Newman, A. M., Liu, C. L., Green, M. R., Gentles, A. J., Feng, W., Xu, Y., Hoang, C. D., Diehn, M., &amp; Alizadeh, A. A. (2015). Robust enumeration of cell subsets from tissue expression profiles. Nature Methods, 12(5), 453–457. <a href="https://doi.org/10.1038/nmeth.3337" class="uri">https://doi.org/10.1038/nmeth.3337</a>
+</li>
+<li>DWLS: Tsoucas, D., Dong, R., Chen, H., Zhu, Q., Guo, G., &amp; Yuan, G.-C. (2019). Accurate estimation of cell-type composition from gene expression data. Nature Communications, 10(1), 2975. <a href="https://doi.org/10.1038/s41467-019-10802-z" class="uri">https://doi.org/10.1038/s41467-019-10802-z</a>
+</li>
+<li>MOMF: Xifang Sun, Shiquan Sun, and Sheng Yang. An efficient and flexible method for deconvoluting bulk RNAseq data with single-cell RNAseq data, 2019, DIO: 10.5281/zenodo.3373980</li>
+<li>Scaden: Menden, K., Marouf, M., Oller, S., Dalmia, A., Kloiber, K., Heutink, P., &amp; Bonn, S. (n.d.). Deep-learning-based cell composition analysis from tissue expression profiles. <a href="https://doi.org/10.1101/659227" class="uri">https://doi.org/10.1101/659227</a>
+</li>
+<li>AutoGeneS: Aliee, H., &amp; Theis, F. (2021). AutoGeneS: Automatic gene selection using multi-objective optimization for RNA-seq deconvolution. <a href="https://doi.org/10.1101/2020.02.21.940650" class="uri">https://doi.org/10.1101/2020.02.21.940650</a>
+</li>
+<li>MuSiC: Wang, X., Park, J., Susztak, K., Zhang, N. R., &amp; Li, M. (2019). Bulk tissue cell type deconvolution with multi-subject single-cell expression reference. Nature Communications, 10(1), 380. <a href="https://doi.org/10.1038/s41467-018-08023-x" class="uri">https://doi.org/10.1038/s41467-018-08023-x</a>
+</li>
+<li>SCDC: Dong, M., Thennavan, A., Urrutia, E., Li, Y., Perou, C. M., Zou, F., &amp; Jiang, Y. (2020). SCDC: bulk gene expression deconvolution by multiple single-cell RNA sequencing references. Briefings in Bioinformatics. <a href="https://doi.org/10.1093/bib/bbz166" class="uri">https://doi.org/10.1093/bib/bbz166</a>
+</li>
+<li>CPM: Frishberg, A., Peshes-Yaloz, N., Cohn, O., Rosentul, D., Steuerman, Y., Valadarsky, L., Yankovitz, G., Mandelboim, M., Iraqi, F. A., Amit, I., Mayo, L., Bacharach, E., &amp; Gat-Viks, I. (2019). Cell composition analysis of bulk genomics using single-cell data. Nature Methods, 16(4), 327–332. <a href="https://doi.org/10.1038/s41592-019-0355-5" class="uri">https://doi.org/10.1038/s41592-019-0355-5</a>
+</li>
+<li>BSEQ-sc (“bseqsc”): Baron, M., Veres, A., Wolock, S. L., Faust, A. L., Gaujoux, R., Vetere, A., Ryu, J. H., Wagner, B. K., Shen-Orr, S. S., Klein, A. M., Melton, D. A., &amp; Yanai, I. (2016). A Single-Cell Transcriptomic Map of the Human and Mouse Pancreas Reveals Inter- and Intra-cell Population Structure. In Cell Systems (Vol. 3, Issue 4, pp. 346–360.e4). <a href="https://doi.org/10.1016/j.cels.2016.08.011" class="uri">https://doi.org/10.1016/j.cels.2016.08.011</a>
+</li>
+<li>CDSeq: Kang, K., Huang, C., Li, Y. et al. CDSeqR: fast complete deconvolution for gene expression data from bulk tissues. BMC Bioinformatics 22, 262 (2021). <a href="https://doi.org/10.1186/s12859-021-04186-5" class="uri">https://doi.org/10.1186/s12859-021-04186-5</a>
+</li>
 </ul>
-</div>
-<div id="available-methods-licenses-citations" class="section level2">
-<h2 class="hasAnchor">
-<a href="#available-methods-licenses-citations" class="anchor"></a>Available methods, Licenses, Citations</h2>
-<p>Note that, while <em>omnideconv</em> itself is free (<a href="https://github.com/icbi-lab/omnideconv/blob/main/LICENSE">GPL 3.0</a>), you may need to obtain a license to use the individual methods. See the table below for more information. If you use this package in your work, please cite both our package and the method(s) you are using.</p>
-<blockquote>
-<p>CITATION</p>
-</blockquote>
-<table class="table">
-<colgroup>
-<col width="10%">
-<col width="16%">
-<col width="73%">
-</colgroup>
-<thead><tr class="header">
-<th>method</th>
-<th>license</th>
-<th>citation</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><a href="https://github.com/theislab/AutoGeneS/">AutoGeneS</a></td>
-<td>free (<a href="https://github.com/theislab/AutoGeneS/blob/master/LICENSE">MIT</a>)</td>
-<td>Aliee, H., &amp; Theis, F. (2021). AutoGeneS: Automatic gene selection using multi-objective optimization for RNA-seq deconvolution. <a href="https://doi.org/10.1101/2020.02.21.940650" class="uri">https://doi.org/10.1101/2020.02.21.940650</a>
-</td>
-</tr>
-<tr class="even">
-<td><a href="https://github.com/cozygene/bisque">Bisque</a></td>
-<td>free (<a href="https://github.com/cozygene/bisque/blob/master/DESCRIPTION">GPL 3.0</a>)</td>
-<td>Jew, B., Alvarez, M., Rahmani, E., Miao, Z., Ko, A., Garske, K. M., Sul, J. H., Pietiläinen, K. H., Pajukanta, P., &amp; Halperin, E. (2020). Publisher Correction: Accurate estimation of cell composition in bulk expression through robust integration of single-cell information. Nature Communications, 11(1), 2891. <a href="https://doi.org/10.1038/s41467-020-16607-9" class="uri">https://doi.org/10.1038/s41467-020-16607-9</a>
-</td>
-</tr>
-<tr class="odd">
-<td><a href="https://github.com/shenorrLab/bseqsc">BSeq-sc</a></td>
-<td>free (<a href="https://github.com/shenorrLab/bseqsc/blob/master/DESCRIPTION">GPL 2.0</a>)</td>
-<td>Baron, M., Veres, A., Wolock, S. L., Faust, A. L., Gaujoux, R., Vetere, A., Ryu, J. H., Wagner, B. K., Shen-Orr, S. S., Klein, A. M., Melton, D. A., &amp; Yanai, I. (2016). A Single-Cell Transcriptomic Map of the Human and Mouse Pancreas Reveals Inter- and Intra-cell Population Structure. In Cell Systems (Vol. 3, Issue 4, pp. 346–360.e4). <a href="https://doi.org/10.1016/j.cels.2016.08.011" class="uri">https://doi.org/10.1016/j.cels.2016.08.011</a>
-</td>
-</tr>
-<tr class="even">
-<td><a href="https://github.com/kkang7/CDSeq_R_Package">CDSeq</a></td>
-<td>free (<a href="https://github.com/kkang7/CDSeq_R_Package/blob/master/DESCRIPTION">GPL 3.0</a>)</td>
-<td>Kang, K., Huang, C., Li, Y. et al. CDSeqR: fast complete deconvolution for gene expression data from bulk tissues. BMC Bioinformatics 22, 262 (2021). <a href="https://doi.org/10.1186/s12859-021-04186-5" class="uri">https://doi.org/10.1186/s12859-021-04186-5</a>
-</td>
-</tr>
-<tr class="odd">
-<td><a href="https://cibersortx.stanford.edu/">CibersortX</a></td>
-<td>free for non-commerical use only</td>
-<td>Newman, A. M., Liu, C. L., Green, M. R., Gentles, A. J., Feng, W., Xu, Y., Hoang, C. D., Diehn, M., &amp; Alizadeh, A. A. (2015). Robust enumeration of cell subsets from tissue expression profiles. Nature Methods, 12(5), 453–457. <a href="https://doi.org/10.1038/nmeth.3337" class="uri">https://doi.org/10.1038/nmeth.3337</a>
-</td>
-</tr>
-<tr class="even">
-<td><a href="https://github.com/amitfrish/scBio">CPM</a></td>
-<td>free (<a href="https://github.com/amitfrish/scBio/blob/master/DESCRIPTION">GPL 2.0</a>)</td>
-<td>Frishberg, A., Peshes-Yaloz, N., Cohn, O., Rosentul, D., Steuerman, Y., Valadarsky, L., Yankovitz, G., Mandelboim, M., Iraqi, F. A., Amit, I., Mayo, L., Bacharach, E., &amp; Gat-Viks, I. (2019). Cell composition analysis of bulk genomics using single-cell data. Nature Methods, 16(4), 327–332. <a href="https://doi.org/10.1038/s41592-019-0355-5" class="uri">https://doi.org/10.1038/s41592-019-0355-5</a>
-</td>
-</tr>
-<tr class="odd">
-<td><a href="https://bitbucket.org/yuanlab/dwls/src/master/">DWLS</a></td>
-<td>free (<a href="https://bitbucket.org/yuanlab/dwls/src/master/DESCRIPTION">GPL</a>)</td>
-<td>Tsoucas, D., Dong, R., Chen, H., Zhu, Q., Guo, G., &amp; Yuan, G.-C. (2019). Accurate estimation of cell-type composition from gene expression data. Nature Communications, 10(1), 2975. <a href="https://doi.org/10.1038/s41467-019-10802-z" class="uri">https://doi.org/10.1038/s41467-019-10802-z</a>
-</td>
-</tr>
-<tr class="even">
-<td><a href="https://github.com/sqsun/MOMF">MOMF</a></td>
-<td>free (<a href="https://github.com/sqsun/MOMF/blob/master/LICENSE.md">GPL 3.0</a>)</td>
-<td>Xifang Sun, Shiquan Sun, and Sheng Yang. An efficient and flexible method for deconvoluting bulk RNAseq data with single-cell RNAseq data, 2019, DIO: 10.5281/zenodo.3373980</td>
-</tr>
-<tr class="odd">
-<td><a href="https://github.com/xuranw/MuSiC/">MuSiC</a></td>
-<td>free (<a href="https://github.com/xuranw/MuSiC/blob/master/LICENSE">GPL 3.0</a>)</td>
-<td>Wang, X., Park, J., Susztak, K., Zhang, N. R., &amp; Li, M. (2019). Bulk tissue cell type deconvolution with multi-subject single-cell expression reference. Nature Communications, 10(1), 380. <a href="https://doi.org/10.1038/s41467-018-08023-x" class="uri">https://doi.org/10.1038/s41467-018-08023-x</a>
-</td>
-</tr>
-<tr class="even">
-<td><a href="https://github.com/KevinMenden/scaden">Scaden</a></td>
-<td>free (<a href="https://github.com/KevinMenden/scaden/blob/master/LICENSE">MIT</a>)</td>
-<td>Menden, K., Marouf, M., Oller, S., Dalmia, A., Kloiber, K., Heutink, P., &amp; Bonn, S. (n.d.). Deep-learning-based cell composition analysis from tissue expression profiles. <a href="https://doi.org/10.1101/659227" class="uri">https://doi.org/10.1101/659227</a>
-</td>
-</tr>
-<tr class="odd">
-<td><a href="https://github.com/meichendong/SCDC">SCDC</a></td>
-<td>NA</td>
-<td>Dong, M., Thennavan, A., Urrutia, E., Li, Y., Perou, C. M., Zou, F., &amp; Jiang, Y. (2020). SCDC: bulk gene expression deconvolution by multiple single-cell RNA sequencing references. Briefings in Bioinformatics. <a href="https://doi.org/10.1093/bib/bbz166" class="uri">https://doi.org/10.1093/bib/bbz166</a>
-</td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
   </div>

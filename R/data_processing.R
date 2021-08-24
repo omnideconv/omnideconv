@@ -279,7 +279,7 @@ sces_are_identical <- function(a, b) {
 
     a_names <- as.list(SummarizedExperiment::assayNames(a))
     b_names <- as.list(SummarizedExperiment::assayNames(b))
-    for (i in 1:length(assays_a)) {
+    for (i in seq_len(length(assays_a))) {
       m <- as.numeric(as.matrix(assays_a[[i]]))
       m2 <- as.numeric(as.matrix(assays_b[[i]]))
 

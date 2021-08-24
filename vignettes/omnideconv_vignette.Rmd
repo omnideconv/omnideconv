@@ -315,8 +315,7 @@ In the two figures shown below, the single cell RNA-seq data contains counts whi
 
 TODO: Alle Methoden
 
-```{r benchmarking, fig.width=6, fig.height=4}
-
+```{r benchmarking, fig.width=7, fig.height=3, fig.align='center'}
 pickle_path_autogenes <- build_model(single_cell_data, cell_type_annotations, "autogenes")
 res_autogenes <- deconvolute(bulk, pickle_path_autogenes, "autogenes")
 

@@ -47,6 +47,7 @@ Suggests:
     bseqsc,
     CDSeq,
     devtools,
+    DWLS,
     e1071,
     knitr,
     limSolve,
@@ -68,6 +69,7 @@ VignetteBuilder:
     knitr
 Remotes:
     amitfrish/scBio,
+    bitbucket::KonstantinPelz/dwls,
     grst/MOMF,
     grst/SCDC,
     PelzKo/bisque,

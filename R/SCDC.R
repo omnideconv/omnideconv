@@ -201,7 +201,7 @@ deconvolute_scdc <- function(bulk_gene_expression, single_cell_object, cell_type
       ct.varname = ct_varname, sample = sample,
       ct.sub = ct_sub, iter.max = iter_max, nu = nu, epsilon = epsilon,
       truep = truep, weight.basis = weight_basis,
-      ct.cell.size = ct_cell_size, Transform_bisque = Transform_bisque,
+      ct.cell.size = ct_cell_size, Transform_bisque = transform_bisque,
       grid.search = grid_search, search.length = search_length
     ))
   }

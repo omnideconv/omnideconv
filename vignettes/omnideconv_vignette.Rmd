@@ -51,7 +51,7 @@ $𝐹:$ Relative cell type proportions in each sample
 Therefore, the principle of cell-type deconvolution is that given $𝑀$ and $𝑆$, find $S$ to minimize the sum of square between $S×F$ and $𝑀$. 
 
 ## Previous Works
-Presently, there exists a package [immunedeconv](https://icbi-lab.github.io/immunedeconv/) [@Sturm2019]. It combines several first-generation deconvolution tools which use fixed, internal signature matrices that cover only a limited set of human cells. Nowadays, second-generation tools have been developed that allow deriving cell-type-specific expression signatures from single-cell RNA-seq (scRNA-seq). This enables the deconvolution of any cell type profiled with single-cell technologies. Therefore, these tools can extend their applicability to other cell phenotypes, tissues, diseases, and organisms.
+Presently, there exists a package [immunedeconv](https://icbi-lab.github.io/immunedeconv/) [@Sturm2019]. It combines several first-generation deconvolution tools which use fixed, internal signature matrices that cover only a limited set of human cells. Nowadays, second-generation tools have been developed that allow deriving cell-type-specific expression signatures from single-cell RNA-seq (scRNA-seq). This enables the deconvolution of any cell type profiled with single-cell technologies. Therefore, these tools can extend their applicability to other cell phenotypes, tissues, diseases, and organisms. This is often done through two steps: One for the creation of a signature matrix and one for the deconvolution with this signature matrix.
 
 Our interface unifies multiple second-generation deconvolution methods to facilitate the usage of these tools and clear the way for future benchmarking of these methods. 
 
@@ -103,6 +103,9 @@ First of all, you need some data to run the deconvolution with.
     - *Genes* x *Samples* matrix
     - Rownames (gene names) are provided in the same format as in the sc RNA-seq data, for instance HGNC symbols
     
+    
+<!--
+
 ## Input Data Type
 
 TODO
@@ -125,10 +128,11 @@ knitr::kable(data.frame(
 caption = "Table X: Bla bla"
 )
 ```
-    
+   
+-->
     
 ## Sample Data
-We also provide some sample data, a bigger and a smaller set of single cell RNA-seq matrix (subset of [@Maynard2020]), cell type annotations and bulk RNA-seq matrix [@Hoek2015]. This data is already TPM-normalized.
+We also provide some sample data, three sets of single cell RNA-seq matrices (subset of [@Hao2021]), cell type annotations and one bulk RNA-seq matrix [@Hoek2015]. The single cell data contains raw counts, while the bulk data is already TPM-normalized.
 
 The single cell RNA-seq matrix and the corresponding cell type annotations consist of immune cells that were obtained from clinical biopsies of metastatic lung cancer cells. They were profiled using the Smart-seq2 single cell technology. The bulk RNA-seq data from Hoek et al. consists of total RNA of blood samples of patients that were treated with an Influenza vaccination. The immune cells in these samples were purified and subjected to fluorescence activated cell sorting (FACS), which offers a ground truth of the underlying cell proportions.
 
@@ -136,6 +140,8 @@ You can simply load the three provided sample data like this, just substitute NU
 
 ```r
 data("single_cell_data_NUMBER")
+# Example:
+# data("single_cell_data_1")
 data("cell_type_annotations_NUMBER")
 data("batch_ids_NUMBER")
 data("bulk")
@@ -157,6 +163,8 @@ omnideconv::build_model(single_cell_data, cell_type_annotations, method, batch_i
 omnideconv::build_model(single_cell_data, cell_type_annotations, method, bulk_gene_expression = bulk)
 ```
 
+These methods are currently implemented (and in brackets is how to call them in the interface)
+
 * AutoGeneS ("autogenes")
 * Bisque ("bisque")
 * BSeq-sc ("bseqsc")
@@ -173,7 +181,7 @@ Additional parameters for the different methods can be included in the method ca
 
 ## Deconvolution of Bulk RNA-seq Data
 
-After building the specific signature matrix, you can calculate the cell properties in bulk RNA-seq data with the deconvolute function. For this, you need to provide the bulk data, signature matrix and you can, again, choose between the methods listed in the previous section. An exception are CDSeq, CPM, MuSiC and SCDC which do not require a signature matrix, as they do everything in one step and the build method is neither used nor utilized.
+After building the specific signature matrix, you can calculate the cell properties in bulk RNA-seq data with the deconvolute function. For this, you need to provide the bulk data, signature matrix and you can, again, choose between the methods listed in the previous section. The deconvolution approach of the specified method is then used with your bulk data and your signature matrix. An exception are CDSeq, CPM, MuSiC and SCDC which do not require a signature matrix, as they do everything in one step and the build method is neither used nor utilized. AutoGeneS and Scaden require their .pickle file or perceptron, created in their build_model step.
 
 ```{r deconv, eval=FALSE}
 omnideconv::deconvolute(bulk, signature_matrix, method)
@@ -313,13 +321,11 @@ For this comparison, a perfect estimation of cell type fractions by one method w
 
 In the two figures shown below, the single cell RNA-seq data contains counts while the bulk RNA-seq data is TPM normalized. Our test data sets contain TPM normalized values as well.
 
-TODO: Alle Methoden
-
 ```{r benchmarking, fig.width=7, fig.height=3, fig.align='center'}
 pickle_path_autogenes <- build_model(single_cell_data, cell_type_annotations, "autogenes")
 res_autogenes <- deconvolute(bulk, pickle_path_autogenes, "autogenes")
 
-# MuSiC does not require the build_model step
+# SCDC does not require the build_model step
 res_scdc <- deconvolute(bulk, NULL, "scdc", single_cell_data, cell_type_annotations, batch_ids)
 
 # res_bisque was already calculated before
@@ -331,29 +337,8 @@ result_list <- lapply(result_list, function(x) {
 })
 omnideconv::make_benchmarking_scatterplot(result_list, RefData)
 ```
-```{r benchmarkingFigure, echo=FALSE, out.width="80%", fig.align='center'}
-knitr::include_graphics("images/propgrid_tpm.png")
-```
-```{r benchmarkingFigure2, echo=FALSE, out.width="80%", fig.cap="Figure 5: TPM-normalized: Results of deconvoluting the whole dataset of Hoek et al. [@Hoek2015] while using the data from Maynard et al. [@Maynard2020] for the signature matrix creation. Both datasets are TPM normalized"}
-knitr::include_graphics("images/predictionVsGroundtruth.png")
-```
+
 <!--
-All in all, the methods differ a lot in their predictions. Bisque shows very heterogenous results, which might be induced by its deconvolution method. More details on that are provided a few figures below. Predictions from Scaden, on the other hand, seem to be closest to the ground truth, even though the prediction of the T cell fraction is way off and also the dendritic cells are not that accurate. The results for these two cell types are very interesting, as all methods calculate their proportion wrong.
-
-The inaccuracy of the prediction of T cells could be induced by TPM normalization. To evaluate this theory, we analyzed the deconvolution results for unnormalized single cell RNA-seq and bulk RNA-seq data as well. The comparison of these predictions can be found in the figure below. 
-
-```{r benchmarkingFigureNonNormalized, echo=FALSE, out.width="80%", fig.align='center'}
-knitr::include_graphics("images/propgrid_counts.png")
-```
-```{r benchmarkingFigureNonNormalized2, echo=FALSE, out.width="80%", fig.cap="Figure 6: Unnormalized: Results of deconvoluting the whole dataset of Hoek et al. [@Hoek2015] while using the data from Maynard et al. [@Maynard2020] for the signature matrix creation. Both datasets contain the raw counts."}
-knitr::include_graphics("images/predictionVsGroundtruth_unnormalized.png")
-```
-
-The predictions for the different cell type fractions still differ a lot between the methods, as can be seen in the barplot. However, without TPM normalization, the predictions for T cell fractions are slightly more accurate. This is probably due to the fact that TPM normalization removes the information about cell size and therefore how much mRNA is present. As T cells account for the bigger cells in our immune system, this "counts per cell" normalization method might not be a perfect fit for immune deconvolution. 
-
-In contrast to the T cells, the predictions for dendritic cell fractions are still very off. This phenomenon was already detected in the benchmarking of first-generation immune deconvolution methods performed by Sturm et al. [@Sturm2019]
-
--->
 
 ## Comparison with First-Generation Deconvolution Methods
 
@@ -361,13 +346,11 @@ Another very important question is, how good the second-generation tools are in 
 
 TODO: Multiple examples, one of immunecell tissue, one of others
 
-<!--
 
 ```{r benchmarkingFirstGen, echo=FALSE, out.width="80%", fig.cap="Figure 7: Comparison of using the unnormalized count data for the deconvolution with two first generation tools (EPIC and quanTIseq) and one second generation tool (Scaden)."}
 knitr::include_graphics("images/predictionVsGroundtruth_unnormalized_firstGeneration.png")
 ```
 
--->
 
 As already addressed in section 1, first-generation deconvolution tools use fixed, internal signature matrices containing only a limited set of human cells. Second-generation tools bring more flexibility as they allow the Derivation of cell-type specific signature matrices.
 
@@ -375,11 +358,13 @@ The advantage of fixed signature matrices is that they can be modulated to fit t
 
 However, this was just a small benchmark with one dataset. Different datasets of different disease progressions and cell proportions might show additional advantages or disadvantages of the methods. Generally it can be said that second-generation tools provide other functionality and thus make a good addition to the deconvolution package.
 
+-->
+
 ## Signature Interchangeability
 
-Since second-generation decovolution methods allow to derive cell-type-specific expression signatures from single-cell RNA-seq (scRNA-seq) as well as let the user provide their own signature matrix, the possibility of interchanging signature matrices needs to be examined. 
+Since most second-generation decovolution methods allow to derive cell-type-specific expression signatures from single-cell RNA-seq (scRNA-seq) as well as let the user provide their own signature matrix, the possibility of interchanging signature matrices needs to be examined. 
 
-Scaden is an exception as it does not produce a signature matrix but a perceptron. This is just the deep learning model which is not interchangeable with the other methods. For more information read section 3.5 on how Scaden works.
+Scaden is an exception as it does not produce a signature matrix but a perceptron. This is just the deep learning model which is not interchangeable with the other methods. For more information read section 3.5 on how Scaden works. AutoGeneS requires the path to the produced .pickle file from build model, while CDSeq, CPM, MuSiC and SCDC do everything in one step and thus cannot use an external signature matrix.
 
 It is now possible to use every method which takes in a signature matrix (everything except Scaden) with all other signature methods. This is done by intersecting the genes of the bulk data, single cell data and the signature matrix. In theory, this should not remove any data, as most methods are unable to run with a different number of genes in the signature matrix and the rest of the data. Nevertheless, this property should be evaluated when the whole packages is benchmarked in detail.
 
@@ -387,13 +372,13 @@ It is now possible to use every method which takes in a signature matrix (everyt
 knitr::kable(data.frame(
   Deconv_method = c("AutoGeneS", "Bisque", "BSeq-sc", "CDSeq", "CibersortX", "CPM", "DWLS", "MOMF", "MuSiC", "Scaden", "SCDC"),
   AutoGeneS = c("yes", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
-  Bisque = c("-", "yes", "?", "?", "(yes)", "?", "(yes)", "yes", "-", "-", "-"),
+  Bisque = c("-", "yes", "(yes)", "(yes)", "(yes)", "(yes)", "(yes)", "yes", "-", "-", "-"),
   BSeq_sc = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
   CDSeq = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
-  CibersortX = c("-", "yes", "?", "?", "yes", "?", "yes", "yes", "-", "-", "-"),
+  CibersortX = c("-", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "-", "-", "-"),
   CPM = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
-  DWLS = c("-", "yes", "?", "?", "yes", "?", "yes", "yes", "-", "-", "-"),
-  MOMF = c("-", "yes", "?", "?", "(yes)", "?", "(yes)", "yes", "-", "-", "-"),
+  DWLS = c("-", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "-", "-", "-"),
+  MOMF = c("-", "yes", "(yes)", "(yes)", "(yes)", "(yes)", "(yes)", "yes", "-", "-", "-"),
   MuSiC = c("-", "-", "-", "-", "-", "-", "-", "-", "yes", "-", "-"),
   Scaden = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "yes", "-"),
   SCDC = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "yes")

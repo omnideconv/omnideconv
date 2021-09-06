@@ -63,11 +63,11 @@ VignetteBuilder:
     knitr
 Remotes:
     amitfrish/scBio,
-    bitbucket::KonstantinPelz/dwls,
     grst/MOMF,
     grst/SCDC,
     PelzKo/bisque,
     PelzKo/CDSeq_R_Package,
+    PelzKo/dwls,
     shenorrlab/bseqsc,
     xuranw/MuSiC
 biocViews:

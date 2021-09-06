@@ -336,17 +336,17 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 #' The dependencies for each method
 #'
 required_packages <- list(
-  "bisque" = c("PelzKo/bisque"), # , "limSolve"),
-  "momf" = c("grst/MOMF"),
-  "dwls" = c("KonstantinPelz/dwls"),
-  "scaden" = c("reticulate"),
-  "cibersortx" = c(),
   "autogenes" = c("reticulate"),
-  "music" = c("xuranw/MuSiC"),
-  "scdc" = c("grst/SCDC"),
-  "cpm" = c("amitfrish/scBio"),
+  "bisque" = c("PelzKo/bisque"), # , "limSolve"),
   "bseqsc" = c("shenorrlab/bseqsc"),
-  "cdseq" = c("PelzKo/CDSeq_R_Package")
+  "cdseq" = c("PelzKo/CDSeq_R_Package"),
+  "cibersortx" = c(),
+  "cpm" = c("amitfrish/scBio"),
+  "dwls" = c("PelzKo/dwls"),
+  "momf" = c("grst/MOMF"),
+  "music" = c("xuranw/MuSiC"),
+  "scaden" = c("reticulate"),
+  "scdc" = c("grst/SCDC")
 )
 
 #' Checking and installing all dependencies for the specific methods
@@ -387,11 +387,7 @@ check_and_install <- function(method) {
         utils::setRepositories(graphics = FALSE, ind = c(1, 2, 3, 4, 5))
         repositories_set <- TRUE
       }
-      if (bare_pkgname == "dwls") {
-        remotes::install_bitbucket(pkgname)
-      } else {
-        remotes::install_github(pkgname)
-      }
+      remotes::install_github(pkgname)
     }
   })
 }

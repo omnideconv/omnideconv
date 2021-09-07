@@ -222,7 +222,7 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature,
 #' Alternatively a new environment can be created via create_virtualenv() method.
 #'
 install_autogenes <- function() {
-  reticulate::py_install("autogenes", pip = FALSE)
+  reticulate::py_install("autogenes", pip = TRUE)
 }
 
 #' Checks if python and the autogenes module are available and installs them if they are not.

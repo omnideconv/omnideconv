@@ -62,24 +62,7 @@ In this section, we want to present our package omnideconv by first giving an ov
 
 ## Installation and Setup
 
-Install the CRAN package devtools and use it to install omnideconv from [GitHub](https://github.com/).:
-
-``` {r installation, eval=FALSE}
-install.packages("devtools")
-
-# long/complete install
-devtools::install_github("icbi-lab/omnideconv", dependencies = c("Imports", "Suggests"))
-omnideconv::install_all_python()
-
-# short/quick install, everything else is installed when it is needed
-devtools::install_github("icbi-lab/omnideconv")
-```
-
-Most methods do not require additional software/tokens, but there are a few exceptions:
-
-* A working version of Docker is required for **CibersortX** (just follow this guide: https://docs.docker.com/engine/install/)
-* A token for **CibersortX** is required from this website: https://cibersortx.stanford.edu/
-* The Cibersort source code is required for **BSeq-sc** (see tutorial in ?omnideconv::bseqsc_config)
+Please refer to the Readme for the installation and setup instructions.
 
 ## Input Data
 
@@ -156,11 +139,20 @@ omnideconv::build_model(single_cell_data, cell_type_annotations, method)
 
 
 # Bisque, MuSiC and SCDC require the batch_ids as well
-omnideconv::build_model(single_cell_data, cell_type_annotations, method, batch_ids = batch_ids)
+omnideconv::build_model(single_cell_data, cell_type_annotations,
+  method,
+  batch_ids = batch_ids
+)
 # Bseq-sc requires the batch ids and marker genes for each cell type
-omnideconv::build_model(single_cell_data, cell_type_annotations, method, batch_ids = batch_ids, markers = markers)
+omnideconv::build_model(single_cell_data, cell_type_annotations,
+  method,
+  batch_ids = batch_ids, markers = markers
+)
 # CPM, MOMF and Scaden require the bulk RNA-seq data as well
-omnideconv::build_model(single_cell_data, cell_type_annotations, method, bulk_gene_expression = bulk)
+omnideconv::build_model(single_cell_data, cell_type_annotations,
+  method,
+  bulk_gene_expression = bulk
+)
 ```
 
 These methods are currently implemented (and in brackets is how to call them in the interface)
@@ -188,9 +180,16 @@ omnideconv::deconvolute(bulk, signature_matrix, method)
 
 
 # CPM and MOMF require the single cell data for deconvolution as well
-omnideconv::deconvolute(bulk, signature_matrix, method, single_cell_object = single_cell_data, cell_type_annotations = cell_type_annotations)
+omnideconv::deconvolute(bulk, signature_matrix, method,
+  single_cell_object = single_cell_data,
+  cell_type_annotations = cell_type_annotations
+)
 # Bisque, CDSeq, MuSiC and SCDC require the single cell data and the batch ids
-omnideconv::deconvolute(bulk, signature_matrix, method, batch_ids = batch_ids, single_cell_object = single_cell_data, cell_type_annotations = cell_type_annotations)
+omnideconv::deconvolute(bulk, signature_matrix, method,
+  batch_ids = batch_ids,
+  single_cell_object = single_cell_data,
+  cell_type_annotations = cell_type_annotations
+)
 ```
 
 Similar to the build_model function, specific parameters can be passed on to the deconvolution methods through the deconvolute function. See all options for the specific method by calling ?omnideconv::deconvolute_METHODNAME (e.g. ?omnideconv::deconvolute_autogenes).
@@ -227,21 +226,32 @@ batch_ids <- batch_ids_1
 To give you a feeling for the data, this is what a few rows and columns of our small single cell RNA-seq data set look like. This specific selection of rows and columns was performed as the first rows and columns just show zeros. Do not be alarmed by a great number of zeros in your single cell data, this is normal:
 
 ```{r showSc}
-knitr::kable(single_cell_data[67:71, 1:3], caption = "Table 1: Example of the raw single cell counts.")
+knitr::kable(single_cell_data[67:71, 1:3],
+  caption = "Table 1: Example of the raw single cell counts."
+)
 ```
 
 Now we build the signature matrix with Bisque and look at the values for the first few genes. 
 
 ```{r signatureExample}
-signatureMatrix <- omnideconv::build_model(single_cell_data, cell_type_annotations, "bisque", batch_ids)
-knitr::kable(signatureMatrix[1:5, ], caption = "Table 2: Signature matrix created with Bisque.")
+signatureMatrix <- omnideconv::build_model(
+  single_cell_data, cell_type_annotations,
+  "bisque", batch_ids
+)
+knitr::kable(signatureMatrix[1:5, ],
+  caption = "Table 2: Signature matrix created with Bisque."
+)
 ```
 
 We can use this signature matrix to run the deconvolution with Bisque.
 
 ```{r deconvExample}
-omnideconv::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations, batch_ids) %>%
-  knitr::kable(caption = "Table 3: Deconvoluted cell type proportions calculated with Bisque and the signature matrix from the last step.")
+omnideconv::deconvolute(
+  bulk, signatureMatrix, "bisque", single_cell_data,
+  cell_type_annotations, batch_ids
+) %>%
+  knitr::kable(caption = "Table 3: Deconvoluted cell type proportions calculated
+               with Bisque and the signature matrix from the last step.")
 ```
 
 ## Plot Results
@@ -251,7 +261,10 @@ Additionally, we provide some methods for visualisation. In this and the benchma
 Please note that the cell fractions depicted in this section are not representative for deconvolution analysis of "real" data. They are based on our sample dataset, which is very small compared to the usual datasets used in deconvolution analysis and also contains a limited number of cell types. Using such a small subset leads to a big information loss and the results are biased. However, the goal of this section is to give an example how the results can be visualized and to draw attention to the big differences between the results of the eleven methods implemented.
 
 ```{r plot, fig.width=7, fig.height=4, fig.cap="Figure 2: Cell type proportions of the last step visualized. Very heterogenous results, HD30 show a lot of T cell dividing and NK cell, while HD31 show a lot of monocytes."}
-res_bisque <- omnideconv::deconvolute(bulk, signatureMatrix, "bisque", single_cell_data, cell_type_annotations, batch_ids)
+res_bisque <- omnideconv::deconvolute(
+  bulk, signatureMatrix, "bisque",
+  single_cell_data, cell_type_annotations, batch_ids
+)
 omnideconv::plot_deconv_result(res_bisque, method = "Bisque")
 ```
 

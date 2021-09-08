@@ -95,7 +95,7 @@ This is, what the cell type properties in your bulk RNA-seq data computed in the
 res <- omnideconv::deconvolute(bulk, signature_matrix, method = "dwls")
 ```
 ```{r echo=FALSE}
-knitr::kable(res)
+knitr::kable(res, digits = 3)
 ```
 
 ### Learn More

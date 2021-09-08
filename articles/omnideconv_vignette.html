@@ -126,23 +126,7 @@ Figure 1: (a) Schematic of the tumor environment. <span class="citation">(Fridma
 <div id="installation-and-setup" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation-and-setup" class="anchor"></a>Installation and Setup</h2>
-<p>Install the CRAN package devtools and use it to install omnideconv from <a href="https://github.com/">GitHub</a>.:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
-
-<span class="co"># long/complete install</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"icbi-lab/omnideconv"</span>, dependencies <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Imports"</span>, <span class="st">"Suggests"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/install_all_python.html">install_all_python</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="co"># short/quick install, everything else is installed when it is needed</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"icbi-lab/omnideconv"</span><span class="op">)</span></code></pre></div>
-<p>Most methods do not require additional software/tokens, but there are a few exceptions:</p>
-<ul>
-<li>A working version of Docker is required for <strong>CibersortX</strong> (just follow this guide: <a href="https://docs.docker.com/engine/install/" class="uri">https://docs.docker.com/engine/install/</a>)</li>
-<li>A token for <strong>CibersortX</strong> is required from this website: <a href="https://cibersortx.stanford.edu/" class="uri">https://cibersortx.stanford.edu/</a>
-</li>
-<li>The Cibersort source code is required for <strong>BSeq-sc</strong> (see tutorial in ?omnideconv::bseqsc_config)</li>
-</ul>
+<p>Please refer to the Readme for the installation and setup instructions.</p>
 </div>
 <div id="input-data" class="section level2">
 <h2 class="hasAnchor">
@@ -201,7 +185,7 @@ TODO
 <p>We also provide some sample data, three sets of single cell RNA-seq matrices (subset of <span class="citation">(Hao et al. <a href="#ref-Hao2021" role="doc-biblioref">2021</a>)</span>), cell type annotations and one bulk RNA-seq matrix <span class="citation">(Hoek <a href="#ref-Hoek2015" role="doc-biblioref">2015</a>)</span>. The single cell data contains raw counts, while the bulk data is already TPM-normalized.</p>
 <p>The single cell RNA-seq matrix and the corresponding cell type annotations consist of immune cells that were obtained from clinical biopsies of metastatic lung cancer cells. They were profiled using the Smart-seq2 single cell technology. The bulk RNA-seq data from Hoek et al. consists of total RNA of blood samples of patients that were treated with an Influenza vaccination. The immune cells in these samples were purified and subjected to fluorescence activated cell sorting (FACS), which offers a ground truth of the underlying cell proportions.</p>
 <p>You can simply load the three provided sample data like this, just substitute NUMBER with 1, 2 or 3:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"single_cell_data_NUMBER"</span><span class="op">)</span>
 <span class="co"># Example:</span>
 <span class="co"># data("single_cell_data_1")</span>
@@ -213,16 +197,25 @@ TODO
 <h2 class="hasAnchor">
 <a href="#signature-matrix" class="anchor"></a>Signature Matrix</h2>
 <p>To calculate a cell-type-specific expression signature, you can use the build_model function with the single cell RNA-seq matrix (rows are genes, columns are samples) and cell type annotations specified above. Alternatively a SingleCellExperiment or an AnnData object can be provided. The parameter method can be set to one of the five methods listed below. More information of the methods is provided in section 3.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="va">method</span><span class="op">)</span>
 
 
 <span class="co"># Bisque, MuSiC and SCDC require the batch_ids as well</span>
-<span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="va">method</span>, batch_ids <span class="op">=</span> <span class="va">batch_ids</span><span class="op">)</span>
+<span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>,
+  <span class="va">method</span>,
+  batch_ids <span class="op">=</span> <span class="va">batch_ids</span>
+<span class="op">)</span>
 <span class="co"># Bseq-sc requires the batch ids and marker genes for each cell type</span>
-<span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="va">method</span>, batch_ids <span class="op">=</span> <span class="va">batch_ids</span>, markers <span class="op">=</span> <span class="va">markers</span><span class="op">)</span>
+<span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>,
+  <span class="va">method</span>,
+  batch_ids <span class="op">=</span> <span class="va">batch_ids</span>, markers <span class="op">=</span> <span class="va">markers</span>
+<span class="op">)</span>
 <span class="co"># CPM, MOMF and Scaden require the bulk RNA-seq data as well</span>
-<span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="va">method</span>, bulk_gene_expression <span class="op">=</span> <span class="va">bulk</span><span class="op">)</span></code></pre></div>
+<span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>,
+  <span class="va">method</span>,
+  bulk_gene_expression <span class="op">=</span> <span class="va">bulk</span>
+<span class="op">)</span></code></pre></div>
 <p>These methods are currently implemented (and in brackets is how to call them in the interface)</p>
 <ul>
 <li>AutoGeneS (“autogenes”)</li>
@@ -243,14 +236,21 @@ TODO
 <h2 class="hasAnchor">
 <a href="#deconvolution-of-bulk-rna-seq-data" class="anchor"></a>Deconvolution of Bulk RNA-seq Data</h2>
 <p>After building the specific signature matrix, you can calculate the cell properties in bulk RNA-seq data with the deconvolute function. For this, you need to provide the bulk data, signature matrix and you can, again, choose between the methods listed in the previous section. The deconvolution approach of the specified method is then used with your bulk data and your signature matrix. An exception are CDSeq, CPM, MuSiC and SCDC which do not require a signature matrix, as they do everything in one step and the build method is neither used nor utilized. AutoGeneS and Scaden require their .pickle file or perceptron, created in their build_model step.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="va">signature_matrix</span>, <span class="va">method</span><span class="op">)</span>
 
 
 <span class="co"># CPM and MOMF require the single cell data for deconvolution as well</span>
-<span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="va">signature_matrix</span>, <span class="va">method</span>, single_cell_object <span class="op">=</span> <span class="va">single_cell_data</span>, cell_type_annotations <span class="op">=</span> <span class="va">cell_type_annotations</span><span class="op">)</span>
+<span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="va">signature_matrix</span>, <span class="va">method</span>,
+  single_cell_object <span class="op">=</span> <span class="va">single_cell_data</span>,
+  cell_type_annotations <span class="op">=</span> <span class="va">cell_type_annotations</span>
+<span class="op">)</span>
 <span class="co"># Bisque, CDSeq, MuSiC and SCDC require the single cell data and the batch ids</span>
-<span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="va">signature_matrix</span>, <span class="va">method</span>, batch_ids <span class="op">=</span> <span class="va">batch_ids</span>, single_cell_object <span class="op">=</span> <span class="va">single_cell_data</span>, cell_type_annotations <span class="op">=</span> <span class="va">cell_type_annotations</span><span class="op">)</span></code></pre></div>
+<span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="va">signature_matrix</span>, <span class="va">method</span>,
+  batch_ids <span class="op">=</span> <span class="va">batch_ids</span>,
+  single_cell_object <span class="op">=</span> <span class="va">single_cell_data</span>,
+  cell_type_annotations <span class="op">=</span> <span class="va">cell_type_annotations</span>
+<span class="op">)</span></code></pre></div>
 <p>Similar to the build_model function, specific parameters can be passed on to the deconvolution methods through the deconvolute function. See all options for the specific method by calling ?omnideconv::deconvolute_METHODNAME (e.g. ?omnideconv::deconvolute_autogenes).</p>
 </div>
 <div id="example-workflow" class="section level2">
@@ -259,7 +259,7 @@ TODO
 <p>This workflow provides a more detailed example of how to run the deconvolution with Bisque.</p>
 <p>First of all, make sure you load all the libraries we need for this analysis. If the packages are not available, install them via install_packages().</p>
 <p>Then we load one of the example data sets to work with.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"single_cell_data_1"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"cell_type_annotations_1"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"batch_ids_1"</span><span class="op">)</span>
@@ -271,8 +271,10 @@ TODO
 <span class="va">cell_type_annotations</span> <span class="op">&lt;-</span> <span class="va">cell_type_annotations_1</span>
 <span class="va">batch_ids</span> <span class="op">&lt;-</span> <span class="va">batch_ids_1</span></code></pre></div>
 <p>To give you a feeling for the data, this is what a few rows and columns of our small single cell RNA-seq data set look like. This specific selection of rows and columns was performed as the first rows and columns just show zeros. Do not be alarmed by a great number of zeros in your single cell data, this is normal:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">single_cell_data</span><span class="op">[</span><span class="fl">67</span><span class="op">:</span><span class="fl">71</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, caption <span class="op">=</span> <span class="st">"Table 1: Example of the raw single cell counts."</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">single_cell_data</span><span class="op">[</span><span class="fl">67</span><span class="op">:</span><span class="fl">71</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>,
+  caption <span class="op">=</span> <span class="st">"Table 1: Example of the raw single cell counts."</span>
+<span class="op">)</span></code></pre></div>
 <table class="table">
 <caption>Table 1: Example of the raw single cell counts.</caption>
 <thead><tr class="header">
@@ -315,9 +317,14 @@ TODO
 </tbody>
 </table>
 <p>Now we build the signature matrix with Bisque and look at the values for the first few genes.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">signatureMatrix</span> <span class="op">&lt;-</span> <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="st">"bisque"</span>, <span class="va">batch_ids</span><span class="op">)</span>
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">signatureMatrix</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span>, caption <span class="op">=</span> <span class="st">"Table 2: Signature matrix created with Bisque."</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">signatureMatrix</span> <span class="op">&lt;-</span> <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span>
+  <span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>,
+  <span class="st">"bisque"</span>, <span class="va">batch_ids</span>
+<span class="op">)</span>
+<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">signatureMatrix</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span>,
+  caption <span class="op">=</span> <span class="st">"Table 2: Signature matrix created with Bisque."</span>
+<span class="op">)</span></code></pre></div>
 <table class="table">
 <caption>Table 2: Signature matrix created with Bisque.</caption>
 <thead><tr class="header">
@@ -378,9 +385,13 @@ TODO
 </tbody>
 </table>
 <p>We can use this signature matrix to run the deconvolution with Bisque.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="va">signatureMatrix</span>, <span class="st">"bisque"</span>, <span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="va">batch_ids</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>caption <span class="op">=</span> <span class="st">"Table 3: Deconvoluted cell type proportions calculated with Bisque and the signature matrix from the last step."</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span>
+  <span class="va">bulk</span>, <span class="va">signatureMatrix</span>, <span class="st">"bisque"</span>, <span class="va">single_cell_data</span>,
+  <span class="va">cell_type_annotations</span>, <span class="va">batch_ids</span>
+<span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>caption <span class="op">=</span> <span class="st">"Table 3: Deconvoluted cell type proportions calculated
+               with Bisque and the signature matrix from the last step."</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <caption>Table 3: Deconvoluted cell type proportions calculated with Bisque and the signature matrix from the last step.</caption>
 <thead><tr class="header">
@@ -473,8 +484,11 @@ TODO
 <a href="#plot-results" class="anchor"></a>Plot Results</h2>
 <p>Additionally, we provide some methods for visualisation. In this and the benchmarking section you can find examples of how to use them. For the plot_deconv_result method, you can additionally provide a method and file name to add a title to your plot and save it. The colors are assigned in the order of the alphabet. As long as the exact same cell types are used throughout the analysis, the color assigned to each cell type will be the same.</p>
 <p>Please note that the cell fractions depicted in this section are not representative for deconvolution analysis of “real” data. They are based on our sample dataset, which is very small compared to the usual datasets used in deconvolution analysis and also contains a limited number of cell types. Using such a small subset leads to a big information loss and the results are biased. However, the goal of this section is to give an example how the results can be visualized and to draw attention to the big differences between the results of the eleven methods implemented.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">res_bisque</span> <span class="op">&lt;-</span> <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="va">signatureMatrix</span>, <span class="st">"bisque"</span>, <span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="va">batch_ids</span><span class="op">)</span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">res_bisque</span> <span class="op">&lt;-</span> <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span>
+  <span class="va">bulk</span>, <span class="va">signatureMatrix</span>, <span class="st">"bisque"</span>,
+  <span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="va">batch_ids</span>
+<span class="op">)</span>
 <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_deconv_result.html">plot_deconv_result</a></span><span class="op">(</span><span class="va">res_bisque</span>, method <span class="op">=</span> <span class="st">"Bisque"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <img src="omnideconv_vignette_files/figure-html/plot-1.png" alt="Figure 2: Cell type proportions of the last step visualized. Very heterogenous results, HD30 show a lot of T cell dividing and NK cell, while HD31 show a lot of monocytes." width="672"><p class="caption">
@@ -482,7 +496,7 @@ Figure 2: Cell type proportions of the last step visualized. Very heterogenous r
 </p>
 </div>
 <p>The scatterplot shown below depicts the same results and message as the barplot above, it is just another idea of how to visualize the results. Note that our package does not provide a method for this, but the plot can be recreated with this code.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">res_bisque</span>, samples <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">res_bisque</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">pivot_longer</span><span class="op">(</span><span class="op">!</span><span class="va">samples</span>, names_to <span class="op">=</span> <span class="st">"cell_type"</span>, values_to <span class="op">=</span> <span class="st">"predicted_fraction"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">samples</span>, x <span class="op">=</span> <span class="va">predicted_fraction</span>, color <span class="op">=</span> <span class="va">cell_type</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
@@ -572,7 +586,7 @@ Table 4: Comparison of the methodes used in the package.
 <h2 class="hasAnchor">
 <a href="#prediction-results" class="anchor"></a>Prediction Results</h2>
 <p>In the two figures shown below, the single cell RNA-seq data contains counts while the bulk RNA-seq data is TPM normalized. Our test data sets contain TPM normalized values as well.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pickle_path_autogenes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="st">"autogenes"</span><span class="op">)</span>
 <span class="va">res_autogenes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="va">pickle_path_autogenes</span>, <span class="st">"autogenes"</span><span class="op">)</span>
 

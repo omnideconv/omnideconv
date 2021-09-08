@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>omnideconv_vignette • omnideconv</title>
+<title>Omnideconv Overview • omnideconv</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="omnideconv_vignette">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Omnideconv Overview">
 <meta property="og:description" content="omnideconv">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -54,7 +54,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/omnideconv_vignette.html">omnideconv_vignette</a>
+      <a href="../articles/omnideconv_vignette.html">Omnideconv Overview</a>
     </li>
   </ul>
 </li>
@@ -79,7 +79,7 @@
       </header><script src="omnideconv_vignette_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>omnideconv_vignette</h1>
+      <h1 data-toc-skip>Omnideconv Overview</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/icbi-lab/omnideconv/blob/master/vignettes/omnideconv_vignette.Rmd"><code>vignettes/omnideconv_vignette.Rmd</code></a></small>
@@ -183,7 +183,7 @@ TODO
 <h2 class="hasAnchor">
 <a href="#sample-data" class="anchor"></a>Sample Data</h2>
 <p>We also provide some sample data, three sets of single cell RNA-seq matrices (subset of <span class="citation">(Hao et al. <a href="#ref-Hao2021" role="doc-biblioref">2021</a>)</span>), cell type annotations and one bulk RNA-seq matrix <span class="citation">(Hoek <a href="#ref-Hoek2015" role="doc-biblioref">2015</a>)</span>. The single cell data contains raw counts, while the bulk data is already TPM-normalized.</p>
-<p>The single cell RNA-seq matrix and the corresponding cell type annotations consist of immune cells that were obtained from clinical biopsies of metastatic lung cancer cells. They were profiled using the Smart-seq2 single cell technology. The bulk RNA-seq data from Hoek et al. consists of total RNA of blood samples of patients that were treated with an Influenza vaccination. The immune cells in these samples were purified and subjected to fluorescence activated cell sorting (FACS), which offers a ground truth of the underlying cell proportions.</p>
+<p>The single cell RNA-seq matrix and the corresponding cell type annotations consist of human peripheral blood mononuclear cells that were obtained from eight volunteers enrolled in an HIV vaccine trial. They were profiled using the 10x single cell technology. The bulk RNA-seq data from Hoek et al. consists of total RNA of blood samples of patients that were treated with an Influenza vaccination. The immune cells in these samples were purified and subjected to fluorescence activated cell sorting (FACS), which offers a ground truth of the underlying cell proportions.</p>
 <p>You can simply load the three provided sample data like this, just substitute NUMBER with 1, 2 or 3:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"single_cell_data_NUMBER"</span><span class="op">)</span>
@@ -235,7 +235,7 @@ TODO
 <div id="deconvolution-of-bulk-rna-seq-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#deconvolution-of-bulk-rna-seq-data" class="anchor"></a>Deconvolution of Bulk RNA-seq Data</h2>
-<p>After building the specific signature matrix, you can calculate the cell properties in bulk RNA-seq data with the deconvolute function. For this, you need to provide the bulk data, signature matrix and you can, again, choose between the methods listed in the previous section. The deconvolution approach of the specified method is then used with your bulk data and your signature matrix. An exception are CDSeq, CPM, MuSiC and SCDC which do not require a signature matrix, as they do everything in one step and the build method is neither used nor utilized. AutoGeneS and Scaden require their .pickle file or perceptron, created in their build_model step.</p>
+<p>After building the specific signature matrix, you can calculate the cell properties in bulk RNA-seq data with the deconvolute function. For this, you need to provide the bulk data, signature matrix and you can, again, choose between the methods listed in the previous section. The deconvolution approach of the specified method is then used with your bulk data and your signature matrix. An exception are CDSeq, CPM, MuSiC and SCDC which do not require a signature matrix, as they do everything in one step and the build method is neither required nor used. AutoGeneS and Scaden require their .pickle file or perceptron, created in their build_model step.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="va">signature_matrix</span>, <span class="va">method</span><span class="op">)</span>
 
@@ -258,8 +258,14 @@ TODO
 <a href="#example-workflow" class="anchor"></a>Example Workflow</h2>
 <p>This workflow provides a more detailed example of how to run the deconvolution with Bisque.</p>
 <p>First of all, make sure you load all the libraries we need for this analysis. If the packages are not available, install them via install_packages().</p>
-<p>Then we load one of the example data sets to work with.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/icbi-lab/omnideconv">omnideconv</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">RColorBrewer</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></code></pre></div>
+<p>Then we load one of the example data sets to work with.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"single_cell_data_1"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"cell_type_annotations_1"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"batch_ids_1"</span><span class="op">)</span>
@@ -271,10 +277,6 @@ TODO
 <span class="va">cell_type_annotations</span> <span class="op">&lt;-</span> <span class="va">cell_type_annotations_1</span>
 <span class="va">batch_ids</span> <span class="op">&lt;-</span> <span class="va">batch_ids_1</span></code></pre></div>
 <p>To give you a feeling for the data, this is what a few rows and columns of our small single cell RNA-seq data set look like. This specific selection of rows and columns was performed as the first rows and columns just show zeros. Do not be alarmed by a great number of zeros in your single cell data, this is normal:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">single_cell_data</span><span class="op">[</span><span class="fl">67</span><span class="op">:</span><span class="fl">71</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>,
-  caption <span class="op">=</span> <span class="st">"Table 1: Example of the raw single cell counts."</span>
-<span class="op">)</span></code></pre></div>
 <table class="table">
 <caption>Table 1: Example of the raw single cell counts.</caption>
 <thead><tr class="header">
@@ -321,12 +323,9 @@ TODO
 <code class="sourceCode R"><span class="va">signatureMatrix</span> <span class="op">&lt;-</span> <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span>
   <span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>,
   <span class="st">"bisque"</span>, <span class="va">batch_ids</span>
-<span class="op">)</span>
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">signatureMatrix</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span>,
-  caption <span class="op">=</span> <span class="st">"Table 2: Signature matrix created with Bisque."</span>
 <span class="op">)</span></code></pre></div>
 <table class="table">
-<caption>Table 2: Signature matrix created with Bisque.</caption>
+<caption>Table 2: Part of the signature matrix created with Bisque.</caption>
 <thead><tr class="header">
 <th align="left"></th>
 <th align="right">B</th>
@@ -386,12 +385,10 @@ TODO
 </table>
 <p>We can use this signature matrix to run the deconvolution with Bisque.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">deconvolution</span> <span class="op">&lt;-</span> <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span>
   <span class="va">bulk</span>, <span class="va">signatureMatrix</span>, <span class="st">"bisque"</span>, <span class="va">single_cell_data</span>,
   <span class="va">cell_type_annotations</span>, <span class="va">batch_ids</span>
-<span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>caption <span class="op">=</span> <span class="st">"Table 3: Deconvoluted cell type proportions calculated
-               with Bisque and the signature matrix from the last step."</span><span class="op">)</span></code></pre></div>
+<span class="op">)</span></code></pre></div>
 <table class="table">
 <caption>Table 3: Deconvoluted cell type proportions calculated with Bisque and the signature matrix from the last step.</caption>
 <thead><tr class="header">
@@ -406,75 +403,75 @@ TODO
 <tbody>
 <tr class="odd">
 <td align="left">HD30_PBMC_0</td>
-<td align="right">0.1598154</td>
-<td align="right">0.3170472</td>
-<td align="right">0.0000000</td>
-<td align="right">0.1761226</td>
-<td align="right">0.1599387</td>
-<td align="right">0.1870761</td>
+<td align="right">0.160</td>
+<td align="right">0.317</td>
+<td align="right">0.000</td>
+<td align="right">0.176</td>
+<td align="right">0.160</td>
+<td align="right">0.187</td>
 </tr>
 <tr class="even">
 <td align="left">HD30_PBMC_1</td>
-<td align="right">0.1948724</td>
-<td align="right">0.1170638</td>
-<td align="right">0.1810077</td>
-<td align="right">0.1618461</td>
-<td align="right">0.1702936</td>
-<td align="right">0.1749165</td>
+<td align="right">0.195</td>
+<td align="right">0.117</td>
+<td align="right">0.181</td>
+<td align="right">0.162</td>
+<td align="right">0.170</td>
+<td align="right">0.175</td>
 </tr>
 <tr class="odd">
 <td align="left">HD30_PBMC_3</td>
-<td align="right">0.1710939</td>
-<td align="right">0.2228493</td>
-<td align="right">0.1075659</td>
-<td align="right">0.1874354</td>
-<td align="right">0.1633613</td>
-<td align="right">0.1476942</td>
+<td align="right">0.171</td>
+<td align="right">0.223</td>
+<td align="right">0.108</td>
+<td align="right">0.187</td>
+<td align="right">0.163</td>
+<td align="right">0.148</td>
 </tr>
 <tr class="even">
 <td align="left">HD30_PBMC_7</td>
-<td align="right">0.1719725</td>
-<td align="right">0.1406177</td>
-<td align="right">0.1895211</td>
-<td align="right">0.1918720</td>
-<td align="right">0.1511816</td>
-<td align="right">0.1548351</td>
+<td align="right">0.172</td>
+<td align="right">0.141</td>
+<td align="right">0.190</td>
+<td align="right">0.192</td>
+<td align="right">0.151</td>
+<td align="right">0.155</td>
 </tr>
 <tr class="odd">
 <td align="left">HD31_PBMC_0</td>
-<td align="right">0.1580054</td>
-<td align="right">0.1239644</td>
-<td align="right">0.2017998</td>
-<td align="right">0.1665623</td>
-<td align="right">0.1730645</td>
-<td align="right">0.1766035</td>
+<td align="right">0.158</td>
+<td align="right">0.124</td>
+<td align="right">0.202</td>
+<td align="right">0.167</td>
+<td align="right">0.173</td>
+<td align="right">0.177</td>
 </tr>
 <tr class="even">
 <td align="left">HD31_PBMC_1</td>
-<td align="right">0.1616099</td>
-<td align="right">0.1771338</td>
-<td align="right">0.1622051</td>
-<td align="right">0.1693079</td>
-<td align="right">0.1714856</td>
-<td align="right">0.1582577</td>
+<td align="right">0.162</td>
+<td align="right">0.177</td>
+<td align="right">0.162</td>
+<td align="right">0.169</td>
+<td align="right">0.171</td>
+<td align="right">0.158</td>
 </tr>
 <tr class="odd">
 <td align="left">HD31_PBMC_3</td>
-<td align="right">0.1398501</td>
-<td align="right">0.1631950</td>
-<td align="right">0.2074800</td>
-<td align="right">0.1500962</td>
-<td align="right">0.1897030</td>
-<td align="right">0.1496757</td>
+<td align="right">0.140</td>
+<td align="right">0.163</td>
+<td align="right">0.207</td>
+<td align="right">0.150</td>
+<td align="right">0.190</td>
+<td align="right">0.150</td>
 </tr>
 <tr class="even">
 <td align="left">HD31_PBMC_7</td>
-<td align="right">0.1764074</td>
-<td align="right">0.0317967</td>
-<td align="right">0.3252342</td>
-<td align="right">0.1441138</td>
-<td align="right">0.1683180</td>
-<td align="right">0.1541300</td>
+<td align="right">0.176</td>
+<td align="right">0.032</td>
+<td align="right">0.325</td>
+<td align="right">0.144</td>
+<td align="right">0.168</td>
+<td align="right">0.154</td>
 </tr>
 </tbody>
 </table>
@@ -498,12 +495,12 @@ Figure 2: Cell type proportions of the last step visualized. Very heterogenous r
 <p>The scatterplot shown below depicts the same results and message as the barplot above, it is just another idea of how to visualize the results. Note that our package does not provide a method for this, but the plot can be recreated with this code.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">res_bisque</span>, samples <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">res_bisque</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">pivot_longer</span><span class="op">(</span><span class="op">!</span><span class="va">samples</span>, names_to <span class="op">=</span> <span class="st">"cell_type"</span>, values_to <span class="op">=</span> <span class="st">"predicted_fraction"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">samples</span>, x <span class="op">=</span> <span class="va">predicted_fraction</span>, color <span class="op">=</span> <span class="va">cell_type</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">geom_point</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">cell_type</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Bisque"</span>, y <span class="op">=</span> <span class="st">"sample"</span>, x <span class="op">=</span> <span class="st">"predicted fraction"</span>, color <span class="op">=</span> <span class="st">"cell type"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">scale_fill_brewer</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Paired"</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="op">!</span><span class="va">samples</span>, names_to <span class="op">=</span> <span class="st">"cell_type"</span>, values_to <span class="op">=</span> <span class="st">"predicted_fraction"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">samples</span>, x <span class="op">=</span> <span class="va">predicted_fraction</span>, color <span class="op">=</span> <span class="va">cell_type</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">cell_type</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Bisque"</span>, y <span class="op">=</span> <span class="st">"sample"</span>, x <span class="op">=</span> <span class="st">"predicted fraction"</span>, color <span class="op">=</span> <span class="st">"cell type"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_fill_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Paired"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <img src="omnideconv_vignette_files/figure-html/plot2-1.png" alt="Figure 3: Same cell type proportions as in Figure 2, just visualized on a cell type level." width="672"><p class="caption">
 Figure 3: Same cell type proportions as in Figure 2, just visualized on a cell type level.
@@ -511,77 +508,12 @@ Figure 3: Same cell type proportions as in Figure 2, just visualized on a cell t
 </div>
 </div>
 </div>
-<div id="methods" class="section level1">
-<h1 class="hasAnchor">
-<a href="#methods" class="anchor"></a>3. Methods</h1>
-<p>In this section, we provide a short overview over the deconvolution methods that can be used via this package.</p>
-<p>Please note that even though our package is freely available, the second generation immune deconvolution methods may not be. For instance, the usage of CibersortX requires a token. For more information and to request such a token, please see the official website <a href="https://cibersortx.stanford.edu/">CIBERSORTX</a>.</p>
-<div class="figure">
-<img src="images/methods_table.png" alt="Table 4: Comparison of the methodes used in the package." width="80%"><p class="caption">
-Table 4: Comparison of the methodes used in the package.
-</p>
-</div>
-<div id="autogenes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#autogenes" class="anchor"></a>AutoGeneS</h2>
-<p>AutoGeneS <span class="citation">(Aliee and Theis <a href="#ref-Aliee2020" role="doc-biblioref">2020</a>)</span> selects marker genes based on a multi-objective optimization which simultaneously minimizes the correlation and maximizes the distance between cell-type signatures. Compared to approaches selecting genes only on differential expression it performs favorably with respect to closely related cell-types. The resulting signature matrix can be combined with different regression models out-of-the-box, including 𝜈-support vector regression (SVR).</p>
-</div>
-<div id="bisque" class="section level2">
-<h2 class="hasAnchor">
-<a href="#bisque" class="anchor"></a>Bisque</h2>
-<p>Bisque <span class="citation">(Jew et al. <a href="#ref-Jew2020" role="doc-biblioref">2020</a>)</span> takes advantage of matched bulk and scRNA-seq samples to improve accuracy of cell-type estimates. Using linear regression, it corrects for platform-specific biases between pseudo-bulk reference profiles derived from scRNA-seq and bulk RNA-seq samples. It then applies NNLS-regression to deconvolute other bulk RNA-seq samples.</p>
-</div>
-<div id="bseq-sc" class="section level2">
-<h2 class="hasAnchor">
-<a href="#bseq-sc" class="anchor"></a>BSeq-sc</h2>
-<p>Bseq-SC <span class="citation">(Baron et al. <a href="#ref-Baron2016" role="doc-biblioref">2016</a>)</span> builds signature matrices by averaging a manually defined list of marker genes across cell-type-specific single-cell gene expression profiles. It leverages the CIBERSORT algorithm(Newman et al., 2015) to perform deconvolution.</p>
-</div>
-<div id="cdseq" class="section level2">
-<h2 class="hasAnchor">
-<a href="#cdseq" class="anchor"></a>CDSeq</h2>
-<p>“Here we present an R implementation of CDSeq (CDSeqR) with significant performance improvement over the original implementation in MATLAB and an added new function to aid cell type annotation. We developed a novel strategy to substantially improve computational efficiency in both speed and memory usage. In addition, we designed and implemented a new function for annotating the CDSeq estimated cell types using single-cell RNA sequencing (scRNA-seq) data. This function allows users to readily interpret and visualize the CDSeq estimated cell types. In addition, this new function further allows the users to annotate CDSeq-estimated cell types using marker genes.” From CDSeqR paper <span class="citation">(Kang et al. <a href="#ref-Kang2021" role="doc-biblioref">2021</a>)</span>. Note: it performs also complete deconvolution.</p>
-</div>
-<div id="cibersortx" class="section level2">
-<h2 class="hasAnchor">
-<a href="#cibersortx" class="anchor"></a>CibersortX</h2>
-<p>CIBERSORTx <span class="citation">(Newman et al. <a href="#ref-Newman2019" role="doc-biblioref">2019</a>)</span> is an extension to the original CIBERSORT algorithm <span class="citation">(Newman <a href="#ref-Newman2015" role="doc-biblioref">2015</a>)</span> that enables building signature matrices from scRNA-seq or sorted bulk RNA-seq samples based on differential gene expression analysis. To address technical biases they introduce two batch correction methods, one designed to mitigate batch effects between datasets, the other to address differences between sequencing protocols (e.g. 10x vs. full-length). Moreover, CIBERSORTx supports “complete” deconvolution, not only yielding cell-type proportions but disentangling bulk gene expression profiles into cell-type specific expression profiles.</p>
-</div>
-<div id="cpm" class="section level2">
-<h2 class="hasAnchor">
-<a href="#cpm" class="anchor"></a>CPM</h2>
-<p>Cell Population Mapping (CPM) <span class="citation">(Frishberg et al. <a href="#ref-Frishberg2019" role="doc-biblioref">2019</a>)</span> works independent of discrete cell-types. Instead of building a cell-type specific signature matrix, it directly uses the single-cell gene expression as reference and performs linear SVR to predict relative abundances of cell-states organized in a continuous 1-dimensional manifold or 2-dimensional space. To increase robustness, the results are averaged over independent predictions on random subsets of the single-cell RNA-seq dataset and smoothed over a neighborhood of the 10 nearest reference cells.</p>
-</div>
-<div id="dwls" class="section level2">
-<h2 class="hasAnchor">
-<a href="#dwls" class="anchor"></a>DWLS</h2>
-<p>Tsoucas et al. introduce dampened weighted least squares (DWLS)-regression <span class="citation">(Tsoucas et al. <a href="#ref-Tsoucas2019" role="doc-biblioref">2019</a>)</span>, which improves over ordinary least squares regression or 𝜈-SVR in that it attributes higher weight to rare cell types and marker genes with a low average expression level. They show that their method achieves favorable performance when estimating the abundance of infrequent cell-types.</p>
-</div>
-<div id="momf" class="section level2">
-<h2 class="hasAnchor">
-<a href="#momf" class="anchor"></a>MOMF</h2>
-<p>With MOMF <span class="citation">(Sun, Sun, and Yang <a href="#ref-Sun2019" role="doc-biblioref">2019</a>)</span>, Multi-Omics Matrix Factorization, models the cell type specific mean in scRNA-seq data by also accounting for the uncertainty of these cell type specific mean gene expression levels. Alternating Direction Method of Multipliers algorithm is then used to estimate the parameters in bulk RNA-seq downstream analyses.</p>
-</div>
-<div id="music" class="section level2">
-<h2 class="hasAnchor">
-<a href="#music" class="anchor"></a>MuSiC</h2>
-<p>MuSiC <span class="citation">(Wang et al. <a href="#ref-Wang2019" role="doc-biblioref">2019</a>)</span> does not pre-select marker genes but rather weights marker genes from low to high variance between subjects. It then performs non-negative least squares (NNLS)-regression to obtain cell-type estimates. To improve performance on closely related cell-types MuSiC incorporates hierarchical information from unsupervised clustering: It first deconvolves a gene expression profile into coarse cell-type clusters and subsequently uses more specific marker genes to estimate subtypes within these clusters. A recent extension of the MuSiC framework(Sosina et al., n.d.) addresses different mRNA contents of different cell-types, enabling MuSiC to generate absolute scores that can be compared both between samples and cell-types.</p>
-</div>
-<div id="scaden" class="section level2">
-<h2 class="hasAnchor">
-<a href="#scaden" class="anchor"></a>Scaden</h2>
-<p>Scaden <span class="citation">(Menden et al. <a href="#ref-Mendeneaba2619" role="doc-biblioref">2020</a>)</span> leverages a deep neural network (DNN) for estimating cell-type proportions. Instead of explicitly building a signature matrix, the DNN implicitly learns which features are important for a certain cell type. The DNN is trained by simulating bulk RNA-seq samples with known cell-type proportions from scRNA-seq datasets. To increase robustness, the training process allows to flexibly integrate multiple scRNA-seq datasets and, optionally, bulk RNA-seq samples with “gold standard” measurements such as FACS.</p>
-</div>
-<div id="scdc" class="section level2">
-<h2 class="hasAnchor">
-<a href="#scdc" class="anchor"></a>SCDC</h2>
-<p>SCDC <span class="citation">(Dong et al. <a href="#ref-Dong2020" role="doc-biblioref">2020</a>)</span> is an extension to the MuSiC framework(Wang et al., 2019). It adds an additional scaling step to down-weight the impact of aberrant genes on the prediction and a filtering strategy for misclassified cells and doublets. Most importantly, it adds an Ensemble layer allowing for a combined prediction on multiple, independent scRNA-seq datasets. The latter implicitly addresses batch effects between datasets and has been shown to improve robustness and overall performance.</p>
-</div>
-</div>
 <div id="comparing-methods" class="section level1">
 <h1 class="hasAnchor">
-<a href="#comparing-methods" class="anchor"></a>4. Comparing Methods</h1>
+<a href="#comparing-methods" class="anchor"></a>3. Comparing Methods</h1>
 <p>To evaluate the performance of the methods used, we compared a data set with 17k cells <span class="citation">(Hoek <a href="#ref-Hoek2015" role="doc-biblioref">2015</a>)</span> to its ground truth, measured with FACS. This data is also included in our benchmarking method, which takes the desired filename and -type as a parameter, as a testset.</p>
-<p>For this comparison, a perfect estimation of cell type fractions by one method would include that all points align to the diagonal line in the according facet.</p>
+<p>For this comparison, a perfect estimation of cell type fractions by one method would imply that all points align to the diagonal line.</p>
+<p>Detailed information about the methods can be found in section 4.</p>
 <div id="prediction-results" class="section level2">
 <h2 class="hasAnchor">
 <a href="#prediction-results" class="anchor"></a>Prediction Results</h2>
@@ -824,6 +756,72 @@ Figure 8: Using the deconvolution method with signature matrices created by othe
 
 As can be concluded from this figure, interchanging matrices between the methods does not considerably improve the predictions. One might derive small improvements especially when building the signature matrix with Bisque or CibersortX, but the reason behind this needs further examination in the future.
 -->
+</div>
+</div>
+<div id="methods" class="section level1">
+<h1 class="hasAnchor">
+<a href="#methods" class="anchor"></a>4. Methods</h1>
+<p>In this section, we provide a short overview over the deconvolution methods that can be used via this package.</p>
+<p>Please note that even though our package is freely available, the second generation immune deconvolution methods may not be. For instance, the usage of CibersortX requires a token. For more information and to request such a token, please see the official website <a href="https://cibersortx.stanford.edu/">CIBERSORTX</a>.</p>
+<div class="figure">
+<img src="images/methods_table.png" alt="Table 4: Comparison of the methodes used in the package." width="80%"><p class="caption">
+Table 4: Comparison of the methodes used in the package.
+</p>
+</div>
+<div id="autogenes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#autogenes" class="anchor"></a>AutoGeneS</h2>
+<p>AutoGeneS <span class="citation">(Aliee and Theis <a href="#ref-Aliee2020" role="doc-biblioref">2020</a>)</span> selects marker genes based on a multi-objective optimization which simultaneously minimizes the correlation and maximizes the distance between cell-type signatures. Compared to approaches selecting genes only on differential expression it performs favorably with respect to closely related cell-types. The resulting signature matrix can be combined with different regression models out-of-the-box, including 𝜈-support vector regression (SVR).</p>
+</div>
+<div id="bisque" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bisque" class="anchor"></a>Bisque</h2>
+<p>Bisque <span class="citation">(Jew et al. <a href="#ref-Jew2020" role="doc-biblioref">2020</a>)</span> takes advantage of matched bulk and scRNA-seq samples to improve accuracy of cell-type estimates. Using linear regression, it corrects for platform-specific biases between pseudo-bulk reference profiles derived from scRNA-seq and bulk RNA-seq samples. It then applies NNLS-regression to deconvolute other bulk RNA-seq samples.</p>
+</div>
+<div id="bseq-sc" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bseq-sc" class="anchor"></a>BSeq-sc</h2>
+<p>Bseq-SC <span class="citation">(Baron et al. <a href="#ref-Baron2016" role="doc-biblioref">2016</a>)</span> builds signature matrices by averaging a manually defined list of marker genes across cell-type-specific single-cell gene expression profiles. It leverages the CIBERSORT algorithm(Newman et al., 2015) to perform deconvolution.</p>
+</div>
+<div id="cdseq" class="section level2">
+<h2 class="hasAnchor">
+<a href="#cdseq" class="anchor"></a>CDSeq</h2>
+<p>“Here we present an R implementation of CDSeq (CDSeqR) with significant performance improvement over the original implementation in MATLAB and an added new function to aid cell type annotation. We developed a novel strategy to substantially improve computational efficiency in both speed and memory usage. In addition, we designed and implemented a new function for annotating the CDSeq estimated cell types using single-cell RNA sequencing (scRNA-seq) data. This function allows users to readily interpret and visualize the CDSeq estimated cell types. In addition, this new function further allows the users to annotate CDSeq-estimated cell types using marker genes.” From CDSeqR paper <span class="citation">(Kang et al. <a href="#ref-Kang2021" role="doc-biblioref">2021</a>)</span>. Note: it performs also complete deconvolution.</p>
+</div>
+<div id="cibersortx" class="section level2">
+<h2 class="hasAnchor">
+<a href="#cibersortx" class="anchor"></a>CibersortX</h2>
+<p>CIBERSORTx <span class="citation">(Newman et al. <a href="#ref-Newman2019" role="doc-biblioref">2019</a>)</span> is an extension to the original CIBERSORT algorithm <span class="citation">(Newman <a href="#ref-Newman2015" role="doc-biblioref">2015</a>)</span> that enables building signature matrices from scRNA-seq or sorted bulk RNA-seq samples based on differential gene expression analysis. To address technical biases they introduce two batch correction methods, one designed to mitigate batch effects between datasets, the other to address differences between sequencing protocols (e.g. 10x vs. full-length). Moreover, CIBERSORTx supports “complete” deconvolution, not only yielding cell-type proportions but disentangling bulk gene expression profiles into cell-type specific expression profiles.</p>
+</div>
+<div id="cpm" class="section level2">
+<h2 class="hasAnchor">
+<a href="#cpm" class="anchor"></a>CPM</h2>
+<p>Cell Population Mapping (CPM) <span class="citation">(Frishberg et al. <a href="#ref-Frishberg2019" role="doc-biblioref">2019</a>)</span> works independent of discrete cell-types. Instead of building a cell-type specific signature matrix, it directly uses the single-cell gene expression as reference and performs linear SVR to predict relative abundances of cell-states organized in a continuous 1-dimensional manifold or 2-dimensional space. To increase robustness, the results are averaged over independent predictions on random subsets of the single-cell RNA-seq dataset and smoothed over a neighborhood of the 10 nearest reference cells.</p>
+</div>
+<div id="dwls" class="section level2">
+<h2 class="hasAnchor">
+<a href="#dwls" class="anchor"></a>DWLS</h2>
+<p>Tsoucas et al. introduce dampened weighted least squares (DWLS)-regression <span class="citation">(Tsoucas et al. <a href="#ref-Tsoucas2019" role="doc-biblioref">2019</a>)</span>, which improves over ordinary least squares regression or 𝜈-SVR in that it attributes higher weight to rare cell types and marker genes with a low average expression level. They show that their method achieves favorable performance when estimating the abundance of infrequent cell-types.</p>
+</div>
+<div id="momf" class="section level2">
+<h2 class="hasAnchor">
+<a href="#momf" class="anchor"></a>MOMF</h2>
+<p>With MOMF <span class="citation">(Sun, Sun, and Yang <a href="#ref-Sun2019" role="doc-biblioref">2019</a>)</span>, Multi-Omics Matrix Factorization, models the cell type specific mean in scRNA-seq data by also accounting for the uncertainty of these cell type specific mean gene expression levels. Alternating Direction Method of Multipliers algorithm is then used to estimate the parameters in bulk RNA-seq downstream analyses.</p>
+</div>
+<div id="music" class="section level2">
+<h2 class="hasAnchor">
+<a href="#music" class="anchor"></a>MuSiC</h2>
+<p>MuSiC <span class="citation">(Wang et al. <a href="#ref-Wang2019" role="doc-biblioref">2019</a>)</span> does not pre-select marker genes but rather weights marker genes from low to high variance between subjects. It then performs non-negative least squares (NNLS)-regression to obtain cell-type estimates. To improve performance on closely related cell-types MuSiC incorporates hierarchical information from unsupervised clustering: It first deconvolves a gene expression profile into coarse cell-type clusters and subsequently uses more specific marker genes to estimate subtypes within these clusters. A recent extension of the MuSiC framework(Sosina et al., n.d.) addresses different mRNA contents of different cell-types, enabling MuSiC to generate absolute scores that can be compared both between samples and cell-types.</p>
+</div>
+<div id="scaden" class="section level2">
+<h2 class="hasAnchor">
+<a href="#scaden" class="anchor"></a>Scaden</h2>
+<p>Scaden <span class="citation">(Menden et al. <a href="#ref-Mendeneaba2619" role="doc-biblioref">2020</a>)</span> leverages a deep neural network (DNN) for estimating cell-type proportions. Instead of explicitly building a signature matrix, the DNN implicitly learns which features are important for a certain cell type. The DNN is trained by simulating bulk RNA-seq samples with known cell-type proportions from scRNA-seq datasets. To increase robustness, the training process allows to flexibly integrate multiple scRNA-seq datasets and, optionally, bulk RNA-seq samples with “gold standard” measurements such as FACS.</p>
+</div>
+<div id="scdc" class="section level2">
+<h2 class="hasAnchor">
+<a href="#scdc" class="anchor"></a>SCDC</h2>
+<p>SCDC <span class="citation">(Dong et al. <a href="#ref-Dong2020" role="doc-biblioref">2020</a>)</span> is an extension to the MuSiC framework(Wang et al., 2019). It adds an additional scaling step to down-weight the impact of aberrant genes on the prediction and a filtering strategy for misclassified cells and doublets. Most importantly, it adds an Ensemble layer allowing for a combined prediction on multiple, independent scRNA-seq datasets. The latter implicitly addresses batch effects between datasets and has been shown to improve robustness and overall performance.</p>
 </div>
 </div>
 <div id="reference" class="section level1 unnumbered">

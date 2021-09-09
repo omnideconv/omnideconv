@@ -259,7 +259,8 @@ deconvolution <- omnideconv::deconvolute(
 ```{r echo=FALSE}
 knitr::kable(deconvolution,
   caption = "Table 3: Deconvoluted cell type proportions calculated 
-  with Bisque and the signature matrix from the last step.", digits = 3)
+  with Bisque and the signature matrix from the last step.", digits = 3
+)
 ```
 
 ## Plot Results

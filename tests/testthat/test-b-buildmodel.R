@@ -62,7 +62,7 @@ test_that("DWLS build signature matrix works", {
   expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
 })
 
-test_that("CibersortX build signature matrix works", {
+test_that("CIBERSORTx build signature matrix works", {
   set_cibersortx_credentials(Sys.getenv("CIBERSORTX_EMAIL"), Sys.getenv("CIBERSORTX_TOKEN"))
   signature <- build_model(sc_object_small, cell_annotations_small, "cibersortx")
   expect_equal(

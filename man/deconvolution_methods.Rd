@@ -12,7 +12,7 @@ deconvolution_methods
 }
 \description{
 The methods currently supported are
-\code{AutoGeneS}, \code{Bisque}, \code{BSeq-sc}, \code{CibersortX}, \code{CPM}, \code{DWLS}, \code{MOMF}, \code{MuSiC}, \code{Scaden},
+\code{AutoGeneS}, \code{Bisque}, \code{BSeq-sc}, \code{CIBERSORTx}, \code{CPM}, \code{DWLS}, \code{MOMF}, \code{MuSiC}, \code{Scaden},
 \code{SCDC}
 }
 \details{

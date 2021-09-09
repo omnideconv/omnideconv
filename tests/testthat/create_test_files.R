@@ -116,7 +116,7 @@ utils::write.csv(all_counts_svr, "test_results/dwls_svr_result_small.csv")
 
 
 
-## CibersortX
+## CIBERSORTx
 single_cell <- rbind(cell_annotations_small, sc_object_small)
 rownames(single_cell) <- c("GeneSymbol", rownames(sc_object_small))
 single_cell <- data.frame("GeneSymbol" = rownames(single_cell), single_cell)

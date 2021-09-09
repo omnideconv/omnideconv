@@ -1,4 +1,4 @@
-#' Setting the CibersortX Credentials
+#' Setting the CIBERSORTx Credentials
 #'
 #' @param email The email which was used to register on the website.
 #' @param token The token provided by the website.
@@ -13,7 +13,7 @@ set_cibersortx_credentials <- function(email, token) {
 }
 
 
-#' Signature matrix creation with CibersortX
+#' Signature matrix creation with CIBERSORTx
 #'
 #' @param single_cell_object A matrix with the single-cell data. Rows are genes, columns are
 #'   samples. Row and column names need to be set.
@@ -128,7 +128,7 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
   return(as.matrix.data.frame(sig_matrix[, -1]))
 }
 
-#' Deconvolute with CibersortX
+#' Deconvolute with CIBERSORTx
 #'
 #' @param bulk_gene_expression A matrix or dataframe with the bulk data. Rows are genes, columns
 #'   are samples. Row and column names need to be set. Can also just be the filename of the bulk
@@ -143,7 +143,7 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
 #' @param output_dir The directory in which the output files are saved. Default is a temporary
 #'   directory.
 #' @param display_extra_info Whether to print the "P.value","Correlation" and "RMSE" calculated
-#'   by CibersortX.
+#'   by CIBERSORTx.
 #' @param label The label which will be added to the file name. Default is "none", adding no label
 #'   at all.
 #' @param ... Additional parameters supplied to the algorithm. Options are:
@@ -239,7 +239,7 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature, verbose = FA
   return(as.matrix.data.frame(cell_props[, !names(cell_props) %in% extra_cols]))
 }
 
-#' Creation of the single cell data file in the CibersortX required format
+#' Creation of the single cell data file in the CIBERSORTx required format
 #'
 #' @param sc_matrix The single cell data as a matrix.
 #' @param cell_types A Vector of the cell type annotations. Has to be in the same order as the
@@ -265,7 +265,7 @@ transform_and_save_single_cell <- function(sc_matrix, cell_types, path, verbose 
   return(output_file)
 }
 
-#' Creation of the bulk data file in the CibersortX required format
+#' Creation of the bulk data file in the CIBERSORTx required format
 #'
 #' @param bulk The bulk data as a matrix.
 #' @param path The folder in which the file should be saved.
@@ -395,13 +395,13 @@ get_cell_fractions_options <- function(sigmatrix, mixture, perm = 0, label = "no
 check_credentials <- function() {
   assertthat::assert_that(exists("cibersortx_email", envir = config_env),
     msg = paste(
-      "CibersortX email for credentials is missing. Please call",
+      "CIBERSORTx email for credentials is missing. Please call",
       "set_cibersortx_credentials(email,token) first."
     )
   )
   assertthat::assert_that(exists("cibersortx_token", envir = config_env),
     msg = paste(
-      "CibersortX token for credentials is missing. Please call",
+      "CIBERSORTx token for credentials is missing. Please call",
       "set_cibersortx_credentials(email,token) first."
     )
   )

@@ -1,7 +1,7 @@
 #' List of supported deconvolution methods
 #'
 #' The methods currently supported are
-#' `AutoGeneS`, `Bisque`, `BSeq-sc`, `CibersortX`, `CPM`, `DWLS`, `MOMF`, `MuSiC`, `Scaden`,
+#' `AutoGeneS`, `Bisque`, `BSeq-sc`, `CIBERSORTx`, `CPM`, `DWLS`, `MOMF`, `MuSiC`, `Scaden`,
 #' `SCDC`
 #'
 #' The object is a named vector. The names correspond to the display name of the method,
@@ -9,7 +9,7 @@
 #'
 #' @export
 deconvolution_methods <- c(
-  "AutoGeneS" = "autogenes", "Bisque" = "bisque", "BSeq-sc" = "bseqsc", "CibersortX" = "cibersortx",
+  "AutoGeneS" = "autogenes", "Bisque" = "bisque", "BSeq-sc" = "bseqsc", "CIBERSORTx" = "cibersortx",
   "CDSeq" = "cdseq", "CPM" = "cpm", "DWLS" = "dwls", "MOMF" = "momf", "MuSiC" = "music",
   "Scaden" = "scaden", "SCDC" = "scdc"
 )

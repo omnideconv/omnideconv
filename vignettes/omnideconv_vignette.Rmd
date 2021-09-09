@@ -101,7 +101,7 @@ knitr::kable(data.frame(
   Bisque = c("yes", "yes", "yes", "yes", "yes"),
   BSeq_sc = c("yes", "yes", "yes", "yes", "yes"),
   CDSeq = c("yes", "yes", "yes", "yes", "yes"),
-  CibersortX = c("yes", "yes", "yes", "yes", "yes"),
+  CIBERSORTx = c("yes", "yes", "yes", "yes", "yes"),
   CPM = c("yes", "yes", "yes", "yes", "yes"),
   DWLS = c("yes", "yes", "yes", "yes", "yes"),
   MOMF = c("yes", "yes", "yes", "yes", "yes"),
@@ -163,7 +163,7 @@ These methods are currently implemented (and in brackets is how to call them in 
 * Bisque ("bisque")
 * BSeq-sc ("bseqsc")
 * CDSeq ("cdseq")
-* CibersortX ("cibersortx") 
+* CIBERSORTx ("cibersortx") 
 * CPM ("cpm")
 * DWLS ("dwls")
 * MOMF ("momf")
@@ -349,12 +349,12 @@ It is now possible to use every method which takes in a signature matrix (everyt
 
 ```{r benchmarkingInterchangeMatrix, echo=FALSE}
 knitr::kable(data.frame(
-  Deconv_method = c("AutoGeneS", "Bisque", "BSeq-sc", "CDSeq", "CibersortX", "CPM", "DWLS", "MOMF", "MuSiC", "Scaden", "SCDC"),
+  Deconv_method = c("AutoGeneS", "Bisque", "BSeq-sc", "CDSeq", "CIBERSORTx", "CPM", "DWLS", "MOMF", "MuSiC", "Scaden", "SCDC"),
   AutoGeneS = c("yes", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
   Bisque = c("-", "yes", "(yes)", "(yes)", "(yes)", "(yes)", "(yes)", "yes", "-", "-", "-"),
   BSeq_sc = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
   CDSeq = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
-  CibersortX = c("-", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "-", "-", "-"),
+  CIBERSORTx = c("-", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "-", "-", "-"),
   CPM = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
   DWLS = c("-", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "-", "-", "-"),
   MOMF = c("-", "yes", "(yes)", "(yes)", "(yes)", "(yes)", "(yes)", "yes", "-", "-", "-"),
@@ -374,14 +374,14 @@ knitr::include_graphics("images/momf_matrices.png")
 ```
 Figure 8: Using the deconvolution method with signature matrices created by other methods. The data is unnormalized.
 
-As can be concluded from this figure, interchanging matrices between the methods does not considerably improve the predictions. One might derive small improvements especially when building the signature matrix with Bisque or CibersortX, but the reason behind this needs further examination in the future.
+As can be concluded from this figure, interchanging matrices between the methods does not considerably improve the predictions. One might derive small improvements especially when building the signature matrix with Bisque or CIBERSORTx, but the reason behind this needs further examination in the future.
 -->
 
 
 # 4. Methods
 In this section, we provide a short overview over the deconvolution methods that can be used via this package.
 
-Please note that even though our package is freely available, the second generation immune deconvolution methods may not be. For instance, the usage of CibersortX requires a token. For more information and to request such a token, please see the official website [CIBERSORTX](https://cibersortx.stanford.edu/).
+Please note that even though our package is freely available, the second generation immune deconvolution methods may not be. For instance, the usage of CIBERSORTx requires a token. For more information and to request such a token, please see the official website [CIBERSORTX](https://cibersortx.stanford.edu/).
 
 ```{r mehods_table, echo=FALSE, out.width="80%", fig.cap="Table 4: Comparison of the methodes used in the package."}
 knitr::include_graphics("images/methods_table.png")
@@ -400,7 +400,7 @@ Bseq-SC [@Baron2016] builds signature matrices by averaging a manually defined l
 "Here we present an R implementation of CDSeq (CDSeqR) with significant performance improvement over the original implementation in MATLAB and an added new function to aid cell type annotation. We developed a novel strategy to substantially improve computational efficiency in both speed and memory usage. In addition, we designed and implemented a new function for annotating the CDSeq estimated cell types using single-cell RNA sequencing (scRNA-seq) data. This function allows users to readily interpret and visualize the CDSeq estimated cell types. In addition, this new function further allows the users to annotate CDSeq-estimated cell types using marker genes."
 From CDSeqR paper [@Kang2021]. Note: it performs also complete deconvolution.
 
-## CibersortX
+## CIBERSORTx
 CIBERSORTx [@Newman2019] is an extension to the original CIBERSORT algorithm [@Newman2015] that enables building signature matrices from scRNA-seq or sorted bulk RNA-seq samples based on differential gene expression analysis. To address technical biases they introduce two batch correction methods, one designed to mitigate batch effects between datasets, the other to address differences between sequencing protocols (e.g. 10x vs. full-length). Moreover, CIBERSORTx supports “complete” deconvolution, not only yielding cell-type proportions but disentangling bulk gene expression profiles into cell-type specific expression profiles.
 
 ## CPM

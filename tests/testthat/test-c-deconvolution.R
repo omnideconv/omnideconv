@@ -126,7 +126,7 @@ test_that("DWLS deconvolution works", {
 })
 
 
-test_that("CibersortX deconvolution works", {
+test_that("CIBERSORTx deconvolution works", {
   set_cibersortx_credentials(Sys.getenv("CIBERSORTX_EMAIL"), Sys.getenv("CIBERSORTX_TOKEN"))
   cibersort_model <- as.matrix(read.csv("test_models/cibersortx_model_small.tsv",
     row.names = 1,

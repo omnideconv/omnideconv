@@ -222,7 +222,7 @@ TODO
 <li>Bisque (“bisque”)</li>
 <li>BSeq-sc (“bseqsc”)</li>
 <li>CDSeq (“cdseq”)</li>
-<li>CibersortX (“cibersortx”)</li>
+<li>CIBERSORTx (“cibersortx”)</li>
 <li>CPM (“cpm”)</li>
 <li>DWLS (“dwls”)</li>
 <li>MOMF (“momf”)</li>
@@ -585,7 +585,7 @@ However, this was just a small benchmark with one dataset. Different datasets of
 <th align="left">Bisque</th>
 <th align="left">BSeq_sc</th>
 <th align="left">CDSeq</th>
-<th align="left">CibersortX</th>
+<th align="left">CIBERSORTx</th>
 <th align="left">CPM</th>
 <th align="left">DWLS</th>
 <th align="left">MOMF</th>
@@ -651,7 +651,7 @@ However, this was just a small benchmark with one dataset. Different datasets of
 <td align="left">-</td>
 </tr>
 <tr class="odd">
-<td align="left">CibersortX</td>
+<td align="left">CIBERSORTx</td>
 <td align="left">-</td>
 <td align="left">(yes)</td>
 <td align="left">-</td>
@@ -754,7 +754,7 @@ However, this was just a small benchmark with one dataset. Different datasets of
 <img src="/home/runner/work/omnideconv/omnideconv/vignettes/images/ciber_matrices.png" width="45%" /><img src="/home/runner/work/omnideconv/omnideconv/vignettes/images/dwls_matrices.png" width="45%" /><img src="/home/runner/work/omnideconv/omnideconv/vignettes/images/bisque_matrices.png" width="45%" /><img src="/home/runner/work/omnideconv/omnideconv/vignettes/images/momf_matrices.png" width="45%" />
 Figure 8: Using the deconvolution method with signature matrices created by other methods. The data is unnormalized.
 
-As can be concluded from this figure, interchanging matrices between the methods does not considerably improve the predictions. One might derive small improvements especially when building the signature matrix with Bisque or CibersortX, but the reason behind this needs further examination in the future.
+As can be concluded from this figure, interchanging matrices between the methods does not considerably improve the predictions. One might derive small improvements especially when building the signature matrix with Bisque or CIBERSORTx, but the reason behind this needs further examination in the future.
 -->
 </div>
 </div>
@@ -762,7 +762,7 @@ As can be concluded from this figure, interchanging matrices between the methods
 <h1 class="hasAnchor">
 <a href="#methods" class="anchor"></a>4. Methods</h1>
 <p>In this section, we provide a short overview over the deconvolution methods that can be used via this package.</p>
-<p>Please note that even though our package is freely available, the second generation immune deconvolution methods may not be. For instance, the usage of CibersortX requires a token. For more information and to request such a token, please see the official website <a href="https://cibersortx.stanford.edu/">CIBERSORTX</a>.</p>
+<p>Please note that even though our package is freely available, the second generation immune deconvolution methods may not be. For instance, the usage of CIBERSORTx requires a token. For more information and to request such a token, please see the official website <a href="https://cibersortx.stanford.edu/">CIBERSORTX</a>.</p>
 <div class="figure">
 <img src="images/methods_table.png" alt="Table 4: Comparison of the methodes used in the package." width="80%"><p class="caption">
 Table 4: Comparison of the methodes used in the package.
@@ -790,7 +790,7 @@ Table 4: Comparison of the methodes used in the package.
 </div>
 <div id="cibersortx" class="section level2">
 <h2 class="hasAnchor">
-<a href="#cibersortx" class="anchor"></a>CibersortX</h2>
+<a href="#cibersortx" class="anchor"></a>CIBERSORTx</h2>
 <p>CIBERSORTx <span class="citation">(Newman et al. <a href="#ref-Newman2019" role="doc-biblioref">2019</a>)</span> is an extension to the original CIBERSORT algorithm <span class="citation">(Newman <a href="#ref-Newman2015" role="doc-biblioref">2015</a>)</span> that enables building signature matrices from scRNA-seq or sorted bulk RNA-seq samples based on differential gene expression analysis. To address technical biases they introduce two batch correction methods, one designed to mitigate batch effects between datasets, the other to address differences between sequencing protocols (e.g. 10x vs. full-length). Moreover, CIBERSORTx supports “complete” deconvolution, not only yielding cell-type proportions but disentangling bulk gene expression profiles into cell-type specific expression profiles.</p>
 </div>
 <div id="cpm" class="section level2">

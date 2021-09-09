@@ -106,12 +106,12 @@
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p>The main functions of this package are to build a signature matrix and deconvolute bulk RNA-seq data based on this signature matrix.</p>
-<p>The basic workflow is the following:</p>
+<p>The basic workflow (in this example using the method “dwls”) is the following:</p>
 <div id="1-build-a-signature-matrix" class="section level3">
 <h3 class="hasAnchor">
 <a href="#1-build-a-signature-matrix" class="anchor"></a>1. Build a Signature Matrix</h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>,
+<code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data_1</span>, <span class="va">cell_type_annotations_1</span>,
     method <span class="op">=</span> <span class="st">"dwls"</span><span class="op">)</span></code></pre></div>
 <p>In this method, single_cell_data is a matrix of single cell RNA-seq data with genes in rows and cells in columns, cell_type_annotations a vector that contains an annotation for each cell in your single_cell_data, and the possible methods are:</p>
 <ul>
@@ -119,7 +119,7 @@
 <li>Bisque (“bisque”)</li>
 <li>BSeq-sc (“bseqsc”)</li>
 <li>CDSeq (“cdseq”)</li>
-<li>CibersortX (“cibersortx”)</li>
+<li>CIBERSORTx (“cibersortx”)</li>
 <li>CPM (“cpm”)</li>
 <li>DWLS (“dwls”)</li>
 <li>MOMF (“momf”)</li>
@@ -136,126 +136,87 @@
 <p>Here, bulk is your bulk RNA-seq data as a matrix with genes in rows and samples in column, signature_matrix is the signature matrix you created in the previous step and the method can again be one of the four methods listed above.</p>
 <p>This is, what the cell type properties in your bulk RNA-seq data computed in the deconvolution step could look like:</p>
 <table class="table">
-<colgroup>
-<col width="9%">
-<col width="6%">
-<col width="7%">
-<col width="14%">
-<col width="16%">
-<col width="6%">
-<col width="7%">
-<col width="7%">
-<col width="10%">
-<col width="11%">
-</colgroup>
 <thead><tr class="header">
 <th align="left"></th>
-<th align="right">B cell</th>
-<th align="right">Macrophage</th>
-<th align="right">Monocyte conventional</th>
-<th align="right">Monocyte non-conventional</th>
-<th align="right">NK cell</th>
-<th align="right">T cell CD4</th>
-<th align="right">T cell CD8</th>
-<th align="right">T cell dividing</th>
-<th align="right">T cell regulatory</th>
+<th align="right">B</th>
+<th align="right">CD4 T</th>
+<th align="right">CD8 T</th>
+<th align="right">DC</th>
+<th align="right">Mono</th>
+<th align="right">NK</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">HD30_PBMC_0</td>
-<td align="right">0.0800780</td>
-<td align="right">0e+00</td>
-<td align="right">0.2764050</td>
-<td align="right">0.1427114</td>
-<td align="right">0.1385384</td>
-<td align="right">0.3316996</td>
-<td align="right">0.0277395</td>
-<td align="right">0.0026353</td>
-<td align="right">0.0001929</td>
+<td align="right">0.087</td>
+<td align="right">0.444</td>
+<td align="right">0.318</td>
+<td align="right">0.047</td>
+<td align="right">0.037</td>
+<td align="right">0.066</td>
 </tr>
 <tr class="even">
 <td align="left">HD30_PBMC_1</td>
-<td align="right">0.0735586</td>
-<td align="right">1e-06</td>
-<td align="right">0.3554604</td>
-<td align="right">0.1236851</td>
-<td align="right">0.1253645</td>
-<td align="right">0.2968113</td>
-<td align="right">0.0243933</td>
-<td align="right">0.0007228</td>
-<td align="right">0.0000029</td>
+<td align="right">0.086</td>
+<td align="right">0.439</td>
+<td align="right">0.311</td>
+<td align="right">0.052</td>
+<td align="right">0.039</td>
+<td align="right">0.073</td>
 </tr>
 <tr class="odd">
 <td align="left">HD30_PBMC_3</td>
-<td align="right">0.0862939</td>
-<td align="right">0e+00</td>
-<td align="right">0.2591685</td>
-<td align="right">0.1246382</td>
-<td align="right">0.1305280</td>
-<td align="right">0.3595342</td>
-<td align="right">0.0360420</td>
-<td align="right">0.0037421</td>
-<td align="right">0.0000530</td>
+<td align="right">0.085</td>
+<td align="right">0.540</td>
+<td align="right">0.244</td>
+<td align="right">0.044</td>
+<td align="right">0.032</td>
+<td align="right">0.055</td>
 </tr>
 <tr class="even">
 <td align="left">HD30_PBMC_7</td>
-<td align="right">0.1156300</td>
-<td align="right">0e+00</td>
-<td align="right">0.3316376</td>
-<td align="right">0.0226567</td>
-<td align="right">0.1140384</td>
-<td align="right">0.3596168</td>
-<td align="right">0.0545500</td>
-<td align="right">0.0017350</td>
-<td align="right">0.0001355</td>
+<td align="right">0.091</td>
+<td align="right">0.472</td>
+<td align="right">0.295</td>
+<td align="right">0.048</td>
+<td align="right">0.028</td>
+<td align="right">0.067</td>
 </tr>
 <tr class="odd">
 <td align="left">HD31_PBMC_0</td>
-<td align="right">0.1141260</td>
-<td align="right">3e-07</td>
-<td align="right">0.4713667</td>
-<td align="right">0.0024376</td>
-<td align="right">0.0511600</td>
-<td align="right">0.3026050</td>
-<td align="right">0.0571770</td>
-<td align="right">0.0010128</td>
-<td align="right">0.0001147</td>
+<td align="right">0.080</td>
+<td align="right">0.617</td>
+<td align="right">0.167</td>
+<td align="right">0.041</td>
+<td align="right">0.045</td>
+<td align="right">0.049</td>
 </tr>
 <tr class="even">
 <td align="left">HD31_PBMC_1</td>
-<td align="right">0.1143393</td>
-<td align="right">0e+00</td>
-<td align="right">0.4559677</td>
-<td align="right">0.0000000</td>
-<td align="right">0.0408233</td>
-<td align="right">0.3235003</td>
-<td align="right">0.0651854</td>
-<td align="right">0.0001089</td>
-<td align="right">0.0000752</td>
+<td align="right">0.081</td>
+<td align="right">0.566</td>
+<td align="right">0.214</td>
+<td align="right">0.041</td>
+<td align="right">0.042</td>
+<td align="right">0.056</td>
 </tr>
 <tr class="odd">
 <td align="left">HD31_PBMC_3</td>
-<td align="right">0.0865631</td>
-<td align="right">0e+00</td>
-<td align="right">0.4423767</td>
-<td align="right">0.0000000</td>
-<td align="right">0.0486223</td>
-<td align="right">0.3520335</td>
-<td align="right">0.0686691</td>
-<td align="right">0.0015950</td>
-<td align="right">0.0001403</td>
+<td align="right">0.080</td>
+<td align="right">0.525</td>
+<td align="right">0.243</td>
+<td align="right">0.043</td>
+<td align="right">0.044</td>
+<td align="right">0.065</td>
 </tr>
 <tr class="even">
 <td align="left">HD31_PBMC_7</td>
-<td align="right">0.0930244</td>
-<td align="right">0e+00</td>
-<td align="right">0.4262222</td>
-<td align="right">0.0000000</td>
-<td align="right">0.0583644</td>
-<td align="right">0.3587579</td>
-<td align="right">0.0632944</td>
-<td align="right">0.0000000</td>
-<td align="right">0.0003367</td>
+<td align="right">0.053</td>
+<td align="right">0.851</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.059</td>
+<td align="right">0.037</td>
 </tr>
 </tbody>
 </table>
@@ -271,10 +232,10 @@
 <a href="#requirements" class="anchor"></a>Requirements</h2>
 <p>Most methods do not require additional software/tokens, but there are a few exceptions:</p>
 <ul>
-<li>A working version of Docker is required for CibersortX</li>
-<li>A token for CibersortX is required from this website: <a href="https://cibersortx.stanford.edu/" class="uri">https://cibersortx.stanford.edu/</a>
+<li>A working version of Docker is required for CIBERSORTx</li>
+<li>A token for CIBERSORTx is required from this website: <a href="https://cibersortx.stanford.edu/" class="uri">https://cibersortx.stanford.edu/</a>
 </li>
-<li>The Cibersort source code is required for BSeq-sc (see tutorial in ?omnideconv::bseqsc_config)</li>
+<li>The CIBERSORT source code is required for BSeq-sc (see tutorial in ?omnideconv::bseqsc_config)</li>
 </ul>
 </div>
 <div id="available-methods-licenses-citations" class="section level2">
@@ -321,7 +282,7 @@
 </td>
 </tr>
 <tr class="odd">
-<td><a href="https://cibersortx.stanford.edu/">CibersortX</a></td>
+<td><a href="https://cibersortx.stanford.edu/">CIBERSORTx</a></td>
 <td>free for non-commerical use only</td>
 <td>Newman, A. M., Liu, C. L., Green, M. R., Gentles, A. J., Feng, W., Xu, Y., Hoang, C. D., Diehn, M., &amp; Alizadeh, A. A. (2015). Robust enumeration of cell subsets from tissue expression profiles. Nature Methods, 12(5), 453–457. <a href="https://doi.org/10.1038/nmeth.3337" class="uri">https://doi.org/10.1038/nmeth.3337</a>
 </td>

@@ -230,7 +230,7 @@ To give you a feeling for the data, this is what a few rows and columns of our s
 ```{r echo=FALSE}
 knitr::kable(single_cell_data[67:71, 1:3],
   caption = "Table 1: Example of the raw single cell counts.",
-  digits=3
+  digits = 3
 )
 ```
 
@@ -259,7 +259,7 @@ deconvolution <- omnideconv::deconvolute(
 ```{r echo=FALSE}
 knitr::kable(deconvolution,
   caption = "Table 3: Deconvoluted cell type proportions calculated 
-  with Bisque and the signature matrix from the last step.", digits=3)
+  with Bisque and the signature matrix from the last step.", digits = 3)
 ```
 
 ## Plot Results

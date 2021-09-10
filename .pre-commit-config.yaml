@@ -32,8 +32,8 @@ repos:
       #    .*\.sh|
       #    .*\.RData
       #    )$
-    -   id: lintr
-        args: [--warn_only]
+    #-   id: lintr
+    #    args: [--warn_only]
     #-   id: readme-rmd-rendered
     -   id: parsable-R
     -   id: no-browser-statement

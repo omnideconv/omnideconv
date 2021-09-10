@@ -8,7 +8,7 @@
 #' @export
 build_model_cdseq <- function() {
   message(
-    "The deconvolution with CDSeq is done in only one step. Please just use the",
+    "The deconvolution with CDSeq is done in only one step. Please just use the ",
     "deconvolute method."
   )
 
@@ -156,6 +156,13 @@ deconvolute_cdseq <- function(bulk_gene_expression, single_cell_object, cell_typ
 
   cdseq_gep <- cdseq_res$estGEP
   cdseq_prop <- cdseq_res$estProp
+
+  cdseq_gep <- cdseq_gep[base::intersect(
+    rownames(single_cell_object),
+    rownames(cdseq_gep)
+  ), ]
+
+  single_cell_object <- single_cell_object[rownames(cdseq_gep), ]
 
   cell_annotations_as_df <- cbind(colnames(single_cell_object), cell_type_annotations)
   colnames(cell_annotations_as_df) <- c("cell_id", "cell_type")

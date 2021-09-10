@@ -18,16 +18,16 @@ names(markers_small) <- sort(unique(cell_annotations_small))
 
 
 
-matrixRightFormat <- sc_object_small
+matrix_right_format <- sc_object_small
 # individual.ids and cell.types should be in the same order as in sample.ids
-sc.pheno <- data.frame(
+sc_pheno <- data.frame(
   check.names = F, check.rows = F,
   stringsAsFactors = F,
   row.names = colnames(sc_object_small),
   batchId = batch_ids_small_from_file,
   cellType = cell_annotations_small
 )
-sc.meta <- data.frame(
+sc_meta <- data.frame(
   labelDescription = c(
     "batchId",
     "cellType"
@@ -37,28 +37,28 @@ sc.meta <- data.frame(
     "cellType"
   )
 )
-sc.pdata <- new("AnnotatedDataFrame",
-  data = sc.pheno,
-  varMetadata = sc.meta
+sc_pdata <- new("AnnotatedDataFrame",
+  data = sc_pheno,
+  varMetadata = sc_meta
 )
-colnames(matrixRightFormat) <- row.names(sc.pdata)
-rownames(matrixRightFormat) <- rownames(sc_object_small)
-sc.eset <- Biobase::ExpressionSet(
-  assayData = matrixRightFormat,
-  phenoData = sc.pdata
+colnames(matrix_right_format) <- row.names(sc_pdata)
+rownames(matrix_right_format) <- rownames(sc_object_small)
+sc_eset <- Biobase::ExpressionSet(
+  assayData = matrix_right_format,
+  phenoData = sc_pdata
 )
-sc.eset <- Biobase::ExpressionSet(
-  assayData = Biobase::exprs(sc.eset),
-  phenoData = sc.eset@phenoData
+sc_eset <- Biobase::ExpressionSet(
+  assayData = Biobase::exprs(sc_eset),
+  phenoData = sc_eset@phenoData
 )
-single_cell_expression_set <- sc.eset
+single_cell_expression_set <- sc_eset
 bulk_expression_set <- Biobase::ExpressionSet(assayData = bulk_small)
 
-sc.eset <- BisqueRNA:::CountsToCPM(sc.eset)
-sc.eset <- BisqueRNA:::FilterZeroVarianceGenes(sc.eset, FALSE)
+sc_eset <- BisqueRNA:::CountsToCPM(sc_eset)
+sc_eset <- BisqueRNA:::FilterZeroVarianceGenes(sc_eset, FALSE)
 
 
-model_bisque <- BisqueRNA::GenerateSCReference(sc.eset, "cellType")
+model_bisque <- BisqueRNA::GenerateSCReference(sc_eset, "cellType")
 utils::write.csv(model_bisque, "test_models/bisque_model_small.csv")
 result_bisque <- t(BisqueRNA::ReferenceBasedDecomposition(
   Biobase::ExpressionSet(assayData = bulk_small), single_cell_expression_set,
@@ -70,53 +70,53 @@ utils::write.csv(result_bisque, "test_results/bisque_result_small.csv")
 # MOMF
 model_momf <- MOMF::momf.computeRef(sc_object_small, cell_annotations_small)
 utils::write.csv(model_momf, "test_models/momf_model_small.csv")
-GList <- list(X1 = t(sc_object_small), X2 = t(bulk_small))
-result_momf <- MOMF::momf.fit(DataX = GList, DataPriorU = model_momf)$cell.prop
+g_list <- list(X1 = t(sc_object_small), X2 = t(bulk_small))
+result_momf <- MOMF::momf.fit(DataX = g_list, DataPriorU = model_momf)$cell.prop
 result_momf <- result_momf[, order(colnames(result_momf))]
 utils::write.csv(result_momf, "test_results/momf_result_small.csv")
 
 # DWLS
 cell_annotations_small_temp <- gsub(" ", "_", cell_annotations_small)
 model_dwls <- DWLS::buildSignatureMatrixMAST(sc_object_small, cell_annotations_small_temp, tempdir())
-tr <- trimDataOwn(model_dwls, bulk_small)
+tr <- trim_data_own(model_dwls, bulk_small)
 
-allCounts_DWLS <- NULL
-allCounts_OLS <- NULL
-allCounts_SVR <- NULL
-for (i in 1:ncol(tr$bulk)) {
+all_counts_dwls <- NULL
+all_counts_ols <- NULL
+all_counts_svr <- NULL
+for (i in seq_len(ncol(tr$bulk))) {
   bulk_i <- tr$bulk[, i]
-  solOLS <- DWLS::solveOLS(tr$sig, bulk_i)
-  solDWLS <- DWLS::solveDampenedWLS(tr$sig, bulk_i)
-  solSVR <- DWLS::solveSVR(tr$sig, bulk_i)
+  sol_ols <- DWLS::solveOLS(tr$sig, bulk_i)
+  sol_dwls <- DWLS::solveDampenedWLS(tr$sig, bulk_i)
+  sol_svr <- DWLS::solveSVR(tr$sig, bulk_i)
 
-  allCounts_DWLS <- cbind(allCounts_DWLS, solDWLS)
-  allCounts_OLS <- cbind(allCounts_OLS, solOLS)
-  allCounts_SVR <- cbind(allCounts_SVR, solSVR)
+  all_counts_dwls <- cbind(all_counts_dwls, sol_dwls)
+  all_counts_ols <- cbind(all_counts_ols, sol_ols)
+  all_counts_svr <- cbind(all_counts_svr, sol_svr)
 }
 
-colnames(allCounts_DWLS) <- colnames(tr$bulk)
-colnames(allCounts_OLS) <- colnames(tr$bulk)
-colnames(allCounts_SVR) <- colnames(tr$bulk)
+colnames(all_counts_dwls) <- colnames(tr$bulk)
+colnames(all_counts_ols) <- colnames(tr$bulk)
+colnames(all_counts_svr) <- colnames(tr$bulk)
 
 colnames(model_dwls) <- gsub("_", " ", colnames(model_dwls))
 utils::write.csv(model_dwls, "test_models/dwls_model_small.csv")
-allCounts_DWLS <- t(allCounts_DWLS)
-allCounts_OLS <- t(allCounts_OLS)
-allCounts_SVR <- t(allCounts_SVR)
-allCounts_DWLS <- allCounts_DWLS[, order(colnames(allCounts_DWLS))]
-allCounts_OLS <- allCounts_OLS[, order(colnames(allCounts_OLS))]
-allCounts_SVR <- allCounts_SVR[, order(colnames(allCounts_SVR))]
-colnames(allCounts_DWLS) <- gsub("_", " ", colnames(allCounts_DWLS))
-colnames(allCounts_OLS) <- gsub("_", " ", colnames(allCounts_OLS))
-colnames(allCounts_SVR) <- gsub("_", " ", colnames(allCounts_SVR))
-utils::write.csv(allCounts_DWLS, "test_results/dwls_dwls_result_small.csv")
-utils::write.csv(allCounts_OLS, "test_results/dwls_ols_result_small.csv")
-utils::write.csv(allCounts_SVR, "test_results/dwls_svr_result_small.csv")
+all_counts_dwls <- t(all_counts_dwls)
+all_counts_ols <- t(all_counts_ols)
+all_counts_svr <- t(all_counts_svr)
+all_counts_dwls <- all_counts_dwls[, order(colnames(all_counts_dwls))]
+all_counts_ols <- all_counts_ols[, order(colnames(all_counts_ols))]
+all_counts_svr <- all_counts_svr[, order(colnames(all_counts_svr))]
+colnames(all_counts_dwls) <- gsub("_", " ", colnames(all_counts_dwls))
+colnames(all_counts_ols) <- gsub("_", " ", colnames(all_counts_ols))
+colnames(all_counts_svr) <- gsub("_", " ", colnames(all_counts_svr))
+utils::write.csv(all_counts_dwls, "test_results/dwls_dwls_result_small.csv")
+utils::write.csv(all_counts_ols, "test_results/dwls_ols_result_small.csv")
+utils::write.csv(all_counts_svr, "test_results/dwls_svr_result_small.csv")
 
 
 
 
-## CibersortX
+## CIBERSORTx
 single_cell <- rbind(cell_annotations_small, sc_object_small)
 rownames(single_cell) <- c("GeneSymbol", rownames(sc_object_small))
 single_cell <- data.frame("GeneSymbol" = rownames(single_cell), single_cell)
@@ -130,8 +130,8 @@ write.table(data.frame("Gene" = rownames(bulk_small), bulk_small), "mixture_file
 )
 
 root <- getwd() # Alternatively rstudioapi::getSourceEditorContext()$path can be used
-email <- "konstantin.pelz@tum.de"
-token <- "27308ae0ef1458d381becac46ca7e480"
+email <- Sys.getenv("CIBERSORTX_EMAIL")
+token <- Sys.getenv("CIBERSORTX_TOKEN")
 signature_command <- paste0(
   "docker run -v ", root, ":/src/data -v ", root,
   "/test_models:/src/outdir cibersortx/fractions --username ", email,
@@ -201,7 +201,7 @@ file.remove(paste0(root, "/mixture_file_for_cibersort.txt"))
 
 ## MuSiC
 result_music <- music_prop(
-  bulk.eset = bulk_expression_set, sc.eset = single_cell_expression_set,
+  bulk.eset = bulk_expression_set, sc_eset = single_cell_expression_set,
   clusters = "cellType", samples = "batchId"
 )$Est.prop.weighted
 result_music <- result_music[, order(colnames(result_music))]
@@ -209,7 +209,7 @@ utils::write.csv(result_music, "test_results/music_result_small.csv")
 
 ## SCDC
 result_scdc <- SCDC_prop(
-  bulk.eset = bulk_expression_set, sc.eset = single_cell_expression_set,
+  bulk.eset = bulk_expression_set, sc_eset = single_cell_expression_set,
   ct.varname = "cellType", sample = "batchId",
   ct.sub = unique(single_cell_expression_set@phenoData@data[, "cellType"])
 )$prop.est.mvw
@@ -234,7 +234,7 @@ eset_two <- getESET(sc_object_small,
 eset_list <- list(one = eset_one, two = eset_two)
 
 result_scdc_ensemble <- SCDC_ENSEMBLE(
-  bulk.eset = bulk_expression_set, sc.eset.list = eset_list,
+  bulk.eset = bulk_expression_set, sc_eset.list = eset_list,
   ct.varname = "cellname", sample = "subjects",
   ct.sub = Reduce(intersect, sapply(eset_list, function(x) {
     unique(x@phenoData@data[, "cellname"])
@@ -245,7 +245,7 @@ props <- props[, order(colnames(props))]
 utils::write.csv(props, "test_results/scdc_result_ensemble.csv")
 
 
-## BSEQ-sc
+## BSeq-sc
 
 signature_bseqsc <-
   bseqsc_basis(sc_object_small, markers_small, cell_annotations_small, batch_ids_small_from_file)
@@ -290,9 +290,9 @@ utils::write.csv(signature_bseqsc, "test_models/bseq_model_small.csv")
 
 # trim bulk and single-cell data to contain the same genes
 # CHANGED FROM THE ORIGINAL FUNCTION TO WORK WITH OUR DATA
-trimDataOwn <- function(Signature, bulkData) {
-  Genes <- intersect(rownames(Signature), rownames(bulkData))
-  B <- bulkData[Genes, ]
-  S <- Signature[Genes, ]
-  return(list("sig" = S, "bulk" = B))
+trim_data_own <- function(signature, bulk_data) {
+  genes <- intersect(rownames(signature), rownames(bulk_data))
+  b <- bulk_data[genes, ]
+  s <- signature[genes, ]
+  return(list("sig" = s, "bulk" = b))
 }

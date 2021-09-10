@@ -1,7 +1,7 @@
 #' List of supported deconvolution methods
 #'
 #' The methods currently supported are
-#' `AutoGeneS`, `Bisque`, `BSEQ-sc`, `CibersortX`, `CPM`, `DWLS`, `MOMF`, `MuSiC`, `Scaden`,
+#' `AutoGeneS`, `Bisque`, `BSeq-sc`, `CIBERSORTx`, `CPM`, `DWLS`, `MOMF`, `MuSiC`, `Scaden`,
 #' `SCDC`
 #'
 #' The object is a named vector. The names correspond to the display name of the method,
@@ -9,7 +9,7 @@
 #'
 #' @export
 deconvolution_methods <- c(
-  "AutoGeneS" = "autogenes", "Bisque" = "bisque", "BSEQ-sc" = "bseqsc", "CibersortX" = "cibersortx",
+  "AutoGeneS" = "autogenes", "Bisque" = "bisque", "BSeq-sc" = "bseqsc", "CIBERSORTx" = "cibersortx",
   "CDSeq" = "cdseq", "CPM" = "cpm", "DWLS" = "dwls", "MOMF" = "momf", "MuSiC" = "music",
   "Scaden" = "scaden", "SCDC" = "scdc"
 )
@@ -36,7 +36,7 @@ deconvolution_methods <- c(
 #' @param cell_type_column_name Name of the column in (Anndata: obs, SingleCellExperiment: colData),
 #'   that contains the cell-type labels. Is only used if no cell_type_annotations vector is
 #'   provided.
-#' @param markers Named list of cell type marker genes. This parameter is only used by BSEQ-sc.
+#' @param markers Named list of cell type marker genes. This parameter is only used by BSeq-sc.
 #'   The type of gene identifiers (names(markers)) must be the same as the ones used as feature/row
 #'   names in the single_cell_object.
 #' @param ... Additional parameters, passed to the algorithm used
@@ -46,10 +46,15 @@ deconvolution_methods <- c(
 #'
 #' @examples
 #' # More examples can be found in the unit tests at tests/testthat/test-b-buildmodel.R
-#' data("single_cell_data")
-#' data("cell_type_annotations")
-#' data("batch_ids")
+#' data("single_cell_data_1")
+#' data("cell_type_annotations_1")
+#' data("batch_ids_1")
 #' data("bulk")
+#'
+#' single_cell_data <- single_cell_data_1[1:2000, 1:500]
+#' cell_type_annotations <- cell_type_annotations_1[1:500]
+#' batch_ids <- batch_ids_1[1:500]
+#' bulk <- bulk[1:2000, ]
 #'
 #' signature_matrix_bisque <- build_model(
 #'   single_cell_data, cell_type_annotations, "bisque",
@@ -177,10 +182,15 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
 #'
 #' @examples
 #' # More examples can be found in the unit tests at tests/testthat/test-c-deconvolute.R
-#' data("single_cell_data")
-#' data("cell_type_annotations")
-#' data("batch_ids")
+#' data("single_cell_data_1")
+#' data("cell_type_annotations_1")
+#' data("batch_ids_1")
 #' data("bulk")
+#'
+#' single_cell_data <- single_cell_data_1[1:2000, 1:500]
+#' cell_type_annotations <- cell_type_annotations_1[1:500]
+#' batch_ids <- batch_ids_1[1:500]
+#' bulk <- bulk[1:2000, ]
 #'
 #' signature_matrix_bisque <- build_model(
 #'   single_cell_data, cell_type_annotations, "bisque",
@@ -190,7 +200,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
 #'   bulk, signature_matrix_bisque, "bisque", single_cell_data,
 #'   cell_type_annotations, batch_ids
 #' )
-#' deconv_momf <- deconvolute(bulk_small, signature_matrix_bisque, "momf", single_cell_data_small)
+#' deconv_momf <- deconvolute(bulk, signature_matrix_bisque, "momf", single_cell_data)
 deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_methods,
                         single_cell_object = NULL, cell_type_annotations = NULL, batch_ids = NULL,
                         cell_type_column_name = NULL, verbose = FALSE, ...) {
@@ -267,10 +277,10 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   }
 
   deconv <- switch(method,
-    bisque = deconvolute_bisque(bulk_gene_expression, signature, single_cell_object,
+    bisque = t(deconvolute_bisque(bulk_gene_expression, signature, single_cell_object,
       cell_type_annotations, batch_ids,
       verbose = verbose, ...
-    )$bulk.props,
+    )$bulk.props),
     momf = deconvolute_momf(bulk_gene_expression, signature, single_cell_object,
       verbose = verbose, ...
     )$cell.prop,
@@ -326,17 +336,17 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 #' The dependencies for each method
 #'
 required_packages <- list(
-  "bisque" = c("PelzKo/bisque"), # , "limSolve"),
-  "momf" = c("grst/MOMF"),
-  "dwls" = c("KonstantinPelz/dwls"),
-  "scaden" = c("reticulate"),
-  "cibersortx" = c(),
   "autogenes" = c("reticulate"),
-  "music" = c("xuranw/MuSiC"),
-  "scdc" = c("grst/SCDC"),
-  "cpm" = c("amitfrish/scBio"),
+  "bisque" = c("PelzKo/bisque"), # , "limSolve"),
   "bseqsc" = c("shenorrlab/bseqsc"),
-  "cdseq" = c("PelzKo/CDSeq_R_Package")
+  "cdseq" = c("PelzKo/CDSeq_R_Package"),
+  "cibersortx" = c(),
+  "cpm" = c("amitfrish/scBio"),
+  "dwls" = c("PelzKo/dwls"),
+  "momf" = c("grst/MOMF"),
+  "music" = c("xuranw/MuSiC"),
+  "scaden" = c("reticulate"),
+  "scdc" = c("grst/SCDC")
 )
 
 #' Checking and installing all dependencies for the specific methods
@@ -377,11 +387,7 @@ check_and_install <- function(method) {
         utils::setRepositories(graphics = FALSE, ind = c(1, 2, 3, 4, 5))
         repositories_set <- TRUE
       }
-      if (bare_pkgname == "dwls") {
-        remotes::install_bitbucket(pkgname)
-      } else {
-        remotes::install_github(pkgname)
-      }
+      remotes::install_github(pkgname)
     }
   })
 }
@@ -401,10 +407,15 @@ check_and_install <- function(method) {
 #'
 #'
 #' @examples
-#' data("single_cell_data")
-#' data("cell_type_annotations")
-#' data("batch_ids")
+#' data("single_cell_data_1")
+#' data("cell_type_annotations_1")
+#' data("batch_ids_1")
 #' data("bulk")
+#'
+#' single_cell_data <- single_cell_data_1[1:2000, 1:500]
+#' cell_type_annotations <- cell_type_annotations_1[1:500]
+#' batch_ids <- batch_ids_1[1:500]
+#' bulk <- bulk[1:2000, ]
 #'
 #' signature_matrix_bisque <- build_model(
 #'   single_cell_data, cell_type_annotations, "bisque",
@@ -414,4 +425,18 @@ check_and_install <- function(method) {
 #' cond_num
 calc_condition_number <- function(signature_matrix) {
   return(kappa(signature_matrix, exact = TRUE))
+}
+
+#' Install all python packages
+#'
+#' This makes sure a valid python installation exists and all needed packages are pulled and
+#' installed.
+#'
+#' @export
+#'
+install_all_python <- function() {
+  init_python()
+  anndata_checkload()
+  autogenes_checkload()
+  scaden_checkload()
 }

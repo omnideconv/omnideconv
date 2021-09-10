@@ -88,8 +88,7 @@ init_python <- function(python = NULL) {
         message("Python not available")
         print(config)
         message(
-          "Please indicate your version of python ",
-          "calling init_python(python=your/python)"
+          "Please indicate your version of python calling init_python(python=your/python)"
         )
       }
     } else {

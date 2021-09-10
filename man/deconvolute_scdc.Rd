@@ -18,7 +18,7 @@ deconvolute_scdc(
   truep = NULL,
   weight_basis = TRUE,
   ct_cell_size = NULL,
-  Transform_bisque = FALSE,
+  transform_bisque = FALSE,
   grid_search = FALSE,
   search_length = 0.05,
   names_sc_objects = NULL,
@@ -65,7 +65,7 @@ created by the SCDC_basis function.}
 data. Users can specify a vector of cell size factors corresponding to the ct.sub according to
 prior knowledge. The vector should be named: names(ct_cell_size input) should not be NULL.}
 
-\item{Transform_bisque}{The bulk sample transformation from bisqueRNA. Aiming to reduce the
+\item{transform_bisque}{The bulk sample transformation from bisqueRNA. Aiming to reduce the
 systematic difference between single cells and bulk samples.}
 
 \item{grid_search}{logical. whether to allow grid search method to derive the ENSEMBLE weights.}

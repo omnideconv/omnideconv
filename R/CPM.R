@@ -8,7 +8,7 @@
 #' @export
 build_model_cpm <- function() {
   message(
-    "The deconvolution with CPM is done in only one step. Please just use the",
+    "The deconvolution with CPM is done in only one step. Please just use the ",
     "deconvolute method."
   )
 
@@ -113,7 +113,8 @@ deconvolute_cpm <- function(bulk_gene_expression, single_cell_object, cell_type_
 calculate_cell_embedding <- function(single_cell_object, cell_type_annotations,
                                      method = c("PCA", "UMAP", "TSNE")) {
   if (length(method) > 1) {
-    method <- method[[1]]
+    method <- method[1]
+    message(paste0(method, " was chosen because multiple values were supplied for \"method\""))
   }
   method <- tolower(method)
   sce <- matrix_to_singlecellexperiment(single_cell_object, cell_type_annotations)

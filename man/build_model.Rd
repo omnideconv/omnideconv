@@ -41,7 +41,7 @@ for MOMF and Scaden, defaults to NULL. Row and column names need to be set}
 that contains the cell-type labels. Is only used if no cell_type_annotations vector is
 provided.}
 
-\item{markers}{Named list of cell type marker genes. This parameter is only used by BSEQ-sc.
+\item{markers}{Named list of cell type marker genes. This parameter is only used by BSeq-sc.
 The type of gene identifiers (names(markers)) must be the same as the ones used as feature/row
 names in the single_cell_object.}
 
@@ -55,10 +55,15 @@ The single_cell_object is expected to have rownames() and colnames()
 }
 \examples{
 # More examples can be found in the unit tests at tests/testthat/test-b-buildmodel.R
-data("single_cell_data")
-data("cell_type_annotations")
-data("batch_ids")
+data("single_cell_data_1")
+data("cell_type_annotations_1")
+data("batch_ids_1")
 data("bulk")
+
+single_cell_data <- single_cell_data_1[1:2000, 1:500]
+cell_type_annotations <- cell_type_annotations_1[1:500]
+batch_ids <- batch_ids_1[1:500]
+bulk <- bulk[1:2000, ]
 
 signature_matrix_bisque <- build_model(
   single_cell_data, cell_type_annotations, "bisque",

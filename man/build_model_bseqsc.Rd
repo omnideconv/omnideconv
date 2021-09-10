@@ -2,7 +2,7 @@
 % Please edit documentation in R/BSEQ_sc.R
 \name{build_model_bseqsc}
 \alias{build_model_bseqsc}
-\title{Calculates the signature model with BSEQ-sc}
+\title{Calculates the signature model with BSeq-sc}
 \usage{
 build_model_bseqsc(
   single_cell_object,
@@ -36,5 +36,5 @@ cell types listed in \code{markers}.}
 The signature matrix. Rows are genes, columns are cell types.
 }
 \description{
-Calculates the signature model with BSEQ-sc
+Calculates the signature model with BSeq-sc
 }

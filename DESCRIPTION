@@ -48,7 +48,6 @@ Suggests:
     devtools,
     DWLS,
     knitr,
-    limSolve,
     MOMF,
     MuSiC,
     pkgdown,
@@ -61,16 +60,17 @@ VignetteBuilder:
     knitr
 Remotes:
     amitfrish/scBio,
-    bitbucket::KonstantinPelz/dwls,
     grst/MOMF,
     grst/SCDC,
     PelzKo/bisque,
     PelzKo/CDSeq_R_Package,
+    PelzKo/dwls,
     shenorrlab/bseqsc,
     xuranw/MuSiC
 biocViews:
 Config/testthat/edition: 2
 Encoding: UTF-8
 LazyData: true
+LazyDataCompression: bzip2
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1

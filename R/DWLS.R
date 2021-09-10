@@ -20,6 +20,7 @@ build_model_dwls <- function(single_cell_object, cell_type_annotations, method =
                              diff_cutoff = 0.5, pval_cutoff = 0.01) {
   if (length(method) > 1) {
     method <- method[1]
+    message(paste0(method, " was chosen because multiple values were supplied for \"method\""))
   }
 
   if (method == "mast") {
@@ -57,6 +58,10 @@ deconvolute_dwls <- function(bulk_gene_expression, signature,
                              dwls_submethod = c("DampenedWLS", "OLS", "SVR"), verbose = FALSE) {
   if (length(dwls_submethod) > 1) {
     dwls_submethod <- dwls_submethod[1]
+    message(paste0(
+      dwls_submethod, " was chosen because multiple values were supplied for ",
+      "\"dwls_submethod\""
+    ))
   }
 
   if (verbose) {

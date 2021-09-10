@@ -8,7 +8,7 @@
 #' @export
 build_model_music <- function() {
   message(
-    "The deconvolution with MuSiC is done in only one step. Please just use the",
+    "The deconvolution with MuSiC is done in only one step. Please just use the ",
     "deconvolute method."
   )
 

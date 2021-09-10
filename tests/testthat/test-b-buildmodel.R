@@ -8,6 +8,7 @@ marker_genes <- readr::read_lines("small_test_data/marker_genes_small.txt")
 markers_small <- list(marker_genes[1:9], marker_genes[10:14], marker_genes[15:20])
 names(markers_small) <- sort(unique(cell_annotations_small))
 
+
 test_that("Bisque GenerateSCReference works", {
   signature <- build_model(sc_object_small, cell_annotations_small,
     method = "bisque",
@@ -61,8 +62,8 @@ test_that("DWLS build signature matrix works", {
   expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
 })
 
-test_that("CibersortX build signature matrix works", {
-  set_cibersortx_credentials("konstantin.pelz@tum.de", "27308ae0ef1458d381becac46ca7e480")
+test_that("CIBERSORTx build signature matrix works", {
+  set_cibersortx_credentials(Sys.getenv("CIBERSORTX_EMAIL"), Sys.getenv("CIBERSORTX_TOKEN"))
   signature <- build_model(sc_object_small, cell_annotations_small, "cibersortx")
   expect_equal(
     info = "signature matrix has same amount of columns as unique cell types in single
@@ -112,7 +113,7 @@ test_that("CPM build model works", {
 })
 
 
-test_that("BSEQ-sc build model works", {
+test_that("BSeq-sc build model works", {
   signature <- build_model(sc_object_small, cell_annotations_small, "bseqsc",
     batch_ids = batch_ids_small, markers = markers_small
   )

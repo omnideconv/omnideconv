@@ -1,4 +1,4 @@
-#' Calculates the signature model with BSEQ-sc
+#' Calculates the signature model with BSeq-sc
 #'
 #' @param single_cell_object A matrix with the single-cell data. Rows are genes, columns are
 #'   samples. Row and column names need to be set.
@@ -19,7 +19,7 @@
 build_model_bseqsc <- function(single_cell_object, cell_type_annotations, markers, batch_ids,
                                ct_scale = TRUE, limit = TRUE) {
   if (is.null(markers) || is.null(batch_ids)) {
-    stop("'markers' and 'batch_ids' argument is required for BSEQ-sc")
+    stop("'markers' and 'batch_ids' argument is required for BSeq-sc")
   }
   return(bseqsc::bseqsc_basis(single_cell_object, markers, cell_type_annotations,
     batch_ids,
@@ -27,7 +27,7 @@ build_model_bseqsc <- function(single_cell_object, cell_type_annotations, marker
   ))
 }
 
-#' Deconvolution Analysis using BSEQ-sc
+#' Deconvolution Analysis using BSeq-sc
 #'
 #' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples.
 #'   Row and column names need to be set.

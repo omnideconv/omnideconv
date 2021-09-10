@@ -19,10 +19,15 @@ a small change in the inputs (the independent variables) there is a large change
 dependent variable.
 }
 \examples{
-data("single_cell_data")
-data("cell_type_annotations")
-data("batch_ids")
+data("single_cell_data_1")
+data("cell_type_annotations_1")
+data("batch_ids_1")
 data("bulk")
+
+single_cell_data <- single_cell_data_1[1:2000, 1:500]
+cell_type_annotations <- cell_type_annotations_1[1:500]
+batch_ids <- batch_ids_1[1:500]
+bulk <- bulk[1:2000, ]
 
 signature_matrix_bisque <- build_model(
   single_cell_data, cell_type_annotations, "bisque",

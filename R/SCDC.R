@@ -8,7 +8,7 @@
 #' @export
 build_model_scdc <- function() {
   message(
-    "The deconvolution with SCDC is done in only one step. Please just use the",
+    "The deconvolution with SCDC is done in only one step. Please just use the ",
     "deconvolute method."
   )
 
@@ -51,7 +51,7 @@ build_model_scdc <- function() {
 #' @param ct_cell_size default is NULL, which means the "library size" is calculated based on the
 #'   data. Users can specify a vector of cell size factors corresponding to the ct.sub according to
 #'   prior knowledge. The vector should be named: names(ct_cell_size input) should not be NULL.
-#' @param Transform_bisque The bulk sample transformation from bisqueRNA. Aiming to reduce the
+#' @param transform_bisque The bulk sample transformation from bisqueRNA. Aiming to reduce the
 #'   systematic difference between single cells and bulk samples.
 #' @param grid_search logical. whether to allow grid search method to derive the ENSEMBLE weights.
 #' @param search_length a number between 0 to 0.5. if using "Grid search", the step length used.
@@ -86,7 +86,7 @@ deconvolute_scdc <- function(bulk_gene_expression, single_cell_object, cell_type
                              batch_ids, ct_varname = "cellType", sample = "batchId",
                              ct_sub = NULL, iter_max = NULL, nu = 1e-04, epsilon = NULL,
                              truep = NULL, weight_basis = TRUE, ct_cell_size = NULL,
-                             Transform_bisque = FALSE, grid_search = FALSE, search_length = 0.05,
+                             transform_bisque = FALSE, grid_search = FALSE, search_length = 0.05,
                              names_sc_objects = NULL, qcthreshold = 0.7, verbose = FALSE,
                              quality_control = FALSE) {
   if (is.null(single_cell_object) || is.null(cell_type_annotations) || is.null(batch_ids)) {
@@ -164,14 +164,14 @@ deconvolute_scdc <- function(bulk_gene_expression, single_cell_object, cell_type
         ct.varname = ct_varname, sample = sample,
         ct.sub = ct_sub, iter.max = iter_max, nu = nu, epsilon = epsilon,
         truep = truep, weight.basis = weight_basis, ct.cell.size = ct_cell_size,
-        Transform_bisque = Transform_bisque
+        Transform_bisque = transform_bisque
       ))
     } else {
       return(SCDC::SCDC_prop_ONE(bulk_eset, sc_eset,
         ct.varname = ct_varname, sample = sample,
         ct.sub = ct_sub, iter.max = iter_max, nu = nu, epsilon = epsilon,
         truep = truep, weight.basis = weight_basis, ct.cell.size = ct_cell_size,
-        Transform_bisque = Transform_bisque
+        Transform_bisque = transform_bisque
       ))
     }
   } else {
@@ -201,7 +201,7 @@ deconvolute_scdc <- function(bulk_gene_expression, single_cell_object, cell_type
       ct.varname = ct_varname, sample = sample,
       ct.sub = ct_sub, iter.max = iter_max, nu = nu, epsilon = epsilon,
       truep = truep, weight.basis = weight_basis,
-      ct.cell.size = ct_cell_size, Transform_bisque = Transform_bisque,
+      ct.cell.size = ct_cell_size, Transform_bisque = transform_bisque,
       grid.search = grid_search, search.length = search_length
     ))
   }

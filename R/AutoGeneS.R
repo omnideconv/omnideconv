@@ -207,6 +207,9 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature,
     verbose = verbose, max_iter = as.integer(max_iter)
   )
 
+  result[result < 0] <- 0
+  result <- t(apply(result, 1, function(row) row / sum(row)))
+
   colnames(result) <- ag$adata()$obs_names
   rownames(result) <- rownames(bulk_data)
   return(list(proportions = result, genes_used = genes_used))

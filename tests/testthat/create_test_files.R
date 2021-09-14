@@ -196,8 +196,21 @@ file.remove(paste0(root, "/mixture_file_for_cibersort.txt"))
 # ag.optimize()
 # bulk_data = pd.read_csv('bulk_small.csv',index_col=0).transpose()
 # coef = ag.deconvolve(bulk_data)
+#
+# def normalize_proportions(data,copy):
+#   if copy==True:
+#     data_copy = data.copy()
+#   else:
+#     data_copy = data
+#   data_copy[data_copy < 0] = 0
+#   for raw in data_copy.index:
+#     sum = data_copy.loc[raw].sum()
+#     data_copy.loc[raw] = np.divide(data_copy.loc[raw],sum)
+#   return data_copy
+#
 # res = pd.DataFrame(coef,columns=ag.adata().obs_names,index=bulk_data.index)
-# res.to_csv("autogenes_result_small.csv",sep="\t")
+# result = normalize_proportions(res, copy = False)
+# result.to_csv("autogenes_result_small.csv",sep="\t")
 
 ## MuSiC
 result_music <- music_prop(

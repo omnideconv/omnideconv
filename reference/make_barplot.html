@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Creation of the options of the "get cell fractions" docker command — get_cell_fractions_options • omnideconv</title>
+<title>Plot deconvolution results as a barplot — make_barplot • omnideconv</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Creation of the options of the "get cell fractions" docker command — get_cell_fractions_options" />
-<meta property="og:description" content="Creation of the options of the &quot;get cell fractions&quot; docker command" />
+<meta property="og:title" content="Plot deconvolution results as a barplot — make_barplot" />
+<meta property="og:description" content="Plot deconvolution results as a barplot" />
 
 
 
@@ -120,78 +120,61 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Creation of the options of the "get cell fractions" docker command</h1>
-    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/CibersortX.R'><code>R/CibersortX.R</code></a></small>
-    <div class="hidden name"><code>get_cell_fractions_options.Rd</code></div>
+    <h1>Plot deconvolution results as a barplot</h1>
+    <small class="dont-index">Source: <a href='https://github.com/icbi-lab/omnideconv/blob/master/R/visualisation.R'><code>R/visualisation.R</code></a></small>
+    <div class="hidden name"><code>make_barplot.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Creation of the options of the "get cell fractions" docker command</p>
+    <p>Plot deconvolution results as a barplot</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_cell_fractions_options</span><span class='op'>(</span>
-  <span class='va'>sigmatrix</span>,
-  <span class='va'>mixture</span>,
-  perm <span class='op'>=</span> <span class='fl'>0</span>,
-  label <span class='op'>=</span> <span class='st'>"none"</span>,
-  rmbatch_B_mode <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  rmbatch_S_mode <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  source_GEPs <span class='op'>=</span> <span class='va'>sigmatrix</span>,
-  qn <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  absolute <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  abs_method <span class='op'>=</span> <span class='st'>"sig.score"</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>make_barplot</span><span class='op'>(</span><span class='va'>result_list</span>, title <span class='op'>=</span> <span class='st'>""</span>, file_name <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>sigmatrix</th>
-      <td><p>The filename of the signature matrix.</p></td>
+      <th>result_list</th>
+      <td><p>A named list containing all deconvolution results</p></td>
     </tr>
     <tr>
-      <th>mixture</th>
-      <td><p>The filename of the bulk expression data.</p></td>
+      <th>title</th>
+      <td><p>(optional) title of the plot</p></td>
     </tr>
     <tr>
-      <th>perm</th>
-      <td><p>&lt;int&gt; No. of permutations for p-value calculation (default: 0).</p></td>
-    </tr>
-    <tr>
-      <th>label</th>
-      <td><p>The label which will be added to the file name. Default is "none", adding no label
-at all.</p></td>
-    </tr>
-    <tr>
-      <th>rmbatch_B_mode</th>
-      <td><p>&lt;bool&gt;  Run B-mode batch correction (default: FALSE).</p></td>
-    </tr>
-    <tr>
-      <th>rmbatch_S_mode</th>
-      <td><p>&lt;bool&gt;  Run S-mode batch correction (default: FALSE).</p></td>
-    </tr>
-    <tr>
-      <th>source_GEPs</th>
-      <td><p>&lt;file_name&gt;  Signature matrix GEPs for batch correction (default: sigmatrix).</p></td>
-    </tr>
-    <tr>
-      <th>qn</th>
-      <td><p>&lt;bool&gt;  Run quantile normalization (default: FALSE).</p></td>
-    </tr>
-    <tr>
-      <th>absolute</th>
-      <td><p>&lt;bool&gt;  Run absolute mode (default: FALSE).</p></td>
-    </tr>
-    <tr>
-      <th>abs_method</th>
-      <td><p>&lt;char&gt;  Pick absolute method ("sig.score" (default) or "no.sumto1").</p></td>
+      <th>file_name</th>
+      <td><p>(optional) plot is saved in this file</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A string in the correct format for the docker command, containing all parameters.</p>
+    <p>the ggplot object</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"single_cell_data_1"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"cell_type_annotations_1"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"batch_ids_1"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"bulk"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"RefData"</span><span class='op'>)</span>
+
+<span class='va'>common_genes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sets.html'>intersect</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>single_cell_data_1</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>bulk</span><span class='op'>)</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2000</span><span class='op'>]</span>
+
+<span class='va'>single_cell_data</span> <span class='op'>&lt;-</span> <span class='va'>single_cell_data_1</span><span class='op'>[</span><span class='va'>common_genes</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>500</span><span class='op'>]</span>
+<span class='va'>cell_type_annotations</span> <span class='op'>&lt;-</span> <span class='va'>cell_type_annotations_1</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>500</span><span class='op'>]</span>
+<span class='va'>batch_ids</span> <span class='op'>&lt;-</span> <span class='va'>batch_ids_1</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>500</span><span class='op'>]</span>
+<span class='va'>bulk</span> <span class='op'>&lt;-</span> <span class='va'>bulk</span><span class='op'>[</span><span class='va'>common_genes</span>, <span class='op'>]</span>
+
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='build_model.html'>build_model</a></span><span class='op'>(</span><span class='va'>single_cell_data</span>, <span class='va'>cell_type_annotations</span>, <span class='st'>"bisque"</span>, <span class='va'>batch_ids</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Converting single-cell counts to CPM and filtering zero variance genes.</span></div><div class='output co'>#&gt; <span class='message'>Filtered 329 zero variance genes.</span></div><div class='input'><span class='va'>deconvolution</span> <span class='op'>&lt;-</span> <span class='fu'><a href='deconvolute.html'>deconvolute</a></span><span class='op'>(</span>
+  <span class='va'>bulk</span>, <span class='va'>model</span>, <span class='st'>"bisque"</span>, <span class='va'>single_cell_data</span>,
+  <span class='va'>cell_type_annotations</span>, <span class='va'>batch_ids</span>
+<span class='op'>)</span>
+<span class='va'>deconvolution</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>deconvolution</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>deconvolution</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>"Bisque"</span>
+<span class='fu'>make_barplot</span><span class='op'>(</span><span class='va'>deconvolution</span><span class='op'>)</span>
+</div><div class='img'><img src='make_barplot-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

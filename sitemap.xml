@@ -169,13 +169,13 @@
     <loc>https://icbi-lab.github.io/omnideconv/reference/install_scaden.html</loc>
   </url>
   <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/make_barplot.html</loc>
+  </url>
+  <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/make_benchmarking_scatterplot.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/matrix_to_singlecellexperiment.html</loc>
-  </url>
-  <url>
-    <loc>https://icbi-lab.github.io/omnideconv/reference/plot_deconv_result.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/python_available.html</loc>

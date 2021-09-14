@@ -479,14 +479,16 @@ TODO
 <div id="plot-results" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plot-results" class="anchor"></a>Plot Results</h2>
-<p>Additionally, we provide some methods for visualisation. In this and the benchmarking section you can find examples of how to use them. For the plot_deconv_result method, you can additionally provide a method and file name to add a title to your plot and save it. The colors are assigned in the order of the alphabet. As long as the exact same cell types are used throughout the analysis, the color assigned to each cell type will be the same.</p>
+<p>Additionally, we provide some methods for visualisation. In this and the benchmarking section you can find examples of how to use them. For the make_barplot method, you can additionally provide a method and file name to add a title to your plot and save it. The colors are assigned in the order of the alphabet. As long as the exact same cell types are used throughout the analysis, the color assigned to each cell type will be the same.</p>
 <p>Please note that the cell fractions depicted in this section are not representative for deconvolution analysis of “real” data. They are based on our sample dataset, which is very small compared to the usual datasets used in deconvolution analysis and also contains a limited number of cell types. Using such a small subset leads to a big information loss and the results are biased. However, the goal of this section is to give an example how the results can be visualized and to draw attention to the big differences between the results of the eleven methods implemented.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">res_bisque</span> <span class="op">&lt;-</span> <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span>
   <span class="va">bulk</span>, <span class="va">signatureMatrix</span>, <span class="st">"bisque"</span>,
   <span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="va">batch_ids</span>
 <span class="op">)</span>
-<span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_deconv_result.html">plot_deconv_result</a></span><span class="op">(</span><span class="va">res_bisque</span>, method <span class="op">=</span> <span class="st">"Bisque"</span><span class="op">)</span></code></pre></div>
+<span class="va">res_bisque_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">res_bisque</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">res_bisque_list</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"Bisque"</span>
+<span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/make_barplot.html">make_barplot</a></span><span class="op">(</span><span class="va">res_bisque_list</span>, title <span class="op">=</span> <span class="st">"Deconvolution result"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <img src="omnideconv_vignette_files/figure-html/plot-1.png" alt="Figure 2: Cell type proportions of the last step visualized. Very heterogenous results, HD30 show a lot of T cell dividing and NK cell, while HD31 show a lot of monocytes." width="672"><p class="caption">
 Figure 2: Cell type proportions of the last step visualized. Very heterogenous results, HD30 show a lot of T cell dividing and NK cell, while HD31 show a lot of monocytes.
@@ -534,6 +536,9 @@ Figure 3: Same cell type proportions as in Figure 2, just visualized on a cell t
 <span class="op">}</span><span class="op">)</span>
 <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/make_benchmarking_scatterplot.html">make_benchmarking_scatterplot</a></span><span class="op">(</span><span class="va">result_list</span>, <span class="va">RefData</span><span class="op">)</span></code></pre></div>
 <p><img src="omnideconv_vignette_files/figure-html/benchmarking-1.png" width="672" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/make_barplot.html">make_barplot</a></span><span class="op">(</span><span class="va">result_list</span>, <span class="st">"Comparison of different deconvolution methods"</span><span class="op">)</span></code></pre></div>
+<p><img src="omnideconv_vignette_files/figure-html/benchmarking-2.png" width="672" style="display: block; margin: auto;"></p>
 <!--
 
 ## Comparison with First-Generation Deconvolution Methods

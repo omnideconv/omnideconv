@@ -53,4 +53,4 @@ reference:
     desc: Methods which produce plots with different methods.
     contents:
       - make_benchmarking_scatterplot
-      - plot_deconv_result
+      - make_barplot

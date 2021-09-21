@@ -7,7 +7,7 @@
 make_benchmarking_scatterplot(result_list, ref_data, file_name = NULL)
 }
 \arguments{
-\item{result_list}{named list containing all deconvolution results that should be considered,
+\item{result_list}{A named list containing all deconvolution results that should be considered,
 cell type annotations need to contain the same cell types as the ones in ref_data}
 
 \item{ref_data}{reference cell types which are used as the ground truth}

@@ -1,8 +1,7 @@
 #' Plot deconvolution results as a barplot
 #'
-#' @param deconv_result result from deconvolution()
-#' @param method_name (optional) title of plot is set to the name of the method used for
-#'   deconvolution
+#' @param result_list A named list containing all deconvolution results
+#' @param title (optional) title of the plot
 #' @param file_name (optional) plot is saved in this file
 #' @import dplyr
 #' @import ggplot2
@@ -27,17 +26,39 @@
 #'   bulk, model, "bisque", single_cell_data,
 #'   cell_type_annotations, batch_ids
 #' )
-#' plot_deconv_result(deconvolution, "Bisque")
+#' deconvolution <- list(deconvolution)
+#' names(deconvolution) <- "Bisque"
+#' make_barplot(deconvolution)
 #' @export
-plot_deconv_result <- function(deconv_result, method_name = "", file_name = NULL) {
-  plot <- cbind(deconv_result, samples = rownames(deconv_result)) %>%
-    as.data.frame() %>%
-    tidyr::pivot_longer(!samples, names_to = "cell_type", values_to = "predicted_fraction") %>%
-    ggplot2::ggplot(aes(y = samples, x = as.numeric(predicted_fraction), fill = cell_type)) +
-    ggplot2::geom_bar(stat = "identity", position = "stack") +
-    ggplot2::labs(title = method_name, y = "sample", x = "proportion", fill = "cell type")
+make_barplot <- function(result_list, title = "", file_name = NULL) {
+  if (!"list" %in% class(result_list)) {
+    stop("Please supply a list for the parameter 'result_list'")
+  }
+  if (is.null(names(result_list))) {
+    stop("Please supply a NAMED list, names(result_list) returns NULL")
+  }
+  if (length(unique(sapply(result_list, nrow))) > 1) {
+    stop("Please supply a list where every entry contains the same number of samples")
+  }
+  plots <- lapply(result_list, function(result) {
+    cbind(result, samples = rownames(result)) %>%
+      as.data.frame() %>%
+      tidyr::pivot_longer(!samples, names_to = "cell_type", values_to = "predicted_fraction")
+  })
+  all <- do.call("rbind", plots)
+  all$method <- rep(names(result_list), each = nrow(all) / length(names(result_list)))
 
-  if (ncol(deconv_result) <= 12) {
+  plot <- all %>%
+    ggplot2::ggplot(aes(
+      y = samples, x = as.numeric(predicted_fraction), fill = cell_type,
+      group = method
+    )) +
+    ggplot2::geom_bar(stat = "identity", position = "stack") +
+    ggplot2::facet_wrap(~method) +
+    ggplot2::labs(title = title, y = "sample", x = "proportion", fill = "cell type") +
+    ggplot2::theme(legend.position = "bottom")
+
+  if (ncol(result_list[[1]]) <= 12) {
     plot <- plot + ggplot2::scale_fill_brewer(palette = "Paired")
   }
 
@@ -51,7 +72,7 @@ plot_deconv_result <- function(deconv_result, method_name = "", file_name = NULL
 
 #' Make a Scatterplot for Benchmarking
 #'
-#' @param result_list named list containing all deconvolution results that should be considered,
+#' @param result_list A named list containing all deconvolution results that should be considered,
 #'   cell type annotations need to contain the same cell types as the ones in ref_data
 #' @param ref_data reference cell types which are used as the ground truth
 #' @param file_name (optional) plot is saved in this file
@@ -100,6 +121,15 @@ plot_deconv_result <- function(deconv_result, method_name = "", file_name = NULL
 #' # Alternative if you want to save the plot in a file
 #' # make_benchmarking_scatterplot(result_list, RefData, "predictionVsGroundtruth.png")
 make_benchmarking_scatterplot <- function(result_list, ref_data, file_name = NULL) {
+  if (!"list" %in% class(result_list)) {
+    stop("Please supply a list for the parameter 'result_list'")
+  }
+  if (is.null(names(result_list))) {
+    stop("Please supply a NAMED list, names(result_list) returns NULL")
+  }
+  if (length(unique(sapply(result_list, nrow))) > 1) {
+    stop("Please supply a list where every entry contains the same number of samples")
+  }
   cell_types <- sort(unique(colnames(result_list[[1]])))
   if (length(colnames(ref_data)) != length(cell_types) ||
     !identical(sort(colnames(ref_data)), cell_types)) {

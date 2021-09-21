@@ -265,7 +265,7 @@ knitr::kable(deconvolution,
 
 ## Plot Results
 
-Additionally, we provide some methods for visualisation. In this and the benchmarking section you can find examples of how to use them. For the plot_deconv_result method, you can additionally provide a method and file name to add a title to your plot and save it. The colors are assigned in the order of the alphabet. As long as the exact same cell types are used throughout the analysis, the color assigned to each cell type will be the same.
+Additionally, we provide some methods for visualisation. In this and the benchmarking section you can find examples of how to use them. For the make_barplot method, you can additionally provide a method and file name to add a title to your plot and save it. The colors are assigned in the order of the alphabet. As long as the exact same cell types are used throughout the analysis, the color assigned to each cell type will be the same.
 
 Please note that the cell fractions depicted in this section are not representative for deconvolution analysis of "real" data. They are based on our sample dataset, which is very small compared to the usual datasets used in deconvolution analysis and also contains a limited number of cell types. Using such a small subset leads to a big information loss and the results are biased. However, the goal of this section is to give an example how the results can be visualized and to draw attention to the big differences between the results of the eleven methods implemented.
 
@@ -274,7 +274,9 @@ res_bisque <- omnideconv::deconvolute(
   bulk, signatureMatrix, "bisque",
   single_cell_data, cell_type_annotations, batch_ids
 )
-omnideconv::plot_deconv_result(res_bisque, method = "Bisque")
+res_bisque_list <- list(res_bisque)
+names(res_bisque_list) <- "Bisque"
+omnideconv::make_barplot(res_bisque_list, title = "Deconvolution result")
 ```
 
 The scatterplot shown below depicts the same results and message as the barplot above, it is just another idea of how to visualize the results. Note that our package does not provide a method for this, but the plot can be recreated with this code.
@@ -315,6 +317,7 @@ result_list <- lapply(result_list, function(x) {
   cbind(x, T = (x[, "CD4 T"] + x[, "CD8 T"]))[, -c(2, 3)]
 })
 omnideconv::make_benchmarking_scatterplot(result_list, RefData)
+omnideconv::make_barplot(result_list, "Comparison of different deconvolution methods")
 ```
 
 <!--

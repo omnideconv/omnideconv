@@ -177,7 +177,7 @@ test_that("Autogenes deconvolution works", {
 
   check_result <- as.matrix(read.csv("test_results/autogenes_result_small.csv",
     row.names = 1,
-    check.names = FALSE, sep = "\t"
+    check.names = FALSE,
   ))
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,

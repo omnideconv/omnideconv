@@ -202,6 +202,10 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature, verbose = FA
     bulk_gene_expression_filename <- bulk_gene_expression
   }
   filename_cell_props <- paste0("CIBERSORTx_", label, "_Results.txt")
+  cell_props_full_path <- paste0(output_dir, "/", filename_cell_props)
+  if (file.exists(cell_props_full_path)) {
+    file.remove(cell_props_full_path)
+  }
   command_to_run <- create_docker_command(input_dir, output_dir,
     method = "impute_cell_fractions", verbose = verbose,
     sigmatrix = sigmatrix_filename, mixture <- bulk_gene_expression_filename, label = label
@@ -226,7 +230,7 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature, verbose = FA
   }
 
   cell_props <- verbose_wrapper(verbose)(as.data.frame(readr::read_tsv(
-    paste0(output_dir, "/", filename_cell_props)
+    cell_props_full_path
   )))
   rownames(cell_props) <- cell_props$Mixture
   cell_props <- cell_props[, -1]

@@ -144,7 +144,7 @@ deconvolute_scdc <- function(bulk_gene_expression, single_cell_object, cell_type
   }, single_cell_object, cell_type_annotations, batch_ids)
   bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
 
-  # If multiple sc sets are supplied, the _ENSAMBLE method is used, otherwise the _prop one
+  # If multiple sc sets are supplied, the _ENSEMBLE method is used, otherwise the _prop one
   if (length(sc_eset) == 1) {
     # The SCDC_prop method and the SCDC_ENSEMBLE method have different default values for iter_max
     # and epsilon. That is my solution to indicate the different default values in the method

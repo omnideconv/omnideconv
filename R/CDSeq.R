@@ -141,12 +141,17 @@ deconvolute_cdseq <- function(bulk_gene_expression, single_cell_object, cell_typ
                               fig_save = 0, fig_path = getwd(),
                               fig_name = "CDSeqCellTypeAssignSCRNA", fig_format = "jpeg",
                               fig_dpi = 100, corr_heatmap_fontsize = 10, verbose = FALSE) {
-  if (is.null(single_cell_object) || is.null(cell_type_annotations) || is.null(batch_ids)) {
-    stop(
-      "Single cell object, cell type annotations or batch_ids not provided. Call as: ",
-      "deconvolute(bulk_gene_expression, NULL, \"cdseq\", single_cell_object, ",
-      "cell_type_annotations, batch_ids)"
-    )
+  if (is.null(bulk_gene_expression)) {
+    stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
+  }
+  if (is.null(single_cell_object)) {
+    stop("Parameter 'single_cell_object' is missing or null, but it is required.")
+  }
+  if (is.null(cell_type_annotations)) {
+    stop("Parameter 'cell_type_annotations' is missing or null, but it is required.")
+  }
+  if (is.null(batch_ids)) {
+    stop("Parameter 'batch_ids' is missing or null, but it is required.")
   }
 
   cdseq_res <- CDSeq::CDSeq(

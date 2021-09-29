@@ -16,8 +16,15 @@
 #' @return The signature matrix. Rows are genes, columns are cell types.
 #' @export
 #'
-build_model_dwls <- function(single_cell_object, cell_type_annotations, method = c("mast", "seurat"), path, verbose = FALSE,
+build_model_dwls <- function(single_cell_object, cell_type_annotations,
+                             method = c("mast", "seurat"), path = NULL, verbose = FALSE,
                              diff_cutoff = 0.5, pval_cutoff = 0.01) {
+  if (is.null(single_cell_object)) {
+    stop("Parameter 'single_cell_object' is missing or null, but it is required.")
+  }
+  if (is.null(cell_type_annotations)) {
+    stop("Parameter 'cell_type_annotations' is missing or null, but it is required.")
+  }
   if (length(method) > 1) {
     method <- method[1]
     message(paste0(method, " was chosen because multiple values were supplied for \"method\""))
@@ -56,6 +63,12 @@ build_model_dwls <- function(single_cell_object, cell_type_annotations, method =
 
 deconvolute_dwls <- function(bulk_gene_expression, signature,
                              dwls_submethod = c("DampenedWLS", "OLS", "SVR"), verbose = FALSE) {
+  if (is.null(bulk_gene_expression)) {
+    stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
+  }
+  if (is.null(signature)) {
+    stop("Parameter 'signature' is missing or null, but it is required.")
+  }
   if (length(dwls_submethod) > 1) {
     dwls_submethod <- dwls_submethod[1]
     message(paste0(

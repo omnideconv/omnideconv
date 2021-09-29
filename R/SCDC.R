@@ -89,13 +89,23 @@ deconvolute_scdc <- function(bulk_gene_expression, single_cell_object, cell_type
                              transform_bisque = FALSE, grid_search = FALSE, search_length = 0.05,
                              names_sc_objects = NULL, qcthreshold = 0.7, verbose = FALSE,
                              quality_control = FALSE) {
-  if (is.null(single_cell_object) || is.null(cell_type_annotations) || is.null(batch_ids)) {
-    stop(
-      "Single cell object or cell type annotations not provided. Call as: ",
-      "deconvolute(bulk_gene_expression, NULL, \"scdc\", single_cell_object, ",
-      "cell_type_annotations, batch_ids)"
-    )
+  if (is.null(bulk_gene_expression)) {
+    stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
   }
+  if (is.null(single_cell_object)) {
+    stop("Parameter 'single_cell_object' is missing or null, but it is required.")
+  }
+  if (is.null(cell_type_annotations)) {
+    stop("Parameter 'cell_type_annotations' is missing or null, but it is required.")
+  }
+  if (is.null(batch_ids)) {
+    stop("Parameter 'batch_ids' is missing or null, but it is required.")
+  }
+
+  if (ncol(bulk_gene_expression) < 2) {
+    stop("SCDC requires at least two bulk samples.")
+  }
+
   if (!"list" %in% class(single_cell_object)) {
     single_cell_object <- list(single_cell_object)
     cell_type_annotations <- list(cell_type_annotations)

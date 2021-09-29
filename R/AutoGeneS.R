@@ -57,6 +57,12 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations,
                                   crossover_thres = 1000, ind_standard_pb = 0.1,
                                   plot_weights = NULL, plot_objectives = c(0, 1), index = NULL,
                                   close_to = NULL, plot = FALSE, verbose = FALSE) {
+  if (is.null(single_cell_object)) {
+    stop("Parameter 'single_cell_object' is missing or null, but it is required.")
+  }
+  if (is.null(cell_type_annotations)) {
+    stop("Parameter 'cell_type_annotations' is missing or null, but it is required.")
+  }
   if (!is.null(bulk_gene_expression)) {
     single_cell_object <- single_cell_object[intersect(
       rownames(single_cell_object),
@@ -161,6 +167,12 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature,
                                   kernel = "linear", degree = 3, gamma = "scale", coef0 = 0.0,
                                   shrinking = TRUE, tol = 1E-3, cache_size = 200, max_iter = -1,
                                   weights = NULL, index = NULL, close_to = NULL, verbose = FALSE) {
+  if (is.null(bulk_gene_expression)) {
+    stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
+  }
+  if (is.null(signature)) {
+    stop("Parameter 'signature' is missing or null, but it is required.")
+  }
   if (length(model) > 1) {
     model <- model[1]
     message(paste0(model, " was chosen because multiple values were supplied for \"model\""))

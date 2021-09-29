@@ -48,6 +48,12 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
                                    verbose = FALSE, input_dir = NULL,
                                    output_dir = NULL, display_heatmap = FALSE,
                                    k_max = 999, ...) {
+  if (is.null(single_cell_object)) {
+    stop("Parameter 'single_cell_object' is missing or null, but it is required.")
+  }
+  if (is.null(cell_type_annotations)) {
+    stop("Parameter 'cell_type_annotations' is missing or null, but it is required.")
+  }
   if (!docker_available()) {
     message(
       "Installation of docker can not be found. Please check whether you can ",
@@ -164,6 +170,12 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
 deconvolute_cibersortx <- function(bulk_gene_expression, signature, verbose = FALSE,
                                    input_dir = NULL, output_dir = NULL,
                                    display_extra_info = FALSE, label = "none", ...) {
+  if (is.null(bulk_gene_expression)) {
+    stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
+  }
+  if (is.null(signature)) {
+    stop("Parameter 'signature' is missing or null, but it is required.")
+  }
   if (!docker_available()) {
     message(
       "Installation of docker can not be found. Please check whether you can ",
@@ -229,9 +241,11 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature, verbose = FA
     ))
   }
 
-  cell_props <- verbose_wrapper(verbose)(as.data.frame(readr::read_tsv(
+  cell_props_tmp <- verbose_wrapper(verbose)(as.data.frame(readr::read_tsv(
     cell_props_full_path
   )))
+  cell_props <- cell_props_tmp
+  rm(cell_props_tmp)
   rownames(cell_props) <- cell_props$Mixture
   cell_props <- cell_props[, -1]
 

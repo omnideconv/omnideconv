@@ -18,8 +18,17 @@
 #'
 build_model_bseqsc <- function(single_cell_object, cell_type_annotations, markers, batch_ids,
                                ct_scale = TRUE, limit = TRUE) {
-  if (is.null(markers) || is.null(batch_ids)) {
-    stop("'markers' and 'batch_ids' argument is required for BSeq-sc")
+  if (is.null(single_cell_object)) {
+    stop("Parameter 'single_cell_object' is missing or null, but it is required.")
+  }
+  if (is.null(cell_type_annotations)) {
+    stop("Parameter 'cell_type_annotations' is missing or null, but it is required.")
+  }
+  if (is.null(markers)) {
+    stop("Parameter 'markers' is missing or null, but it is required.")
+  }
+  if (is.null(batch_ids)) {
+    stop("Parameter 'batch_ids' is missing or null, but it is required.")
   }
   return(bseqsc::bseqsc_basis(single_cell_object, markers, cell_type_annotations,
     batch_ids,
@@ -47,6 +56,9 @@ build_model_bseqsc <- function(single_cell_object, cell_type_annotations, marker
 #'
 deconvolute_bseqsc <- function(bulk_gene_expression, signature = NULL, log = NULL, ...,
                                verbose = FALSE) {
+  if (is.null(bulk_gene_expression)) {
+    stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
+  }
   return(bseqsc::bseqsc_proportions(bulk_gene_expression,
     reference = signature, log = log, verbose = verbose, ...
   ))

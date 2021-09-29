@@ -23,12 +23,18 @@
 #' @return The path to the scaden model.
 #' @export
 #'
-build_model_scaden <- function(single_cell_object, cell_type_annotations, bulk_gene_expression = NULL,
+build_model_scaden <- function(single_cell_object, cell_type_annotations, bulk_gene_expression,
                                model_path = NULL, batch_size = 128, learning_rate = 1E-4,
                                steps = 5000, var_cutoff = NULL, cells = 100, samples = 1000,
                                dataset_name = "scaden", verbose = FALSE) {
+  if (is.null(single_cell_object)) {
+    stop("Parameter 'single_cell_object' is missing or null, but it is required.")
+  }
+  if (is.null(cell_type_annotations)) {
+    stop("Parameter 'cell_type_annotations' is missing or null, but it is required.")
+  }
   if (is.null(bulk_gene_expression)) {
-    stop("'bulk_gene_expression' argument is required for Scaden")
+    stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
   }
 
 
@@ -86,6 +92,15 @@ build_model_scaden <- function(single_cell_object, cell_type_annotations, bulk_g
 #' @export
 #'
 deconvolute_scaden <- function(model, bulk_gene_expression, verbose = FALSE) {
+  if (is.null(model)) {
+    stop(
+      "Parameter 'model' is missing or null, but it is required. The path to the model ",
+      "directory needs to be specified as the parameter signature for the deconvolute function."
+    )
+  }
+  if (is.null(bulk_gene_expression)) {
+    stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
+  }
   if (!verbose) {
     if (Sys.info()["sysname"] == "Windows") {
       message("The windows implementation requires verbose mode. It is now switched on.")

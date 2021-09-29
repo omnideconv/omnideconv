@@ -72,12 +72,14 @@ deconvolute_cpm <- function(bulk_gene_expression, single_cell_object, cell_type_
                             cell_space = "PCA", no_cores = NULL, neighborhood_size = 10,
                             model_size = 50, min_selection = 5, calculate_CI = FALSE,
                             verbose = FALSE) {
-  if (is.null(single_cell_object) || is.null(cell_type_annotations)) {
-    stop(
-      "Single cell object or cell type annotations not provided. Call as: ",
-      "deconvolute(bulk_gene_expression, NULL, \"cpm\", single_cell_object, ",
-      "cell_type_annotations)"
-    )
+  if (is.null(bulk_gene_expression)) {
+    stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
+  }
+  if (is.null(single_cell_object)) {
+    stop("Parameter 'single_cell_object' is missing or null, but it is required.")
+  }
+  if (is.null(cell_type_annotations)) {
+    stop("Parameter 'cell_type_annotations' is missing or null, but it is required.")
   }
 
   if (ncol(bulk_gene_expression) < 2) {

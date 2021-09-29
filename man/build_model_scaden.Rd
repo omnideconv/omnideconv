@@ -7,7 +7,7 @@
 build_model_scaden(
   single_cell_object,
   cell_type_annotations,
-  bulk_gene_expression = NULL,
+  bulk_gene_expression,
   model_path = NULL,
   batch_size = 128,
   learning_rate = 1e-04,

@@ -55,7 +55,8 @@ Suggests:
     rmarkdown,
     scBio,
     SCDC,
-    testthat (>= 2.0.0)
+    testthat (>= 2.0.0),
+    uuid
 VignetteBuilder: 
     knitr
 Remotes:

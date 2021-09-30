@@ -340,7 +340,7 @@ required_packages <- list(
   "bisque" = c("PelzKo/bisque"), # , "limSolve"),
   "bseqsc" = c("shenorrlab/bseqsc"),
   "cdseq" = c("PelzKo/CDSeq_R_Package"),
-  "cibersortx" = c(),
+  "cibersortx" = c("uuid"),
   "cpm" = c("amitfrish/scBio"),
   "dwls" = c("PelzKo/dwls"),
   "momf" = c("grst/MOMF"),

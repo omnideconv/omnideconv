@@ -213,11 +213,16 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature, verbose = FA
   } else {
     bulk_gene_expression_filename <- bulk_gene_expression
   }
+  unique_id <- uuid::UUIDgenerate(TRUE)
+  if (label == "none") {
+    label <- unique_id
+  } else {
+    label <- paste0(label, "_", unique_id)
+  }
+
   filename_cell_props <- paste0("CIBERSORTx_", label, "_Results.txt")
   cell_props_full_path <- paste0(output_dir, "/", filename_cell_props)
-  if (file.exists(cell_props_full_path)) {
-    file.remove(cell_props_full_path)
-  }
+
   command_to_run <- create_docker_command(input_dir, output_dir,
     method = "impute_cell_fractions", verbose = verbose,
     sigmatrix = sigmatrix_filename, mixture <- bulk_gene_expression_filename, label = label

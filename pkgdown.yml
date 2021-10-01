@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   omnideconv_vignette: omnideconv_vignette.html
-last_built: 2021-09-30T13:41Z
+last_built: 2021-10-01T14:04Z
 urls:
   reference: https://icbi-lab.github.io/omnideconv/reference
   article: https://icbi-lab.github.io/omnideconv/articles

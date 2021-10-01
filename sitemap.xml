@@ -10,6 +10,9 @@
     <loc>https://icbi-lab.github.io/omnideconv/reference/anndata_checkload.html</loc>
   </url>
   <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/anndata_is_identical.html</loc>
+  </url>
+  <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/anndata_to_singlecellexperiment.html</loc>
   </url>
   <url>
@@ -89,6 +92,9 @@
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/check_credentials.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/convert_to_matrix.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/create_docker_command.html</loc>
@@ -176,6 +182,9 @@
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/matrix_to_singlecellexperiment.html</loc>
+  </url>
+  <url>
+    <loc>https://icbi-lab.github.io/omnideconv/reference/normalize_deconv_results.html</loc>
   </url>
   <url>
     <loc>https://icbi-lab.github.io/omnideconv/reference/python_available.html</loc>

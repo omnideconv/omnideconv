@@ -69,7 +69,8 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
                         bulk_gene_expression = NULL, verbose = TRUE,
                         cell_type_column_name = NULL, markers = NULL, ...) {
   if (length(method) > 1) {
-    stop("Please only specify one method and not ", length(method), ": ", method)
+    stop("Please only specify one method and not ", length(method), ": ",
+         paste(method, collapse = ", "))
   }
   if (method %in% names(deconvolution_methods)) {
     method <- deconvolution_methods[[method]]
@@ -185,7 +186,8 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
                         single_cell_object = NULL, cell_type_annotations = NULL, batch_ids = NULL,
                         cell_type_column_name = NULL, verbose = FALSE, ...) {
   if (length(method) > 1) {
-    stop("Please only specify one method and not ", length(method), ": ", method)
+    stop("Please only specify one method and not ", length(method), ": ",
+         paste(method, collapse = ", "))
   }
   if (method %in% names(deconvolution_methods)) {
     method <- deconvolution_methods[[method]]

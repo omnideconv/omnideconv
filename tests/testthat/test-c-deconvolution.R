@@ -77,16 +77,13 @@ test_that("DWLS deconvolution works", {
     check.names = FALSE
   ))
   deconvolution_dwls <- deconvolute(bulk_small, dwls_model,
-    method = "dwls", sc_object_small,
-    dwls_submethod = "DampenedWLS"
+    method = "dwls", dwls_submethod = "DampenedWLS"
   )
   deconvolution_ols <- deconvolute(bulk_small, dwls_model,
-    method = "dwls", sc_object_small,
-    dwls_submethod = "OLS"
+    method = "dwls", dwls_submethod = "OLS"
   )
   deconvolution_svr <- deconvolute(bulk_small, dwls_model,
-    method = "dwls", sc_object_small,
-    dwls_submethod = "SVR"
+    method = "dwls", dwls_submethod = "SVR"
   )
   expect_equal(
     info = "rows of deconv for dwls equal to columns of signature (same celltypes, not same order)",

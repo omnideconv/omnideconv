@@ -78,11 +78,16 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
   method <- tolower(method)
   check_and_install(method)
 
+
   #Converting all other data types into a matrix
   matrix_and_annotation <- convert_to_matrix(single_cell_object,cell_type_annotations,
                                              cell_type_column_name)
   single_cell_object <- matrix_and_annotation$matrix
   cell_type_annotations <- matrix_and_annotation$cell_type_annotations
+
+  # Check the input data for problems like different numbers of cells in the object and the
+  # annotation or strings in the data
+  check_data(single_cell_object,cell_type_annotations, bulk_gene_expression)
 
   cell_type_annotations <- escape_blanks(cell_type_annotations)
   rownames(single_cell_object) <- escape_blanks(rownames(single_cell_object))
@@ -196,15 +201,19 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   check_and_install(method)
 
 
-  #Converting all other data types into a matrix
+  # Converting all other data types into a matrix
   matrix_and_annotation <- convert_to_matrix(single_cell_object,cell_type_annotations,
                                              cell_type_column_name)
-  single_cell_object <- matrix_and_annotation$single_cell_object
+  single_cell_object <- matrix_and_annotation$matrix
   cell_type_annotations <- matrix_and_annotation$cell_type_annotations
 
 
-  #Converting all other data types into a matrix
+  # Converting all other data types into a matrix
   bulk_gene_expression <- convert_to_matrix(bulk_gene_expression,"bulk")$matrix
+
+  # Check the input data for problems like different numbers of cells in the object and the
+  # annotation or strings in the data
+  check_data(single_cell_object,cell_type_annotations, bulk_gene_expression)
 
   rownames(bulk_gene_expression) <- escape_blanks(rownames(bulk_gene_expression))
   colnames(bulk_gene_expression) <- escape_blanks(colnames(bulk_gene_expression))
@@ -289,6 +298,8 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   )
 
   if (!is.null(deconv)) {
+    # Normalize the results
+    deconv <- normalize_deconv_results(deconv)
     # Alphabetical order of celltypes
     deconv <- deconv[, order(colnames(deconv)), drop = FALSE]
     rownames(deconv) <- deescape_blanks(rownames(deconv))
@@ -346,6 +357,8 @@ check_and_install <- function(method) {
       bare_pkgname <- "CDSeq"
     } else if (bare_pkgname == "bisque") {
       bare_pkgname <- "BisqueRNA"
+    } else if (bare_pkgname == "dwls") {
+      bare_pkgname <- "DWLS"
     }
     if (!requireNamespace(bare_pkgname, quietly = TRUE)) {
       if (!repositories_set) {

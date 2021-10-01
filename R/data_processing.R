@@ -421,34 +421,42 @@ anndata_is_identical <- function(a, b) {
 #' Converts the object into a matrix
 #'
 #' @param object An input matrix, data frame, expression set, etc.
+#' @param cell_type_annotations A vector of the cell type annotations. Has to be in the same order
+#'   as the samples in object. If not used (for example for bulk data), just supply anything, like
+#'   a string.
+#' @param cell_type_column_name Name of the column in (Anndata: obs, SingleCellExperiment: colData),
+#'   that contains the cell-type labels. Is only used if no cell_type_annotations vector is
+#'   provided.
 #'
 #' @return The same object, but of type matrix
 #'
 convert_to_matrix <- function(object, cell_type_annotations, cell_type_column_name = NULL) {
-  if (class(object)[[1]] == "AnnDataR6") {
-    object <- anndata_to_singlecellexperiment(object)
-  }
+  if (!is.null(object)) {
+    if (class(object)[[1]] == "AnnDataR6") {
+      object <- anndata_to_singlecellexperiment(object)
+    }
 
-  if (class(object)[[1]] == "SingleCellExperiment") {
-    matrix_and_annotation <-
-      singlecellexperiment_to_matrix(object,
-        cell_type_column_name = cell_type_column_name
-      )
-    object <- matrix_and_annotation$matrix
-    if (is.null(cell_type_annotations)) {
-      if (is.null(cell_type_column_name)) {
-        stop(
-          "Either provide cell type annotations as vector (cell_type_annotations) or the ",
-          "name of the column that stores label information!"
+    if (class(object)[[1]] == "SingleCellExperiment") {
+      matrix_and_annotation <-
+        singlecellexperiment_to_matrix(object,
+          cell_type_column_name = cell_type_column_name
         )
-      } else {
-        cell_type_annotations <- matrix_and_annotation$annotation_vector
+      object <- matrix_and_annotation$matrix
+      if (is.null(cell_type_annotations)) {
+        if (is.null(cell_type_column_name)) {
+          stop(
+            "Either provide cell type annotations as vector (cell_type_annotations) or the ",
+            "name of the column that stores label information!"
+          )
+        } else {
+          cell_type_annotations <- matrix_and_annotation$annotation_vector
+        }
       }
     }
-  }
 
-  if (class(object)[[1]] != "matrix") {
-    object <- as.matrix(object)
+    if (class(object)[[1]] != "matrix") {
+      object <- as.matrix(object)
+    }
   }
 
   return(list(matrix = object, cell_type_annotations = cell_type_annotations))

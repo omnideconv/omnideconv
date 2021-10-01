@@ -173,6 +173,12 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature,
   if (is.null(signature)) {
     stop("Parameter 'signature' is missing or null, but it is required.")
   }
+  if ("matrix" %in% class(signature)) {
+    stop(
+      "Parameter 'signature' requires the .pickle file created in the AutoGeneS build model ",
+      "method, not a matrix of values."
+    )
+  }
   if (length(model) > 1) {
     model <- model[1]
     message(paste0(model, " was chosen because multiple values were supplied for \"model\""))
@@ -219,8 +225,6 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature,
     verbose = verbose, max_iter = as.integer(max_iter)
   )
 
-  result[result < 0] <- 0
-  result <- t(apply(result, 1, function(row) row / sum(row)))
 
   colnames(result) <- ag$adata()$obs_names
   rownames(result) <- rownames(bulk_data)

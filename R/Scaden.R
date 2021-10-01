@@ -82,7 +82,7 @@ build_model_scaden <- function(single_cell_object, cell_type_annotations, bulk_g
 
 #' Performs deconvolution with Scaden
 #'
-#' @param model Path to the model directory
+#' @param signature Path to the model directory
 #' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples.
 #'   Row and column names need to be set.
 #' @param verbose Whether to produce an output on the console (default: false).
@@ -91,11 +91,17 @@ build_model_scaden <- function(single_cell_object, cell_type_annotations, bulk_g
 #'   individuals as columns.
 #' @export
 #'
-deconvolute_scaden <- function(model, bulk_gene_expression, verbose = FALSE) {
-  if (is.null(model)) {
+deconvolute_scaden <- function(signature, bulk_gene_expression, verbose = FALSE) {
+  if (is.null(signature)) {
     stop(
-      "Parameter 'model' is missing or null, but it is required. The path to the model ",
+      "Parameter 'signature' is missing or null, but it is required. The path to the model ",
       "directory needs to be specified as the parameter signature for the deconvolute function."
+    )
+  }
+  if ("matrix" %in% class(signature)) {
+    stop(
+      "Parameter 'signature' requires the path to the model directory created in the Scaden ",
+      "build model method, not a matrix of values."
     )
   }
   if (is.null(bulk_gene_expression)) {
@@ -109,7 +115,7 @@ deconvolute_scaden <- function(model, bulk_gene_expression, verbose = FALSE) {
   }
 
   scaden_checkload()
-  prediction <- scaden_predict(model, bulk_gene_expression, verbose = verbose)
+  prediction <- scaden_predict(signature, bulk_gene_expression, verbose = verbose)
 
   return(t(prediction))
 }

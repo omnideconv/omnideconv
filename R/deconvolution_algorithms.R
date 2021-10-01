@@ -77,31 +77,11 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
   method <- tolower(method)
   check_and_install(method)
 
-  if (class(single_cell_object)[[1]] == "AnnDataR6") {
-    single_cell_object <- anndata_to_singlecellexperiment(single_cell_object)
-  }
-
-  if (class(single_cell_object)[[1]] == "SingleCellExperiment") {
-    matrix_and_annotation <-
-      singlecellexperiment_to_matrix(single_cell_object,
-        cell_type_column_name = cell_type_column_name
-      )
-    single_cell_object <- matrix_and_annotation$matrix
-    if (is.null(cell_type_annotations)) {
-      if (is.null(cell_type_column_name)) {
-        stop(
-          "Either provide cell type annotations as vector (cell_type_annotations) or the ",
-          "name of the column that stores label information!"
-        )
-      } else {
-        cell_type_annotations <- matrix_and_annotation$annotation_vector
-      }
-    }
-  }
-
-  if (class(single_cell_object)[[1]] != "matrix") {
-    single_cell_object <- as.matrix(single_cell_object)
-  }
+  #Converting all other data types into a matrix
+  matrix_and_annotation <- convert_to_matrix(single_cell_object,cell_type_annotations,
+                                             cell_type_column_name)
+  single_cell_object <- matrix_and_annotation$matrix
+  cell_type_annotations <- matrix_and_annotation$cell_type_annotations
 
   cell_type_annotations <- escape_blanks(cell_type_annotations)
   rownames(single_cell_object) <- escape_blanks(rownames(single_cell_object))
@@ -213,33 +193,16 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   method <- tolower(method)
   check_and_install(method)
 
-  if (class(single_cell_object)[[1]] == "AnnDataR6") {
-    single_cell_object <- anndata_to_singlecellexperiment(single_cell_object)
-  }
 
-  if (class(single_cell_object)[[1]] == "SingleCellExperiment") {
-    matrix_and_annotation <-
-      singlecellexperiment_to_matrix(single_cell_object,
-        cell_type_column_name = cell_type_column_name
-      )
-    single_cell_object <- matrix_and_annotation$matrix
-    if (is.null(cell_type_annotations)) {
-      if (is.null(cell_type_column_name)) {
-        stop(
-          "Either provide cell type annotations as vector (cell_type_annotations) or the ",
-          "name of the column that stores label information!"
-        )
-      } else {
-        cell_type_annotations <- matrix_and_annotation$annotation_vector
-      }
-    }
-  }
+  #Converting all other data types into a matrix
+  matrix_and_annotation <- convert_to_matrix(single_cell_object,cell_type_annotations,
+                                             cell_type_column_name)
+  single_cell_object <- matrix_and_annotation$single_cell_object
+  cell_type_annotations <- matrix_and_annotation$cell_type_annotations
 
 
-  if (class(bulk_gene_expression)[[1]] != "matrix") {
-    bulk_gene_expression <- as.matrix(bulk_gene_expression)
-  }
-
+  #Converting all other data types into a matrix
+  bulk_gene_expression <- convert_to_matrix(bulk_gene_expression,"bulk")$matrix
 
   rownames(bulk_gene_expression) <- escape_blanks(rownames(bulk_gene_expression))
   colnames(bulk_gene_expression) <- escape_blanks(colnames(bulk_gene_expression))

@@ -1,23 +1,12 @@
 Package: omnideconv
 Title: Second generation methods for immune cell deconvolution
 Version: 0.0.0.9000
-Authors@R: 
-    c(person(given = "Konstantin",
-             family = "Pelz",
-             role = c("aut", "cre"),
-             email = "konstantin.pelz@online.de"),
-      person(given = "Nicolas",
-             family = "Goedert",
-             role = "aut",
-             email = "nicolasgoedert1997@gmail.com"),
-      person(given = "Yuyu",
-             family = "Liang",
-             role = "aut",
-             email = "yuyuleung0903@yahoo.com"),
-      person(given = "Katharina",
-             family = "Reinisch",
-             role = "aut",
-             email = "k.reinisch@campus.lmu.de"))
+Authors@R: c(
+    person("Konstantin", "Pelz", , "konstantin.pelz@online.de", role = c("aut", "cre")),
+    person("Nicolas", "Goedert", , "nicolasgoedert1997@gmail.com", role = "aut"),
+    person("Yuyu", "Liang", , "yuyuleung0903@yahoo.com", role = "aut"),
+    person("Katharina", "Reinisch", , "k.reinisch@campus.lmu.de", role = "aut")
+  )
 Description: Collection of second generation methods for immune cell
     deconvolution from bulk RNA-seq samples.
 License: GPL-3 + file LICENSE

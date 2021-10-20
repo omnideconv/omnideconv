@@ -83,7 +83,7 @@ init_python <- function(python = NULL) {
         suppressMessages(reticulate::install_miniconda())
       }
       # ensure using a current Python version
-      retuculate::conda_create(envname='omnideconv', python_version='3.8', conda=reticulate::miniconda_path())
+      reticulate::conda_create(envname='omnideconv', python_version='3.8', conda=reticulate::miniconda_path())
       reticulate::use_condaenv(condaenv = "omnideconv", required = TRUE, conda=reticulate::miniconda_path())
       config <- reticulate::py_config()
       if (!python_available()) {

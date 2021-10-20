@@ -82,7 +82,9 @@ init_python <- function(python = NULL) {
         message("Setting up miniconda environment..")
         suppressMessages(reticulate::install_miniconda())
       }
-      reticulate::use_miniconda(condaenv = "r-reticulate", required = TRUE)
+      # ensure using a current Python version
+      retuculate::conda_create(envname='omnideconv', python_version='3.8', conda=reticulate::miniconda_path())
+      reticulate::use_condaenv(condaenv = "omnideconv", required = TRUE, conda=reticulate::miniconda_path())
       config <- reticulate::py_config()
       if (!python_available()) {
         message("Python not available")

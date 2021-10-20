@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/icbi-lab/omnideconv/workflows/R-CMD-check/badge.svg)](https://github.com/icbi-lab/omnideconv/actions)
+[![R-CMD-check](https://github.com/omnideconv/omnideconv/workflows/R-CMD-check/badge.svg)](https://github.com/omnideconv/omnideconv/actions)
 <!-- badges: end -->
 
 The goal of omnideconv is to unify second generation immune
@@ -28,12 +28,12 @@ Install the CRAN package devtools and use it to install omnideconv from
 install.packages("devtools")
 
 # long/complete install
-devtools::install_github("icbi-lab/omnideconv", dependencies = c("Imports",
+devtools::install_github("omnideconv/omnideconv", dependencies = c("Imports",
     "Suggests"))
 omnideconv::install_all_python()
 
 # short/quick install
-devtools::install_github("icbi-lab/omnideconv")
+devtools::install_github("omnideconv/omnideconv")
 ```
 
 ## Usage
@@ -112,7 +112,7 @@ few exceptions:
 ## Available methods, Licenses, Citations
 
 Note that, while *omnideconv* itself is free ([GPL
-3.0](https://github.com/icbi-lab/omnideconv/blob/main/LICENSE)), you may
+3.0](https://github.com/omnideconv/omnideconv/blob/main/LICENSE)), you may
 need to obtain a license to use the individual methods. See the table
 below for more information. If you use this package in your work, please
 cite both our package and the method(s) you are using.

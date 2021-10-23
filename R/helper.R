@@ -118,7 +118,7 @@ normalize_deconv_results <- function(deconv_result) {
   deconv_result <- t(apply(deconv_result, 1, function(row) row / sum(row)))
   # Apply returns a vector when only supplied with one celltype. To counter it and return a matrix
   # and not a vector, this operation is needed
-  if (length(celltypes)==1){
+  if (length(celltypes) == 1) {
     deconv_result <- t(deconv_result)
     colnames(deconv_result) <- celltypes
   }
@@ -126,14 +126,14 @@ normalize_deconv_results <- function(deconv_result) {
 }
 
 check_data <- function(single_cell_object, cell_type_annotations, bulk_gene_expression) {
-  if (!is.null(single_cell_object)){
+  if (!is.null(single_cell_object)) {
     if ("character" %in% unique(apply(single_cell_object, 1, class))) {
       stop(
         "The single cell object matrix contains entries with the class 'character'. Please make ",
         "sure that it only contains numerics."
       )
     }
-    if (!is.null(cell_type_annotations)){
+    if (!is.null(cell_type_annotations)) {
       if (ncol(single_cell_object) != length(cell_type_annotations)) {
         stop(
           "The single cell object contains ", ncol(single_cell_object), " cells while your cell ",
@@ -142,7 +142,7 @@ check_data <- function(single_cell_object, cell_type_annotations, bulk_gene_expr
       }
     }
   }
-  if (!is.null(bulk_gene_expression)){
+  if (!is.null(bulk_gene_expression)) {
     if ("character" %in% unique(apply(bulk_gene_expression, 1, class))) {
       stop(
         "The bulk gene expression matrix contains entries with the class 'character'. Please ",

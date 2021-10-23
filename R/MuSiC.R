@@ -61,6 +61,9 @@ deconvolute_music <- function(bulk_gene_expression, single_cell_object, cell_typ
   if (is.null(bulk_gene_expression)) {
     stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
   }
+  if (ncol(bulk_gene_expression) < 2) {
+    stop("MuSiC requires at least two bulk samples.")
+  }
   if (is.null(single_cell_object)) {
     stop("Parameter 'single_cell_object' is missing or null, but it is required.")
   }

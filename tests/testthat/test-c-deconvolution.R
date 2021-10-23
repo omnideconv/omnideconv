@@ -259,15 +259,14 @@ test_that("MuSiC deconvolution works", {
     info = "deconvolution result is correct", object = deconvolution,
     expected = check_result
   )
-  expect_equal(
-    info = "deconvolution result with one bulk sample throws no error",
+  expect_error(
+    info = "MuSiC is not appliable with just one bulk sample",
     object = nrow(deconvolute(bulk_small_one_sample, NULL,
       method = "music",
       single_cell_object = sc_object_small,
       cell_type_annotations = cell_annotations_small,
       batch_ids = batch_ids_small
-    )),
-    expected = 1
+    ))
   )
 })
 

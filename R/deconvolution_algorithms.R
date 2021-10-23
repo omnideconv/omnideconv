@@ -85,6 +85,13 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
   single_cell_object <- matrix_and_annotation$matrix
   cell_type_annotations <- matrix_and_annotation$cell_type_annotations
 
+  if (is.null(rownames(single_cell_object))){
+    stop("The single cell object does not have any rownames!")
+  }
+  if (is.null(colnames(single_cell_object))){
+    stop("The single cell object does not have any colnames!")
+  }
+
   # Check the input data for problems like different numbers of cells in the object and the
   # annotation or strings in the data
   check_data(single_cell_object,cell_type_annotations, bulk_gene_expression)

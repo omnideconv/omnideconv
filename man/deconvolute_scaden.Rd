@@ -4,10 +4,10 @@
 \alias{deconvolute_scaden}
 \title{Performs deconvolution with Scaden}
 \usage{
-deconvolute_scaden(model, bulk_gene_expression, verbose = FALSE)
+deconvolute_scaden(signature, bulk_gene_expression, verbose = FALSE)
 }
 \arguments{
-\item{model}{Path to the model directory}
+\item{signature}{Path to the model directory}
 
 \item{bulk_gene_expression}{A matrix of bulk data. Rows are genes, columns are samples.
 Row and column names need to be set.}

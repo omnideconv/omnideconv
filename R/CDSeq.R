@@ -7,7 +7,7 @@
 #'
 #' @export
 build_model_cdseq <- function() {
-  message(
+  base::message(
     "The deconvolution with CDSeq is done in only one step. Please just use the ",
     "deconvolute method."
   )
@@ -142,7 +142,7 @@ deconvolute_cdseq <- function(bulk_gene_expression, single_cell_object, cell_typ
                               fig_name = "CDSeqCellTypeAssignSCRNA", fig_format = "jpeg",
                               fig_dpi = 100, corr_heatmap_fontsize = 10, verbose = FALSE) {
   if (is.null(single_cell_object) || is.null(cell_type_annotations) || is.null(batch_ids)) {
-    stop(
+    base::stop(
       "Single cell object, cell type annotations or batch_ids not provided. Call as: ",
       "deconvolute(bulk_gene_expression, NULL, \"cdseq\", single_cell_object, ",
       "cell_type_annotations, batch_ids)"

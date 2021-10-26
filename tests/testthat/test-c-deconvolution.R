@@ -1,5 +1,5 @@
 bulk_small <- as.matrix(utils::read.csv("small_test_data/bulk_small.csv", row.names = 1))
-# bulk_small <- bulk_small[, 1, drop = FALSE]
+bulk_small_one_sample <- bulk_small[, 1, drop = FALSE]
 sc_object_small <- as.matrix(utils::read.csv("small_test_data/sc_object_small.csv", row.names = 1))
 cell_annotations_small <- readr::read_lines("small_test_data/cell_annotations_small.txt")
 batch_ids_small <- readr::read_lines("small_test_data/batch_ids_small.txt")
@@ -30,6 +30,13 @@ test_that("Bisque deconvolution works", {
     info = "deconvolution result is correct", object = deconvolution,
     expected = check_result
   )
+  expect_error(
+    info = "bisque is not appliable with just one bulk sample",
+    object = deconvolute(bulk_small_one_sample, bisque_model,
+      method = "bisque", sc_object_small,
+      cell_annotations_small, batch_ids_small
+    )
+  )
 })
 
 
@@ -55,6 +62,13 @@ test_that("MOMF deconvolution works", {
     info = "deconvolution result is correct", object = deconvolution,
     expected = check_result
   )
+  expect_equal(
+    info = "deconvolution result with one bulk sample throws no error",
+    object = nrow(deconvolute(bulk_small_one_sample, momf_model,
+      method = "momf", sc_object_small
+    )),
+    expected = 1
+  )
 })
 
 test_that("DWLS deconvolution works", {
@@ -63,16 +77,13 @@ test_that("DWLS deconvolution works", {
     check.names = FALSE
   ))
   deconvolution_dwls <- deconvolute(bulk_small, dwls_model,
-    method = "dwls", sc_object_small,
-    dwls_submethod = "DampenedWLS"
+    method = "dwls", dwls_submethod = "DampenedWLS"
   )
   deconvolution_ols <- deconvolute(bulk_small, dwls_model,
-    method = "dwls", sc_object_small,
-    dwls_submethod = "OLS"
+    method = "dwls", dwls_submethod = "OLS"
   )
   deconvolution_svr <- deconvolute(bulk_small, dwls_model,
-    method = "dwls", sc_object_small,
-    dwls_submethod = "SVR"
+    method = "dwls", dwls_submethod = "SVR"
   )
   expect_equal(
     info = "rows of deconv for dwls equal to columns of signature (same celltypes, not same order)",
@@ -123,6 +134,33 @@ test_that("DWLS deconvolution works", {
     info = "deconvolution result for dwls is correct", object = deconvolution_svr,
     expected = check_result_svr
   )
+
+  expect_equal(
+    info = "deconvolution result with one bulk sample throws no error",
+    object = nrow(deconvolute(bulk_small_one_sample, dwls_model,
+      method = "dwls", sc_object_small,
+      dwls_submethod = "DampenedWLS"
+    )),
+    expected = 1
+  )
+
+  expect_equal(
+    info = "deconvolution result with one bulk sample throws no error",
+    object = nrow(deconvolute(bulk_small_one_sample, dwls_model,
+      method = "dwls", sc_object_small,
+      dwls_submethod = "OLS"
+    )),
+    expected = 1
+  )
+
+  expect_equal(
+    info = "deconvolution result with one bulk sample throws no error",
+    object = nrow(deconvolute(bulk_small_one_sample, dwls_model,
+      method = "dwls", sc_object_small,
+      dwls_submethod = "SVR"
+    )),
+    expected = 1
+  )
 })
 
 
@@ -153,6 +191,12 @@ test_that("CIBERSORTx deconvolution works", {
     info = "deconvolution result is correct", object = deconvolution,
     expected = check_result
   )
+
+  expect_equal(
+    info = "deconvolution result with one bulk sample throws no error",
+    object = nrow(deconvolute(bulk_small_one_sample, cibersort_model, method = "cibersortx")),
+    expected = 1
+  )
 })
 
 test_that("Scaden deconvolution works", {
@@ -162,6 +206,11 @@ test_that("Scaden deconvolution works", {
   expect_equal(
     info = "deconvolution contains same samples as in bulk (not same order)",
     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
+  )
+  expect_equal(
+    info = "deconvolution result with one bulk sample throws no error",
+    object = nrow(deconvolute(bulk_small_one_sample, model_dir, method = "scaden")),
+    expected = 1
   )
 })
 
@@ -182,6 +231,11 @@ test_that("Autogenes deconvolution works", {
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
     expected = check_result, tolerance = 1e-5
+  )
+  expect_equal(
+    info = "deconvolution result with one bulk sample throws no error",
+    object = nrow(deconvolute(bulk_small_one_sample, model, method = "autogenes")),
+    expected = 1
   )
 })
 
@@ -204,6 +258,15 @@ test_that("MuSiC deconvolution works", {
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
     expected = check_result
+  )
+  expect_error(
+    info = "MuSiC is not appliable with just one bulk sample",
+    object = nrow(deconvolute(bulk_small_one_sample, NULL,
+      method = "music",
+      single_cell_object = sc_object_small,
+      cell_type_annotations = cell_annotations_small,
+      batch_ids = batch_ids_small
+    ))
   )
 })
 
@@ -246,6 +309,15 @@ test_that("CPM deconvolution works", {
     info = "deconvolution_tsne contains same samples as in bulk (not same order)",
     object = sort(rownames(deconvolution_tsne)), expected = sort(colnames(bulk_small))
   )
+  expect_error(
+    info = "CPM is not appliable with just one bulk sample",
+    object = deconvolute(bulk_small_one_sample, NULL,
+      method = "cpm",
+      single_cell_object = sc_object_small,
+      cell_type_annotations = cell_annotations_small,
+      cell_space = "PCA"
+    )
+  )
 })
 
 
@@ -267,6 +339,14 @@ test_that("SCDC deconvolution works", {
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
     expected = check_result
+  )
+  expect_error(
+    info = "scdc is not appliable with just one bulk sample",
+    object = deconvolute(bulk_small_one_sample, NULL,
+      method = "scdc", single_cell_object = sc_object_small,
+      cell_type_annotations = cell_annotations_small,
+      batch_ids = batch_ids_small
+    )
   )
 
 
@@ -307,5 +387,15 @@ test_that("CDSeq deconvolution works", {
   expect_equal(
     info = "deconvolution contains same samples as in bulk (not same order)",
     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
+  )
+  expect_equal(
+    info = "deconvolution result with one bulk sample throws no error",
+    object = nrow(deconvolute(bulk_small_one_sample, NULL,
+      method = "cdseq",
+      single_cell_object = sc_object_small,
+      cell_type_annotations = cell_annotations_small,
+      batch_ids = batch_ids_small
+    )),
+    expected = 1
   )
 })

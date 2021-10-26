@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/icbi-lab/omnideconv/workflows/R-CMD-check/badge.svg)](https://github.com/icbi-lab/omnideconv/actions)
+[![R-CMD-check](https://github.com/omnideconv/omnideconv/workflows/R-CMD-check/badge.svg)](https://github.com/omnideconv/omnideconv/actions)
 <!-- badges: end -->
 
 The goal of omnideconv is to unify second generation immune
@@ -28,12 +28,12 @@ Install the CRAN package devtools and use it to install omnideconv from
 install.packages("devtools")
 
 # long/complete install
-devtools::install_github("icbi-lab/omnideconv", dependencies = c("Imports",
+devtools::install_github("omnideconv/omnideconv", dependencies = c("Imports",
     "Suggests"))
 omnideconv::install_all_python()
 
 # short/quick install
-devtools::install_github("icbi-lab/omnideconv")
+devtools::install_github("omnideconv/omnideconv")
 ```
 
 ## Usage
@@ -112,7 +112,7 @@ few exceptions:
 ## Available methods, Licenses, Citations
 
 Note that, while *omnideconv* itself is free ([GPL
-3.0](https://github.com/icbi-lab/omnideconv/blob/main/LICENSE)), you may
+3.0](https://github.com/omnideconv/omnideconv/blob/main/LICENSE)), you may
 need to obtain a license to use the individual methods. See the table
 below for more information. If you use this package in your work, please
 cite both our package and the method(s) you are using.
@@ -131,4 +131,4 @@ cite both our package and the method(s) you are using.
 | [MOMF](https://github.com/sqsun/MOMF)                  | free ([GPL 3.0](https://github.com/sqsun/MOMF/blob/master/LICENSE.md))              | Xifang Sun, Shiquan Sun, and Sheng Yang. An efficient and flexible method for deconvoluting bulk RNAseq data with single-cell RNAseq data, 2019, DIO: 10.5281/zenodo.3373980                                                                                                                                                                                                                  |
 | [MuSiC](https://github.com/xuranw/MuSiC/)              | free ([GPL 3.0](https://github.com/xuranw/MuSiC/blob/master/LICENSE))               | Wang, X., Park, J., Susztak, K., Zhang, N. R., & Li, M. (2019). Bulk tissue cell type deconvolution with multi-subject single-cell expression reference. Nature Communications, 10(1), 380. <https://doi.org/10.1038/s41467-018-08023-x>                                                                                                                                                      |
 | [Scaden](https://github.com/KevinMenden/scaden)        | free ([MIT](https://github.com/KevinMenden/scaden/blob/master/LICENSE))             | Menden, K., Marouf, M., Oller, S., Dalmia, A., Kloiber, K., Heutink, P., & Bonn, S. (n.d.). Deep-learning-based cell composition analysis from tissue expression profiles. <https://doi.org/10.1101/659227>                                                                                                                                                                                   |
-| [SCDC](https://github.com/meichendong/SCDC)            | NA                                                                                  | Dong, M., Thennavan, A., Urrutia, E., Li, Y., Perou, C. M., Zou, F., & Jiang, Y. (2020). SCDC: bulk gene expression deconvolution by multiple single-cell RNA sequencing references. Briefings in Bioinformatics. <https://doi.org/10.1093/bib/bbz166>                                                                                                                                        |
+| [SCDC](https://github.com/meichendong/SCDC)            | ([MIT](https://github.com/meichendong/SCDC/blob/master/README.md))                  | Dong, M., Thennavan, A., Urrutia, E., Li, Y., Perou, C. M., Zou, F., & Jiang, Y. (2020). SCDC: bulk gene expression deconvolution by multiple single-cell RNA sequencing references. Briefings in Bioinformatics. <https://doi.org/10.1093/bib/bbz166>                                                                                                                                        |

@@ -1,16 +1,27 @@
 Package: omnideconv
 Title: Second generation methods for immune cell deconvolution
 Version: 0.0.0.9000
-Authors@R: c(
-    person("Konstantin", "Pelz", , "konstantin.pelz@online.de", role = c("aut", "cre")),
-    person("Nicolas", "Goedert", , "nicolasgoedert1997@gmail.com", role = "aut"),
-    person("Yuyu", "Liang", , "yuyuleung0903@yahoo.com", role = "aut"),
-    person("Katharina", "Reinisch", , "k.reinisch@campus.lmu.de", role = "aut")
-  )
+Authors@R: 
+    c(person(given = "Konstantin",
+             family = "Pelz",
+             role = c("aut", "cre"),
+             email = "konstantin.pelz@tum.de"),
+      person(given = "Nicolas",
+             family = "Goedert",
+             role = "aut",
+             email = "nicolasgoedert1997@gmail.com"),
+      person(given = "Yuyu",
+             family = "Liang",
+             role = "aut",
+             email = "yuyuleung0903@yahoo.com"),
+      person(given = "Katharina",
+             family = "Reinisch",
+             role = "aut",
+             email = "k.reinisch@campus.lmu.de"))
 Description: Collection of second generation methods for immune cell
     deconvolution from bulk RNA-seq samples.
 License: GPL-3 + file LICENSE
-URL: https://github.com/icbi-lab/omnideconv
+URL: https://github.com/omnideconv/omnideconv
 Depends:
     R (>= 4.0.0)
 Imports: 
@@ -44,7 +55,8 @@ Suggests:
     rmarkdown,
     scBio,
     SCDC,
-    testthat (>= 2.0.0)
+    testthat (>= 2.0.0),
+    uuid
 VignetteBuilder: 
     knitr
 Remotes:

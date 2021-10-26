@@ -8,7 +8,7 @@ build_model_dwls(
   single_cell_object,
   cell_type_annotations,
   method = c("mast", "seurat"),
-  path,
+  path = NULL,
   verbose = FALSE,
   diff_cutoff = 0.5,
   pval_cutoff = 0.01

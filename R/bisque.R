@@ -21,6 +21,15 @@
 #'
 build_model_bisque <- function(single_cell_object, cell_type_annotations, batch_ids, old_cpm = TRUE,
                                verbose = FALSE) {
+  if (is.null(single_cell_object)) {
+    stop("Parameter 'single_cell_object' is missing or null, but it is required.")
+  }
+  if (is.null(cell_type_annotations)) {
+    stop("Parameter 'cell_type_annotations' is missing or null, but it is required.")
+  }
+  if (is.null(batch_ids)) {
+    stop("Parameter 'batch_ids' is missing or null, but it is required.")
+  }
   sc_eset <- get_single_cell_expression_set(
     single_cell_object, batch_ids,
     rownames(single_cell_object), cell_type_annotations
@@ -104,17 +113,24 @@ deconvolute_bisque <- function(bulk_gene_expression, signature, single_cell_obje
                                cell_type_annotations, batch_ids, markers = NULL,
                                cell_types = "cellType", subject_names = "batchId",
                                use_overlap = FALSE, verbose = FALSE, old_cpm = TRUE) {
-
+  if (is.null(bulk_gene_expression)) {
+    stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
+  }
+  if (is.null(signature)) {
+    stop("Parameter 'signature' is missing or null, but it is required.")
+  }
+  if (is.null(single_cell_object)) {
+    stop("Parameter 'single_cell_object' is missing or null, but it is required.")
+  }
+  if (is.null(cell_type_annotations)) {
+    stop("Parameter 'cell_type_annotations' is missing or null, but it is required.")
+  }
+  if (is.null(batch_ids)) {
+    stop("Parameter 'batch_ids' is missing or null, but it is required.")
+  }
   # Method is BisqueRNA::ReferenceBasedDecomposition, I only added the
   # signature matrix (so ones from other method can be used)
 
-  if (is.null(single_cell_object) || is.null(cell_type_annotations) || is.null(batch_ids)) {
-    stop(
-      "Single cell object or cell type annotations not provided. Call as: ",
-      "deconvolute(bulk_gene_expression, signature, \"bisque\", single_cell_object, ",
-      "cell_type_annotations, batch_ids)"
-    )
-  }
   if (ncol(bulk_gene_expression) < 2) {
     stop("Bisque requires at least two bulk samples.")
   }

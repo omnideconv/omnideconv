@@ -23,12 +23,18 @@
 #' @return The path to the scaden model.
 #' @export
 #'
-build_model_scaden <- function(single_cell_object, cell_type_annotations, bulk_gene_expression = NULL,
+build_model_scaden <- function(single_cell_object, cell_type_annotations, bulk_gene_expression,
                                model_path = NULL, batch_size = 128, learning_rate = 1E-4,
                                steps = 5000, var_cutoff = NULL, cells = 100, samples = 1000,
                                dataset_name = "scaden", verbose = FALSE) {
+  if (is.null(single_cell_object)) {
+    stop("Parameter 'single_cell_object' is missing or null, but it is required.")
+  }
+  if (is.null(cell_type_annotations)) {
+    stop("Parameter 'cell_type_annotations' is missing or null, but it is required.")
+  }
   if (is.null(bulk_gene_expression)) {
-    stop("'bulk_gene_expression' argument is required for Scaden")
+    stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
   }
 
 
@@ -76,7 +82,7 @@ build_model_scaden <- function(single_cell_object, cell_type_annotations, bulk_g
 
 #' Performs deconvolution with Scaden
 #'
-#' @param model Path to the model directory
+#' @param signature Path to the model directory
 #' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples.
 #'   Row and column names need to be set.
 #' @param verbose Whether to produce an output on the console (default: false).
@@ -85,7 +91,22 @@ build_model_scaden <- function(single_cell_object, cell_type_annotations, bulk_g
 #'   individuals as columns.
 #' @export
 #'
-deconvolute_scaden <- function(model, bulk_gene_expression, verbose = FALSE) {
+deconvolute_scaden <- function(signature, bulk_gene_expression, verbose = FALSE) {
+  if (is.null(signature)) {
+    stop(
+      "Parameter 'signature' is missing or null, but it is required. The path to the model ",
+      "directory needs to be specified as the parameter signature for the deconvolute function."
+    )
+  }
+  if ("matrix" %in% class(signature)) {
+    stop(
+      "Parameter 'signature' requires the path to the model directory created in the Scaden ",
+      "build model method, not a matrix of values."
+    )
+  }
+  if (is.null(bulk_gene_expression)) {
+    stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
+  }
   if (!verbose) {
     if (Sys.info()["sysname"] == "Windows") {
       message("The windows implementation requires verbose mode. It is now switched on.")
@@ -94,7 +115,7 @@ deconvolute_scaden <- function(model, bulk_gene_expression, verbose = FALSE) {
   }
 
   scaden_checkload()
-  prediction <- scaden_predict(model, bulk_gene_expression, verbose = verbose)
+  prediction <- scaden_predict(signature, bulk_gene_expression, verbose = verbose)
 
   return(t(prediction))
 }

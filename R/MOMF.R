@@ -11,8 +11,14 @@
 #' @export
 #'
 build_model_momf <- function(single_cell_object, cell_type_annotations, bulk_gene_expression) {
+  if (is.null(single_cell_object)) {
+    stop("Parameter 'single_cell_object' is missing or null, but it is required.")
+  }
+  if (is.null(cell_type_annotations)) {
+    stop("Parameter 'cell_type_annotations' is missing or null, but it is required.")
+  }
   if (is.null(bulk_gene_expression)) {
-    stop("'bulk_gene_expression' argument is required for MOMF")
+    stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
   }
   MOMF::momf.computeRef(
     single_cell_object[intersect(
@@ -38,13 +44,16 @@ build_model_momf <- function(single_cell_object, cell_type_annotations, bulk_gen
 #' @return cell proportion matrix
 #' @export
 #'
-deconvolute_momf <- function(bulk_gene_expression, signature, single_cell_object = NULL,
+deconvolute_momf <- function(bulk_gene_expression, signature, single_cell_object,
                              verbose = FALSE, method = "KL", ...) {
+  if (is.null(bulk_gene_expression)) {
+    stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
+  }
+  if (is.null(signature)) {
+    stop("Parameter 'signature' is missing or null, but it is required.")
+  }
   if (is.null(single_cell_object)) {
-    stop(
-      "The single cell data is required for the deconvolution with momf. Please call it ",
-      "with deconvolute(bulk,signature,'momf',single_cell_object = single_cell_data)"
-    )
+    stop("Parameter 'single_cell_object' is missing or null, but it is required.")
   }
   # MOMF needs a list of the single_cell_object with cells x genes and the bulk RNA seq data with
   # individuals x genes

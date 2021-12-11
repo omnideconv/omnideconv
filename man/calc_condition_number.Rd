@@ -29,10 +29,10 @@ cell_type_annotations <- cell_type_annotations_1[1:500]
 batch_ids <- batch_ids_1[1:500]
 bulk <- bulk[1:2000, ]
 
-signature_matrix_bisque <- build_model(
-  single_cell_data, cell_type_annotations, "bisque",
-  batch_ids
+signature_matrix_momf <- build_model(
+  single_cell_data, cell_type_annotations, "momf",
+  bulk_gene_expression = bulk
 )
-cond_num <- calc_condition_number(signature_matrix_bisque)
+cond_num <- calc_condition_number(signature_matrix_momf)
 cond_num
 }

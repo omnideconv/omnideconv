@@ -33,9 +33,8 @@ cell_type_annotations <- cell_type_annotations_1[1:500]
 batch_ids <- batch_ids_1[1:500]
 bulk <- bulk[common_genes, ]
 
-model <- build_model(single_cell_data, cell_type_annotations, "bisque", batch_ids)
 deconvolution <- deconvolute(
-  bulk, model, "bisque", single_cell_data,
+  bulk, NULL, "bisque", single_cell_data,
   cell_type_annotations, batch_ids
 )
 deconvolution <- list(deconvolution)

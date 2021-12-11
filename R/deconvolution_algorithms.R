@@ -56,17 +56,17 @@ deconvolution_methods <- c(
 #' batch_ids <- batch_ids_1[1:500]
 #' bulk <- bulk[1:2000, ]
 #'
-#' signature_matrix_bisque <- build_model(
-#'   single_cell_data, cell_type_annotations, "bisque",
-#'   batch_ids
+#' signature_matrix_momf <- build_model(
+#'   single_cell_data, cell_type_annotations, "momf",
+#'   bulk_gene_expression = bulk
 #' )
 #' pickle_path_autogenes <- build_model(single_cell_data, cell_type_annotations, "autogenes",
 #'   population_size = 500, offspring_size = 30,
-#'   crossover_pb = 0.3, verbose = TRUE
+#'   crossover_pb = 0.3
 #' )
 build_model <- function(single_cell_object, cell_type_annotations = NULL,
                         method = deconvolution_methods, batch_ids = NULL,
-                        bulk_gene_expression = NULL, verbose = TRUE,
+                        bulk_gene_expression = NULL, verbose = FALSE,
                         cell_type_column_name = NULL, markers = NULL, ...) {
   if (length(method) > 1) {
     stop(
@@ -115,9 +115,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
   }
 
   signature <- switch(method,
-    bisque = build_model_bisque(single_cell_object, cell_type_annotations, batch_ids,
-      verbose = verbose, ...
-    ),
+    bisque = build_model_bisque(),
     # momf needs bulk set and signature matrix containing the same genes
     momf = build_model_momf(single_cell_object, cell_type_annotations, bulk_gene_expression, ...),
     scaden = build_model_scaden(single_cell_object, cell_type_annotations, bulk_gene_expression,
@@ -189,15 +187,18 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
 #' batch_ids <- batch_ids_1[1:500]
 #' bulk <- bulk[1:2000, ]
 #'
-#' signature_matrix_bisque <- build_model(
-#'   single_cell_data, cell_type_annotations, "bisque",
+#' signature_matrix_autogenes <- build_model(
+#'   single_cell_data, cell_type_annotations, "autogenes",
 #'   batch_ids
 #' )
+#' deconv_autogenes <- deconvolute(
+#'   bulk, signature_matrix_autogenes, "autogenes"
+#' )
+#'
 #' deconv_bisque <- deconvolute(
-#'   bulk, signature_matrix_bisque, "bisque", single_cell_data,
+#'   bulk, NULL, "bisque", single_cell_data,
 #'   cell_type_annotations, batch_ids
 #' )
-#' deconv_momf <- deconvolute(bulk, signature_matrix_bisque, "momf", single_cell_data)
 deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_methods,
                         single_cell_object = NULL, cell_type_annotations = NULL, batch_ids = NULL,
                         cell_type_column_name = NULL, verbose = FALSE, ...) {
@@ -266,10 +267,8 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   }
 
   deconv <- switch(method,
-    bisque = t(deconvolute_bisque(bulk_gene_expression, signature, single_cell_object,
-      cell_type_annotations, batch_ids,
-      verbose = verbose, ...
-    )$bulk.props),
+    bisque = t(deconvolute_bisque(bulk_gene_expression, single_cell_object, cell_type_annotations,
+                                  batch_ids, verbose = verbose, ...)$bulk.props),
     momf = deconvolute_momf(bulk_gene_expression, signature, single_cell_object,
       verbose = verbose, ...
     )$cell.prop,
@@ -328,7 +327,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 #'
 required_packages <- list(
   "autogenes" = c("reticulate"),
-  "bisque" = c("PelzKo/bisque"), # , "limSolve"),
+  "bisque" = c("BisqueRNA"),
   "bseqsc" = c("shenorrlab/bseqsc"),
   "cdseq" = c("PelzKo/CDSeq_R_Package"),
   "cibersortx" = c("uuid"),
@@ -370,8 +369,6 @@ check_and_install <- function(method) {
     bare_pkgname <- sub(".*?/", "", pkgname)
     if (bare_pkgname == "CDSeq_R_Package") {
       bare_pkgname <- "CDSeq"
-    } else if (bare_pkgname == "bisque") {
-      bare_pkgname <- "BisqueRNA"
     } else if (bare_pkgname == "dwls") {
       bare_pkgname <- "DWLS"
     }
@@ -410,11 +407,11 @@ check_and_install <- function(method) {
 #' batch_ids <- batch_ids_1[1:500]
 #' bulk <- bulk[1:2000, ]
 #'
-#' signature_matrix_bisque <- build_model(
-#'   single_cell_data, cell_type_annotations, "bisque",
-#'   batch_ids
+#' signature_matrix_momf <- build_model(
+#'   single_cell_data, cell_type_annotations, "momf",
+#'   bulk_gene_expression = bulk
 #' )
-#' cond_num <- calc_condition_number(signature_matrix_bisque)
+#' cond_num <- calc_condition_number(signature_matrix_momf)
 #' cond_num
 calc_condition_number <- function(signature_matrix) {
   return(kappa(signature_matrix, exact = TRUE))

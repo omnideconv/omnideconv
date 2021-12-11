@@ -39,3 +39,4 @@ The signature matrix. Rows are genes, columns are cell types.
 \description{
 Calculates the signature model with bisque
 }
+\keyword{internal}

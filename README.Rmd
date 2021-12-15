@@ -110,6 +110,9 @@ Most methods do not require additional software/tokens, but there are a few exce
 * A working version of Docker is required for CIBERSORTx
 * A token for CIBERSORTx is required from this website: https://cibersortx.stanford.edu/
 * The CIBERSORT source code is required for BSeq-sc (see tutorial in ?omnideconv::bseqsc_config)
+* CPM requires additional system dependencies installed on your machine: 
+    * Mac: ``` brew install pkg-config gdal proj ```
+    * Linux: ``` sudo apt-get install libgdal-dev libgeos-dev libproj-dev```
 
 ## Available methods, Licenses, Citations
 Note that, while *omnideconv* itself is free ([GPL 3.0](https://github.com/omnideconv/omnideconv/blob/main/LICENSE)), you may need to obtain a license to use the individual methods. See the table below for more information. If you use this package in your work, please cite both our package and the method(s) you are using.

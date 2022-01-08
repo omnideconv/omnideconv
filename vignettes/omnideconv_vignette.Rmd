@@ -141,11 +141,13 @@ omnideconv::build_model(single_cell_data, cell_type_annotations, method)
 
 # Bseq-sc requires the batch ids and marker genes for each cell type
 omnideconv::build_model(single_cell_data, cell_type_annotations,
-  method, batch_ids = batch_ids, markers = markers
+  method,
+  batch_ids = batch_ids, markers = markers
 )
 # MOMF and Scaden require the bulk RNA-seq data as well
 omnideconv::build_model(single_cell_data, cell_type_annotations,
-  method, bulk_gene_expression = bulk
+  method,
+  bulk_gene_expression = bulk
 )
 ```
 
@@ -179,12 +181,14 @@ omnideconv::deconvolute(bulk, signature_matrix, "momf",
   cell_type_annotations = cell_type_annotations
 )
 # CPM requires the single cell data for deconvolution, while not requiring a signature matrix
-omnideconv::deconvolute(bulk, "cpm", single_cell_object = single_cell_data,
+omnideconv::deconvolute(bulk, "cpm",
+  single_cell_object = single_cell_data,
   cell_type_annotations = cell_type_annotations
 )
 # Bisque, CDSeq, MuSiC and SCDC require the single cell data and the batch ids, while not
 # requiring a signature matrix
-omnideconv::deconvolute(bulk, method, batch_ids = batch_ids,
+omnideconv::deconvolute(bulk, method,
+  batch_ids = batch_ids,
   single_cell_object = single_cell_data,
   cell_type_annotations = cell_type_annotations
 )
@@ -235,7 +239,8 @@ Now we build the signature matrix with MOMF and look at the values for the first
 ```{r signatureExample}
 signatureMatrix <- omnideconv::build_model(
   single_cell_data, cell_type_annotations,
-  "momf", bulk_gene_expression = bulk
+  "momf",
+  bulk_gene_expression = bulk
 )
 ```
 ```{r echo=FALSE}

@@ -268,7 +268,9 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 
   deconv <- switch(method,
     bisque = t(deconvolute_bisque(bulk_gene_expression, single_cell_object, cell_type_annotations,
-                                  batch_ids, verbose = verbose, ...)$bulk.props),
+      batch_ids,
+      verbose = verbose, ...
+    )$bulk.props),
     momf = deconvolute_momf(bulk_gene_expression, signature, single_cell_object,
       verbose = verbose, ...
     )$cell.prop,

@@ -10,10 +10,7 @@ names(markers_small) <- sort(unique(cell_annotations_small))
 
 
 test_that("Bisque GenerateSCReference works", {
-  signature <- build_model(sc_object_small, cell_annotations_small,
-    method = "bisque",
-    batch_ids_small
-  )
+  signature <- .bisque_patched_model(sc_object_small, cell_annotations_small, batch_ids_small)
   expect_equal(
     info = "signature matrix has same amount of columns as unique cell types in single
                cell matrix", object = ncol(signature),
@@ -24,6 +21,11 @@ test_that("Bisque GenerateSCReference works", {
     check.names = FALSE
   ))
   expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
+
+  model <- build_model(sc_object_small, cell_annotations_small, "bisque",
+    bulk_gene_expression = bulk_small
+  )
+  expect_null(info = "The Bisque Model is null (which it should be)", object = model)
 })
 
 

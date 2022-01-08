@@ -10,9 +10,10 @@ test_that("Bisque deconvolution works", {
     row.names = 1,
     check.names = FALSE
   ))
-  deconvolution <- deconvolute(bulk_small, bisque_model,
-    method = "bisque", sc_object_small, cell_annotations_small, batch_ids_small
-  )
+  deconvolution <- t(.bisque_patched_deconvolution(
+    bulk_small, bisque_model,
+    sc_object_small, cell_annotations_small, batch_ids_small
+  )$bulk.props)
   expect_equal(
     info = "rows of deconvolution equal to columns of signature (same celltypes in same order)",
     object = sort(colnames(deconvolution)), expected = sort(colnames(bisque_model))
@@ -36,6 +37,15 @@ test_that("Bisque deconvolution works", {
       method = "bisque", sc_object_small,
       cell_annotations_small, batch_ids_small
     )
+  )
+
+  deconvolution <- deconvolute(bulk_small, NULL,
+    method = "bisque", sc_object_small, cell_annotations_small,
+    batch_ids_small
+  )
+  expect_equal(
+    info = "deconvolution result is correct", object = deconvolution,
+    expected = check_result
   )
 })
 

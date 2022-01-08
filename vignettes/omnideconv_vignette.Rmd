@@ -139,21 +139,13 @@ To calculate a cell-type-specific expression signature, you can use the build_mo
 ```{r signature, eval=FALSE}
 omnideconv::build_model(single_cell_data, cell_type_annotations, method)
 
-
-# Bisque, MuSiC and SCDC require the batch_ids as well
-omnideconv::build_model(single_cell_data, cell_type_annotations,
-  method,
-  batch_ids = batch_ids
-)
 # Bseq-sc requires the batch ids and marker genes for each cell type
 omnideconv::build_model(single_cell_data, cell_type_annotations,
-  method,
-  batch_ids = batch_ids, markers = markers
+  method, batch_ids = batch_ids, markers = markers
 )
-# CPM, MOMF and Scaden require the bulk RNA-seq data as well
+# MOMF and Scaden require the bulk RNA-seq data as well
 omnideconv::build_model(single_cell_data, cell_type_annotations,
-  method,
-  bulk_gene_expression = bulk
+  method, bulk_gene_expression = bulk
 )
 ```
 
@@ -181,14 +173,18 @@ After building the specific signature matrix, you can calculate the cell propert
 omnideconv::deconvolute(bulk, signature_matrix, method)
 
 
-# CPM and MOMF require the single cell data for deconvolution as well
-omnideconv::deconvolute(bulk, signature_matrix, method,
+# MOMF requires the single cell data for deconvolution
+omnideconv::deconvolute(bulk, signature_matrix, "momf",
   single_cell_object = single_cell_data,
   cell_type_annotations = cell_type_annotations
 )
-# Bisque, CDSeq, MuSiC and SCDC require the single cell data and the batch ids
-omnideconv::deconvolute(bulk, signature_matrix, method,
-  batch_ids = batch_ids,
+# CPM requires the single cell data for deconvolution, while not requiring a signature matrix
+omnideconv::deconvolute(bulk, "cpm", single_cell_object = single_cell_data,
+  cell_type_annotations = cell_type_annotations
+)
+# Bisque, CDSeq, MuSiC and SCDC require the single cell data and the batch ids, while not
+# requiring a signature matrix
+omnideconv::deconvolute(bulk, method, batch_ids = batch_ids,
   single_cell_object = single_cell_data,
   cell_type_annotations = cell_type_annotations
 )
@@ -234,32 +230,32 @@ knitr::kable(single_cell_data[67:71, 1:3],
 )
 ```
 
-Now we build the signature matrix with Bisque and look at the values for the first few genes. 
+Now we build the signature matrix with MOMF and look at the values for the first few genes. 
 
 ```{r signatureExample}
 signatureMatrix <- omnideconv::build_model(
   single_cell_data, cell_type_annotations,
-  "bisque", batch_ids
+  "momf", bulk_gene_expression = bulk
 )
 ```
 ```{r echo=FALSE}
 knitr::kable(signatureMatrix[1:5, ],
-  caption = "Table 2: Part of the signature matrix created with Bisque."
+  caption = "Table 2: Part of the signature matrix created with MOMF."
 )
 ```
 
-We can use this signature matrix to run the deconvolution with Bisque.
+We can use this signature matrix to run the deconvolution with DWLS, MOMF, BSeq-sc or CibersortX. We can also use one of the methods which combines both steps in one like Bisque and thus takes in the signature NULL.
 
 ```{r deconvExample}
 deconvolution <- omnideconv::deconvolute(
-  bulk, signatureMatrix, "bisque", single_cell_data,
+  bulk, NULL, "bisque", single_cell_data,
   cell_type_annotations, batch_ids
 )
 ```
 ```{r echo=FALSE}
 knitr::kable(deconvolution,
   caption = "Table 3: Deconvoluted cell type proportions calculated
-  with Bisque and the signature matrix from the last step.", digits = 3
+  with Bisque.", digits = 3
 )
 ```
 
@@ -270,11 +266,8 @@ Additionally, we provide some methods for visualisation. In this and the benchma
 Please note that the cell fractions depicted in this section are not representative for deconvolution analysis of "real" data. They are based on our sample dataset, which is very small compared to the usual datasets used in deconvolution analysis and also contains a limited number of cell types. Using such a small subset leads to a big information loss and the results are biased. However, the goal of this section is to give an example how the results can be visualized and to draw attention to the big differences between the results of the eleven methods implemented.
 
 ```{r plot, fig.width=7, fig.height=4, fig.cap="Figure 2: Cell type proportions of the last step visualized. Very heterogenous results, HD30 show a lot of T cell dividing and NK cell, while HD31 show a lot of monocytes."}
-res_bisque <- omnideconv::deconvolute(
-  bulk, signatureMatrix, "bisque",
-  single_cell_data, cell_type_annotations, batch_ids
-)
-res_bisque_list <- list(res_bisque)
+res_bisque <- deconvolution # Taking the computed values of the last step
+res_bisque_list <- list(deconvolution)
 names(res_bisque_list) <- "Bisque"
 omnideconv::make_barplot(res_bisque_list, title = "Deconvolution result")
 ```
@@ -354,13 +347,13 @@ It is now possible to use every method which takes in a signature matrix (everyt
 knitr::kable(data.frame(
   Deconv_method = c("AutoGeneS", "Bisque", "BSeq-sc", "CDSeq", "CIBERSORTx", "CPM", "DWLS", "MOMF", "MuSiC", "Scaden", "SCDC"),
   AutoGeneS = c("yes", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
-  Bisque = c("-", "yes", "(yes)", "(yes)", "(yes)", "(yes)", "(yes)", "yes", "-", "-", "-"),
+  Bisque = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
   BSeq_sc = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
   CDSeq = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
-  CIBERSORTx = c("-", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "-", "-", "-"),
+  CIBERSORTx = c("-", "-", "yes", "yes", "yes", "yes", "yes", "yes", "-", "-", "-"),
   CPM = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
-  DWLS = c("-", "yes", "yes", "yes", "yes", "yes", "yes", "yes", "-", "-", "-"),
-  MOMF = c("-", "yes", "(yes)", "(yes)", "(yes)", "(yes)", "(yes)", "yes", "-", "-", "-"),
+  DWLS = c("-", "-", "yes", "yes", "yes", "yes", "yes", "yes", "-", "-", "-"),
+  MOMF = c("-", "-", "(yes)", "(yes)", "(yes)", "(yes)", "(yes)", "yes", "-", "-", "-"),
   MuSiC = c("-", "-", "-", "-", "-", "-", "-", "-", "yes", "-", "-"),
   Scaden = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "yes", "-"),
   SCDC = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "yes")

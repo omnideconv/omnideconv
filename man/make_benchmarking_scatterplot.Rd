@@ -36,12 +36,8 @@ bulk <- bulk[common_genes, ]
 
 RefData <- RefData[, order(colnames(RefData))]
 
-sig_bisque <- build_model(
-  single_cell_data, cell_type_annotations, "bisque",
-  batch_ids
-)
 res_bisque <- deconvolute(
-  bulk, sig_bisque, "bisque", single_cell_data,
+  bulk, NULL, "bisque", single_cell_data,
   cell_type_annotations, batch_ids
 )
 

@@ -63,13 +63,16 @@ cell_type_annotations <- cell_type_annotations_1[1:500]
 batch_ids <- batch_ids_1[1:500]
 bulk <- bulk[1:2000, ]
 
-signature_matrix_bisque <- build_model(
-  single_cell_data, cell_type_annotations, "bisque",
+signature_matrix_autogenes <- build_model(
+  single_cell_data, cell_type_annotations, "autogenes",
   batch_ids
 )
+deconv_autogenes <- deconvolute(
+  bulk, signature_matrix_autogenes, "autogenes"
+)
+
 deconv_bisque <- deconvolute(
-  bulk, signature_matrix_bisque, "bisque", single_cell_data,
+  bulk, NULL, "bisque", single_cell_data,
   cell_type_annotations, batch_ids
 )
-deconv_momf <- deconvolute(bulk, signature_matrix_bisque, "momf", single_cell_data)
 }

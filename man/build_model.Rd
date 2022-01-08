@@ -10,7 +10,7 @@ build_model(
   method = deconvolution_methods,
   batch_ids = NULL,
   bulk_gene_expression = NULL,
-  verbose = TRUE,
+  verbose = FALSE,
   cell_type_column_name = NULL,
   markers = NULL,
   ...
@@ -65,12 +65,12 @@ cell_type_annotations <- cell_type_annotations_1[1:500]
 batch_ids <- batch_ids_1[1:500]
 bulk <- bulk[1:2000, ]
 
-signature_matrix_bisque <- build_model(
-  single_cell_data, cell_type_annotations, "bisque",
-  batch_ids
+signature_matrix_momf <- build_model(
+  single_cell_data, cell_type_annotations, "momf",
+  bulk_gene_expression = bulk
 )
 pickle_path_autogenes <- build_model(single_cell_data, cell_type_annotations, "autogenes",
   population_size = 500, offspring_size = 30,
-  crossover_pb = 0.3, verbose = TRUE
+  crossover_pb = 0.3
 )
 }

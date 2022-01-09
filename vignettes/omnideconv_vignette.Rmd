@@ -265,7 +265,9 @@ Additionally, we provide some methods for visualisation. In this and the benchma
 
 Please note that the cell fractions depicted in this section are not representative for deconvolution analysis of "real" data. They are based on our sample dataset, which is very small compared to the usual datasets used in deconvolution analysis and also contains a limited number of cell types. Using such a small subset leads to a big information loss and the results are biased. However, the goal of this section is to give an example how the results can be visualized and to draw attention to the big differences between the results of the eleven methods implemented.
 
-```{r plot, fig.width=7, fig.height=4, fig.cap="Figure 2: Cell type proportions of the last step visualized. Very heterogenous results, HD30 show a lot of T cell dividing and NK cell, while HD31 show a lot of monocytes."}
+```{r plot, fig.width=7, fig.height=4, fig.cap="Figure 2: Cell type proportions of the last step visualized with very heterogenous results."}
+# Should we already combine CD4 and CD8?
+# deconvolution <- cbind(deconvolution, T = (deconvolution[, "CD4 T"] + deconvolution[, "CD8 T"]))[, -c(2, 3)]
 res_bisque <- deconvolution # Taking the computed values of the last step
 res_bisque_list <- list(deconvolution)
 names(res_bisque_list) <- "Bisque"
@@ -303,11 +305,15 @@ res_autogenes <- deconvolute(bulk, pickle_path_autogenes, "autogenes")
 res_scdc <- deconvolute(bulk, NULL, "scdc", single_cell_data, cell_type_annotations, batch_ids)
 
 # res_bisque was already calculated before
-result_list <- list(AutoGenes = res_autogenes, Bisque = res_bisque, SCDC = res_scdc)
+result_list <- list(AutoGeneS = res_autogenes, Bisque = res_bisque, SCDC = res_scdc)
 
 # This joins CD4 and CD8 T cells into on class so it can be compared with the reference data
 result_list <- lapply(result_list, function(x) {
-  cbind(x, T = (x[, "CD4 T"] + x[, "CD8 T"]))[, -c(2, 3)]
+  if ("CD4 T" %in% colnames(x)){
+    cbind(x, T = (x[, "CD4 T"] + x[, "CD8 T"]))[, -c(2, 3)]
+  } else {
+    x
+  }
 })
 omnideconv::make_benchmarking_scatterplot(result_list, RefData)
 omnideconv::make_barplot(result_list, "Comparison of different deconvolution methods")

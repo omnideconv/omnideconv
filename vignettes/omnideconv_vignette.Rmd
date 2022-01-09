@@ -314,7 +314,7 @@ result_list <- list(AutoGeneS = res_autogenes, Bisque = res_bisque, SCDC = res_s
 
 # This joins CD4 and CD8 T cells into on class so it can be compared with the reference data
 result_list <- lapply(result_list, function(x) {
-  if ("CD4 T" %in% colnames(x)){
+  if ("CD4 T" %in% colnames(x)) {
     cbind(x, T = (x[, "CD4 T"] + x[, "CD8 T"]))[, -c(2, 3)]
   } else {
     x

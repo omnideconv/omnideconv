@@ -20,8 +20,8 @@ samples. Row and column names need to be set.}
 \item{cell_type_annotations}{A vector of the cell type annotations. Has to be in the same order
 as the samples in single_cell_object.}
 
-\item{markers}{Named list of cell type marker genes.
-The type of gene identifiers (names(markers)) must be the same as the ones used as feature/row
+\item{markers}{Named list of cell type marker genes with the names being the cell type.
+The type of gene identifiers must be the same as the ones used as feature/row
 names in the single_cell_object.}
 
 \item{batch_ids}{A vector of the ids of the samples or individuals.}

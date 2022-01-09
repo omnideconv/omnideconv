@@ -4,8 +4,8 @@
 #'   samples. Row and column names need to be set.
 #' @param cell_type_annotations A vector of the cell type annotations. Has to be in the same order
 #'   as the samples in single_cell_object.
-#' @param markers Named list of cell type marker genes.
-#'   The type of gene identifiers (names(markers)) must be the same as the ones used as feature/row
+#' @param markers Named list of cell type marker genes with the names being the cell type.
+#'   The type of gene identifiers must be the same as the ones used as feature/row
 #'   names in the single_cell_object.
 #' @param batch_ids A vector of the ids of the samples or individuals.
 #' @param ct_scale logical that indicates if the single cell expresson profiles

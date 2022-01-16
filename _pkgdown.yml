@@ -42,15 +42,65 @@ reference:
     desc: List of datasets provided by the package.
     contents:
       - bulk
-      - bulk_small
-      - cell_type_annotations
-      - cell_type_annotations_small
-      - single_cell_data
-      - single_cell_data_small
-      - batch_ids
-      - batch_ids_small
+      - RefData
+      - cell_type_annotations_1
+      - cell_type_annotations_2
+      - cell_type_annotations_3
+      - single_cell_data_1
+      - single_cell_data_2
+      - single_cell_data_3
+      - batch_ids_1
+      - batch_ids_2
+      - batch_ids_3
   - title: Visualisation
     desc: Methods which produce plots with different methods.
     contents:
       - make_benchmarking_scatterplot
       - make_barplot
+  - title: internal
+    contents:
+      - anndata_checkload
+      - anndata_is_identical
+      - anndata_to_singlecellexperiment
+      - autogenes_checkload
+      - build_anndata
+      - build_model_cdseq
+      - calculate_cell_embedding
+      - calc_condition_number
+      - check_and_install
+      - check_credentials
+      - convert_to_matrix
+      - create_docker_command
+      - deconvolute_cdseq
+      - deescape_blanks
+      - docker_available
+      - docker_connectable
+      - escape_blanks
+      - get_cell_fractions_options
+      - get_method_options
+      - get_signature_matrix_options
+      - get_single_cell_expression_set
+      - init_python
+      - install_all_python
+      - install_autogenes
+      - install_scaden
+      - matrix_to_singlecellexperiment
+      - normalize_deconv_results
+      - python_available
+      - read_anndata
+      - required_packages
+      - save_as_h5ad
+      - scaden_checkload
+      - scaden_predict
+      - scaden_process
+      - scaden_simulate
+      - scaden_simulate_example
+      - scaden_train
+      - sces_are_identical
+      - set_python
+      - singlecellexperiment_to_anndata
+      - singlecellexperiment_to_matrix
+      - transform_and_save_bulk
+      - transform_and_save_single_cell
+      - verbose_wrapper
+      - write_anndata

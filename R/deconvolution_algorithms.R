@@ -100,18 +100,18 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
   # annotation or strings in the data
   check_data(single_cell_object, cell_type_annotations, bulk_gene_expression)
 
-  cell_type_annotations <- escape_blanks(cell_type_annotations)
-  rownames(single_cell_object) <- escape_blanks(rownames(single_cell_object))
-  colnames(single_cell_object) <- escape_blanks(colnames(single_cell_object))
+  cell_type_annotations <- escape_special_chars(cell_type_annotations)
+  rownames(single_cell_object) <- escape_special_chars(rownames(single_cell_object))
+  colnames(single_cell_object) <- escape_special_chars(colnames(single_cell_object))
   if (!is.null(bulk_gene_expression)) {
-    rownames(bulk_gene_expression) <- escape_blanks(rownames(bulk_gene_expression))
-    colnames(bulk_gene_expression) <- escape_blanks(colnames(bulk_gene_expression))
+    rownames(bulk_gene_expression) <- escape_special_chars(rownames(bulk_gene_expression))
+    colnames(bulk_gene_expression) <- escape_special_chars(colnames(bulk_gene_expression))
   }
   if (!is.null(batch_ids)) {
-    batch_ids <- escape_blanks(batch_ids)
+    batch_ids <- escape_special_chars(batch_ids)
   }
   if (!is.null(markers)) {
-    names(markers) <- escape_blanks(names(markers))
+    names(markers) <- escape_special_chars(names(markers))
   }
 
   signature <- switch(method,
@@ -142,8 +142,8 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
 
   # Only do if it is a matrix or dataframe
   if ("matrix" %in% class(signature) || "data.frame" %in% class(signature)) {
-    rownames(signature) <- deescape_blanks(rownames(signature))
-    colnames(signature) <- deescape_blanks(colnames(signature))
+    rownames(signature) <- deescape_special_chars(rownames(signature))
+    colnames(signature) <- deescape_special_chars(colnames(signature))
   }
 
   return(signature)
@@ -231,38 +231,38 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   # annotation or strings in the data
   check_data(single_cell_object, cell_type_annotations, bulk_gene_expression)
 
-  rownames(bulk_gene_expression) <- escape_blanks(rownames(bulk_gene_expression))
-  colnames(bulk_gene_expression) <- escape_blanks(colnames(bulk_gene_expression))
+  rownames(bulk_gene_expression) <- escape_special_chars(rownames(bulk_gene_expression))
+  colnames(bulk_gene_expression) <- escape_special_chars(colnames(bulk_gene_expression))
   # Only do if it is a matrix or dataframe
   if ("matrix" %in% class(signature) || "data.frame" %in% class(signature)) {
-    rownames(signature) <- escape_blanks(rownames(signature))
-    colnames(signature) <- escape_blanks(colnames(signature))
+    rownames(signature) <- escape_special_chars(rownames(signature))
+    colnames(signature) <- escape_special_chars(colnames(signature))
   }
   if (!is.null(single_cell_object)) {
     if ("matrix" %in% class(single_cell_object) || "data.frame" %in% class(single_cell_object)) {
-      rownames(single_cell_object) <- escape_blanks(rownames(single_cell_object))
-      colnames(single_cell_object) <- escape_blanks(colnames(single_cell_object))
+      rownames(single_cell_object) <- escape_special_chars(rownames(single_cell_object))
+      colnames(single_cell_object) <- escape_special_chars(colnames(single_cell_object))
     } else if ("list" %in% class(single_cell_object)) {
       single_cell_object <- lapply(single_cell_object, function(sc) {
-        rownames(sc) <- escape_blanks(rownames(sc))
-        colnames(sc) <- escape_blanks(colnames(sc))
+        rownames(sc) <- escape_special_chars(rownames(sc))
+        colnames(sc) <- escape_special_chars(colnames(sc))
         sc
       })
     }
   }
   if (!is.null(cell_type_annotations)) {
     if ("character" %in% class(cell_type_annotations)) {
-      cell_type_annotations <- escape_blanks(cell_type_annotations)
+      cell_type_annotations <- escape_special_chars(cell_type_annotations)
     } else if ("list" %in% class(cell_type_annotations)) {
-      cell_type_annotations <- lapply(cell_type_annotations, escape_blanks)
+      cell_type_annotations <- lapply(cell_type_annotations, escape_special_chars)
     }
   }
 
   if (!is.null(batch_ids)) {
     if ("character" %in% class(batch_ids)) {
-      batch_ids <- escape_blanks(batch_ids)
+      batch_ids <- escape_special_chars(batch_ids)
     } else if ("list" %in% class(batch_ids)) {
-      batch_ids <- lapply(batch_ids, escape_blanks)
+      batch_ids <- lapply(batch_ids, escape_special_chars)
     }
   }
 
@@ -317,9 +317,9 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
     # Normalize the results
     deconv <- normalize_deconv_results(deconv)
     # Alphabetical order of celltypes
+    rownames(deconv) <- deescape_special_chars(rownames(deconv))
+    colnames(deconv) <- deescape_special_chars(colnames(deconv))
     deconv <- deconv[, order(colnames(deconv)), drop = FALSE]
-    rownames(deconv) <- deescape_blanks(rownames(deconv))
-    colnames(deconv) <- deescape_blanks(colnames(deconv))
   }
   return(deconv)
 }

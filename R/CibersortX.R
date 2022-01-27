@@ -64,7 +64,7 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
   if (!docker_connectable()) {
     message(
       "Error durching connection to docker. Please check whether you can ",
-      "call 'docker ps' in the command line and get a (possibly empty) list and not an error",
+      "call 'docker ps' in the command line and get a (possibly empty) list and not an error ",
       "message"
     )
     return(NULL)

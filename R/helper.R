@@ -31,32 +31,106 @@ docker_connectable <- function() {
   return(system("docker ps", ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
 }
 
-#' Removes blanks by substituting them with "._._._" which should not be used naturally
+
+#' Removes special characters by substituting them with unique string which should not be used naturally
 #'
 #' @param string The string to be escaped
 #'
-#' @return The String without blanks
+#' @return The String without special characters
 #'
-escape_blanks <- function(string) {
+escape_special_chars <- function(string) {
   if (is.null(string)) {
     return(NULL)
   }
-  return(gsub(" ", "._._._", string))
+  string <- gsub("\u0020", "21b29fb07f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # " "
+  string <- gsub("\u0021", "21b29fb17f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "!"
+  string <- gsub("\u0022", "21b29fb27f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # """
+  string <- gsub("\u0023", "21b29fb37f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "#"
+  string <- gsub("\u0024", "21b29fb47f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "$"
+  string <- gsub("\u0025", "21b29fb57f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "%"
+  string <- gsub("\u0026", "21b29fb67f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "&"
+  string <- gsub("\u0027", "21b29fb77f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "'"
+  string <- gsub("\u0028", "21b29fb87f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "("
+  string <- gsub("\u0029", "21b29fb97f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # ")"
+  string <- gsub("\u002A", "21b29fba7f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "*"
+  string <- gsub("\u002B", "21b2c6e87f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "+"
+  string <- gsub("\u002C", "21b2c6e97f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # ","
+  string <- gsub("\u002D", "21b2c7567f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "-"
+  string <- gsub("\u002E", "21b2c7577f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "."
+  string <- gsub("\u002F", "21b2c7587f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "/"
+  string <- gsub("\u003A", "21b2c7597f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # ":"
+  string <- gsub("\u003B", "21b2c75a7f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # ";"
+  string <- gsub("\u003C", "21b2c75b7f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "<"
+  string <- gsub("\u003D", "21b2c75c7f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "="
+  string <- gsub("\u003E", "21b2c75d7f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # ">"
+  string <- gsub("\u003F", "21b2c75e7f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "?"
+  string <- gsub("\u0040", "21b2c75f7f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "@"
+  string <- gsub("\u005B", "21b2c7607f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "["
+  string <- gsub("\u005C", "21b2ee347f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "\"
+  string <- gsub("\u005D", "21b2ee357f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "]"
+  string <- gsub("\u005E", "21b2ee367f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "^"
+  string <- gsub("\u005F", "21b2ee377f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "_"
+  string <- gsub("\u0060", "21b2ee387f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "`"
+  string <- gsub("\u00B4", "21b2ee397f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "´"
+  string <- gsub("\u007B", "21b2ee3a7f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "{"
+  string <- gsub("\u007C", "21b2ee3b7f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "|"
+  string <- gsub("\u007D", "21b2ee3c7f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "}"
+  string <- gsub("\u007E", "21b2ee3d7f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "~"
+  string <- gsub("\u00A7", "21b2ee3e7f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "§"
+  string <- gsub("\u00DF", "21b315447f8711ec9bf265fb9bf6ab9c", string, fixed = TRUE) # "ß"
+
+  return(string)
 }
 
-#' Removes the substitutions "._._._" and turns them back into blanks
+
+#' Removes the substitutions and turns them back into the special characters
 #'
 #' @param string The string to be de-escaped
 #'
-#' @return The String with blanks
+#' @return The String with special characters
 #'
-deescape_blanks <- function(string) {
+deescape_special_chars <- function(string) {
   if (is.null(string)) {
     return(NULL)
   }
-  return(gsub("._._._", " ", string))
+  string <- gsub("21b29fb07f8711ec9bf265fb9bf6ab9c", "\u0020", string, fixed = TRUE) # " "
+  string <- gsub("21b29fb17f8711ec9bf265fb9bf6ab9c", "\u0021", string, fixed = TRUE) # "!"
+  string <- gsub("21b29fb27f8711ec9bf265fb9bf6ab9c", "\u0022", string, fixed = TRUE) # """
+  string <- gsub("21b29fb37f8711ec9bf265fb9bf6ab9c", "\u0023", string, fixed = TRUE) # "#"
+  string <- gsub("21b29fb47f8711ec9bf265fb9bf6ab9c", "\u0024", string, fixed = TRUE) # "$"
+  string <- gsub("21b29fb57f8711ec9bf265fb9bf6ab9c", "\u0025", string, fixed = TRUE) # "%"
+  string <- gsub("21b29fb67f8711ec9bf265fb9bf6ab9c", "\u0026", string, fixed = TRUE) # "&"
+  string <- gsub("21b29fb77f8711ec9bf265fb9bf6ab9c", "\u0027", string, fixed = TRUE) # "'"
+  string <- gsub("21b29fb87f8711ec9bf265fb9bf6ab9c", "\u0028", string, fixed = TRUE) # "("
+  string <- gsub("21b29fb97f8711ec9bf265fb9bf6ab9c", "\u0029", string, fixed = TRUE) # ")"
+  string <- gsub("21b29fba7f8711ec9bf265fb9bf6ab9c", "\u002A", string, fixed = TRUE) # "*"
+  string <- gsub("21b2c6e87f8711ec9bf265fb9bf6ab9c", "\u002B", string, fixed = TRUE) # "+"
+  string <- gsub("21b2c6e97f8711ec9bf265fb9bf6ab9c", "\u002C", string, fixed = TRUE) # ","
+  string <- gsub("21b2c7567f8711ec9bf265fb9bf6ab9c", "\u002D", string, fixed = TRUE) # "-"
+  string <- gsub("21b2c7577f8711ec9bf265fb9bf6ab9c", "\u002E", string, fixed = TRUE) # "."
+  string <- gsub("21b2c7587f8711ec9bf265fb9bf6ab9c", "\u002F", string, fixed = TRUE) # "/"
+  string <- gsub("21b2c7597f8711ec9bf265fb9bf6ab9c", "\u003A", string, fixed = TRUE) # ":"
+  string <- gsub("21b2c75a7f8711ec9bf265fb9bf6ab9c", "\u003B", string, fixed = TRUE) # ";"
+  string <- gsub("21b2c75b7f8711ec9bf265fb9bf6ab9c", "\u003C", string, fixed = TRUE) # "<"
+  string <- gsub("21b2c75c7f8711ec9bf265fb9bf6ab9c", "\u003D", string, fixed = TRUE) # "="
+  string <- gsub("21b2c75d7f8711ec9bf265fb9bf6ab9c", "\u003E", string, fixed = TRUE) # ">"
+  string <- gsub("21b2c75e7f8711ec9bf265fb9bf6ab9c", "\u003F", string, fixed = TRUE) # "?"
+  string <- gsub("21b2c75f7f8711ec9bf265fb9bf6ab9c", "\u0040", string, fixed = TRUE) # "@"
+  string <- gsub("21b2c7607f8711ec9bf265fb9bf6ab9c", "\u005B", string, fixed = TRUE) # "["
+  string <- gsub("21b2ee347f8711ec9bf265fb9bf6ab9c", "\u005C", string, fixed = TRUE) # "\"
+  string <- gsub("21b2ee357f8711ec9bf265fb9bf6ab9c", "\u005D", string, fixed = TRUE) # "]"
+  string <- gsub("21b2ee367f8711ec9bf265fb9bf6ab9c", "\u005E", string, fixed = TRUE) # "^"
+  string <- gsub("21b2ee377f8711ec9bf265fb9bf6ab9c", "\u005F", string, fixed = TRUE) # "_"
+  string <- gsub("21b2ee387f8711ec9bf265fb9bf6ab9c", "\u0060", string, fixed = TRUE) # "`"
+  string <- gsub("21b2ee397f8711ec9bf265fb9bf6ab9c", "\u00B4", string, fixed = TRUE) # "´"
+  string <- gsub("21b2ee3a7f8711ec9bf265fb9bf6ab9c", "\u007B", string, fixed = TRUE) # "{"
+  string <- gsub("21b2ee3b7f8711ec9bf265fb9bf6ab9c", "\u007C", string, fixed = TRUE) # "|"
+  string <- gsub("21b2ee3c7f8711ec9bf265fb9bf6ab9c", "\u007D", string, fixed = TRUE) # "}"
+  string <- gsub("21b2ee3d7f8711ec9bf265fb9bf6ab9c", "\u007E", string, fixed = TRUE) # "~"
+  string <- gsub("21b2ee3e7f8711ec9bf265fb9bf6ab9c", "\u00A7", string, fixed = TRUE) # "§"
+  string <- gsub("21b315447f8711ec9bf265fb9bf6ab9c", "\u00DF", string, fixed = TRUE) # "ß"
+  return(string)
 }
-
 
 ### Python helper methods
 

@@ -180,6 +180,7 @@ test_that("CIBERSORTx deconvolution works", {
     row.names = 1,
     check.names = FALSE, sep = "\t"
   ))
+  colnames(cibersort_model) <- c("T$ c!ell% CD4", "T cel§l() &CD8", "NK+ c?[]el{}l")
   deconvolution <- deconvolute(bulk_small, cibersort_model, method = "cibersortx")
 
   expect_equal(
@@ -196,6 +197,7 @@ test_that("CIBERSORTx deconvolution works", {
     check.names = FALSE, sep = "\t"
   ))
   check_result <- check_result[, unique(cell_annotations_small)]
+  colnames(check_result) <- c("T$ c!ell% CD4", "T cel§l() &CD8", "NK+ c?[]el{}l")
   check_result <- check_result[, sort(colnames(check_result))]
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,

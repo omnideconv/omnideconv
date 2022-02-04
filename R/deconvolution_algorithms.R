@@ -131,7 +131,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
     autogenes = build_model_autogenes(single_cell_object, cell_type_annotations,
       verbose = verbose, ...
     ),
-    music = build_model_music(),
+    music = build_model_music(single_cell_object, cell_type_annotations, batch_ids, ...)$Disgn.mtx,
     scdc = build_model_scdc(),
     cpm = build_model_cpm(),
     bseqsc = build_model_bseqsc(single_cell_object, cell_type_annotations, markers, batch_ids, ...),
@@ -264,6 +264,13 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
     } else if ("list" %in% class(batch_ids)) {
       batch_ids <- lapply(batch_ids, escape_special_chars)
     }
+  }
+
+  if (verbose && method %in% c("bisque", "music", "scdc", "cpm", "cdseq") && !is.null(signature)) {
+    message(
+      "A signature was provided, even though you chose a method that does not use ",
+      "an external one."
+    )
   }
 
   deconv <- switch(method,

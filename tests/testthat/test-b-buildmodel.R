@@ -97,8 +97,13 @@ test_that("AutoGeneS build model works", {
 })
 
 test_that("MuSiC build model works", {
-  model <- build_model(sc_object_small, cell_annotations_small, "music")
-  expect_null(info = "The MuSiC Model is null (which it should be)", object = model)
+  signature <- build_model(sc_object_small, cell_annotations_small, "music",
+    batch_ids = batch_ids_small
+  )
+  expect_equal(
+    info = "signature matrix has same amount of columns as unique cell types in single cell matrix",
+    object = ncol(signature), expected = length(unique(cell_annotations_small))
+  )
 })
 test_that("SCDC build model works", {
   model <- build_model(sc_object_small, cell_annotations_small,

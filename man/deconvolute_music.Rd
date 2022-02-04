@@ -36,7 +36,7 @@ be in the same order as the samples in single_cell_object.}
 \item{batch_ids}{A vector of the ids of the samples or individuals.}
 
 \item{markers}{vector or list of gene names, default as NULL. If NULL, use all genes that
-provided by both bulk and single cell dataset.}
+are provided by both bulk and single cell dataset.}
 
 \item{clusters}{character, the phenoData of single cell dataset used as clusters.}
 

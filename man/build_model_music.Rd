@@ -57,6 +57,6 @@ a list with elements:
 }
 }
 \description{
-MuSiC does the signature creation in one step, not seperated into build_model and deconvolute.
+MuSiC does the signature creation in one step, not separated into build_model and deconvolute.
 Please use the deconvolute method with your single cell and bulk RNA seq data to use MuSiC.
 }

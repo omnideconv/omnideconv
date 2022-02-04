@@ -2,13 +2,54 @@
 % Please edit documentation in R/SCDC.R
 \name{build_model_scdc}
 \alias{build_model_scdc}
-\title{No model is build as SCDC does both steps in one.}
+\title{Signature creation with SCDC.}
 \usage{
-build_model_scdc()
+build_model_scdc(
+  single_cell_object,
+  cell_type_annotations,
+  batch_ids,
+  ct_sub = NULL,
+  ct_varname = "cellType",
+  sample = "batchId",
+  ct_cell_size = NULL,
+  verbose = FALSE
+)
+}
+\arguments{
+\item{single_cell_object}{A matrix or dataframe with the single-cell data. Rows are genes,
+columns are samples. Row and column names need to be set. This can also be a list of objects,
+if SCDC_ENSEMBLE should be used.}
+
+\item{cell_type_annotations}{A Vector of the cell type annotations. Has to be in the same order
+as the samples in single_cell_object. This can also be a list of vectors, if SCDC_ENSEMBLE
+should be used.}
+
+\item{batch_ids}{A vector of the ids of the samples or individuals.}
+
+\item{ct_sub}{vector. a subset of cell types that are selected to construct basis matrix. NULL
+means that all are used.}
+
+\item{ct_varname}{character string specifying the variable name for 'cell types'.}
+
+\item{sample}{character string specifying the variable name for subject/samples.}
+
+\item{ct_cell_size}{default is NULL, which means the "library size" is calculated based on the
+data. Users can specify a vector of cell size factors corresponding to the ct.sub according to
+prior knowledge. The vector should be named: names(ct_cell_size input) should not be NULL.}
+
+\item{verbose}{Whether to produce an output on the console.}
 }
 \value{
-NULL.
+a list with elements:
+\itemize{
+\item basis matrix
+\item sum of cell-type-specific library size
+\item sample variance matrix
+\item basis matrix by mvw
+\item mvw matrix
+}
 }
 \description{
-Please use the deconvolute method with your single cell and bulk rna seq data to use SCDC.
+SCDC does the signature creation in one step, not separated into build_model and deconvolute.
+Please use the deconvolute method with your single cell and bulk RNA seq data to use SCDC.
 }

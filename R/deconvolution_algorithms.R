@@ -132,7 +132,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
       verbose = verbose, ...
     ),
     music = build_model_music(single_cell_object, cell_type_annotations, batch_ids, ...)$Disgn.mtx,
-    scdc = build_model_scdc(),
+    scdc = build_model_scdc(single_cell_object, cell_type_annotations, batch_ids, ...)$basis,
     cpm = build_model_cpm(),
     bseqsc = build_model_bseqsc(single_cell_object, cell_type_annotations, markers, batch_ids, ...),
     cdseq = build_model_cdseq()

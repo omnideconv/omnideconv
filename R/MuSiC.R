@@ -1,6 +1,6 @@
 #' Signature creation with MuSiC.
 #'
-#' MuSiC does the signature creation in one step, not seperated into build_model and deconvolute.
+#' MuSiC does the signature creation in one step, not separated into build_model and deconvolute.
 #' Please use the deconvolute method with your single cell and bulk RNA seq data to use MuSiC.
 #'
 #' @param single_cell_object A matrix with the single-cell data. Rows are genes, columns are
@@ -51,7 +51,7 @@ build_model_music <- function(single_cell_object, cell_type_annotations, batch_i
     single_cell_object, batch_ids,
     rownames(single_cell_object), cell_type_annotations
   )
-  return(music_basis(sc_eset,
+  return(MuSiC::music_basis(sc_eset,
     non.zero = non_zero, markers = markers,
     clusters = clusters, samples = samples, select.ct = select_ct,
     cell_size = cell_size, ct.cov = ct_cov, verbose = verbose

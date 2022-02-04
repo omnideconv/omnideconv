@@ -90,6 +90,12 @@ deconvolute_cpm <- function(bulk_gene_expression, single_cell_object, cell_type_
     cell_space <- calculate_cell_embedding(single_cell_object, cell_type_annotations, cell_space)
   }
 
+  if (parallel::detectCores() > 125) {
+    if (verbose) {
+      message("Reduced the used cores to 125 because R only supports 125")
+    }
+    no_cores <- 125
+  }
 
 
   return(scBio::CPM(single_cell_object, cell_type_annotations, bulk_gene_expression, cell_space,

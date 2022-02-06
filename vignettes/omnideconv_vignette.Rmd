@@ -271,8 +271,6 @@ Additionally, we provide some methods for visualisation. In this and the benchma
 Please note that the cell fractions depicted in this section are not representative for deconvolution analysis of "real" data. They are based on our sample dataset, which is very small compared to the usual datasets used in deconvolution analysis and also contains a limited number of cell types. Using such a small subset leads to a big information loss and the results are biased. However, the goal of this section is to give an example how the results can be visualized and to draw attention to the big differences between the results of the eleven methods implemented.
 
 ```{r plot, fig.width=7, fig.height=4, fig.cap="Figure 2: Cell type proportions of the last step visualized with very heterogenous results."}
-# Should we already combine CD4 and CD8?
-# deconvolution <- cbind(deconvolution, T = (deconvolution[, "CD4 T"] + deconvolution[, "CD8 T"]))[, -c(2, 3)]
 res_bisque <- deconvolution # Taking the computed values of the last step
 res_bisque_list <- list(deconvolution)
 names(res_bisque_list) <- "Bisque"
@@ -301,6 +299,7 @@ Detailed information about the methods can be found in section 4.
 ## Prediction Results
 
 In the two figures shown below, the single cell RNA-seq data contains counts while the bulk RNA-seq data is TPM normalized. Our test data sets contain TPM normalized values as well.
+The graphic looks a little different from the last deconvolution plot, as we combined CD4 and CD8 T-cells here to compare the method results to the ground truth.
 
 ```{r benchmarking, fig.width=7, fig.height=3, fig.align='center'}
 pickle_path_autogenes <- build_model(single_cell_data, cell_type_annotations, "autogenes")

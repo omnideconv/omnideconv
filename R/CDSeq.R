@@ -20,7 +20,7 @@ build_model_cdseq <- function() {
 #' This function is to calculate the CDSeq deconvolution proportions.
 #' IMPORTANT: No model is needed. Everything is done inside this method.
 #' IMPORTANT: The result does not necessarily contain all cell types from the input single cell
-#' data. It assigns cell types to clusters found in the bulk data. See CDSeq_cell_type_assignment_df
+#' data. It assigns cell types to clusters found in the bulk data. See cellTypeAssignSCRNA
 #' for more information.
 #'
 #'
@@ -31,6 +31,24 @@ build_model_cdseq <- function() {
 #' @param cell_type_annotations A Vector of the cell type annotations. Has to be in the same order
 #'   as the samples in single_cell_object.
 #' @param batch_ids A vector of the ids of the samples or individuals.
+#' @param beta Beta is a scalar or a vector of length G where G is the number of genes; default
+#'   value for beta is 0.5; When beta=Null, CDSeq uses reference_gep to estimate beta.
+#' @param alpha Alpha is a scalar or a vector of length cell_type_number where cell_type_number is
+#'   the number of cell type; default value for alpha is 5.
+#' @param mcmc_iterations Number of iterations for the Gibbs sampler; default value is 700.
+#' @param dilution_factor A scalar to dilute the read counts for speeding up; default value is 1.
+#'   CDSeq will use bulk_data/dilution_factor.
+#' @param gene_subset_size Number of genes randomly sampled for each block. Default is NULL.
+#' @param block_number Number of genes randomly sampled for each block. Default is 1.
+#' @param cpu_number Number of cpu cores that can be used for parellel computing; Default is NULL
+#'   and CDSeq will detect the available number of cores on the device and use number of
+#'   all cores - 1 for parallel computing.
+#' @param gene_length A vector of the effective length (gene length - read length + 1) of each
+#'   gene; Default is NULL.
+#' @param print_progress_msg_to_file Print progress message to a text file. Set 1 if need to print
+#'   progress msg to a file and set 0 if no printing. Default is 0.
+#' @param reference_gep A reference gene expression profile can be used to determine the cell type
+#'   and/or estimate beta; Default is NULL.
 #' @param cdseq_gep_sample_specific CDSeq-estimated sample-specific cell type gene expression, in
 #'   the form of read counts. It is a 3 dimension array, i.e. gene by sample by cell type. The
 #'   element cdseq_gep_sample_specific\[i,j,k\] represents the reads mapped to gene i from cell type
@@ -128,7 +146,11 @@ build_model_cdseq <- function() {
 #'   with scRNAseq).}
 #' @export
 deconvolute_cdseq <- function(bulk_gene_expression, single_cell_object, cell_type_annotations,
-                              batch_ids, cdseq_gep_sample_specific = NULL, batch_correction = 1,
+                              batch_ids, beta = 0.5, alpha = 5, mcmc_iterations = 700,
+                              dilution_factor = 1, gene_subset_size = NULL, block_number = 1,
+                              cpu_number = NULL, gene_length = NULL, reference_gep = NULL,
+                              print_progress_msg_to_file = 0,
+                              cdseq_gep_sample_specific = NULL, batch_correction = 1,
                               harmony_iter = 10, harmony_cluster = 20, nb_size = NULL, nb_mu = NULL,
                               corr_threshold = 0, breaksList = seq(0, 1, 0.01), pseudo_cell_count = 1,
                               seurat_count_threshold = 0, seurat_scale_factor = 10000,
@@ -150,8 +172,12 @@ deconvolute_cdseq <- function(bulk_gene_expression, single_cell_object, cell_typ
   }
 
   cdseq_res <- CDSeq::CDSeq(
-    bulk_data = bulk_gene_expression,
-    cell_type_number = length(unique(cell_type_annotations))
+    bulk_data = bulk_gene_expression, cell_type_number = length(unique(cell_type_annotations)),
+    beta = beta, alpha = alpha, mcmc_iterations = mcmc_iterations,
+    dilution_factor = dilution_factor, gene_subset_size = gene_subset_size,
+    block_number = block_number, cpu_number = cpu_number, gene_length = gene_length,
+    reference_gep = reference_gep, verbose = verbose,
+    print_progress_msg_to_file = print_progress_msg_to_file
   )
 
   cdseq_gep <- cdseq_res$estGEP

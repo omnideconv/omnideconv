@@ -11,6 +11,7 @@ deconvolute_cdseq(
   batch_ids,
   beta = 0.5,
   alpha = 5,
+  cell_type_number = NULL,
   mcmc_iterations = 700,
   dilution_factor = 1,
   gene_subset_size = NULL,
@@ -72,6 +73,11 @@ value for beta is 0.5; When beta=Null, CDSeq uses reference_gep to estimate beta
 
 \item{alpha}{Alpha is a scalar or a vector of length cell_type_number where cell_type_number is
 the number of cell type; default value for alpha is 5.}
+
+\item{cell_type_number}{Number of cell types. cell_type_number can be an integer or a vector of
+different integers. To estimate the number of cell types, please provide a vector for
+cell_type_number, e.g. cell_type_number <- 2:30, then CDSeq will estimate the number of
+cell types.}
 
 \item{mcmc_iterations}{Number of iterations for the Gibbs sampler; default value is 700.}
 

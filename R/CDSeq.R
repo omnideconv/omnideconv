@@ -35,6 +35,10 @@ build_model_cdseq <- function() {
 #'   value for beta is 0.5; When beta=Null, CDSeq uses reference_gep to estimate beta.
 #' @param alpha Alpha is a scalar or a vector of length cell_type_number where cell_type_number is
 #'   the number of cell type; default value for alpha is 5.
+#' @param cell_type_number Number of cell types. cell_type_number can be an integer or a vector of
+#'   different integers. To estimate the number of cell types, please provide a vector for
+#'   cell_type_number, e.g. cell_type_number <- 2:30, then CDSeq will estimate the number of
+#'   cell types.
 #' @param mcmc_iterations Number of iterations for the Gibbs sampler; default value is 700.
 #' @param dilution_factor A scalar to dilute the read counts for speeding up; default value is 1.
 #'   CDSeq will use bulk_data/dilution_factor.
@@ -146,10 +150,10 @@ build_model_cdseq <- function() {
 #'   with scRNAseq).}
 #' @export
 deconvolute_cdseq <- function(bulk_gene_expression, single_cell_object, cell_type_annotations,
-                              batch_ids, beta = 0.5, alpha = 5, mcmc_iterations = 700,
-                              dilution_factor = 1, gene_subset_size = NULL, block_number = 1,
-                              cpu_number = NULL, gene_length = NULL, reference_gep = NULL,
-                              print_progress_msg_to_file = 0,
+                              batch_ids, beta = 0.5, alpha = 5, cell_type_number = NULL,
+                              mcmc_iterations = 700, dilution_factor = 1, gene_subset_size = NULL,
+                              block_number = 1, cpu_number = NULL, gene_length = NULL,
+                              reference_gep = NULL, print_progress_msg_to_file = 0,
                               cdseq_gep_sample_specific = NULL, batch_correction = 1,
                               harmony_iter = 10, harmony_cluster = 20, nb_size = NULL, nb_mu = NULL,
                               corr_threshold = 0, breaksList = seq(0, 1, 0.01), pseudo_cell_count = 1,
@@ -170,9 +174,12 @@ deconvolute_cdseq <- function(bulk_gene_expression, single_cell_object, cell_typ
       "cell_type_annotations, batch_ids)"
     )
   }
+  if (is.null(cell_type_number)) {
+    cell_type_number <- length(unique(cell_type_annotations))
+  }
 
   cdseq_res <- CDSeq::CDSeq(
-    bulk_data = bulk_gene_expression, cell_type_number = length(unique(cell_type_annotations)),
+    bulk_data = bulk_gene_expression, cell_type_number = cell_type_number,
     beta = beta, alpha = alpha, mcmc_iterations = mcmc_iterations,
     dilution_factor = dilution_factor, gene_subset_size = gene_subset_size,
     block_number = block_number, cpu_number = cpu_number, gene_length = gene_length,

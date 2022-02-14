@@ -365,13 +365,28 @@ check_and_install <- function(method) {
   github_pkgs <- grep("^.*?/.*?$", packages, value = TRUE)
   cran_pkgs <- packages[!(packages %in% github_pkgs)]
   repositories_set <- FALSE
+  package_download_allowed <- FALSE
   sapply(cran_pkgs, function(pkgname) {
     if (!requireNamespace(pkgname, quietly = TRUE)) {
       if (!repositories_set) {
         utils::setRepositories(graphics = FALSE, ind = c(1, 2, 3, 4, 5))
-        repositories_set <- TRUE
+        repositories_set <<- TRUE
+        package_download_allowed <<- askYesNo(
+          paste0(
+            "You requested to run ", method,
+            " which is currently not installed. Do you want ",
+            "to install the packages required for it: ", packages
+          )
+        )
+        message(
+          "To install all packages at once just run ",
+          "devtools::install_github(\"omnideconv/omnideconv\", ",
+          "dependencies = c(\"Imports\", \"Suggests\"))"
+        )
       }
-      utils::install.packages(pkgname)
+      if (package_download_allowed) {
+        utils::install.packages(pkgname)
+      }
     }
   })
   sapply(github_pkgs, function(pkgname) {
@@ -384,11 +399,33 @@ check_and_install <- function(method) {
     if (!requireNamespace(bare_pkgname, quietly = TRUE)) {
       if (!repositories_set) {
         utils::setRepositories(graphics = FALSE, ind = c(1, 2, 3, 4, 5))
-        repositories_set <- TRUE
+        repositories_set <<- TRUE
+        package_download_allowed <<- askYesNo(
+          paste0(
+            "You requested to run ", method,
+            " which is currently not installed. Do you want ",
+            "to install the packages required for it: ", packages
+          )
+        )
+        message(
+          "To install all packages at once just run ",
+          "devtools::install_github(\"omnideconv/omnideconv\", ",
+          "dependencies = c(\"Imports\", \"Suggests\"))"
+        )
       }
-      remotes::install_github(pkgname)
+      if (package_download_allowed) {
+        remotes::install_github(pkgname)
+      }
     }
   })
+  if (repositories_set && !package_download_allowed) {
+    message(
+      "To install all packages at once just run ",
+      "devtools::install_github(\"omnideconv/omnideconv\", ",
+      "dependencies = c(\"Imports\", \"Suggests\"))"
+    )
+    stop(paste0(method, " can not be run without installing the required packages: ", packages))
+  }
 }
 
 

@@ -379,7 +379,7 @@ check_and_install <- function(method) {
           )
         )
         message(
-          "To install all packages at once just run ",
+          "To install the dependencies for all methods at once, run ",
           "devtools::install_github(\"omnideconv/omnideconv\", ",
           "dependencies = c(\"Imports\", \"Suggests\"))"
         )
@@ -408,7 +408,7 @@ check_and_install <- function(method) {
           )
         )
         message(
-          "To install all packages at once just run ",
+          "To install the dependencies for all methods at once, run ",
           "devtools::install_github(\"omnideconv/omnideconv\", ",
           "dependencies = c(\"Imports\", \"Suggests\"))"
         )
@@ -420,7 +420,7 @@ check_and_install <- function(method) {
   })
   if (repositories_set && !package_download_allowed) {
     message(
-      "To install all packages at once just run ",
+      "To install the dependencies for all methods at once, run ",
       "devtools::install_github(\"omnideconv/omnideconv\", ",
       "dependencies = c(\"Imports\", \"Suggests\"))"
     )

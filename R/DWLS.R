@@ -41,7 +41,7 @@ build_model_dwls <- function(single_cell_object, cell_type_annotations,
       verbose, diff_cutoff, pval_cutoff
     ))
   } else {
-    stop("Could not find dwls_method " + dwls_method + ". Please try \"Mast\" or \"Seurat\"")
+    stop("Could not find dwls_method " + dwls_method + ". Please try \"mast\" or \"seurat\"")
   }
 }
 #' Calculates the decomposition using the dwls algorithm

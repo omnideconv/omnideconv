@@ -7,7 +7,7 @@
 build_model_dwls(
   single_cell_object,
   cell_type_annotations,
-  method = c("mast", "seurat"),
+  dwls_method = c("mast", "seurat"),
   path = NULL,
   verbose = FALSE,
   diff_cutoff = 0.5,
@@ -21,7 +21,7 @@ samples. Row and column names need to be set.}
 \item{cell_type_annotations}{A vector of the cell type annotations. Has to be in the same order
 as the samples in single_cell_object.}
 
-\item{method}{The method used to create the signature matrix. Options are "mast" and "seurat"}
+\item{dwls_method}{The method used to create the signature matrix. Options are "mast" and "seurat"}
 
 \item{path}{The path where the generated files will be saved. If path=NULL, the generated files
 will be discarded.}

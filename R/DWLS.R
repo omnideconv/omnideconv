@@ -4,7 +4,7 @@
 #'   samples. Row and column names need to be set.
 #' @param cell_type_annotations A vector of the cell type annotations. Has to be in the same order
 #'   as the samples in single_cell_object.
-#' @param method The method used to create the signature matrix. Options are "mast" and "seurat"
+#' @param dwls_method The method used to create the signature matrix. Options are "mast" and "seurat"
 #' @param path The path where the generated files will be saved. If path=NULL, the generated files
 #'   will be discarded.
 #' @param verbose Whether to produce an output on the console.
@@ -17,7 +17,7 @@
 #' @export
 #'
 build_model_dwls <- function(single_cell_object, cell_type_annotations,
-                             method = c("mast", "seurat"), path = NULL, verbose = FALSE,
+                             dwls_method = c("mast", "seurat"), path = NULL, verbose = FALSE,
                              diff_cutoff = 0.5, pval_cutoff = 0.01) {
   if (is.null(single_cell_object)) {
     stop("Parameter 'single_cell_object' is missing or null, but it is required.")
@@ -25,23 +25,23 @@ build_model_dwls <- function(single_cell_object, cell_type_annotations,
   if (is.null(cell_type_annotations)) {
     stop("Parameter 'cell_type_annotations' is missing or null, but it is required.")
   }
-  if (length(method) > 1) {
-    method <- method[1]
-    message(paste0(method, " was chosen because multiple values were supplied for \"method\""))
+  if (length(dwls_method) > 1) {
+    dwls_method <- dwls_method[1]
+    message(paste0(dwls_method, " was chosen because multiple values were supplied for \"dwls_method\""))
   }
 
-  if (method == "mast") {
+  if (dwls_method == "mast") {
     return(DWLS::buildSignatureMatrixMAST(
       single_cell_object, cell_type_annotations, path,
       verbose, diff_cutoff, pval_cutoff
     ))
-  } else if (method == "seurat") {
+  } else if (dwls_method == "seurat") {
     return(DWLS::buildSignatureMatrixUsingSeurat(
       single_cell_object, cell_type_annotations, path,
       verbose, diff_cutoff, pval_cutoff
     ))
   } else {
-    stop("Could not find method " + method + ". Please try \"Mast\" or \"Seurat\"")
+    stop("Could not find dwls_method " + dwls_method + ". Please try \"Mast\" or \"Seurat\"")
   }
 }
 #' Calculates the decomposition using the dwls algorithm

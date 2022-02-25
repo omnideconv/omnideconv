@@ -2,13 +2,61 @@
 % Please edit documentation in R/MuSiC.R
 \name{build_model_music}
 \alias{build_model_music}
-\title{No model is build as MuSiC does both steps in one.}
+\title{Signature creation with MuSiC.}
 \usage{
-build_model_music()
+build_model_music(
+  single_cell_object,
+  cell_type_annotations,
+  batch_ids,
+  non_zero = TRUE,
+  markers = NULL,
+  clusters = "cellType",
+  samples = "batchId",
+  select_ct = NULL,
+  cell_size = NULL,
+  ct_cov = FALSE,
+  verbose = FALSE
+)
+}
+\arguments{
+\item{single_cell_object}{A matrix with the single-cell data. Rows are genes, columns are
+samples. Row and column names need to be set.}
+
+\item{cell_type_annotations}{A vector of the cell type annotations. Has to
+be in the same order as the samples in single_cell_object.}
+
+\item{batch_ids}{A vector of the ids of the samples or individuals.}
+
+\item{non_zero}{logical, default as TRUE. If true, remove all gene with zero expression.}
+
+\item{markers}{vector or list of gene names, default as NULL. If NULL, use all genes.}
+
+\item{clusters}{character, the name of the phenoData of the single cell dataset used as clusters.}
+
+\item{samples}{character, the name of the phenoData of the single cell dataset used as samples.}
+
+\item{select_ct}{vector of cell types. Default as NULL. If NULL, then use all cell types
+provided.}
+
+\item{cell_size}{data.frame of cell sizes. 1st column contains the names of cell types, 2nd
+column has the cell sizes per cell type. Default as NULL. If NULL, then estimate cell size
+from data.}
+
+\item{ct_cov}{logical. If TRUE, use the covariance across cell types.}
+
+\item{verbose}{Whether to produce an output on the console.}
 }
 \value{
-NULL.
+a list with elements:
+\itemize{
+\item gene by cell type matrix of Design matrix
+\item subject by celltype matrix of Library size
+\item vector of average library size for each cell type
+\item gene by celltype matrix of average relative abundance
+\item gene by celltype matrix of cross-subject variation
+}
 }
 \description{
-Please use the deconvolute method with your single cell and bulk rna seq data to use MuSiC.
+MuSiC does the signature creation in one step, not separated into build_model and deconvolute.
+Please use the deconvolute method with your single cell and bulk RNA seq data to use MuSiC.
 }

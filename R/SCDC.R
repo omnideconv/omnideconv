@@ -1,18 +1,66 @@
-#' No model is build as SCDC does both steps in one.
+#' Signature creation with SCDC.
 #'
-#' Please use the deconvolute method with your single cell and bulk rna seq data to use SCDC.
+#' SCDC does the signature creation in one step, not separated into build_model and deconvolute.
+#' Please use the deconvolute method with your single cell and bulk RNA seq data to use SCDC.
 #'
-#'
-#' @return NULL.
+#' @param single_cell_object A matrix or dataframe with the single-cell data. Rows are genes,
+#'   columns are samples. Row and column names need to be set. This can also be a list of objects,
+#'   if SCDC_ENSEMBLE should be used.
+#' @param cell_type_annotations A Vector of the cell type annotations. Has to be in the same order
+#'   as the samples in single_cell_object. This can also be a list of vectors, if SCDC_ENSEMBLE
+#'   should be used.
+#' @param batch_ids A vector of the ids of the samples or individuals.
+#' @param ct_sub vector. a subset of cell types that are selected to construct basis matrix. NULL
+#'   means that all are used.
+#' @param ct_varname character string specifying the variable name for 'cell types'.
+#' @param sample character string specifying the variable name for subject/samples.
+#' @param ct_cell_size default is NULL, which means the "library size" is calculated based on the
+#'   data. Users can specify a vector of cell size factors corresponding to the ct.sub according to
+#'   prior knowledge. The vector should be named: names(ct_cell_size input) should not be NULL.
+#' @param verbose Whether to produce an output on the console.
+#' @return a list with elements:
+#' \itemize{
+#'   \item basis matrix
+#'   \item sum of cell-type-specific library size
+#'   \item sample variance matrix
+#'   \item basis matrix by mvw
+#'   \item mvw matrix
+#' }
 #'
 #' @export
-build_model_scdc <- function() {
+build_model_scdc <- function(single_cell_object, cell_type_annotations, batch_ids, ct_sub = NULL,
+                             ct_varname = "cellType", sample = "batchId", ct_cell_size = NULL,
+                             verbose = FALSE) {
   message(
-    "The deconvolution with SCDC is done in only one step. Please just use the ",
-    "deconvolute method."
+    "The deconvolution with MuSiC is done in only one step. Please just use the ",
+    "deconvolute method. You can still calculate a signature matrix with MuSiC, ",
+    "just not input one for the deconvolution step."
   )
 
-  return(NULL)
+  if (is.null(single_cell_object)) {
+    stop("Parameter 'single_cell_object' is missing or null, but it is required.")
+  }
+  if (is.null(cell_type_annotations)) {
+    stop("Parameter 'cell_type_annotations' is missing or null, but it is required.")
+  }
+  if (is.null(batch_ids)) {
+    stop("Parameter 'batch_ids' is missing or null, but it is required.")
+  }
+  sc_eset <- get_single_cell_expression_set(
+    single_cell_object, batch_ids,
+    rownames(single_cell_object), cell_type_annotations
+  )
+  if (length(unique(sc_eset@phenoData@data[, sample])) > 1) {
+    return(SCDC::SCDC_basis(
+      x = sc_eset, ct.sub = ct_sub, ct.varname = ct_varname,
+      sample = sample, ct.cell.size = ct_cell_size
+    ))
+  } else {
+    return(SCDC::SCDC_basis_ONE(
+      x = sc_eset, ct.sub = ct_sub,
+      ct.varname = ct_varname, sample = sample, ct.cell.size = ct_cell_size
+    ))
+  }
 }
 
 #' SCDC Deconvolution

@@ -9,6 +9,17 @@ deconvolute_cdseq(
   single_cell_object,
   cell_type_annotations,
   batch_ids,
+  beta = 0.5,
+  alpha = 5,
+  cell_type_number = NULL,
+  mcmc_iterations = 700,
+  dilution_factor = 1,
+  gene_subset_size = NULL,
+  block_number = 1,
+  cpu_number = NULL,
+  gene_length = NULL,
+  reference_gep = NULL,
+  print_progress_msg_to_file = 0,
   cdseq_gep_sample_specific = NULL,
   batch_correction = 1,
   harmony_iter = 10,
@@ -56,6 +67,39 @@ samples.}
 as the samples in single_cell_object.}
 
 \item{batch_ids}{A vector of the ids of the samples or individuals.}
+
+\item{beta}{Beta is a scalar or a vector of length G where G is the number of genes; default
+value for beta is 0.5; When beta=Null, CDSeq uses reference_gep to estimate beta.}
+
+\item{alpha}{Alpha is a scalar or a vector of length cell_type_number where cell_type_number is
+the number of cell type; default value for alpha is 5.}
+
+\item{cell_type_number}{Number of cell types. cell_type_number can be an integer or a vector of
+different integers. To estimate the number of cell types, please provide a vector for
+cell_type_number, e.g. cell_type_number <- 2:30, then CDSeq will estimate the number of
+cell types.}
+
+\item{mcmc_iterations}{Number of iterations for the Gibbs sampler; default value is 700.}
+
+\item{dilution_factor}{A scalar to dilute the read counts for speeding up; default value is 1.
+CDSeq will use bulk_data/dilution_factor.}
+
+\item{gene_subset_size}{Number of genes randomly sampled for each block. Default is NULL.}
+
+\item{block_number}{Number of genes randomly sampled for each block. Default is 1.}
+
+\item{cpu_number}{Number of cpu cores that can be used for parellel computing; Default is NULL
+and CDSeq will detect the available number of cores on the device and use number of
+all cores - 1 for parallel computing.}
+
+\item{gene_length}{A vector of the effective length (gene length - read length + 1) of each
+gene; Default is NULL.}
+
+\item{reference_gep}{A reference gene expression profile can be used to determine the cell type
+and/or estimate beta; Default is NULL.}
+
+\item{print_progress_msg_to_file}{Print progress message to a text file. Set 1 if need to print
+progress msg to a file and set 0 if no printing. Default is 0.}
 
 \item{cdseq_gep_sample_specific}{CDSeq-estimated sample-specific cell type gene expression, in
 the form of read counts. It is a 3 dimension array, i.e. gene by sample by cell type. The
@@ -192,6 +236,6 @@ with scRNAseq).}
 This function is to calculate the CDSeq deconvolution proportions.
 IMPORTANT: No model is needed. Everything is done inside this method.
 IMPORTANT: The result does not necessarily contain all cell types from the input single cell
-data. It assigns cell types to clusters found in the bulk data. See CDSeq_cell_type_assignment_df
+data. It assigns cell types to clusters found in the bulk data. See cellTypeAssignSCRNA
 for more information.
 }

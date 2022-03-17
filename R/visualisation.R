@@ -201,7 +201,7 @@ make_benchmarking_scatterplot <- function(result_list, ref_data, file_name = NUL
 #' names(deconvolution) <- "bisque"
 #' omnideconv::plot_deconvolution(deconvolution, "bar", "method", "Spectral")
 #'
-plot_deconvolution <- function(deconvolutions, plotMethod, facets, palette = "Set1") {
+plot_deconvolution <- function(deconvolutions, plotMethod, facets, palette = "Spectral") {
   # data needs to be a named deconvolution list
   if (is.null(names(deconvolutions))) {
     stop("Please supply a NAMED list, names(deconvolution) returns NULL")

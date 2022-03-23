@@ -200,8 +200,7 @@ make_benchmarking_scatterplot <- function(result_list, ref_data, file_name = NUL
 #' deconvolution <- list(deconvolution)
 #' names(deconvolution) <- "bisque"
 #' omnideconv::plot_deconvolution(deconvolution, "bar", "method", "Spectral")
-#'
-plot_deconvolution <- function(deconvolutions, plotMethod, facets, palette = "Spectral") {
+plot_deconvolution <- function(deconvolutions, plotMethod="bar", facets="method", palette = "Spectral") {
   # data needs to be a named deconvolution list
   if (is.null(names(deconvolutions))) {
     stop("Please supply a NAMED list, names(deconvolution) returns NULL")
@@ -215,6 +214,11 @@ plot_deconvolution <- function(deconvolutions, plotMethod, facets, palette = "Sp
   # check facet parameter
   if (!(facets %in% c("method", "cell_type", "sample"))) {
     stop("facet not supported. Please provide one of the following: 'method', 'cell_type', 'sample'")
+  }
+
+  # check palette name
+  if (!(palette %in% rownames(RColorBrewer::brewer.pal.info))){
+    stop("palette not a RColorBrewer palette name")
   }
 
   # preformat data into a dataframe
@@ -317,13 +321,18 @@ plot_deconvolution <- function(deconvolutions, plotMethod, facets, palette = "Sp
       guides(fill = guide_colorbar(barwith = 0.5, barheight = 20))
   }
 
+  # update palette to match number of celltypes
+  maxColors = RColorBrewer::brewer.pal.info[palette, ]$maxcolors # for brewer.pal()
+  nCellTypes = length(unique(data$cell_type)) # number of needed colors
+  getPalette = colorRampPalette(brewer.pal(maxColors, palette)) # function to return custom interpolated palettes
+
   # add color theme based on plot method
   if (plotMethod %in% c("jitter", "scatter")) {
-    plot <- plot + ggplot2::scale_colour_brewer(palette = palette)
-  } else if (plotMethod == "heatmap") {
-    scale_fill_gradient(low = "white", high = RColorBrewer::brewer.pal(3, palette)[1:1])
+    plot <- plot + ggplot2::scale_colour_manual(values=getPalette(nCellTypes))
+  } else if (plotMethod =="heatmap"){
+    scale_fill_gradient(low = "#FFFFFF", high = RColorBrewer::brewer.pal(maxColors, palette)[1:1])
   } else {
-    plot <- plot + ggplot2::scale_fill_brewer(palette = palette)
+    plot <- plot + ggplot2::scale_fill_manual(values=getPalette(nCellTypes))
   }
 
   # render

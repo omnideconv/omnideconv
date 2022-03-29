@@ -16,9 +16,11 @@ Depends:
 Imports: 
     anndata,
     assertthat,
+    bbplot,
     Biobase,
     dplyr,
     ggplot2,
+    magrittr,
     methods,
     RColorBrewer,
     readr,
@@ -50,6 +52,7 @@ VignetteBuilder:
     knitr
 Remotes:
     amitfrish/scBio,
+    bbc/bbplot,
     grst/MOMF,
     grst/SCDC,
     PelzKo/CDSeq_R_Package,
@@ -62,4 +65,4 @@ Encoding: UTF-8
 LazyData: true
 LazyDataCompression: bzip2
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2

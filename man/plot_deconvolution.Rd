@@ -4,14 +4,19 @@
 \alias{plot_deconvolution}
 \title{Plot Deconvolution results}
 \usage{
-plot_deconvolution(deconvolutions, plotMethod, facets, palette = "Set1")
+plot_deconvolution(
+  deconvolutions,
+  plot_method = "bar",
+  facet = "method",
+  palette = "Spectral"
+)
 }
 \arguments{
 \item{deconvolutions}{A named list of deconvolution results}
 
-\item{plotMethod}{Type of plot to be rendered  ("bar", "jitter", "scatter", "box", "heatmap")}
+\item{plot_method}{Type of plot to be rendered  ("bar", "jitter", "scatter", "box", "heatmap")}
 
-\item{facets}{Variable for grouping the plots ("method", "cell_type", "sample")}
+\item{facet}{Variable for grouping the plots ("method", "cell_type", "sample")}
 
 \item{palette}{RColorBrewer palette name (optional), standard = "Set1"}
 }
@@ -34,5 +39,4 @@ deconvolution <- omnideconv::deconvolute(bulk, NULL, "bisque",
 deconvolution <- list(deconvolution)
 names(deconvolution) <- "bisque"
 omnideconv::plot_deconvolution(deconvolution, "bar", "method", "Spectral")
-
 }

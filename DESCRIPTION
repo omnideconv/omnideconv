@@ -16,9 +16,11 @@ Depends:
 Imports: 
     anndata,
     assertthat,
+    bbplot,
     Biobase,
     dplyr,
     ggplot2,
+    magrittr,
     methods,
     RColorBrewer,
     readr,
@@ -29,9 +31,7 @@ Imports:
     stringr,
     SummarizedExperiment,
     tidyr,
-    utils,
-    magrittr,
-    bbplot
+    utils
 Suggests: 
     BisqueRNA,
     bseqsc,
@@ -47,18 +47,18 @@ Suggests:
     scBio,
     SCDC,
     testthat (>= 2.0.0),
-    uuid,
+    uuid
 VignetteBuilder: 
     knitr
 Remotes:
     amitfrish/scBio,
+    bbc/bbplot,
     grst/MOMF,
     grst/SCDC,
     PelzKo/CDSeq_R_Package,
     PelzKo/dwls,
     shenorrlab/bseqsc,
-    xuranw/MuSiC,
-    bbc/bbplot
+    xuranw/MuSiC
 biocViews:
 Config/testthat/edition: 2
 Encoding: UTF-8

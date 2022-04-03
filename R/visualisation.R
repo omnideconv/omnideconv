@@ -193,14 +193,16 @@ make_benchmarking_scatterplot <- function(result_list, ref_data, file_name = NUL
 #' data("batch_ids_1")
 #' data("bulk")
 #'
-#' deconvolution <- omnideconv::deconvolute(bulk, NULL, "bisque",
-#'                                          single_cell_data_1,
-#'                                          cell_type_annotations_1,
-#'                                          batch_ids_1)
+#' deconvolution <- omnideconv::deconvolute(
+#'   bulk, NULL, "bisque",
+#'   single_cell_data_1,
+#'   cell_type_annotations_1,
+#'   batch_ids_1
+#' )
 #' deconvolution <- list(deconvolution)
 #' names(deconvolution) <- "bisque"
 #' omnideconv::plot_deconvolution(deconvolution, "bar", "method", "Spectral")
-plot_deconvolution <- function(deconvolutions, plot_method="bar", facet="method", palette = "Spectral") {
+plot_deconvolution <- function(deconvolutions, plot_method = "bar", facet = "method", palette = "Spectral") {
   # data needs to be a named deconvolution list
   if (is.null(names(deconvolutions))) {
     stop("Please supply a NAMED list, names(deconvolutions) returns NULL")
@@ -217,7 +219,7 @@ plot_deconvolution <- function(deconvolutions, plot_method="bar", facet="method"
   }
 
   # check palette name
-  if (!(palette %in% rownames(RColorBrewer::brewer.pal.info))){
+  if (!(palette %in% rownames(RColorBrewer::brewer.pal.info))) {
     stop("palette not a RColorBrewer palette name")
   }
 
@@ -322,17 +324,17 @@ plot_deconvolution <- function(deconvolutions, plot_method="bar", facet="method"
   }
 
   # update palette to match number of celltypes
-  max_colors = RColorBrewer::brewer.pal.info[palette, ]$maxcolors # for brewer.pal()
-  n_cell_types = length(unique(data$cell_type)) # number of needed colors
-  getPalette = colorRampPalette(brewer.pal(max_colors, palette)) # function to return custom interpolated palettes
+  max_colors <- RColorBrewer::brewer.pal.info[palette, ]$maxcolors # for brewer.pal()
+  n_cell_types <- length(unique(data$cell_type)) # number of needed colors
+  getPalette <- colorRampPalette(brewer.pal(max_colors, palette)) # function to return custom interpolated palettes
 
   # add color theme based on plot method
   if (plot_method %in% c("jitter", "scatter")) {
-    plot <- plot + ggplot2::scale_colour_manual(values=getPalette(n_cell_types))
-  } else if (plot_method =="heatmap"){
+    plot <- plot + ggplot2::scale_colour_manual(values = getPalette(n_cell_types))
+  } else if (plot_method == "heatmap") {
     scale_fill_gradient(low = "#FFFFFF", high = RColorBrewer::brewer.pal(max_colors, palette)[1:1])
   } else {
-    plot <- plot + ggplot2::scale_fill_manual(values=getPalette(n_cell_types))
+    plot <- plot + ggplot2::scale_fill_manual(values = getPalette(n_cell_types))
   }
 
   # render

@@ -106,8 +106,6 @@ jobs:
         if: (matrix.config.os == 'ubuntu-20.04') &&  (matrix.config.R == 'release')
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
-          repository-name: grst/omnideconv-docs
-          branch: main # The branch the action should deploy to.
-          folder: docs # The folder the action should deploy.
-          target-folder: omnideconv
-          ssh-key: ${{ secrets.SSH_DEPLOY_TOKEN }}
+          clean: false
+          branch: gh-pages
+          folder: docs

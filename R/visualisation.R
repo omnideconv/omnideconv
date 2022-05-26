@@ -181,7 +181,6 @@ make_benchmarking_scatterplot <- function(result_list, ref_data, file_name = NUL
 #' @param facet Variable for grouping the plots ("method", "cell_type", "sample")
 #' @param palette RColorBrewer palette name (optional), standard = "Set1"
 #' @import ggplot2
-#' @import tidyr
 #' @import magrittr
 #' @import RColorBrewer
 #' @returns ggplot rendered by plotly for interactivity

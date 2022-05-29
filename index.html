@@ -20,6 +20,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -32,23 +34,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">omnideconv</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9000</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -62,7 +58,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/icbi-lab/omnideconv/">
+  <a href="https://github.com/omnideconv/omnideconv/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -79,37 +75,36 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="omnideconv" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#omnideconv" class="anchor"></a>omnideconv</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="omnideconv">omnideconv<a class="anchor" aria-label="anchor" href="#omnideconv"></a>
+</h1></div>
 <!-- badges: start -->
-
 <p>The goal of omnideconv is to unify second generation immune deconvolution methods in an R package.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>There are two ways to install it, the long one, installing all packages needed for all methods and the short one, installing only the ones for basic functionality.</p>
 <p>If the short install is chosen, the required packages for methods are installed when the methods are used. The same goes for required python packages.</p>
-<p>Install the CRAN package devtools and use it to install omnideconv from <a href="https://github.com/">GitHub</a>:</p>
+<p>Install the CRAN package devtools and use it to install omnideconv from <a href="https://github.com/" class="external-link">GitHub</a>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
 
 <span class="co"># long/complete install</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"icbi-lab/omnideconv"</span>, dependencies <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Imports"</span>,
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"omnideconv/omnideconv"</span>, dependencies <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Imports"</span>,
     <span class="st">"Suggests"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="reference/install_all_python.html">install_all_python</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># short/quick install</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"icbi-lab/omnideconv"</span><span class="op">)</span></code></pre></div>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"omnideconv/omnideconv"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h2>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
 <p>The main functions of this package are to build a signature matrix and deconvolute bulk RNA-seq data based on this signature matrix.</p>
 <p>The basic workflow (in this example using the method “dwls”) is the following:</p>
-<div id="1-build-a-signature-matrix" class="section level3">
-<h3 class="hasAnchor">
-<a href="#1-build-a-signature-matrix" class="anchor"></a>1. Build a Signature Matrix</h3>
+<div class="section level3">
+<h3 id="1-build-a-signature-matrix">1. Build a Signature Matrix<a class="anchor" aria-label="anchor" href="#1-build-a-signature-matrix"></a>
+</h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data_1</span>, <span class="va">cell_type_annotations_1</span>,
     method <span class="op">=</span> <span class="st">"dwls"</span><span class="op">)</span></code></pre></div>
@@ -128,9 +123,9 @@
 <li>SCDC (“scdc”)</li>
 </ul>
 </div>
-<div id="2-deconvolute" class="section level3">
-<h3 class="hasAnchor">
-<a href="#2-deconvolute" class="anchor"></a>2. Deconvolute</h3>
+<div class="section level3">
+<h3 id="2-deconvolute">2. Deconvolute<a class="anchor" aria-label="anchor" href="#2-deconvolute"></a>
+</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="va">signature_matrix</span>, method <span class="op">=</span> <span class="st">"dwls"</span><span class="op">)</span></code></pre></div>
 <p>Here, bulk is your bulk RNA-seq data as a matrix with genes in rows and samples in column, signature_matrix is the signature matrix you created in the previous step and the method can again be one of the four methods listed above.</p>
@@ -221,30 +216,28 @@
 </tbody>
 </table>
 </div>
-<div id="learn-more" class="section level3">
-<h3 class="hasAnchor">
-<a href="#learn-more" class="anchor"></a>Learn More</h3>
+<div class="section level3">
+<h3 id="learn-more">Learn More<a class="anchor" aria-label="anchor" href="#learn-more"></a>
+</h3>
 <p>For more information and an example workflow see the vignette of this package.</p>
 </div>
 </div>
-<div id="requirements" class="section level2">
-<h2 class="hasAnchor">
-<a href="#requirements" class="anchor"></a>Requirements</h2>
+<div class="section level2">
+<h2 id="requirements">Requirements<a class="anchor" aria-label="anchor" href="#requirements"></a>
+</h2>
 <p>Most methods do not require additional software/tokens, but there are a few exceptions:</p>
 <ul>
 <li>A working version of Docker is required for CIBERSORTx</li>
-<li>A token for CIBERSORTx is required from this website: <a href="https://cibersortx.stanford.edu/" class="uri">https://cibersortx.stanford.edu/</a>
+<li>A token for CIBERSORTx is required from this website: <a href="https://cibersortx.stanford.edu/" class="external-link uri">https://cibersortx.stanford.edu/</a>
 </li>
 <li>The CIBERSORT source code is required for BSeq-sc (see tutorial in ?omnideconv::bseqsc_config)</li>
 </ul>
 </div>
-<div id="available-methods-licenses-citations" class="section level2">
-<h2 class="hasAnchor">
-<a href="#available-methods-licenses-citations" class="anchor"></a>Available methods, Licenses, Citations</h2>
-<p>Note that, while <em>omnideconv</em> itself is free (<a href="https://github.com/icbi-lab/omnideconv/blob/main/LICENSE">GPL 3.0</a>), you may need to obtain a license to use the individual methods. See the table below for more information. If you use this package in your work, please cite both our package and the method(s) you are using.</p>
-<blockquote>
-<p>CITATION</p>
-</blockquote>
+<div class="section level2">
+<h2 id="available-methods-licenses-citations">Available methods, Licenses, Citations<a class="anchor" aria-label="anchor" href="#available-methods-licenses-citations"></a>
+</h2>
+<p>Note that, while <em>omnideconv</em> itself is free (<a href="https://github.com/omnideconv/omnideconv/blob/main/LICENSE" class="external-link">GPL 3.0</a>), you may need to obtain a license to use the individual methods. See the table below for more information. If you use this package in your work, please cite both our package and the method(s) you are using.</p>
+<blockquote><p>CITATION</p></blockquote>
 <table class="table">
 <colgroup>
 <col width="10%">
@@ -258,68 +251,68 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td><a href="https://github.com/theislab/AutoGeneS/">AutoGeneS</a></td>
-<td>free (<a href="https://github.com/theislab/AutoGeneS/blob/master/LICENSE">MIT</a>)</td>
-<td>Aliee, H., &amp; Theis, F. (2021). AutoGeneS: Automatic gene selection using multi-objective optimization for RNA-seq deconvolution. <a href="https://doi.org/10.1101/2020.02.21.940650" class="uri">https://doi.org/10.1101/2020.02.21.940650</a>
+<td><a href="https://github.com/theislab/AutoGeneS/" class="external-link">AutoGeneS</a></td>
+<td>free (<a href="https://github.com/theislab/AutoGeneS/blob/master/LICENSE" class="external-link">MIT</a>)</td>
+<td>Aliee, H., &amp; Theis, F. (2021). AutoGeneS: Automatic gene selection using multi-objective optimization for RNA-seq deconvolution. <a href="https://doi.org/10.1101/2020.02.21.940650" class="external-link uri">https://doi.org/10.1101/2020.02.21.940650</a>
 </td>
 </tr>
 <tr class="even">
-<td><a href="https://github.com/cozygene/bisque">Bisque</a></td>
-<td>free (<a href="https://github.com/cozygene/bisque/blob/master/DESCRIPTION">GPL 3.0</a>)</td>
-<td>Jew, B., Alvarez, M., Rahmani, E., Miao, Z., Ko, A., Garske, K. M., Sul, J. H., Pietiläinen, K. H., Pajukanta, P., &amp; Halperin, E. (2020). Publisher Correction: Accurate estimation of cell composition in bulk expression through robust integration of single-cell information. Nature Communications, 11(1), 2891. <a href="https://doi.org/10.1038/s41467-020-16607-9" class="uri">https://doi.org/10.1038/s41467-020-16607-9</a>
+<td><a href="https://github.com/cozygene/bisque" class="external-link">Bisque</a></td>
+<td>free (<a href="https://github.com/cozygene/bisque/blob/master/DESCRIPTION" class="external-link">GPL 3.0</a>)</td>
+<td>Jew, B., Alvarez, M., Rahmani, E., Miao, Z., Ko, A., Garske, K. M., Sul, J. H., Pietiläinen, K. H., Pajukanta, P., &amp; Halperin, E. (2020). Publisher Correction: Accurate estimation of cell composition in bulk expression through robust integration of single-cell information. Nature Communications, 11(1), 2891. <a href="https://doi.org/10.1038/s41467-020-16607-9" class="external-link uri">https://doi.org/10.1038/s41467-020-16607-9</a>
 </td>
 </tr>
 <tr class="odd">
-<td><a href="https://github.com/shenorrLab/bseqsc">BSeq-sc</a></td>
-<td>free (<a href="https://github.com/shenorrLab/bseqsc/blob/master/DESCRIPTION">GPL 2.0</a>)</td>
-<td>Baron, M., Veres, A., Wolock, S. L., Faust, A. L., Gaujoux, R., Vetere, A., Ryu, J. H., Wagner, B. K., Shen-Orr, S. S., Klein, A. M., Melton, D. A., &amp; Yanai, I. (2016). A Single-Cell Transcriptomic Map of the Human and Mouse Pancreas Reveals Inter- and Intra-cell Population Structure. In Cell Systems (Vol. 3, Issue 4, pp. 346–360.e4). <a href="https://doi.org/10.1016/j.cels.2016.08.011" class="uri">https://doi.org/10.1016/j.cels.2016.08.011</a>
+<td><a href="https://github.com/shenorrLab/bseqsc" class="external-link">BSeq-sc</a></td>
+<td>free (<a href="https://github.com/shenorrLab/bseqsc/blob/master/DESCRIPTION" class="external-link">GPL 2.0</a>)</td>
+<td>Baron, M., Veres, A., Wolock, S. L., Faust, A. L., Gaujoux, R., Vetere, A., Ryu, J. H., Wagner, B. K., Shen-Orr, S. S., Klein, A. M., Melton, D. A., &amp; Yanai, I. (2016). A Single-Cell Transcriptomic Map of the Human and Mouse Pancreas Reveals Inter- and Intra-cell Population Structure. In Cell Systems (Vol. 3, Issue 4, pp. 346–360.e4). <a href="https://doi.org/10.1016/j.cels.2016.08.011" class="external-link uri">https://doi.org/10.1016/j.cels.2016.08.011</a>
 </td>
 </tr>
 <tr class="even">
-<td><a href="https://github.com/kkang7/CDSeq_R_Package">CDSeq</a></td>
-<td>free (<a href="https://github.com/kkang7/CDSeq_R_Package/blob/master/DESCRIPTION">GPL 3.0</a>)</td>
-<td>Kang, K., Huang, C., Li, Y. et al. CDSeqR: fast complete deconvolution for gene expression data from bulk tissues. BMC Bioinformatics 22, 262 (2021). <a href="https://doi.org/10.1186/s12859-021-04186-5" class="uri">https://doi.org/10.1186/s12859-021-04186-5</a>
+<td><a href="https://github.com/kkang7/CDSeq_R_Package" class="external-link">CDSeq</a></td>
+<td>free (<a href="https://github.com/kkang7/CDSeq_R_Package/blob/master/DESCRIPTION" class="external-link">GPL 3.0</a>)</td>
+<td>Kang, K., Huang, C., Li, Y. et al. CDSeqR: fast complete deconvolution for gene expression data from bulk tissues. BMC Bioinformatics 22, 262 (2021). <a href="https://doi.org/10.1186/s12859-021-04186-5" class="external-link uri">https://doi.org/10.1186/s12859-021-04186-5</a>
 </td>
 </tr>
 <tr class="odd">
-<td><a href="https://cibersortx.stanford.edu/">CIBERSORTx</a></td>
+<td><a href="https://cibersortx.stanford.edu/" class="external-link">CIBERSORTx</a></td>
 <td>free for non-commerical use only</td>
-<td>Newman, A. M., Liu, C. L., Green, M. R., Gentles, A. J., Feng, W., Xu, Y., Hoang, C. D., Diehn, M., &amp; Alizadeh, A. A. (2015). Robust enumeration of cell subsets from tissue expression profiles. Nature Methods, 12(5), 453–457. <a href="https://doi.org/10.1038/nmeth.3337" class="uri">https://doi.org/10.1038/nmeth.3337</a>
+<td>Newman, A. M., Liu, C. L., Green, M. R., Gentles, A. J., Feng, W., Xu, Y., Hoang, C. D., Diehn, M., &amp; Alizadeh, A. A. (2015). Robust enumeration of cell subsets from tissue expression profiles. Nature Methods, 12(5), 453–457. <a href="https://doi.org/10.1038/nmeth.3337" class="external-link uri">https://doi.org/10.1038/nmeth.3337</a>
 </td>
 </tr>
 <tr class="even">
-<td><a href="https://github.com/amitfrish/scBio">CPM</a></td>
-<td>free (<a href="https://github.com/amitfrish/scBio/blob/master/DESCRIPTION">GPL 2.0</a>)</td>
-<td>Frishberg, A., Peshes-Yaloz, N., Cohn, O., Rosentul, D., Steuerman, Y., Valadarsky, L., Yankovitz, G., Mandelboim, M., Iraqi, F. A., Amit, I., Mayo, L., Bacharach, E., &amp; Gat-Viks, I. (2019). Cell composition analysis of bulk genomics using single-cell data. Nature Methods, 16(4), 327–332. <a href="https://doi.org/10.1038/s41592-019-0355-5" class="uri">https://doi.org/10.1038/s41592-019-0355-5</a>
+<td><a href="https://github.com/amitfrish/scBio" class="external-link">CPM</a></td>
+<td>free (<a href="https://github.com/amitfrish/scBio/blob/master/DESCRIPTION" class="external-link">GPL 2.0</a>)</td>
+<td>Frishberg, A., Peshes-Yaloz, N., Cohn, O., Rosentul, D., Steuerman, Y., Valadarsky, L., Yankovitz, G., Mandelboim, M., Iraqi, F. A., Amit, I., Mayo, L., Bacharach, E., &amp; Gat-Viks, I. (2019). Cell composition analysis of bulk genomics using single-cell data. Nature Methods, 16(4), 327–332. <a href="https://doi.org/10.1038/s41592-019-0355-5" class="external-link uri">https://doi.org/10.1038/s41592-019-0355-5</a>
 </td>
 </tr>
 <tr class="odd">
-<td><a href="https://bitbucket.org/yuanlab/dwls/src/master/">DWLS</a></td>
-<td>free (<a href="https://bitbucket.org/yuanlab/dwls/src/master/DESCRIPTION">GPL</a>)</td>
-<td>Tsoucas, D., Dong, R., Chen, H., Zhu, Q., Guo, G., &amp; Yuan, G.-C. (2019). Accurate estimation of cell-type composition from gene expression data. Nature Communications, 10(1), 2975. <a href="https://doi.org/10.1038/s41467-019-10802-z" class="uri">https://doi.org/10.1038/s41467-019-10802-z</a>
+<td><a href="https://bitbucket.org/yuanlab/dwls/src/master/" class="external-link">DWLS</a></td>
+<td>free (<a href="https://bitbucket.org/yuanlab/dwls/src/master/DESCRIPTION" class="external-link">GPL</a>)</td>
+<td>Tsoucas, D., Dong, R., Chen, H., Zhu, Q., Guo, G., &amp; Yuan, G.-C. (2019). Accurate estimation of cell-type composition from gene expression data. Nature Communications, 10(1), 2975. <a href="https://doi.org/10.1038/s41467-019-10802-z" class="external-link uri">https://doi.org/10.1038/s41467-019-10802-z</a>
 </td>
 </tr>
 <tr class="even">
-<td><a href="https://github.com/sqsun/MOMF">MOMF</a></td>
-<td>free (<a href="https://github.com/sqsun/MOMF/blob/master/LICENSE.md">GPL 3.0</a>)</td>
+<td><a href="https://github.com/sqsun/MOMF" class="external-link">MOMF</a></td>
+<td>free (<a href="https://github.com/sqsun/MOMF/blob/master/LICENSE.md" class="external-link">GPL 3.0</a>)</td>
 <td>Xifang Sun, Shiquan Sun, and Sheng Yang. An efficient and flexible method for deconvoluting bulk RNAseq data with single-cell RNAseq data, 2019, DIO: 10.5281/zenodo.3373980</td>
 </tr>
 <tr class="odd">
-<td><a href="https://github.com/xuranw/MuSiC/">MuSiC</a></td>
-<td>free (<a href="https://github.com/xuranw/MuSiC/blob/master/LICENSE">GPL 3.0</a>)</td>
-<td>Wang, X., Park, J., Susztak, K., Zhang, N. R., &amp; Li, M. (2019). Bulk tissue cell type deconvolution with multi-subject single-cell expression reference. Nature Communications, 10(1), 380. <a href="https://doi.org/10.1038/s41467-018-08023-x" class="uri">https://doi.org/10.1038/s41467-018-08023-x</a>
+<td><a href="https://github.com/xuranw/MuSiC/" class="external-link">MuSiC</a></td>
+<td>free (<a href="https://github.com/xuranw/MuSiC/blob/master/LICENSE" class="external-link">GPL 3.0</a>)</td>
+<td>Wang, X., Park, J., Susztak, K., Zhang, N. R., &amp; Li, M. (2019). Bulk tissue cell type deconvolution with multi-subject single-cell expression reference. Nature Communications, 10(1), 380. <a href="https://doi.org/10.1038/s41467-018-08023-x" class="external-link uri">https://doi.org/10.1038/s41467-018-08023-x</a>
 </td>
 </tr>
 <tr class="even">
-<td><a href="https://github.com/KevinMenden/scaden">Scaden</a></td>
-<td>free (<a href="https://github.com/KevinMenden/scaden/blob/master/LICENSE">MIT</a>)</td>
-<td>Menden, K., Marouf, M., Oller, S., Dalmia, A., Kloiber, K., Heutink, P., &amp; Bonn, S. (n.d.). Deep-learning-based cell composition analysis from tissue expression profiles. <a href="https://doi.org/10.1101/659227" class="uri">https://doi.org/10.1101/659227</a>
+<td><a href="https://github.com/KevinMenden/scaden" class="external-link">Scaden</a></td>
+<td>free (<a href="https://github.com/KevinMenden/scaden/blob/master/LICENSE" class="external-link">MIT</a>)</td>
+<td>Menden, K., Marouf, M., Oller, S., Dalmia, A., Kloiber, K., Heutink, P., &amp; Bonn, S. (n.d.). Deep-learning-based cell composition analysis from tissue expression profiles. <a href="https://doi.org/10.1101/659227" class="external-link uri">https://doi.org/10.1101/659227</a>
 </td>
 </tr>
 <tr class="odd">
-<td><a href="https://github.com/meichendong/SCDC">SCDC</a></td>
-<td>(<a href="https://github.com/meichendong/SCDC/blob/master/README.md">MIT</a>)</td>
-<td>Dong, M., Thennavan, A., Urrutia, E., Li, Y., Perou, C. M., Zou, F., &amp; Jiang, Y. (2020). SCDC: bulk gene expression deconvolution by multiple single-cell RNA sequencing references. Briefings in Bioinformatics. <a href="https://doi.org/10.1093/bib/bbz166" class="uri">https://doi.org/10.1093/bib/bbz166</a>
+<td><a href="https://github.com/meichendong/SCDC" class="external-link">SCDC</a></td>
+<td>(<a href="https://github.com/meichendong/SCDC/blob/master/README.md" class="external-link">MIT</a>)</td>
+<td>Dong, M., Thennavan, A., Urrutia, E., Li, Y., Perou, C. M., Zou, F., &amp; Jiang, Y. (2020). SCDC: bulk gene expression deconvolution by multiple single-cell RNA sequencing references. Briefings in Bioinformatics. <a href="https://doi.org/10.1093/bib/bbz166" class="external-link uri">https://doi.org/10.1093/bib/bbz166</a>
 </td>
 </tr>
 </tbody>
@@ -330,22 +323,31 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/icbi-lab/omnideconv/">https://​github.com/​icbi-lab/​omnideconv/​</a>
-</li>
+<li><a href="https://github.com/omnideconv/omnideconv/" class="external-link">Browse source code</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>
-<a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a> + file <a href="LICENSE-text.html">LICENSE</a>
+<a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a> + file <a href="LICENSE-text.html">LICENSE</a>
 </li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing omnideconv</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Konstantin Pelz <br><small class="roles"> Author, maintainer </small>  </li>
 <li>Nicolas Goedert <br><small class="roles"> Author </small>  </li>
@@ -354,22 +356,25 @@
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/icbi-lab/omnideconv/actions"><img src="https://github.com/icbi-lab/omnideconv/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/omnideconv/omnideconv/actions" class="external-link"><img src="https://github.com/omnideconv/omnideconv/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Konstantin Pelz, Nicolas Goedert, Yuyu Liang, Katharina Reinisch.</p>
+  <p></p>
+<p>Developed by Konstantin Pelz, Nicolas Goedert, Yuyu Liang, Katharina Reinisch.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>
@@ -377,6 +382,8 @@
 
   
 
+
+  
 
   </body>
 </html>

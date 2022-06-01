@@ -411,3 +411,24 @@ test_that("CDSeq deconvolution works", {
     expected = 1
   )
 })
+
+test_that("BayesPrism deconvolution works", {
+  deconvolution <- deconvolute(bulk_gene_expression = bulk_small, NULL,
+                               method = "bayesprism",
+                               single_cell_object = sc_object_small,
+                               cell_type_annotations = cell_annotations_small
+  )
+  expect_equal(
+    info = "deconvolution contains same samples as in bulk (not same order)",
+    object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
+  )
+
+  check_result <- as.matrix(read.csv("test_results/bayesprism_result_small.csv",
+                                     row.names = 1,
+                                     check.names = FALSE
+  ))
+  expect_equal(
+    info = "deconvolution result is correct", object = deconvolution,
+    expected = check_result
+  )
+})

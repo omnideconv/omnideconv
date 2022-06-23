@@ -183,8 +183,7 @@ deconvolute_cdseq <- function(bulk_gene_expression, single_cell_object, cell_typ
     beta = beta, alpha = alpha, mcmc_iterations = mcmc_iterations,
     dilution_factor = dilution_factor, gene_subset_size = gene_subset_size,
     block_number = block_number, cpu_number = cpu_number, gene_length = gene_length,
-    reference_gep = reference_gep, verbose = verbose,
-    print_progress_msg_to_file = print_progress_msg_to_file
+    reference_gep = reference_gep
   )
 
   cdseq_gep <- cdseq_res$estGEP

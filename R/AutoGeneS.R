@@ -225,8 +225,12 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature,
     verbose = verbose, max_iter = as.integer(max_iter)
   )
 
+  # Addition: this is needed to adjust the format of column names
+  names <- ag$adata()$obs_names
+  col_names <- names$to_frame()
+  col_names_vectorized <- as.vector(col_names[, 1])
 
-  colnames(result) <- ag$adata()$obs_names
+  colnames(result) <- col_names_vectorized
   rownames(result) <- rownames(bulk_data)
   return(list(proportions = result, genes_used = genes_used))
 }

@@ -15,21 +15,37 @@ verbose_wrapper <- function(verbose) {
 }
 
 
-#' Docker availability check
+#' Checks wether docker/singularity are available and can be used
 #'
-#' @return A boolean value whether docker is available on the system
+#' @return A boolean value
 #'
-docker_available <- function() {
-  return(system("docker", ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
+check_container <- function(container = c('docker', 'singularity')){
+
+  container.available <- (system(container, ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
+
+  if (!container.available) {
+    message(paste0(
+      "Installation of ", container, " can not be found. Please check whether you can ",
+      "call 'docker' in the command line and get a help menu"))
+  return(FALSE)}
+
+  if(container == 'docker'){command = 'docker ps'}
+  else{command = 'singularity instance list'}
+
+
+
+  container.connectable <- (system(command, ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
+
+  if (!container.connectable) {
+    message(paste0(
+      "Error during connection to ", container, ". Please check whether you can ",
+      "call \'", command, "\' in the command line and get a (possibly empty) list and not an error ",
+      "message"))
+    return(FALSE)}
+
+  return(TRUE)
 }
 
-#' Docker connectability check
-#'
-#' @return A boolean value whether it is possible to connect to docker
-#'
-docker_connectable <- function() {
-  return(system("docker ps", ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
-}
 
 
 #' Removes special characters by substituting them with unique string which should not be used naturally

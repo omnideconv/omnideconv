@@ -58,23 +58,7 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
     stop("Parameter 'cell_type_annotations' is missing or null, but it is required.")
   }
 
-  if (container == "docker"){
-    if (!docker_available()) {
-      message(
-        "Installation of docker can not be found. Please check whether you can ",
-        "call 'docker' in the command line and get a help menu"
-      )
-      return(NULL)
-    }
-    if (!docker_connectable()) {
-      message(
-        "Error durching connection to docker. Please check whether you can ",
-        "call 'docker ps' in the command line and get a (possibly empty) list and not an error ",
-        "message"
-      )
-      return(NULL)
-    }
-  }
+  if(!check_container(container)){return(NULL)}
 
   check_credentials()
 
@@ -185,6 +169,7 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature, verbose = FA
                                    container = c("docker", "singularity"),
                                    input_dir = NULL, output_dir = NULL,
                                    display_extra_info = FALSE, label = "none", ...) {
+
   if (is.null(bulk_gene_expression)) {
     stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
   }
@@ -192,23 +177,7 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature, verbose = FA
     stop("Parameter 'signature' is missing or null, but it is required.")
   }
 
-  if (container == "docker"){
-    if (!docker_available()) {
-      message(
-        "Installation of docker can not be found. Please check whether you can ",
-        "call 'docker' in the command line and get a help menu"
-      )
-      return(NULL)
-    }
-    if (!docker_connectable()) {
-      message(
-        "Error durching connection to docker. Please check whether you can ",
-        "call 'docker ps' in the command line and get a (possibly empty) list and not an error ",
-        "message"
-      )
-      return(NULL)
-    }
-  }
+  if(!check_container(container)){return(NULL)}
 
 
   check_credentials()

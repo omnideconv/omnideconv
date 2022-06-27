@@ -13,6 +13,10 @@ set_cibersortx_credentials <- function(email, token) {
 }
 
 
+
+setup_singularity_environment
+
+
 #' Signature matrix creation with CIBERSORTx
 #'
 #' @param single_cell_object A matrix with the single-cell data. Rows are genes, columns are

@@ -48,6 +48,34 @@ check_container <- function(container = c('docker', 'singularity')){
 
 
 
+#' Setup of the singularity container
+#' @param container_path the path where the singularity .sif file should be stored (optional)
+#'   If the file 'fractions_latest.sif' is already present, it will be used
+#'
+#' @return the path to the singularity container
+#'
+setup_singularity_container <- function(container_path = NULL){
+
+  if(is.null(container_path)){
+    container_path <- '.local/share/omnideconv'
+    message(paste0('singularity container written to `', container_path,'/cibersortx_fractions.sif`.
+            Set the `container_path` directory to choose a different location'))
+    }
+
+  # We assume that, even in case of user provided file, the file name will
+  # be 'fractions_latest.sif'
+  container_file <- file.path(path , 'fractions_latest.sif')
+
+  if(!file.exists(container_file)){
+    system(paste0('singularity pull --dir ', container_path, ' docker://cibersortx/fractions'))
+  }
+
+  return(container_file)
+
+}
+
+
+
 #' Removes special characters by substituting them with unique string which should not be used naturally
 #'
 #' @param string The string to be escaped

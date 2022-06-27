@@ -15,21 +15,65 @@ verbose_wrapper <- function(verbose) {
 }
 
 
-#' Docker availability check
+#' Checks wether docker/singularity are available and can be used
 #'
-#' @return A boolean value whether docker is available on the system
+#' @return A boolean value
 #'
-docker_available <- function() {
-  return(system("docker", ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
+check_container <- function(container = c('docker', 'singularity')){
+
+  container.available <- (system(container, ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
+
+  if (!container.available) {
+    message(paste0(
+      "Installation of ", container, " can not be found. Please check whether you can ",
+      "call 'docker' in the command line and get a help menu"))
+  return(FALSE)}
+
+  if(container == 'docker'){command = 'docker ps'}
+  else{command = 'singularity instance list'}
+
+
+
+  container.connectable <- (system(command, ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
+
+  if (!container.connectable) {
+    message(paste0(
+      "Error during connection to ", container, ". Please check whether you can ",
+      "call \'", command, "\' in the command line and get a (possibly empty) list and not an error ",
+      "message"))
+    return(FALSE)}
+
+  return(TRUE)
 }
 
-#' Docker connectability check
+
+
+#' Setup of the singularity container
+#' @param container_path the path where the singularity .sif file should be stored (optional)
+#'   If the file 'fractions_latest.sif' is already present, it will be used
 #'
-#' @return A boolean value whether it is possible to connect to docker
+#' @return the path to the singularity container
 #'
-docker_connectable <- function() {
-  return(system("docker ps", ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
+setup_singularity_container <- function(container_path = NULL){
+
+  if(is.null(container_path)){
+    container_path <- '.local/share/omnideconv'
+    message(paste0('singularity container written to `', container_path,'/cibersortx_fractions.sif`.
+            Set the `container_path` directory to choose a different location'))
+    }
+
+  # We assume that, even in case of user provided file, the file name will
+  # be 'fractions_latest.sif'
+  container_file <- file.path(path , 'fractions_latest.sif')
+
+  if(!file.exists(container_file)){
+    system(paste0('singularity pull --dir ', container_path, ' docker://cibersortx/fractions'))
+  }
+
+  return(container_file)
+
 }
+
 
 
 #' Removes special characters by substituting them with unique string which should not be used naturally

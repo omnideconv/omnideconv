@@ -26,6 +26,7 @@ setup_singularity_environment
 #' @param verbose Whether to produce an output on the console.
 #' @param container The container used ot run the method. The possibilities are 'docker' (default) or
 #'   'singularity'
+#' @param container_path the path where the singularity .sif file is/will be stored (optional)
 #' @param input_dir The directory in which the input files can be found (or are created in).
 #'   Default is a temporary directory.
 #' @param output_dir The directory in which the output files are saved. Default is a temporary
@@ -52,6 +53,7 @@ setup_singularity_environment
 #'
 build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
                                    container = c("docker", "singularity"),
+                                   container_path = NULL,
                                    verbose = FALSE, input_dir = NULL,
                                    output_dir = NULL, display_heatmap = FALSE,
                                    k_max = 999, ...) {
@@ -69,7 +71,7 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
   temp_dir <- tempdir()
 
   if(container == "singularity"){
-    system(paste0('singularity pull --dir ', temp_dir, ' docker://cibersortx/fractions'))
+    singularity_container_path <- setup_singularity_container(container_path)
   }
 
   if (is.null(input_dir)) {
@@ -85,7 +87,7 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
   } else {
     single_cell_object_filename <- single_cell_object
   }
-  command_to_run <- create_docker_command(input_dir, output_dir, container,
+  command_to_run <- create_docker_command(input_dir, output_dir, container, sing_container_path,
     method = "create_sig",
     verbose = verbose,
     refsample = single_cell_object_filename, k_max = k_max
@@ -146,6 +148,7 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
 #' @param verbose Whether to produce an output on the console.
 #' @param container The container used ot run the method. The possibilities are 'docker' (default) or
 #'   'singularity'
+#' @param container_path the path where the singularity .sif file is/will be stored (optional)
 #' @param input_dir The folder in which the input files can be found (or are created in). Default
 #'   is a temporary directory.
 #' @param output_dir The directory in which the output files are saved. Default is a temporary
@@ -171,6 +174,7 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
 #'
 deconvolute_cibersortx <- function(bulk_gene_expression, signature, verbose = FALSE,
                                    container = c("docker", "singularity"),
+                                   container_path = NULL,
                                    input_dir = NULL, output_dir = NULL,
                                    display_extra_info = FALSE, label = "none", ...) {
 
@@ -188,7 +192,7 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature, verbose = FA
   temp_dir <- tempdir()
 
   if(container == "singularity"){
-    system(paste0('singularity pull --dir ', temp_dir, ' docker://cibersortx/fractions'))
+    singularity_container_path <- setup_singularity_container(container_path)
   }
 
 
@@ -222,7 +226,7 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature, verbose = FA
   filename_cell_props <- paste0("CIBERSORTx_", label, "_Results.txt")
   cell_props_full_path <- paste0(output_dir, "/", filename_cell_props)
 
-  command_to_run <- create_docker_command(input_dir, output_dir, container,
+  command_to_run <- create_docker_command(input_dir, output_dir, container, sing_container_path,
     method = "impute_cell_fractions", verbose = verbose,
     sigmatrix = sigmatrix_filename, mixture <- bulk_gene_expression_filename, label = label
   )
@@ -316,6 +320,8 @@ transform_and_save_bulk <- function(bulk, path, verbose = FALSE) {
 #'   a temporary directory.
 #' @param out_dir The directory in which the output files are saved. Default is a temporary
 #'   directory.
+#' @param container The container to use. Possibilities are 'docker' and 'singularity'
+#' @param sing_container_path The path where the singularity container is stored (optional)
 #' @param method Which docker command should be be created. For signature matrix creation use
 #'   "create_sig", for cell type deconvolution use "impute_cell_fractions".
 #' @param verbose Whether to produce an output on the console.
@@ -325,6 +331,7 @@ transform_and_save_bulk <- function(bulk, path, verbose = FALSE) {
 #'
 create_docker_command <- function(in_dir, out_dir,
                                   container = c("docker", "singularity"),
+                                  sing_container_path = NULL,
                                   method = c("create_sig", "impute_cell_fractions"),
                                   verbose = FALSE, ...) {
 
@@ -337,7 +344,7 @@ create_docker_command <- function(in_dir, out_dir,
     base <- paste0(
       "singularity exec -c -B ",in_dir,
       "/:/src/data -B ", in_dir, "/:/src/outdir ",
-      in_dir, "/fractions_latest.sif /src/CIBERSORTxFractions --single_cell TRUE"
+      sing_container_path, " /src/CIBERSORTxFractions --single_cell TRUE"
     )
   }
 

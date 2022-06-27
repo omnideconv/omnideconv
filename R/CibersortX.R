@@ -342,7 +342,7 @@ create_docker_command <- function(in_dir, out_dir,
     )
   } else {
     base <- paste0(
-      "singularity exec -c -B ",in_dir,
+      "singularity exec --no-home -c -B ",in_dir,
       "/:/src/data -B ", in_dir, "/:/src/outdir ",
       sing_container_path, " /src/CIBERSORTxFractions --single_cell TRUE"
     )

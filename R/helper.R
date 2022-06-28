@@ -57,7 +57,7 @@ check_container <- function(container = c('docker', 'singularity')){
 setup_singularity_container <- function(container_path = NULL){
 
   if(is.null(container_path)){
-    container_path <- '.local/share/omnideconv'
+    container_path <- file.path(path.pexpand("~"), '.local/share/omnideconv')
     message(paste0('singularity container written to `', container_path,'/cibersortx_fractions.sif`.
             Set the `container_path` directory to choose a different location'))
     }

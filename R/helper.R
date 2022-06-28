@@ -58,13 +58,14 @@ setup_singularity_container <- function(container_path = NULL){
 
   if(is.null(container_path)){
     container_path <- file.path(path.pexpand("~"), '.local/share/omnideconv')
+    dir.create(container_path, showWarnings = FALSE)
     message(paste0('singularity container written to `', container_path,'/cibersortx_fractions.sif`.
             Set the `container_path` directory to choose a different location'))
     }
 
   # We assume that, even in case of user provided file, the file name will
   # be 'fractions_latest.sif'
-  container_file <- file.path(path , 'fractions_latest.sif')
+  container_file <- file.path(continer_path , 'fractions_latest.sif')
 
   if(!file.exists(container_file)){
     system(paste0('singularity pull --dir ', container_path, ' docker://cibersortx/fractions'))

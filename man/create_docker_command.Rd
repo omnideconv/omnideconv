@@ -7,6 +7,8 @@
 create_docker_command(
   in_dir,
   out_dir,
+  container = c("docker", "singularity"),
+  sing_container_path = NULL,
   method = c("create_sig", "impute_cell_fractions"),
   verbose = FALSE,
   ...
@@ -18,6 +20,10 @@ a temporary directory.}
 
 \item{out_dir}{The directory in which the output files are saved. Default is a temporary
 directory.}
+
+\item{container}{The container to use. Possibilities are 'docker' and 'singularity'}
+
+\item{sing_container_path}{The path where the singularity container is stored (optional)}
 
 \item{method}{Which docker command should be be created. For signature matrix creation use
 "create_sig", for cell type deconvolution use "impute_cell_fractions".}

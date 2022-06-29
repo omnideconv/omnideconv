@@ -62,13 +62,15 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
 
   container <- match.arg(container)
 
-  if(!check_container(container)){return(NULL)}
+  if (!check_container(container)) {
+    return(NULL)
+  }
 
   check_credentials()
 
   temp_dir <- tempdir()
 
-  if(container == "singularity"){
+  if (container == "singularity") {
     singularity_container_path <- setup_singularity_container(container_path)
   }
 
@@ -175,7 +177,6 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature, verbose = FA
                                    container_path = NULL,
                                    input_dir = NULL, output_dir = NULL,
                                    display_extra_info = FALSE, label = "none", ...) {
-
   if (is.null(bulk_gene_expression)) {
     stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
   }
@@ -184,13 +185,15 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature, verbose = FA
   }
 
   container <- match.arg(container)
-  if(!check_container(container)){return(NULL)}
+  if (!check_container(container)) {
+    return(NULL)
+  }
 
 
   check_credentials()
   temp_dir <- tempdir()
 
-  if(container == "singularity"){
+  if (container == "singularity") {
     singularity_container_path <- setup_singularity_container(container_path)
   }
 
@@ -333,15 +336,14 @@ create_docker_command <- function(in_dir, out_dir,
                                   sing_container_path = NULL,
                                   method = c("create_sig", "impute_cell_fractions"),
                                   verbose = FALSE, ...) {
-
-  if(container=='docker'){
+  if (container == "docker") {
     base <- paste0(
       "docker run -v ", in_dir, ":/src/data:z -v ", out_dir,
       ":/src/outdir:z cibersortx/fractions --single_cell TRUE"
     )
   } else {
     base <- paste0(
-      "singularity exec --no-home -c -B ",in_dir,
+      "singularity exec --no-home -c -B ", in_dir,
       "/:/src/data -B ", in_dir, "/:/src/outdir ",
       sing_container_path, " /src/CIBERSORTxFractions --single_cell TRUE"
     )

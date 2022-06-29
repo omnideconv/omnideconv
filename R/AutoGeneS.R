@@ -228,16 +228,12 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature,
   # Addition: this is needed to adjust the format of column names
   names <- ag$adata()$obs_names
 
-  if(is.atomic(names)){
-
+  if (is.atomic(names)) {
     colnames(result) <- names
-
-  } else{
-
+  } else {
     col_names <- names$to_frame()
     col_names_vectorized <- as.vector(col_names[, 1])
     colnames(result) <- col_names_vectorized
-
   }
 
   rownames(result) <- rownames(bulk_data)

@@ -19,18 +19,22 @@ verbose_wrapper <- function(verbose) {
 #'
 #' @return A boolean value
 #'
-check_container <- function(container = c('docker', 'singularity')){
-
+check_container <- function(container = c("docker", "singularity")) {
   container.available <- (system(container, ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
 
   if (!container.available) {
     message(paste0(
       "Installation of ", container, " can not be found. Please check whether you can ",
-      "call 'docker' in the command line and get a help menu"))
-  return(FALSE)}
+      "call 'docker' in the command line and get a help menu"
+    ))
+    return(FALSE)
+  }
 
-  if(container == 'docker'){command = 'docker ps'}
-  else{command = 'singularity instance list'}
+  if (container == "docker") {
+    command <- "docker ps"
+  } else {
+    command <- "singularity instance list"
+  }
 
 
 
@@ -40,8 +44,10 @@ check_container <- function(container = c('docker', 'singularity')){
     message(paste0(
       "Error during connection to ", container, ". Please check whether you can ",
       "call \'", command, "\' in the command line and get a (possibly empty) list and not an error ",
-      "message"))
-    return(FALSE)}
+      "message"
+    ))
+    return(FALSE)
+  }
 
   return(TRUE)
 }
@@ -54,25 +60,23 @@ check_container <- function(container = c('docker', 'singularity')){
 #'
 #' @return the path to the singularity container
 #'
-setup_singularity_container <- function(container_path = NULL){
-
-  if(is.null(container_path)){
-    container_path <- file.path(path.pexpand("~"), '.local/share/omnideconv')
+setup_singularity_container <- function(container_path = NULL) {
+  if (is.null(container_path)) {
+    container_path <- file.path(path.pexpand("~"), ".local/share/omnideconv")
     dir.create(container_path, showWarnings = FALSE)
-    message(paste0('singularity container written to `', container_path,'/cibersortx_fractions.sif`.
-            Set the `container_path` directory to choose a different location'))
-    }
+    message(paste0("singularity container written to `", container_path, "/cibersortx_fractions.sif`.
+            Set the `container_path` directory to choose a different location"))
+  }
 
   # We assume that, even in case of user provided file, the file name will
   # be 'fractions_latest.sif'
-  container_file <- file.path(continer_path , 'fractions_latest.sif')
+  container_file <- file.path(continer_path, "fractions_latest.sif")
 
-  if(!file.exists(container_file)){
-    system(paste0('singularity pull --dir ', container_path, ' docker://cibersortx/fractions'))
+  if (!file.exists(container_file)) {
+    system(paste0("singularity pull --dir ", container_path, " docker://cibersortx/fractions"))
   }
 
   return(container_file)
-
 }
 
 

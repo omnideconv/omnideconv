@@ -32,10 +32,12 @@ data("cell_type_annotations_1")
 data("batch_ids_1")
 data("bulk")
 
-deconvolution <- omnideconv::deconvolute(bulk, NULL, "bisque",
-                                         single_cell_data_1,
-                                         cell_type_annotations_1,
-                                         batch_ids_1)
+deconvolution <- omnideconv::deconvolute(
+  bulk, NULL, "bisque",
+  single_cell_data_1,
+  cell_type_annotations_1,
+  batch_ids_1
+)
 deconvolution <- list(deconvolution)
 names(deconvolution) <- "bisque"
 omnideconv::plot_deconvolution(deconvolution, "bar", "method", "Spectral")

@@ -29,7 +29,7 @@ test_that("Bisque deconvolution works", {
   ))
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result
+    expected = check_result, tolerance = 1e-3
   )
   expect_error(
     info = "bisque is not appliable with just one bulk sample",
@@ -45,7 +45,7 @@ test_that("Bisque deconvolution works", {
   )
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result
+    expected = check_result, tolerance = 1e-3
   )
 })
 

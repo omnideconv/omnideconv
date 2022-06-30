@@ -9,7 +9,7 @@
 #'
 #' @export
 deconvolution_methods <- c(
-  "AutoGeneS" = "autogenes", "BayesPrism" = "bayesprism","Bisque" = "bisque", "BSeq-sc" = "bseqsc",
+  "AutoGeneS" = "autogenes", "BayesPrism" = "bayesprism", "Bisque" = "bisque", "BSeq-sc" = "bseqsc",
   "CIBERSORTx" = "cibersortx", "CDSeq" = "cdseq", "CPM" = "cpm", "DWLS" = "dwls", "MOMF" = "momf",
   "MuSiC" = "music", "Scaden" = "scaden", "SCDC" = "scdc"
 )
@@ -319,7 +319,8 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
       batch_ids,
       verbose = verbose, ...
     )$cdseq_prop_merged),
-    bayesprism = deconvolute_bayesprism(bulk_gene_expression, single_cell_object, cell_type_annotations,
+    bayesprism = deconvolute_bayesprism(
+      bulk_gene_expression, single_cell_object, cell_type_annotations,
       ...
     )$res$final.gibbs.theta
   )

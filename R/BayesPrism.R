@@ -79,12 +79,11 @@ build_model_bayesprism <- function() {
 #' @export
 #'
 deconvolute_bayesprism <- function(bulk_gene_expression, single_cell_object, cell_type_annotations,
-                                   cell_subtype_labels=NULL, tum_key=NULL, pseudo_min=1E-8, alpha=1,
-                                   sigma=2, outlier_cut=0.01, outlier_fraction=0.1,
-                                   gibbs_control=list(chain.length=1000,burn.in=500,thinning=2),
-                                   opt_control=list(trace=0, maxit= 100000),n_cores=1,
-                                   n_cores_2g=NULL, first_gibbs_only=FALSE, seed=NULL) {
-
+                                   cell_subtype_labels = NULL, tum_key = NULL, pseudo_min = 1E-8, alpha = 1,
+                                   sigma = 2, outlier_cut = 0.01, outlier_fraction = 0.1,
+                                   gibbs_control = list(chain.length = 1000, burn.in = 500, thinning = 2),
+                                   opt_control = list(trace = 0, maxit = 100000), n_cores = 1,
+                                   n_cores_2g = NULL, first_gibbs_only = FALSE, seed = NULL) {
   if (is.null(bulk_gene_expression)) {
     stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
   }
@@ -102,22 +101,24 @@ deconvolute_bayesprism <- function(bulk_gene_expression, single_cell_object, cel
   # package is required to run bayesprism, also with only a single core
   require(snowfall)
 
-  return(TED::run.Ted(ref.dat = single_cell_object,
-                      X = bulk_gene_expression,
-                      cell.type.labels = cell_type_annotations,
-                      cell.subtype.labels = cell_subtype_labels,
-                      tum.key = tum_key,
-                      input.type = 'scRNA',
-                      pseudo.min = pseudo_min,
-                      alpha = alpha,
-                      sigma = sigma,
-                      outlier.cut = outlier_cut,
-                      outlier.fraction = outlier_fraction,
-                      gibbs.control = gibbs_control,
-                      opt.control = opt_control,
-                      n.cores = n_cores,
-                      n.cores.2g = n_cores_2g,
-                      pdf.name = NULL,
-                      first.gibbs.only = first_gibbs_only,
-                      seed = seed))
+  return(TED::run.Ted(
+    ref.dat = single_cell_object,
+    X = bulk_gene_expression,
+    cell.type.labels = cell_type_annotations,
+    cell.subtype.labels = cell_subtype_labels,
+    tum.key = tum_key,
+    input.type = "scRNA",
+    pseudo.min = pseudo_min,
+    alpha = alpha,
+    sigma = sigma,
+    outlier.cut = outlier_cut,
+    outlier.fraction = outlier_fraction,
+    gibbs.control = gibbs_control,
+    opt.control = opt_control,
+    n.cores = n_cores,
+    n.cores.2g = n_cores_2g,
+    pdf.name = NULL,
+    first.gibbs.only = first_gibbs_only,
+    seed = seed
+  ))
 }

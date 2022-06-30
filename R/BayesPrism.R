@@ -99,6 +99,9 @@ deconvolute_bayesprism <- function(bulk_gene_expression, single_cell_object, cel
   bulk_gene_expression <- t(bulk_gene_expression)
   single_cell_object <- t(single_cell_object)
 
+  # package is required to run bayesprism, also with only a single core
+  require(snowfall)
+
   return(TED::run.Ted(ref.dat = single_cell_object,
                       X = bulk_gene_expression,
                       cell.type.labels = cell_type_annotations,
@@ -116,6 +119,5 @@ deconvolute_bayesprism <- function(bulk_gene_expression, single_cell_object, cel
                       n.cores.2g = n_cores_2g,
                       pdf.name = NULL,
                       first.gibbs.only = first_gibbs_only,
-                      if.vst = if_vst,
                       seed = seed))
 }

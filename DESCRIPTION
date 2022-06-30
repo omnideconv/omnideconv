@@ -47,7 +47,7 @@ Suggests:
     rmarkdown,
     scBio,
     SCDC,
-    snow,
+    snowfall,
     TED,
     testthat (>= 2.0.0),
     uuid

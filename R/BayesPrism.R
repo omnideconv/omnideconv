@@ -84,6 +84,10 @@ deconvolute_bayesprism <- function(bulk_gene_expression, single_cell_object, cel
                                    gibbs_control = list(chain.length = 1000, burn.in = 500, thinning = 2),
                                    opt_control = list(trace = 0, maxit = 100000), n_cores = 1,
                                    n_cores_2g = NULL, first_gibbs_only = FALSE, seed = NULL) {
+
+  # package is required to run bayesprism, also with only a single core
+  require(snowfall)
+
   if (is.null(bulk_gene_expression)) {
     stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
   }
@@ -97,9 +101,6 @@ deconvolute_bayesprism <- function(bulk_gene_expression, single_cell_object, cel
   ## BayesPrism expects the bulk and single-cell matrices in a transposed format; genes are in columns and cells in rows
   bulk_gene_expression <- t(bulk_gene_expression)
   single_cell_object <- t(single_cell_object)
-
-  # package is required to run bayesprism, also with only a single core
-  require(snowfall)
 
   return(TED::run.Ted(
     ref.dat = single_cell_object,

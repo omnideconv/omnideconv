@@ -72,13 +72,12 @@ build_model_bayesprism <- function() {
 #'
 deconvolute_bayesprism <- function(bulk_gene_expression, single_cell_object, cell_type_annotations,
                                    cell_subtype_labels = NULL, tum_key = NULL, apply_bayes_prism_filtering = FALSE,
-                                   species = 'hs', exp.cells = 1, pseudo_min = 1E-8,
-                                   gene_group = c("other_Rb","chrM","chrX","chrY","Rb","Mrp","act","hb","MALAT1"),
+                                   species = "hs", exp.cells = 1, pseudo_min = 1E-8,
+                                   gene_group = c("other_Rb", "chrM", "chrX", "chrY", "Rb", "Mrp", "act", "hb", "MALAT1"),
                                    outlier_cut = 0.01, outlier_fraction = 0.1,
                                    gibbs_control = list(chain.length = 1000, burn.in = 500, thinning = 2),
                                    opt_control = list(trace = 0, maxit = 100000), n_cores = 1,
-                                   which_theta = 'final', state_or_type = 'type') {
-
+                                   which_theta = "final", state_or_type = "type") {
   if (is.null(bulk_gene_expression)) {
     stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
   }
@@ -94,38 +93,48 @@ deconvolute_bayesprism <- function(bulk_gene_expression, single_cell_object, cel
   single_cell_object <- t(single_cell_object)
 
   # possibility to run the custom gene filtering function
-  if(apply_bayes_prism_filtering){
-    message('Cleaning up genes using BayesPrism ...')
-    single_cell_object <- BayesPrism::cleanup.genes(input = single_cell_object,
-                                                    input.type = 'count.matrix',
-                                                    species = species,
-                                                    gene.group = gene_group,
-                                                    exp.cells = exp.cells)
+  if (apply_bayes_prism_filtering) {
+    message("Cleaning up genes using BayesPrism ...")
+    single_cell_object <- BayesPrism::cleanup.genes(
+      input = single_cell_object,
+      input.type = "count.matrix",
+      species = species,
+      gene.group = gene_group,
+      exp.cells = exp.cells
+    )
   }
 
   # construct BayesPrism object
-  myPrism <- BayesPrism::new.prism(reference = single_cell_object,
-                                   mixture = bulk_gene_expression,
-                                   input.type = 'count.matrix',
-                                   cell.type.labels = cell_type_annotations,
-                                   cell.state.labels = cell_subtype_labels,
-                                   key = tum_key,
-                                   outlier.cut = outlier_cut,
-                                   outlier.fraction = outlier_fraction,
-                                   pseudo.min = pseudo_min)
+  myPrism <- BayesPrism::new.prism(
+    reference = single_cell_object,
+    mixture = bulk_gene_expression,
+    input.type = "count.matrix",
+    cell.type.labels = cell_type_annotations,
+    cell.state.labels = cell_subtype_labels,
+    key = tum_key,
+    outlier.cut = outlier_cut,
+    outlier.fraction = outlier_fraction,
+    pseudo.min = pseudo_min
+  )
 
   # run deconvolution
-  bp.res <- BayesPrism::run.prism(prism = myPrism,
-                                  n.cores = n_cores,
-                                  update.gibbs = update_gibbs,
-                                  gibbs.control = gibbs_control,
-                                  opt.control = opt_control)
+  bp.res <- BayesPrism::run.prism(
+    prism = myPrism,
+    n.cores = n_cores,
+    update.gibbs = update_gibbs,
+    gibbs.control = gibbs_control,
+    opt.control = opt_control
+  )
 
   # extract cell type fractions from result object
-  theta <- BayesPrism::get.fraction(bp = bp.res,
-                                    which.theta = which_theta,
-                                    state.or.type = state_or_type)
+  theta <- BayesPrism::get.fraction(
+    bp = bp.res,
+    which.theta = which_theta,
+    state.or.type = state_or_type
+  )
 
-  return(list(theta = theta,
-              bp.res = br.res))
+  return(list(
+    theta = theta,
+    bp.res = br.res
+  ))
 }

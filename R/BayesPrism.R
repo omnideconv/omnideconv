@@ -35,58 +35,49 @@ build_model_bayesprism <- function() {
 #'   This allows a more fine-grained definition of cell types / cell states.
 #' @param tum_key The character in cell.type.labels denoting the tumor cells, e.g. "tumor" or "malignant".
 #' @param pseudo_min A numeric value indicating the minimum (non-zero) value of phi. Default=1E-8.
-#' @param alpha One positive numerical parameter or a numeircal vector of length equal nrow(input.phi),
-#'  denoting the dirichlet hyper-parameter. Default=1, which represents a uniform prior over the
-#'  simplex of theta. For sparser priors, use 0<alpha<1. Note that alpha usually does not affect
-#'  the results, due to the dominating likelihood term resulted from the high sequencing depth of bulk RNA-seq.
-#' @param sigma One positive numerical parameter or a numeircal vector of length equal number of genes
-#' (for gene-specific prior), denoting the prior of the standard deviation of log fold change between
-#' the true expression and the reference.Default=2, which represents a weak gene-wise prior. User may
-#' provide their own sigma based on prior knowledge, such as differential expression analysis.
-#' @param outlier_cut,outlier_fraction  Filter genes in X whose expression fraction is greater than
-#' outlier.cut (Default=0.01. previous version used 0.05) in more than outlier.fraction (Default=0.1)
-#'  of bulk data. Typically for dataset with reasonalble quality contol in mapping, very few genes
-#'  will be filtered. Removal of outlier genes will ensure that the inference will not be dominated
-#'  by outliers, which sometimes may be resulted from poor QC in mapping.
-#' @param gibbs_control A list of parameters controling the Gibbs sampling. Default chain.length=1000,
-#'  burn.in=500, thinning=2. A list of parameters controling the Gibbs sampling. Default chain.length=1000,
+#' @param gibbs_control A list of parameters controlling the Gibbs sampling. Default chain.length=1000,
+#'  burn.in=500, thinning=2. A list of parameters controlling the Gibbs sampling. Default chain.length=1000,
 #'   burn.in=500, thinning=2. Previous version default is chain.length=400, burn.in=200, thinning=2.
-#'   Default chain length has been increased to accomondate spatial transcriptomic data which usually
+#'   Default chain length has been increased to accommodate spatial transcriptomic data which usually
 #'   has lower depth than conventional bulk data, and hence may need longer chain to reach the stationary distribution.
-#' @param opt_control A list of parameters controling the optimization by Rcgmin, Default trace=0, maxit= 100000.
+#' @param opt_control A list of parameters controlling the optimization by Rcgmin, Default trace=0, maxit= 100000.
+#' @param apply_bayes_prism_filtering set to TRUE if you want to run the `cleanup.genes` function of BayesPrism; default is FALSE
+#' @param species A character variable to denote if genes are human ("mm") or mouse ("hs").
+#' @param exp.cells Genes expressed in number of cells fewer than this will be excluded. Default=1. If the input is GEP, gene
+#' will be selected by automatically setting exp.cells is set to min(exp.cells,1). As a result genes expressed in at least 0
+#' or 1 cell type will be retained. Only used when `apply_bayes_prism_filtering` is TRUE.
+#' @param gene_group a character vector to input gene groups to be removed, must be one or more elements from
+#' c("other_Rb","chrM","chrX","chrY","Rb","Mrp","act","hb","MALAT1"). Only used when `apply_bayes_prism_filtering` is TRUE.
+#' @param outlier_cut,outlier_fraction Filter genes in X whose expression fraction is greater than outlier.cut
+#' (Default=0.01) in more than outlier.fraction (Default=0.1) of bulk data. Typically for dataset with reasonable
+#'  quality control, very few genes will be filtered. Removal of outlier genes will ensure that the inference
+#'   will not be dominated by outliers, which sometimes may be resulted from poor QC in mapping.
+#' @param which_theta A character variable to denote whether to extract results from first or final Gibbs sampling.
+#' @param state_or_type A character variable to extract results from cell type or cell state. We caution the
+#' interpretation of cell states information when their transcription are highly co-linear.
 #' @param n_cores Number of CPU threads used for parallel computing. Default=1
-#' @param n_cores_2g Number of CPU threads used for parallel computing for the final Gibbs sampling.
-#'  Default=NULL (same as ncores). Recommended to set to a number smaller than n.cores, if deconvolving
-#'  large number of mixtures, such as Visium data, or the number of cell types is large, to avoid memory overflow.
-#' @param first_gibbs_only A logical parameter denoting if to only run the first gibbs sampling,
-#' i.e. the initial estimates of theta and Z. Default: FALSE
-#' @param seed A numerical number specifying the random seed number to generate identical results
-#' between different runs. Default: NULL(ignore reproducibility).
 #'
 #' @return A list of results is returned including:
-#'   \item{para}{All input data and parameters.}
-#'   \item{res}{All output of TED. }
-#'   \item{res$first.gibbs.res$gibbs.theta}{Initial estimates of fraction for all cell subtypes in each bulk sample.}
-#'   \item{res$first.gibbs.res$Znkg}{Initial estimates of the mean of posterior read count for each cell subtypes  in each bulk sample.}
-#'   \item{res$first.gibbs.res$theta.merged}{Initial estimates of fraction summed across cell types in each bulk sample.}
-#'   \item{res$first.gibbs.res$Znkg.merged}{Initial estimates of the mean of posterior read count summed across cell types in each bulk sample.}
-#'   \item{res$Zkg.tum}{Mean of posterior of gene expression of tumor in each patient.}
-#'   \item{res$Zkg.tum.norm}{Depth normalized Zkg.tum (A pseudo count is added, such that the zero-valued genes have the same value as the min(phi.input)). Refered to as the psi.tum in the TED paper)}
-#'   \item{res$Zkg.tum.vst}{Variance stablized transformed value of Zkg.tum. If vst transformation is not feasible, return NULL. }
-#'   \item{res$phi.env}{Batch effect corrected expression profiles of stromal cells (refered to as the psi.str in the TED paper)}
-#'   \item{res$final.gibbs.theta}{Updated theta after batch correction and tumor expression estimates. This is the final deconvolution result.}
-#'   \item{res$cor.mat}{The correlation matrix of the estimated tumor expression profiles across bulk RNA-seq samples.}
+#' \itemize{
+#'   \item{bp.res}{The result of `run.prism`, a "BayesPrism" S4 object.}
+#'   \item{theta}{The result of `get.fraction`, the extracted cell fraction results from the BayesPrism object.}
+#'   \item{bp.res$prism}{An S4 object of the class "prism" to represent the input prism object; }
+#'   \item{bp.res$posterior.initial.cellState}{An S4 object of the class "jointPost" to represent the posterior mean of cell state fraction and cell state expression outputted by the initial Gibbs sampling using cell state pirors. Contains Z (inferred expression), theta (inferred fraction) and theta.cv (coefficient of variation of posterior of theta)}
+#'   \item{bp.res$posterior.initial.cellType}{An S4 object of the class "jointPost" to represent the posterior sum of cell states from each cell type (posterior.initial.cellState); }
+#'   \item{bp.res$reference.update}{An S4 obejct of the class "reference" to represent the updated profile ψ;}
+#'   \item{bp.res$posterior.theta_f:}{An S4 object of the class "thetaPost" to represent the updated cell type fraction. Contains theta (inferred fraction) and theta.cv (coefficient of variation of posterior of theta); }
+#'   \item{bpres$control_param}{A list storing the gibbs.control, opt.control and update.gibbs arguments.}
+#' }
 #' @export
 #'
 deconvolute_bayesprism <- function(bulk_gene_expression, single_cell_object, cell_type_annotations,
-                                   cell_subtype_labels = NULL, tum_key = NULL, pseudo_min = 1E-8, alpha = 1,
-                                   sigma = 2, outlier_cut = 0.01, outlier_fraction = 0.1,
+                                   cell_subtype_labels = NULL, tum_key = NULL, apply_bayes_prism_filtering = FALSE,
+                                   species = 'hs', exp.cells = 1, pseudo_min = 1E-8,
+                                   gene_group = c("other_Rb","chrM","chrX","chrY","Rb","Mrp","act","hb","MALAT1"),
+                                   outlier_cut = 0.01, outlier_fraction = 0.1,
                                    gibbs_control = list(chain.length = 1000, burn.in = 500, thinning = 2),
                                    opt_control = list(trace = 0, maxit = 100000), n_cores = 1,
-                                   n_cores_2g = NULL, first_gibbs_only = FALSE, seed = NULL) {
-
-  # package is required to run bayesprism, also with only a single core
-  require(snowfall)
+                                   which_theta = 'final', state_or_type = 'type') {
 
   if (is.null(bulk_gene_expression)) {
     stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
@@ -102,24 +93,39 @@ deconvolute_bayesprism <- function(bulk_gene_expression, single_cell_object, cel
   bulk_gene_expression <- t(bulk_gene_expression)
   single_cell_object <- t(single_cell_object)
 
-  return(TED::run.Ted(
-    ref.dat = single_cell_object,
-    X = bulk_gene_expression,
-    cell.type.labels = cell_type_annotations,
-    cell.subtype.labels = cell_subtype_labels,
-    tum.key = tum_key,
-    input.type = "scRNA",
-    pseudo.min = pseudo_min,
-    alpha = alpha,
-    sigma = sigma,
-    outlier.cut = outlier_cut,
-    outlier.fraction = outlier_fraction,
-    gibbs.control = gibbs_control,
-    opt.control = opt_control,
-    n.cores = n_cores,
-    n.cores.2g = n_cores_2g,
-    pdf.name = NULL,
-    first.gibbs.only = first_gibbs_only,
-    seed = seed
-  ))
+  # possibility to run the custom gene filtering function
+  if(apply_bayes_prism_filtering){
+    message('Cleaning up genes using BayesPrism ...')
+    single_cell_object <- BayesPrism::cleanup.genes(input = single_cell_object,
+                                                    input.type = 'count.matrix',
+                                                    species = species,
+                                                    gene.group = gene_group,
+                                                    exp.cells = exp.cells)
+  }
+
+  # construct BayesPrism object
+  myPrism <- BayesPrism::new.prism(reference = single_cell_object,
+                                   mixture = bulk_gene_expression,
+                                   input.type = 'count.matrix',
+                                   cell.type.labels = cell_type_annotations,
+                                   cell.state.labels = cell_subtype_labels,
+                                   key = tum_key,
+                                   outlier.cut = outlier_cut,
+                                   outlier.fraction = outlier_fraction,
+                                   pseudo.min = pseudo_min)
+
+  # run deconvolution
+  bp.res <- BayesPrism::run.prism(prism = myPrism,
+                                  n.cores = n_cores,
+                                  update.gibbs = update_gibbs,
+                                  gibbs.control = gibbs_control,
+                                  opt.control = opt_control)
+
+  # extract cell type fractions from result object
+  theta <- BayesPrism::get.fraction(bp = bp.res,
+                                    which.theta = which_theta,
+                                    state.or.type = state_or_type)
+
+  return(list(theta = theta,
+              bp.res = br.res))
 }

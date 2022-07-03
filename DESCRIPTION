@@ -34,6 +34,7 @@ Imports:
     tidyr,
     utils
 Suggests: 
+    BayesPrism,
     BisqueRNA,
     bseqsc,
     CDSeq,
@@ -48,7 +49,6 @@ Suggests:
     scBio,
     SCDC,
     snowfall,
-    TED,
     testthat (>= 2.0.0),
     uuid
 VignetteBuilder: 
@@ -56,7 +56,7 @@ VignetteBuilder:
 Remotes:
     amitfrish/scBio,
     bbc/bbplot,
-    Danko-Lab/TED/TED,
+    Danko-Lab/BayesPrism/BayesPrism,
     grst/MOMF,
     grst/SCDC,
     PelzKo/CDSeq_R_Package,
@@ -69,4 +69,4 @@ Encoding: UTF-8
 LazyData: true
 LazyDataCompression: bzip2
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0

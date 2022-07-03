@@ -322,7 +322,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
     bayesprism = deconvolute_bayesprism(
       bulk_gene_expression, single_cell_object, cell_type_annotations,
       ...
-    )$res$final.gibbs.theta
+    )$theta
   )
 
   if (!is.null(deconv)) {
@@ -341,7 +341,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 #'
 required_packages <- list(
   "autogenes" = c("reticulate"),
-  "bayesprism" = c("Danko-Lab/TED/TED"),
+  "bayesprism" = c("Danko-Lab/BayesPrism/BayesPrism"),
   "bisque" = c("BisqueRNA"),
   "bseqsc" = c("shenorrlab/bseqsc"),
   "cdseq" = c("PelzKo/CDSeq_R_Package"),

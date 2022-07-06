@@ -1,4 +1,3 @@
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # omnideconv
@@ -6,6 +5,7 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/omnideconv/omnideconv/workflows/R-CMD-check/badge.svg)](https://github.com/omnideconv/omnideconv/actions)
+
 <!-- badges: end -->
 
 The goal of omnideconv is to unify second generation immune
@@ -24,7 +24,7 @@ packages.
 Install the CRAN package devtools and use it to install omnideconv from
 [GitHub](https://github.com/):
 
-``` r
+```r
 install.packages("devtools")
 
 # long/complete install
@@ -46,52 +46,52 @@ following:
 
 ### 1. Build a Signature Matrix
 
-``` r
+```r
 omnideconv::build_model(single_cell_data_1, cell_type_annotations_1,
     method = "dwls")
 ```
 
-In this method, single\_cell\_data is a matrix of single cell RNA-seq
-data with genes in rows and cells in columns, cell\_type\_annotations a
+In this method, single_cell_data is a matrix of single cell RNA-seq
+data with genes in rows and cells in columns, cell_type_annotations a
 vector that contains an annotation for each cell in your
-single\_cell\_data, and the possible methods are:
+single_cell_data, and the possible methods are:
 
--   AutoGeneS (“autogenes”)
--   Bisque (“bisque”)
--   BSeq-sc (“bseqsc”)
--   CDSeq (“cdseq”)
--   CIBERSORTx (“cibersortx”)
--   CPM (“cpm”)
--   DWLS (“dwls”)
--   MOMF (“momf”)
--   MuSiC (“music”)
--   Scaden (“scaden”)
--   SCDC (“scdc”)
+- AutoGeneS (“autogenes”)
+- Bisque (“bisque”)
+- BSeq-sc (“bseqsc”)
+- CDSeq (“cdseq”)
+- CIBERSORTx (“cibersortx”)
+- CPM (“cpm”)
+- DWLS (“dwls”)
+- MOMF (“momf”)
+- MuSiC (“music”)
+- Scaden (“scaden”)
+- SCDC (“scdc”)
 
 ### 2. Deconvolute
 
-``` r
+```r
 omnideconv::deconvolute(bulk, signature_matrix, method = "dwls")
 ```
 
 Here, bulk is your bulk RNA-seq data as a matrix with genes in rows and
-samples in column, signature\_matrix is the signature matrix you created
+samples in column, signature_matrix is the signature matrix you created
 in the previous step and the method can again be one of the four methods
 listed above.
 
 This is, what the cell type properties in your bulk RNA-seq data
 computed in the deconvolution step could look like:
 
-|               |     B | CD4 T | CD8 T |    DC |  Mono |    NK |
-|:--------------|------:|------:|------:|------:|------:|------:|
-| HD30\_PBMC\_0 | 0.087 | 0.444 | 0.318 | 0.047 | 0.037 | 0.066 |
-| HD30\_PBMC\_1 | 0.086 | 0.439 | 0.311 | 0.052 | 0.039 | 0.073 |
-| HD30\_PBMC\_3 | 0.085 | 0.540 | 0.244 | 0.044 | 0.032 | 0.055 |
-| HD30\_PBMC\_7 | 0.091 | 0.472 | 0.295 | 0.048 | 0.028 | 0.067 |
-| HD31\_PBMC\_0 | 0.080 | 0.617 | 0.167 | 0.041 | 0.045 | 0.049 |
-| HD31\_PBMC\_1 | 0.081 | 0.566 | 0.214 | 0.041 | 0.042 | 0.056 |
-| HD31\_PBMC\_3 | 0.080 | 0.525 | 0.243 | 0.043 | 0.044 | 0.065 |
-| HD31\_PBMC\_7 | 0.053 | 0.851 | 0.000 | 0.000 | 0.059 | 0.037 |
+|             |     B | CD4 T | CD8 T |    DC |  Mono |    NK |
+| :---------- | ----: | ----: | ----: | ----: | ----: | ----: |
+| HD30_PBMC_0 | 0.087 | 0.444 | 0.318 | 0.047 | 0.037 | 0.066 |
+| HD30_PBMC_1 | 0.086 | 0.439 | 0.311 | 0.052 | 0.039 | 0.073 |
+| HD30_PBMC_3 | 0.085 | 0.540 | 0.244 | 0.044 | 0.032 | 0.055 |
+| HD30_PBMC_7 | 0.091 | 0.472 | 0.295 | 0.048 | 0.028 | 0.067 |
+| HD31_PBMC_0 | 0.080 | 0.617 | 0.167 | 0.041 | 0.045 | 0.049 |
+| HD31_PBMC_1 | 0.081 | 0.566 | 0.214 | 0.041 | 0.042 | 0.056 |
+| HD31_PBMC_3 | 0.080 | 0.525 | 0.243 | 0.043 | 0.044 | 0.065 |
+| HD31_PBMC_7 | 0.053 | 0.851 | 0.000 | 0.000 | 0.059 | 0.037 |
 
 ### Learn More
 
@@ -103,15 +103,15 @@ package.
 Most methods do not require additional software/tokens, but there are a
 few exceptions:
 
--   A working version of Docker is required for CIBERSORTx
--   A token for CIBERSORTx is required from this website:
-    <https://cibersortx.stanford.edu/>
--   The CIBERSORT source code is required for BSeq-sc (see tutorial in
-    ?omnideconv::bseqsc\_config)
+- A working version of Docker is required for CIBERSORTx
+- A token for CIBERSORTx is required from this website:
+  <https://cibersortx.stanford.edu/>
+- The CIBERSORT source code is required for BSeq-sc (see tutorial in
+  ?omnideconv::bseqsc_config)
 
 ## Available methods, Licenses, Citations
 
-Note that, while *omnideconv* itself is free ([GPL
+Note that, while _omnideconv_ itself is free ([GPL
 3.0](https://github.com/omnideconv/omnideconv/blob/main/LICENSE)), you may
 need to obtain a license to use the individual methods. See the table
 below for more information. If you use this package in your work, please
@@ -120,7 +120,7 @@ cite both our package and the method(s) you are using.
 > CITATION
 
 | method                                                 | license                                                                             | citation                                                                                                                                                                                                                                                                                                                                                                                      |
-|--------------------------------------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ------------------------------------------------------ | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [AutoGeneS](https://github.com/theislab/AutoGeneS/)    | free ([MIT](https://github.com/theislab/AutoGeneS/blob/master/LICENSE))             | Aliee, H., & Theis, F. (2021). AutoGeneS: Automatic gene selection using multi-objective optimization for RNA-seq deconvolution. <https://doi.org/10.1101/2020.02.21.940650>                                                                                                                                                                                                                  |
 | [Bisque](https://github.com/cozygene/bisque)           | free ([GPL 3.0](https://github.com/cozygene/bisque/blob/master/DESCRIPTION))        | Jew, B., Alvarez, M., Rahmani, E., Miao, Z., Ko, A., Garske, K. M., Sul, J. H., Pietiläinen, K. H., Pajukanta, P., & Halperin, E. (2020). Publisher Correction: Accurate estimation of cell composition in bulk expression through robust integration of single-cell information. Nature Communications, 11(1), 2891. <https://doi.org/10.1038/s41467-020-16607-9>                            |
 | [BSeq-sc](https://github.com/shenorrLab/bseqsc)        | free ([GPL 2.0](https://github.com/shenorrLab/bseqsc/blob/master/DESCRIPTION))      | Baron, M., Veres, A., Wolock, S. L., Faust, A. L., Gaujoux, R., Vetere, A., Ryu, J. H., Wagner, B. K., Shen-Orr, S. S., Klein, A. M., Melton, D. A., & Yanai, I. (2016). A Single-Cell Transcriptomic Map of the Human and Mouse Pancreas Reveals Inter- and Intra-cell Population Structure. In Cell Systems (Vol. 3, Issue 4, pp. 346–360.e4). <https://doi.org/10.1016/j.cels.2016.08.011> |

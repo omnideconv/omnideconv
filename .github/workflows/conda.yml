@@ -1,0 +1,43 @@
+# The purpose of this action is to test that the bioconda recipe can be built
+# To this end it uses the recipe in `.conda/meta.yaml` which should be kept in sync
+# with the bioconda recipe (i.e. modify dependencies on bioconda if you need
+# to modify the dependencies of `.conda/meta.yaml` to make the tests pass. )
+name: conda
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  tests:
+    runs-on: ${{ matrix.os }}
+    name: conda ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-latest", "macos-latest"]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Minoconda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          mamba-version: "*"
+          channels: conda-forge,bioconda,defaults
+          channel-priority: true
+          python-version: 3.8
+
+      - name: Set-up channels and install conda build
+        run: |
+          mamba install -y conda-build conda-verify
+        shell: bash
+
+      - name: build and test package
+        run: |
+          cd .conda
+          mamba build . --no-anaconda-upload
+        shell: bash

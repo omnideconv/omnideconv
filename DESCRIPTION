@@ -54,10 +54,10 @@ VignetteBuilder:
 Remotes:
     amitfrish/scBio,
     bbc/bbplot,
-    grst/MOMF,
-    grst/SCDC,
-    PelzKo/CDSeq_R_Package,
-    PelzKo/dwls,
+    omnideconv/MOMF,
+    omnideconv/SCDC,
+    omnideconv/CDSeq,
+    omnideconv/dwls,
     shenorrlab/bseqsc,
     xuranw/MuSiC
 biocViews:

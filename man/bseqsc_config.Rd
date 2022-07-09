@@ -34,6 +34,8 @@ In order to use it with \code{bseqsc} you will need to:
 done using the function \code{bseqsc_config}, which will copy the given R
 source file into the \code{R-data/bseqsc} sub-directory in the user's home
 directory for subsequent usage:
-}\preformatted{bseqsc_config('path/to/downloaded/source/CIBERSORT.R')
 }
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{bseqsc_config('path/to/downloaded/source/CIBERSORT.R')
+}\if{html}{\out{</div>}}
 }

@@ -2,7 +2,7 @@
 # R specific hooks: https://github.com/lorenzwalthert/precommit
 repos:
 -   repo: https://github.com/lorenzwalthert/precommit
-    rev: v0.2.0.9001
+    rev: v0.3.2
     hooks:
     -   id: style-files
         args: [--style_pkg=styler, --style_fun=tidyverse_style]
@@ -40,7 +40,7 @@ repos:
     -   id: deps-in-desc
         args: [--allow_private_imports]
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.0.1
+    rev: v4.3.0
     hooks:
     -   id: check-added-large-files
         args: ['--maxkb=200']

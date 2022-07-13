@@ -151,14 +151,14 @@ deconvolute_bisque <- function(bulk_gene_expression, single_cell_object, cell_ty
       "filtering zero variance genes."
     )
   }
-  sc_eset <- BisqueRNA::CountsToCPM(sc_eset)
+  sc_eset <- BisqueRNA:::CountsToCPM(sc_eset)
   if (!old_cpm) {
     sc_eset <- Biobase::ExpressionSet(
       assayData = Biobase::exprs(sc_eset),
       phenoData = sc_eset@phenoData
     )
   }
-  sc_eset <- BisqueRNA::FilterZeroVarianceGenes(sc_eset, verbose)
+  sc_eset <- BisqueRNA:::FilterZeroVarianceGenes(sc_eset, verbose)
 
   return(BisqueRNA::GenerateSCReference(sc_eset, "cellType"))
 }

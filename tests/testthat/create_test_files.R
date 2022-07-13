@@ -54,8 +54,8 @@ sc_eset <- Biobase::ExpressionSet(
 single_cell_expression_set <- sc_eset
 bulk_expression_set <- Biobase::ExpressionSet(assayData = bulk_small)
 
-sc_eset <- BisqueRNA::CountsToCPM(sc_eset)
-sc_eset <- BisqueRNA::FilterZeroVarianceGenes(sc_eset, FALSE)
+sc_eset <- BisqueRNA:::CountsToCPM(sc_eset)
+sc_eset <- BisqueRNA:::FilterZeroVarianceGenes(sc_eset, FALSE)
 
 
 model_bisque <- BisqueRNA::GenerateSCReference(sc_eset, "cellType")

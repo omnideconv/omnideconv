@@ -94,9 +94,9 @@ test_that("SingleCellExperiment/Anndata conversion does not lose information", {
     rowData = data.frame(type = c(1, 2, 3), row.names = c("var1", "var2", "var3"))
   )
 
-  sce_converted <- omnideconv::anndata_to_singlecellexperiment(ad)
+  sce_converted <- omnideconv:::anndata_to_singlecellexperiment(ad)
 
-  ad_converted <- omnideconv::singlecellexperiment_to_anndata(sce)
+  ad_converted <- omnideconv:::singlecellexperiment_to_anndata(sce)
 
 
   expect_equal(

@@ -11,8 +11,6 @@
 #' @importClassesFrom Biobase AnnotatedDataFrame
 #'
 get_single_cell_expression_set <- function(single_cell_matrix, batch_ids, genes, cell_types) {
-
-
   # individual.ids and cell.types should be in the same order as in sampleNames
   sc_pheno <- data.frame(
     check.names = FALSE, check.rows = FALSE,

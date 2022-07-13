@@ -351,6 +351,8 @@ required_packages <- list(
 #' Checking and installing all dependencies for the specific methods
 #'
 #' @param method The name of the method that is used
+#'
+#' @importFrom utils askYesNo
 check_and_install <- function(method) {
   if (!(method %in% deconvolution_methods)[[1]]) {
     stop(

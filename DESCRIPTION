@@ -12,7 +12,7 @@ Description: Collection of second generation methods for immune cell
 License: GPL-3 + file LICENSE
 URL: https://github.com/omnideconv/omnideconv
 Depends:
-    R (>= 4.0.0)
+    R (>= 4.1.0)
 Imports: 
     anndata,
     assertthat,
@@ -20,7 +20,6 @@ Imports:
     Biobase,
     dplyr,
     ggplot2,
-    magrittr,
     methods,
     plotly,
     RColorBrewer,
@@ -29,7 +28,6 @@ Imports:
     S4Vectors,
     Seurat,
     SingleCellExperiment,
-    stringr,
     SummarizedExperiment,
     tidyr,
     utils
@@ -54,10 +52,10 @@ VignetteBuilder:
 Remotes:
     amitfrish/scBio,
     bbc/bbplot,
-    grst/MOMF,
-    grst/SCDC,
-    PelzKo/CDSeq_R_Package,
-    PelzKo/dwls,
+    omnideconv/MOMF,
+    omnideconv/SCDC,
+    omnideconv/CDSeq,
+    omnideconv/dwls,
     shenorrlab/bseqsc,
     xuranw/MuSiC
 biocViews:
@@ -66,4 +64,4 @@ Encoding: UTF-8
 LazyData: true
 LazyDataCompression: bzip2
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0

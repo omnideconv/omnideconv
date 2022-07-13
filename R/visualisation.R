@@ -182,7 +182,6 @@ make_benchmarking_scatterplot <- function(result_list, ref_data, file_name = NUL
 #' @param palette RColorBrewer palette name (optional), standard = "Set1"
 #' @import ggplot2
 #' @import tidyr
-#' @import magrittr
 #' @import RColorBrewer
 #' @importFrom grDevices colorRampPalette
 #' @returns ggplot rendered by plotly for interactivity

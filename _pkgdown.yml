@@ -57,6 +57,7 @@ reference:
     contents:
       - make_benchmarking_scatterplot
       - make_barplot
+      - plot_deconvolution
   - title: internal
     contents:
       - anndata_checkload

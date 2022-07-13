@@ -20,9 +20,11 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - { os: macOS-latest, r: "release" }
-          - { os: windows-latest, r: "release" }
-          - { os: ubuntu-latest, r: "devel", http-user-agent: "release" }
+          # some dependencies can't be installed on windows or mac OS. We only support Linux. Period.
+          # - { os: macOS-latest, r: "release" }
+          # - { os: windows-latest, r: "release" }
+          # TODO devel currently fails because a dependency can't be installed. Hopefully this gets fixed.
+          # - { os: ubuntu-latest, r: "devel", http-user-agent: "release" }
           - { os: ubuntu-latest, r: "release" }
           - { os: ubuntu-latest, r: "oldrel-1" }
 

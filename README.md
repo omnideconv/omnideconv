@@ -5,8 +5,7 @@
 [![docs](https://img.shields.io/badge/docs-pkgdown-blue.svg)](https://omnideconv.github.io/omnideconv)
 [![Codecov test coverage](https://codecov.io/gh/omnideconv/omnideconv/branch/master/graph/badge.svg)](https://app.codecov.io/gh/omnideconv/omnideconv?branch=master)
 
-The goal of omnideconv is to unify second generation immune
-deconvolution methods in an R package.
+The goal of omnideconv is to unify second generation cell-type deconvolution methods in an R package.
 
 ## Installation
 

@@ -29,7 +29,6 @@ Imports:
     S4Vectors,
     Seurat,
     SingleCellExperiment,
-    stringr,
     SummarizedExperiment,
     tidyr,
     utils

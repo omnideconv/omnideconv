@@ -60,46 +60,67 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_signature_matrix_options</span><span class="op">(</span>
-  <span class="va">refsample</span>,
-  g_min <span class="op">=</span> <span class="fl">300</span>,
-  g_max <span class="op">=</span> <span class="fl">500</span>,
-  q_value <span class="op">=</span> <span class="fl">0.01</span>,
-  filter <span class="op">=</span> <span class="cn">FALSE</span>,
-  k_max <span class="op">=</span> <span class="fl">999</span>,
-  remake <span class="op">=</span> <span class="cn">FALSE</span>,
-  replicates <span class="op">=</span> <span class="fl">5</span>,
-  sampling <span class="op">=</span> <span class="fl">0.5</span>,
-  fraction <span class="op">=</span> <span class="fl">0.75</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_signature_matrix_options</span><span class="op">(</span></span>
+<span>  <span class="va">refsample</span>,</span>
+<span>  g_min <span class="op">=</span> <span class="fl">300</span>,</span>
+<span>  g_max <span class="op">=</span> <span class="fl">500</span>,</span>
+<span>  q_value <span class="op">=</span> <span class="fl">0.01</span>,</span>
+<span>  filter <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  k_max <span class="op">=</span> <span class="fl">999</span>,</span>
+<span>  remake <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  replicates <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  sampling <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  fraction <span class="op">=</span> <span class="fl">0.75</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>refsample</dt>
 <dd><p>The filename of the single cell data.</p></dd>
+
+
 <dt>g_min</dt>
 <dd><p>&lt;int&gt; Minimum number of genes per cell type in sig. matrix.</p></dd>
+
+
 <dt>g_max</dt>
 <dd><p>&lt;int&gt; Maximum number of genes per cell type in sig. matrix.</p></dd>
+
+
 <dt>q_value</dt>
 <dd><p>&lt;int&gt; Q-value threshold for differential expression.</p></dd>
+
+
 <dt>filter</dt>
 <dd><p>&lt;bool&gt; Remove non-hematopoietic genes.</p></dd>
+
+
 <dt>k_max</dt>
 <dd><p>&lt;int&gt; Maximum condition number. Will be added to the file name.</p></dd>
+
+
 <dt>remake</dt>
 <dd><p>&lt;bool&gt; Remake signature gene matrix.</p></dd>
+
+
 <dt>replicates</dt>
 <dd><p>&lt;int&gt; Number of replicates to use for building scRNAseq reference file.</p></dd>
+
+
 <dt>sampling</dt>
 <dd><p>&lt;float&gt; Fraction of available single cell GEPs selected using random sampling.</p></dd>
+
+
 <dt>fraction</dt>
 <dd><p>&lt;float&gt; Fraction of cells of same identity showing evidence of expression.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A string in the correct format for the docker command, containing all parameters.</p>
+    
+
+<p>A string in the correct format for the docker command, containing all parameters.</p>
     </div>
 
   </div>
@@ -114,7 +135,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

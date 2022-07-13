@@ -60,15 +60,15 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">build_model_dwls</span><span class="op">(</span>
-  <span class="va">single_cell_object</span>,
-  <span class="va">cell_type_annotations</span>,
-  dwls_method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mast"</span>, <span class="st">"seurat"</span><span class="op">)</span>,
-  path <span class="op">=</span> <span class="cn">NULL</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  diff_cutoff <span class="op">=</span> <span class="fl">0.5</span>,
-  pval_cutoff <span class="op">=</span> <span class="fl">0.01</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">build_model_dwls</span><span class="op">(</span></span>
+<span>  <span class="va">single_cell_object</span>,</span>
+<span>  <span class="va">cell_type_annotations</span>,</span>
+<span>  dwls_method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mast"</span>, <span class="st">"seurat"</span><span class="op">)</span>,</span>
+<span>  path <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  diff_cutoff <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  pval_cutoff <span class="op">=</span> <span class="fl">0.01</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -76,26 +76,41 @@
     <dl><dt>single_cell_object</dt>
 <dd><p>A matrix with the single-cell data. Rows are genes, columns are
 samples. Row and column names need to be set.</p></dd>
+
+
 <dt>cell_type_annotations</dt>
 <dd><p>A vector of the cell type annotations. Has to be in the same order
 as the samples in single_cell_object.</p></dd>
+
+
 <dt>dwls_method</dt>
 <dd><p>The method used to create the signature matrix. Options are "mast" and "seurat"</p></dd>
+
+
 <dt>path</dt>
 <dd><p>The path where the generated files will be saved. If path=NULL, the generated files
 will be discarded.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Whether to produce an output on the console.</p></dd>
+
+
 <dt>diff_cutoff</dt>
 <dd><p>Cutoff to determine the FC-limit. How low can the lowest fold change be to
 still be considered differentially expressed?</p></dd>
+
+
 <dt>pval_cutoff</dt>
 <dd><p>Cutoff to determine the pVal-limit. How high can the highest p-Value be to
 still be considered statistically significant?</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The signature matrix. Rows are genes, columns are cell types.</p>
+    
+
+<p>The signature matrix. Rows are genes, columns are cell types.</p>
     </div>
 
   </div>
@@ -110,7 +125,7 @@ still be considered statistically significant?</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

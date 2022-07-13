@@ -62,24 +62,24 @@ IMPORTANT: No model is needed. Everything is done inside this method.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">deconvolute_music</span><span class="op">(</span>
-  <span class="va">bulk_gene_expression</span>,
-  <span class="va">single_cell_object</span>,
-  <span class="va">cell_type_annotations</span>,
-  <span class="va">batch_ids</span>,
-  markers <span class="op">=</span> <span class="cn">NULL</span>,
-  clusters <span class="op">=</span> <span class="st">"cellType"</span>,
-  samples <span class="op">=</span> <span class="st">"batchId"</span>,
-  select_ct <span class="op">=</span> <span class="cn">NULL</span>,
-  cell_size <span class="op">=</span> <span class="cn">NULL</span>,
-  ct_cov <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  iter_max <span class="op">=</span> <span class="fl">1000</span>,
-  nu <span class="op">=</span> <span class="fl">1e-04</span>,
-  eps <span class="op">=</span> <span class="fl">0.01</span>,
-  centered <span class="op">=</span> <span class="cn">FALSE</span>,
-  normalize <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">deconvolute_music</span><span class="op">(</span></span>
+<span>  <span class="va">bulk_gene_expression</span>,</span>
+<span>  <span class="va">single_cell_object</span>,</span>
+<span>  <span class="va">cell_type_annotations</span>,</span>
+<span>  <span class="va">batch_ids</span>,</span>
+<span>  markers <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  clusters <span class="op">=</span> <span class="st">"cellType"</span>,</span>
+<span>  samples <span class="op">=</span> <span class="st">"batchId"</span>,</span>
+<span>  select_ct <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  cell_size <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ct_cov <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  iter_max <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  nu <span class="op">=</span> <span class="fl">1e-04</span>,</span>
+<span>  eps <span class="op">=</span> <span class="fl">0.01</span>,</span>
+<span>  centered <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  normalize <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -87,46 +87,79 @@ IMPORTANT: No model is needed. Everything is done inside this method.</p>
     <dl><dt>bulk_gene_expression</dt>
 <dd><p>A matrix of bulk data. Rows are genes, columns are samples.
 Row and column names need to be set.</p></dd>
+
+
 <dt>single_cell_object</dt>
 <dd><p>A matrix with the single-cell data. Rows are genes, columns are
 samples. Row and column names need to be set.</p></dd>
+
+
 <dt>cell_type_annotations</dt>
 <dd><p>A vector of the cell type annotations. Has to
 be in the same order as the samples in single_cell_object.</p></dd>
+
+
 <dt>batch_ids</dt>
 <dd><p>A vector of the ids of the samples or individuals.</p></dd>
+
+
 <dt>markers</dt>
 <dd><p>vector or list of gene names, default as NULL. If NULL, use all genes that
 are provided by both bulk and single cell dataset.</p></dd>
+
+
 <dt>clusters</dt>
 <dd><p>character, the phenoData of single cell dataset used as clusters.</p></dd>
+
+
 <dt>samples</dt>
 <dd><p>character,the phenoData of single cell dataset used as samples.</p></dd>
+
+
 <dt>select_ct</dt>
 <dd><p>vector of cell types. Default as NULL. If NULL, then use all cell types
 provided.</p></dd>
+
+
 <dt>cell_size</dt>
 <dd><p>data.frame of cell sizes. 1st column contains the names of cell types, 2nd
 column has the cell sizes per cell type. Default as NULL. If NULL, then estimate cell size
 from data.</p></dd>
+
+
 <dt>ct_cov</dt>
 <dd><p>logical. If TRUE, use the covariance across cell types.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Whether to produce an output on the console.</p></dd>
+
+
 <dt>iter_max</dt>
 <dd><p>numeric, maximum iteration number.</p></dd>
+
+
 <dt>nu</dt>
 <dd><p>regulation parameter, take care of weight when taking recipical.</p></dd>
+
+
 <dt>eps</dt>
 <dd><p>Thredshold of convergence.</p></dd>
+
+
 <dt>centered</dt>
 <dd><p>logic, substract avg of Y and D.</p></dd>
+
+
 <dt>normalize</dt>
 <dd><p>logic, divide Y and D by their standard deviation.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a list with elements:</p><ul><li><p>Estimates of MuSiC</p></li>
+    
+
+<p>a list with elements:</p><ul><li><p>Estimates of MuSiC</p></li>
 <li><p>Estimates of NNLS</p></li>
 <li><p>Weight of MuSiC</p></li>
 <li><p>r.squared of MuSiC</p></li>
@@ -145,7 +178,7 @@ from data.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

@@ -60,11 +60,11 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">build_model_momf</span><span class="op">(</span>
-  <span class="va">single_cell_object</span>,
-  <span class="va">cell_type_annotations</span>,
-  <span class="va">bulk_gene_expression</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">build_model_momf</span><span class="op">(</span></span>
+<span>  <span class="va">single_cell_object</span>,</span>
+<span>  <span class="va">cell_type_annotations</span>,</span>
+<span>  <span class="va">bulk_gene_expression</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -72,16 +72,23 @@
     <dl><dt>single_cell_object</dt>
 <dd><p>A matrix with the single-cell data. Rows are genes, columns are
 samples. Row and column names need to be set.</p></dd>
+
+
 <dt>cell_type_annotations</dt>
 <dd><p>A vector of the cell type annotations. Has to be in the same order
 as the samples in single_cell_object.</p></dd>
+
+
 <dt>bulk_gene_expression</dt>
 <dd><p>A matrix of bulk data. Rows are genes, columns are samples. Row and
 column names need to be set.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The signature matrix. Rows are genes, columns are cell types.</p>
+    
+
+<p>The signature matrix. Rows are genes, columns are cell types.</p>
     </div>
 
   </div>
@@ -96,7 +103,7 @@ column names need to be set.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

@@ -60,20 +60,25 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">bseqsc_config</span><span class="op">(</span>file <span class="op">=</span> <span class="cn">NULL</span>, error <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bseqsc_config</span><span class="op">(</span>file <span class="op">=</span> <span class="cn">NULL</span>, error <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>file</dt>
 <dd><p>Path to the CIBERSORT source R code.</p></dd>
+
+
 <dt>error</dt>
 <dd><p>Logical that indicates if an error should be thrown
 if configuration failed.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The path where the file was copied, or <code>NULL</code> if <code>bseqsc</code> is not correctly
+    
+
+<p>The path where the file was copied, or <code>NULL</code> if <code>bseqsc</code> is not correctly
 configured.</p>
     </div>
     <div id="details">
@@ -90,7 +95,7 @@ In order to use it with <code>bseqsc</code> you will need to:</p><ol><li><p>Got 
 done using the function <code>bseqsc_config</code>, which will copy the given R
 source file into the <code>R-data/bseqsc</code> sub-directory in the user's home
 directory for subsequent usage:</p></li>
-</ol><p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+</ol><p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bseqsc_config</span>(<span class="st">'path/to/downloaded/source/CIBERSORT.R'</span>)</span></code></pre><p></p></div>
     </div>
 
   </div>
@@ -105,7 +110,7 @@ directory for subsequent usage:</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

@@ -60,25 +60,25 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">deconvolute_autogenes</span><span class="op">(</span>
-  <span class="va">bulk_gene_expression</span>,
-  <span class="va">signature</span>,
-  model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nusvr"</span>, <span class="st">"nnls"</span>, <span class="st">"linear"</span><span class="op">)</span>,
-  nu <span class="op">=</span> <span class="fl">0.5</span>,
-  C <span class="op">=</span> <span class="fl">0.5</span>,
-  kernel <span class="op">=</span> <span class="st">"linear"</span>,
-  degree <span class="op">=</span> <span class="fl">3</span>,
-  gamma <span class="op">=</span> <span class="st">"scale"</span>,
-  coef0 <span class="op">=</span> <span class="fl">0</span>,
-  shrinking <span class="op">=</span> <span class="cn">TRUE</span>,
-  tol <span class="op">=</span> <span class="fl">0.001</span>,
-  cache_size <span class="op">=</span> <span class="fl">200</span>,
-  max_iter <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,
-  weights <span class="op">=</span> <span class="cn">NULL</span>,
-  index <span class="op">=</span> <span class="cn">NULL</span>,
-  close_to <span class="op">=</span> <span class="cn">NULL</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">deconvolute_autogenes</span><span class="op">(</span></span>
+<span>  <span class="va">bulk_gene_expression</span>,</span>
+<span>  <span class="va">signature</span>,</span>
+<span>  model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nusvr"</span>, <span class="st">"nnls"</span>, <span class="st">"linear"</span><span class="op">)</span>,</span>
+<span>  nu <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  C <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  kernel <span class="op">=</span> <span class="st">"linear"</span>,</span>
+<span>  degree <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  gamma <span class="op">=</span> <span class="st">"scale"</span>,</span>
+<span>  coef0 <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  shrinking <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  tol <span class="op">=</span> <span class="fl">0.001</span>,</span>
+<span>  cache_size <span class="op">=</span> <span class="fl">200</span>,</span>
+<span>  max_iter <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,</span>
+<span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  index <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  close_to <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -86,50 +86,85 @@
     <dl><dt>bulk_gene_expression</dt>
 <dd><p>A matrix of bulk data. Rows are genes, columns are samples.
 Row and column names need to be set.</p></dd>
+
+
 <dt>signature</dt>
 <dd><p>Path to a .pickle file, created with the build_model method of AutoGeneS.</p></dd>
+
+
 <dt>model</dt>
 <dd><p>Regression model. Available options: NuSVR ("nusvr"), non-negative least
 squares("nnls") and linear model ("linear").</p></dd>
+
+
 <dt>nu</dt>
 <dd><p>Nu parameter for NuSVR.</p></dd>
+
+
 <dt>C</dt>
 <dd><p>C parameter for NuSVR.</p></dd>
+
+
 <dt>kernel</dt>
 <dd><p>Kernel parameter for NuSVR.</p></dd>
+
+
 <dt>degree</dt>
 <dd><p>Degree parameter for NuSVR.</p></dd>
+
+
 <dt>gamma</dt>
 <dd><p>Gamma parameter for NuSVR.</p></dd>
+
+
 <dt>coef0</dt>
 <dd><p>Coef0 parameter for NuSVR.</p></dd>
+
+
 <dt>shrinking</dt>
 <dd><p>Shrinking parameter for NuSVR.</p></dd>
+
+
 <dt>tol</dt>
 <dd><p>Tol parameter for NuSVR.</p></dd>
+
+
 <dt>cache_size</dt>
 <dd><p>Cache_size parameter for NuSVR.</p></dd>
+
+
 <dt>max_iter</dt>
 <dd><p>Max_iter parameter for NuSVR.</p></dd>
+
+
 <dt>weights</dt>
 <dd><p>Select Solution: Weights with which to weight the objective values. For example,
 (-1,2) will minimize the first objective and maximize the the second (with more weight).</p></dd>
+
+
 <dt>index</dt>
 <dd><p>Select Solution: If one int is passed, return pareto[index] If two ints are passed,
 the first is an objective (0 for the first). The second is the nth element if the solutions
 have been sorted by the objective in ascending order. For example, (0,1) will return the
 solution that has the second-lowest value in the first objective. (1,-1) will return the
 solution with the highest value in the second objective.</p></dd>
+
+
 <dt>close_to</dt>
 <dd><p>Select Solution: Select the solution whose objective value is close to a certain
 value. Assumes (objective,value). For example, (0,100) will select the solution whose value
 for the first objective is closest to 100.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Whether to produce an output on the console.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with two elements: 'proportions' is the matrix of cell proportions and
+    
+
+<p>A list with two elements: 'proportions' is the matrix of cell proportions and
 'genes_used' is a vector containing the names of the genes used for the deconvolution, what
 is called "solution" by AutoGeneS.</p>
     </div>
@@ -146,7 +181,7 @@ is called "solution" by AutoGeneS.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

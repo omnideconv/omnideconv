@@ -60,30 +60,30 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">build_model_autogenes</span><span class="op">(</span>
-  <span class="va">single_cell_object</span>,
-  <span class="va">cell_type_annotations</span>,
-  bulk_gene_expression <span class="op">=</span> <span class="cn">NULL</span>,
-  ngen <span class="op">=</span> <span class="fl">2</span>,
-  mode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"standard"</span>, <span class="st">"fixed"</span><span class="op">)</span>,
-  nfeatures <span class="op">=</span> <span class="cn">NULL</span>,
-  weights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,
-  objectives <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"correlation"</span>, <span class="st">"distance"</span><span class="op">)</span>,
-  seed <span class="op">=</span> <span class="fl">0</span>,
-  population_size <span class="op">=</span> <span class="fl">100</span>,
-  offspring_size <span class="op">=</span> <span class="fl">50</span>,
-  crossover_pb <span class="op">=</span> <span class="fl">0.7</span>,
-  mutation_pb <span class="op">=</span> <span class="fl">0.3</span>,
-  mutate_flip_pb <span class="op">=</span> <span class="fl">0.001</span>,
-  crossover_thres <span class="op">=</span> <span class="fl">1000</span>,
-  ind_standard_pb <span class="op">=</span> <span class="fl">0.1</span>,
-  plot_weights <span class="op">=</span> <span class="cn">NULL</span>,
-  plot_objectives <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,
-  index <span class="op">=</span> <span class="cn">NULL</span>,
-  close_to <span class="op">=</span> <span class="cn">NULL</span>,
-  plot <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">build_model_autogenes</span><span class="op">(</span></span>
+<span>  <span class="va">single_cell_object</span>,</span>
+<span>  <span class="va">cell_type_annotations</span>,</span>
+<span>  bulk_gene_expression <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ngen <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  mode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"standard"</span>, <span class="st">"fixed"</span><span class="op">)</span>,</span>
+<span>  nfeatures <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  weights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  objectives <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"correlation"</span>, <span class="st">"distance"</span><span class="op">)</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  population_size <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  offspring_size <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  crossover_pb <span class="op">=</span> <span class="fl">0.7</span>,</span>
+<span>  mutation_pb <span class="op">=</span> <span class="fl">0.3</span>,</span>
+<span>  mutate_flip_pb <span class="op">=</span> <span class="fl">0.001</span>,</span>
+<span>  crossover_thres <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  ind_standard_pb <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  plot_weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  plot_objectives <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  index <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  close_to <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -91,72 +91,117 @@
     <dl><dt>single_cell_object</dt>
 <dd><p>A matrix with the single-cell data. Rows are genes, columns are
 samples. Row and column names need to be set.</p></dd>
+
+
 <dt>cell_type_annotations</dt>
 <dd><p>A vector of the cell type annotations. Has to be in the same order
 as the samples in single_cell_object.</p></dd>
+
+
 <dt>bulk_gene_expression</dt>
 <dd><p>OPTIONAL: A matrix of bulk data. Rows are genes, columns are samples.
 Row and column names need to be set. If the bulk data is supplied, the single cell object
 loses all gene rows not contained in the bulk data as not to create solution sets with them.</p></dd>
+
+
 <dt>ngen</dt>
 <dd><p>Number of generations. The higher, the longer it takes.</p></dd>
+
+
 <dt>mode</dt>
 <dd><p>In standard mode, the number of genes of a selection is allowed to vary arbitrarily.
 In fixed mode, the number of selected genes is fixed (using nfeatures).</p></dd>
+
+
 <dt>nfeatures</dt>
 <dd><p>Number of genes to be selected in fixed mode.</p></dd>
+
+
 <dt>weights</dt>
 <dd><p>Weights applied to the objectives. For the optimization, only the sign is
 relevant: 1 means to maximize the respective objective, -1 to minimize it and 0 means to ignore
 it. The weight supplied here will be the default weight for selection. There must be as many
 weights as there are objectives.</p></dd>
+
+
 <dt>objectives</dt>
 <dd><p>The objectives to maximize or minimize. Must have the same length as weights.
 The default objectives (correlation, distance) can be referred to using strings. For custom
 objectives, a function has to be passed.</p></dd>
+
+
 <dt>seed</dt>
 <dd><p>Seed for random number generators.</p></dd>
+
+
 <dt>population_size</dt>
 <dd><p>Size of every generation (mu parameter).</p></dd>
+
+
 <dt>offspring_size</dt>
 <dd><p>Number of individuals created in every generation (lambda parameter).</p></dd>
+
+
 <dt>crossover_pb</dt>
 <dd><p>Crossover probability.</p></dd>
+
+
 <dt>mutation_pb</dt>
 <dd><p>Mutation probability.</p></dd>
+
+
 <dt>mutate_flip_pb</dt>
 <dd><p>Mutation flipping probability (fixed mode).</p></dd>
+
+
 <dt>crossover_thres</dt>
 <dd><p>Crossover threshold (standard mode).</p></dd>
+
+
 <dt>ind_standard_pb</dt>
 <dd><p>Probability used to generate initial population in standard mode.</p></dd>
+
+
 <dt>plot_weights</dt>
 <dd><p>Plotting: Weights with which to weight the objective values. For example,
 (-1,2) will minimize the first objective and maximize the the second (with higher weight).</p></dd>
+
+
 <dt>plot_objectives</dt>
 <dd><p>Plotting: The objectives to be plotted. Contains indices of objectives.
 The first index refers to the objective that is plotted on the x-axis. For example, (2,1) will
 plot the third objective on the x-axis and the second on the y-axis.</p></dd>
+
+
 <dt>index</dt>
 <dd><p>Plotting: If one int is passed, return pareto[index] If two ints are passed, the
 first is an objective (0 for the first). The second is the nth element if the solutions have
 been sorted by the objective in ascending order. For example, (0,1) will return the solution
 that has the second-lowest value in the first objective. (1,-1) will return the solution with
 the highest value in the second objective.</p></dd>
+
+
 <dt>close_to</dt>
 <dd><p>Plotting: Select the solution whose objective value is closest to a certain
 value. Assumes (objective,value). For example, (0,100) will select the solution whose value
 for the first objective is closest to 100.</p></dd>
+
+
 <dt>plot</dt>
 <dd><p>Whether to produce a plot at all. This just hands over the reticulate plot and
 has some visualization problems. To get a normal plot, use the pickle file, open it in python
 and use the plot method there.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Whether to produce an output on the console.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The path to the pickle file needed for the deconvolution with AutoGeneS.</p>
+    
+
+<p>The path to the pickle file needed for the deconvolution with AutoGeneS.</p>
     </div>
 
   </div>
@@ -171,7 +216,7 @@ and use the plot method there.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

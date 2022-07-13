@@ -60,17 +60,17 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">build_model</span><span class="op">(</span>
-  <span class="va">single_cell_object</span>,
-  cell_type_annotations <span class="op">=</span> <span class="cn">NULL</span>,
-  method <span class="op">=</span> <span class="va">deconvolution_methods</span>,
-  batch_ids <span class="op">=</span> <span class="cn">NULL</span>,
-  bulk_gene_expression <span class="op">=</span> <span class="cn">NULL</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  cell_type_column_name <span class="op">=</span> <span class="cn">NULL</span>,
-  markers <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">build_model</span><span class="op">(</span></span>
+<span>  <span class="va">single_cell_object</span>,</span>
+<span>  cell_type_annotations <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  method <span class="op">=</span> <span class="va">deconvolution_methods</span>,</span>
+<span>  batch_ids <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  bulk_gene_expression <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  cell_type_column_name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  markers <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -82,60 +82,82 @@ or an AnnData object can be provided. In that case, note that cell-type labels n
 indicated either directly providing a vector (cell_type_annotations) or by indicating the
 column name that indicates the cell-type labels (cell_type_column_name). (Anndata: obs object,
 SingleCellExperiment: colData object).</p></dd>
+
+
 <dt>cell_type_annotations</dt>
 <dd><p>A vector of the cell type annotations. Has to be in the same order
 as the samples in single_cell_object.</p></dd>
+
+
 <dt>method</dt>
 <dd><p>A string specifying the method.
 Supported methods are the ones in the variable 'deconvolution_methods'</p></dd>
+
+
 <dt>batch_ids</dt>
 <dd><p>A vector of the ids of the samples or individuals.</p></dd>
+
+
 <dt>bulk_gene_expression</dt>
 <dd><p>A matrix of bulk data. Rows are genes, columns are samples. Necessary
 for MOMF and Scaden, defaults to NULL. Row and column names need to be set</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Whether to produce an output on the console.</p></dd>
+
+
 <dt>cell_type_column_name</dt>
 <dd><p>Name of the column in (Anndata: obs, SingleCellExperiment: colData),
 that contains the cell-type labels. Is only used if no cell_type_annotations vector is
 provided.</p></dd>
+
+
 <dt>markers</dt>
 <dd><p>Named list of cell type marker genes. This parameter is only used by BSeq-sc.
 The type of gene identifiers (names(markers)) must be the same as the ones used as feature/row
 names in the single_cell_object.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional parameters, passed to the algorithm used</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The signature matrix. Rows are genes, columns are cell types.</p>
+    
+
+<p>The signature matrix. Rows are genes, columns are cell types.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># More examples can be found in the unit tests at tests/testthat/test-b-buildmodel.R</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"single_cell_data_1"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"cell_type_annotations_1"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"batch_ids_1"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"bulk"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">single_cell_data</span> <span class="op">&lt;-</span> <span class="va">single_cell_data_1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">cell_type_annotations</span> <span class="op">&lt;-</span> <span class="va">cell_type_annotations_1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">batch_ids</span> <span class="op">&lt;-</span> <span class="va">batch_ids_1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">bulk</span> <span class="op">&lt;-</span> <span class="va">bulk</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2000</span>, <span class="op">]</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">signature_matrix_momf</span> <span class="op">&lt;-</span> <span class="fu">build_model</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="st">"momf"</span>,</span>
-<span class="r-in">  bulk_gene_expression <span class="op">=</span> <span class="va">bulk</span></span>
-<span class="r-in"><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># More examples can be found in the unit tests at tests/testthat/test-b-buildmodel.R</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"single_cell_data_1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"cell_type_annotations_1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"batch_ids_1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"bulk"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">single_cell_data</span> <span class="op">&lt;-</span> <span class="va">single_cell_data_1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">cell_type_annotations</span> <span class="op">&lt;-</span> <span class="va">cell_type_annotations_1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">batch_ids</span> <span class="op">&lt;-</span> <span class="va">batch_ids_1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">bulk</span> <span class="op">&lt;-</span> <span class="va">bulk</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2000</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">signature_matrix_momf</span> <span class="op">&lt;-</span> <span class="fu">build_model</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="st">"momf"</span>,</span></span>
+<span class="r-in"><span>  bulk_gene_expression <span class="op">=</span> <span class="va">bulk</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>RGL: unable to open X11 display</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'rgl.init' failed, running with 'rgl.useNULL = TRUE'.</span>
-<span class="r-in"><span class="va">pickle_path_autogenes</span> <span class="op">&lt;-</span> <span class="fu">build_model</span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="st">"autogenes"</span>,</span>
-<span class="r-in">  population_size <span class="op">=</span> <span class="fl">500</span>, offspring_size <span class="op">=</span> <span class="fl">30</span>,</span>
-<span class="r-in">  crossover_pb <span class="op">=</span> <span class="fl">0.3</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">pickle_path_autogenes</span> <span class="op">&lt;-</span> <span class="fu">build_model</span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="st">"autogenes"</span>,</span></span>
+<span class="r-in"><span>  population_size <span class="op">=</span> <span class="fl">500</span>, offspring_size <span class="op">=</span> <span class="fl">30</span>,</span></span>
+<span class="r-in"><span>  crossover_pb <span class="op">=</span> <span class="fl">0.3</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> standard was chosen because multiple values were supplied for "mode"</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Setting up python environment..</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Setting python version in miniconda to be 3.8</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Setting up miniconda environment..</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> + '/home/runner/.local/share/r-miniconda/bin/conda' 'install' '--yes' '--prefix' '/home/runner/.local/share/r-miniconda/envs/r-reticulate' '-c' 'conda-forge' 'anndata&gt;=0.7.5'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Note: using the 'X' assay as the X matrix</span>
 </code></pre></div>
     </div>
@@ -151,7 +173,7 @@ names in the single_cell_object.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

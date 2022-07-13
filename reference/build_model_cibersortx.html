@@ -60,16 +60,16 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">build_model_cibersortx</span><span class="op">(</span>
-  <span class="va">single_cell_object</span>,
-  <span class="va">cell_type_annotations</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  input_dir <span class="op">=</span> <span class="cn">NULL</span>,
-  output_dir <span class="op">=</span> <span class="cn">NULL</span>,
-  display_heatmap <span class="op">=</span> <span class="cn">FALSE</span>,
-  k_max <span class="op">=</span> <span class="fl">999</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">build_model_cibersortx</span><span class="op">(</span></span>
+<span>  <span class="va">single_cell_object</span>,</span>
+<span>  <span class="va">cell_type_annotations</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  input_dir <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  output_dir <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  display_heatmap <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  k_max <span class="op">=</span> <span class="fl">999</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -77,21 +77,35 @@
     <dl><dt>single_cell_object</dt>
 <dd><p>A matrix with the single-cell data. Rows are genes, columns are
 samples. Row and column names need to be set.</p></dd>
+
+
 <dt>cell_type_annotations</dt>
 <dd><p>A vector of the cell type annotations. Has to be in the same order
 as the samples in single_cell_object.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Whether to produce an output on the console.</p></dd>
+
+
 <dt>input_dir</dt>
 <dd><p>The directory in which the input files can be found (or are created in).
 Default is a temporary directory.</p></dd>
+
+
 <dt>output_dir</dt>
 <dd><p>The directory in which the output files are saved. Default is a temporary
 directory.</p></dd>
+
+
 <dt>display_heatmap</dt>
 <dd><p>Whether to display the generated heatmap.</p></dd>
+
+
 <dt>k_max</dt>
 <dd><p>Maximum condition number (default: 999). Will be added to the file name.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional parameters supplied to the algorithm. Options are:</p><ul><li><p>g_min &lt;int&gt; Minimum number of genes per cell type in sig. matrix (default: 300).</p></li>
 <li><p>g_max &lt;int&gt; Maximum number of genes per cell type in sig. matrix (default: 500).</p></li>
@@ -105,10 +119,13 @@ directory.</p></dd>
 <li><p>fraction &lt;float&gt; Fraction of cells of same identity showing evidence of expression
 (default: 0.75).</p></li>
 </ul></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The signature matrix. Rows are genes, columns are cell types.</p>
+    
+
+<p>The signature matrix. Rows are genes, columns are cell types.</p>
     </div>
 
   </div>
@@ -123,7 +140,7 @@ directory.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

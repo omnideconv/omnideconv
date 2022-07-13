@@ -60,20 +60,20 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">build_model_scaden</span><span class="op">(</span>
-  <span class="va">single_cell_object</span>,
-  <span class="va">cell_type_annotations</span>,
-  <span class="va">bulk_gene_expression</span>,
-  model_path <span class="op">=</span> <span class="cn">NULL</span>,
-  batch_size <span class="op">=</span> <span class="fl">128</span>,
-  learning_rate <span class="op">=</span> <span class="fl">1e-04</span>,
-  steps <span class="op">=</span> <span class="fl">5000</span>,
-  var_cutoff <span class="op">=</span> <span class="cn">NULL</span>,
-  cells <span class="op">=</span> <span class="fl">100</span>,
-  samples <span class="op">=</span> <span class="fl">1000</span>,
-  dataset_name <span class="op">=</span> <span class="st">"scaden"</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">build_model_scaden</span><span class="op">(</span></span>
+<span>  <span class="va">single_cell_object</span>,</span>
+<span>  <span class="va">cell_type_annotations</span>,</span>
+<span>  <span class="va">bulk_gene_expression</span>,</span>
+<span>  model_path <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  batch_size <span class="op">=</span> <span class="fl">128</span>,</span>
+<span>  learning_rate <span class="op">=</span> <span class="fl">1e-04</span>,</span>
+<span>  steps <span class="op">=</span> <span class="fl">5000</span>,</span>
+<span>  var_cutoff <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  cells <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  samples <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  dataset_name <span class="op">=</span> <span class="st">"scaden"</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -81,36 +81,61 @@
     <dl><dt>single_cell_object</dt>
 <dd><p>A matrix with the single-cell data. Rows are genes, columns are
 samples. Row and column names need to be set.</p></dd>
+
+
 <dt>cell_type_annotations</dt>
 <dd><p>A vector of the cell type annotations. Has to be in the same order
 as the samples in single_cell_object.</p></dd>
+
+
 <dt>bulk_gene_expression</dt>
 <dd><p>A matrix of bulk data. Rows are genes, columns are samples.
 Row and column names need to be set.</p></dd>
+
+
 <dt>model_path</dt>
 <dd><p>Path where model directory should be created (optional).</p></dd>
+
+
 <dt>batch_size</dt>
 <dd><p>Training  of model: Batch size to use for training (default: 128).</p></dd>
+
+
 <dt>learning_rate</dt>
 <dd><p>Training of model: Learning rate used for training (default: 1E-4).</p></dd>
+
+
 <dt>steps</dt>
 <dd><p>Training of model: Number of training steps (default: 5000).</p></dd>
+
+
 <dt>var_cutoff</dt>
 <dd><p>Training data processing: Filter out genes with a variance less than the
 specified cutoff. A low cutoff is recommended,this should only remove genes that are obviously
 uninformative. (default NULL).</p></dd>
+
+
 <dt>cells</dt>
 <dd><p>Bulk simulation: Number of cells per sample (default: 100).</p></dd>
+
+
 <dt>samples</dt>
 <dd><p>Bulk simulation: Number of samples to simulate (default: 1000).</p></dd>
+
+
 <dt>dataset_name</dt>
 <dd><p>Bulk simulation: Name of simulated dataset (default scaden).</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Whether to produce an output on the console (default: false).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The path to the scaden model.</p>
+    
+
+<p>The path to the scaden model.</p>
     </div>
 
   </div>
@@ -125,7 +150,7 @@ uninformative. (default NULL).</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

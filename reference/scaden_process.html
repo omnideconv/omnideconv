@@ -60,24 +60,33 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">scaden_process</span><span class="op">(</span><span class="va">h5ad</span>, <span class="va">bulk_gene_expression</span>, var_cutoff <span class="op">=</span> <span class="cn">NULL</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">scaden_process</span><span class="op">(</span><span class="va">h5ad</span>, <span class="va">bulk_gene_expression</span>, var_cutoff <span class="op">=</span> <span class="cn">NULL</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>h5ad</dt>
 <dd><p>File that should be processed. Must be in AnnData format (.h5ad)</p></dd>
+
+
 <dt>bulk_gene_expression</dt>
 <dd><p>Bulk RNA-seq data. (genes x individuals)</p></dd>
+
+
 <dt>var_cutoff</dt>
 <dd><p>Filter out genes with a variance less than the specified cutoff. A low cutoff
 is recommended,this should only remove genes that are obviously uninformative.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Whether to produce an output on the console. (default: false)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>processed training file. (.h5ad format)</p>
+    
+
+<p>processed training file. (.h5ad format)</p>
     </div>
 
   </div>
@@ -92,7 +101,7 @@ is recommended,this should only remove genes that are obviously uninformative.</
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

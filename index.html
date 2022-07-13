@@ -78,24 +78,27 @@
 <div class="section level1">
 <div class="page-header"><h1 id="omnideconv">omnideconv<a class="anchor" aria-label="anchor" href="#omnideconv"></a>
 </h1></div>
-<!-- badges: start -->
-<p>The goal of omnideconv is to unify second generation immune deconvolution methods in an R package.</p>
+
+<p>The goal of omnideconv is to unify second generation cell-type deconvolution methods in an R package.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>There are two ways to install it, the long one, installing all packages needed for all methods and the short one, installing only the ones for basic functionality.</p>
-<p>If the short install is chosen, the required packages for methods are installed when the methods are used. The same goes for required python packages.</p>
-<p>Install the CRAN package devtools and use it to install omnideconv from <a href="https://github.com/" class="external-link">GitHub</a>:</p>
+<p>There are two ways to install <code>omnideconv</code>:</p>
+<ul>
+<li>The <em>minimal</em> installation installs only the dependencies required for the basic functionalities. All deconvolution methods need to be installed on-demand.</li>
+<li>The <em>complete</em> installation installs all dependencies including all deconvolution methods. This may take a considerable time.</li>
+</ul>
+<p>Since not all dependencies are on CRAN or Bioconductor, <code>omnideconv</code> is available from GitHub only. We recommend installing it through the <a href="https://github.com/r-lib/pak" class="external-link">pak</a> package manager:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
-
-<span class="co"># long/complete install</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"omnideconv/omnideconv"</span>, dependencies <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Imports"</span>,
-    <span class="st">"Suggests"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="reference/install_all_python.html">install_all_python</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="co"># short/quick install</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"omnideconv/omnideconv"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install the `pak` package manager</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># minimal installation</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="http://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"omnideconv/omnideconv"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># complete installation, including Python dependencies</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="http://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"omnideconv/omnideconv"</span>, dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="reference/install_all_python.html">install_all_python</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
@@ -106,8 +109,8 @@
 <h3 id="1-build-a-signature-matrix">1. Build a Signature Matrix<a class="anchor" aria-label="anchor" href="#1-build-a-signature-matrix"></a>
 </h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data_1</span>, <span class="va">cell_type_annotations_1</span>,
-    method <span class="op">=</span> <span class="st">"dwls"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data_1</span>, <span class="va">cell_type_annotations_1</span>,</span>
+<span>    method <span class="op">=</span> <span class="st">"dwls"</span><span class="op">)</span></span></code></pre></div>
 <p>In this method, single_cell_data is a matrix of single cell RNA-seq data with genes in rows and cells in columns, cell_type_annotations a vector that contains an annotation for each cell in your single_cell_data, and the possible methods are:</p>
 <ul>
 <li>AutoGeneS (“autogenes”)</li>
@@ -127,7 +130,7 @@
 <h3 id="2-deconvolute">2. Deconvolute<a class="anchor" aria-label="anchor" href="#2-deconvolute"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="va">signature_matrix</span>, method <span class="op">=</span> <span class="st">"dwls"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="va">signature_matrix</span>, method <span class="op">=</span> <span class="st">"dwls"</span><span class="op">)</span></span></code></pre></div>
 <p>Here, bulk is your bulk RNA-seq data as a matrix with genes in rows and samples in column, signature_matrix is the signature matrix you created in the previous step and the method can again be one of the four methods listed above.</p>
 <p>This is, what the cell type properties in your bulk RNA-seq data computed in the deconvolution step could look like:</p>
 <table class="table">
@@ -359,7 +362,10 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/omnideconv/omnideconv/actions" class="external-link"><img src="https://github.com/omnideconv/omnideconv/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/omnideconv/omnideconv/actions/workflows/test.yml" class="external-link"><img src="https://github.com/omnideconv/omnideconv/actions/workflows/test.yml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/omnideconv/omnideconv/blob/master/LICENSE.md" class="external-link"><img src="https://img.shields.io/badge/license-GPL3-blue.svg" alt="license"></a></li>
+<li><a href="https://omnideconv.github.io/omnideconv"><img src="https://img.shields.io/badge/docs-pkgdown-blue.svg" alt="docs"></a></li>
+<li><a href="https://app.codecov.io/gh/omnideconv/omnideconv?branch=master" class="external-link"><img src="https://codecov.io/gh/omnideconv/omnideconv/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 
@@ -374,7 +380,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>

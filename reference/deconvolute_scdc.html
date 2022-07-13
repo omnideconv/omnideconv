@@ -62,28 +62,28 @@ IMPORTANT: No model is needed. Everything is done inside this method.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">deconvolute_scdc</span><span class="op">(</span>
-  <span class="va">bulk_gene_expression</span>,
-  <span class="va">single_cell_object</span>,
-  <span class="va">cell_type_annotations</span>,
-  <span class="va">batch_ids</span>,
-  ct_varname <span class="op">=</span> <span class="st">"cellType"</span>,
-  sample <span class="op">=</span> <span class="st">"batchId"</span>,
-  ct_sub <span class="op">=</span> <span class="cn">NULL</span>,
-  iter_max <span class="op">=</span> <span class="cn">NULL</span>,
-  nu <span class="op">=</span> <span class="fl">1e-04</span>,
-  epsilon <span class="op">=</span> <span class="cn">NULL</span>,
-  truep <span class="op">=</span> <span class="cn">NULL</span>,
-  weight_basis <span class="op">=</span> <span class="cn">TRUE</span>,
-  ct_cell_size <span class="op">=</span> <span class="cn">NULL</span>,
-  transform_bisque <span class="op">=</span> <span class="cn">FALSE</span>,
-  grid_search <span class="op">=</span> <span class="cn">FALSE</span>,
-  search_length <span class="op">=</span> <span class="fl">0.05</span>,
-  names_sc_objects <span class="op">=</span> <span class="cn">NULL</span>,
-  qcthreshold <span class="op">=</span> <span class="fl">0.7</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  quality_control <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">deconvolute_scdc</span><span class="op">(</span></span>
+<span>  <span class="va">bulk_gene_expression</span>,</span>
+<span>  <span class="va">single_cell_object</span>,</span>
+<span>  <span class="va">cell_type_annotations</span>,</span>
+<span>  <span class="va">batch_ids</span>,</span>
+<span>  ct_varname <span class="op">=</span> <span class="st">"cellType"</span>,</span>
+<span>  sample <span class="op">=</span> <span class="st">"batchId"</span>,</span>
+<span>  ct_sub <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  iter_max <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  nu <span class="op">=</span> <span class="fl">1e-04</span>,</span>
+<span>  epsilon <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  truep <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  weight_basis <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  ct_cell_size <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform_bisque <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  grid_search <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  search_length <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  names_sc_objects <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  qcthreshold <span class="op">=</span> <span class="fl">0.7</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  quality_control <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -91,85 +91,139 @@ IMPORTANT: No model is needed. Everything is done inside this method.</p>
     <dl><dt>bulk_gene_expression</dt>
 <dd><p>A matrix of bulk data. Rows are genes, columns are samples.
 Row and column names need to be set.</p></dd>
+
+
 <dt>single_cell_object</dt>
 <dd><p>A matrix or dataframe with the single-cell data. Rows are genes,
 columns are samples. Row and column names need to be set. This can also be a list of objects,
 if SCDC_ENSEMBLE should be used.</p></dd>
+
+
 <dt>cell_type_annotations</dt>
 <dd><p>A Vector of the cell type annotations. Has to be in the same order
 as the samples in single_cell_object. This can also be a list of vectors, if SCDC_ENSEMBLE
 should be used.</p></dd>
+
+
 <dt>batch_ids</dt>
 <dd><p>A vector of the ids of the samples or individuals.</p></dd>
+
+
 <dt>ct_varname</dt>
 <dd><p>character string specifying the variable name for 'cell types'.</p></dd>
+
+
 <dt>sample</dt>
 <dd><p>character string specifying the variable name for subject/samples.</p></dd>
+
+
 <dt>ct_sub</dt>
 <dd><p>vector. a subset of cell types that are selected to construct basis matrix. NULL
 means that all are used.</p></dd>
+
+
 <dt>iter_max</dt>
 <dd><p>the maximum number of iteration in WNNLS. If the parameter is NULL, the default
 value of 1000 for a single single cell object and 2000 for a list is chosen.</p></dd>
+
+
 <dt>nu</dt>
 <dd><p>a small constant to facilitate the calculation of variance.</p></dd>
+
+
 <dt>epsilon</dt>
 <dd><p>a small constant number used for convergence criteria. If the parameter is NULL,
 the default value of 0.01 for a single single cell object and 0.001 for a list is chosen.</p></dd>
+
+
 <dt>truep</dt>
 <dd><p>true cell-type proportions for bulk samples if known.</p></dd>
+
+
 <dt>weight_basis</dt>
 <dd><p>Whether to use the Basis Matrix adjusted for maximal variance weight,
 created by the SCDC_basis function.</p></dd>
+
+
 <dt>ct_cell_size</dt>
 <dd><p>default is NULL, which means the "library size" is calculated based on the
 data. Users can specify a vector of cell size factors corresponding to the ct.sub according to
 prior knowledge. The vector should be named: names(ct_cell_size input) should not be NULL.</p></dd>
+
+
 <dt>transform_bisque</dt>
 <dd><p>The bulk sample transformation from bisqueRNA. Aiming to reduce the
 systematic difference between single cells and bulk samples.</p></dd>
+
+
 <dt>grid_search</dt>
 <dd><p>logical. whether to allow grid search method to derive the ENSEMBLE weights.</p></dd>
+
+
 <dt>search_length</dt>
 <dd><p>a number between 0 to 0.5. if using "Grid search", the step length used.
 Smaller search.length derives more accurate optimization results.</p></dd>
+
+
 <dt>names_sc_objects</dt>
 <dd><p>A vector with the names of the single cell objects. Only used if
 a list of single cell objects is supplied. If it remains NULL, the objects are named by their
 index.</p></dd>
+
+
 <dt>qcthreshold</dt>
 <dd><p>The probability threshold used to filter out questionable cells, only used if
 quality_control = TRUE.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Whether to produce an output on the console.</p></dd>
+
+
 <dt>quality_control</dt>
 <dd><p>Whether to perform the SCDC_qc quality control method.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Depends on whether one or multiple single cell sets are used.<br><br>One:</p>
+    
+
+<p>Depends on whether one or multiple single cell sets are used.<br><br></p>
+
+
+<p>One:</p>
 <dl><dt>prop.est.mvw</dt>
 <dd><p>A matrix of cell type proportion estimates with cell types as rows and
 individuals as columns.</p></dd>
+
 <dt>basis.mvw</dt>
 <dd><p>The signature matrix. Rows are genes, columns are cell types.</p></dd>
+
 <dt>yhat</dt>
 <dd><p>The predicted gene expression levels for the bulk samples.</p></dd>
+
 <dt>yeval</dt>
 <dd><p>The evaluation of the predicted gene expression levels.</p></dd>
+
 <dt>peval</dt>
 <dd><p>The evaluation of the deconvoluted proportions. Since we dont have a ground truth,
 this is always NULL.</p></dd>
+
+
 </dl><p>ENSEMBLE:</p>
 <dl><dt>w_table</dt>
 <dd><p>A matrix with the suggested weights for each single cell dataset and some
 statistical evaluation.</p></dd>
+
 <dt>prop.list</dt>
 <dd><p>A list of the "One:" outputs as seen above for each single cell dataset.</p></dd>
+
 <dt>prop.only</dt>
 <dd><p>A list of the prop.est.mvw values for each single cell dataset.</p></dd>
+
 <dt>gridres</dt>
 <dd><p>A matrix with the results of the gridsearch. NULL if grid_search = FALSE.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -192,7 +246,7 @@ Works best with multiple cells per single cell patient/subject</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

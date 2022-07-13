@@ -60,11 +60,11 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">matrix_to_singlecellexperiment</span><span class="op">(</span>
-  <span class="va">matrix</span>,
-  <span class="va">cell_labels</span>,
-  named_metadata_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">matrix_to_singlecellexperiment</span><span class="op">(</span></span>
+<span>  <span class="va">matrix</span>,</span>
+<span>  <span class="va">cell_labels</span>,</span>
+<span>  named_metadata_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -72,14 +72,21 @@
     <dl><dt>matrix</dt>
 <dd><p>Matrix of single cell data (rows: genes, columns: cells), the row names of the
 matrix should be labeled with gene labels</p></dd>
+
+
 <dt>cell_labels</dt>
 <dd><p>Annotation vector for celltypes (e.g columns of matrix)</p></dd>
+
+
 <dt>named_metadata_list</dt>
 <dd><p>A named list containing unstructured metadata information (optional)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>SingleCellExperiment</p>
+    
+
+<p>SingleCellExperiment</p>
     </div>
 
   </div>
@@ -94,7 +101,7 @@ matrix should be labeled with gene labels</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

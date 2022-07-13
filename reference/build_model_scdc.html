@@ -62,16 +62,16 @@ Please use the deconvolute method with your single cell and bulk RNA seq data to
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">build_model_scdc</span><span class="op">(</span>
-  <span class="va">single_cell_object</span>,
-  <span class="va">cell_type_annotations</span>,
-  <span class="va">batch_ids</span>,
-  ct_sub <span class="op">=</span> <span class="cn">NULL</span>,
-  ct_varname <span class="op">=</span> <span class="st">"cellType"</span>,
-  sample <span class="op">=</span> <span class="st">"batchId"</span>,
-  ct_cell_size <span class="op">=</span> <span class="cn">NULL</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">build_model_scdc</span><span class="op">(</span></span>
+<span>  <span class="va">single_cell_object</span>,</span>
+<span>  <span class="va">cell_type_annotations</span>,</span>
+<span>  <span class="va">batch_ids</span>,</span>
+<span>  ct_sub <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ct_varname <span class="op">=</span> <span class="st">"cellType"</span>,</span>
+<span>  sample <span class="op">=</span> <span class="st">"batchId"</span>,</span>
+<span>  ct_cell_size <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -80,29 +80,46 @@ Please use the deconvolute method with your single cell and bulk RNA seq data to
 <dd><p>A matrix or dataframe with the single-cell data. Rows are genes,
 columns are samples. Row and column names need to be set. This can also be a list of objects,
 if SCDC_ENSEMBLE should be used.</p></dd>
+
+
 <dt>cell_type_annotations</dt>
 <dd><p>A Vector of the cell type annotations. Has to be in the same order
 as the samples in single_cell_object. This can also be a list of vectors, if SCDC_ENSEMBLE
 should be used.</p></dd>
+
+
 <dt>batch_ids</dt>
 <dd><p>A vector of the ids of the samples or individuals.</p></dd>
+
+
 <dt>ct_sub</dt>
 <dd><p>vector. a subset of cell types that are selected to construct basis matrix. NULL
 means that all are used.</p></dd>
+
+
 <dt>ct_varname</dt>
 <dd><p>character string specifying the variable name for 'cell types'.</p></dd>
+
+
 <dt>sample</dt>
 <dd><p>character string specifying the variable name for subject/samples.</p></dd>
+
+
 <dt>ct_cell_size</dt>
 <dd><p>default is NULL, which means the "library size" is calculated based on the
 data. Users can specify a vector of cell size factors corresponding to the ct.sub according to
 prior knowledge. The vector should be named: names(ct_cell_size input) should not be NULL.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Whether to produce an output on the console.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a list with elements:</p><ul><li><p>basis matrix</p></li>
+    
+
+<p>a list with elements:</p><ul><li><p>basis matrix</p></li>
 <li><p>sum of cell-type-specific library size</p></li>
 <li><p>sample variance matrix</p></li>
 <li><p>basis matrix by mvw</p></li>
@@ -121,7 +138,7 @@ prior knowledge. The vector should be named: names(ct_cell_size input) should no
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

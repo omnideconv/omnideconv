@@ -60,25 +60,32 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">convert_to_matrix</span><span class="op">(</span><span class="va">object</span>, <span class="va">cell_type_annotations</span>, cell_type_column_name <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">convert_to_matrix</span><span class="op">(</span><span class="va">object</span>, <span class="va">cell_type_annotations</span>, cell_type_column_name <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>object</dt>
 <dd><p>An input matrix, data frame, expression set, etc.</p></dd>
+
+
 <dt>cell_type_annotations</dt>
 <dd><p>A vector of the cell type annotations. Has to be in the same order
 as the samples in object. If not used (for example for bulk data), just supply anything, like
 a string.</p></dd>
+
+
 <dt>cell_type_column_name</dt>
 <dd><p>Name of the column in (Anndata: obs, SingleCellExperiment: colData),
 that contains the cell-type labels. Is only used if no cell_type_annotations vector is
 provided.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The same object, but of type matrix</p>
+    
+
+<p>The same object, but of type matrix</p>
     </div>
 
   </div>
@@ -93,7 +100,7 @@ provided.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

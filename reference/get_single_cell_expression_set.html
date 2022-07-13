@@ -60,12 +60,12 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_single_cell_expression_set</span><span class="op">(</span>
-  <span class="va">single_cell_matrix</span>,
-  <span class="va">batch_ids</span>,
-  <span class="va">genes</span>,
-  <span class="va">cell_types</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_single_cell_expression_set</span><span class="op">(</span></span>
+<span>  <span class="va">single_cell_matrix</span>,</span>
+<span>  <span class="va">batch_ids</span>,</span>
+<span>  <span class="va">genes</span>,</span>
+<span>  <span class="va">cell_types</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -73,17 +73,26 @@
     <dl><dt>single_cell_matrix</dt>
 <dd><p>A matrix with the single-cell data. Rows are genes, columns are
 samples. Row and column names need to be set.</p></dd>
+
+
 <dt>batch_ids</dt>
 <dd><p>A vector of the ids of the samples or individuals.</p></dd>
+
+
 <dt>genes</dt>
 <dd><p>A vector of the names of the genes, basically rownames(single_cell_matrix).</p></dd>
+
+
 <dt>cell_types</dt>
 <dd><p>A Vector of the cell type annotations. Has to be in the same order as the
 samples in single_cell_object.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A Biobase::ExpressionSet of the input data.</p>
+    
+
+<p>A Biobase::ExpressionSet of the input data.</p>
     </div>
 
   </div>
@@ -98,7 +107,7 @@ samples in single_cell_object.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

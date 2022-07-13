@@ -60,47 +60,68 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_cell_fractions_options</span><span class="op">(</span>
-  <span class="va">sigmatrix</span>,
-  <span class="va">mixture</span>,
-  perm <span class="op">=</span> <span class="fl">0</span>,
-  label <span class="op">=</span> <span class="st">"none"</span>,
-  rmbatch_B_mode <span class="op">=</span> <span class="cn">FALSE</span>,
-  rmbatch_S_mode <span class="op">=</span> <span class="cn">FALSE</span>,
-  source_GEPs <span class="op">=</span> <span class="va">sigmatrix</span>,
-  qn <span class="op">=</span> <span class="cn">FALSE</span>,
-  absolute <span class="op">=</span> <span class="cn">FALSE</span>,
-  abs_method <span class="op">=</span> <span class="st">"sig.score"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_cell_fractions_options</span><span class="op">(</span></span>
+<span>  <span class="va">sigmatrix</span>,</span>
+<span>  <span class="va">mixture</span>,</span>
+<span>  perm <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  label <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>  rmbatch_B_mode <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  rmbatch_S_mode <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  source_GEPs <span class="op">=</span> <span class="va">sigmatrix</span>,</span>
+<span>  qn <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  absolute <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  abs_method <span class="op">=</span> <span class="st">"sig.score"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>sigmatrix</dt>
 <dd><p>The filename of the signature matrix.</p></dd>
+
+
 <dt>mixture</dt>
 <dd><p>The filename of the bulk expression data.</p></dd>
+
+
 <dt>perm</dt>
 <dd><p>&lt;int&gt; No. of permutations for p-value calculation (default: 0).</p></dd>
+
+
 <dt>label</dt>
 <dd><p>The label which will be added to the file name. Default is "none", adding no label
 at all.</p></dd>
+
+
 <dt>rmbatch_B_mode</dt>
 <dd><p>&lt;bool&gt;  Run B-mode batch correction (default: FALSE).</p></dd>
+
+
 <dt>rmbatch_S_mode</dt>
 <dd><p>&lt;bool&gt;  Run S-mode batch correction (default: FALSE).</p></dd>
+
+
 <dt>source_GEPs</dt>
 <dd><p>&lt;file_name&gt;  Signature matrix GEPs for batch correction (default: sigmatrix).</p></dd>
+
+
 <dt>qn</dt>
 <dd><p>&lt;bool&gt;  Run quantile normalization (default: FALSE).</p></dd>
+
+
 <dt>absolute</dt>
 <dd><p>&lt;bool&gt;  Run absolute mode (default: FALSE).</p></dd>
+
+
 <dt>abs_method</dt>
 <dd><p>&lt;char&gt;  Pick absolute method ("sig.score" (default) or "no.sumto1").</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A string in the correct format for the docker command, containing all parameters.</p>
+    
+
+<p>A string in the correct format for the docker command, containing all parameters.</p>
     </div>
 
   </div>
@@ -115,7 +136,7 @@ at all.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

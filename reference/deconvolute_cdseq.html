@@ -68,57 +68,57 @@ for more information.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">deconvolute_cdseq</span><span class="op">(</span>
-  <span class="va">bulk_gene_expression</span>,
-  <span class="va">single_cell_object</span>,
-  <span class="va">cell_type_annotations</span>,
-  <span class="va">batch_ids</span>,
-  beta <span class="op">=</span> <span class="fl">0.5</span>,
-  alpha <span class="op">=</span> <span class="fl">5</span>,
-  cell_type_number <span class="op">=</span> <span class="cn">NULL</span>,
-  mcmc_iterations <span class="op">=</span> <span class="fl">700</span>,
-  dilution_factor <span class="op">=</span> <span class="fl">1</span>,
-  gene_subset_size <span class="op">=</span> <span class="cn">NULL</span>,
-  block_number <span class="op">=</span> <span class="fl">1</span>,
-  cpu_number <span class="op">=</span> <span class="cn">NULL</span>,
-  gene_length <span class="op">=</span> <span class="cn">NULL</span>,
-  reference_gep <span class="op">=</span> <span class="cn">NULL</span>,
-  print_progress_msg_to_file <span class="op">=</span> <span class="fl">0</span>,
-  cdseq_gep_sample_specific <span class="op">=</span> <span class="cn">NULL</span>,
-  batch_correction <span class="op">=</span> <span class="fl">1</span>,
-  harmony_iter <span class="op">=</span> <span class="fl">10</span>,
-  harmony_cluster <span class="op">=</span> <span class="fl">20</span>,
-  nb_size <span class="op">=</span> <span class="cn">NULL</span>,
-  nb_mu <span class="op">=</span> <span class="cn">NULL</span>,
-  corr_threshold <span class="op">=</span> <span class="fl">0</span>,
-  breaksList <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.01</span><span class="op">)</span>,
-  pseudo_cell_count <span class="op">=</span> <span class="fl">1</span>,
-  seurat_count_threshold <span class="op">=</span> <span class="fl">0</span>,
-  seurat_scale_factor <span class="op">=</span> <span class="fl">10000</span>,
-  seurat_norm_method <span class="op">=</span> <span class="st">"LogNormalize"</span>,
-  seurat_select_method <span class="op">=</span> <span class="st">"vst"</span>,
-  seurat_nfeatures <span class="op">=</span> <span class="fl">1000</span>,
-  seurat_npcs <span class="op">=</span> <span class="fl">30</span>,
-  seurat_dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">30</span>,
-  seurat_reduction <span class="op">=</span> <span class="st">"pca"</span>,
-  seurat_resolution <span class="op">=</span> <span class="fl">0.8</span>,
-  seurat_find_marker <span class="op">=</span> <span class="cn">FALSE</span>,
-  seurat_DE_test <span class="op">=</span> <span class="st">"wilcox"</span>,
-  seurat_DE_logfc <span class="op">=</span> <span class="fl">0.25</span>,
-  seurat_top_n_markers <span class="op">=</span> <span class="fl">10</span>,
-  sc_pt_size <span class="op">=</span> <span class="fl">1</span>,
-  cdseq_pt_size <span class="op">=</span> <span class="fl">3</span>,
-  plot_umap <span class="op">=</span> <span class="fl">0</span>,
-  plot_tsne <span class="op">=</span> <span class="fl">0</span>,
-  plot_per_sample <span class="op">=</span> <span class="fl">0</span>,
-  fig_save <span class="op">=</span> <span class="fl">0</span>,
-  fig_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>,
-  fig_name <span class="op">=</span> <span class="st">"CDSeqCellTypeAssignSCRNA"</span>,
-  fig_format <span class="op">=</span> <span class="st">"jpeg"</span>,
-  fig_dpi <span class="op">=</span> <span class="fl">100</span>,
-  corr_heatmap_fontsize <span class="op">=</span> <span class="fl">10</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">deconvolute_cdseq</span><span class="op">(</span></span>
+<span>  <span class="va">bulk_gene_expression</span>,</span>
+<span>  <span class="va">single_cell_object</span>,</span>
+<span>  <span class="va">cell_type_annotations</span>,</span>
+<span>  <span class="va">batch_ids</span>,</span>
+<span>  beta <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  cell_type_number <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  mcmc_iterations <span class="op">=</span> <span class="fl">700</span>,</span>
+<span>  dilution_factor <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  gene_subset_size <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  block_number <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  cpu_number <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  gene_length <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  reference_gep <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  print_progress_msg_to_file <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  cdseq_gep_sample_specific <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  batch_correction <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  harmony_iter <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  harmony_cluster <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  nb_size <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  nb_mu <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  corr_threshold <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  breaksList <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.01</span><span class="op">)</span>,</span>
+<span>  pseudo_cell_count <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  seurat_count_threshold <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  seurat_scale_factor <span class="op">=</span> <span class="fl">10000</span>,</span>
+<span>  seurat_norm_method <span class="op">=</span> <span class="st">"LogNormalize"</span>,</span>
+<span>  seurat_select_method <span class="op">=</span> <span class="st">"vst"</span>,</span>
+<span>  seurat_nfeatures <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  seurat_npcs <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>  seurat_dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">30</span>,</span>
+<span>  seurat_reduction <span class="op">=</span> <span class="st">"pca"</span>,</span>
+<span>  seurat_resolution <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>  seurat_find_marker <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  seurat_DE_test <span class="op">=</span> <span class="st">"wilcox"</span>,</span>
+<span>  seurat_DE_logfc <span class="op">=</span> <span class="fl">0.25</span>,</span>
+<span>  seurat_top_n_markers <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  sc_pt_size <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  cdseq_pt_size <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  plot_umap <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  plot_tsne <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  plot_per_sample <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  fig_save <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  fig_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  fig_name <span class="op">=</span> <span class="st">"CDSeqCellTypeAssignSCRNA"</span>,</span>
+<span>  fig_format <span class="op">=</span> <span class="st">"jpeg"</span>,</span>
+<span>  fig_dpi <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  corr_heatmap_fontsize <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -126,154 +126,259 @@ for more information.</p>
     <dl><dt>bulk_gene_expression</dt>
 <dd><p>A matrix or dataframe with the bulk data. Rows are genes, columns
 are samples.</p></dd>
+
+
 <dt>single_cell_object</dt>
 <dd><p>A Matrix with the single-cell data. Rows are genes and columns are
 samples.</p></dd>
+
+
 <dt>cell_type_annotations</dt>
 <dd><p>A Vector of the cell type annotations. Has to be in the same order
 as the samples in single_cell_object.</p></dd>
+
+
 <dt>batch_ids</dt>
 <dd><p>A vector of the ids of the samples or individuals.</p></dd>
+
+
 <dt>beta</dt>
 <dd><p>Beta is a scalar or a vector of length G where G is the number of genes; default
 value for beta is 0.5; When beta=Null, CDSeq uses reference_gep to estimate beta.</p></dd>
+
+
 <dt>alpha</dt>
 <dd><p>Alpha is a scalar or a vector of length cell_type_number where cell_type_number is
 the number of cell type; default value for alpha is 5.</p></dd>
+
+
 <dt>cell_type_number</dt>
 <dd><p>Number of cell types. cell_type_number can be an integer or a vector of
 different integers. To estimate the number of cell types, please provide a vector for
 cell_type_number, e.g. cell_type_number &lt;- 2:30, then CDSeq will estimate the number of
 cell types.</p></dd>
+
+
 <dt>mcmc_iterations</dt>
 <dd><p>Number of iterations for the Gibbs sampler; default value is 700.</p></dd>
+
+
 <dt>dilution_factor</dt>
 <dd><p>A scalar to dilute the read counts for speeding up; default value is 1.
 CDSeq will use bulk_data/dilution_factor.</p></dd>
+
+
 <dt>gene_subset_size</dt>
 <dd><p>Number of genes randomly sampled for each block. Default is NULL.</p></dd>
+
+
 <dt>block_number</dt>
 <dd><p>Number of genes randomly sampled for each block. Default is 1.</p></dd>
+
+
 <dt>cpu_number</dt>
 <dd><p>Number of cpu cores that can be used for parellel computing; Default is NULL
 and CDSeq will detect the available number of cores on the device and use number of
 all cores - 1 for parallel computing.</p></dd>
+
+
 <dt>gene_length</dt>
 <dd><p>A vector of the effective length (gene length - read length + 1) of each
 gene; Default is NULL.</p></dd>
+
+
 <dt>reference_gep</dt>
 <dd><p>A reference gene expression profile can be used to determine the cell type
 and/or estimate beta; Default is NULL.</p></dd>
+
+
 <dt>print_progress_msg_to_file</dt>
 <dd><p>Print progress message to a text file. Set 1 if need to print
 progress msg to a file and set 0 if no printing. Default is 0.</p></dd>
+
+
 <dt>cdseq_gep_sample_specific</dt>
 <dd><p>CDSeq-estimated sample-specific cell type gene expression, in
 the form of read counts. It is a 3 dimension array, i.e. gene by sample by cell type. The
 element cdseq_gep_sample_specific[i,j,k] represents the reads mapped to gene i from cell type
 k in sample j.</p></dd>
+
+
 <dt>batch_correction</dt>
 <dd><p>perform Harmony batch correction if it is 1.</p></dd>
+
+
 <dt>harmony_iter</dt>
 <dd><p>Maximum number of rounds to run Harmony. One round of Harmony involves one
 clustering and one correction step.</p></dd>
+
+
 <dt>harmony_cluster</dt>
 <dd><p>Maximum number of rounds to run clustering at each round of Harmony.</p></dd>
+
+
 <dt>nb_size</dt>
 <dd><p>size parameter for negative binomial distribution, check rnbinom for details.</p></dd>
+
+
 <dt>nb_mu</dt>
 <dd><p>mu parameter for negative binomial distribution, check rnbinom for details.</p></dd>
+
+
 <dt>corr_threshold</dt>
 <dd><p>if the correlation between CDSeq-estimated GEPs and the scRNAseq GEP is
 below this value, then it is considered the two cell types are not matching.</p></dd>
+
+
 <dt>breaksList</dt>
 <dd><p>parameter for pheatmap controling the color scale. See pheatmap function for
 details.</p></dd>
+
+
 <dt>pseudo_cell_count</dt>
 <dd><p>an integer indicating how many pseudo cells will be generated from
 CDSeq-estimated cell-type-specific gene expression profiles. Default values is 1.</p></dd>
+
+
 <dt>seurat_count_threshold</dt>
 <dd><p>this parameter will be passed to Seurat subset function
 (subset = nCount_RNA &gt; seurat_count_threshold) for filtering out single cells whose total
 counts is less this threshold.</p></dd>
+
+
 <dt>seurat_scale_factor</dt>
 <dd><p>this parameter will be passed to scale.factor in Seurat function
 NormalizeData.</p></dd>
+
+
 <dt>seurat_norm_method</dt>
 <dd><p>this parameter will be passed to normalization.method in Seurat
 function NormalizeData.</p></dd>
+
+
 <dt>seurat_select_method</dt>
 <dd><p>this parameter will be passed to selection.method in Seurat
 function FindVariableFeatures</p></dd>
+
+
 <dt>seurat_nfeatures</dt>
 <dd><p>this parameter will be passed to nfeatures in Seurat function
 FindVariableFeatures.</p></dd>
+
+
 <dt>seurat_npcs</dt>
 <dd><p>this parameter will be passed to npcs in Seurat function RunPCA.</p></dd>
+
+
 <dt>seurat_dims</dt>
 <dd><p>this parameter will be passed to dims in Seurat function FindNeighbors.</p></dd>
+
+
 <dt>seurat_reduction</dt>
 <dd><p>this parameter will be passed to reduction in Seurat function
 FindNeighbors.</p></dd>
+
+
 <dt>seurat_resolution</dt>
 <dd><p>this parameter will be passed to resolution in Seurat function
 FindClusters.</p></dd>
+
+
 <dt>seurat_find_marker</dt>
 <dd><p>this parameter controls if run seurat FindMarker function, default
 is FALSE.</p></dd>
+
+
 <dt>seurat_DE_test</dt>
 <dd><p>this parameter will be passed to test.use in Seurat function
 FindAllMarkers.</p></dd>
+
+
 <dt>seurat_DE_logfc</dt>
 <dd><p>this parameter will be passed to logfc.threshold in Seurat function
 FindAllMarkers.</p></dd>
+
+
 <dt>seurat_top_n_markers</dt>
 <dd><p>the number of top DE markers saved from Seurat output.</p></dd>
+
+
 <dt>sc_pt_size</dt>
 <dd><p>point size of single cell data in umap and tsne plots</p></dd>
+
+
 <dt>cdseq_pt_size</dt>
 <dd><p>point size of CDSeq-estimated cell types in umap and tsne plots</p></dd>
+
+
 <dt>plot_umap</dt>
 <dd><p>set 1 to plot umap figure of scRNAseq and CDSeq-estimated cell types,
 0 otherwise.</p></dd>
+
+
 <dt>plot_tsne</dt>
 <dd><p>set 1 to plot tsne figure of scRNAseq and CDSeq-estimated cell types,
 0 otherwise.</p></dd>
+
+
 <dt>plot_per_sample</dt>
 <dd><p>currently disabled for debugging</p></dd>
+
+
 <dt>fig_save</dt>
 <dd><p>1 or 0. 1 means save figures to local and 0 means do not save figures to local.</p></dd>
+
+
 <dt>fig_path</dt>
 <dd><p>the location where the heatmap figure is saved.</p></dd>
+
+
 <dt>fig_name</dt>
 <dd><p>the name of umap and tsne figures. Umap figure will have the name of
 fig_name_umap_date and tsne figure will be named fig_name_tsne_date.</p></dd>
+
+
 <dt>fig_format</dt>
 <dd><p>"pdf", "jpeg", or "png".</p></dd>
+
+
 <dt>fig_dpi</dt>
 <dd><p>figure dpi</p></dd>
+
+
 <dt>corr_heatmap_fontsize</dt>
 <dd><p>font size of the correlation heatmap between scRNAseq GEP and
 CDSeq-estimated GEPs.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Whether to produce an output on the console</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list including:</p>
+    
+
+<p>A list including:</p>
 <dl><dt>fig_path</dt>
 <dd><p>The same as the input fig_path.</p></dd>
+
 <dt>fig_name</dt>
 <dd><p>The same as the input fig_name.</p></dd>
+
 <dt>cdseq_synth_scRNA</dt>
 <dd><p>The synthetic scRNAseq data generated using CDSeq-estiamted GEPs.</p></dd>
+
 <dt>cdseq_scRNA_umap</dt>
 <dd><p>A ggplot figure of the umap outcome.</p></dd>
+
 <dt>cdseq_scRNA_tsne</dt>
 <dd><p>A ggplot figure of the tsne outcome.</p></dd>
+
 <dt>cdseq_synth_scRNA_seurat</dt>
 <dd><p>A Seurat object containing the scRNAseq combined with
 CDSeq-estimated cell types. Cell id for CDSeq-estimated cell types start with "CDSeq".</p></dd>
+
 <dt>seurat_cluster_purity</dt>
 <dd><p>For all cells in a Seurat cluster i,  the ith value in
 seurat_cluster_purity is the proportion of the mostly repeated cell annotation from
@@ -282,45 +387,61 @@ For example, after Seurat clustering, suppose there are 100 cells in cluster 1, 
 100 cells, 90 cells' annotation in sc_annotation is cell type A, then the fist value in
 seurat_cluster_purity is 0.9. This output can be used to assess the agreement between
 Seurat clustering and the given sc_annotation.</p></dd>
+
 <dt>seurat_unique_clusters</dt>
 <dd><p>Unique Seurat cluster numbering. This can be used together with
 seurat_cluster_gold_label to match the Seurat clusters with given annotations.</p></dd>
+
 <dt>seurat_cluster_gold_label</dt>
 <dd><p>The cell type annotations for each unique Seurat cluster based
 on sc_annotation.</p></dd>
+
 <dt>seurat_markers</dt>
 <dd><p>DE genes for each Seurat cluster.</p></dd>
+
 <dt>seurat_top_markers</dt>
 <dd><p>Top seurat_top_n_markers DE genes for each Seurat cluster.</p></dd>
+
 <dt>CDSeq_cell_type_assignment_df</dt>
 <dd><p>The cell type assignment for CDSeq-estimated cell types.</p></dd>
+
 <dt>CDSeq_cell_type_assignment_confidence</dt>
 <dd><p>The cell type assignment confidence matrix, only
 available when pseudo_cell_count &gt; 1.</p></dd>
+
 <dt>CDSeq_cell_type_assignment_df_all</dt>
 <dd><p>The cell type assignment for CDSeq-estimated cell types,
 only available when pseudo_cell_count &gt; 1.</p></dd>
+
 <dt>cdseq_prop_merged</dt>
 <dd><p>CDSeq-estimated cell type proportions with cell type annotations
 (annotated using clustering with scRNAseq).</p></dd>
+
 <dt>cdseq_gep_sample_specific_merged</dt>
 <dd><p>Sample-specific cell-type read counts. It is a 3d array
 with dimensions: gene, sample, cell type.</p></dd>
+
 <dt>input_list</dt>
 <dd><p>The values of the input parameters.</p></dd>
+
 <dt>cdseq_sc_comb_umap_df</dt>
 <dd><p>The dataframe for umap plot.</p></dd>
+
 <dt>cdseq_sc_comb_tsne_df</dt>
 <dd><p>The dataframe for tsne plot.</p></dd>
+
 <dt>cdseq_prop_merged_byCorr</dt>
 <dd><p>CDSeq-estimated cell type proportions with cell type annotations
 (annotated using correlation with scRNAseq).</p></dd>
+
 <dt>cdseq_gep_merged_byCorr</dt>
 <dd><p>CDSeq-estimated cell-type-specific GEPs with cell type annotations
 (annotated using correlation with scRNAseq).</p></dd>
+
 <dt>cdseq_annotation_byCorr</dt>
 <dd><p>CDSeq-estimated cell type annotations (annotated using correlation
 with scRNAseq).</p></dd>
+
 </dl></div>
 
   </div>
@@ -335,7 +456,7 @@ with scRNAseq).</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

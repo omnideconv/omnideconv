@@ -60,34 +60,47 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">scaden_train</span><span class="op">(</span>
-  <span class="va">h5ad_processed</span>,
-  batch_size <span class="op">=</span> <span class="fl">128</span>,
-  learning_rate <span class="op">=</span> <span class="fl">1e-04</span>,
-  model_path <span class="op">=</span> <span class="cn">NULL</span>,
-  steps <span class="op">=</span> <span class="fl">5000</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">scaden_train</span><span class="op">(</span></span>
+<span>  <span class="va">h5ad_processed</span>,</span>
+<span>  batch_size <span class="op">=</span> <span class="fl">128</span>,</span>
+<span>  learning_rate <span class="op">=</span> <span class="fl">1e-04</span>,</span>
+<span>  model_path <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  steps <span class="op">=</span> <span class="fl">5000</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>h5ad_processed</dt>
 <dd><p>pre-processed training data</p></dd>
+
+
 <dt>batch_size</dt>
 <dd><p>Batch size to use for training. Default: 128</p></dd>
+
+
 <dt>learning_rate</dt>
 <dd><p>Learning rate used for training. Default: 0.0001</p></dd>
+
+
 <dt>model_path</dt>
 <dd><p>Path to store the model in</p></dd>
+
+
 <dt>steps</dt>
 <dd><p>Number of training steps</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Whether to produce an output on the console. (default: false)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Scaden model</p>
+    
+
+<p>Scaden model</p>
     </div>
 
   </div>
@@ -102,7 +115,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

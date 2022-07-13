@@ -280,8 +280,8 @@ omnideconv::make_barplot(res_bisque_list, title = "Deconvolution result")
 The scatterplot shown below depicts the same results and message as the barplot above, it is just another idea of how to visualize the results. Note that our package does not provide a method for this, but the plot can be recreated with this code.
 
 ```{r plot2, fig.width=7, fig.height=4, fig.cap="Figure 3: Same cell type proportions as in Figure 2, just visualized on a cell type level."}
-data.frame(res_bisque, samples = rownames(res_bisque)) %>%
-  pivot_longer(!samples, names_to = "cell_type", values_to = "predicted_fraction") %>%
+data.frame(res_bisque, samples = rownames(res_bisque)) |>
+  pivot_longer(!samples, names_to = "cell_type", values_to = "predicted_fraction") |>
   ggplot(aes(y = samples, x = predicted_fraction, color = cell_type)) +
   geom_point(size = 3) +
   facet_wrap(~cell_type) +

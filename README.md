@@ -1,39 +1,32 @@
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
 # omnideconv
 
-<!-- badges: start -->
-
-[![R-CMD-check](https://github.com/omnideconv/omnideconv/workflows/R-CMD-check/badge.svg)](https://github.com/omnideconv/omnideconv/actions)
-
-<!-- badges: end -->
+[![R-CMD-check](https://github.com/omnideconv/omnideconv/actions/workflows/test.yml/badge.svg)](https://github.com/omnideconv/omnideconv/actions/workflows/test.yml)
 
 The goal of omnideconv is to unify second generation immune
 deconvolution methods in an R package.
 
 ## Installation
 
-There are two ways to install it, the long one, installing all packages
-needed for all methods and the short one, installing only the ones for
-basic functionality.
+There are two ways to install `omnideconv`:
 
-If the short install is chosen, the required packages for methods are
-installed when the methods are used. The same goes for required python
-packages.
+- The _minimal_ installation installs only the dependencies required for the basic functionalities. All deconvolution
+  methods need to be installed on-demand.
+- The _complete_ installation installs all dependencies including all deconvolution methods. This may take
+  a considerable time.
 
-Install the CRAN package devtools and use it to install omnideconv from
-[GitHub](https://github.com/):
+Since not all dependencies are on CRAN or Bioconductor, `omnideconv` is available from GitHub only.
+We recommend installing it through the [pak](https://github.com/r-lib/pak) package manager:
 
 ```r
-install.packages("devtools")
+# install the `pak` package manager
+install.packages("pak")
 
-# long/complete install
-devtools::install_github("omnideconv/omnideconv", dependencies = c("Imports",
-    "Suggests"))
+# minimal installation
+pak::pkg_install("omnideconv/omnideconv")
+
+# complete installation, including Python dependencies
+pak::pkg_install("omnideconv/omnideconv", dependencies = TRUE)
 omnideconv::install_all_python()
-
-# short/quick install
-devtools::install_github("omnideconv/omnideconv")
 ```
 
 ## Usage

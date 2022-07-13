@@ -1,6 +1,9 @@
 # omnideconv
 
 [![R-CMD-check](https://github.com/omnideconv/omnideconv/actions/workflows/test.yml/badge.svg)](https://github.com/omnideconv/omnideconv/actions/workflows/test.yml)
+[![license](https://img.shields.io/badge/license-GPL3-blue.svg)](https://github.com/omnideconv/omnideconv/blob/master/LICENSE.md)
+[![docs](https://img.shields.io/badge/docs-pkgdown-blue.svg)](https://omnideconv.github.io/omnideconv)
+[![Codecov test coverage](https://codecov.io/gh/omnideconv/omnideconv/branch/master/graph/badge.svg)](https://app.codecov.io/gh/omnideconv/omnideconv?branch=master)
 
 The goal of omnideconv is to unify second generation immune
 deconvolution methods in an R package.

@@ -11,8 +11,6 @@
 #' @importClassesFrom Biobase AnnotatedDataFrame
 #'
 get_single_cell_expression_set <- function(single_cell_matrix, batch_ids, genes, cell_types) {
-
-
   # individual.ids and cell.types should be in the same order as in sampleNames
   sc_pheno <- data.frame(
     check.names = FALSE, check.rows = FALSE,
@@ -235,7 +233,9 @@ singlecellexperiment_to_matrix <- function(sce, assay_name = NULL, cell_type_col
       stop("'sce' does not contain any assays")
     }
     assay_name <- SummarizedExperiment::assayNames(sce)[1]
-    if(assay_name == ''){assay_name = 'counts'}
+    if (assay_name == "") {
+      assay_name <- "counts"
+    }
     message("Note: using the '", assay_name, "' assay as the X matrix")
   }
   X <- SummarizedExperiment::assay(sce, assay_name, withDimnames = T)

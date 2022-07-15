@@ -40,14 +40,14 @@ make_barplot <- function(result_list, title = "", file_name = NULL) {
     stop("Please supply a list where every entry contains the same number of samples")
   }
   plots <- lapply(result_list, function(result) {
-    cbind(result, samples = rownames(result)) %>%
-      as.data.frame() %>%
+    cbind(result, samples = rownames(result)) |>
+      as.data.frame() |>
       tidyr::pivot_longer(!samples, names_to = "cell_type", values_to = "predicted_fraction")
   })
   all <- do.call("rbind", plots)
   all$method <- rep(names(result_list), each = nrow(all) / length(names(result_list)))
 
-  plot <- all %>%
+  plot <- all |>
     ggplot2::ggplot(aes(
       y = samples, x = as.numeric(predicted_fraction), fill = cell_type,
       group = method
@@ -144,8 +144,8 @@ make_benchmarking_scatterplot <- function(result_list, ref_data, file_name = NUL
   plot <- tidyr::pivot_longer(ref_data, !sample,
     names_to = "cell_type",
     values_to = "true_fraction"
-  ) %>%
-    merge(df, by = c("sample", "cell_type")) %>%
+  ) |>
+    merge(df, by = c("sample", "cell_type")) |>
     ggplot2::ggplot(aes(
       x = as.numeric(true_fraction), y = as.numeric(predicted_fraction),
       color = cell_type
@@ -182,8 +182,8 @@ make_benchmarking_scatterplot <- function(result_list, ref_data, file_name = NUL
 #' @param palette RColorBrewer palette name (optional), standard = "Set1"
 #' @import ggplot2
 #' @import tidyr
-#' @import magrittr
 #' @import RColorBrewer
+#' @importFrom grDevices colorRampPalette
 #' @returns ggplot rendered by plotly for interactivity
 #' @export
 #'
@@ -225,8 +225,8 @@ plot_deconvolution <- function(deconvolutions, plot_method = "bar", facet = "met
 
   # preformat data into a dataframe
   deconvolutions <- lapply(deconvolutions, function(deconvolution) {
-    cbind(deconvolution, sample = rownames(deconvolution)) %>%
-      as.data.frame() %>%
+    cbind(deconvolution, sample = rownames(deconvolution)) |>
+      as.data.frame() |>
       tidyr::pivot_longer(!sample, names_to = "cell_type", values_to = "fraction")
   })
 
@@ -338,7 +338,7 @@ plot_deconvolution <- function(deconvolutions, plot_method = "bar", facet = "met
   }
 
   # render
-  plotly::ggplotly(plot, tooltip = c("text")) %>%
+  plotly::ggplotly(plot, tooltip = c("text")) |>
     plotly::config(
       displaylogo = FALSE, showTips = FALSE, toImageButtonOptions = list(filename = paste0(plot_method, "_plot")),
       modeBarButtonsToRemove = list(
@@ -348,6 +348,6 @@ plot_deconvolution <- function(deconvolutions, plot_method = "bar", facet = "met
         "lasso2d", "zoom2d",
         "pan2d", "autoScale2d", "select2d"
       )
-    ) %>%
+    ) |>
     plotly::layout(xaxis = list(fixedrange = TRUE), yaxis = list(fixedrange = TRUE))
 }

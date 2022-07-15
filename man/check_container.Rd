@@ -6,6 +6,9 @@
 \usage{
 check_container(container = c("docker", "singularity"))
 }
+\arguments{
+\item{container}{The container for which the commands are tested}
+}
 \value{
 A boolean value
 }

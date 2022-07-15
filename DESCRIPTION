@@ -32,6 +32,7 @@ Imports:
     tidyr,
     utils
 Suggests: 
+    BayesPrism,
     BisqueRNA,
     bseqsc,
     CDSeq,
@@ -45,6 +46,7 @@ Suggests:
     rmarkdown,
     scBio,
     SCDC,
+    snowfall,
     testthat (>= 2.0.0),
     uuid
 VignetteBuilder: 
@@ -52,6 +54,7 @@ VignetteBuilder:
 Remotes:
     amitfrish/scBio,
     bbc/bbplot,
+    omnideconv/BayesPrism,
     omnideconv/MOMF,
     omnideconv/SCDC,
     omnideconv/CDSeq,

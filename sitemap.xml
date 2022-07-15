@@ -55,6 +55,9 @@
     <loc>https://omnideconv.github.io/omnideconv/reference/build_model_autogenes.html</loc>
   </url>
   <url>
+    <loc>https://omnideconv.github.io/omnideconv/reference/build_model_bayesprism.html</loc>
+  </url>
+  <url>
     <loc>https://omnideconv.github.io/omnideconv/reference/build_model_bisque.html</loc>
   </url>
   <url>
@@ -119,6 +122,9 @@
   </url>
   <url>
     <loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_autogenes.html</loc>
+  </url>
+  <url>
+    <loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_bayesprism.html</loc>
   </url>
   <url>
     <loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_bisque.html</loc>

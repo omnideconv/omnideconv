@@ -86,11 +86,11 @@ are samples.</p></dd>
 
 <dt>method</dt>
 <dd><p>A string specifying the method.
-Supported methods are 'bisque', 'momf', 'dwls', 'scaden', 'cibersortx' and 'autogenes'</p></dd>
+Supported methods are 'bisque', 'momf', 'dwls', 'scaden', 'cibersortx', 'autogenes' and 'bayesprism'</p></dd>
 
 
 <dt>single_cell_object</dt>
-<dd><p>Needed for deconvolution with MOMF and Bisque. Defaults to NULL.
+<dd><p>Needed for deconvolution with MOMF, Bisque and BayesPrism. Defaults to NULL.
 Alternatively a SingleCellExperiment or an AnnData object can be provided. In that case, note
 that cell-type labels need to be indicated either directly providing a vector
 (cell_type_annotations) or by indicating the column name that indicates the cell-type labels
@@ -98,7 +98,7 @@ that cell-type labels need to be indicated either directly providing a vector
 
 
 <dt>cell_type_annotations</dt>
-<dd><p>Needed for deconvolution with Bisque, MuSiC and SCDC.
+<dd><p>Needed for deconvolution with Bisque, MuSiC, SCDC and BayesPrism
 Defaults to NULL.</p></dd>
 
 

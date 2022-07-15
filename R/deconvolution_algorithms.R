@@ -341,7 +341,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 #'
 required_packages <- list(
   "autogenes" = c("reticulate"),
-  "bayesprism" = c("Danko-Lab/BayesPrism/BayesPrism"),
+  "bayesprism" = c("omnideconv/BayesPrism"),
   "bisque" = c("BisqueRNA"),
   "bseqsc" = c("shenorrlab/bseqsc"),
   "cdseq" = c("PelzKo/CDSeq_R_Package"),

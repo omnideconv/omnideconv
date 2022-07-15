@@ -56,7 +56,7 @@ VignetteBuilder:
 Remotes:
     amitfrish/scBio,
     bbc/bbplot,
-    Danko-Lab/BayesPrism/BayesPrism,
+    omnideconv/BayesPrism,
     grst/MOMF,
     grst/SCDC,
     PelzKo/CDSeq_R_Package,

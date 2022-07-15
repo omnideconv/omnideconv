@@ -326,7 +326,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 
   if (!is.null(deconv)) {
     # Normalize the results
-    if(normalize_results){
+    if (normalize_results) {
       deconv <- normalize_deconv_results(deconv)
     }
     # Alphabetical order of celltypes

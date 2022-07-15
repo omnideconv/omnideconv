@@ -16,7 +16,7 @@ verbose_wrapper <- function(verbose) {
 
 
 #' Checks wether docker/singularity are available and can be used
-#'
+#' @param container The container for which the commands are tested
 #' @return A boolean value
 #'
 check_container <- function(container = c("docker", "singularity")) {

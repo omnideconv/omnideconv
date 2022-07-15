@@ -165,6 +165,9 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
 #' @param cell_type_annotations Needed for deconvolution with Bisque, MuSiC and SCDC.
 #'   Defaults to NULL.
 #' @param batch_ids A vector of the ids of the samples or individuals. Defaults to NULL.
+#' @param normalize_results Whether the deconvolution results should be normalized.
+#'   Negative values will be put to 0, and the estimates will be normalized to sum to 1.
+#'   Defaults to NULL.
 #' @param verbose Whether to produce an output on the console.
 #' @param ... Additional parameters, passed to the algorithm used.
 #' @param cell_type_column_name Name of the column in (Anndata: obs, SingleCellExperiment: colData),
@@ -201,7 +204,8 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
 #' )
 deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_methods,
                         single_cell_object = NULL, cell_type_annotations = NULL, batch_ids = NULL,
-                        cell_type_column_name = NULL, verbose = FALSE, ...) {
+                        cell_type_column_name = NULL, normalize_results = FALSE,
+                        verbose = FALSE, ...) {
   if (length(method) > 1) {
     stop(
       "Please only specify one method and not ", length(method), ": ",
@@ -322,7 +326,9 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 
   if (!is.null(deconv)) {
     # Normalize the results
-    deconv <- normalize_deconv_results(deconv)
+    if(normalize_results){
+      deconv <- normalize_deconv_results(deconv)
+    }
     # Alphabetical order of celltypes
     rownames(deconv) <- deescape_special_chars(rownames(deconv))
     colnames(deconv) <- deescape_special_chars(colnames(deconv))

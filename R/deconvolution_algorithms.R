@@ -1,17 +1,17 @@
 #' List of supported deconvolution methods
 #'
 #' The methods currently supported are
-#' `AutoGeneS`, `Bisque`, `BSeq-sc`, `CIBERSORTx`, `CPM`, `DWLS`, `MOMF`, `MuSiC`, `Scaden`,
-#' `SCDC`
+#' `AutoGeneS`, `BayesPrism`, `Bisque`, `BSeq-sc`, `CIBERSORTx`, `CPM`, `DWLS`, `MOMF`, `MuSiC`,
+#' `Scaden`, `SCDC`
 #'
 #' The object is a named vector. The names correspond to the display name of the method,
 #' the values to the internal name.
 #'
 #' @export
 deconvolution_methods <- c(
-  "AutoGeneS" = "autogenes", "Bisque" = "bisque", "BSeq-sc" = "bseqsc", "CIBERSORTx" = "cibersortx",
-  "CDSeq" = "cdseq", "CPM" = "cpm", "DWLS" = "dwls", "MOMF" = "momf", "MuSiC" = "music",
-  "Scaden" = "scaden", "SCDC" = "scdc"
+  "AutoGeneS" = "autogenes", "BayesPrism" = "bayesprism", "Bisque" = "bisque", "BSeq-sc" = "bseqsc",
+  "CIBERSORTx" = "cibersortx", "CDSeq" = "cdseq", "CPM" = "cpm", "DWLS" = "dwls", "MOMF" = "momf",
+  "MuSiC" = "music", "Scaden" = "scaden", "SCDC" = "scdc"
 )
 
 
@@ -135,7 +135,8 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
     scdc = build_model_scdc(single_cell_object, cell_type_annotations, batch_ids, ...)$basis,
     cpm = build_model_cpm(),
     bseqsc = build_model_bseqsc(single_cell_object, cell_type_annotations, markers, batch_ids, ...),
-    cdseq = build_model_cdseq()
+    cdseq = build_model_cdseq(),
+    bayesprism = build_model_bayesprism()
   )
 
 
@@ -156,13 +157,13 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
 #'   are samples.
 #' @param signature The signature matrix.
 #' @param method A string specifying the method.
-#'   Supported methods are 'bisque', 'momf', 'dwls', 'scaden', 'cibersortx' and 'autogenes'
-#' @param single_cell_object Needed for deconvolution with MOMF and Bisque. Defaults to NULL.
+#'   Supported methods are 'bisque', 'momf', 'dwls', 'scaden', 'cibersortx', 'autogenes' and 'bayesprism'
+#' @param single_cell_object Needed for deconvolution with MOMF, Bisque and BayesPrism. Defaults to NULL.
 #'   Alternatively a SingleCellExperiment or an AnnData object can be provided. In that case, note
 #'   that cell-type labels need to be indicated either directly providing a vector
 #'   (cell_type_annotations) or by indicating the column name that indicates the cell-type labels
 #'   (cell_type_column_name). (Anndata: obs object, SingleCellExperiment: colData object)
-#' @param cell_type_annotations Needed for deconvolution with Bisque, MuSiC and SCDC.
+#' @param cell_type_annotations Needed for deconvolution with Bisque, MuSiC, SCDC and BayesPrism
 #'   Defaults to NULL.
 #' @param batch_ids A vector of the ids of the samples or individuals. Defaults to NULL.
 #' @param normalize_results Whether the deconvolution results should be normalized.
@@ -270,7 +271,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
     }
   }
 
-  if (verbose && method %in% c("bisque", "music", "scdc", "cpm", "cdseq") && !is.null(signature)) {
+  if (verbose && method %in% c("bisque", "music", "scdc", "cpm", "cdseq", "bayesprism") && !is.null(signature)) {
     message(
       "A signature was provided, even though you chose a method that does not use ",
       "an external one."
@@ -321,7 +322,11 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
     cdseq = t(deconvolute_cdseq(bulk_gene_expression, single_cell_object, cell_type_annotations,
       batch_ids,
       verbose = verbose, ...
-    )$cdseq_prop_merged)
+    )$cdseq_prop_merged),
+    bayesprism = deconvolute_bayesprism(
+      bulk_gene_expression, single_cell_object, cell_type_annotations,
+      ...
+    )$theta
   )
 
   if (!is.null(deconv)) {
@@ -342,6 +347,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 #'
 required_packages <- list(
   "autogenes" = c("reticulate"),
+  "bayesprism" = c("omnideconv/BayesPrism"),
   "bisque" = c("BisqueRNA"),
   "bseqsc" = c("shenorrlab/bseqsc"),
   "cdseq" = c("PelzKo/CDSeq_R_Package"),

@@ -74,8 +74,7 @@ reference:
       - create_docker_command
       - deconvolute_cdseq
       - deescape_special_chars
-      - docker_available
-      - docker_connectable
+      - check_container
       - escape_special_chars
       - get_cell_fractions_options
       - get_method_options

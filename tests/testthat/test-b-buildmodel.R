@@ -144,3 +144,10 @@ test_that("CDSeq build model works", {
   )
   expect_null(info = "The CDSeq Model is null (which it should be)", object = model)
 })
+
+test_that("BayesPrism build model works", {
+  model <- build_model(sc_object_small, cell_annotations_small, "bayesprism",
+    bulk_gene_expression = bulk_small
+  )
+  expect_null(info = "The BayesPrism Model is null (which it should be)", object = model)
+})

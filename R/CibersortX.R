@@ -332,10 +332,10 @@ transform_and_save_bulk <- function(bulk, path, verbose = FALSE) {
 #' @return A valid docker command to be run.
 #'
 create_container_command <- function(in_dir, out_dir,
-                                  container = c("docker", "singularity"),
-                                  sing_container_path = NULL,
-                                  method = c("create_sig", "impute_cell_fractions"),
-                                  verbose = FALSE, ...) {
+                                     container = c("docker", "singularity"),
+                                     sing_container_path = NULL,
+                                     method = c("create_sig", "impute_cell_fractions"),
+                                     verbose = FALSE, ...) {
   if (container == "docker") {
     base <- paste0(
       "docker run -v ", in_dir, ":/src/data:z -v ", out_dir,

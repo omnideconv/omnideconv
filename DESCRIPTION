@@ -61,7 +61,6 @@ Remotes:
     omnideconv/dwls,
     shenorrlab/bseqsc,
     xuranw/MuSiC
-    Danko-Lab/BayesPrism/BayesPrism
 biocViews:
 Config/testthat/edition: 2
 Encoding: UTF-8

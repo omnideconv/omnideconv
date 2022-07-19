@@ -87,7 +87,7 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
   } else {
     single_cell_object_filename <- single_cell_object
   }
-  command_to_run <- create_docker_command(input_dir, output_dir, container, sing_container_path,
+  command_to_run <- create_container_command(input_dir, output_dir, container, sing_container_path,
     method = "create_sig",
     verbose = verbose,
     refsample = single_cell_object_filename, k_max = k_max
@@ -228,7 +228,7 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature, verbose = FA
   filename_cell_props <- paste0("CIBERSORTx_", label, "_Results.txt")
   cell_props_full_path <- paste0(output_dir, "/", filename_cell_props)
 
-  command_to_run <- create_docker_command(input_dir, output_dir, container, sing_container_path,
+  command_to_run <- create_container_command(input_dir, output_dir, container, sing_container_path,
     method = "impute_cell_fractions", verbose = verbose,
     sigmatrix = sigmatrix_filename, mixture <- bulk_gene_expression_filename, label = label
   )
@@ -331,7 +331,7 @@ transform_and_save_bulk <- function(bulk, path, verbose = FALSE) {
 #'
 #' @return A valid docker command to be run.
 #'
-create_docker_command <- function(in_dir, out_dir,
+create_container_command <- function(in_dir, out_dir,
                                   container = c("docker", "singularity"),
                                   sing_container_path = NULL,
                                   method = c("create_sig", "impute_cell_fractions"),

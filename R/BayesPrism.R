@@ -80,7 +80,6 @@ deconvolute_bayesprism <- function(bulk_gene_expression, single_cell_object, cel
                                    gibbs_control = list(chain.length = 1000, burn.in = 500, thinning = 2),
                                    opt_control = list(trace = 0, maxit = 100000), n_cores = 1,
                                    which_theta = "final", state_or_type = "type") {
-
   if (is.null(bulk_gene_expression)) {
     stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
   }

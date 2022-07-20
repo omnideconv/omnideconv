@@ -431,6 +431,6 @@ test_that("BayesPrism deconvolution works", {
   ))
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result, tolerance = 1e-5
+    expected = check_result, tolerance = 1e-2
   )
 })

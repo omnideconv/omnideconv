@@ -18,6 +18,7 @@ deconvolute_bayesprism(
     "MALAT1"),
   outlier_cut = 0.01,
   outlier_fraction = 0.1,
+  update_gibbs = TRUE,
   gibbs_control = list(chain.length = 1000, burn.in = 500, thinning = 2),
   opt_control = list(trace = 0, maxit = 1e+05),
   n_cores = 1,
@@ -60,6 +61,8 @@ c("other_Rb","chrM","chrX","chrY","Rb","Mrp","act","hb","MALAT1"). Only used whe
 (Default=0.01) in more than outlier.fraction (Default=0.1) of bulk data. Typically for dataset with reasonable
 quality control, very few genes will be filtered. Removal of outlier genes will ensure that the inference
 will not be dominated by outliers, which sometimes may be resulted from poor QC in mapping.}
+
+\item{update_gibbs}{A logical variable to denote whether run final Gibbs sampling to update theta. Default=TRUE.}
 
 \item{gibbs_control}{A list of parameters controlling the Gibbs sampling. Default chain.length=1000,
 burn.in=500, thinning=2. A list of parameters controlling the Gibbs sampling. Default chain.length=1000,

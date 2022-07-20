@@ -12,7 +12,8 @@ Description: Collection of second generation methods for immune cell
 License: GPL-3 + file LICENSE
 URL: https://github.com/omnideconv/omnideconv
 Depends:
-    R (>= 4.1.0)
+    R (>= 4.1.0),
+    snowfall
 Imports: 
     anndata,
     assertthat,
@@ -28,6 +29,7 @@ Imports:
     S4Vectors,
     Seurat,
     SingleCellExperiment,
+    snowfall,
     SummarizedExperiment,
     tidyr,
     utils
@@ -46,7 +48,6 @@ Suggests:
     rmarkdown,
     scBio,
     SCDC,
-    snowfall,
     testthat (>= 2.0.0),
     uuid
 VignetteBuilder: 

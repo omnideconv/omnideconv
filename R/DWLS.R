@@ -18,7 +18,7 @@
 #'
 build_model_dwls <- function(single_cell_object, cell_type_annotations,
                              dwls_method = c("mast", "seurat"), path = NULL, verbose = FALSE,
-                             diff_cutoff = 0.5, pval_cutoff = 0.01) {
+                             diff_cutoff = 0.5, pval_cutoff = 0.01, ncores = 1) {
   if (is.null(single_cell_object)) {
     stop("Parameter 'single_cell_object' is missing or null, but it is required.")
   }
@@ -33,7 +33,7 @@ build_model_dwls <- function(single_cell_object, cell_type_annotations,
   if (dwls_method == "mast") {
     return(DWLS::buildSignatureMatrixMAST(
       single_cell_object, cell_type_annotations, path,
-      verbose, diff_cutoff, pval_cutoff
+      verbose, ncores, diff_cutoff, pval_cutoff
     ))
   } else if (dwls_method == "seurat") {
     return(DWLS::buildSignatureMatrixUsingSeurat(

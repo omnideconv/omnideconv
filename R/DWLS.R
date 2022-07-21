@@ -32,13 +32,13 @@ build_model_dwls <- function(single_cell_object, cell_type_annotations,
 
   if (dwls_method == "mast") {
     return(DWLS::buildSignatureMatrixMAST(
-      single_cell_object, cell_type_annotations, path,
-      verbose, ncores, diff_cutoff, pval_cutoff
+      scdata = single_cell_object, id = cell_type_annotations, path = path,
+      verbose = verbose, ncores = ncores, diff.cutoff = diff_cutoff, pval.cutoff = pval_cutoff
     ))
   } else if (dwls_method == "seurat") {
     return(DWLS::buildSignatureMatrixUsingSeurat(
-      single_cell_object, cell_type_annotations, path,
-      verbose, diff_cutoff, pval_cutoff
+      scdata = single_cell_object, id = cell_type_annotations, path = path,
+      verbose = verbose, diff.cutoff = diff_cutoff, pval.cutoff = pval_cutoff
     ))
   } else {
     stop("Could not find dwls_method " + dwls_method + ". Please try \"mast\" or \"seurat\"")

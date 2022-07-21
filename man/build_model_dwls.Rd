@@ -11,7 +11,8 @@ build_model_dwls(
   path = NULL,
   verbose = FALSE,
   diff_cutoff = 0.5,
-  pval_cutoff = 0.01
+  pval_cutoff = 0.01,
+  ncores = 1
 )
 }
 \arguments{

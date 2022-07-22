@@ -456,7 +456,7 @@ convert_to_matrix <- function(object, cell_type_annotations, cell_type_column_na
     }
 
     if (class(object)[[1]] != "matrix") {
-      object <- as.matrix(object)
+      object <- SCOPfunctions::utils_big_as.matrix(object, n_slices_init = 20, verbose = F)
     }
   }
 

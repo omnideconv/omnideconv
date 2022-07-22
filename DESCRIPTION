@@ -29,6 +29,7 @@ Imports:
     Seurat,
     SingleCellExperiment,
     SummarizedExperiment,
+    SCOPfunctions,
     tidyr,
     utils
 Suggests: 
@@ -60,7 +61,8 @@ Remotes:
     omnideconv/CDSeq,
     omnideconv/dwls,
     shenorrlab/bseqsc,
-    xuranw/MuSiC
+    xuranw/MuSiC,
+    CBMR-Single-Cell-Omics-Platform/SCOPfunctions
 biocViews:
 Config/testthat/edition: 2
 Encoding: UTF-8

@@ -242,7 +242,7 @@ test_that("Autogenes deconvolution works", {
   ))
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result, tolerance = 1e-5
+    expected = check_result, tolerance = 1e-3
   )
   expect_equal(
     info = "deconvolution result with one bulk sample throws no error",

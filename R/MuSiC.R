@@ -27,7 +27,7 @@
 #'   \item gene by celltype matrix of average relative abundance
 #'   \item gene by celltype matrix of cross-subject variation
 #' }
-#'
+#' @importFrom Biobase exprs pData
 #' @export
 build_model_music <- function(single_cell_object, cell_type_annotations, batch_ids, non_zero = TRUE,
                               markers = NULL, clusters = "cellType", samples = "batchId",

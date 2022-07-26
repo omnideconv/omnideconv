@@ -116,7 +116,7 @@ deconvolute_dwls <- function(bulk_gene_expression, signature,
     solutions_dampened_wls <- NULL
     for (i in 1:ncol(bulk)) {
       bulk_i <- bulk[, i]
-      sol <- DWLS::solveDampenedWLS(sig, bulk_i, verbose)
+      sol <- DWLS::solveDampenedWLS(sig, bulk_i)
       # sol<-round(sol,5)
       solutions_dampened_wls <- cbind(solutions_dampened_wls, sol)
     }

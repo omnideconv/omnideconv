@@ -71,7 +71,7 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
   temp_dir <- tempdir()
 
   if (container == "singularity") {
-    singularity_container_path <- setup_singularity_container(container_path)
+    container_path <- setup_singularity_container(container_path)
   }
 
   if (is.null(input_dir)) {
@@ -87,7 +87,7 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
   } else {
     single_cell_object_filename <- single_cell_object
   }
-  command_to_run <- create_container_command(input_dir, output_dir, container, sing_container_path,
+  command_to_run <- create_container_command(input_dir, output_dir, container, container_path,
     method = "create_sig",
     verbose = verbose,
     refsample = single_cell_object_filename, k_max = k_max

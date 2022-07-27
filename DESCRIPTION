@@ -42,7 +42,7 @@ Suggests:
     DWLS (>= 0.2),
     knitr,
     MOMF,
-    MuSiC,
+    MuSiC (>= 0.3),
     pkgdown,
     reticulate,
     rmarkdown,
@@ -61,7 +61,7 @@ Remotes:
     omnideconv/CDSeq,
     omnideconv/DWLS,
     shenorrlab/bseqsc,
-    xuranw/MuSiC
+    omnideconv/MuSiC
 biocViews:
 Config/testthat/edition: 2
 Encoding: UTF-8

@@ -61,7 +61,7 @@ Remotes:
     omnideconv/CDSeq,
     omnideconv/DWLS,
     shenorrlab/bseqsc,
-    xuranw/MuSiC,
+    omnideconv/MuSiC,
     CBMR-Single-Cell-Omics-Platform/SCOPfunctions
 biocViews:
 Config/testthat/edition: 2

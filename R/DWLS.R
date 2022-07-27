@@ -12,6 +12,8 @@
 #'   still be considered differentially expressed?
 #' @param pval_cutoff Cutoff to determine the pVal-limit. How high can the highest p-Value be to
 #'   still be considered statistically significant?
+#' @param ncores Choose how many core to use for signature calculation. Is only applied when using
+#'   'mast' as method.
 #'
 #' @return The signature matrix. Rows are genes, columns are cell types.
 #' @export

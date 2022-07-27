@@ -39,7 +39,7 @@ Suggests:
     bseqsc,
     CDSeq,
     devtools,
-    DWLS,
+    DWLS (>= 0.2),
     knitr,
     MOMF,
     MuSiC,
@@ -59,7 +59,7 @@ Remotes:
     omnideconv/MOMF,
     omnideconv/SCDC,
     omnideconv/CDSeq,
-    omnideconv/dwls,
+    omnideconv/DWLS,
     shenorrlab/bseqsc,
     xuranw/MuSiC
 biocViews:

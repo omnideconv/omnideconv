@@ -7,6 +7,8 @@
 build_model_cibersortx(
   single_cell_object,
   cell_type_annotations,
+  container = c("docker", "singularity"),
+  container_path = NULL,
   verbose = FALSE,
   input_dir = NULL,
   output_dir = NULL,
@@ -21,6 +23,11 @@ samples. Row and column names need to be set.}
 
 \item{cell_type_annotations}{A vector of the cell type annotations. Has to be in the same order
 as the samples in single_cell_object.}
+
+\item{container}{The container used ot run the method. The possibilities are 'docker' (default) or
+'singularity'}
+
+\item{container_path}{the path where the singularity .sif file is/will be stored (optional)}
 
 \item{verbose}{Whether to produce an output on the console.}
 

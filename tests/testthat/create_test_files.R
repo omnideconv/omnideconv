@@ -117,6 +117,7 @@ utils::write.csv(all_counts_svr, "test_results/dwls_svr_result_small.csv")
 
 
 ## CIBERSORTx
+set_cibersortx_credentials("lorenzo.merotto@studenti.unipd.it", "721a387e91c495174066462484674cb8")
 single_cell <- rbind(cell_annotations_small, sc_object_small)
 rownames(single_cell) <- c("GeneSymbol", rownames(sc_object_small))
 single_cell <- data.frame("GeneSymbol" = rownames(single_cell), single_cell)
@@ -130,8 +131,8 @@ write.table(data.frame("Gene" = rownames(bulk_small), bulk_small), "mixture_file
 )
 
 root <- getwd() # Alternatively rstudioapi::getSourceEditorContext()$path can be used
-email <- Sys.getenv("CIBERSORTX_EMAIL")
-token <- Sys.getenv("CIBERSORTX_TOKEN")
+email <- get("cibersortx_email", envir = config_env)
+token <- get("cibersortx_token", envir = config_env)
 signature_command <- paste0(
   "docker run -v ", root, ":/src/data -v ", root,
   "/test_models:/src/outdir cibersortx/fractions --username ", email,

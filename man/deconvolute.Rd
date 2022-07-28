@@ -12,6 +12,7 @@ deconvolute(
   cell_type_annotations = NULL,
   batch_ids = NULL,
   cell_type_column_name = NULL,
+  normalize_results = FALSE,
   verbose = FALSE,
   ...
 )
@@ -39,6 +40,10 @@ Defaults to NULL.}
 \item{cell_type_column_name}{Name of the column in (Anndata: obs, SingleCellExperiment: colData),
 that contains the cell-type labels. Is only used if no cell_type_annotations vector
 is provided.}
+
+\item{normalize_results}{Whether the deconvolution results should be normalized.
+Negative values will be put to 0, and the estimates will be normalized to sum to 1.
+Defaults to NULL.}
 
 \item{verbose}{Whether to produce an output on the console.}
 

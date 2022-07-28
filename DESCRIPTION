@@ -31,6 +31,7 @@ Imports:
     SingleCellExperiment,
     snowfall,
     SummarizedExperiment,
+    SCOPfunctions,
     tidyr,
     utils
 Suggests: 
@@ -61,7 +62,8 @@ Remotes:
     omnideconv/CDSeq,
     omnideconv/DWLS,
     shenorrlab/bseqsc,
-    omnideconv/MuSiC
+    omnideconv/MuSiC,
+    CBMR-Single-Cell-Omics-Platform/SCOPfunctions
 biocViews:
 Config/testthat/edition: 2
 Encoding: UTF-8

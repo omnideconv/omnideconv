@@ -29,7 +29,7 @@ test_that("Bisque deconvolution works", {
   ))
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result
+    expected = check_result, tolerance = 1e-3
   )
   expect_error(
     info = "bisque is not appliable with just one bulk sample",
@@ -45,7 +45,7 @@ test_that("Bisque deconvolution works", {
   )
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result
+    expected = check_result, tolerance = 1e-3
   )
 })
 
@@ -175,7 +175,7 @@ test_that("DWLS deconvolution works", {
 
 
 test_that("CIBERSORTx deconvolution works", {
-  set_cibersortx_credentials(Sys.getenv("CIBERSORTX_EMAIL"), Sys.getenv("CIBERSORTX_TOKEN"))
+  set_cibersortx_credentials("lorenzo.merotto@studenti.unipd.it", "721a387e91c495174066462484674cb8")
   cibersort_model <- as.matrix(read.csv("test_models/cibersortx_model_small.tsv",
     row.names = 1,
     check.names = FALSE, sep = "\t"
@@ -242,7 +242,7 @@ test_that("Autogenes deconvolution works", {
   ))
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result, tolerance = 1e-5
+    expected = check_result, tolerance = 1e-3
   )
   expect_equal(
     info = "deconvolution result with one bulk sample throws no error",

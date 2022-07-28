@@ -233,6 +233,9 @@ singlecellexperiment_to_matrix <- function(sce, assay_name = NULL, cell_type_col
       stop("'sce' does not contain any assays")
     }
     assay_name <- SummarizedExperiment::assayNames(sce)[1]
+    if (assay_name == "") {
+      assay_name <- "counts"
+    }
     message("Note: using the '", assay_name, "' assay as the X matrix")
   }
   X <- SummarizedExperiment::assay(sce, assay_name, withDimnames = T)
@@ -453,7 +456,7 @@ convert_to_matrix <- function(object, cell_type_annotations, cell_type_column_na
     }
 
     if (class(object)[[1]] != "matrix") {
-      object <- as.matrix(object)
+      object <- SCOPfunctions::utils_big_as.matrix(object, n_slices_init = 20, verbose = F)
     }
   }
 

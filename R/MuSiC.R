@@ -27,7 +27,6 @@
 #'   \item gene by celltype matrix of average relative abundance
 #'   \item gene by celltype matrix of cross-subject variation
 #' }
-#'
 #' @importFrom Biobase exprs pData
 #' @export
 #'

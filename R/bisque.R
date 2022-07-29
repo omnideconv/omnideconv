@@ -243,7 +243,7 @@ deconvolute_bisque <- function(bulk_gene_expression, single_cell_object, cell_ty
   bulk_eset <- Biobase::ExpressionSet(assayData = bulk_gene_expression)
 
   return(
-    BisqueRNA::ReferenceBasedDecomposition(bulk_eset, sc_eset, signature,
+    BisqueRNA::ReferenceBasedDecomposition(bulk_eset, sc_eset,
       markers = markers,
       cell.types = cell_types, subject.names = subject_names,
       use.overlap = use_overlap, verbose = verbose,

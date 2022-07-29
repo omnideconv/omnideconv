@@ -11,7 +11,8 @@ build_model_dwls(
   path = NULL,
   verbose = FALSE,
   diff_cutoff = 0.5,
-  pval_cutoff = 0.01
+  pval_cutoff = 0.01,
+  ncores = 1
 )
 }
 \arguments{
@@ -33,6 +34,9 @@ still be considered differentially expressed?}
 
 \item{pval_cutoff}{Cutoff to determine the pVal-limit. How high can the highest p-Value be to
 still be considered statistically significant?}
+
+\item{ncores}{Choose how many core to use for signature calculation. Is only applied when using
+'mast' as method.}
 }
 \value{
 The signature matrix. Rows are genes, columns are cell types.

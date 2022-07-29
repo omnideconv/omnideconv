@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      CIBERSORTX_EMAIL: ${{ secrets.CIBERSORTX_EMAIL }}
+      CIBERSORTX_TOKEN: ${{ secrets.CIBERSORTX_TOKEN }}
 
     steps:
       - uses: actions/checkout@v2

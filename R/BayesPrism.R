@@ -40,6 +40,7 @@ build_model_bayesprism <- function() {
 #'   burn.in=500, thinning=2. Previous version default is chain.length=400, burn.in=200, thinning=2.
 #'   Default chain length has been increased to accommodate spatial transcriptomic data which usually
 #'   has lower depth than conventional bulk data, and hence may need longer chain to reach the stationary distribution.
+#' @param update_gibbs A logical variable to denote whether run final Gibbs sampling to update theta. Default=TRUE.
 #' @param opt_control A list of parameters controlling the optimization by Rcgmin, Default trace=0, maxit= 100000.
 #' @param apply_bayes_prism_filtering set to TRUE if you want to run the `cleanup.genes` function of BayesPrism; default is FALSE
 #' @param species A character variable to denote if genes are human ("mm") or mouse ("hs").
@@ -70,11 +71,12 @@ build_model_bayesprism <- function() {
 #' }
 #' @export
 #'
+#' @import snowfall
 deconvolute_bayesprism <- function(bulk_gene_expression, single_cell_object, cell_type_annotations,
                                    cell_subtype_labels = NULL, tum_key = NULL, apply_bayes_prism_filtering = FALSE,
                                    species = "hs", exp.cells = 1, pseudo_min = 1E-8,
                                    gene_group = c("other_Rb", "chrM", "chrX", "chrY", "Rb", "Mrp", "act", "hb", "MALAT1"),
-                                   outlier_cut = 0.01, outlier_fraction = 0.1,
+                                   outlier_cut = 0.01, outlier_fraction = 0.1, update_gibbs = TRUE,
                                    gibbs_control = list(chain.length = 1000, burn.in = 500, thinning = 2),
                                    opt_control = list(trace = 0, maxit = 100000), n_cores = 1,
                                    which_theta = "final", state_or_type = "type") {
@@ -135,6 +137,6 @@ deconvolute_bayesprism <- function(bulk_gene_expression, single_cell_object, cel
 
   return(list(
     theta = theta,
-    bp.res = br.res
+    bp.res = bp.res
   ))
 }

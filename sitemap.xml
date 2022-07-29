@@ -109,13 +109,16 @@
     <loc>https://omnideconv.github.io/omnideconv/reference/check_and_install.html</loc>
   </url>
   <url>
+    <loc>https://omnideconv.github.io/omnideconv/reference/check_container.html</loc>
+  </url>
+  <url>
     <loc>https://omnideconv.github.io/omnideconv/reference/check_credentials.html</loc>
   </url>
   <url>
     <loc>https://omnideconv.github.io/omnideconv/reference/convert_to_matrix.html</loc>
   </url>
   <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/create_docker_command.html</loc>
+    <loc>https://omnideconv.github.io/omnideconv/reference/create_container_command.html</loc>
   </url>
   <url>
     <loc>https://omnideconv.github.io/omnideconv/reference/deconvolute.html</loc>
@@ -161,12 +164,6 @@
   </url>
   <url>
     <loc>https://omnideconv.github.io/omnideconv/reference/deescape_special_chars.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/docker_available.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/docker_connectable.html</loc>
   </url>
   <url>
     <loc>https://omnideconv.github.io/omnideconv/reference/dot-bisque_patched_deconvolution.html</loc>
@@ -257,6 +254,9 @@
   </url>
   <url>
     <loc>https://omnideconv.github.io/omnideconv/reference/set_python.html</loc>
+  </url>
+  <url>
+    <loc>https://omnideconv.github.io/omnideconv/reference/setup_singularity_container.html</loc>
   </url>
   <url>
     <loc>https://omnideconv.github.io/omnideconv/reference/single_cell_data_1.html</loc>

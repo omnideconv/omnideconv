@@ -70,10 +70,10 @@
 <span>  species <span class="op">=</span> <span class="st">"hs"</span>,</span>
 <span>  exp.cells <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  pseudo_min <span class="op">=</span> <span class="fl">1e-08</span>,</span>
-<span>  gene_group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"other_Rb"</span>, <span class="st">"chrM"</span>, <span class="st">"chrX"</span>, <span class="st">"chrY"</span>, <span class="st">"Rb"</span>, <span class="st">"Mrp"</span>, <span class="st">"act"</span>, <span class="st">"hb"</span>,</span>
-<span>    <span class="st">"MALAT1"</span><span class="op">)</span>,</span>
+<span>  gene_group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"other_Rb"</span>, <span class="st">"chrM"</span>, <span class="st">"chrX"</span>, <span class="st">"chrY"</span>, <span class="st">"Rb"</span>, <span class="st">"Mrp"</span>, <span class="st">"act"</span>, <span class="st">"hb"</span>, <span class="st">"MALAT1"</span><span class="op">)</span>,</span>
 <span>  outlier_cut <span class="op">=</span> <span class="fl">0.01</span>,</span>
 <span>  outlier_fraction <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  update_gibbs <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  gibbs_control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>chain.length <span class="op">=</span> <span class="fl">1000</span>, burn.in <span class="op">=</span> <span class="fl">500</span>, thinning <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span>
 <span>  opt_control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>trace <span class="op">=</span> <span class="fl">0</span>, maxit <span class="op">=</span> <span class="fl">1e+05</span><span class="op">)</span>,</span>
 <span>  n_cores <span class="op">=</span> <span class="fl">1</span>,</span>
@@ -141,6 +141,10 @@ quality control, very few genes will be filtered. Removal of outlier genes will 
 will not be dominated by outliers, which sometimes may be resulted from poor QC in mapping.</p></dd>
 
 
+<dt>update_gibbs</dt>
+<dd><p>A logical variable to denote whether run final Gibbs sampling to update theta. Default=TRUE.</p></dd>
+
+
 <dt>gibbs_control</dt>
 <dd><p>A list of parameters controlling the Gibbs sampling. Default chain.length=1000,
 burn.in=500, thinning=2. A list of parameters controlling the Gibbs sampling. Default chain.length=1000,
@@ -196,7 +200,7 @@ interpretation of cell states information when their transcription are highly co
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

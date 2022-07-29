@@ -67,7 +67,8 @@
 <span>  path <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  diff_cutoff <span class="op">=</span> <span class="fl">0.5</span>,</span>
-<span>  pval_cutoff <span class="op">=</span> <span class="fl">0.01</span></span>
+<span>  pval_cutoff <span class="op">=</span> <span class="fl">0.01</span>,</span>
+<span>  ncores <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -105,6 +106,11 @@ still be considered differentially expressed?</p></dd>
 <dd><p>Cutoff to determine the pVal-limit. How high can the highest p-Value be to
 still be considered statistically significant?</p></dd>
 
+
+<dt>ncores</dt>
+<dd><p>Choose how many core to use for signature calculation. Is only applied when using
+'mast' as method.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -125,7 +131,7 @@ still be considered statistically significant?</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

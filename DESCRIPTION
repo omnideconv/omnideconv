@@ -12,7 +12,8 @@ Description: Collection of second generation methods for immune cell
 License: GPL-3 + file LICENSE
 URL: https://github.com/omnideconv/omnideconv
 Depends:
-    R (>= 4.1.0)
+    R (>= 4.1.0),
+    snowfall
 Imports: 
     anndata,
     assertthat,
@@ -28,7 +29,9 @@ Imports:
     S4Vectors,
     Seurat,
     SingleCellExperiment,
+    snowfall,
     SummarizedExperiment,
+    SCOPfunctions,
     tidyr,
     utils
 Suggests: 
@@ -37,16 +40,15 @@ Suggests:
     bseqsc,
     CDSeq,
     devtools,
-    DWLS,
+    DWLS (>= 0.2),
     knitr,
     MOMF,
-    MuSiC,
+    MuSiC (>= 0.3),
     pkgdown,
     reticulate,
     rmarkdown,
     scBio,
     SCDC,
-    snowfall,
     testthat (>= 2.0.0),
     uuid
 VignetteBuilder: 
@@ -58,13 +60,14 @@ Remotes:
     omnideconv/MOMF,
     omnideconv/SCDC,
     omnideconv/CDSeq,
-    omnideconv/dwls,
+    omnideconv/DWLS,
     shenorrlab/bseqsc,
-    xuranw/MuSiC
+    omnideconv/MuSiC,
+    CBMR-Single-Cell-Omics-Platform/SCOPfunctions
 biocViews:
 Config/testthat/edition: 2
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: bzip2
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1

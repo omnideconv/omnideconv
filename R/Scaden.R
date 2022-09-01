@@ -397,7 +397,7 @@ scaden_simulate <- function(cell_type_annotations, gene_labels, single_cell_obje
       rownames(single_cell_object) <- 0:(length(rownames(single_cell_object)) - 1)
       cell_types <- data.frame("Celltype" = cell_type_annotations)
 
-      utils::write.table(format(single_cell_object, digits = 0),
+      utils::write.table(format(single_cell_object, digits = 1),
         paste0(tmp_dir, "/", dataset_name, "/", dataset_name, "_counts.txt"),
         sep = "\t", row.names = TRUE, col.names = NA, quote = FALSE
       )

@@ -12,13 +12,15 @@
 #'   still be considered differentially expressed?
 #' @param pval_cutoff Cutoff to determine the pVal-limit. How high can the highest p-Value be to
 #'   still be considered statistically significant?
+#' @param ncores Choose how many core to use for signature calculation. Is only applied when using
+#'   'mast' as method.
 #'
 #' @return The signature matrix. Rows are genes, columns are cell types.
 #' @export
 #'
 build_model_dwls <- function(single_cell_object, cell_type_annotations,
                              dwls_method = c("mast", "seurat"), path = NULL, verbose = FALSE,
-                             diff_cutoff = 0.5, pval_cutoff = 0.01) {
+                             diff_cutoff = 0.5, pval_cutoff = 0.01, ncores = 1) {
   if (is.null(single_cell_object)) {
     stop("Parameter 'single_cell_object' is missing or null, but it is required.")
   }
@@ -32,13 +34,13 @@ build_model_dwls <- function(single_cell_object, cell_type_annotations,
 
   if (dwls_method == "mast") {
     return(DWLS::buildSignatureMatrixMAST(
-      single_cell_object, cell_type_annotations, path,
-      verbose, diff_cutoff, pval_cutoff
+      scdata = single_cell_object, id = cell_type_annotations, path = path,
+      verbose = verbose, ncores = ncores, diff.cutoff = diff_cutoff, pval.cutoff = pval_cutoff
     ))
   } else if (dwls_method == "seurat") {
     return(DWLS::buildSignatureMatrixUsingSeurat(
-      single_cell_object, cell_type_annotations, path,
-      verbose, diff_cutoff, pval_cutoff
+      scdata = single_cell_object, id = cell_type_annotations, path = path,
+      verbose = verbose, diff.cutoff = diff_cutoff, pval.cutoff = pval_cutoff
     ))
   } else {
     stop("Could not find dwls_method " + dwls_method + ". Please try \"mast\" or \"seurat\"")
@@ -116,7 +118,7 @@ deconvolute_dwls <- function(bulk_gene_expression, signature,
     solutions_dampened_wls <- NULL
     for (i in 1:ncol(bulk)) {
       bulk_i <- bulk[, i]
-      sol <- DWLS::solveDampenedWLS(sig, bulk_i, verbose)
+      sol <- DWLS::solveDampenedWLS(S = sig, B = bulk_i, verbose = verbose)
       # sol<-round(sol,5)
       solutions_dampened_wls <- cbind(solutions_dampened_wls, sol)
     }

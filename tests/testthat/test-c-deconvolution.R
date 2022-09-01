@@ -29,7 +29,7 @@ test_that("Bisque deconvolution works", {
   ))
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result
+    expected = check_result, tolerance = 1e-3
   )
   expect_error(
     info = "bisque is not appliable with just one bulk sample",
@@ -45,7 +45,7 @@ test_that("Bisque deconvolution works", {
   )
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result
+    expected = check_result, tolerance = 1e-3
   )
 })
 
@@ -242,7 +242,7 @@ test_that("Autogenes deconvolution works", {
   ))
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result, tolerance = 1e-5
+    expected = check_result, tolerance = 1e-3
   )
   expect_equal(
     info = "deconvolution result with one bulk sample throws no error",
@@ -413,6 +413,7 @@ test_that("CDSeq deconvolution works", {
 })
 
 test_that("BayesPrism deconvolution works", {
+  set.seed(123)
   deconvolution <- deconvolute(
     bulk_gene_expression = bulk_small, NULL,
     method = "bayesprism",
@@ -430,6 +431,6 @@ test_that("BayesPrism deconvolution works", {
   ))
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result
+    expected = check_result, tolerance = 1e-2
   )
 })

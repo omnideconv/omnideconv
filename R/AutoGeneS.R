@@ -243,7 +243,7 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature,
 
     celltypes <- colnames(result)
 
-    if(model = 'nusvr'){
+    if(model == 'nusvr'){
       result[result < 0] <- 0
     }
 

@@ -10,6 +10,7 @@ deconvolute_autogenes(
   model = c("nusvr", "nnls", "linear"),
   nu = 0.5,
   C = 0.5,
+  normalize_results = TRUE,
   kernel = "linear",
   degree = 3,
   gamma = "scale",

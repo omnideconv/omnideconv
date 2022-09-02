@@ -290,7 +290,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
     dwls = deconvolute_dwls(bulk_gene_expression, signature, verbose = verbose, ...),
     cibersortx = deconvolute_cibersortx(bulk_gene_expression, signature, verbose = verbose, ...),
     autogenes = deconvolute_autogenes(bulk_gene_expression, signature,
-      verbose = verbose, ...
+      verbose = verbose, normalize_results = TRUE, ...
     )$proportions,
     music = deconvolute_music(bulk_gene_expression, single_cell_object, cell_type_annotations,
       batch_ids,

@@ -239,20 +239,18 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature,
 
   rownames(result) <- rownames(bulk_data)
 
-  if(normalize_results){
-
+  if (normalize_results) {
     celltypes <- colnames(result)
 
-    if(model == 'nusvr'){
+    if (model == "nusvr") {
       result[result < 0] <- 0
     }
 
     result <- t(apply(result, 1, function(row) row / sum(row)))
-    if (length(celltypes) == 1){
+    if (length(celltypes) == 1) {
       result <- t(result)
       colnames(result) <- celltypes
     }
-
   }
 
   return(list(proportions = result, genes_used = genes_used))

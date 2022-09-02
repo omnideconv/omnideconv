@@ -164,8 +164,9 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations,
 #'
 deconvolute_autogenes <- function(bulk_gene_expression, signature,
                                   model = c("nusvr", "nnls", "linear"), nu = 0.5, C = 0.5,
-                                  kernel = "linear", degree = 3, gamma = "scale", coef0 = 0.0,
-                                  shrinking = TRUE, tol = 1E-3, cache_size = 200, max_iter = -1,
+                                  normalize_results = TRUE, kernel = "linear", degree = 3,
+                                  gamma = "scale", coef0 = 0.0, shrinking = TRUE,
+                                  tol = 1E-3, cache_size = 200, max_iter = -1,
                                   weights = NULL, index = NULL, close_to = NULL, verbose = FALSE) {
   if (is.null(bulk_gene_expression)) {
     stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
@@ -237,6 +238,23 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature,
   }
 
   rownames(result) <- rownames(bulk_data)
+
+  if(normalize_results){
+
+    celltypes <- colnames(result)
+
+    if(model = 'nusvr'){
+      result[result < 0] <- 0
+    }
+
+    result <- t(apply(result, 1, function(row) row / sum(row)))
+    if (length(celltypes) == 1){
+      result <- t(result)
+      colnames(result) <- celltypes
+    }
+
+  }
+
   return(list(proportions = result, genes_used = genes_used))
 }
 

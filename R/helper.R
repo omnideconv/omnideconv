@@ -208,7 +208,7 @@ init_python <- function(python = NULL) {
         suppressMessages(reticulate::install_miniconda())
       }
       reticulate::use_miniconda(condaenv = "r-reticulate", required = TRUE)
-      reticulate::py_install("conda-forge::compilers", method = "conda")
+      reticulate::conda_install(c("numpy", "scipy"), forge=TRUE)
       config <- reticulate::py_config()
       if (!python_available()) {
         message("Python not available")

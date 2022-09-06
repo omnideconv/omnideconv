@@ -44,7 +44,7 @@ jobs:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
-          
+
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
 

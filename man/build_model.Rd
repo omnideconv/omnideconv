@@ -13,6 +13,7 @@ build_model(
   verbose = FALSE,
   cell_type_column_name = NULL,
   markers = NULL,
+  assay_name = NULL,
   ...
 )
 }
@@ -44,6 +45,8 @@ provided.}
 \item{markers}{Named list of cell type marker genes. This parameter is only used by BSeq-sc.
 The type of gene identifiers (names(markers)) must be the same as the ones used as feature/row
 names in the single_cell_object.}
+
+\item{assay_name}{Name of the assay/layer of the single_cell_object that should be used to extract the data}
 
 \item{...}{Additional parameters, passed to the algorithm used}
 }

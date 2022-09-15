@@ -40,6 +40,7 @@ deconvolution_methods <- c(
 #'   The type of gene identifiers (names(markers)) must be the same as the ones used as feature/row
 #'   names in the single_cell_object.
 #' @param ... Additional parameters, passed to the algorithm used
+#' @param assay_name Name of the assay/layer of the single_cell_object that should be used to extract the data
 #'
 #' @return The signature matrix. Rows are genes, columns are cell types.
 #' @export
@@ -67,7 +68,8 @@ deconvolution_methods <- c(
 build_model <- function(single_cell_object, cell_type_annotations = NULL,
                         method = deconvolution_methods, batch_ids = NULL,
                         bulk_gene_expression = NULL, verbose = FALSE,
-                        cell_type_column_name = NULL, markers = NULL, ...) {
+                        cell_type_column_name = NULL, markers = NULL,
+                        assay_name = NULL, ...) {
   if (length(method) > 1) {
     stop(
       "Please only specify one method and not ", length(method), ": ",
@@ -84,7 +86,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
   # Converting all other data types into a matrix
   matrix_and_annotation <- convert_to_matrix(
     single_cell_object, cell_type_annotations,
-    cell_type_column_name
+    cell_type_column_name, assay_name
   )
   single_cell_object <- matrix_and_annotation$matrix
   cell_type_annotations <- matrix_and_annotation$cell_type_annotations
@@ -174,6 +176,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
 #' @param cell_type_column_name Name of the column in (Anndata: obs, SingleCellExperiment: colData),
 #'   that contains the cell-type labels. Is only used if no cell_type_annotations vector
 #'   is provided.
+#' @param assay_name Name of the assay/layer of the single_cell_object that should be used to extract the data
 #'
 #' @return A matrix with the probabilities of each cell-type for each individual. Rows are
 #' individuals, columns are cell types.
@@ -206,7 +209,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
 deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_methods,
                         single_cell_object = NULL, cell_type_annotations = NULL, batch_ids = NULL,
                         cell_type_column_name = NULL, normalize_results = FALSE,
-                        verbose = FALSE, ...) {
+                        verbose = FALSE, assay_name = NULL, ...) {
   if (length(method) > 1) {
     stop(
       "Please only specify one method and not ", length(method), ": ",
@@ -223,7 +226,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   # Converting all other data types into a matrix
   matrix_and_annotation <- convert_to_matrix(
     single_cell_object, cell_type_annotations,
-    cell_type_column_name
+    cell_type_column_name, assay_name
   )
   single_cell_object <- matrix_and_annotation$matrix
   cell_type_annotations <- matrix_and_annotation$cell_type_annotations

@@ -226,30 +226,30 @@ test_that("Scaden deconvolution works", {
   )
 })
 
-# test_that("Autogenes deconvolution works", {
-#   files <- file.info(list.files(tempdir(), full.names = T, pattern = "\\.pickle$"))
-#   skip_if(nrow(files) == 0, message = "skipping autogenes deconvolution")
-#   model <- rownames(files)[which.max(files$mtime)]
-#   deconvolution <- deconvolute(bulk_small, model, method = "autogenes")
-#   expect_equal(
-#     info = "deconvolution contains same samples as in bulk (not same order)",
-#     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
-#   )
-#
-#   check_result <- as.matrix(read.csv("test_results/autogenes_result_small.csv",
-#     row.names = 1,
-#     check.names = FALSE,
-#   ))
-#   expect_equal(
-#     info = "deconvolution result is correct", object = deconvolution,
-#     expected = check_result, tolerance = 1e-1
-#   )
-#   expect_equal(
-#     info = "deconvolution result with one bulk sample throws no error",
-#     object = nrow(deconvolute(bulk_small_one_sample, model, method = "autogenes")),
-#     expected = 1
-#   )
-# })
+test_that("Autogenes deconvolution works", {
+  files <- file.info(list.files(tempdir(), full.names = T, pattern = "\\.pickle$"))
+  skip_if(nrow(files) == 0, message = "skipping autogenes deconvolution")
+  model <- rownames(files)[which.max(files$mtime)]
+  deconvolution <- deconvolute(bulk_small, model, method = "autogenes")
+  expect_equal(
+    info = "deconvolution contains same samples as in bulk (not same order)",
+    object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
+  )
+
+  check_result <- as.matrix(read.csv("test_results/autogenes_result_small.csv",
+    row.names = 1,
+    check.names = FALSE,
+  ))
+  expect_equal(
+    info = "deconvolution result is correct", object = deconvolution,
+    expected = check_result, tolerance = 1e-3
+  )
+  expect_equal(
+    info = "deconvolution result with one bulk sample throws no error",
+    object = nrow(deconvolute(bulk_small_one_sample, model, method = "autogenes")),
+    expected = 1
+  )
+})
 
 test_that("MuSiC deconvolution works", {
   deconvolution <- deconvolute(bulk_small, NULL,

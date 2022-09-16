@@ -68,6 +68,9 @@ value. Assumes (objective,value). For example, (0,100) will select the solution 
 for the first objective is closest to 100.}
 
 \item{verbose}{Whether to produce an output on the console.}
+
+\item{wether}{to normalize results according to the regression model used.
+Default is TRUE}
 }
 \value{
 A list with two elements: 'proportions' is the matrix of cell proportions and

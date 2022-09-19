@@ -4,7 +4,12 @@
 \alias{convert_to_matrix}
 \title{Converts the object into a matrix}
 \usage{
-convert_to_matrix(object, cell_type_annotations, cell_type_column_name = NULL)
+convert_to_matrix(
+  object,
+  cell_type_annotations,
+  cell_type_column_name = NULL,
+  assay_name = NULL
+)
 }
 \arguments{
 \item{object}{An input matrix, data frame, expression set, etc.}
@@ -16,6 +21,8 @@ a string.}
 \item{cell_type_column_name}{Name of the column in (Anndata: obs, SingleCellExperiment: colData),
 that contains the cell-type labels. Is only used if no cell_type_annotations vector is
 provided.}
+
+\item{assay_name}{Name of the assay/layer that should be used to extract the matrix}
 }
 \value{
 The same object, but of type matrix

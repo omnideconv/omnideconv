@@ -14,6 +14,7 @@ deconvolute(
   cell_type_column_name = NULL,
   normalize_results = FALSE,
   verbose = FALSE,
+  assay_name = NULL,
   ...
 )
 }
@@ -46,6 +47,8 @@ Negative values will be put to 0, and the estimates will be normalized to sum to
 Defaults to NULL.}
 
 \item{verbose}{Whether to produce an output on the console.}
+
+\item{assay_name}{Name of the assay/layer of the single_cell_object that should be used to extract the data}
 
 \item{...}{Additional parameters, passed to the algorithm used.}
 }

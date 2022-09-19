@@ -228,6 +228,12 @@ matrix_to_singlecellexperiment <- function(matrix, cell_labels, named_metadata_l
 #' @return named list: ..$matrix: matrix object, ..$annotation_vector
 #'
 singlecellexperiment_to_matrix <- function(sce, assay_name = NULL, cell_type_column_name = NULL) {
+  # check if provided assay_name is available in object
+  if (!is.null(assay_name) && !assay_name %in% SummarizedExperiment::assayNames(sce)) {
+    message("Provided assay_name '", assay_name, "' is not available in single_cell_object")
+    assay_name <- NULL # will be updated to an available assay in the next code block
+  }
+
   if (is.null(assay_name)) {
     if (length(SummarizedExperiment::assays(sce)) == 0) {
       stop("'sce' does not contain any assays")
@@ -428,10 +434,11 @@ anndata_is_identical <- function(a, b) {
 #' @param cell_type_column_name Name of the column in (Anndata: obs, SingleCellExperiment: colData),
 #'   that contains the cell-type labels. Is only used if no cell_type_annotations vector is
 #'   provided.
+#' @param assay_name Name of the assay/layer that should be used to extract the matrix
 #'
 #' @return The same object, but of type matrix
 #'
-convert_to_matrix <- function(object, cell_type_annotations, cell_type_column_name = NULL) {
+convert_to_matrix <- function(object, cell_type_annotations, cell_type_column_name = NULL, assay_name = NULL) {
   if (!is.null(object)) {
     if (class(object)[[1]] == "AnnDataR6") {
       object <- anndata_to_singlecellexperiment(object)
@@ -440,7 +447,8 @@ convert_to_matrix <- function(object, cell_type_annotations, cell_type_column_na
     if (class(object)[[1]] == "SingleCellExperiment") {
       matrix_and_annotation <-
         singlecellexperiment_to_matrix(object,
-          cell_type_column_name = cell_type_column_name
+          cell_type_column_name = cell_type_column_name,
+          assay_name = assay_name
         )
       object <- matrix_and_annotation$matrix
       if (is.null(cell_type_annotations)) {

@@ -60,7 +60,12 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">convert_to_matrix</span><span class="op">(</span><span class="va">object</span>, <span class="va">cell_type_annotations</span>, cell_type_column_name <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">convert_to_matrix</span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  <span class="va">cell_type_annotations</span>,</span>
+<span>  cell_type_column_name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  assay_name <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -79,6 +84,10 @@ a string.</p></dd>
 <dd><p>Name of the column in (Anndata: obs, SingleCellExperiment: colData),
 that contains the cell-type labels. Is only used if no cell_type_annotations vector is
 provided.</p></dd>
+
+
+<dt>assay_name</dt>
+<dd><p>Name of the assay/layer that should be used to extract the matrix</p></dd>
 
 </dl></div>
     <div id="value">

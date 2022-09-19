@@ -69,6 +69,7 @@
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  cell_type_column_name <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  markers <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  assay_name <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -117,6 +118,10 @@ provided.</p></dd>
 <dd><p>Named list of cell type marker genes. This parameter is only used by BSeq-sc.
 The type of gene identifiers (names(markers)) must be the same as the ones used as feature/row
 names in the single_cell_object.</p></dd>
+
+
+<dt>assay_name</dt>
+<dd><p>Name of the assay/layer of the single_cell_object that should be used to extract the data</p></dd>
 
 
 <dt>...</dt>

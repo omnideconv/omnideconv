@@ -66,6 +66,7 @@
 <span>  model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nusvr"</span>, <span class="st">"nnls"</span>, <span class="st">"linear"</span><span class="op">)</span>,</span>
 <span>  nu <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  C <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  normalize_results <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  kernel <span class="op">=</span> <span class="st">"linear"</span>,</span>
 <span>  degree <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  gamma <span class="op">=</span> <span class="st">"scale"</span>,</span>
@@ -103,6 +104,11 @@ squares("nnls") and linear model ("linear").</p></dd>
 
 <dt>C</dt>
 <dd><p>C parameter for NuSVR.</p></dd>
+
+
+<dt>normalize_results</dt>
+<dd><p>wether to normalize results according to the regression model used.
+Default is TRUE</p></dd>
 
 
 <dt>kernel</dt>

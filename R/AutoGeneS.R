@@ -137,7 +137,7 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations,
 #'   squares("nnls") and linear model ("linear").
 #' @param nu Nu parameter for NuSVR.
 #' @param C C parameter for NuSVR.
-#' @param wether to normalize results according to the regression model used.
+#' @param normalize_results wether to normalize results according to the regression model used.
 #'   Default is TRUE
 #' @param kernel Kernel parameter for NuSVR.
 #' @param degree Degree parameter for NuSVR.

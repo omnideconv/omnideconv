@@ -229,7 +229,7 @@ matrix_to_singlecellexperiment <- function(matrix, cell_labels, named_metadata_l
 #'
 singlecellexperiment_to_matrix <- function(sce, assay_name = NULL, cell_type_column_name = NULL) {
   # check if provided assay_name is available in object
-  if (!assay_name %in% SummarizedExperiment::assayNames(sce)) {
+  if (!is.null(assay_name) && !assay_name %in% SummarizedExperiment::assayNames(sce)) {
     message("Provided assay_name '", assay_name, "' is not available in single_cell_object")
     assay_name <- NULL # will be updated to an available assay in the next code block
   }

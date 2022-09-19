@@ -10,6 +10,7 @@ deconvolute_autogenes(
   model = c("nusvr", "nnls", "linear"),
   nu = 0.5,
   C = 0.5,
+  normalize_results = TRUE,
   kernel = "linear",
   degree = 3,
   gamma = "scale",
@@ -36,6 +37,9 @@ squares("nnls") and linear model ("linear").}
 \item{nu}{Nu parameter for NuSVR.}
 
 \item{C}{C parameter for NuSVR.}
+
+\item{normalize_results}{wether to normalize results according to the regression model used.
+Default is TRUE}
 
 \item{kernel}{Kernel parameter for NuSVR.}
 

@@ -63,7 +63,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">build_model_dwls</span><span class="op">(</span></span>
 <span>  <span class="va">single_cell_object</span>,</span>
 <span>  <span class="va">cell_type_annotations</span>,</span>
-<span>  dwls_method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mast"</span>, <span class="st">"seurat"</span><span class="op">)</span>,</span>
+<span>  dwls_method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mast"</span>, <span class="st">"seurat"</span>, <span class="st">"mast_optimized"</span><span class="op">)</span>,</span>
 <span>  path <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  diff_cutoff <span class="op">=</span> <span class="fl">0.5</span>,</span>
@@ -85,7 +85,7 @@ as the samples in single_cell_object.</p></dd>
 
 
 <dt>dwls_method</dt>
-<dd><p>The method used to create the signature matrix. Options are "mast" and "seurat"</p></dd>
+<dd><p>The method used to create the signature matrix. Options are "mast", "mast_optimized" and "seurat"</p></dd>
 
 
 <dt>path</dt>

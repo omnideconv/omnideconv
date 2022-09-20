@@ -4,7 +4,7 @@
 #'   samples. Row and column names need to be set.
 #' @param cell_type_annotations A vector of the cell type annotations. Has to be in the same order
 #'   as the samples in single_cell_object.
-#' @param dwls_method The method used to create the signature matrix. Options are "mast" and "seurat"
+#' @param dwls_method The method used to create the signature matrix. Options are "mast", "mast_optimized" and "seurat"
 #' @param path The path where the generated files will be saved. If path=NULL, the generated files
 #'   will be discarded.
 #' @param verbose Whether to produce an output on the console.
@@ -19,7 +19,7 @@
 #' @export
 #'
 build_model_dwls <- function(single_cell_object, cell_type_annotations,
-                             dwls_method = c("mast", "seurat"), path = NULL, verbose = FALSE,
+                             dwls_method = c("mast", "seurat", "mast_optimized"), path = NULL, verbose = FALSE,
                              diff_cutoff = 0.5, pval_cutoff = 0.01, ncores = 1) {
   if (is.null(single_cell_object)) {
     stop("Parameter 'single_cell_object' is missing or null, but it is required.")
@@ -42,8 +42,13 @@ build_model_dwls <- function(single_cell_object, cell_type_annotations,
       scdata = single_cell_object, id = cell_type_annotations, path = path,
       verbose = verbose, diff.cutoff = diff_cutoff, pval.cutoff = pval_cutoff
     ))
+  } else if (dwls_method == "mast_optimized") {
+    return(DWLS::buildSignatureMatrixMASTOptimized(
+      scdata = single_cell_object, id = cell_type_annotations, path = path,
+      verbose = verbose, ncores = ncores, diff.cutoff = diff_cutoff, pval.cutoff = pval_cutoff
+    ))
   } else {
-    stop("Could not find dwls_method " + dwls_method + ". Please try \"mast\" or \"seurat\"")
+    stop("Could not find dwls_method " + dwls_method + ". Please try \"mast\", \"mast_optimized\" or \"seurat\"")
   }
 }
 #' Calculates the decomposition using the dwls algorithm

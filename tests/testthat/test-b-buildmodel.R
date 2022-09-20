@@ -64,6 +64,19 @@ test_that("DWLS build signature matrix works", {
   expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
 })
 
+test_that("DWLS build signature matrix works with the optimized version", {
+  signature <- build_model(sc_object_small, cell_annotations_small, "dwls", "mast_optimized")
+  expect_equal(
+    info = "signature matrix has same amount of columns as unique cell types in single cell matrix",
+    object = ncol(signature), expected = length(unique(cell_annotations_small))
+  )
+  check_signature <- as.matrix(read.csv("test_models/dwls_model_small.csv",
+                                        row.names = 1,
+                                        check.names = FALSE
+  ))
+  expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
+})
+
 test_that("CIBERSORTx build signature matrix works", {
   set_cibersortx_credentials(Sys.getenv("CIBERSORTX_EMAIL"), Sys.getenv("CIBERSORTX_TOKEN"))
   signature <- build_model(sc_object_small, cell_annotations_small, "cibersortx")

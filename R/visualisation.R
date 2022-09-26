@@ -3,8 +3,13 @@
 #' @param result_list A named list containing all deconvolution results
 #' @param title (optional) title of the plot
 #' @param file_name (optional) plot is saved in this file
-#' @import dplyr
-#' @import ggplot2
+#' @importFrom dplyr bind_rows
+#' @importFrom ggplot2 ggplot aes geom_bar facet_wrap labs theme scale_fill_brewer
+#' ggsave geom_point geom_abline scale_y_continuous scale_x_continuous
+#' coord_cartesian scale_color_manual element_text aes_string element_line geom_col
+#' element_blank geom_jitter geom_boxplot coord_flip geom_tile guides guide_colorbar
+#' scale_fill_gradient
+#'
 #' @return the ggplot object
 #'
 #' @examples

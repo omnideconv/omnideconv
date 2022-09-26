@@ -183,10 +183,10 @@ make_benchmarking_scatterplot <- function(result_list, ref_data, file_name = NUL
 #' @param plot_method Type of plot to be rendered  ("bar", "jitter", "scatter", "box", "heatmap")
 #' @param facet Variable for grouping the plots ("method", "cell_type", "sample")
 #' @param palette RColorBrewer palette name (optional), standard = "Set1"
-#' @import ggplot2
-#' @import tidyr
-#' @import RColorBrewer
+#' @importFrom tidyr pivot_longer
+#' @importFrom RColorBrewer brewer.pal brewer.pal.info
 #' @importFrom grDevices colorRampPalette
+#' @importFrom plotly ggplotly config
 #' @returns ggplot rendered by plotly for interactivity
 #' @export
 #'

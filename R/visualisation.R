@@ -75,8 +75,6 @@ make_barplot <- function(result_list, title = "", file_name = NULL) {
 #'   cell type annotations need to contain the same cell types as the ones in ref_data
 #' @param ref_data reference cell types which are used as the ground truth
 #' @param file_name (optional) plot is saved in this file
-#' @import dplyr
-#' @import ggplot2
 #' @return the ggplot object
 #' @export
 #'

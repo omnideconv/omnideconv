@@ -368,10 +368,12 @@ write_anndata <- function(data, path) {
 #' If called and python environment is not set up, this is realized. Else, it checks if the anndata
 #' package is loaded, and if not, it does this.
 #'
-anndata_checkload <- function() {
+#' @param python (optional) If own python should be used please indicate it's binaries
+#'
+anndata_checkload <- function(python = NULL) {
   if (!python_available()) {
     base::message("Setting up python environment..")
-    init_python()
+    init_python(python)
     if (!python_available()) {
       base::stop(
         "Could not initiate miniconda python environment. Please set up manually with ",

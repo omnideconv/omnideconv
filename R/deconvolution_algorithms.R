@@ -485,11 +485,13 @@ calc_condition_number <- function(signature_matrix) {
 #' This makes sure a valid python installation exists and all needed packages are pulled and
 #' installed.
 #'
+#' @param python (optional) If own python should be used please indicate it's binaries
+#'
 #' @export
 #'
-install_all_python <- function() {
-  init_python()
-  anndata_checkload()
+install_all_python <- function(python = NULL) {
+  init_python(python)
+  anndata_checkload(python)
   autogenes_checkload()
   scaden_checkload()
 }

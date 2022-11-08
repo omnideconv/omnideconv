@@ -4,7 +4,10 @@
 \alias{anndata_checkload}
 \title{Checks if anndata package is loaded}
 \usage{
-anndata_checkload()
+anndata_checkload(python = NULL)
+}
+\arguments{
+\item{python}{(optional) If own python should be used please indicate it's binaries}
 }
 \description{
 If called and python environment is not set up, this is realized. Else, it checks if the anndata

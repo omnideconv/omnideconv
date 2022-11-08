@@ -199,6 +199,9 @@ set_python <- function(path_to_python_binaries) {
 #' @param python (optional) If own python should be used please indicate it's binaries
 #'
 init_python <- function(python = NULL) {
+  # check the python config first; this also enables py_available to work correctly, otherwise it can be that the
+  # correct python path is set, but py_available does not recognize it
+  reticulate::py_config()
   if (!reticulate::py_available()) {
     if (is.null(python)) {
       if (!dir.exists(reticulate::miniconda_path())) {
@@ -228,6 +231,7 @@ init_python <- function(python = NULL) {
 #' @return boolean
 #'
 python_available <- function() {
+  reticulate::py_config()
   return(reticulate::py_available())
 }
 

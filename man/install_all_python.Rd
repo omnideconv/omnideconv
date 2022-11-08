@@ -4,7 +4,10 @@
 \alias{install_all_python}
 \title{Install all python packages}
 \usage{
-install_all_python()
+install_all_python(python = NULL)
+}
+\arguments{
+\item{python}{(optional) If own python should be used please indicate it's binaries}
 }
 \description{
 This makes sure a valid python installation exists and all needed packages are pulled and

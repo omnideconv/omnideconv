@@ -353,14 +353,14 @@ required_packages <- list(
   "bayesprism" = c("omnideconv/BayesPrism"),
   "bisque" = c("BisqueRNA"),
   "bseqsc" = c("shenorrlab/bseqsc"),
-  "cdseq" = c("PelzKo/CDSeq_R_Package"),
+  "cdseq" = c("omnideconv/CDSeq_R_Package"),
   "cibersortx" = c("uuid"),
   "cpm" = c("amitfrish/scBio"),
-  "dwls" = c("PelzKo/dwls"),
-  "momf" = c("grst/MOMF"),
-  "music" = c("xuranw/MuSiC"),
+  "dwls" = c("omnideconv/DWLS"),
+  "momf" = c("omnideconv/MOMF"),
+  "music" = c("omnideconv/MuSiC"),
   "scaden" = c("reticulate"),
-  "scdc" = c("grst/SCDC")
+  "scdc" = c("omnideconv/SCDC")
 )
 
 #' Checking and installing all dependencies for the specific methods

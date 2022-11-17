@@ -3,8 +3,13 @@
 #' @param result_list A named list containing all deconvolution results
 #' @param title (optional) title of the plot
 #' @param file_name (optional) plot is saved in this file
-#' @import dplyr
-#' @import ggplot2
+#' @importFrom dplyr bind_rows
+#' @importFrom ggplot2 ggplot aes geom_bar facet_wrap labs theme scale_fill_brewer
+#' ggsave geom_point geom_abline scale_y_continuous scale_x_continuous
+#' coord_cartesian scale_color_manual element_text aes_string element_line geom_col
+#' element_blank geom_jitter geom_boxplot coord_flip geom_tile guides guide_colorbar
+#' scale_fill_gradient
+#'
 #' @return the ggplot object
 #'
 #' @examples
@@ -75,8 +80,6 @@ make_barplot <- function(result_list, title = "", file_name = NULL) {
 #'   cell type annotations need to contain the same cell types as the ones in ref_data
 #' @param ref_data reference cell types which are used as the ground truth
 #' @param file_name (optional) plot is saved in this file
-#' @import dplyr
-#' @import ggplot2
 #' @return the ggplot object
 #' @export
 #'
@@ -180,10 +183,10 @@ make_benchmarking_scatterplot <- function(result_list, ref_data, file_name = NUL
 #' @param plot_method Type of plot to be rendered  ("bar", "jitter", "scatter", "box", "heatmap")
 #' @param facet Variable for grouping the plots ("method", "cell_type", "sample")
 #' @param palette RColorBrewer palette name (optional), standard = "Set1"
-#' @import ggplot2
-#' @import tidyr
-#' @import RColorBrewer
+#' @importFrom tidyr pivot_longer
+#' @importFrom RColorBrewer brewer.pal brewer.pal.info
 #' @importFrom grDevices colorRampPalette
+#' @importFrom plotly ggplotly config
 #' @returns ggplot rendered by plotly for interactivity
 #' @export
 #'

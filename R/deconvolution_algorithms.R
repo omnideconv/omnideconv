@@ -353,7 +353,7 @@ required_packages <- list(
   "bayesprism" = c("omnideconv/BayesPrism"),
   "bisque" = c("BisqueRNA"),
   "bseqsc" = c("shenorrlab/bseqsc"),
-  "cdseq" = c("omnideconv/CDSeq_R_Package"),
+  "cdseq" = c("omnideconv/CDSeq"),
   "cibersortx" = c("uuid"),
   "cpm" = c("amitfrish/scBio"),
   "dwls" = c("omnideconv/DWLS"),

@@ -29,7 +29,6 @@ Imports:
     S4Vectors,
     Seurat,
     SingleCellExperiment,
-    snowfall,
     SummarizedExperiment,
     SCOPfunctions,
     tidyr,

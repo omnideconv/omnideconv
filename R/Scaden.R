@@ -68,11 +68,13 @@ build_model_scaden <- function(single_cell_object, cell_type_annotations, bulk_g
     samples = samples, dataset_name = dataset_name,
     verbose = verbose
   )
-  processed <- scaden_process(training_h5ad, temp_dir = temp_dir, bulk_gene_expression,
+  processed <- scaden_process(training_h5ad,
+    temp_dir = temp_dir, bulk_gene_expression,
     verbose = verbose,
     var_cutoff = var_cutoff
   )
-  output_model_path <- scaden_train(processed, temp_dir = temp_dir,
+  output_model_path <- scaden_train(processed,
+    temp_dir = temp_dir,
     model_path = model_path, verbose = verbose,
     batch_size = batch_size, learning_rate = learning_rate,
     steps = steps
@@ -152,7 +154,7 @@ scaden_train <- function(h5ad_processed, temp_dir = NULL, batch_size = 128, lear
 
   # create temporary directory where Scaden input files should be saved at.
   tmp_dir <- temp_dir
-  if(is.null(temp_dir)){
+  if (is.null(temp_dir)) {
     tmp_dir <- tempdir()
     dir.create(tmp_dir, showWarnings = FALSE)
   }
@@ -225,7 +227,7 @@ scaden_process <- function(h5ad, temp_dir = NULL, bulk_gene_expression, var_cuto
 
   # create temporary directory where Scaden input files should be saved at.
   tmp_dir <- temp_dir
-  if(is.null(temp_dir)){
+  if (is.null(temp_dir)) {
     tmp_dir <- tempdir()
     dir.create(tmp_dir, showWarnings = FALSE)
   }
@@ -296,7 +298,7 @@ scaden_predict <- function(model_dir, bulk_gene_expression, temp_dir = NULL, ver
     {
       # create temporary directory where Scaden input files should be saved at.
       tmp_dir <- temp_dir
-      if(is.null(temp_dir)){
+      if (is.null(temp_dir)) {
         tmp_dir <- tempdir()
         dir.create(tmp_dir, showWarnings = FALSE)
       }
@@ -402,7 +404,7 @@ scaden_simulate <- function(cell_type_annotations, gene_labels, single_cell_obje
     {
       # create temporary directory where Scaden input files should be saved at.
       tmp_dir <- temp_dir
-      if(is.null(temp_dir)){
+      if (is.null(temp_dir)) {
         tmp_dir <- tempdir()
         dir.create(tmp_dir, showWarnings = FALSE)
       }

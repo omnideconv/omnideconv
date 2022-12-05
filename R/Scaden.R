@@ -183,11 +183,12 @@ scaden_train <- function(h5ad_processed, batch_size = 128, learning_rate = 0.000
   }
 
   # Calling Scaden command
-  system(paste(
-    "scaden train", h5ad_processed_tmp, "--batch_size", batch_size, "--learning_rate",
-    learning_rate, "--steps", steps, "--model_dir", model_path
-  ),
-  ignore.stdout = !verbose, ignore.stderr = !verbose
+  system(
+    paste(
+      "scaden train", h5ad_processed_tmp, "--batch_size", batch_size, "--learning_rate",
+      learning_rate, "--steps", steps, "--model_dir", model_path
+    ),
+    ignore.stdout = !verbose, ignore.stderr = !verbose
   )
 
   model_dirs <- list.dirs(path = model_path, full.names = FALSE, recursive = FALSE)
@@ -240,11 +241,12 @@ scaden_process <- function(h5ad, bulk_gene_expression, var_cutoff = NULL, verbos
           ignore.stdout = !verbose, ignore.stderr = !verbose
         )
       } else {
-        system(paste(
-          "scaden process", h5ad_tmp, bulk_gene_expression_tmp, "--processed_path", processed_h5ad,
-          "--var_cutoff", var_cutoff
-        ),
-        ignore.stdout = !verbose, ignore.stderr = !verbose
+        system(
+          paste(
+            "scaden process", h5ad_tmp, bulk_gene_expression_tmp, "--processed_path", processed_h5ad,
+            "--var_cutoff", var_cutoff
+          ),
+          ignore.stdout = !verbose, ignore.stderr = !verbose
         )
       }
       read_anndata(processed_h5ad)
@@ -409,11 +411,12 @@ scaden_simulate <- function(cell_type_annotations, gene_labels, single_cell_obje
       )
       setwd(tmp_dir)
 
-      system(paste(
-        "scaden simulate --data", paste0(tmp_dir, "/", dataset_name), "-n", samples,
-        "-c", cells, "--pattern *_counts.txt"
-      ),
-      ignore.stdout = !verbose, ignore.stderr = !verbose
+      system(
+        paste(
+          "scaden simulate --data", paste0(tmp_dir, "/", dataset_name), "-n", samples,
+          "-c", cells, "--pattern *_counts.txt"
+        ),
+        ignore.stdout = !verbose, ignore.stderr = !verbose
       )
 
       # Workaround to not have any Inf values in the simulated data

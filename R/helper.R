@@ -20,8 +20,6 @@ verbose_wrapper <- function(verbose) {
 #' @return A boolean value
 #'
 check_container <- function(container = c("docker", "singularity")) {
-
-
   if (container == "docker") {
     command <- "docker"
   } else {

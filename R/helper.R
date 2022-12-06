@@ -20,23 +20,27 @@ verbose_wrapper <- function(verbose) {
 #' @return A boolean value
 #'
 check_container <- function(container = c("docker", "singularity")) {
-  container.available <- (system(container, ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
+
+
+  if (container == "docker") {
+    command <- "docker"
+  } else {
+    command <- "singularity instance list"
+  }
+
+  container.available <- (system(command, ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
 
   if (!container.available) {
     message(paste0(
       "Installation of ", container, " can not be found. Please check whether you can ",
-      "call 'docker' in the command line and get a help menu"
+      "call \'", container, "\' in the command line and get a help menu"
     ))
     return(FALSE)
   }
 
   if (container == "docker") {
     command <- "docker ps"
-  } else {
-    command <- "singularity instance list"
   }
-
-
 
   container.connectable <- (system(command, ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
 

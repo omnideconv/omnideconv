@@ -38,7 +38,6 @@ Suggests:
     BayesPrism,
     BisqueRNA,
     bseqsc,
-    harmony,
     CDSeq,
     devtools,
     DWLS (>= 0.2),

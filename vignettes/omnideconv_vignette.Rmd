@@ -22,7 +22,6 @@ knitr::opts_chunk$set(
 )
 
 
-library(omnideconv)
 omnideconv::install_all_python()
 ```
 

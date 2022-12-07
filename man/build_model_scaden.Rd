@@ -9,6 +9,7 @@ build_model_scaden(
   cell_type_annotations,
   bulk_gene_expression,
   model_path = NULL,
+  temp_dir = NULL,
   batch_size = 128,
   learning_rate = 1e-04,
   steps = 5000,
@@ -30,6 +31,8 @@ as the samples in single_cell_object.}
 Row and column names need to be set.}
 
 \item{model_path}{Path where model directory should be created (optional).}
+
+\item{temp_dir}{The temporary directory to use for the computations (optional)}
 
 \item{batch_size}{Training  of model: Batch size to use for training (default: 128).}
 

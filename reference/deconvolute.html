@@ -158,11 +158,14 @@ individuals, columns are cell types.</p>
 <span class="r-in"><span>  <span class="va">batch_ids</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> standard was chosen because multiple values were supplied for "mode"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Using virtual environment '~/.virtualenvs/r-reticulate' ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> + '/home/runner/.virtualenvs/r-reticulate/bin/python' -m pip install --upgrade --no-user 'anndata&gt;=0.7.5'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Note: using the 'X' assay as the X matrix</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in py_module_import(module, convert = convert):</span> ModuleNotFoundError: No module named 'anndata'</span>
 <span class="r-in"><span><span class="va">deconv_autogenes</span> <span class="op">&lt;-</span> <span class="fu">deconvolute</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">bulk</span>, <span class="va">signature_matrix_autogenes</span>, <span class="st">"autogenes"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> nusvr was chosen because multiple values were supplied for "model"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in "matrix" %in% class(signature):</span> object 'signature_matrix_autogenes' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">deconv_bisque</span> <span class="op">&lt;-</span> <span class="fu">deconvolute</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">bulk</span>, <span class="cn">NULL</span>, <span class="st">"bisque"</span>, <span class="va">single_cell_data</span>,</span></span>

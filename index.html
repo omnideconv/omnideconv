@@ -106,7 +106,7 @@
 <p>The main functions of this package are to build a signature matrix and deconvolute bulk RNA-seq data based on this signature matrix.</p>
 <p>The basic workflow (in this example using the method “dwls”) is the following:</p>
 <div class="section level3">
-<h3 id="1-build-a-signature-matrix">1. Build a Signature Matrix<a class="anchor" aria-label="anchor" href="#1-build-a-signature-matrix"></a>
+<h3 id="id_1-build-a-signature-matrix">1. Build a Signature Matrix<a class="anchor" aria-label="anchor" href="#id_1-build-a-signature-matrix"></a>
 </h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data_1</span>, <span class="va">cell_type_annotations_1</span>,</span>
@@ -127,7 +127,7 @@
 </ul>
 </div>
 <div class="section level3">
-<h3 id="2-deconvolute">2. Deconvolute<a class="anchor" aria-label="anchor" href="#2-deconvolute"></a>
+<h3 id="id_2-deconvolute">2. Deconvolute<a class="anchor" aria-label="anchor" href="#id_2-deconvolute"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="va">signature_matrix</span>, method <span class="op">=</span> <span class="st">"dwls"</span><span class="op">)</span></span></code></pre></div>
@@ -240,7 +240,9 @@
 <h2 id="available-methods-licenses-citations">Available methods, Licenses, Citations<a class="anchor" aria-label="anchor" href="#available-methods-licenses-citations"></a>
 </h2>
 <p>Note that, while <em>omnideconv</em> itself is free (<a href="https://github.com/omnideconv/omnideconv/blob/main/LICENSE" class="external-link">GPL 3.0</a>), you may need to obtain a license to use the individual methods. See the table below for more information. If you use this package in your work, please cite both our package and the method(s) you are using.</p>
-<blockquote><p>CITATION</p></blockquote>
+<blockquote>
+<p>CITATION</p>
+</blockquote>
 <table class="table">
 <colgroup>
 <col width="10%">

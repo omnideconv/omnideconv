@@ -159,11 +159,17 @@ names in the single_cell_object.</p></dd>
 <span class="r-in"><span>  crossover_pb <span class="op">=</span> <span class="fl">0.3</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> standard was chosen because multiple values were supplied for "mode"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Setting up python environment..</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Setting python version in miniconda to be 3.9</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Setting up miniconda environment..</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> + '/home/runner/.local/share/r-miniconda/bin/conda' 'install' '--yes' '--prefix' '/home/runner/.local/share/r-miniconda/envs/r-reticulate' '-c' 'conda-forge' 'anndata&gt;=0.7.5'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Using Python: /usr/bin/python3.10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Creating virtual environment '~/.virtualenvs/r-reticulate' ... </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> + '/usr/bin/python3.10' -m venv '/home/runner/.virtualenvs/r-reticulate'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Done!</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Installing packages: 'pip', 'wheel', 'setuptools', 'numpy'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> + '/home/runner/.virtualenvs/r-reticulate/bin/python' -m pip install --upgrade --no-user 'pip' 'wheel' 'setuptools' 'numpy'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Virtual environment '~/.virtualenvs/r-reticulate' successfully created.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Using virtual environment '~/.virtualenvs/r-reticulate' ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> + '/home/runner/.virtualenvs/r-reticulate/bin/python' -m pip install --upgrade --no-user 'anndata&gt;=0.7.5'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Note: using the 'X' assay as the X matrix</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in py_module_import(module, convert = convert):</span> ModuleNotFoundError: No module named 'anndata'</span>
 </code></pre></div>
     </div>
   </div>

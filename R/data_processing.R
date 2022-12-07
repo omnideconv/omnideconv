@@ -118,7 +118,7 @@ anndata_to_singlecellexperiment <- function(ad) {
 #' @return AnnData object
 #'
 singlecellexperiment_to_anndata <- function(sce, X_name = NULL) {
-  anndata_checkload()
+  #anndata_checkload()
   if (is.null(X_name)) {
     if (length(SummarizedExperiment::assays(sce)) == 0) {
       stop("'sce' does not contain any assays")

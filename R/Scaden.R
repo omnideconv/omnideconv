@@ -139,6 +139,7 @@ install_scaden <- function() {
 #' Trains a Scaden model on pre-processed training data.
 #'
 #' @param h5ad_processed pre-processed training data
+#' @param temp_dir The temporary directory to use for the computations (optional)
 #' @param batch_size Batch size to use for training. Default: 128
 #' @param learning_rate Learning rate used for training. Default: 0.0001
 #' @param model_path Path to store the model in
@@ -215,6 +216,7 @@ scaden_train <- function(h5ad_processed, temp_dir = NULL, batch_size = 128, lear
 #' Training data needs to be processed before a model can be trained.
 #'
 #' @param h5ad File that should be processed. Must be in AnnData format (.h5ad)
+#' @param temp_dir The temporary directory to use for the computations (optional)
 #' @param bulk_gene_expression Bulk RNA-seq data. (genes x individuals)
 #' @param var_cutoff Filter out genes with a variance less than the specified cutoff. A low cutoff
 #'   is recommended,this should only remove genes that are obviously uninformative.
@@ -285,6 +287,7 @@ scaden_process <- function(h5ad, temp_dir = NULL, bulk_gene_expression, var_cuto
 #'
 #' @param model_dir Directory where model is saved
 #' @param bulk_gene_expression Bulk RNA-seq data. (genes x bulk_RNA samples)
+#' @param temp_dir The temporary directory to use for the computations (optional)
 #' @param verbose Whether to produce an output on the console. (default: false)
 #'
 #' @return Cell type fractions per sample
@@ -382,6 +385,7 @@ scaden_simulate_example <- function(example_data_path = NULL, verbose = FALSE) {
 #' @param gene_labels Vector of gene labels. Order corresponds to columns in
 #'   single_cell_object matrix.
 #' @param single_cell_object Matrix or dataframe of scRNA data. Rows=cells and columns=genes
+#' @param temp_dir The temporary directory to use for the computations (optional)
 #' @param samples Bulk simulation: Number of samples to simulate (default: 1000)
 #' @param cells Bulk simulation: Number of cells per sample (default: 100)
 #' @param dataset_name Name of dataset

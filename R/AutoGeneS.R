@@ -74,6 +74,8 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations,
     message(paste0(mode, " was chosen because multiple values were supplied for \"mode\""))
   }
 
+  anndata_checkload()
+
   sce <- matrix_to_singlecellexperiment(single_cell_object, cell_type_annotations)
   ad <- singlecellexperiment_to_anndata(sce)
 

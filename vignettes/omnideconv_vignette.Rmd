@@ -21,8 +21,7 @@ knitr::opts_chunk$set(
   warning = FALSE
 )
 
-#omnideconv::install_all_python()
-
+# omnideconv::install_all_python()
 ```
 
 ```{r Logo, echo=FALSE, out.width="80%"}

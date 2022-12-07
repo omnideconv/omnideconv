@@ -9,3 +9,5 @@
 ^\.pre-commit-config\.yaml$
 ^\.prettierignore$
 ^codecov.yml$
+^doc$
+^Meta$

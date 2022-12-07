@@ -9,6 +9,7 @@
 #' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples.
 #'   Row and column names need to be set.
 #' @param model_path Path where model directory should be created (optional).
+#' @param temp_dir The temporary directory to use for the computations (optional)
 #' @param samples Bulk simulation: Number of samples to simulate (default: 1000).
 #' @param cells Bulk simulation: Number of cells per sample (default: 100).
 #' @param dataset_name Bulk simulation: Name of simulated dataset (default scaden).
@@ -24,7 +25,7 @@
 #' @export
 #'
 build_model_scaden <- function(single_cell_object, cell_type_annotations, bulk_gene_expression,
-                               model_path = NULL, batch_size = 128, learning_rate = 1E-4,
+                               model_path = NULL, temp_dir = NULL, batch_size = 128, learning_rate = 1E-4,
                                steps = 5000, var_cutoff = NULL, cells = 100, samples = 1000,
                                dataset_name = "scaden", verbose = FALSE) {
   if (is.null(single_cell_object)) {
@@ -63,15 +64,17 @@ build_model_scaden <- function(single_cell_object, cell_type_annotations, bulk_g
 
   training_h5ad <- scaden_simulate(
     cell_type_annotations = cell_type_annotations, gene_labels = gene_labels,
-    single_cell_object = single_cell_object, cells = cells,
+    single_cell_object = single_cell_object, temp_dir = temp_dir, cells = cells,
     samples = samples, dataset_name = dataset_name,
     verbose = verbose
   )
-  processed <- scaden_process(training_h5ad, bulk_gene_expression,
+  processed <- scaden_process(training_h5ad,
+    temp_dir = temp_dir, bulk_gene_expression,
     verbose = verbose,
     var_cutoff = var_cutoff
   )
   output_model_path <- scaden_train(processed,
+    temp_dir = temp_dir,
     model_path = model_path, verbose = verbose,
     batch_size = batch_size, learning_rate = learning_rate,
     steps = steps
@@ -145,13 +148,17 @@ install_scaden <- function() {
 #'
 #' @return Scaden model
 #'
-scaden_train <- function(h5ad_processed, batch_size = 128, learning_rate = 0.0001,
+scaden_train <- function(h5ad_processed, temp_dir = NULL, batch_size = 128, learning_rate = 0.0001,
                          model_path = NULL, steps = 5000, verbose = FALSE) {
   if (verbose) message("Training model")
 
   # create temporary directory where Scaden input files should be saved at.
-  tmp_dir <- tempdir()
-  dir.create(tmp_dir, showWarnings = FALSE)
+  tmp_dir <- temp_dir
+  if (is.null(temp_dir)) {
+    tmp_dir <- tempdir()
+    dir.create(tmp_dir, showWarnings = FALSE)
+  }
+
 
   # the file is only created temporarily, later deleted at unlink(tmp)
   h5ad_processed_tmp <- tempfile(tmpdir = tmp_dir)
@@ -215,8 +222,15 @@ scaden_train <- function(h5ad_processed, batch_size = 128, learning_rate = 0.000
 #'
 #' @return processed training file. (.h5ad format)
 #'
-scaden_process <- function(h5ad, bulk_gene_expression, var_cutoff = NULL, verbose = FALSE) {
+scaden_process <- function(h5ad, temp_dir = NULL, bulk_gene_expression, var_cutoff = NULL, verbose = FALSE) {
   if (verbose) message("Processing training data for model creation ...")
+
+  # create temporary directory where Scaden input files should be saved at.
+  tmp_dir <- temp_dir
+  if (is.null(temp_dir)) {
+    tmp_dir <- tempdir()
+    dir.create(tmp_dir, showWarnings = FALSE)
+  }
 
   out <- tryCatch(
     {
@@ -275,15 +289,19 @@ scaden_process <- function(h5ad, bulk_gene_expression, var_cutoff = NULL, verbos
 #'
 #' @return Cell type fractions per sample
 #'
-scaden_predict <- function(model_dir, bulk_gene_expression, verbose = FALSE) {
+scaden_predict <- function(model_dir, bulk_gene_expression, temp_dir = NULL, verbose = FALSE) {
   if (verbose) message("Predicting cell type proportions")
 
   current_wd <- getwd()
 
   predictions <- tryCatch(
     {
-      tmp_dir <- tempdir()
-      dir.create(tmp_dir, showWarnings = FALSE)
+      # create temporary directory where Scaden input files should be saved at.
+      tmp_dir <- temp_dir
+      if (is.null(temp_dir)) {
+        tmp_dir <- tempdir()
+        dir.create(tmp_dir, showWarnings = FALSE)
+      }
       setwd(tmp_dir)
 
       bulk_gene_expression_tmp <- tempfile(tmpdir = tmp_dir)
@@ -371,7 +389,7 @@ scaden_simulate_example <- function(example_data_path = NULL, verbose = FALSE) {
 #'
 #' @return Simulated bulk data of known cell type fractions
 #'
-scaden_simulate <- function(cell_type_annotations, gene_labels, single_cell_object, cells = 100,
+scaden_simulate <- function(cell_type_annotations, gene_labels, single_cell_object, temp_dir = NULL, cells = 100,
                             samples = 1000, dataset_name = "scaden", verbose = FALSE) {
   if (verbose) {
     message(
@@ -384,8 +402,12 @@ scaden_simulate <- function(cell_type_annotations, gene_labels, single_cell_obje
 
   output <- tryCatch(
     {
-      tmp_dir <- tempdir()
-      dir.create(tmp_dir, showWarnings = FALSE)
+      # create temporary directory where Scaden input files should be saved at.
+      tmp_dir <- temp_dir
+      if (is.null(temp_dir)) {
+        tmp_dir <- tempdir()
+        dir.create(tmp_dir, showWarnings = FALSE)
+      }
       setwd(tmp_dir)
       if (dir.exists(dataset_name)) {
         unlink(dataset_name, recursive = TRUE)

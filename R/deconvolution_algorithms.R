@@ -195,9 +195,6 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
 #'   single_cell_data, cell_type_annotations, "autogenes",
 #'   batch_ids
 #' )
-#' deconv_autogenes <- deconvolute(
-#'   bulk, signature_matrix_autogenes, "autogenes"
-#' )
 #'
 #' deconv_bisque <- deconvolute(
 #'   bulk, NULL, "bisque", single_cell_data,

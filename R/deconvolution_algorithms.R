@@ -61,7 +61,7 @@ deconvolution_methods <- c(
 #'   single_cell_data, cell_type_annotations, "momf",
 #'   bulk_gene_expression = bulk
 #' )
-
+#'
 build_model <- function(single_cell_object, cell_type_annotations = NULL,
                         method = deconvolution_methods, batch_ids = NULL,
                         bulk_gene_expression = NULL, verbose = FALSE,

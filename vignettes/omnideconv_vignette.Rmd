@@ -20,8 +20,10 @@ knitr::opts_chunk$set(
   message = FALSE,
   warning = FALSE
 )
-omnideconv::install_all_python()
+
+# omnideconv::install_all_python()
 ```
+
 ```{r Logo, echo=FALSE, out.width="80%"}
 knitr::include_graphics("images/logo.JPG")
 ```
@@ -296,32 +298,32 @@ For this comparison, a perfect estimation of cell type fractions by one method w
 
 Detailed information about the methods can be found in section 4.
 
-## Prediction Results
+<!-- ## Prediction Results -->
 
-In the two figures shown below, the single cell RNA-seq data contains counts while the bulk RNA-seq data is TPM normalized. Our test data sets contain TPM normalized values as well.
-The graphic looks a little different from the last deconvolution plot, as we combined CD4 and CD8 T-cells here to compare the method results to the ground truth.
+<!-- In the two figures shown below, the single cell RNA-seq data contains counts while the bulk RNA-seq data is TPM normalized. Our test data sets contain TPM normalized values as well. -->
+<!-- The graphic looks a little different from the last deconvolution plot, as we combined CD4 and CD8 T-cells here to compare the method results to the ground truth. -->
 
-```{r benchmarking, fig.width=7, fig.height=3, fig.align='center'}
-pickle_path_autogenes <- build_model(single_cell_data, cell_type_annotations, "autogenes")
-res_autogenes <- deconvolute(bulk, pickle_path_autogenes, "autogenes")
+<!-- ```{r benchmarking, fig.width=7, fig.height=3, fig.align='center'} -->
+<!-- pickle_path_autogenes <- build_model(single_cell_data, cell_type_annotations, "autogenes") -->
+<!-- res_autogenes <- deconvolute(bulk, pickle_path_autogenes, "autogenes") -->
 
-# SCDC does not require the build_model step
-res_scdc <- deconvolute(bulk, NULL, "scdc", single_cell_data, cell_type_annotations, batch_ids)
+<!-- # SCDC does not require the build_model step -->
+<!-- res_scdc <- deconvolute(bulk, NULL, "scdc", single_cell_data, cell_type_annotations, batch_ids) -->
 
-# res_bisque was already calculated before
-result_list <- list(AutoGeneS = res_autogenes, Bisque = res_bisque, SCDC = res_scdc)
+<!-- # res_bisque was already calculated before -->
+<!-- result_list <- list(AutoGeneS = res_autogenes, Bisque = res_bisque, SCDC = res_scdc) -->
 
-# This joins CD4 and CD8 T cells into on class so it can be compared with the reference data
-result_list <- lapply(result_list, function(x) {
-  if ("CD4 T" %in% colnames(x)) {
-    cbind(x, T = (x[, "CD4 T"] + x[, "CD8 T"]))[, -c(2, 3)]
-  } else {
-    x
-  }
-})
-omnideconv::make_benchmarking_scatterplot(result_list, RefData)
-omnideconv::make_barplot(result_list, "Comparison of different deconvolution methods")
-```
+<!-- # This joins CD4 and CD8 T cells into on class so it can be compared with the reference data -->
+<!-- result_list <- lapply(result_list, function(x) { -->
+<!--   if ("CD4 T" %in% colnames(x)) { -->
+<!--     cbind(x, T = (x[, "CD4 T"] + x[, "CD8 T"]))[, -c(2, 3)] -->
+<!--   } else { -->
+<!--     x -->
+<!--   } -->
+<!-- }) -->
+<!-- omnideconv::make_benchmarking_scatterplot(result_list, RefData) -->
+<!-- omnideconv::make_barplot(result_list, "Comparison of different deconvolution methods") -->
+<!-- ``` -->
 
 <!--
 

@@ -8,6 +8,7 @@ scaden_simulate(
   cell_type_annotations,
   gene_labels,
   single_cell_object,
+  temp_dir = NULL,
   cells = 100,
   samples = 1000,
   dataset_name = "scaden",
@@ -22,6 +23,8 @@ single_cell_object matrix.}
 single_cell_object matrix.}
 
 \item{single_cell_object}{Matrix or dataframe of scRNA data. Rows=cells and columns=genes}
+
+\item{temp_dir}{The temporary directory to use for the computations (optional)}
 
 \item{cells}{Bulk simulation: Number of cells per sample (default: 100)}
 

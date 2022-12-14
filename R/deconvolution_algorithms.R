@@ -61,10 +61,7 @@ deconvolution_methods <- c(
 #'   single_cell_data, cell_type_annotations, "momf",
 #'   bulk_gene_expression = bulk
 #' )
-#' pickle_path_autogenes <- build_model(single_cell_data, cell_type_annotations, "autogenes",
-#'   population_size = 500, offspring_size = 30,
-#'   crossover_pb = 0.3
-#' )
+#'
 build_model <- function(single_cell_object, cell_type_annotations = NULL,
                         method = deconvolution_methods, batch_ids = NULL,
                         bulk_gene_expression = NULL, verbose = FALSE,
@@ -353,14 +350,14 @@ required_packages <- list(
   "bayesprism" = c("omnideconv/BayesPrism"),
   "bisque" = c("BisqueRNA"),
   "bseqsc" = c("shenorrlab/bseqsc"),
-  "cdseq" = c("PelzKo/CDSeq_R_Package"),
+  "cdseq" = c("omnideconv/CDSeq"),
   "cibersortx" = c("uuid"),
   "cpm" = c("amitfrish/scBio"),
-  "dwls" = c("PelzKo/dwls"),
-  "momf" = c("grst/MOMF"),
-  "music" = c("xuranw/MuSiC"),
+  "dwls" = c("omnideconv/DWLS"),
+  "momf" = c("omnideconv/MOMF"),
+  "music" = c("omnideconv/MuSiC"),
   "scaden" = c("reticulate"),
-  "scdc" = c("grst/SCDC")
+  "scdc" = c("omnideconv/SCDC")
 )
 
 #' Checking and installing all dependencies for the specific methods

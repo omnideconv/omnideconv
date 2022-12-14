@@ -286,6 +286,7 @@ autogenes_checkload <- function() {
       )
     }
   }
+  anndata_checkload()
   if (!reticulate::py_module_available("autogenes")) {
     install_autogenes()
   }

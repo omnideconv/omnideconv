@@ -20,23 +20,23 @@ get_signature_matrix_options(
 \arguments{
 \item{refsample}{The filename of the single cell data.}
 
-\item{g_min}{<int> Minimum number of genes per cell type in sig. matrix.}
+\item{g_min}{\if{html}{\out{<int>}} Minimum number of genes per cell type in sig. matrix.}
 
-\item{g_max}{<int> Maximum number of genes per cell type in sig. matrix.}
+\item{g_max}{\if{html}{\out{<int>}} Maximum number of genes per cell type in sig. matrix.}
 
-\item{q_value}{<int> Q-value threshold for differential expression.}
+\item{q_value}{\if{html}{\out{<int>}} Q-value threshold for differential expression.}
 
-\item{filter}{<bool> Remove non-hematopoietic genes.}
+\item{filter}{\if{html}{\out{<bool>}} Remove non-hematopoietic genes.}
 
-\item{k_max}{<int> Maximum condition number. Will be added to the file name.}
+\item{k_max}{\if{html}{\out{<int>}} Maximum condition number. Will be added to the file name.}
 
-\item{remake}{<bool> Remake signature gene matrix.}
+\item{remake}{\if{html}{\out{<bool>}} Remake signature gene matrix.}
 
-\item{replicates}{<int> Number of replicates to use for building scRNAseq reference file.}
+\item{replicates}{\if{html}{\out{<int>}} Number of replicates to use for building scRNAseq reference file.}
 
-\item{sampling}{<float> Fraction of available single cell GEPs selected using random sampling.}
+\item{sampling}{\if{html}{\out{<float>}} Fraction of available single cell GEPs selected using random sampling.}
 
-\item{fraction}{<float> Fraction of cells of same identity showing evidence of expression.}
+\item{fraction}{\if{html}{\out{<float>}} Fraction of cells of same identity showing evidence of expression.}
 }
 \value{
 A string in the correct format for the docker command, containing all parameters.

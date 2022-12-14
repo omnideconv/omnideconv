@@ -640,37 +640,27 @@ takes the desired filename and -type as a parameter, as a testset.</p>
 <p>For this comparison, a perfect estimation of cell type fractions by
 one method would imply that all points align to the diagonal line.</p>
 <p>Detailed information about the methods can be found in section 4.</p>
-<div class="section level3">
-<h3 id="prediction-results">Prediction Results<a class="anchor" aria-label="anchor" href="#prediction-results"></a>
-</h3>
-<p>In the two figures shown below, the single cell RNA-seq data contains
-counts while the bulk RNA-seq data is TPM normalized. Our test data sets
-contain TPM normalized values as well. The graphic looks a little
-different from the last deconvolution plot, as we combined CD4 and CD8
-T-cells here to compare the method results to the ground truth.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pickle_path_autogenes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span><span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="st">"autogenes"</span><span class="op">)</span></span>
-<span><span class="va">res_autogenes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="va">pickle_path_autogenes</span>, <span class="st">"autogenes"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># SCDC does not require the build_model step</span></span>
-<span><span class="va">res_scdc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span><span class="va">bulk</span>, <span class="cn">NULL</span>, <span class="st">"scdc"</span>, <span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="va">batch_ids</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># res_bisque was already calculated before</span></span>
-<span><span class="va">result_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>AutoGeneS <span class="op">=</span> <span class="va">res_autogenes</span>, Bisque <span class="op">=</span> <span class="va">res_bisque</span>, SCDC <span class="op">=</span> <span class="va">res_scdc</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># This joins CD4 and CD8 T cells into on class so it can be compared with the reference data</span></span>
-<span><span class="va">result_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">result_list</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="st">"CD4 T"</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">x</span>, T <span class="op">=</span> <span class="op">(</span><span class="va">x</span><span class="op">[</span>, <span class="st">"CD4 T"</span><span class="op">]</span> <span class="op">+</span> <span class="va">x</span><span class="op">[</span>, <span class="st">"CD8 T"</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">[</span>, <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">]</span></span>
-<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>    <span class="va">x</span></span>
-<span>  <span class="op">}</span></span>
-<span><span class="op">}</span><span class="op">)</span></span>
-<span><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/make_benchmarking_scatterplot.html">make_benchmarking_scatterplot</a></span><span class="op">(</span><span class="va">result_list</span>, <span class="va">RefData</span><span class="op">)</span></span></code></pre></div>
-<p><img src="omnideconv_vignette_files/figure-html/benchmarking-1.png" width="672" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/make_barplot.html">make_barplot</a></span><span class="op">(</span><span class="va">result_list</span>, <span class="st">"Comparison of different deconvolution methods"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="omnideconv_vignette_files/figure-html/benchmarking-2.png" width="672" style="display: block; margin: auto;"></p>
+<!-- ## Prediction Results -->
+<!-- In the two figures shown below, the single cell RNA-seq data contains counts while the bulk RNA-seq data is TPM normalized. Our test data sets contain TPM normalized values as well. -->
+<!-- The graphic looks a little different from the last deconvolution plot, as we combined CD4 and CD8 T-cells here to compare the method results to the ground truth. -->
+<!-- ```{r benchmarking, fig.width=7, fig.height=3, fig.align='center'} -->
+<!-- pickle_path_autogenes <- build_model(single_cell_data, cell_type_annotations, "autogenes") -->
+<!-- res_autogenes <- deconvolute(bulk, pickle_path_autogenes, "autogenes") -->
+<!-- # SCDC does not require the build_model step -->
+<!-- res_scdc <- deconvolute(bulk, NULL, "scdc", single_cell_data, cell_type_annotations, batch_ids) -->
+<!-- # res_bisque was already calculated before -->
+<!-- result_list <- list(AutoGeneS = res_autogenes, Bisque = res_bisque, SCDC = res_scdc) -->
+<!-- # This joins CD4 and CD8 T cells into on class so it can be compared with the reference data -->
+<!-- result_list <- lapply(result_list, function(x) { -->
+<!--   if ("CD4 T" %in% colnames(x)) { -->
+<!--     cbind(x, T = (x[, "CD4 T"] + x[, "CD8 T"]))[, -c(2, 3)] -->
+<!--   } else { -->
+<!--     x -->
+<!--   } -->
+<!-- }) -->
+<!-- omnideconv::make_benchmarking_scatterplot(result_list, RefData) -->
+<!-- omnideconv::make_barplot(result_list, "Comparison of different deconvolution methods") -->
+<!-- ``` -->
 <!--
 
 ## Comparison with First-Generation Deconvolution Methods
@@ -693,7 +683,6 @@ The advantage of fixed signature matrices is that they can be modulated to fit t
 However, this was just a small benchmark with one dataset. Different datasets of different disease progressions and cell proportions might show additional advantages or disadvantages of the methods. Generally it can be said that second-generation tools provide other functionality and thus make a good addition to the deconvolution package.
 
 -->
-</div>
 <div class="section level3">
 <h3 id="signature-interchangeability">Signature Interchangeability<a class="anchor" aria-label="anchor" href="#signature-interchangeability"></a>
 </h3>

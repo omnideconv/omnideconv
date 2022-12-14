@@ -43,16 +43,16 @@ directory.}
 
 \item{...}{Additional parameters supplied to the algorithm. Options are:
 \itemize{
-\item g_min <int> Minimum number of genes per cell type in sig. matrix (default: 300).
-\item g_max <int> Maximum number of genes per cell type in sig. matrix (default: 500).
-\item q_value <int> Q-value threshold for differential expression (default: 0.01).
-\item filter <bool> Remove non-hematopoietic genes (default: FALSE).
-\item remake <bool> Remake signature gene matrix (default: False).
-\item replicates <int> Number of replicates to use for building scRNAseq reference file
+\item g_min \if{html}{\out{<int>}} Minimum number of genes per cell type in sig. matrix (default: 300).
+\item g_max \if{html}{\out{<int>}} Maximum number of genes per cell type in sig. matrix (default: 500).
+\item q_value \if{html}{\out{<int>}} Q-value threshold for differential expression (default: 0.01).
+\item filter \if{html}{\out{<bool>}} Remove non-hematopoietic genes (default: FALSE).
+\item remake \if{html}{\out{<bool>}} Remake signature gene matrix (default: False).
+\item replicates \if{html}{\out{<int>}} Number of replicates to use for building scRNAseq reference file
 (default: 5).
-\item sampling <float> Fraction of available single cell GEPs selected using random sampling
+\item sampling \if{html}{\out{<float>}} Fraction of available single cell GEPs selected using random sampling
 (default: 0.5).
-\item fraction <float> Fraction of cells of same identity showing evidence of expression
+\item fraction \if{html}{\out{<float>}} Fraction of cells of same identity showing evidence of expression
 (default: 0.75).
 }}
 }

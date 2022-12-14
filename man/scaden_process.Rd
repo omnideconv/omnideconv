@@ -4,10 +4,18 @@
 \alias{scaden_process}
 \title{Pre-processes training data}
 \usage{
-scaden_process(h5ad, bulk_gene_expression, var_cutoff = NULL, verbose = FALSE)
+scaden_process(
+  h5ad,
+  temp_dir = NULL,
+  bulk_gene_expression,
+  var_cutoff = NULL,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{h5ad}{File that should be processed. Must be in AnnData format (.h5ad)}
+
+\item{temp_dir}{The temporary directory to use for the computations (optional)}
 
 \item{bulk_gene_expression}{Bulk RNA-seq data. (genes x individuals)}
 

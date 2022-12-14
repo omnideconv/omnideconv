@@ -4,12 +4,19 @@
 \alias{scaden_predict}
 \title{Predict cell proportions}
 \usage{
-scaden_predict(model_dir, bulk_gene_expression, verbose = FALSE)
+scaden_predict(
+  model_dir,
+  bulk_gene_expression,
+  temp_dir = NULL,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{model_dir}{Directory where model is saved}
 
 \item{bulk_gene_expression}{Bulk RNA-seq data. (genes x bulk_RNA samples)}
+
+\item{temp_dir}{The temporary directory to use for the computations (optional)}
 
 \item{verbose}{Whether to produce an output on the console. (default: false)}
 }

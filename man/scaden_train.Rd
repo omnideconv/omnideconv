@@ -6,6 +6,7 @@
 \usage{
 scaden_train(
   h5ad_processed,
+  temp_dir = NULL,
   batch_size = 128,
   learning_rate = 1e-04,
   model_path = NULL,
@@ -15,6 +16,8 @@ scaden_train(
 }
 \arguments{
 \item{h5ad_processed}{pre-processed training data}
+
+\item{temp_dir}{The temporary directory to use for the computations (optional)}
 
 \item{batch_size}{Batch size to use for training. Default: 128}
 

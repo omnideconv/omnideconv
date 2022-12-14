@@ -12,7 +12,7 @@ test_that("Python module Scaden is available", {
 })
 
 test_that("Python module anndata is available", {
-  scaden_checkload()
+  anndata_checkload()
   expect_identical(
     info = "Anndata available", object = reticulate::py_module_available("anndata"),
     expected = TRUE

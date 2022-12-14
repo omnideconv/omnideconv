@@ -58,6 +58,7 @@ Remotes:
     omnideconv/BayesPrism,
     omnideconv/MOMF,
     omnideconv/SCDC,
+    omnideconv/harmony,
     omnideconv/CDSeq,
     omnideconv/DWLS,
     shenorrlab/bseqsc,

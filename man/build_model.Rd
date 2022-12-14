@@ -72,8 +72,5 @@ signature_matrix_momf <- build_model(
   single_cell_data, cell_type_annotations, "momf",
   bulk_gene_expression = bulk
 )
-pickle_path_autogenes <- build_model(single_cell_data, cell_type_annotations, "autogenes",
-  population_size = 500, offspring_size = 30,
-  crossover_pb = 0.3
-)
+
 }

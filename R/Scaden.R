@@ -384,6 +384,7 @@ scaden_simulate_example <- function(example_data_path = NULL, verbose = FALSE) {
 #' @param gene_labels Vector of gene labels. Order corresponds to columns in
 #'   single_cell_object matrix.
 #' @param single_cell_object Matrix or dataframe of scRNA data. Rows=cells and columns=genes
+#' @param temp_dir The temporary directory to use for the computations (optional)
 #' @param samples Bulk simulation: Number of samples to simulate (default: 1000)
 #' @param cells Bulk simulation: Number of cells per sample (default: 100)
 #' @param temp_dir The temporary directory to use for the computations (optional)

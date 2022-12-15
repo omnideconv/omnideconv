@@ -482,6 +482,6 @@ calc_condition_number <- function(signature_matrix) {
 install_all_python <- function(python = NULL) {
   init_python(python)
   anndata_checkload(python)
-  autogenes_checkload()
-  scaden_checkload()
+  autogenes_checkload(python)
+  scaden_checkload(python)
 }

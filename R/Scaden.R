@@ -236,7 +236,6 @@ scaden_process <- function(h5ad, temp_dir = NULL, bulk_gene_expression, var_cuto
 
   out <- tryCatch(
     {
-      tmp_dir <- tempdir()
       dir.create(tmp_dir, showWarnings = FALSE)
 
       h5ad_tmp <- tempfile(tmpdir = tmp_dir, fileext = ".h5ad")

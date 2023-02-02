@@ -82,6 +82,7 @@
 <span>  index <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  close_to <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  output_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -191,6 +192,10 @@ for the first objective is closest to 100.</p></dd>
 <dd><p>Whether to produce a plot at all. This just hands over the reticulate plot and
 has some visualization problems. To get a normal plot, use the pickle file, open it in python
 and use the plot method there.</p></dd>
+
+
+<dt>output_dir</dt>
+<dd><p>path to directory where the picke output file will be saved. Default is tempdir().</p></dd>
 
 
 <dt>verbose</dt>

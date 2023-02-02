@@ -42,6 +42,7 @@
 #' @param plot Whether to produce a plot at all. This just hands over the reticulate plot and
 #'   has some visualization problems. To get a normal plot, use the pickle file, open it in python
 #'   and use the plot method there.
+#' @param output_dir path to directory where the picke output file will be saved. Default is tempdir().
 #' @param verbose Whether to produce an output on the console.
 #'
 #' @return The path to the pickle file needed for the deconvolution with AutoGeneS.
@@ -56,7 +57,8 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations,
                                   crossover_pb = 0.7, mutation_pb = 0.3, mutate_flip_pb = 1E-3,
                                   crossover_thres = 1000, ind_standard_pb = 0.1,
                                   plot_weights = NULL, plot_objectives = c(0, 1), index = NULL,
-                                  close_to = NULL, plot = FALSE, verbose = FALSE) {
+                                  close_to = NULL, plot = FALSE, output_dir = tempdir(),
+                                  verbose = FALSE) {
   if (is.null(single_cell_object)) {
     stop("Parameter 'single_cell_object' is missing or null, but it is required.")
   }
@@ -122,7 +124,7 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations,
       ag$plot(objectives = plot_objectives)
     }
   }
-  filename <- tempfile(fileext = ".pickle")
+  filename <- tempfile(fileext = ".pickle", tmpdir = output_dir)
   ag$save(filename)
   if (verbose) {
     message("Successfully saved")

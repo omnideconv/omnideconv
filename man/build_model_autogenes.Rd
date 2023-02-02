@@ -26,6 +26,7 @@ build_model_autogenes(
   index = NULL,
   close_to = NULL,
   plot = FALSE,
+  output_dir = tempdir(),
   verbose = FALSE
 )
 }
@@ -92,6 +93,8 @@ for the first objective is closest to 100.}
 \item{plot}{Whether to produce a plot at all. This just hands over the reticulate plot and
 has some visualization problems. To get a normal plot, use the pickle file, open it in python
 and use the plot method there.}
+
+\item{output_dir}{path to directory where the picke output file will be saved. Default is tempdir().}
 
 \item{verbose}{Whether to produce an output on the console.}
 }

@@ -48,13 +48,13 @@ at all.}
 
 \item{...}{Additional parameters supplied to the algorithm. Options are:
 \itemize{
-\item perm \if{html}{\out{<int>}} No. of permutations for p-value calculation (default: 0).
-\item rmbatch_B_mode \if{html}{\out{<bool>}}  Run B-mode batch correction (default: FALSE).
-\item rmbatch_S_mode \if{html}{\out{<bool>}}  Run S-mode batch correction (default: FALSE).
+\item perm <int> No. of permutations for p-value calculation (default: 0).
+\item rmbatch_B_mode <bool>  Run B-mode batch correction (default: FALSE).
+\item rmbatch_S_mode <bool>  Run S-mode batch correction (default: FALSE).
 \item source_GEPs <file_name>  Signature matrix GEPs for batch correction (default: sigmatrix).
-\item qn \if{html}{\out{<bool>}}  Run quantile normalization (default: FALSE).
-\item absolute \if{html}{\out{<bool>}}  Run absolute mode (default: FALSE).
-\item abs_method \if{html}{\out{<char>}}  Pick absolute method ("sig.score" (default) or "no.sumto1").
+\item qn <bool>  Run quantile normalization (default: FALSE).
+\item absolute <bool>  Run absolute mode (default: FALSE).
+\item abs_method <char>  Pick absolute method ("sig.score" (default) or "no.sumto1").
 }}
 }
 \value{

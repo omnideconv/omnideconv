@@ -72,7 +72,7 @@ setup_singularity_container <- function(container_path = NULL) {
 
   # We assume that, even in case of user provided file, the file name will
   # be 'fractions_latest.sif'
-  container_file <- file.path(continer_path, "fractions_latest.sif")
+  container_file <- file.path(container_path, "fractions_latest.sif")
 
   if (!file.exists(container_file)) {
     system(paste0("singularity pull --dir ", container_path, " docker://cibersortx/fractions"))

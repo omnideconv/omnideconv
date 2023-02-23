@@ -277,10 +277,10 @@ install_autogenes <- function() {
 
 #' Checks if python and the autogenes module are available and installs them if they are not.
 #'
-autogenes_checkload <- function() {
+autogenes_checkload <- function(python=NULL) {
   if (!python_available()) {
     message("Setting up python environment..")
-    init_python()
+    init_python(python)
     if (!python_available()) {
       stop(
         "Could not initiate miniconda python environment. Please set up manually with ",

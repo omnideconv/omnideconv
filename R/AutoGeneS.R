@@ -277,7 +277,7 @@ install_autogenes <- function() {
 
 #' Checks if python and the autogenes module are available and installs them if they are not.
 #'
-autogenes_checkload <- function(python=NULL) {
+autogenes_checkload <- function(python = NULL) {
   if (!python_available()) {
     message("Setting up python environment..")
     init_python(python)

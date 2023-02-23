@@ -471,7 +471,7 @@ scaden_simulate <- function(cell_type_annotations, gene_labels, single_cell_obje
 #'
 #' If it is available, the python module is imported.
 #'
-scaden_checkload <- function(python=NULL) {
+scaden_checkload <- function(python = NULL) {
   if (!python_available()) {
     message("Setting up python environment..")
     init_python(python)

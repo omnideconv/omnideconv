@@ -2,7 +2,7 @@
 # R specific hooks: https://github.com/lorenzwalthert/precommit
 repos:
   - repo: https://github.com/lorenzwalthert/precommit
-    rev: v0.3.2
+    rev: v0.3.2.9007
     hooks:
       - id: style-files
         args: [--style_pkg=styler, --style_fun=tidyverse_style]
@@ -13,7 +13,7 @@ repos:
       - id: deps-in-desc
         args: [--allow_private_imports]
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
+    rev: v4.4.0
     hooks:
       - id: end-of-file-fixer
         exclude: '\.Rd'
@@ -32,7 +32,7 @@ repos:
         exclude: "(inst/extdata|data)/.*"
         # `exclude: <regex>` to allow committing specific files
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v2.7.1
+    rev: v3.0.0-alpha.6
     hooks:
       - id: prettier
 

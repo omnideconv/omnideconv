@@ -4,7 +4,7 @@
 \alias{autogenes_checkload}
 \title{Checks if python and the autogenes module are available and installs them if they are not.}
 \usage{
-autogenes_checkload()
+autogenes_checkload(python = NULL)
 }
 \description{
 Checks if python and the autogenes module are available and installs them if they are not.

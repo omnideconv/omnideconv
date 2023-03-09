@@ -1,4 +1,6 @@
 library(omnideconv)
+print(reticulate::py_available())
+print(reticulate::py_module_available("anndata"))
 
 test_that("Python environment creation works", {
   #init_python()

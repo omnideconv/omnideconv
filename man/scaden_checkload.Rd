@@ -6,6 +6,9 @@
 \usage{
 scaden_checkload(python = NULL)
 }
+\arguments{
+\item{python}{The python env}
+}
 \description{
 If it is available, the python module is imported.
 }

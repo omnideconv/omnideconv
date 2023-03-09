@@ -471,6 +471,7 @@ scaden_simulate <- function(cell_type_annotations, gene_labels, single_cell_obje
 #' Checks if scaden is installed.
 #'
 #' If it is available, the python module is imported.
+#' @param python The python env
 #'
 scaden_checkload <- function(python = NULL) {
   if (!python_available()) {

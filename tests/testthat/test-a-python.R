@@ -3,7 +3,7 @@ print(reticulate::py_available())
 print(reticulate::py_module_available("anndata"))
 
 test_that("Python environment creation works", {
-  #init_python()
+  # init_python()
   expect_identical(info = "Python available", object = reticulate::py_available(), expected = TRUE)
 })
 

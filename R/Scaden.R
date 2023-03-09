@@ -51,7 +51,7 @@ build_model_scaden <- function(single_cell_object, cell_type_annotations, bulk_g
   }
 
   # check if Scaden is installed and loaded.
-  #scaden_checkload()
+  # scaden_checkload()
   reticulate::import("scaden")
   single_cell_object <- t(single_cell_object)
   if (nrow(single_cell_object) != length(cell_type_annotations)) {
@@ -117,7 +117,7 @@ deconvolute_scaden <- function(signature, bulk_gene_expression, temp_dir = NULL,
     }
   }
 
-  #scaden_checkload()
+  # scaden_checkload()
   reticulate::import("scaden")
   prediction <- scaden_predict(signature, bulk_gene_expression, temp_dir = temp_dir, verbose = verbose)
 

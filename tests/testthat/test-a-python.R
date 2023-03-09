@@ -1,6 +1,6 @@
 library(omnideconv)
 print(reticulate::py_available())
-print(reticulate::py_module_available("anndata"))
+print(reticulate::py_module_available("pandas"))
 print(reticulate::py_module_available("scaden"))
 
 test_that("Python environment creation works", {

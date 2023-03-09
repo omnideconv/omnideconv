@@ -74,7 +74,7 @@ RoxygenNote: 7.2.3
 Config/reticulate: 
   list(
     packages = list(
-      list(package = "anndata", pip = FALSE),
+      list(package = "anndata>=0.7.5", pip = FALSE),
       list(package = "autogenes", pip = TRUE),
       list(package = "scaden", pip = TRUE)
     )

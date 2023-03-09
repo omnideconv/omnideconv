@@ -72,7 +72,7 @@ save_as_h5ad <- function(single_cell_object, cell_type_annotations) {
 #' @return SingleCellObject
 #'
 anndata_to_singlecellexperiment <- function(ad) {
-  #anndata_checkload()
+  # anndata_checkload()
   ad <- ad$transpose()
   X_mat <- ad$X
   rownames(X_mat) <- ad$obs_names
@@ -329,7 +329,7 @@ sces_are_identical <- function(a, b) {
 #' @return AnnData object
 #'
 build_anndata <- function(x, obs, var, obsm = NULL, varm = NULL) {
-  #anndata_checkload()
+  # anndata_checkload()
 
   x <- as.matrix(x)
 
@@ -348,7 +348,7 @@ build_anndata <- function(x, obs, var, obsm = NULL, varm = NULL) {
 #' @return AnnData object
 #'
 read_anndata <- function(path) {
-  #anndata_checkload()
+  # anndata_checkload()
   data <- anndata::read_h5ad(path)
   return(data)
 }
@@ -359,7 +359,7 @@ read_anndata <- function(path) {
 #' @param path path where AnnData object should be written to (.h5ad format)
 #'
 write_anndata <- function(data, path) {
-  #anndata_checkload()
+  # anndata_checkload()
   data$write_h5ad(path)
 }
 

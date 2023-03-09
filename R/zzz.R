@@ -5,6 +5,6 @@
 NULL
 
 .onLoad <- function(libname, pkgname) {
-  reticulate::configure_environment(pkgname, force = TRUE)
   reticulate::py_config()
+  reticulate::configure_environment(pkgname, force = TRUE)
 }

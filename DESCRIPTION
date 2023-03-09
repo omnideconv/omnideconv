@@ -26,6 +26,7 @@ Imports:
     RColorBrewer,
     readr,
     remotes,
+    reticulate,
     S4Vectors,
     Seurat,
     SingleCellExperiment,
@@ -44,7 +45,6 @@ Suggests:
     MOMF,
     MuSiC (>= 0.3),
     pkgdown,
-    reticulate,
     rmarkdown,
     scBio,
     SCDC,
@@ -66,6 +66,15 @@ Remotes:
     CBMR-Single-Cell-Omics-Platform/SCOPfunctions
 biocViews:
 Config/testthat/edition: 2
+reticulate:
+Config/reticulate: 
+  list(
+    packages = list(
+      list(package = "anndata", pip = FALSE),
+      list(package = "autogenes", pip = TRUE),
+      list(package = "scaden", pip = TRUE)
+    )
+  )
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: bzip2

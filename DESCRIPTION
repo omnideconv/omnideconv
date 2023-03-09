@@ -66,8 +66,7 @@ Remotes:
     CBMR-Single-Cell-Omics-Platform/SCOPfunctions
 biocViews:
 Config/testthat/edition: 2
-reticulate:
-Config/reticulate: 
+reticulate: 
   list(
     packages = list(
       list(package = "anndata", pip = FALSE),

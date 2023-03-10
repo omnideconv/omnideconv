@@ -12,7 +12,7 @@ NULL
     suppressMessages(reticulate::install_miniconda())
   }
 
-  if (!dir.exists(reticulate::conda_python('r-reticulate'))){
+  if (!dir.exists(reticulate::conda_python("r-reticulate"))) {
     reticulate::conda_create(envname = "r-reticulate")
   }
 

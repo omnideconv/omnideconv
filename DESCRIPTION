@@ -77,6 +77,6 @@ Config/reticulate:
       list(package = "anndata", pip = FALSE),
       list(package = "autogenes", pip = TRUE),
       list(package = "scaden", pip = TRUE),
-      list(package = "numpy", pip = TRUE)
+      list(package = "numpy", version = "1.24.2", pip = TRUE)
     )
   )    

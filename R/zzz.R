@@ -17,6 +17,6 @@ NULL
   }
 
   reticulate::use_miniconda(condaenv = "r-reticulate", required = TRUE)
-  config <- reticulate::py_config()
+  reticulate::py_config()
   reticulate::configure_environment(pkgname, force = TRUE)
 }

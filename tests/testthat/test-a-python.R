@@ -1,4 +1,6 @@
 library(omnideconv)
+py_config()
+
 
 test_that("Python environment creation works", {
   # init_python()

@@ -14,10 +14,12 @@ NULL
 
   if (!dir.exists(reticulate::conda_python("r-reticulate"))) {
     reticulate::conda_create(envname = "r-reticulate")
+    reticulate::py_config()
   }
 
   reticulate::use_miniconda(condaenv = "r-reticulate", required = TRUE)
   reticulate::configure_environment(pkgname, force = TRUE)
+
 
   if (!reticulate::py_module_available("anndata")) {
     anndata::install_anndata()

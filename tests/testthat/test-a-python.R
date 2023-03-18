@@ -1,5 +1,6 @@
 library(omnideconv)
-py_config()
+library(reticulate)
+reticulate::py_config()
 
 
 test_that("Python environment creation works", {

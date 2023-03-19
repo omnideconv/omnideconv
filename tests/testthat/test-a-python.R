@@ -33,6 +33,18 @@ test_that("Python module autogenes is available", {
 
 
 
+
+bulk_small <- as.matrix(utils::read.csv("small_test_data/bulk_small.csv", row.names = 1))
+# bulk_small <- bulk_small[, 1, drop = FALSE]
+sc_object_small <- as.matrix(utils::read.csv("small_test_data/sc_object_small.csv", row.names = 1))
+cell_annotations_small <- readr::read_lines("small_test_data/cell_annotations_small.txt")
+batch_ids_small <- readr::read_lines("small_test_data/batch_ids_small.txt")
+marker_genes <- readr::read_lines("small_test_data/marker_genes_small.txt")
+
+markers_small <- list(marker_genes[1:9], marker_genes[10:14], marker_genes[15:20])
+names(markers_small) <- sort(unique(cell_annotations_small))
+
+
 test_that("Scaden build model works", {
   model <- build_model(sc_object_small, cell_annotations_small,
     method = "scaden",

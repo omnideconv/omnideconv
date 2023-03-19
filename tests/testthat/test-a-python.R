@@ -46,7 +46,7 @@ names(markers_small) <- sort(unique(cell_annotations_small))
 
 
 test_that("Scaden build model works", {
-  reticulate::use_python()
+  reticulate::use_miniconda(condaenv = "r-reticulate", required = TRUE)
   model <- build_model(sc_object_small, cell_annotations_small,
     method = "scaden",
     bulk_gene_expression = bulk_small, samples = 10, cells = 5,
@@ -59,7 +59,7 @@ test_that("Scaden build model works", {
 })
 
 test_that("AutoGeneS build model works", {
-  reticulate::use_python(python = python)
+  reticulate::use_miniconda(condaenv = "r-reticulate", required = TRUE)
   model <- build_model(sc_object_small, cell_annotations_small, "autogenes")
   expect_true(file.exists(model), "pickle file was created successfully")
 })

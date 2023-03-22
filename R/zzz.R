@@ -28,7 +28,7 @@ NULL
   path.bin <- gsub("/envs/r-reticulate/python.exe", "/library/bin", path)
   Sys.setenv(PATH = paste(path.bin, Sys.getenv()["PATH"], sep = ";"))
   Sys.setenv(RETICULATE_PYTHON = path)
-  #library(reticulate)
+  # library(reticulate)
 
 
   reticulate::use_miniconda(condaenv = "r-reticulate", required = TRUE)

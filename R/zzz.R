@@ -5,7 +5,6 @@
 NULL
 
 .onLoad <- function(libname, pkgname) {
-
   # We ensure to have reticulate
   if (!dir.exists(reticulate::miniconda_path())) {
     message("Setting python version in miniconda to be 3.9")
@@ -22,12 +21,12 @@ NULL
   }
 
   paths <- reticulate::conda_list()
-  path <- paths[paths$name == 'r-reticulate', 2]
-  if(.Platform$OS.type == "windows"){
+  path <- paths[paths$name == "r-reticulate", 2]
+  if (.Platform$OS.type == "windows") {
     path <- gsub("\\\\", "/", path)
   }
   path.bin <- gsub("/envs/r-reticulate/python.exe", "/library/bin", path)
-  Sys.setenv(PATH= paste(path.bin,Sys.getenv()["PATH"],sep=";"))
+  Sys.setenv(PATH = paste(path.bin, Sys.getenv()["PATH"], sep = ";"))
   Sys.setenv(RETICULATE_PYTHON = path)
   library(reticulate)
 

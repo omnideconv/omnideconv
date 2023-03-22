@@ -26,6 +26,7 @@ Imports:
     RColorBrewer,
     readr,
     remotes,
+    reticulate,
     S4Vectors,
     Seurat,
     SingleCellExperiment,
@@ -44,7 +45,6 @@ Suggests:
     MOMF,
     MuSiC (>= 0.3),
     pkgdown,
-    reticulate,
     rmarkdown,
     scBio,
     SCDC,
@@ -71,3 +71,10 @@ LazyData: true
 LazyDataCompression: bzip2
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
+Config/reticulate: 
+  list(
+    packages = list(
+      list(package = "autogenes", pip = TRUE),
+      list(package = "scaden", pip = TRUE)
+    )
+  )    

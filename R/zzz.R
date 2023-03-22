@@ -15,8 +15,8 @@ NULL
 
 
   # We ensure to have the r-reticulate env
-  #if (!file.exists(reticulate::conda_python("r-reticulate"))) {
-  if(!('r-omnideconv' %in% reticulate::conda_list()$name)){
+  # if (!file.exists(reticulate::conda_python("r-reticulate"))) {
+  if (!("r-omnideconv" %in% reticulate::conda_list()$name)) {
     reticulate::conda_create(envname = "r-omnideconv")
   }
 

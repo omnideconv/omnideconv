@@ -15,12 +15,12 @@ NULL
 
 
   # We ensure to have the r-reticulate env
-  if (!file.exists(reticulate::conda_python("omnideconv"))) {
-    reticulate::conda_create(envname = "omnideconv")
+  if (!file.exists(reticulate::conda_python("r-reticulate"))) {
+    reticulate::conda_create(envname = "r-reticulate")
   }
 
   paths <- reticulate::conda_list()
-  path <- paths[paths$name == "omnideconv", 2]
+  path <- paths[paths$name == "r-reticulate", 2]
   if (.Platform$OS.type == "windows") {
     path <- gsub("\\\\", "/", path)
   }
@@ -29,7 +29,7 @@ NULL
   Sys.setenv(RETICULATE_PYTHON = path)
 
 
-  reticulate::use_miniconda(condaenv = "omnideconv", required = TRUE)
+  reticulate::use_miniconda(condaenv = "r-reticulate", required = TRUE)
   reticulate::py_config()
   reticulate::configure_environment(pkgname, force = TRUE)
 

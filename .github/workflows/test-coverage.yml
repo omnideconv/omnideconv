@@ -18,6 +18,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       CIBERSORTX_EMAIL: ${{ secrets.CIBERSORTX_EMAIL }}
       CIBERSORTX_TOKEN: ${{ secrets.CIBERSORTX_TOKEN }}
+      CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
 
     steps:
       - uses: actions/checkout@v2
@@ -39,3 +40,10 @@ jobs:
       - name: Test coverage
         run: covr::codecov(quiet = FALSE)
         shell: Rscript {0}
+
+      - name: Upload reports to codecov
+        run: |
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          find . -iregex "omnideconv-tests/testthat.Rout.fail"
+          chmod +x codecov
+          ./codecov -t ${CODECOV_TOKEN}

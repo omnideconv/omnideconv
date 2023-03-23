@@ -4,7 +4,10 @@
 \alias{autogenes_checkload}
 \title{Checks if python and the autogenes module are available and installs them if they are not.}
 \usage{
-autogenes_checkload()
+autogenes_checkload(python = NULL)
+}
+\arguments{
+\item{python}{the python env}
 }
 \description{
 Checks if python and the autogenes module are available and installs them if they are not.

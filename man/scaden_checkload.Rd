@@ -4,7 +4,10 @@
 \alias{scaden_checkload}
 \title{Checks if scaden is installed.}
 \usage{
-scaden_checkload()
+scaden_checkload(python = NULL)
+}
+\arguments{
+\item{python}{The python env}
 }
 \description{
 If it is available, the python module is imported.

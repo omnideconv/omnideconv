@@ -32,7 +32,7 @@ build_model_scdc <- function(single_cell_object, cell_type_annotations, batch_id
                              ct_varname = "cellType", sample = "batchId", ct_cell_size = NULL,
                              verbose = FALSE) {
   message(
-    "The deconvolution with MuSiC is done in only one step. Please just use the ",
+    "The deconvolution with SCDC is done in only one step. Please just use the ",
     "deconvolute method. You can still calculate a signature matrix with MuSiC, ",
     "just not input one for the deconvolution step."
   )

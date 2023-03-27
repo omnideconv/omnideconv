@@ -97,21 +97,22 @@ First of all, you need some data to run the deconvolution with.
 TODO
 
 ```{r inputDataTypeMatrix, eval=FALSE, echo=FALSE, results='hide'}
-knitr::kable(data.frame(
-  Deconv_method = c("raw counts", "TPM", "library-normalized counts", "log scale", "natural scale"),
-  AutoGeneS = c("yes", "yes", "yes", "yes", "yes"),
-  Bisque = c("yes", "yes", "yes", "yes", "yes"),
-  BSeq_sc = c("yes", "yes", "yes", "yes", "yes"),
-  CDSeq = c("yes", "yes", "yes", "yes", "yes"),
-  CIBERSORTx = c("yes", "yes", "yes", "yes", "yes"),
-  CPM = c("yes", "yes", "yes", "yes", "yes"),
-  DWLS = c("yes", "yes", "yes", "yes", "yes"),
-  MOMF = c("yes", "yes", "yes", "yes", "yes"),
-  MuSiC = c("yes", "yes", "yes", "yes", "yes"),
-  Scaden = c("yes", "yes", "yes", "yes", "yes"),
-  SCDC = c("yes", "yes", "yes", "yes", "yes")
-),
-caption = "Table X: Bla bla"
+knitr::kable(
+  data.frame(
+    Deconv_method = c("raw counts", "TPM", "library-normalized counts", "log scale", "natural scale"),
+    AutoGeneS = c("yes", "yes", "yes", "yes", "yes"),
+    Bisque = c("yes", "yes", "yes", "yes", "yes"),
+    BSeq_sc = c("yes", "yes", "yes", "yes", "yes"),
+    CDSeq = c("yes", "yes", "yes", "yes", "yes"),
+    CIBERSORTx = c("yes", "yes", "yes", "yes", "yes"),
+    CPM = c("yes", "yes", "yes", "yes", "yes"),
+    DWLS = c("yes", "yes", "yes", "yes", "yes"),
+    MOMF = c("yes", "yes", "yes", "yes", "yes"),
+    MuSiC = c("yes", "yes", "yes", "yes", "yes"),
+    Scaden = c("yes", "yes", "yes", "yes", "yes"),
+    SCDC = c("yes", "yes", "yes", "yes", "yes")
+  ),
+  caption = "Table X: Bla bla"
 )
 ```
    
@@ -356,21 +357,22 @@ Scaden is an exception as it does not produce a signature matrix but a perceptro
 It is now possible to use every method which takes in a signature matrix (everything except Scaden) with all other signature methods. This is done by intersecting the genes of the bulk data, single cell data and the signature matrix. In theory, this should not remove any data, as most methods are unable to run with a different number of genes in the signature matrix and the rest of the data. Nevertheless, this property should be evaluated when the whole packages is benchmarked in detail.
 
 ```{r benchmarkingInterchangeMatrix, echo=FALSE}
-knitr::kable(data.frame(
-  Deconv_method = c("AutoGeneS", "Bisque", "BSeq-sc", "CDSeq", "CIBERSORTx", "CPM", "DWLS", "MOMF", "MuSiC", "Scaden", "SCDC"),
-  AutoGeneS = c("yes", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
-  Bisque = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
-  BSeq_sc = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
-  CDSeq = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
-  CIBERSORTx = c("-", "-", "yes", "yes", "yes", "yes", "yes", "yes", "-", "-", "-"),
-  CPM = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
-  DWLS = c("-", "-", "yes", "yes", "yes", "yes", "yes", "yes", "-", "-", "-"),
-  MOMF = c("-", "-", "(yes)", "(yes)", "(yes)", "(yes)", "(yes)", "yes", "-", "-", "-"),
-  MuSiC = c("-", "-", "-", "-", "-", "-", "-", "-", "yes", "-", "-"),
-  Scaden = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "yes", "-"),
-  SCDC = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "yes")
-),
-caption = "Table 5: Interchangeability table: Row names determine the deconvolution method, column names determine which tool is used to build the signature matrix. '(yes)' indicates that intersecting the genes of bulk data, single cell data and signature matrix is necessary."
+knitr::kable(
+  data.frame(
+    Deconv_method = c("AutoGeneS", "Bisque", "BSeq-sc", "CDSeq", "CIBERSORTx", "CPM", "DWLS", "MOMF", "MuSiC", "Scaden", "SCDC"),
+    AutoGeneS = c("yes", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
+    Bisque = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
+    BSeq_sc = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
+    CDSeq = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
+    CIBERSORTx = c("-", "-", "yes", "yes", "yes", "yes", "yes", "yes", "-", "-", "-"),
+    CPM = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"),
+    DWLS = c("-", "-", "yes", "yes", "yes", "yes", "yes", "yes", "-", "-", "-"),
+    MOMF = c("-", "-", "(yes)", "(yes)", "(yes)", "(yes)", "(yes)", "yes", "-", "-", "-"),
+    MuSiC = c("-", "-", "-", "-", "-", "-", "-", "-", "yes", "-", "-"),
+    Scaden = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "yes", "-"),
+    SCDC = c("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "yes")
+  ),
+  caption = "Table 5: Interchangeability table: Row names determine the deconvolution method, column names determine which tool is used to build the signature matrix. '(yes)' indicates that intersecting the genes of bulk data, single cell data and signature matrix is necessary."
 )
 ```
 <!--

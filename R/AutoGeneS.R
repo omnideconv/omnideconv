@@ -146,10 +146,11 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations,
 #'
 #'
 extract_signature_autogenes <- function(autogenes_pickle_path,
-                                        single_cell_object, cell_type_annotations){
-
-  sce <- matrix_to_singlecellexperiment(as.matrix(single_cell_object),
-                                        cell_type_annotations)
+                                        single_cell_object, cell_type_annotations) {
+  sce <- matrix_to_singlecellexperiment(
+    as.matrix(single_cell_object),
+    cell_type_annotations
+  )
   ad <- singlecellexperiment_to_anndata(sce)
 
   ag <- reticulate::import("autogenes")

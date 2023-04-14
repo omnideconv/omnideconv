@@ -165,7 +165,7 @@ extract_signature_autogenes <- function(autogenes_pickle_path,
   genes.used <- genes[selection]
 
   signature <- median.gene.expr[, genes.used]
-
+  signature <- t(signature)
   return(signature)
 }
 

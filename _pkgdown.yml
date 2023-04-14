@@ -11,6 +11,7 @@ reference:
     desc: Direct access to the individual signature matrix creation methods.
     contents:
       - build_model_autogenes
+      - extract_signature_autogenes
       - build_model_bayesprism
       - build_model_bisque
       - build_model_bseqsc

@@ -132,6 +132,44 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations,
   return(filename)
 }
 
+#' Extraction of the signature matrix from autogenes .pickle files
+#'
+#' @param autogenes_pickle_path The path of the .pickle file generated
+#'    by autogenes, exactly as returned by the `build_model_autogenes` function
+#' @param single_cell_object The matrix with the single-cell data used to build the signature.
+#'   Rows are genes, columns are samples. Row and column names need to be set.
+#' @param cell_type_annotations The vector of the cell type annotations used to
+#'   build the signature. Has to be in the same order as the samples in single_cell_object.
+#'
+#' @return The signature matrix.
+#' @export
+#'
+#'
+extract_signature_autogenes <- function(autogenes_pickle_path,
+                                        single_cell_object, cell_type_annotations){
+
+  sce <- matrix_to_singlecellexperiment(as.matrix(single_cell_object),
+                                        cell_type_annotations)
+  ad <- singlecellexperiment_to_anndata(sce)
+
+  ag <- reticulate::import("autogenes")
+  ag$init(ad, celltype_key = "label")
+
+  expr.median <- ag$init(ad, celltype_key = "label")
+
+  median.gene.expr <- expr.median$X
+
+  ag$load(autogenes_pickle_path)
+  genes <- ag$adata()$var_names
+  selection <- ag$select()
+  genes.used <- genes[selection]
+
+  signature <- median.gene.expr[, genes.used]
+
+  return(signature)
+}
+
+
 #' Deconvolution Analysis using AutoGeneS
 #'
 #' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples.

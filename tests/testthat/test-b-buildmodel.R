@@ -106,9 +106,16 @@ test_that("Scaden build model works", {
   )
 })
 
-test_that("AutoGeneS build model works", {
+test_that("AutoGeneS build model works, and the matrix can be extracted", {
   model <- build_model(sc_object_small, cell_annotations_small, "autogenes")
   expect_true(file.exists(model), "pickle file was created successfully")
+
+  signature <- extract_signature_autogenes(model, sc_object_small, cell_annotations_small)
+  expect_equal(
+    info = "signature matrix has same amount of columns as unique cell types in single
+               cell matrix", object = ncol(signature),
+    expected = length(unique(cell_annotations_small))
+  )
 })
 
 test_that("MuSiC build model works", {

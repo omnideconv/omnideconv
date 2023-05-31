@@ -238,7 +238,7 @@ test_that("Autogenes deconvolution works", {
     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
   )
 
-  check_result <- as.matrix(read.csv("test_results/autogenes_result_small.csv",
+  check_result <- as.matrix(read.csv("test_results/autogenes_result_small_new.csv",
     row.names = 1,
     check.names = FALSE,
   ))

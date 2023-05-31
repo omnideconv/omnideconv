@@ -50,10 +50,10 @@
 #'
 #'
 build_model_autogenes <- function(single_cell_object, cell_type_annotations,
-                                  bulk_gene_expression = NULL, ngen = 2,
-                                  mode = c("standard", "fixed"), nfeatures = NULL,
-                                  weights = c(-1, 1), objectives = c("correlation", "distance"),
-                                  seed = 0, population_size = 100, offspring_size = 50,
+                                  bulk_gene_expression = NULL, ngen = 5000,
+                                  mode = c("fixed", "standard"), nfeatures = 500,
+                                  weights = list(-1, 1), objectives = list("correlation", "distance"),
+                                  seed = 0, population_size = 100, offspring_size = 100,
                                   crossover_pb = 0.7, mutation_pb = 0.3, mutate_flip_pb = 1E-3,
                                   crossover_thres = 1000, ind_standard_pb = 0.1,
                                   plot_weights = NULL, plot_objectives = c(0, 1), index = NULL,
@@ -86,7 +86,7 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations,
   ag$init(ad, celltype_key = "label")
 
   params <- list(
-    ngen = as.integer(ngen), weights = as.integer(weights), objectives = objectives,
+    ngen = as.integer(ngen), weights = weights, objectives = objectives,
     verbose = verbose, seed = as.integer(seed), mode = mode,
     population_size = as.integer(population_size),
     offspring_size = as.integer(offspring_size), crossover_pb = crossover_pb,
@@ -191,7 +191,7 @@ extract_signature_autogenes <- function(autogenes_pickle_path,
 #' @param cache_size Cache_size parameter for NuSVR.
 #' @param max_iter Max_iter parameter for NuSVR.
 #' @param weights Select Solution: Weights with which to weight the objective values. For example,
-#'   (-1,2) will minimize the first objective and maximize the the second (with more weight).
+#'   (-1,1) will minimize the first objective and maximize the the second (with more weight).
 #' @param index Select Solution: If one int is passed, return pareto\[index\] If two ints are passed,
 #'   the first is an objective (0 for the first). The second is the nth element if the solutions
 #'   have been sorted by the objective in ascending order. For example, (0,1) will return the
@@ -212,7 +212,8 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature,
                                   normalize_results = TRUE, kernel = "linear", degree = 3,
                                   gamma = "scale", coef0 = 0.0, shrinking = TRUE,
                                   tol = 1E-3, cache_size = 200, max_iter = -1,
-                                  weights = NULL, index = NULL, close_to = NULL, verbose = FALSE) {
+                                  weights = list(1,0), index = NULL, close_to = NULL,
+                                  verbose = FALSE) {
   if (is.null(bulk_gene_expression)) {
     stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
   }

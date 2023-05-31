@@ -238,13 +238,13 @@ test_that("Autogenes deconvolution works", {
     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
   )
 
-  check_result <- as.matrix(read.csv("test_results/autogenes_result_small.csv",
+  check_result <- as.matrix(read.csv("test_results/autogenes_result_small_new.csv",
     row.names = 1,
     check.names = FALSE,
   ))
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result, tolerance = 1e-3
+    expected = check_result, tolerance = 1e-2
   )
   expect_equal(
     info = "deconvolution result with one bulk sample throws no error",

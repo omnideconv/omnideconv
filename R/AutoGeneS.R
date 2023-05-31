@@ -212,7 +212,7 @@ deconvolute_autogenes <- function(bulk_gene_expression, signature,
                                   normalize_results = TRUE, kernel = "linear", degree = 3,
                                   gamma = "scale", coef0 = 0.0, shrinking = TRUE,
                                   tol = 1E-3, cache_size = 200, max_iter = -1,
-                                  weights = list(1,0), index = NULL, close_to = NULL,
+                                  weights = list(1, 0), index = NULL, close_to = NULL,
                                   verbose = FALSE) {
   if (is.null(bulk_gene_expression)) {
     stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")

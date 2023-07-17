@@ -19,7 +19,7 @@ deconvolute_autogenes(
   tol = 0.001,
   cache_size = 200,
   max_iter = -1,
-  weights = NULL,
+  weights = list(1, 0),
   index = NULL,
   close_to = NULL,
   verbose = FALSE
@@ -58,7 +58,7 @@ Default is TRUE}
 \item{max_iter}{Max_iter parameter for NuSVR.}
 
 \item{weights}{Select Solution: Weights with which to weight the objective values. For example,
-(-1,2) will minimize the first objective and maximize the the second (with more weight).}
+(-1,1) will minimize the first objective and maximize the the second (with more weight).}
 
 \item{index}{Select Solution: If one int is passed, return pareto[index] If two ints are passed,
 the first is an objective (0 for the first). The second is the nth element if the solutions

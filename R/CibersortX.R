@@ -90,7 +90,8 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
   command_to_run <- create_container_command(input_dir, output_dir, container, container_path,
     method = "create_sig",
     verbose = verbose,
-    refsample = single_cell_object_filename, k_max = k_max
+    refsample = single_cell_object_filename,
+    k_max = k_max, ...
   )
 
   if (verbose) {
@@ -230,7 +231,7 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature, verbose = FA
 
   command_to_run <- create_container_command(input_dir, output_dir, container, sing_container_path,
     method = "impute_cell_fractions", verbose = verbose,
-    sigmatrix = sigmatrix_filename, mixture <- bulk_gene_expression_filename, label = label
+    sigmatrix = sigmatrix_filename, mixture = bulk_gene_expression_filename, label = label, ...
   )
   if (verbose) {
     message(command_to_run)

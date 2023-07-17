@@ -129,11 +129,15 @@ deconvolute_bayesprism <- function(bulk_gene_expression, single_cell_object, cel
   )
 
   # extract cell type fractions from result object
-  theta <- BayesPrism::get.fraction(
-    bp = bp.res,
-    which.theta = which_theta,
-    state.or.type = state_or_type
-  )
+  if(update_gibbs){
+    theta <- BayesPrism::get.fraction(
+      bp = bp.res,
+      which.theta = which_theta,
+      state.or.type = state_or_type
+    )
+  }else{
+    theta <- bp.res@posterior.initial.cellType@theta
+  }
 
   return(list(
     theta = theta,

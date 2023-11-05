@@ -205,7 +205,7 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature,
 
   if (container == "singularity") {
     singularity_container_path <- setup_singularity_container(container_path)
-  } else{
+  } else {
     singularity_container_path <- NULL
   }
 
@@ -217,7 +217,7 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature,
     output_dir <- temp_dir
   }
 
-  if(rmbatch_B_mode || rmbatch_S_mode){
+  if (rmbatch_B_mode || rmbatch_S_mode) {
     if (is.null(single_cell_object)) {
       stop("Parameter 'single_cell_object' is missing or null, but it is required.")
     }
@@ -254,18 +254,18 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature,
 
 
 
-  if(rmbatch_B_mode || rmbatch_S_mode){
+  if (rmbatch_B_mode || rmbatch_S_mode) {
     command_to_run <- create_container_command(input_dir, output_dir, container, singularity_container_path,
-                                               method = "impute_cell_fractions", verbose,
-                                               refsample = single_cell_object_filename,
-                                               rmbatch_B_mode = rmbatch_B_mode, rmbatch_S_mode = rmbatch_S_mode,
-                                               sigmatrix = sigmatrix_filename, mixture = bulk_gene_expression_filename, label = label, ...
+      method = "impute_cell_fractions", verbose,
+      refsample = single_cell_object_filename,
+      rmbatch_B_mode = rmbatch_B_mode, rmbatch_S_mode = rmbatch_S_mode,
+      sigmatrix = sigmatrix_filename, mixture = bulk_gene_expression_filename, label = label, ...
     )
     filename_cell_props <- paste0("CIBERSORTx_", label, "_Adjusted.txt")
-  }else{
+  } else {
     command_to_run <- create_container_command(input_dir, output_dir, container, singularity_container_path,
-                                               method = "impute_cell_fractions", verbose = verbose,
-                                               sigmatrix = sigmatrix_filename, mixture = bulk_gene_expression_filename, label = label, ...
+      method = "impute_cell_fractions", verbose = verbose,
+      sigmatrix = sigmatrix_filename, mixture = bulk_gene_expression_filename, label = label, ...
     )
     filename_cell_props <- paste0("CIBERSORTx_", label, "_Results.txt")
   }
@@ -478,7 +478,7 @@ get_cell_fractions_options <- function(sigmatrix, mixture,
     "--rmbatchBmode", rmbatch_B_mode, "--rmbatchSmode", rmbatch_S_mode, "--sourceGEPs", source_GEPs,
     "QN", qn, "--absolute", absolute, "--abs_method", abs_method
   )
-  if(!is.null(refsample)){
+  if (!is.null(refsample)) {
     option_string <- paste(option_string, "--refsample", refsample)
   }
   return(option_string)

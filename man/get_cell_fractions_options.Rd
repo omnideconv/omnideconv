@@ -7,10 +7,11 @@
 get_cell_fractions_options(
   sigmatrix,
   mixture,
-  perm = 0,
-  label = "none",
   rmbatch_B_mode = FALSE,
   rmbatch_S_mode = FALSE,
+  perm = 0,
+  label = "none",
+  refsample = NULL,
   source_GEPs = sigmatrix,
   qn = FALSE,
   absolute = FALSE,
@@ -22,14 +23,16 @@ get_cell_fractions_options(
 
 \item{mixture}{The filename of the bulk expression data.}
 
+\item{rmbatch_B_mode}{\if{html}{\out{<bool>}}  Run B-mode batch correction (default: FALSE).}
+
+\item{rmbatch_S_mode}{\if{html}{\out{<bool>}}  Run S-mode batch correction (default: FALSE).}
+
 \item{perm}{\if{html}{\out{<int>}} No. of permutations for p-value calculation (default: 0).}
 
 \item{label}{The label which will be added to the file name. Default is "none", adding no label
 at all.}
 
-\item{rmbatch_B_mode}{\if{html}{\out{<bool>}}  Run B-mode batch correction (default: FALSE).}
-
-\item{rmbatch_S_mode}{\if{html}{\out{<bool>}}  Run S-mode batch correction (default: FALSE).}
+\item{refsample}{The filename of the single cell data.}
 
 \item{source_GEPs}{<file_name>  Signature matrix GEPs for batch correction (default: sigmatrix).}
 

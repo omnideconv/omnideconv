@@ -221,8 +221,8 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature,
     if (is.null(single_cell_object)) {
       stop("Parameter 'single_cell_object' is missing or null, but it is required.")
     }
-    if (is.null(single_cell_object)) {
-      stop("Parameter 'single_cell_object' is missing or null, but it is required.")
+    if (is.null(cell_type_annotations)) {
+      stop("Parameter 'cell_type_annotations' is missing or null, but it is required.")
     }
     if (class(single_cell_object)[1] != "character") {
       transform_and_save_single_cell(single_cell_object, cell_type_annotations, input_dir, verbose)

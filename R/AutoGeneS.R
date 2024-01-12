@@ -60,7 +60,6 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations,
                                   plot_weights = NULL, plot_objectives = c(0, 1), index = NULL,
                                   close_to = NULL, plot = FALSE, output_dir = tempdir(),
                                   verbose = FALSE) {
-
   message(
     "The deconvolution with AutoGeneS is done in only two steps, however due to runtime reasons we chose to implement
     it as a one-step method. Please just use the deconvolute method.
@@ -258,14 +257,13 @@ deconvolute_autogenes <- function(single_cell_object, bulk_gene_expression, cell
                                   crossover_pb = 0.7, mutation_pb = 0.3, mutate_flip_pb = 1E-3,
                                   crossover_thres = 1000, ind_standard_pb = 0.1,
                                   plot_weights = NULL, plot_objectives = c(0, 1),
-                                   plot = FALSE, output_dir = tempdir(),
+                                  plot = FALSE, output_dir = tempdir(),
                                   model = c("nusvr", "nnls", "linear"), nu = 0.5, C = 0.5,
                                   normalize_results = TRUE, kernel = "linear", degree = 3,
                                   gamma = "scale", coef0 = 0.0, shrinking = TRUE,
                                   tol = 1E-3, cache_size = 200, max_iter = -1,
                                   weights_deconvolution = list(1, 0), index = NULL, close_to = NULL,
                                   verbose = FALSE) {
-
   if (is.null(single_cell_object)) {
     stop("Parameter 'single_cell_object' is missing or null, but it is required.")
   }
@@ -324,8 +322,8 @@ deconvolute_autogenes <- function(single_cell_object, bulk_gene_expression, cell
 
   if (mode == "standard") {
     params <- c(params,
-                crossover_thres = as.integer(crossover_thres),
-                ind_standard_pb = ind_standard_pb
+      crossover_thres = as.integer(crossover_thres),
+      ind_standard_pb = ind_standard_pb
     )
   } else if (mode == "fixed") {
     params <- c(params, nfeatures = as.integer(nfeatures), mutate_flip_pb = mutate_flip_pb)

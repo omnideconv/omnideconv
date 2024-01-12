@@ -252,19 +252,21 @@ test_that("Autogenes deconvolution with signature works", {
 })
 
 test_that("Autogenes deconvolution without signature works", {
-  deconvolution <- deconvolute(single_cell_object = sc_object_small,
-                               bulk_gene_expression = bulk_small,
-                               cell_type_annotations = cell_annotations_small,
-                               signature = NULL,
-                               method = "autogenes")
+  deconvolution <- deconvolute(
+    single_cell_object = sc_object_small,
+    bulk_gene_expression = bulk_small,
+    cell_type_annotations = cell_annotations_small,
+    signature = NULL,
+    method = "autogenes"
+  )
   expect_equal(
     info = "deconvolution contains same samples as in bulk (not same order)",
     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
   )
 
   check_result <- as.matrix(read.csv("test_results/autogenes_result_small_new.csv",
-                                     row.names = 1,
-                                     check.names = FALSE,
+    row.names = 1,
+    check.names = FALSE,
   ))
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,

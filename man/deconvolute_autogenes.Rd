@@ -2,11 +2,33 @@
 % Please edit documentation in R/AutoGeneS.R
 \name{deconvolute_autogenes}
 \alias{deconvolute_autogenes}
-\title{Deconvolution Analysis using AutoGeneS}
+\title{Deconvolution Analysis using AutoGeneS.
+One-step function that performs signature building and deconvolution in one step without saving the signature in between.
+A signature that has been created with @seealso \code{\link[=build_model_autogenes]{build_model_autogenes()}} can be supplied as input to this function with the
+signature parameter, although it is not mandatory.}
 \usage{
 deconvolute_autogenes(
+  single_cell_object,
   bulk_gene_expression,
-  signature,
+  cell_type_annotations,
+  signature = NULL,
+  ngen = 5000,
+  mode = c("fixed", "standard"),
+  nfeatures = 500,
+  weights_signature = list(-1, 1),
+  objectives = list("correlation", "distance"),
+  seed = 0,
+  population_size = 100,
+  offspring_size = 100,
+  crossover_pb = 0.7,
+  mutation_pb = 0.3,
+  mutate_flip_pb = 0.001,
+  crossover_thres = 1000,
+  ind_standard_pb = 0.1,
+  plot_weights = NULL,
+  plot_objectives = c(0, 1),
+  plot = FALSE,
+  output_dir = tempdir(),
   model = c("nusvr", "nnls", "linear"),
   nu = 0.5,
   C = 0.5,
@@ -19,45 +41,96 @@ deconvolute_autogenes(
   tol = 0.001,
   cache_size = 200,
   max_iter = -1,
-  weights = list(1, 0),
+  weights_deconvolution = list(1, 0),
   index = NULL,
   close_to = NULL,
   verbose = FALSE
 )
 }
 \arguments{
+\item{single_cell_object}{A matrix with the single-cell data. Rows are genes, columns are
+samples. Row and column names need to be set.}
+
 \item{bulk_gene_expression}{A matrix of bulk data. Rows are genes, columns are samples.
 Row and column names need to be set.}
 
-\item{signature}{Path to a .pickle file, created with the build_model method of AutoGeneS.}
+\item{cell_type_annotations}{A vector of the cell type annotations. Has to be in the same order
+as the samples in single_cell_object.}
 
-\item{model}{Regression model. Available options: NuSVR ("nusvr"), non-negative least
+\item{signature}{OPTIONAL: Path to a .pickle file, created with the build_model method of AutoGeneS.}
+
+\item{ngen}{(SIGNATURE) Number of generations. The higher, the longer it takes.}
+
+\item{mode}{(SIGNATURE) In standard mode, the number of genes of a selection is allowed to vary arbitrarily.
+In fixed mode, the number of selected genes is fixed (using nfeatures).}
+
+\item{nfeatures}{(SIGNATURE) Number of genes to be selected in fixed mode.}
+
+\item{weights_signature}{(SIGNATURE) Weights applied to the objectives. For the optimization, only the sign is
+relevant: 1 means to maximize the respective objective, -1 to minimize it and 0 means to ignore
+it. The weight supplied here will be the default weight for selection. There must be as many
+weights as there are objectives.}
+
+\item{objectives}{(SIGNATURE) The objectives to maximize or minimize. Must have the same length as weights.
+The default objectives (correlation, distance) can be referred to using strings. For custom
+objectives, a function has to be passed.}
+
+\item{seed}{(SIGNATURE) Seed for random number generators.}
+
+\item{population_size}{(SIGNATURE) Size of every generation (mu parameter).}
+
+\item{offspring_size}{(SIGNATURE) Number of individuals created in every generation (lambda parameter).}
+
+\item{crossover_pb}{(SIGNATURE) Crossover probability.}
+
+\item{mutation_pb}{(SIGNATURE) Mutation probability.}
+
+\item{mutate_flip_pb}{(SIGNATURE) Mutation flipping probability (fixed mode).}
+
+\item{crossover_thres}{(SIGNATURE) Crossover threshold (standard mode).}
+
+\item{ind_standard_pb}{(SIGNATURE) Probability used to generate initial population in standard mode.}
+
+\item{plot_weights}{(SIGNATURE) Plotting: Weights with which to weight the objective values. For example,
+(-1,2) will minimize the first objective and maximize the the second (with higher weight).}
+
+\item{plot_objectives}{(SIGNATURE) Plotting: The objectives to be plotted. Contains indices of objectives.
+The first index refers to the objective that is plotted on the x-axis. For example, (2,1) will
+plot the third objective on the x-axis and the second on the y-axis.}
+
+\item{plot}{(SIGNATURE) Whether to produce a plot at all. This just hands over the reticulate plot and
+has some visualization problems. To get a normal plot, use the pickle file, open it in python
+and use the plot method there.}
+
+\item{output_dir}{(SIGNATURE) path to directory where the picke output file will be saved. Default is tempdir().}
+
+\item{model}{(DECONVOLUTION) Regression model. Available options: NuSVR ("nusvr"), non-negative least
 squares("nnls") and linear model ("linear").}
 
-\item{nu}{Nu parameter for NuSVR.}
+\item{nu}{(DECONVOLUTION) Nu parameter for NuSVR.}
 
-\item{C}{C parameter for NuSVR.}
+\item{C}{(DECONVOLUTION) C parameter for NuSVR.}
 
-\item{normalize_results}{wether to normalize results according to the regression model used.
+\item{normalize_results}{(DECONVOLUTION) wether to normalize results according to the regression model used.
 Default is TRUE}
 
-\item{kernel}{Kernel parameter for NuSVR.}
+\item{kernel}{(DECONVOLUTION) Kernel parameter for NuSVR.}
 
-\item{degree}{Degree parameter for NuSVR.}
+\item{degree}{(DECONVOLUTION) Degree parameter for NuSVR.}
 
-\item{gamma}{Gamma parameter for NuSVR.}
+\item{gamma}{(DECONVOLUTION) Gamma parameter for NuSVR.}
 
-\item{coef0}{Coef0 parameter for NuSVR.}
+\item{coef0}{(DECONVOLUTION) Coef0 parameter for NuSVR.}
 
-\item{shrinking}{Shrinking parameter for NuSVR.}
+\item{shrinking}{(DECONVOLUTION) Shrinking parameter for NuSVR.}
 
-\item{tol}{Tol parameter for NuSVR.}
+\item{tol}{(DECONVOLUTION) Tol parameter for NuSVR.}
 
-\item{cache_size}{Cache_size parameter for NuSVR.}
+\item{cache_size}{(DECONVOLUTION) Cache_size parameter for NuSVR.}
 
-\item{max_iter}{Max_iter parameter for NuSVR.}
+\item{max_iter}{(DECONVOLUTION) Max_iter parameter for NuSVR.}
 
-\item{weights}{Select Solution: Weights with which to weight the objective values. For example,
+\item{weights_deconvolution}{(DECONVOLUTION) Select Solution: Weights with which to weight the objective values. For example,
 (-1,1) will minimize the first objective and maximize the the second (with more weight).}
 
 \item{index}{Select Solution: If one int is passed, return pareto[index] If two ints are passed,
@@ -78,5 +151,8 @@ A list with two elements: 'proportions' is the matrix of cell proportions and
 is called "solution" by AutoGeneS.
 }
 \description{
-Deconvolution Analysis using AutoGeneS
+Deconvolution Analysis using AutoGeneS.
+One-step function that performs signature building and deconvolution in one step without saving the signature in between.
+A signature that has been created with @seealso \code{\link[=build_model_autogenes]{build_model_autogenes()}} can be supplied as input to this function with the
+signature parameter, although it is not mandatory.
 }

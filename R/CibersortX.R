@@ -476,7 +476,7 @@ get_cell_fractions_options <- function(sigmatrix, mixture,
   option_string <- paste(
     "--mixture", mixture, "--sigmatrix", sigmatrix, "--perm", perm, "--label", label,
     "--rmbatchBmode", rmbatch_B_mode, "--rmbatchSmode", rmbatch_S_mode, "--sourceGEPs", source_GEPs,
-    "QN", qn, "--absolute", absolute, "--abs_method", abs_method
+    "--QN", qn, "--absolute", absolute, "--abs_method", abs_method
   )
   if (!is.null(refsample)) {
     option_string <- paste(option_string, "--refsample", refsample)

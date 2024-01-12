@@ -2,7 +2,8 @@
 % Please edit documentation in R/AutoGeneS.R
 \name{build_model_autogenes}
 \alias{build_model_autogenes}
-\title{Calculates the signature model with AutoGeneS}
+\title{Calculates the signature model with AutoGeneS.
+This function can be used in case that the signature should be examined. The final signature is stored as a pickle file.}
 \usage{
 build_model_autogenes(
   single_cell_object,
@@ -102,5 +103,6 @@ and use the plot method there.}
 The path to the pickle file needed for the deconvolution with AutoGeneS.
 }
 \description{
-Calculates the signature model with AutoGeneS
+Calculates the signature model with AutoGeneS.
+This function can be used in case that the signature should be examined. The final signature is stored as a pickle file.
 }

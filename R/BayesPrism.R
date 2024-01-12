@@ -89,9 +89,9 @@ deconvolute_bayesprism <- function(bulk_gene_expression, single_cell_object, cel
   if (is.null(cell_type_annotations)) {
     stop("Parameter 'cell_type_annotations' is missing or null, but it is required.")
   }
-  if(!update_gibbs){
-    which_theta <- 'first'
-    warning('Automatically returning initial cell-type proportions (theta=first), as no update_gibbs was set to FALSE.')
+  if (!update_gibbs) {
+    which_theta <- "first"
+    warning("Automatically returning initial cell-type proportions (theta=first), as no update_gibbs was set to FALSE.")
   }
 
   ## BayesPrism expects the bulk and single-cell matrices in a transposed format; genes are in columns and cells in rows
@@ -133,11 +133,15 @@ deconvolute_bayesprism <- function(bulk_gene_expression, single_cell_object, cel
   )
 
   # extract cell type fractions from result object
-  theta <- BayesPrism::get.fraction(
-    bp = bp.res,
-    which.theta = which_theta,
-    state.or.type = state_or_type
-  )
+  if (update_gibbs) {
+    theta <- BayesPrism::get.fraction(
+      bp = bp.res,
+      which.theta = which_theta,
+      state.or.type = state_or_type
+    )
+  } else {
+    theta <- bp.res@posterior.initial.cellType@theta
+  }
 
   return(list(
     theta = theta,

@@ -51,7 +51,6 @@ test_that("Bisque deconvolution works", {
   )
 })
 
-
 test_that("MOMF deconvolution works", {
   momf_model <- as.matrix(read.csv("test_models/momf_model_small.csv",
     row.names = 1,
@@ -175,7 +174,6 @@ test_that("DWLS deconvolution works", {
   )
 })
 
-
 test_that("CIBERSORTx deconvolution works", {
   set_cibersortx_credentials(Sys.getenv("CIBERSORTX_EMAIL"), Sys.getenv("CIBERSORTX_TOKEN"))
   cibersort_model <- as.matrix(read.csv("test_models/cibersortx_model_small.tsv",
@@ -228,11 +226,39 @@ test_that("Scaden deconvolution works", {
   )
 })
 
-test_that("Autogenes deconvolution works", {
+test_that("Autogenes deconvolution with signature works", {
   files <- file.info(list.files(tempdir(), full.names = T, pattern = "\\.pickle$"))
   skip_if(nrow(files) == 0, message = "skipping autogenes deconvolution")
   model <- rownames(files)[which.max(files$mtime)]
   deconvolution <- deconvolute(bulk_small, model, method = "autogenes")
+  expect_equal(
+    info = "deconvolution contains same samples as in bulk (not same order)",
+    object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
+  )
+
+  check_result <- as.matrix(read.csv("test_results/autogenes_result_small_new.csv",
+    row.names = 1,
+    check.names = FALSE,
+  ))
+  expect_equal(
+    info = "deconvolution result is correct", object = deconvolution,
+    expected = check_result, tolerance = 1e-2
+  )
+  expect_equal(
+    info = "deconvolution result with one bulk sample throws no error",
+    object = nrow(deconvolute(bulk_small_one_sample, model, method = "autogenes")),
+    expected = 1
+  )
+})
+
+test_that("Autogenes deconvolution without signature works", {
+  deconvolution <- deconvolute(
+    single_cell_object = sc_object_small,
+    bulk_gene_expression = bulk_small,
+    cell_type_annotations = cell_annotations_small,
+    signature = NULL,
+    method = "autogenes"
+  )
   expect_equal(
     info = "deconvolution contains same samples as in bulk (not same order)",
     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))

@@ -26,7 +26,7 @@ repos:
     hooks:
       - id: forbid-to-commit
         name: Don't commit common R artifacts
-        entry: Cannot commit .Rhistory, .RData, .Rds or .rds.
+        entry: Cannot commit .Rhistory, .RData
         language: fail
         files: '\.(Rhistory|RData|Rds|rds)$'
         exclude: "(inst/extdata|data)/.*"

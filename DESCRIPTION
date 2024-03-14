@@ -35,7 +35,7 @@ Imports:
     tidyr,
     utils
 Suggests: 
-    NMF (>= 0.27),
+    NMF (== 0.25),
     BayesPrism,
     BisqueRNA,
     bseqsc,

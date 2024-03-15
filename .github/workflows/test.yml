@@ -41,7 +41,10 @@ jobs:
         # due to recent versions of GLIBC missing
         run: |
           sudo apt-get update && sudo apt-get install libstdc++6
-
+      - name: Install pak
+        run: Rscript -e "install.packages('pak', repos='https://cran.rstudio.com/')"
+      - name: Install bayesprism
+        run: Rscript -e "pak::pkg_install('omnideconv/bayesprism')"  
       - uses: r-lib/actions/setup-pandoc@v2
 
       - uses: r-lib/actions/setup-r@v2

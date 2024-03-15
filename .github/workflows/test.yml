@@ -55,9 +55,12 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck
+          dependencies: '"hard"' # do not install suggests
+          extra-packages: any::rcmdcheck, any::rmarkdown, any::markdown, local::.
           needs: check
+          #error-on: '"error"'
 
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
+          error-on: '"error"'

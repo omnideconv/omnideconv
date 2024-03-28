@@ -41,6 +41,7 @@ Imports:
     uuid,
     utils
 Suggests: 
+    BayesPrism,
     BisqueRNA,
     bseqsc,
     CDSeq,
@@ -52,6 +53,7 @@ Suggests:
 VignetteBuilder: 
     knitr
 Remotes:
+    omnideconv/BayesPrism,
     amitfrish/scBio,
     bbc/bbplot,
     omnideconv/MOMF,

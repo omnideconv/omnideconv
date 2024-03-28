@@ -44,8 +44,8 @@ jobs:
       - name: Install pak
         run: Rscript -e "install.packages('pak', repos='https://cran.rstudio.com/')"
 
-      #- name: Install bayesprism
-      #  run: Rscript -e "pak::pkg_install('omnideconv/bayesprism')"
+      - name: Install NMF
+        run: Rscript -e "pak::pkg_install('renozao/NMF@devel')"
 
       - uses: r-lib/actions/setup-pandoc@v2
 

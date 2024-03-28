@@ -63,7 +63,7 @@ jobs:
         run: Rscript -e "pak::pkg_install('omnideconv/MuSiC')"
 
       - name: Install MOMF
-        run: Rscript -e "pak::pkg_install('shenorrlab/MOMF')"
+        run: Rscript -e "pak::pkg_install('omnideconv/MOMF')"
 
       - name: Install SCDC
         run: Rscript -e "pak::pkg_install('omnideconv/SCDC')"

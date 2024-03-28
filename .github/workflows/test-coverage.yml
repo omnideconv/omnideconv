@@ -40,8 +40,8 @@ jobs:
       - name: Install Devtools
         run: Rscript -e "pak::pkg_install('devtools')"
 
-  #    - name: Install NMF
-  #      run: Rscript -e "pak::pkg_install('renozao/NMF@devel')"
+      #    - name: Install NMF
+      #      run: Rscript -e "pak::pkg_install('renozao/NMF@devel')"
 
       - name: Install BayesPrism
         run: Rscript -e "pak::pkg_install('omnideconv/BayesPrism')"
@@ -76,7 +76,6 @@ jobs:
           extra-packages: any::rcmdcheck, any::rmarkdown, any::markdown, local::.
           needs: check
           #error-on: '"error"'
-
 
       - name: Test coverage
         run: covr::codecov(quiet = FALSE)

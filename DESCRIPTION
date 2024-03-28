@@ -19,12 +19,16 @@ Imports:
     assertthat,
     bbplot,
     Biobase,
+    devtools,
     dplyr,
     ggplot2,
+    knitr,
     methods,
+    pkgdown,
     plotly,
     RColorBrewer,
     readr,
+    rmarkdown,
     remotes,
     reticulate,
     S4Vectors,
@@ -32,23 +36,19 @@ Imports:
     SingleCellExperiment,
     SummarizedExperiment,
     SCOPfunctions,
+    testthat (>= 2.0.0),
     tidyr,
+    uiid,
     utils
 Suggests: 
     BisqueRNA,
     bseqsc,
     CDSeq,
-    devtools,
     DWLS (>= 0.2),
-    knitr,
     MOMF,
     MuSiC (>= 0.3),
-    pkgdown,
-    rmarkdown,
     scBio,
-    SCDC,
-    testthat (>= 2.0.0),
-    uuid
+    SCDC
 VignetteBuilder: 
     knitr
 Remotes:

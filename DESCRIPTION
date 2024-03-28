@@ -38,7 +38,7 @@ Imports:
     SCOPfunctions,
     testthat (>= 2.0.0),
     tidyr,
-    uiid,
+    uuid,
     utils
 Suggests: 
     BisqueRNA,

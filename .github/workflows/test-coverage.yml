@@ -74,8 +74,8 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           dependencies: '"hard"' # do not install suggests
-          extra-packages: any::rcmdcheck, any::rmarkdown, any::markdown, local::.
-          needs: check
+          extra-packages: any::covr
+          needs: coverage
           #error-on: '"error"'
 
       - name: Test coverage

@@ -35,7 +35,6 @@ Imports:
     tidyr,
     utils
 Suggests: 
-    BayesPrism,
     BisqueRNA,
     bseqsc,
     CDSeq,
@@ -55,7 +54,6 @@ VignetteBuilder:
 Remotes:
     amitfrish/scBio,
     bbc/bbplot,
-    omnideconv/BayesPrism,
     omnideconv/MOMF,
     omnideconv/SCDC,
     omnideconv/harmony,

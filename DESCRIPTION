@@ -59,7 +59,7 @@ Remotes:
     omnideconv/harmony,
     omnideconv/CDSeq,
     omnideconv/DWLS,
-    shenorrlab/bseqsc,
+    omnideconv/bseqsc,
     omnideconv/MuSiC,
     CBMR-Single-Cell-Omics-Platform/SCOPfunctions
 biocViews:

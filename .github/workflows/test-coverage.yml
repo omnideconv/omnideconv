@@ -51,7 +51,7 @@ jobs:
         run: Rscript -e "pak::pkg_install('BisqueRNA')"
 
       - name: Install Bseq-sc
-        run: Rscript -e "pak::pkg_install('shenorrlab/bseqsc')"
+        run: Rscript -e "pak::pkg_install('omnideconv/bseqsc')"
 
       - name: Install CDseq
         run: Rscript -e "pak::pkg_install('omnideconv/CDseq')"

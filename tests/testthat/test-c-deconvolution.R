@@ -441,7 +441,8 @@ test_that("SCDC deconvolution works", {
 })
 
 test_that("CDSeq deconvolution works", {
-  deconvolution <- deconvolute(bulk_small, signature=NULL,
+  deconvolution <- deconvolute(bulk_small,
+    signature = NULL,
     method = "cdseq",
     single_cell_object = sc_object_small,
     cell_type_annotations = cell_annotations_small,
@@ -454,7 +455,8 @@ test_that("CDSeq deconvolution works", {
   )
   expect_equal(
     info = "deconvolution result with one bulk sample throws no error",
-    object = nrow(deconvolute(bulk_small_one_sample, signature=NULL,
+    object = nrow(deconvolute(bulk_small_one_sample,
+      signature = NULL,
       method = "cdseq",
       single_cell_object = sc_object_small,
       cell_type_annotations = cell_annotations_small,

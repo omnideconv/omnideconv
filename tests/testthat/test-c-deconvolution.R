@@ -238,9 +238,10 @@ test_that("Scaden deconvolution works", {
 })
 
 test_that("Autogenes deconvolution with signature works", {
-
-  deconvolution <- deconvolute(bulk_small, model, method = "autogenes",
-                               single_cell_object = sc_object_small)
+  deconvolution <- deconvolute(bulk_small, model,
+    method = "autogenes",
+    single_cell_object = sc_object_small
+  )
   expect_equal(
     info = "deconvolution contains same samples as in bulk (not same order)",
     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
@@ -284,11 +285,13 @@ test_that("Autogenes deconvolution without signature works", {
   )
   expect_equal(
     info = "deconvolution result with one bulk sample throws no error",
-    object = nrow(deconvolute(single_cell_object = sc_object_small,
-                              bulk_gene_expression = bulk_small_one_sample,
-                              cell_type_annotations = cell_annotations_small,
-                              signature = NULL,
-                              method = "autogenes")),
+    object = nrow(deconvolute(
+      single_cell_object = sc_object_small,
+      bulk_gene_expression = bulk_small_one_sample,
+      cell_type_annotations = cell_annotations_small,
+      signature = NULL,
+      method = "autogenes"
+    )),
     expected = 1
   )
 })

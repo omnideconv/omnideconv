@@ -6,7 +6,7 @@ biblio-style: apalike
 link-citations: yes
 colorlinks: yes
 vignette: >
-  %\VignetteIndexEntry{Omnideconv example introduction}
+  %\VignetteIndexEntry{Deconvolution of the tumor microenvironment with omnideconv}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

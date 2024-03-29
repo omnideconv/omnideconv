@@ -42,43 +42,43 @@ jobs:
       - name: Install pak
         run: Rscript -e "install.packages('pak', repos='https://cran.rstudio.com/')"
 
-      - name: Install Devtools
-        run: Rscript -e "pak::pkg_install('devtools')"
+      #- name: Install Devtools
+      #  run: Rscript -e "pak::pkg_install('devtools')"
 
       #    - name: Install NMF
       #      run: Rscript -e "pak::pkg_install('renozao/NMF@devel')"
 
-      - name: Install BayesPrism
-        run: Rscript -e "pak::pkg_install('omnideconv/BayesPrism')"
+      #- name: Install BayesPrism
+      #  run: Rscript -e "pak::pkg_install('omnideconv/BayesPrism')"
 
-      - name: Install Bisque
-        run: Rscript -e "pak::pkg_install('BisqueRNA')"
+      #- name: Install Bisque
+      #  run: Rscript -e "pak::pkg_install('BisqueRNA')"
 
-      - name: Install Bseq-sc
-        run: Rscript -e "pak::pkg_install('omnideconv/bseqsc')"
+      #- name: Install Bseq-sc
+      #  run: Rscript -e "pak::pkg_install('omnideconv/bseqsc')"
 
-      - name: Install CDseq
-        run: Rscript -e "pak::pkg_install('omnideconv/CDseq')"
+      #- name: Install CDseq
+      #  run: Rscript -e "pak::pkg_install('omnideconv/CDseq')"
 
-      - name: Install DWLS
-        run: Rscript -e "pak::pkg_install('omnideconv/DWLS')"
+      #- name: Install DWLS
+      #  run: Rscript -e "pak::pkg_install('omnideconv/DWLS')"
 
-      - name: Install MuSiC
-        run: Rscript -e "pak::pkg_install('omnideconv/MuSiC')"
+      #- name: Install MuSiC
+      #  run: Rscript -e "pak::pkg_install('omnideconv/MuSiC')"
 
-      - name: Install MOMF
-        run: Rscript -e "pak::pkg_install('omnideconv/MOMF')"
+      #- name: Install MOMF
+      #  run: Rscript -e "pak::pkg_install('omnideconv/MOMF')"
 
-      - name: Install SCDC
-        run: Rscript -e "pak::pkg_install('omnideconv/SCDC')"
+      #- name: Install SCDC
+      #  run: Rscript -e "pak::pkg_install('omnideconv/SCDC')"
 
-      - name: Install scBio
-        run: Rscript -e "pak::pkg_install('amitfrish/scBio')"
+      #- name: Install scBio
+      #  run: Rscript -e "pak::pkg_install('amitfrish/scBio')"
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           dependencies: '"hard"' # do not install suggests
-          extra-packages: any::pkgdown, local::.
+          extra-packages: any::pkgdown, any::rmarkdown, local::.
           needs: website
           #error-on: '"error"'
 

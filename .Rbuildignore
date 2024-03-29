@@ -11,3 +11,4 @@
 ^codecov.yml$
 ^doc$
 ^Meta$
+^vignettes/old_vignette

@@ -329,29 +329,29 @@ test_that("MuSiC deconvolution works", {
 # Warning in irlba(A = t(x = object), nv = npcs, ...) :
 # You're computing too large a percentage of total singular values, use a standard svd instead.
 test_that("CPM deconvolution works", {
-  deconvolution_pca <- deconvolute(bulk_small, NULL,
+  deconvolution_pca <- suppressMessages(deconvolute(bulk_small, NULL,
     method = "cpm",
     single_cell_object = sc_object_small,
     cell_type_annotations = cell_annotations_small,
     cell_space = "PCA",
     no_cores = ncores
-  )
+  ))
 
-  deconvolution_umap <- deconvolute(bulk_small, NULL,
+  deconvolution_umap <- suppressMessages(deconvolute(bulk_small, NULL,
     method = "cpm",
     single_cell_object = sc_object_small,
     cell_type_annotations = cell_annotations_small,
     cell_space = "UMAP",
     no_cores = ncores
-  )
+  ))
 
-  deconvolution_tsne <- deconvolute(bulk_small, NULL,
+  deconvolution_tsne <- suppressMessages(deconvolute(bulk_small, NULL,
     method = "cpm",
     single_cell_object = sc_object_small,
     cell_type_annotations = cell_annotations_small,
     cell_space = "TSNE",
     no_cores = ncores
-  )
+  ))
   expect_equal(
     info = "deconvolution_pca contains same samples as in bulk (not same order)",
     object = sort(rownames(deconvolution_pca)), expected = sort(colnames(bulk_small))

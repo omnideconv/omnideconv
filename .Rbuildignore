@@ -12,3 +12,4 @@
 ^doc$
 ^Meta$
 ^vignettes/old_vignette
+^vignettes/old_vignette$

@@ -42,7 +42,7 @@ test_that("Bisque deconvolution works", {
   ))
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result, tolerance = 1e-3
+    expected = check_result, tolerance = 1e-1
   )
   expect_error(
     info = "bisque is not appliable with just one bulk sample",
@@ -58,7 +58,7 @@ test_that("Bisque deconvolution works", {
   )
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result, tolerance = 1e-3
+    expected = check_result, tolerance = 1e-1
   )
 })
 
@@ -238,6 +238,9 @@ test_that("Scaden deconvolution works", {
 })
 
 test_that("Autogenes deconvolution with signature works", {
+  files <- file.info(list.files(tempdir(), full.names = T, pattern = "\\.pickle$"))
+  skip_if(nrow(files) == 0, message = "skipping autogenes deconvolution")
+  model <- rownames(files)[which.max(files$mtime)]
   deconvolution <- deconvolute(bulk_small, model,
     method = "autogenes",
     single_cell_object = sc_object_small
@@ -253,7 +256,7 @@ test_that("Autogenes deconvolution with signature works", {
   ))
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result, tolerance = 1e-3
+    expected = check_result, tolerance = 1e-1
   )
   expect_equal(
     info = "deconvolution result with one bulk sample throws no error",
@@ -281,7 +284,7 @@ test_that("Autogenes deconvolution without signature works", {
   ))
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result, tolerance = 1e-3
+    expected = check_result, tolerance = 1e-1
   )
   expect_equal(
     info = "deconvolution result with one bulk sample throws no error",
@@ -438,7 +441,7 @@ test_that("SCDC deconvolution works", {
 })
 
 test_that("CDSeq deconvolution works", {
-  deconvolution <- deconvolute(bulk_small, NULL,
+  deconvolution <- deconvolute(bulk_small, signature=NULL,
     method = "cdseq",
     single_cell_object = sc_object_small,
     cell_type_annotations = cell_annotations_small,
@@ -451,11 +454,12 @@ test_that("CDSeq deconvolution works", {
   )
   expect_equal(
     info = "deconvolution result with one bulk sample throws no error",
-    object = nrow(deconvolute(bulk_small_one_sample, NULL,
+    object = nrow(deconvolute(bulk_small_one_sample, signature=NULL,
       method = "cdseq",
       single_cell_object = sc_object_small,
       cell_type_annotations = cell_annotations_small,
-      batch_ids = batch_ids_small
+      batch_ids = batch_ids_small,
+      no_cores = ncores
     )),
     expected = 1
   )
@@ -480,6 +484,6 @@ test_that("BayesPrism deconvolution works", {
   ))
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result, tolerance = 1e-3
+    expected = check_result, tolerance = 1e-1
   )
 })

@@ -243,7 +243,8 @@ test_that("Autogenes deconvolution with signature works", {
   model <- rownames(files)[which.max(files$mtime)]
   deconvolution <- deconvolute(bulk_small, model,
     method = "autogenes",
-    single_cell_object = sc_object_small
+    single_cell_object = sc_object_small,
+    cell_type_annotations = cell_annotations_small
   )
   expect_equal(
     info = "deconvolution contains same samples as in bulk (not same order)",

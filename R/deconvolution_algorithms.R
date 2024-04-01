@@ -330,7 +330,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
     # Alphabetical order of celltypes
     rownames(deconv) <- deescape_special_chars(rownames(deconv))
     colnames(deconv) <- deescape_special_chars(colnames(deconv))
-    deconv <- deconv[, order(colnames(deconv)), drop = FALSE]
+    #deconv <- deconv[, order(colnames(deconv)), drop = FALSE]
   }
   return(deconv)
 }

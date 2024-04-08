@@ -2,8 +2,8 @@ Package: omnideconv
 Title: Second generation methods for immune cell deconvolution
 Version: 0.0.0.9000
 Authors@R: c(
-    person("Lorenzo", "Merotto", "Lorenzo.Merotto@uibk.ac.at", role = c("aut", "cre")),
-    person("Alexander", "Dietrich", "alex.dietrich@tum.de", role = "aut"),
+    person("Lorenzo", "Merotto", , "Lorenzo.Merotto@uibk.ac.at", role = c("aut", "cre")),
+    person("Alexander", "Dietrich", , "alex.dietrich@tum.de", role = "aut"),
     person("Konstantin", "Pelz", , "konstantin.pelz@tum.de", role = "aut"),
     person("Nicolas", "Goedert", , "nicolasgoedert1997@gmail.com", role = "aut"),
     person("Yuyu", "Liang", , "yuyuleung0903@yahoo.com", role = "aut"),

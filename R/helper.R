@@ -75,7 +75,7 @@ setup_apptainer_container <- function(container_path = NULL) {
   container_file <- file.path(container_path, "fractions_latest.sif")
 
   if (!file.exists(container_file)) {
-    system(paste0("apptainer pull --dir ", container_file, " docker://cibersortx/fractions"))
+    system(paste0("apptainer pull --dir ", container_path, " docker://cibersortx/fractions"))
   }
 
   return(container_file)

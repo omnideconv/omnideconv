@@ -15,15 +15,15 @@ verbose_wrapper <- function(verbose) {
 }
 
 
-#' Checks wether docker/singularity are available and can be used
+#' Checks wether docker/apptainer are available and can be used
 #' @param container The container for which the commands are tested
 #' @return A boolean value
 #'
-check_container <- function(container = c("docker", "singularity")) {
+check_container <- function(container = c("docker", "apptainer")) {
   if (container == "docker") {
     command <- "docker"
   } else {
-    command <- "singularity instance list"
+    command <- "apptainer instance list"
   }
 
   container.available <- (system(command, ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
@@ -56,17 +56,17 @@ check_container <- function(container = c("docker", "singularity")) {
 
 
 
-#' Setup of the singularity container
-#' @param container_path the path where the singularity .sif file should be stored (optional)
+#' Setup of the apptainer container
+#' @param container_path the path where the apptainer .sif file should be stored (optional)
 #'   If the file 'fractions_latest.sif' is already present, it will be used
 #'
-#' @return the path to the singularity container
+#' @return the path to the apptainer container
 #'
-setup_singularity_container <- function(container_path = NULL) {
+setup_apptainer_container <- function(container_path = NULL) {
   if (is.null(container_path)) {
     container_path <- file.path(path.expand("~"), ".local/share/omnideconv")
     dir.create(container_path, showWarnings = FALSE)
-    message(paste0("singularity container written to `", container_path, "/cibersortx_fractions.sif`.
+    message(paste0("apptainer container written to `", container_path, "/cibersortx_fractions.sif`.
             Set the `container_path` directory to choose a different location"))
   }
 
@@ -75,7 +75,7 @@ setup_singularity_container <- function(container_path = NULL) {
   container_file <- file.path(container_path, "fractions_latest.sif")
 
   if (!file.exists(container_file)) {
-    system(paste0("singularity pull --dir ", container_path, " docker://cibersortx/fractions"))
+    system(paste0("apptainer pull --dir ", container_file, " docker://cibersortx/fractions"))
   }
 
   return(container_file)

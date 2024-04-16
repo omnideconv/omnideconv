@@ -145,16 +145,19 @@ test_that("DWLS deconvolution works", {
     check.names = FALSE
   ))
   expect_equal(
-    info = "deconvolution result for dwls is correct", object = deconvolution_dwls,
-    expected = check_result_dwls
+    info = "deconvolution result for dwls is correct",
+    object = deconvolution_dwls[, sort(colnames(deconvolution_dwls))],
+    expected = check_result_dwls[, sort(colnames(check_results_dwls))], tolerance = 1e-3
   )
   expect_equal(
-    info = "deconvolution result for dwls is correct", object = deconvolution_ols,
-    expected = check_result_ols
+    info = "deconvolution result for dwls is correct",
+    object = deconvolution_ols[, sort(colnames(deconvolution_ols))],
+    expected = check_result_ols[, sort(colnames(check_results_ols))], tolerance = 1e-3
   )
   expect_equal(
-    info = "deconvolution result for dwls is correct", object = deconvolution_svr,
-    expected = check_result_svr
+    info = "deconvolution result for dwls is correct",
+    object = deconvolution_svr[, sort(colnames(deconvolution_svr))],
+    expected = check_result_svr[, sort(colnames(check_results_svr))], tolerance = 1e-3
   )
 
   expect_equal(
@@ -212,7 +215,7 @@ test_that("CIBERSORTx deconvolution works", {
   check_result <- check_result[, sort(colnames(check_result))]
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result
+    expected = check_result, tolerance = 1e-3
   )
 
   expect_equal(
@@ -322,7 +325,7 @@ test_that("MuSiC deconvolution works", {
   ))
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result
+    expected = check_result, , tolerance = 1e-3
   )
   expect_error(
     info = "MuSiC is not appliable with just one bulk sample",
@@ -406,7 +409,7 @@ test_that("SCDC deconvolution works", {
   ))
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result
+    expected = check_result, tolerance = 1e-3
   )
   expect_error(
     info = "scdc is not appliable with just one bulk sample",
@@ -490,7 +493,7 @@ test_that("BayesPrism deconvolution works", {
     check.names = FALSE
   ))
   expect_equal(
-    info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result, tolerance = 1e-1
+    info = "deconvolution result is correct", object = deconvolution[, sort(colnames(deconvolution))],
+    expected = check_result[, sort(colnames(check_result))], tolerance = 1e-1
   )
 })

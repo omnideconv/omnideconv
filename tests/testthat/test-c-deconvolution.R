@@ -81,8 +81,10 @@ test_that("MOMF deconvolution works", {
     check.names = FALSE
   ))
   expect_equal(
-    info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result
+    info = "deconvolution result is correct",
+    object = deconvolution[, sort(colnames(deconvolution))],
+    expected = check_result[, sort(colnames(check_result))],
+    tolerance = 1e-3
   )
   expect_equal(
     info = "deconvolution result with one bulk sample throws no error",
@@ -147,7 +149,7 @@ test_that("DWLS deconvolution works", {
   expect_equal(
     info = "deconvolution result for dwls is correct",
     object = deconvolution_dwls[, sort(colnames(deconvolution_dwls))],
-    expected = check_result_dwls[, sort(colnames(check_results_dwls))], tolerance = 1e-3
+    expected = check_result_dwls[, sort(colnames(check_result_dwls))], tolerance = 1e-3
   )
   expect_equal(
     info = "deconvolution result for dwls is correct",

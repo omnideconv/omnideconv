@@ -154,12 +154,12 @@ test_that("DWLS deconvolution works", {
   expect_equal(
     info = "deconvolution result for dwls is correct",
     object = deconvolution_ols[, sort(colnames(deconvolution_ols))],
-    expected = check_result_ols[, sort(colnames(check_results_ols))], tolerance = 1e-3
+    expected = check_result_ols[, sort(colnames(check_result_ols))], tolerance = 1e-3
   )
   expect_equal(
     info = "deconvolution result for dwls is correct",
     object = deconvolution_svr[, sort(colnames(deconvolution_svr))],
-    expected = check_result_svr[, sort(colnames(check_results_svr))], tolerance = 1e-3
+    expected = check_result_svr[, sort(colnames(check_result_svr))], tolerance = 1e-3
   )
 
   expect_equal(

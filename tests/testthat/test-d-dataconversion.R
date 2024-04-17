@@ -74,6 +74,7 @@ test_that("SingleCellExperiment/Anndata conversion works", {
   )
 })
 
+
 test_that("SingleCellExperiment/Anndata conversion does not lose information", {
   # Fails if we use type = c(1L, 2L, 3L) because R internally transforms dataframes
   # of integers to dataframes of numerics and then the classes dont match

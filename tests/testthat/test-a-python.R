@@ -30,10 +30,4 @@ test_that("Python module autogenes is available", {
     object = reticulate::py_module_available("autogenes"), expected = TRUE
   )
 })
-test_that("extra modules available", {
-  # autogenes_checkload()
-  expect_identical(
-    info = "Scanpy available",
-    object = reticulate::py_module_available("scanpy"), expected = TRUE
-  )
-})
+

@@ -72,7 +72,7 @@ save_as_h5ad <- function(single_cell_object, cell_type_annotations) {
 #' @return SingleCellObject
 #'
 anndata_to_singlecellexperiment <- function(ad) {
-  # anndata_checkload()
+  anndata_checkload()
   ad <- ad$transpose()
   X_mat <- ad$X
   rownames(X_mat) <- ad$obs_names

@@ -34,30 +34,34 @@ test_that("Matrix/SingleCellExperiment conversion works", {
 
 
 test_that("SingleCellExperiment/Anndata conversion works", {
-  ad <- anndata::AnnData(
-    X = matrix(1:6, nrow = 2),
-    obs = data.frame(group = c("a", "b"), row.names = c("s1", "s2")),
-    var = data.frame(type = c(1L, 2L, 3L), row.names = c("var1", "var2", "var3")),
-    layers = list(
-      spliced = matrix(4:9, nrow = 2),
-      unspliced = matrix(8:13, nrow = 2)
-    ),
-    obsm = list(
-      ones = matrix(rep(1L, 10), nrow = 2),
-      rand = matrix(rnorm(6), nrow = 2),
-      zeros = matrix(rep(0L, 10), nrow = 2)
-    ),
-    varm = list(
-      ones = matrix(rep(1L, 12), nrow = 3),
-      rand = matrix(rnorm(6), nrow = 3),
-      zeros = matrix(rep(0L, 12), nrow = 3)
-    ),
-    uns = list(
-      a = 1,
-      b = data.frame(i = 1:3, j = 4:6, value = runif(3)),
-      c = list(c.a = 3, c.b = 4)
-    )
-  )
+
+  sce <- matrix_to_singlecellexperiment(sc_object_small, cell_annotations_small)
+
+  ad <- singlecellexperiment_to_anndata(sce)
+  # ad <- anndata::AnnData(
+  #   X = matrix(1:6, nrow = 2),
+  #   obs = data.frame(group = c("a", "b"), row.names = c("s1", "s2")),
+  #   var = data.frame(type = c(1L, 2L, 3L), row.names = c("var1", "var2", "var3")),
+  #   layers = list(
+  #     spliced = matrix(4:9, nrow = 2),
+  #     unspliced = matrix(8:13, nrow = 2)
+  #   ),
+  #   obsm = list(
+  #     ones = matrix(rep(1L, 10), nrow = 2),
+  #     rand = matrix(rnorm(6), nrow = 2),
+  #     zeros = matrix(rep(0L, 10), nrow = 2)
+  #   ),
+  #   varm = list(
+  #     ones = matrix(rep(1L, 12), nrow = 3),
+  #     rand = matrix(rnorm(6), nrow = 3),
+  #     zeros = matrix(rep(0L, 12), nrow = 3)
+  #   ),
+  #   uns = list(
+  #     a = 1,
+  #     b = data.frame(i = 1:3, j = 4:6, value = runif(3)),
+  #     c = list(c.a = 3, c.b = 4)
+  #   )
+  # )
 
   sce_converted <- anndata_to_singlecellexperiment(ad)
 
@@ -73,7 +77,6 @@ test_that("SingleCellExperiment/Anndata conversion works", {
     object = typeof(ad), expected = "environment"
   )
 })
-
 
 test_that("SingleCellExperiment/Anndata conversion does not lose information", {
   # Fails if we use type = c(1L, 2L, 3L) because R internally transforms dataframes

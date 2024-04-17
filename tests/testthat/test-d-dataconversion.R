@@ -34,7 +34,6 @@ test_that("Matrix/SingleCellExperiment conversion works", {
 
 
 test_that("SingleCellExperiment/Anndata conversion works", {
-
   sce <- matrix_to_singlecellexperiment(sc_object_small, cell_annotations_small)
 
   ad <- singlecellexperiment_to_anndata(sce)

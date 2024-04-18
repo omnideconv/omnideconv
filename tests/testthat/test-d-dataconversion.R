@@ -62,9 +62,9 @@ test_that("SingleCellExperiment/Anndata conversion works", {
   #   )
   # )
 
-  #sce_converted <- anndata_to_singlecellexperiment(ad)
+  # sce_converted <- anndata_to_singlecellexperiment(ad)
 
-  #ad_converted <- singlecellexperiment_to_anndata(sce_converted)
+  # ad_converted <- singlecellexperiment_to_anndata(sce_converted)
 
 
   expect_equal(

@@ -5,6 +5,8 @@
 NULL
 
 .onLoad <- function(libname, pkgname) {
+  cli::cli_alert("checking omnideconv environment and dependencies")
+
   # We ensure to have reticulate
   if (!dir.exists(reticulate::miniconda_path())) {
     message("Setting python version in miniconda to be 3.8")

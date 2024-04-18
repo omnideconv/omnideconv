@@ -69,7 +69,7 @@ test_that("SingleCellExperiment/Anndata conversion works", {
 
   expect_equal(
     info = "Anndata conversion to SCE did not produce an error",
-    object = typeof(sce_converted), expected = "S4"
+    object = typeof(sce), expected = "S4"
   )
   expect_equal(
     info = "SCE conversion to Anndata did not produce an error",

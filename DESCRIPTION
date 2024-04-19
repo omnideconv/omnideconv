@@ -19,6 +19,7 @@ Imports:
     assertthat,
     bbplot,
     Biobase,
+    cli,
     devtools,
     dplyr,
     ggplot2,

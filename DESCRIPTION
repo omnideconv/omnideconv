@@ -30,7 +30,7 @@ Imports:
     readr,
     rmarkdown,
     remotes,
-    reticulate,
+    reticulate==1.35.0,
     S4Vectors,
     Seurat,
     SingleCellExperiment,

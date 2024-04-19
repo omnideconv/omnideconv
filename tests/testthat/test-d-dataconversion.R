@@ -34,42 +34,38 @@ test_that("Matrix/SingleCellExperiment conversion works", {
 
 
 test_that("SingleCellExperiment/Anndata conversion works", {
-  sce <- matrix_to_singlecellexperiment(sc_object_small, cell_annotations_small)
 
-  ad <- singlecellexperiment_to_anndata(sce)
-  # ad <- anndata::AnnData(
-  #   X = matrix(1:6, nrow = 2),
-  #   obs = data.frame(group = c("a", "b"), row.names = c("s1", "s2")),
-  #   var = data.frame(type = c(1L, 2L, 3L), row.names = c("var1", "var2", "var3")),
-  #   layers = list(
-  #     spliced = matrix(4:9, nrow = 2),
-  #     unspliced = matrix(8:13, nrow = 2)
-  #   ),
-  #   obsm = list(
-  #     ones = matrix(rep(1L, 10), nrow = 2),
-  #     rand = matrix(rnorm(6), nrow = 2),
-  #     zeros = matrix(rep(0L, 10), nrow = 2)
-  #   ),
-  #   varm = list(
-  #     ones = matrix(rep(1L, 12), nrow = 3),
-  #     rand = matrix(rnorm(6), nrow = 3),
-  #     zeros = matrix(rep(0L, 12), nrow = 3)
-  #   ),
-  #   uns = list(
-  #     a = 1,
-  #     b = data.frame(i = 1:3, j = 4:6, value = runif(3)),
-  #     c = list(c.a = 3, c.b = 4)
-  #   )
-  # )
+  ad <- anndata::AnnData(
+    X = matrix(1:6, nrow = 2),
+    obs = data.frame(group = c("a", "b"), row.names = c("s1", "s2")),
+    var = data.frame(type = c(1L, 2L, 3L), row.names = c("var1", "var2", "var3")),
+    layers = list(
+      spliced = matrix(4:9, nrow = 2),
+      unspliced = matrix(8:13, nrow = 2)
+    ),
+    obsm = list(
+      ones = matrix(rep(1L, 10), nrow = 2),
+      rand = matrix(rnorm(6), nrow = 2),
+      zeros = matrix(rep(0L, 10), nrow = 2)
+    ),
+    varm = list(
+      ones = matrix(rep(1L, 12), nrow = 3),
+      rand = matrix(rnorm(6), nrow = 3),
+      zeros = matrix(rep(0L, 12), nrow = 3)
+    ),
+    uns = list(
+      a = 1,
+      b = data.frame(i = 1:3, j = 4:6, value = runif(3)),
+      c = list(c.a = 3, c.b = 4)
+    )
+  )
 
-  # sce_converted <- anndata_to_singlecellexperiment(ad)
-
-  # ad_converted <- singlecellexperiment_to_anndata(sce_converted)
+  sce_converted <- anndata_to_singlecellexperiment(ad)
 
 
   expect_equal(
     info = "Anndata conversion to SCE did not produce an error",
-    object = typeof(sce), expected = "S4"
+    object = typeof(sce_converted), expected = "S4"
   )
   expect_equal(
     info = "SCE conversion to Anndata did not produce an error",
@@ -77,47 +73,47 @@ test_that("SingleCellExperiment/Anndata conversion works", {
   )
 })
 
-# test_that("SingleCellExperiment/Anndata conversion does not lose information", {
-#   # Fails if we use type = c(1L, 2L, 3L) because R internally transforms dataframes
-#   # of integers to dataframes of numerics and then the classes dont match
-#   ad <- anndata::AnnData(
-#     X = matrix(1:6, nrow = 2),
-#     obs = data.frame(group = c("a", "b"), row.names = c("s1", "s2")),
-#     var = data.frame(type = c(1, 2, 3), row.names = c("var1", "var2", "var3")),
-#     layers = list(
-#       spliced = matrix(4:9, nrow = 2),
-#       unspliced = matrix(8:13, nrow = 2)
-#     )
-#   )
-#
-#   sce <- SingleCellExperiment::SingleCellExperiment(
-#     list(
-#       X = t(matrix(1:6, nrow = 2)), spliced = t(matrix(4:9, nrow = 2)),
-#       unspliced = t(matrix(8:13, nrow = 2))
-#     ),
-#     colData = data.frame(group = c("a", "b"), row.names = c("s1", "s2")),
-#     rowData = data.frame(type = c(1, 2, 3), row.names = c("var1", "var2", "var3"))
-#   )
-#
-#   sce_converted <- omnideconv:::anndata_to_singlecellexperiment(ad)
-#
-#   ad_converted <- omnideconv:::singlecellexperiment_to_anndata(sce)
-#
-#
-#   expect_equal(
-#     info = "Anndata conversion to SCE did not produce an error",
-#     object = typeof(sce_converted), expected = "S4"
-#   )
-#   expect_equal(
-#     info = "SCE conversion to Anndata did not produce an error",
-#     object = typeof(ad), expected = "environment"
-#   )
-#   expect_equal(
-#     info = "Conversion from Anndata to SCE is correct",
-#     object = sces_are_identical(sce, sce_converted), expected = TRUE
-#   )
-#   expect_equal(
-#     info = "Conversion from SCE to Anndata is correct",
-#     object = anndata_is_identical(ad, ad_converted), expected = TRUE
-#   )
-# })
+test_that("SingleCellExperiment/Anndata conversion does not lose information", {
+  # Fails if we use type = c(1L, 2L, 3L) because R internally transforms dataframes
+  # of integers to dataframes of numerics and then the classes dont match
+  ad <- anndata::AnnData(
+    X = matrix(1:6, nrow = 2),
+    obs = data.frame(group = c("a", "b"), row.names = c("s1", "s2")),
+    var = data.frame(type = c(1, 2, 3), row.names = c("var1", "var2", "var3")),
+    layers = list(
+      spliced = matrix(4:9, nrow = 2),
+      unspliced = matrix(8:13, nrow = 2)
+    )
+  )
+
+  sce <- SingleCellExperiment::SingleCellExperiment(
+    list(
+      X = t(matrix(1:6, nrow = 2)), spliced = t(matrix(4:9, nrow = 2)),
+      unspliced = t(matrix(8:13, nrow = 2))
+    ),
+    colData = data.frame(group = c("a", "b"), row.names = c("s1", "s2")),
+    rowData = data.frame(type = c(1, 2, 3), row.names = c("var1", "var2", "var3"))
+  )
+
+  sce_converted <- omnideconv:::anndata_to_singlecellexperiment(ad)
+
+  ad_converted <- omnideconv:::singlecellexperiment_to_anndata(sce)
+
+
+  expect_equal(
+    info = "Anndata conversion to SCE did not produce an error",
+    object = typeof(sce_converted), expected = "S4"
+  )
+  expect_equal(
+    info = "SCE conversion to Anndata did not produce an error",
+    object = typeof(ad), expected = "environment"
+  )
+  expect_equal(
+    info = "Conversion from Anndata to SCE is correct",
+    object = sces_are_identical(sce, sce_converted), expected = TRUE
+  )
+  expect_equal(
+    info = "Conversion from SCE to Anndata is correct",
+    object = anndata_is_identical(ad, ad_converted), expected = TRUE
+  )
+})

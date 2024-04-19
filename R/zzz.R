@@ -37,7 +37,7 @@ NULL
   reticulate::configure_environment(pkgname, force = TRUE)
 
   if (!reticulate::py_module_available("anndata")) {
-    # anndata::install_anndata()
-    reticulate::py_install("anndata", pip = TRUE)
+    anndata::install_anndata()
+    #reticulate::py_install("anndata", pip = TRUE)
   }
 }

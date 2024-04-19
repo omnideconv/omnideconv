@@ -13,8 +13,7 @@ License: GPL-3 + file LICENSE
 URL: https://github.com/omnideconv/omnideconv
 Depends:
     R (>= 4.1.0),
-    snowfall,
-    reticulate (== 1.35.0)
+    snowfall
 Imports: 
     anndata,
     assertthat,
@@ -32,6 +31,7 @@ Imports:
     readr,
     rmarkdown,
     remotes,
+    reticulate (<= 1.35.0)
     S4Vectors,
     Seurat,
     SingleCellExperiment,

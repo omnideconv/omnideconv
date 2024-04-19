@@ -38,6 +38,9 @@ jobs:
       - name: Install pak
         run: Rscript -e "install.packages('pak', repos='https://cran.rstudio.com/')"
 
+      - name: Install reticulate
+        run: Rscript -e "install.packages('reticulate', repos='https://cran.rstudio.com/', veriosn = '1.35.0')"
+
       - name: Install Devtools
         run: Rscript -e "pak::pkg_install('devtools')"
 

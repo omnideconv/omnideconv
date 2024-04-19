@@ -38,6 +38,6 @@ NULL
 
   if (!reticulate::py_module_available("anndata")) {
     anndata::install_anndata()
-    #reticulate::py_install("anndata", pip = TRUE)
+    # reticulate::py_install("anndata", pip = TRUE)
   }
 }

@@ -34,7 +34,6 @@ test_that("Matrix/SingleCellExperiment conversion works", {
 
 
 test_that("SingleCellExperiment/Anndata conversion works", {
-
   ad <- anndata::AnnData(
     X = matrix(1:6, nrow = 2),
     obs = data.frame(group = c("a", "b"), row.names = c("s1", "s2")),

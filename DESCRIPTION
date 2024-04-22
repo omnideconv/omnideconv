@@ -31,7 +31,6 @@ Imports:
     readr,
     rmarkdown,
     remotes,
-    reticulate,
     S4Vectors,
     Seurat,
     SingleCellExperiment,
@@ -49,6 +48,7 @@ Suggests:
     DWLS (>= 0.2),
     MOMF,
     MuSiC (>= 0.3),
+    reticulate,
     scBio,
     SCDC
 VignetteBuilder: 

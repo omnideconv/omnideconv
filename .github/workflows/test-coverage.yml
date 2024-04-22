@@ -38,8 +38,18 @@ jobs:
       - name: Install pak
         run: Rscript -e "install.packages('pak', repos='https://cran.rstudio.com/')"
 
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          dependencies: '"hard"' # do not install suggests
+          extra-packages: any::rcmdcheck, any::rmarkdown, any::markdown, local::.
+          needs: check
+          #error-on: '"error"'
+
+      - name: Install pak
+        run: Rscript -e "install.packages('pak', repos='https://cran.rstudio.com/')"
+
       - name: Install reticulate
-        run: Rscript -e "install.packages('reticulate', repos='https://cran.rstudio.com/', version = '1.35.0')"
+        run: Rscript -e "pak::pkg_install('rstudio/reticulate')"
 
       - name: Install Devtools
         run: Rscript -e "pak::pkg_install('devtools')"
@@ -74,12 +84,12 @@ jobs:
       - name: Install scBio
         run: Rscript -e "pak::pkg_install('amitfrish/scBio')"
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          dependencies: '"hard"' # do not install suggests
-          extra-packages: any::covr
-          needs: coverage
-          #error-on: '"error"'
+      # - uses: r-lib/actions/setup-r-dependencies@v2
+      #   with:
+      #     dependencies: '"hard"' # do not install suggests
+      #     extra-packages: any::covr
+      #     needs: coverage
+      #     #error-on: '"error"'
 
       - name: Test coverage
         run: covr::codecov(quiet = FALSE)

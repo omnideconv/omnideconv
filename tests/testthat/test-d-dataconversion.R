@@ -1,13 +1,13 @@
 library(omnideconv)
 
 sc_object_small <- system.file("small_test_data", "sc_object_small.csv",
-                               package = "omnideconv", mustWork = TRUE
+  package = "omnideconv", mustWork = TRUE
 ) %>%
   utils::read.csv(., row.names = 1) %>%
   as.matrix(.)
 
 cell_annotations_small <- system.file("small_test_data", "cell_annotations_small.txt",
-                                      package = "omnideconv", mustWork = TRUE
+  package = "omnideconv", mustWork = TRUE
 ) %>%
   readr::read_lines(.)
 

@@ -2,29 +2,34 @@ library(omnideconv)
 library(tidyverse)
 
 bulk_small <- system.file("inst", "small_test_data/bulk_small.csv",
-                          package = "omnideconv", mustWork = TRUE) %>%
+  package = "omnideconv", mustWork = TRUE
+) %>%
   as.matrix(utils::read.csv(., row.names = 1))
 
 sc_object_small <- system.file("inst", "small_test_data/sc_object_small.csv",
-                               package = "omnideconv", mustWork = TRUE) %>%
+  package = "omnideconv", mustWork = TRUE
+) %>%
   as.matrix(utils::read.csv(., row.names = 1))
 
 cell_annotations_small <- system.file("inst", "small_test_data/cell_annotations_small.txt",
-                                      package = "omnideconv", mustWork = TRUE) %>%
+  package = "omnideconv", mustWork = TRUE
+) %>%
   readr::read_lines(.)
 
 batch_ids_small <- system.file("inst", "small_test_data/batch_ids_small.txt",
-                                      package = "omnideconv", mustWork = TRUE) %>%
+  package = "omnideconv", mustWork = TRUE
+) %>%
   readr::read_lines(.)
 
 marker_genes <- system.file("inst", "small_test_data/marker_genes_small.txt",
-                               package = "omnideconv", mustWork = TRUE) %>%
+  package = "omnideconv", mustWork = TRUE
+) %>%
   readr::read_lines(.)
 
-#sc_object_small <- as.matrix(utils::read.csv("small_test_data/sc_object_small.csv", row.names = 1))
-#cell_annotations_small <- readr::read_lines("small_test_data/cell_annotations_small.txt")
-#batch_ids_small <- readr::read_lines("small_test_data/batch_ids_small.txt")
-#marker_genes <- readr::read_lines("small_test_data/marker_genes_small.txt")
+# sc_object_small <- as.matrix(utils::read.csv("small_test_data/sc_object_small.csv", row.names = 1))
+# cell_annotations_small <- readr::read_lines("small_test_data/cell_annotations_small.txt")
+# batch_ids_small <- readr::read_lines("small_test_data/batch_ids_small.txt")
+# marker_genes <- readr::read_lines("small_test_data/marker_genes_small.txt")
 
 markers_small <- list(marker_genes[1:9], marker_genes[10:14], marker_genes[15:20])
 names(markers_small) <- sort(unique(cell_annotations_small))
@@ -63,11 +68,12 @@ test_that("MOMF compute reference works", {
     object = ncol(signature), expected = length(unique(cell_annotations_small))
   )
   check_signature <- system.file("inst", "test_models/momf_model_small.csv",
-                                 package = "omnideconv", mustWork = TRUE) %>%
+    package = "omnideconv", mustWork = TRUE
+  ) %>%
     as.matrix(read.csv(.,
-    row.names = 1,
-    check.names = FALSE
-  ))
+      row.names = 1,
+      check.names = FALSE
+    ))
   expect_equal(
     info = "signature matrix is correct", object = signature,
     expected = check_signature
@@ -81,11 +87,12 @@ test_that("DWLS build signature matrix works", {
     object = ncol(signature), expected = length(unique(cell_annotations_small))
   )
   check_signature <- system.file("inst", "test_models/dwls_model_small.csv",
-                                 package = "omnideconv", mustWork = TRUE) %>%
+    package = "omnideconv", mustWork = TRUE
+  ) %>%
     as.matrix(read.csv(.,
-    row.names = 1,
-    check.names = FALSE
-  ))
+      row.names = 1,
+      check.names = FALSE
+    ))
   expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
 })
 
@@ -97,11 +104,12 @@ test_that("DWLS build signature matrix works with the optimized version", {
   )
 
   check_signature <- system.file("inst", "test_models/dwls_model_small.csv",
-                                 package = "omnideconv", mustWork = TRUE) %>%
+    package = "omnideconv", mustWork = TRUE
+  ) %>%
     as.matrix(read.csv(.,
-    row.names = 1,
-    check.names = FALSE
-  ))
+      row.names = 1,
+      check.names = FALSE
+    ))
   expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
 })
 
@@ -114,11 +122,12 @@ test_that("CIBERSORTx build signature matrix works", {
     expected = length(unique(cell_annotations_small))
   )
   check_signature <- system.file("inst", "test_models/cibersortx_model_small.csv",
-                                 package = "omnideconv", mustWork = TRUE) %>%
+    package = "omnideconv", mustWork = TRUE
+  ) %>%
     as.matrix(read.csv(.,
-    row.names = 1,
-    check.names = FALSE, sep = "\t"
-  ))
+      row.names = 1,
+      check.names = FALSE, sep = "\t"
+    ))
   expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
 })
 
@@ -182,11 +191,12 @@ test_that("BSeq-sc build model works", {
     object = ncol(signature), expected = length(unique(cell_annotations_small))
   )
   check_signature <- system.file("inst", "test_models/bseqsc_model_small.csv",
-                                 package = "omnideconv", mustWork = TRUE) %>%
+    package = "omnideconv", mustWork = TRUE
+  ) %>%
     as.matrix(read.csv(.,
-    row.names = 1,
-    check.names = FALSE
-  ))
+      row.names = 1,
+      check.names = FALSE
+    ))
   expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
 })
 

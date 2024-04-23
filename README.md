@@ -130,12 +130,12 @@ cite both our package and the method(s) you are using.
 
 ## Input data
 
-Different methods have different requirements in terms of input data. 
-This list has been compiled considering the methods documentation, described data procssing or 
+Different methods have different requirements in terms of input data.
+This list has been compiled considering the methods documentation, described data procssing or
 authors recommendation
 
 | Method     | Single cell normalization | Bulk normalization |
-|------------|---------------------------|--------------------|
+| ---------- | ------------------------- | ------------------ |
 | AutogeneS  | CPM                       | TPM                |
 | BayesPrism | Counts                    | Counts             |
 | Bisque     | Counts                    | Counts             |

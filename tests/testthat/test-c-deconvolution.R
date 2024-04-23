@@ -301,9 +301,14 @@ test_that("CIBERSORTx deconvolution works", {
 })
 
 test_that("Scaden deconvolution works", {
-  model_dir <- paste0(tempdir(), "/model")
-  skip_if_not(dir.exists(model_dir), message = "skipping scaden deconvolution test")
-  deconvolution <- deconvolute(bulk_small, model_dir, method = "scaden")
+  # model_dir <- paste0(tempdir(), "/model")
+  # skip_if_not(dir.exists(model_dir), message = "skipping scaden deconvolution test")
+  model <- build_model(sc_object_small, cell_annotations_small,
+                       method = "scaden",
+                       bulk_gene_expression = bulk_small, samples = 10, cells = 5,
+                       steps = 150, verbose = F
+  )
+  deconvolution <- deconvolute(bulk_small, model, method = "scaden")
   expect_equal(
     info = "deconvolution contains same samples as in bulk (not same order)",
     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
@@ -316,9 +321,10 @@ test_that("Scaden deconvolution works", {
 })
 
 test_that("Autogenes deconvolution with signature works", {
-  files <- file.info(list.files(tempdir(), full.names = T, pattern = "\\.pickle$"))
-  skip_if(nrow(files) == 0, message = "skipping autogenes deconvolution")
-  model <- rownames(files)[which.max(files$mtime)]
+  # files <- file.info(list.files(tempdir(), full.names = T, pattern = "\\.pickle$"))
+  # skip_if(nrow(files) == 0, message = "skipping autogenes deconvolution")
+  # model <- rownames(files)[which.max(files$mtime)]
+  model <- build_model(sc_object_small, cell_annotations_small, "autogenes")
   deconvolution <- deconvolute(bulk_small, model,
     method = "autogenes",
     single_cell_object = sc_object_small,

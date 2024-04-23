@@ -127,3 +127,24 @@ cite both our package and the method(s) you are using.
 | [MuSiC](https://github.com/xuranw/MuSiC/)              | free ([GPL 3.0](https://github.com/xuranw/MuSiC/blob/master/LICENSE))               | Wang, X., Park, J., Susztak, K., Zhang, N. R., & Li, M. (2019). Bulk tissue cell type deconvolution with multi-subject single-cell expression reference. Nature Communications, 10(1), 380. <https://doi.org/10.1038/s41467-018-08023-x>                                                                                                                                                      |
 | [Scaden](https://github.com/KevinMenden/scaden)        | free ([MIT](https://github.com/KevinMenden/scaden/blob/master/LICENSE))             | Menden, K., Marouf, M., Oller, S., Dalmia, A., Kloiber, K., Heutink, P., & Bonn, S. (n.d.). Deep-learning-based cell composition analysis from tissue expression profiles. <https://doi.org/10.1101/659227>                                                                                                                                                                                   |
 | [SCDC](https://github.com/meichendong/SCDC)            | ([MIT](https://github.com/meichendong/SCDC/blob/master/README.md))                  | Dong, M., Thennavan, A., Urrutia, E., Li, Y., Perou, C. M., Zou, F., & Jiang, Y. (2020). SCDC: bulk gene expression deconvolution by multiple single-cell RNA sequencing references. Briefings in Bioinformatics. <https://doi.org/10.1093/bib/bbz166>                                                                                                                                        |
+
+## Input data
+
+Different methods have different requirements in terms of input data. 
+This list has been compiled considering the methods documentation, described data procssing or 
+authors recommendation
+
+| Method     | Single cell normalization | Bulk normalization |
+|------------|---------------------------|--------------------|
+| AutogeneS  | CPM                       | TPM                |
+| BayesPrism | Counts                    | Counts             |
+| Bisque     | Counts                    | Counts             |
+| Bseq-Sc    | Counts                    | TPM                |
+| CDseqR     | Counts                    | Counts             |
+| CIBERSORTx | CPM                       | TPM                |
+| CPM        | Counts                    | Counts             |
+| DWLS       | Counts                    | TPM                |
+| MOMF       | Counts                    | Counts             |
+| MuSiC      | Counts                    | TPM                |
+| Scaden     | Counts                    | TPM                |
+| SCDC       | Counts                    | TPM                |

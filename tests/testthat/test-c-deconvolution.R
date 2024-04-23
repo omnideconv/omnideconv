@@ -308,7 +308,7 @@ test_that("Scaden deconvolution works", {
     bulk_gene_expression = bulk_small, samples = 10, cells = 5,
     steps = 150, verbose = F
   )
-  deconvolution <- deconvolute(bulk_small, model, method = "scaden")
+  deconvolution <- deconvolute(bulk_small, model_dir=model, method = "scaden")
   expect_equal(
     info = "deconvolution contains same samples as in bulk (not same order)",
     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))

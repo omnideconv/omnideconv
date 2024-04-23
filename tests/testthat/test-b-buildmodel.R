@@ -62,11 +62,12 @@ test_that("MOMF compute reference works", {
     object = ncol(signature), expected = length(unique(cell_annotations_small))
   )
   check_signature <- system.file("inst", "test_models/momf_model_small.csv",
-                                 package = "omnideconv", mustWork = TRUE) %>%
+    package = "omnideconv", mustWork = TRUE
+  ) %>%
     as.matrix(read.csv(.,
-    row.names = 1,
-    check.names = FALSE
-  ))
+      row.names = 1,
+      check.names = FALSE
+    ))
   expect_equal(
     info = "signature matrix is correct", object = signature,
     expected = check_signature
@@ -80,11 +81,12 @@ test_that("DWLS build signature matrix works", {
     object = ncol(signature), expected = length(unique(cell_annotations_small))
   )
   check_signature <- system.file("inst", "test_models/dwls_model_small.csv",
-                                 package = "omnideconv", mustWork = TRUE) %>%
+    package = "omnideconv", mustWork = TRUE
+  ) %>%
     as.matrix(read.csv(.,
-    row.names = 1,
-    check.names = FALSE
-  ))
+      row.names = 1,
+      check.names = FALSE
+    ))
   expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
 })
 
@@ -96,11 +98,12 @@ test_that("DWLS build signature matrix works with the optimized version", {
   )
 
   check_signature <- system.file("inst", "test_models/dwls_model_small.csv",
-                                 package = "omnideconv", mustWork = TRUE) %>%
+    package = "omnideconv", mustWork = TRUE
+  ) %>%
     as.matrix(read.csv(.,
-    row.names = 1,
-    check.names = FALSE
-  ))
+      row.names = 1,
+      check.names = FALSE
+    ))
   expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
 })
 
@@ -113,11 +116,12 @@ test_that("CIBERSORTx build signature matrix works", {
     expected = length(unique(cell_annotations_small))
   )
   check_signature <- system.file("inst", "test_models/cibersortx_model_small.csv",
-                                 package = "omnideconv", mustWork = TRUE) %>%
+    package = "omnideconv", mustWork = TRUE
+  ) %>%
     as.matrix(read.csv(.,
-    row.names = 1,
-    check.names = FALSE, sep = "\t"
-  ))
+      row.names = 1,
+      check.names = FALSE, sep = "\t"
+    ))
   expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
 })
 
@@ -181,11 +185,12 @@ test_that("BSeq-sc build model works", {
     object = ncol(signature), expected = length(unique(cell_annotations_small))
   )
   check_signature <- system.file("inst", "test_models/bseqsc_model_small.csv",
-                                 package = "omnideconv", mustWork = TRUE) %>%
+    package = "omnideconv", mustWork = TRUE
+  ) %>%
     as.matrix(read.csv(.,
-    row.names = 1,
-    check.names = FALSE
-  ))
+      row.names = 1,
+      check.names = FALSE
+    ))
   expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
 })
 

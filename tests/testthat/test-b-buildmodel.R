@@ -18,12 +18,13 @@ batch_ids_small <- system.file("small_test_data", "batch_ids_small.txt",
 
 marker_genes <- system.file("small_test_data", "marker_genes_small.txt",
                                package = "omnideconv", mustWork = TRUE) %>%
+
   readr::read_lines(.)
 
-#sc_object_small <- as.matrix(utils::read.csv("small_test_data", "sc_object_small.csv", row.names = 1))
-#cell_annotations_small <- readr::read_lines("small_test_data", "cell_annotations_small.txt")
-#batch_ids_small <- readr::read_lines("small_test_data", "batch_ids_small.txt")
-#marker_genes <- readr::read_lines("small_test_data", "marker_genes_small.txt")
+# sc_object_small <- as.matrix(utils::read.csv("small_test_data", "sc_object_small.csv", row.names = 1))
+# cell_annotations_small <- readr::read_lines("small_test_data", "cell_annotations_small.txt")
+# batch_ids_small <- readr::read_lines("small_test_data", "batch_ids_small.txt")
+# marker_genes <- readr::read_lines("small_test_data", "marker_genes_small.txt")
 
 markers_small <- list(marker_genes[1:9], marker_genes[10:14], marker_genes[15:20])
 names(markers_small) <- sort(unique(cell_annotations_small))

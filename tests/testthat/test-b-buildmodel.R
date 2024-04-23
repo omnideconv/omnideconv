@@ -1,22 +1,22 @@
 library(omnideconv)
 
-bulk_small <- system.file("inst", "small_test_data", "bulk_small.csv",
+bulk_small <- system.file("small_test_data", "bulk_small.csv",
                           package = "omnideconv", mustWork = TRUE) %>%
   as.matrix(utils::read.csv(., row.names = 1))
 
-sc_object_small <- system.file("inst", "small_test_data", "sc_object_small.csv",
+sc_object_small <- system.file("small_test_data", "sc_object_small.csv",
                                package = "omnideconv", mustWork = TRUE) %>%
   as.matrix(utils::read.csv(., row.names = 1))
 
-cell_annotations_small <- system.file("inst", "small_test_data", "cell_annotations_small.txt",
+cell_annotations_small <- system.file("small_test_data", "cell_annotations_small.txt",
                                       package = "omnideconv", mustWork = TRUE) %>%
   readr::read_lines(.)
 
-batch_ids_small <- system.file("inst", "small_test_data", "batch_ids_small.txt",
+batch_ids_small <- system.file("small_test_data", "batch_ids_small.txt",
                                       package = "omnideconv", mustWork = TRUE) %>%
   readr::read_lines(.)
 
-marker_genes <- system.file("inst", "small_test_data", "marker_genes_small.txt",
+marker_genes <- system.file("small_test_data", "marker_genes_small.txt",
                                package = "omnideconv", mustWork = TRUE) %>%
   readr::read_lines(.)
 
@@ -36,7 +36,7 @@ test_that("Bisque GenerateSCReference works", {
                cell matrix", object = ncol(signature),
     expected = length(unique(cell_annotations_small))
   )
-  check_signature <- as.matrix(read.csv("test_models/bisque_model_small.csv",
+  check_signature <- as.matrix(read.csv("test_models", "bisque_model_small.csv",
     row.names = 1,
     check.names = FALSE
   ))
@@ -61,7 +61,7 @@ test_that("MOMF compute reference works", {
     info = "signature matrix has same amount of columns as unique cell types in single cell matrix",
     object = ncol(signature), expected = length(unique(cell_annotations_small))
   )
-  check_signature <- system.file("inst", "test_models/momf_model_small.csv",
+  check_signature <- system.file("test_models", "momf_model_small.csv",
     package = "omnideconv", mustWork = TRUE
   ) %>%
     as.matrix(read.csv(.,
@@ -80,7 +80,7 @@ test_that("DWLS build signature matrix works", {
     info = "signature matrix has same amount of columns as unique cell types in single cell matrix",
     object = ncol(signature), expected = length(unique(cell_annotations_small))
   )
-  check_signature <- system.file("inst", "test_models/dwls_model_small.csv",
+  check_signature <- system.file("test_models", "dwls_model_small.csv",
     package = "omnideconv", mustWork = TRUE
   ) %>%
     as.matrix(read.csv(.,
@@ -97,7 +97,7 @@ test_that("DWLS build signature matrix works with the optimized version", {
     object = ncol(signature), expected = length(unique(cell_annotations_small))
   )
 
-  check_signature <- system.file("inst", "test_models/dwls_model_small.csv",
+  check_signature <- system.file("test_models", "dwls_model_small.csv",
     package = "omnideconv", mustWork = TRUE
   ) %>%
     as.matrix(read.csv(.,
@@ -115,7 +115,7 @@ test_that("CIBERSORTx build signature matrix works", {
                cell matrix", object = ncol(signature),
     expected = length(unique(cell_annotations_small))
   )
-  check_signature <- system.file("inst", "test_models/cibersortx_model_small.csv",
+  check_signature <- system.file("test_models", "cibersortx_model_small.csv",
     package = "omnideconv", mustWork = TRUE
   ) %>%
     as.matrix(read.csv(.,
@@ -184,7 +184,7 @@ test_that("BSeq-sc build model works", {
     info = "signature matrix has same amount of columns as unique cell types in single cell matrix",
     object = ncol(signature), expected = length(unique(cell_annotations_small))
   )
-  check_signature <- system.file("inst", "test_models/bseqsc_model_small.csv",
+  check_signature <- system.file("test_models", "bseqsc_model_small.csv",
     package = "omnideconv", mustWork = TRUE
   ) %>%
     as.matrix(read.csv(.,

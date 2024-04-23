@@ -3,12 +3,14 @@ library(omnideconv)
 bulk_small <- system.file("small_test_data", "bulk_small.csv",
   package = "omnideconv", mustWork = TRUE
 ) %>%
-  as.matrix(utils::read.csv(., row.names = 1))
+  utils::read.csv(., row.names = 1) %>%
+  as.matrix(.)
 
 sc_object_small <- system.file("small_test_data", "sc_object_small.csv",
   package = "omnideconv", mustWork = TRUE
 ) %>%
-  as.matrix(utils::read.csv(., row.names = 1))
+  utils::read.csv(., row.names = 1) %>%
+  as.matrix(.)
 
 cell_annotations_small <- system.file("small_test_data", "cell_annotations_small.txt",
   package = "omnideconv", mustWork = TRUE
@@ -41,10 +43,11 @@ test_that("Bisque GenerateSCReference works", {
                cell matrix", object = ncol(signature),
     expected = length(unique(cell_annotations_small))
   )
-  check_signature <- as.matrix(read.csv("test_models", "bisque_model_small.csv",
-    row.names = 1,
-    check.names = FALSE
-  ))
+  check_signature <- system.file("test_models", "bisque_model_small.csv",
+                                 package = "omnideconv", mustWork = TRUE
+  ) %>%
+    read.csv(., row.names = 1, check.names = FALSE) %>%
+    as.matrix(.)
   expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
 
   model <- build_model(sc_object_small, cell_annotations_small, "bisque",

@@ -54,10 +54,11 @@ test_that("Bisque deconvolution works", {
   bisque_model <- system.file("test_models/bisque_model_small.csv",
     package = "omnideconv", mustWork = TRUE
   ) %>%
-    as.matrix(read.csv(.,
-      row.names = 1,
-      check.names = FALSE
-    ))
+    read.csv(.,
+             row.names = 1,
+             check.names = FALSE
+    ) %>%
+    as.matrix(.)
   deconvolution <- t(.bisque_patched_deconvolution(
     bulk_small, bisque_model,
     sc_object_small, cell_annotations_small, batch_ids_small
@@ -74,10 +75,11 @@ test_that("Bisque deconvolution works", {
   check_result <- system.file("test_results", "bisque_result_small.csv",
     package = "omnideconv", mustWork = TRUE
   ) %>%
-    as.matrix(read.csv(.,
-      row.names = 1,
-      check.names = FALSE
-    ))
+    read.csv(.,
+             row.names = 1,
+             check.names = FALSE
+    ) %>%
+    as.matrix(.)
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
     expected = check_result, tolerance = 1e-1
@@ -104,10 +106,11 @@ test_that("MOMF deconvolution works", {
   momf_model <- system.file("test_models/momf_model_small.csv",
     package = "omnideconv", mustWork = TRUE
   ) %>%
-    as.matrix(read.csv(.,
-      row.names = 1,
-      check.names = FALSE
-    ))
+    read.csv(.,
+             row.names = 1,
+             check.names = FALSE
+    ) %>%
+    as.matrix(.)
   deconvolution <- deconvolute(bulk_small, momf_model, method = "momf", sc_object_small)
   expect_equal(
     info = "columns of deconvolution equal to columns of signature (same celltypes in same order)",
@@ -120,10 +123,11 @@ test_that("MOMF deconvolution works", {
   check_result <- system.file("test_results", "momf_result_small.csv",
     package = "omnideconv", mustWork = TRUE
   ) %>%
-    as.matrix(read.csv(.,
-      row.names = 1,
-      check.names = FALSE
-    ))
+    read.csv(.,
+             row.names = 1,
+             check.names = FALSE
+    ) %>%
+    as.matrix(.)
   expect_equal(
     info = "deconvolution result is correct",
     object = deconvolution[, sort(colnames(deconvolution))],
@@ -143,10 +147,11 @@ test_that("DWLS deconvolution works", {
   dwls_model <- system.file("test_models/dwls_model_small.csv",
     package = "omnideconv", mustWork = TRUE
   ) %>%
-    as.matrix(read.csv(.,
-      row.names = 1,
-      check.names = FALSE
-    ))
+    read.csv(.,
+             row.names = 1,
+             check.names = FALSE
+    ) %>%
+    as.matrix(.)
   deconvolution_dwls <- deconvolute(bulk_small, dwls_model,
     method = "dwls", dwls_submethod = "DampenedWLS"
   )

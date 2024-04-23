@@ -55,8 +55,8 @@ test_that("Bisque deconvolution works", {
     package = "omnideconv", mustWork = TRUE
   ) %>%
     read.csv(.,
-             row.names = 1,
-             check.names = FALSE
+      row.names = 1,
+      check.names = FALSE
     ) %>%
     as.matrix(.)
   deconvolution <- t(.bisque_patched_deconvolution(
@@ -76,8 +76,8 @@ test_that("Bisque deconvolution works", {
     package = "omnideconv", mustWork = TRUE
   ) %>%
     read.csv(.,
-             row.names = 1,
-             check.names = FALSE
+      row.names = 1,
+      check.names = FALSE
     ) %>%
     as.matrix(.)
   expect_equal(
@@ -107,8 +107,8 @@ test_that("MOMF deconvolution works", {
     package = "omnideconv", mustWork = TRUE
   ) %>%
     read.csv(.,
-             row.names = 1,
-             check.names = FALSE
+      row.names = 1,
+      check.names = FALSE
     ) %>%
     as.matrix(.)
   deconvolution <- deconvolute(bulk_small, momf_model, method = "momf", sc_object_small)
@@ -124,8 +124,8 @@ test_that("MOMF deconvolution works", {
     package = "omnideconv", mustWork = TRUE
   ) %>%
     read.csv(.,
-             row.names = 1,
-             check.names = FALSE
+      row.names = 1,
+      check.names = FALSE
     ) %>%
     as.matrix(.)
   expect_equal(
@@ -148,8 +148,8 @@ test_that("DWLS deconvolution works", {
     package = "omnideconv", mustWork = TRUE
   ) %>%
     read.csv(.,
-             row.names = 1,
-             check.names = FALSE
+      row.names = 1,
+      check.names = FALSE
     ) %>%
     as.matrix(.)
   deconvolution_dwls <- deconvolute(bulk_small, dwls_model,

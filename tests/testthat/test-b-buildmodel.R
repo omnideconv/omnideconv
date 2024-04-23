@@ -44,7 +44,7 @@ test_that("Bisque GenerateSCReference works", {
     expected = length(unique(cell_annotations_small))
   )
   check_signature <- system.file("test_models", "bisque_model_small.csv",
-                                 package = "omnideconv", mustWork = TRUE
+    package = "omnideconv", mustWork = TRUE
   ) %>%
     read.csv(., row.names = 1, check.names = FALSE) %>%
     as.matrix(.)

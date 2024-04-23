@@ -11,15 +11,40 @@ if (nzchar(chk) && chk == "TRUE") {
 }
 
 
-bulk_small <- as.matrix(utils::read.csv("small_test_data/bulk_small.csv", row.names = 1))
+bulk_small <- system.file("inst", "small_test_data/bulk_small.csv",
+                          package = "omnideconv", mustWork = TRUE) %>%
+  as.matrix(utils::read.csv(., row.names = 1))
+
 bulk_small_one_sample <- bulk_small[, 1, drop = FALSE]
-sc_object_small <- as.matrix(utils::read.csv("small_test_data/sc_object_small.csv", row.names = 1))
-cell_annotations_small <- readr::read_lines("small_test_data/cell_annotations_small.txt")
-batch_ids_small <- readr::read_lines("small_test_data/batch_ids_small.txt")
+
+sc_object_small <- system.file("inst", "small_test_data/sc_object_small.csv",
+                               package = "omnideconv", mustWork = TRUE) %>%
+  as.matrix(utils::read.csv(., row.names = 1))
+
+cell_annotations_small <- system.file("inst", "small_test_data/cell_annotations_small.txt",
+                                      package = "omnideconv", mustWork = TRUE) %>%
+  readr::read_lines(.)
+
+batch_ids_small <- system.file("inst", "small_test_data/batch_ids_small.txt",
+                               package = "omnideconv", mustWork = TRUE) %>%
+  readr::read_lines(.)
+
+marker_genes <- system.file("inst", "small_test_data/marker_genes_small.txt",
+                            package = "omnideconv", mustWork = TRUE) %>%
+  readr::read_lines(.)
+
+
+#bulk_small <- as.matrix(utils::read.csv("small_test_data/bulk_small.csv", row.names = 1))
+
+#sc_object_small <- as.matrix(utils::read.csv("small_test_data/sc_object_small.csv", row.names = 1))
+#cell_annotations_small <- readr::read_lines("small_test_data/cell_annotations_small.txt")
+#batch_ids_small <- readr::read_lines("small_test_data/batch_ids_small.txt")
 
 
 test_that("Bisque deconvolution works", {
-  bisque_model <- as.matrix(read.csv("test_models/bisque_model_small.csv",
+  bisque_model <- system.file("inst", "test_models/bisque_model_small.csv",
+                              package = "omnideconv", mustWork = TRUE) %>%
+    as.matrix(read.csv(.,
     row.names = 1,
     check.names = FALSE
   ))
@@ -36,7 +61,9 @@ test_that("Bisque deconvolution works", {
     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
   )
 
-  check_result <- as.matrix(read.csv("test_results/bisque_result_small.csv",
+  check_result <- system.file("inst", "test_results/bisque_result_small.csv",
+                              package = "omnideconv", mustWork = TRUE) %>%
+    as.matrix(read.csv(.,
     row.names = 1,
     check.names = FALSE
   ))
@@ -63,7 +90,9 @@ test_that("Bisque deconvolution works", {
 })
 
 test_that("MOMF deconvolution works", {
-  momf_model <- as.matrix(read.csv("test_models/momf_model_small.csv",
+  momf_model <- system.file("inst", "test_models/momf_model_small.csv",
+                            package = "omnideconv", mustWork = TRUE) %>%
+    as.matrix(read.csv(.,
     row.names = 1,
     check.names = FALSE
   ))
@@ -76,7 +105,9 @@ test_that("MOMF deconvolution works", {
     info = "deconvolution contains same samples as in bulk (not same order)",
     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
   )
-  check_result <- as.matrix(read.csv("test_results/momf_result_small.csv",
+  check_result <- system.file("inst", "test_results/momf_result_small.csv",
+                              package = "omnideconv", mustWork = TRUE) %>%
+    as.matrix(read.csv(.,
     row.names = 1,
     check.names = FALSE
   ))
@@ -96,7 +127,9 @@ test_that("MOMF deconvolution works", {
 })
 
 test_that("DWLS deconvolution works", {
-  dwls_model <- as.matrix(read.csv("test_models/dwls_model_small.csv",
+  dwls_model <- system.file("inst", "test_models/dwls_model_small.csv",
+                            package = "omnideconv", mustWork = TRUE) %>%
+    as.matrix(read.csv(.,
     row.names = 1,
     check.names = FALSE
   ))
@@ -134,15 +167,21 @@ test_that("DWLS deconvolution works", {
     object = sort(rownames(deconvolution_svr)), expected = sort(colnames(bulk_small))
   )
 
-  check_result_dwls <- as.matrix(read.csv("test_results/dwls_dwls_result_small.csv",
+  check_result_dwls <- system.file("inst", "test_results/dwls_dwls_result_small.csv",
+                                   package = "omnideconv", mustWork = TRUE) %>%
+    as.matrix(read.csv(.,
     row.names = 1,
     check.names = FALSE
   ))
-  check_result_ols <- as.matrix(read.csv("test_results/dwls_ols_result_small.csv",
+  check_result_ols <-  system.file("inst", "test_results/dwls_ols_result_small.csv",
+                                   package = "omnideconv", mustWork = TRUE) %>%
+    as.matrix(read.csv(.,
     row.names = 1,
     check.names = FALSE
   ))
-  check_result_svr <- as.matrix(read.csv("test_results/dwls_svr_result_small.csv",
+  check_result_svr <-  system.file("inst", "test_results/dwls_svr_result_small.csv",
+                                   package = "omnideconv", mustWork = TRUE) %>%
+    as.matrix(read.csv(.,
     row.names = 1,
     check.names = FALSE
   ))
@@ -192,7 +231,9 @@ test_that("DWLS deconvolution works", {
 
 test_that("CIBERSORTx deconvolution works", {
   set_cibersortx_credentials(Sys.getenv("CIBERSORTX_EMAIL"), Sys.getenv("CIBERSORTX_TOKEN"))
-  cibersort_model <- as.matrix(read.csv("test_models/cibersortx_model_small.tsv",
+  cibersort_model <- system.file("inst", "test_models/cibersortx_model_small.tsv",
+                                 package = "omnideconv", mustWork = TRUE) %>%
+    as.matrix(read.csv(.,
     row.names = 1,
     check.names = FALSE, sep = "\t"
   ))
@@ -208,7 +249,9 @@ test_that("CIBERSORTx deconvolution works", {
     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
   )
 
-  check_result <- as.matrix(read.csv("test_results/cibersortx_result_small.tsv",
+  check_result <- system.file("inst", "test_results/cibersortx_result_small.tsv",
+                              package = "omnideconv", mustWork = TRUE) %>%
+    as.matrix(read.csv(.,
     row.names = 1,
     check.names = FALSE, sep = "\t"
   ))
@@ -256,7 +299,9 @@ test_that("Autogenes deconvolution with signature works", {
     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
   )
 
-  check_result <- as.matrix(read.csv("test_results/autogenes_result_small_new.csv",
+  check_result <- system.file("inst", "test_results/autogenes_result_small_new.csv",
+                              package = "omnideconv", mustWork = TRUE) %>%
+    as.matrix(read.csv(.,
     row.names = 1,
     check.names = FALSE,
   ))
@@ -288,7 +333,9 @@ test_that("Autogenes deconvolution without signature works", {
     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
   )
 
-  check_result <- as.matrix(read.csv("test_results/autogenes_result_small_new.csv",
+  check_result <- system.file("inst", "test_results/autogenes_result_small_new.csv",
+                              package = "omnideconv", mustWork = TRUE) %>%
+    as.matrix(read.csv(.,
     row.names = 1,
     check.names = FALSE,
   ))
@@ -321,13 +368,15 @@ test_that("MuSiC deconvolution works", {
     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
   )
 
-  check_result <- as.matrix(read.csv("test_results/music_result_small.csv",
+  check_result <- system.file("inst", "test_results/music_result_small_new.csv",
+                              package = "omnideconv", mustWork = TRUE) %>%
+    as.matrix(read.csv(.,
     row.names = 1,
     check.names = FALSE
   ))
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result, , tolerance = 1e-3
+    expected = check_result, tolerance = 1e-3
   )
   expect_error(
     info = "MuSiC is not appliable with just one bulk sample",
@@ -405,7 +454,9 @@ test_that("SCDC deconvolution works", {
     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
   )
 
-  check_result <- as.matrix(read.csv("test_results/scdc_result_small.csv",
+  check_result <- system.file("inst", "test_results/scdc_result_small_new.csv",
+                              package = "omnideconv", mustWork = TRUE) %>%
+    as.matrix(read.csv(.,
     row.names = 1,
     check.names = FALSE
   ))
@@ -490,7 +541,9 @@ test_that("BayesPrism deconvolution works", {
     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
   )
 
-  check_result <- as.matrix(read.csv("test_results/bayesprism_result_small.csv",
+  check_result <- system.file("inst", "test_results/bayesprism_result_small_new.csv",
+                              package = "omnideconv", mustWork = TRUE) %>%
+    as.matrix(read.csv(.,
     row.names = 1,
     check.names = FALSE
   ))

@@ -73,7 +73,7 @@ test_that("MOMF compute reference works", {
       row.names = 1,
       check.names = FALSE
     ) %>%
-  as.matrix(.)
+    as.matrix(.)
   expect_equal(
     info = "signature matrix is correct", object = signature,
     expected = check_signature
@@ -90,8 +90,8 @@ test_that("DWLS build signature matrix works", {
     package = "omnideconv", mustWork = TRUE
   ) %>%
     read.csv(.,
-             row.names = 1,
-             check.names = FALSE
+      row.names = 1,
+      check.names = FALSE
     ) %>%
     as.matrix(.)
   expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
@@ -108,8 +108,8 @@ test_that("DWLS build signature matrix works with the optimized version", {
     package = "omnideconv", mustWork = TRUE
   ) %>%
     read.csv(.,
-             row.names = 1,
-             check.names = FALSE
+      row.names = 1,
+      check.names = FALSE
     ) %>%
     as.matrix(.)
   expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
@@ -127,9 +127,9 @@ test_that("CIBERSORTx build signature matrix works", {
     package = "omnideconv", mustWork = TRUE
   ) %>%
     read.csv(.,
-             row.names = 1,
-             check.names = FALSE,
-             sep='\t'
+      row.names = 1,
+      check.names = FALSE,
+      sep = "\t"
     ) %>%
     as.matrix(.)
   expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
@@ -198,8 +198,8 @@ test_that("BSeq-sc build model works", {
     package = "omnideconv", mustWork = TRUE
   ) %>%
     read.csv(.,
-             row.names = 1,
-             check.names = FALSE
+      row.names = 1,
+      check.names = FALSE
     ) %>%
     as.matrix(.)
   expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)

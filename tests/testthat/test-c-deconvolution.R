@@ -404,7 +404,7 @@ test_that("MuSiC deconvolution works", {
   )
 
 
-  check_result <- system.file("test_results", "music_result_small_new.csv",
+  check_result <- system.file("test_results", "music_result_small.csv",
     package = "omnideconv", mustWork = TRUE
   ) %>%
     read.csv(.,
@@ -493,7 +493,7 @@ test_that("SCDC deconvolution works", {
   )
 
 
-  check_result <- system.file("test_results", "scdc_result_small_new.csv",
+  check_result <- system.file("test_results", "scdc_result_small.csv",
     package = "omnideconv", mustWork = TRUE
   ) %>%
     read.csv(.,
@@ -583,7 +583,7 @@ test_that("BayesPrism deconvolution works", {
   )
 
 
-  check_result <- system.file("test_results", "bayesprism_result_small_new.csv",
+  check_result <- system.file("test_results", "bayesprism_result_small.csv",
     package = "omnideconv", mustWork = TRUE
   ) %>%
     read.csv(.,

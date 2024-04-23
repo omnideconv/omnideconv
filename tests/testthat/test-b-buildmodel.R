@@ -126,7 +126,7 @@ test_that("CIBERSORTx build signature matrix works", {
                cell matrix", object = ncol(signature),
     expected = length(unique(cell_annotations_small))
   )
-  check_signature <- system.file("test_models", "cibersortx_model_small.csv",
+  check_signature <- system.file("test_models", "cibersortx_model_small.tsv",
     package = "omnideconv", mustWork = TRUE
   ) %>%
     read.csv(.,

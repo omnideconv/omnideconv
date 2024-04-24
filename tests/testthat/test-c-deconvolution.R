@@ -309,7 +309,7 @@ test_that("Scaden deconvolution works", {
     steps = 150, verbose = F
   )
 
-  deconvolution <- deconvolute(bulk_small, signature=model, method = "scaden")
+  deconvolution <- deconvolute(bulk_small, signature = model, method = "scaden")
 
   expect_equal(
     info = "deconvolution contains same samples as in bulk (not same order)",

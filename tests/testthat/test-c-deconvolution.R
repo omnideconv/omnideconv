@@ -301,7 +301,6 @@ test_that("CIBERSORTx deconvolution works", {
 })
 
 test_that("Scaden deconvolution works", {
-
   model <- build_model(sc_object_small, cell_annotations_small,
     method = "scaden",
     bulk_gene_expression = bulk_small, samples = 10, cells = 5,
@@ -316,7 +315,7 @@ test_that("Scaden deconvolution works", {
   )
   expect_equal(
     info = "deconvolution result with one bulk sample throws no error",
-    object = nrow(deconvolute(bulk_small_one_sample, signature=model, method = "scaden")),
+    object = nrow(deconvolute(bulk_small_one_sample, signature = model, method = "scaden")),
     expected = 1
   )
 })

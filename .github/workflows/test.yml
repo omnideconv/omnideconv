@@ -35,7 +35,7 @@ jobs:
       CIBERSORTX_TOKEN: ${{ secrets.CIBERSORTX_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Update system dependencies
         # due to recent versions of GLIBC missing

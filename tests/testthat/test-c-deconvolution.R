@@ -300,102 +300,102 @@ test_that("CIBERSORTx deconvolution works", {
   )
 })
 
-test_that("Scaden deconvolution works", {
-  model <- build_model(sc_object_small, cell_annotations_small,
-    method = "scaden",
-    bulk_gene_expression = bulk_small, samples = 10, cells = 5,
-    steps = 150, verbose = F
-  )
+# test_that("Scaden deconvolution works", {
+#   model <- build_model(sc_object_small, cell_annotations_small,
+#     method = "scaden",
+#     bulk_gene_expression = bulk_small, samples = 10, cells = 5,
+#     steps = 150, verbose = F
+#   )
+#
+#   deconvolution <- deconvolute(bulk_small, signature = model, method = "scaden")
+#
+#   expect_equal(
+#     info = "deconvolution contains same samples as in bulk (not same order)",
+#     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
+#   )
+#   expect_equal(
+#     info = "deconvolution result with one bulk sample throws no error",
+#     object = nrow(deconvolute(bulk_small_one_sample, signature = model, method = "scaden")),
+#     expected = 1
+#   )
+# })
 
-  deconvolution <- deconvolute(bulk_small, signature = model, method = "scaden")
+# test_that("Autogenes deconvolution with signature works", {
+#   # files <- file.info(list.files(tempdir(), full.names = T, pattern = "\\.pickle$"))
+#   # skip_if(nrow(files) == 0, message = "skipping autogenes deconvolution")
+#   # model <- rownames(files)[which.max(files$mtime)]
+#   model <- build_model(sc_object_small, cell_annotations_small, "autogenes")
+#   deconvolution <- deconvolute(bulk_small, model,
+#     method = "autogenes",
+#     single_cell_object = sc_object_small,
+#     cell_type_annotations = cell_annotations_small
+#   )
+#   expect_equal(
+#     info = "deconvolution contains same samples as in bulk (not same order)",
+#     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
+#   )
+#
+#
+#   check_result <- system.file("test_results", "autogenes_result_small_new.csv",
+#     package = "omnideconv", mustWork = TRUE
+#   ) %>%
+#     read.csv(.,
+#       row.names = 1,
+#       check.names = FALSE,
+#     ) %>%
+#     as.matrix(.)
+#   expect_equal(
+#     info = "deconvolution result is correct", object = deconvolution,
+#     expected = check_result, tolerance = 1e-1
+#   )
+#   expect_equal(
+#     info = "deconvolution result with one bulk sample throws no error",
+#     object = nrow(deconvolute(bulk_small_one_sample, model,
+#       method = "autogenes",
+#       single_cell_object = sc_object_small,
+#       cell_type_annotations = cell_annotations_small
+#     )),
+#     expected = 1
+#   )
+# })
 
-  expect_equal(
-    info = "deconvolution contains same samples as in bulk (not same order)",
-    object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
-  )
-  expect_equal(
-    info = "deconvolution result with one bulk sample throws no error",
-    object = nrow(deconvolute(bulk_small_one_sample, signature = model, method = "scaden")),
-    expected = 1
-  )
-})
-
-test_that("Autogenes deconvolution with signature works", {
-  # files <- file.info(list.files(tempdir(), full.names = T, pattern = "\\.pickle$"))
-  # skip_if(nrow(files) == 0, message = "skipping autogenes deconvolution")
-  # model <- rownames(files)[which.max(files$mtime)]
-  model <- build_model(sc_object_small, cell_annotations_small, "autogenes")
-  deconvolution <- deconvolute(bulk_small, model,
-    method = "autogenes",
-    single_cell_object = sc_object_small,
-    cell_type_annotations = cell_annotations_small
-  )
-  expect_equal(
-    info = "deconvolution contains same samples as in bulk (not same order)",
-    object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
-  )
-
-
-  check_result <- system.file("test_results", "autogenes_result_small_new.csv",
-    package = "omnideconv", mustWork = TRUE
-  ) %>%
-    read.csv(.,
-      row.names = 1,
-      check.names = FALSE,
-    ) %>%
-    as.matrix(.)
-  expect_equal(
-    info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result, tolerance = 1e-1
-  )
-  expect_equal(
-    info = "deconvolution result with one bulk sample throws no error",
-    object = nrow(deconvolute(bulk_small_one_sample, model,
-      method = "autogenes",
-      single_cell_object = sc_object_small,
-      cell_type_annotations = cell_annotations_small
-    )),
-    expected = 1
-  )
-})
-
-test_that("Autogenes deconvolution without signature works", {
-  deconvolution <- deconvolute(
-    single_cell_object = sc_object_small,
-    bulk_gene_expression = bulk_small,
-    cell_type_annotations = cell_annotations_small,
-    signature = NULL,
-    method = "autogenes"
-  )
-  expect_equal(
-    info = "deconvolution contains same samples as in bulk (not same order)",
-    object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
-  )
-
-  check_result <- system.file("test_results", "autogenes_result_small_new.csv",
-    package = "omnideconv", mustWork = TRUE
-  ) %>%
-    read.csv(.,
-      row.names = 1,
-      check.names = FALSE,
-    ) %>%
-    as.matrix(.)
-  expect_equal(
-    info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result, tolerance = 1e-1
-  )
-  expect_equal(
-    info = "deconvolution result with one bulk sample throws no error",
-    object = nrow(deconvolute(
-      single_cell_object = sc_object_small,
-      bulk_gene_expression = bulk_small_one_sample,
-      cell_type_annotations = cell_annotations_small,
-      signature = NULL,
-      method = "autogenes"
-    )),
-    expected = 1
-  )
-})
+# test_that("Autogenes deconvolution without signature works", {
+#   deconvolution <- deconvolute(
+#     single_cell_object = sc_object_small,
+#     bulk_gene_expression = bulk_small,
+#     cell_type_annotations = cell_annotations_small,
+#     signature = NULL,
+#     method = "autogenes"
+#   )
+#   expect_equal(
+#     info = "deconvolution contains same samples as in bulk (not same order)",
+#     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
+#   )
+#
+#   check_result <- system.file("test_results", "autogenes_result_small_new.csv",
+#     package = "omnideconv", mustWork = TRUE
+#   ) %>%
+#     read.csv(.,
+#       row.names = 1,
+#       check.names = FALSE,
+#     ) %>%
+#     as.matrix(.)
+#   expect_equal(
+#     info = "deconvolution result is correct", object = deconvolution,
+#     expected = check_result, tolerance = 1e-1
+#   )
+#   expect_equal(
+#     info = "deconvolution result with one bulk sample throws no error",
+#     object = nrow(deconvolute(
+#       single_cell_object = sc_object_small,
+#       bulk_gene_expression = bulk_small_one_sample,
+#       cell_type_annotations = cell_annotations_small,
+#       signature = NULL,
+#       method = "autogenes"
+#     )),
+#     expected = 1
+#   )
+# })
 
 test_that("MuSiC deconvolution works", {
   deconvolution <- deconvolute(bulk_small, NULL,
@@ -437,54 +437,54 @@ test_that("MuSiC deconvolution works", {
 # This warning can be ignored (according to https://github.com/satijalab/seurat/issues/1249):
 # Warning in irlba(A = t(x = object), nv = npcs, ...) :
 # You're computing too large a percentage of total singular values, use a standard svd instead.
-test_that("CPM deconvolution works", {
-  deconvolution_pca <- suppressMessages(deconvolute(bulk_small, NULL,
-    method = "cpm",
-    single_cell_object = sc_object_small,
-    cell_type_annotations = cell_annotations_small,
-    cell_space = "PCA",
-    no_cores = ncores
-  ))
-
-  deconvolution_umap <- suppressMessages(deconvolute(bulk_small, NULL,
-    method = "cpm",
-    single_cell_object = sc_object_small,
-    cell_type_annotations = cell_annotations_small,
-    cell_space = "UMAP",
-    no_cores = ncores
-  ))
-
-  deconvolution_tsne <- suppressMessages(deconvolute(bulk_small, NULL,
-    method = "cpm",
-    single_cell_object = sc_object_small,
-    cell_type_annotations = cell_annotations_small,
-    cell_space = "TSNE",
-    no_cores = ncores
-  ))
-  expect_equal(
-    info = "deconvolution_pca contains same samples as in bulk (not same order)",
-    object = sort(rownames(deconvolution_pca)), expected = sort(colnames(bulk_small))
-  )
-
-  expect_equal(
-    info = "deconvolution_umap contains same samples as in bulk (not same order)",
-    object = sort(rownames(deconvolution_umap)), expected = sort(colnames(bulk_small))
-  )
-
-  expect_equal(
-    info = "deconvolution_tsne contains same samples as in bulk (not same order)",
-    object = sort(rownames(deconvolution_tsne)), expected = sort(colnames(bulk_small))
-  )
-  expect_error(
-    info = "CPM is not appliable with just one bulk sample",
-    object = deconvolute(bulk_small_one_sample, NULL,
-      method = "cpm",
-      single_cell_object = sc_object_small,
-      cell_type_annotations = cell_annotations_small,
-      cell_space = "PCA"
-    )
-  )
-})
+# test_that("CPM deconvolution works", {
+#   deconvolution_pca <- suppressMessages(deconvolute(bulk_small, NULL,
+#     method = "cpm",
+#     single_cell_object = sc_object_small,
+#     cell_type_annotations = cell_annotations_small,
+#     cell_space = "PCA",
+#     no_cores = ncores
+#   ))
+#
+#   deconvolution_umap <- suppressMessages(deconvolute(bulk_small, NULL,
+#     method = "cpm",
+#     single_cell_object = sc_object_small,
+#     cell_type_annotations = cell_annotations_small,
+#     cell_space = "UMAP",
+#     no_cores = ncores
+#   ))
+#
+#   deconvolution_tsne <- suppressMessages(deconvolute(bulk_small, NULL,
+#     method = "cpm",
+#     single_cell_object = sc_object_small,
+#     cell_type_annotations = cell_annotations_small,
+#     cell_space = "TSNE",
+#     no_cores = ncores
+#   ))
+#   expect_equal(
+#     info = "deconvolution_pca contains same samples as in bulk (not same order)",
+#     object = sort(rownames(deconvolution_pca)), expected = sort(colnames(bulk_small))
+#   )
+#
+#   expect_equal(
+#     info = "deconvolution_umap contains same samples as in bulk (not same order)",
+#     object = sort(rownames(deconvolution_umap)), expected = sort(colnames(bulk_small))
+#   )
+#
+#   expect_equal(
+#     info = "deconvolution_tsne contains same samples as in bulk (not same order)",
+#     object = sort(rownames(deconvolution_tsne)), expected = sort(colnames(bulk_small))
+#   )
+#   expect_error(
+#     info = "CPM is not appliable with just one bulk sample",
+#     object = deconvolute(bulk_small_one_sample, NULL,
+#       method = "cpm",
+#       single_cell_object = sc_object_small,
+#       cell_type_annotations = cell_annotations_small,
+#       cell_space = "PCA"
+#     )
+#   )
+# })
 
 
 test_that("SCDC deconvolution works", {

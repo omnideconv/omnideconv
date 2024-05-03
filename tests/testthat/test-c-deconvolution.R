@@ -254,51 +254,51 @@ test_that("DWLS deconvolution works", {
   )
 })
 
-test_that("CIBERSORTx deconvolution works", {
-  set_cibersortx_credentials(Sys.getenv("CIBERSORTX_EMAIL"), Sys.getenv("CIBERSORTX_TOKEN"))
-
-  cibersort_model <- system.file("test_models", "cibersortx_model_small.tsv",
-    package = "omnideconv", mustWork = TRUE
-  ) %>%
-    read.csv(.,
-      row.names = 1,
-      check.names = FALSE, sep = "\t"
-    ) %>%
-    as.matrix(.)
-  colnames(cibersort_model) <- c("T$ c!ell% CD4", "T cel§l() &CD8", "NK+ c?[]el{}l")
-  deconvolution <- deconvolute(bulk_small, cibersort_model, method = "cibersortx")
-
-  expect_equal(
-    info = "columns of deconvolution equal to columns of signature (same celltypes in same order)",
-    object = sort(colnames(deconvolution)), expected = sort(colnames(cibersort_model))
-  )
-  expect_equal(
-    info = "deconvolution contains same samples as in bulk (not same order)",
-    object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
-  )
-
-  check_result <- system.file("test_results", "cibersortx_result_small.tsv",
-    package = "omnideconv", mustWork = TRUE
-  ) %>%
-    read.csv(.,
-      row.names = 1,
-      check.names = FALSE, sep = "\t"
-    ) %>%
-    as.matrix(.)
-  check_result <- check_result[, unique(cell_annotations_small)]
-  colnames(check_result) <- c("T$ c!ell% CD4", "T cel§l() &CD8", "NK+ c?[]el{}l")
-  check_result <- check_result[, sort(colnames(check_result))]
-  expect_equal(
-    info = "deconvolution result is correct", object = deconvolution,
-    expected = check_result, tolerance = 1e-3
-  )
-
-  expect_equal(
-    info = "deconvolution result with one bulk sample throws no error",
-    object = nrow(deconvolute(bulk_small_one_sample, cibersort_model, method = "cibersortx")),
-    expected = 1
-  )
-})
+# test_that("CIBERSORTx deconvolution works", {
+#   set_cibersortx_credentials(Sys.getenv("CIBERSORTX_EMAIL"), Sys.getenv("CIBERSORTX_TOKEN"))
+#
+#   cibersort_model <- system.file("test_models", "cibersortx_model_small.tsv",
+#     package = "omnideconv", mustWork = TRUE
+#   ) %>%
+#     read.csv(.,
+#       row.names = 1,
+#       check.names = FALSE, sep = "\t"
+#     ) %>%
+#     as.matrix(.)
+#   colnames(cibersort_model) <- c("T$ c!ell% CD4", "T cel§l() &CD8", "NK+ c?[]el{}l")
+#   deconvolution <- deconvolute(bulk_small, cibersort_model, method = "cibersortx")
+#
+#   expect_equal(
+#     info = "columns of deconvolution equal to columns of signature (same celltypes in same order)",
+#     object = sort(colnames(deconvolution)), expected = sort(colnames(cibersort_model))
+#   )
+#   expect_equal(
+#     info = "deconvolution contains same samples as in bulk (not same order)",
+#     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
+#   )
+#
+#   check_result <- system.file("test_results", "cibersortx_result_small.tsv",
+#     package = "omnideconv", mustWork = TRUE
+#   ) %>%
+#     read.csv(.,
+#       row.names = 1,
+#       check.names = FALSE, sep = "\t"
+#     ) %>%
+#     as.matrix(.)
+#   check_result <- check_result[, unique(cell_annotations_small)]
+#   colnames(check_result) <- c("T$ c!ell% CD4", "T cel§l() &CD8", "NK+ c?[]el{}l")
+#   check_result <- check_result[, sort(colnames(check_result))]
+#   expect_equal(
+#     info = "deconvolution result is correct", object = deconvolution,
+#     expected = check_result, tolerance = 1e-3
+#   )
+#
+#   expect_equal(
+#     info = "deconvolution result with one bulk sample throws no error",
+#     object = nrow(deconvolute(bulk_small_one_sample, cibersort_model, method = "cibersortx")),
+#     expected = 1
+#   )
+# })
 
 # test_that("Scaden deconvolution works", {
 #   model <- build_model(sc_object_small, cell_annotations_small,

@@ -2,13 +2,16 @@ library(omnideconv)
 
 chk <- Sys.getenv("_R_CHECK_LIMIT_CORES_", "")
 
-if (nzchar(chk) && chk == "TRUE") {
-  # use 2 cores in CRAN/Travis/AppVeyor
-  ncores <- 2L
-} else {
-  # use all cores in devtools::test()
-  ncores <- parallel::detectCores()
-}
+
+# Somehow, ncores != 1 breaks the coverage tests!
+###################################################
+# if (nzchar(chk) && chk == "TRUE") {
+#   # use 2 cores in CRAN/Travis/AppVeyor
+#   ncores <- 2L
+# } else {
+#   # use all cores in devtools::test()
+#   ncores <- parallel::detectCores()
+# }
 
 
 

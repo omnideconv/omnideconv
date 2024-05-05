@@ -446,7 +446,7 @@ test_that("CPM deconvolution works", {
     single_cell_object = sc_object_small,
     cell_type_annotations = cell_annotations_small,
     cell_space = "PCA",
-    no_cores = ncores
+    no_cores = 1
   ))
 
   deconvolution_umap <- suppressMessages(deconvolute(bulk_small, NULL,
@@ -454,7 +454,7 @@ test_that("CPM deconvolution works", {
     single_cell_object = sc_object_small,
     cell_type_annotations = cell_annotations_small,
     cell_space = "UMAP",
-    no_cores = ncores
+    no_cores = 1
   ))
 
   deconvolution_tsne <- suppressMessages(deconvolute(bulk_small, NULL,
@@ -462,7 +462,7 @@ test_that("CPM deconvolution works", {
     single_cell_object = sc_object_small,
     cell_type_annotations = cell_annotations_small,
     cell_space = "TSNE",
-    no_cores = ncores
+    no_cores = 1
   ))
   expect_equal(
     info = "deconvolution_pca contains same samples as in bulk (not same order)",

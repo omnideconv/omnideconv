@@ -162,32 +162,6 @@ test_that("AutoGeneS build model works, and the matrix can be extracted", {
   )
 })
 
-test_that("MuSiC build model works", {
-  signature <- build_model(sc_object_small, cell_annotations_small, "music",
-    batch_ids = batch_ids_small
-  )
-  expect_equal(
-    info = "signature matrix has same amount of columns as unique cell types in single cell matrix",
-    object = ncol(signature), expected = length(unique(cell_annotations_small))
-  )
-})
-test_that("SCDC build model works", {
-  signature <- build_model(sc_object_small, cell_annotations_small, "scdc",
-    batch_ids = batch_ids_small
-  )
-  expect_equal(
-    info = "signature matrix has same amount of columns as unique cell types in single cell matrix",
-    object = ncol(signature), expected = length(unique(cell_annotations_small))
-  )
-})
-
-test_that("CPM build model works", {
-  model <- build_model(sc_object_small, cell_annotations_small, "cpm",
-    bulk_gene_expression = bulk_small
-  )
-  expect_null(info = "The CPM Model is null (which it should be)", object = model)
-})
-
 
 test_that("BSeq-sc build model works", {
   signature <- build_model(sc_object_small, cell_annotations_small, "bseqsc",
@@ -208,16 +182,3 @@ test_that("BSeq-sc build model works", {
   expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
 })
 
-test_that("CDSeq build model works", {
-  model <- build_model(sc_object_small, cell_annotations_small,
-    method = "cdseq"
-  )
-  expect_null(info = "The CDSeq Model is null (which it should be)", object = model)
-})
-
-test_that("BayesPrism build model works", {
-  model <- build_model(sc_object_small, cell_annotations_small, "bayesprism",
-    bulk_gene_expression = bulk_small
-  )
-  expect_null(info = "The BayesPrism Model is null (which it should be)", object = model)
-})

@@ -234,6 +234,7 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
 
   rownames(bulk_gene_expression) <- escape_special_chars(rownames(bulk_gene_expression))
   colnames(bulk_gene_expression) <- escape_special_chars(colnames(bulk_gene_expression))
+
   # Only do if it is a matrix or dataframe
   if ("matrix" %in% class(signature) || "data.frame" %in% class(signature)) {
     rownames(signature) <- escape_special_chars(rownames(signature))

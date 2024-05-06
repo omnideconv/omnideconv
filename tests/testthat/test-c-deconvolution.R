@@ -164,6 +164,11 @@ test_that("DWLS deconvolution works", {
   deconvolution_svr <- deconvolute(bulk_small, dwls_model,
     method = "dwls", dwls_submethod = "SVR"
   )
+
+  deconvolution_dwls_noSignature <- deconvolute(bulk_small, method = "dwls",
+                                                sc_object_small, cell_annotations_small,
+                                                dwls_submethod = "DampenedWLS")
+
   expect_equal(
     info = "rows of deconv for dwls equal to columns of signature (same celltypes, not same order)",
     object = sort(colnames(deconvolution_dwls)), expected = sort(colnames(dwls_model))
@@ -187,6 +192,12 @@ test_that("DWLS deconvolution works", {
   expect_equal(
     info = "deconvolution of svr contains same samples as in bulk (not same order)",
     object = sort(rownames(deconvolution_svr)), expected = sort(colnames(bulk_small))
+  )
+
+  expect_equal(
+    info = "one-step deconvolution and two-step deconvolution produce the same result",
+    object = deconvolution_dwls_noSignature, expected = deconvolution_dwls,
+    tolerance = 1e-3
   )
 
   check_result_dwls <- system.file("test_results", "dwls_dwls_result_small.csv",
@@ -257,7 +268,7 @@ test_that("DWLS deconvolution works", {
   )
 })
 
-test_that("CIBERSORTx deconvolution works", {
+test_that("CIBERSORTx deconvolution works, with and without signature", {
   set_cibersortx_credentials(Sys.getenv("CIBERSORTX_EMAIL"), Sys.getenv("CIBERSORTX_TOKEN"))
 
   cibersort_model <- system.file("test_models", "cibersortx_model_small.tsv",
@@ -270,6 +281,8 @@ test_that("CIBERSORTx deconvolution works", {
     as.matrix(.)
   colnames(cibersort_model) <- c("T$ c!ell% CD4", "T cel§l() &CD8", "NK+ c?[]el{}l")
   deconvolution <- deconvolute(bulk_small, cibersort_model, method = "cibersortx")
+  deconvolution_noSignature <- deconvolute(bulk_small, method = "cibersortx",
+                                           sc_object_small, cell_annotations_small)
 
   expect_equal(
     info = "columns of deconvolution equal to columns of signature (same celltypes in same order)",
@@ -278,6 +291,10 @@ test_that("CIBERSORTx deconvolution works", {
   expect_equal(
     info = "deconvolution contains same samples as in bulk (not same order)",
     object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
+  )
+  expect_equal(
+    info = "one-step deconvolution and two-step deconvolution produce the same result", object = deconvolution,
+    expected = deconvolution_noSignature, tolerance = 1e-3
   )
 
   check_result <- system.file("test_results", "cibersortx_result_small.tsv",

@@ -165,9 +165,11 @@ test_that("DWLS deconvolution works", {
     method = "dwls", dwls_submethod = "SVR"
   )
 
-  deconvolution_dwls_noSignature <- deconvolute(bulk_small, method = "dwls",
-                                                sc_object_small, cell_annotations_small,
-                                                dwls_submethod = "DampenedWLS")
+  deconvolution_dwls_noSignature <- deconvolute(bulk_small,
+    method = "dwls",
+    sc_object_small, cell_annotations_small,
+    dwls_submethod = "DampenedWLS"
+  )
 
   expect_equal(
     info = "rows of deconv for dwls equal to columns of signature (same celltypes, not same order)",
@@ -281,8 +283,10 @@ test_that("CIBERSORTx deconvolution works, with and without signature", {
     as.matrix(.)
   colnames(cibersort_model) <- c("T$ c!ell% CD4", "T cel§l() &CD8", "NK+ c?[]el{}l")
   deconvolution <- deconvolute(bulk_small, cibersort_model, method = "cibersortx")
-  deconvolution_noSignature <- deconvolute(bulk_small, method = "cibersortx",
-                                           sc_object_small, cell_annotations_small)
+  deconvolution_noSignature <- deconvolute(bulk_small,
+    method = "cibersortx",
+    sc_object_small, cell_annotations_small
+  )
 
   expect_equal(
     info = "columns of deconvolution equal to columns of signature (same celltypes in same order)",

@@ -29,7 +29,8 @@ deconvolution_methods <- c(
 #'   as the samples in single_cell_object.
 #' @param batch_ids A vector of the ids of the samples or individuals.
 #' @param method A string specifying the method.
-#'   Supported methods are the ones in the variable 'deconvolution_methods'
+#'   Supported methods for which a signature/model can be built are
+#'   AutoGeneS, BSeq-Sc, DWLS, CIBERSORTx, MOMF, Scaden
 #' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples. Necessary
 #'   for MOMF and Scaden, defaults to NULL. Row and column names need to be set
 #' @param verbose Whether to produce an output on the console.
@@ -79,6 +80,14 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
   method <- tolower(method)
   check_and_install(method)
 
+  if (method %in% c('bayesprism', 'bisque',
+                    'cpm', 'cdseq',
+                    'music', 'scdc')) {
+    stop(
+      "The deconvolution with this method is done in only one step. Please just use the ",
+      "deconvolute function."
+    )
+  }
 
   # Converting all other data types into a matrix
   matrix_and_annotation <- convert_to_matrix(
@@ -114,7 +123,6 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
   }
 
   signature <- switch(method,
-    bisque = build_model_bisque(),
     # momf needs bulk set and signature matrix containing the same genes
     momf = build_model_momf(single_cell_object, cell_type_annotations, bulk_gene_expression, ...),
     scaden = build_model_scaden(single_cell_object, cell_type_annotations, bulk_gene_expression,
@@ -130,12 +138,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
     autogenes = build_model_autogenes(single_cell_object, cell_type_annotations,
       verbose = verbose, ...
     ),
-    music = build_model_music(single_cell_object, cell_type_annotations, batch_ids, ...)$Disgn.mtx,
-    scdc = build_model_scdc(single_cell_object, cell_type_annotations, batch_ids, ...)$basis,
-    cpm = build_model_cpm(),
-    bseqsc = build_model_bseqsc(single_cell_object, cell_type_annotations, markers, batch_ids, ...),
-    cdseq = build_model_cdseq(),
-    bayesprism = build_model_bayesprism()
+    bseqsc = build_model_bseqsc(single_cell_object, cell_type_annotations, markers, batch_ids, ...)
   )
 
 
@@ -154,9 +157,10 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
 #'
 #' @param bulk_gene_expression A matrix or dataframe with the bulk data. Rows are genes, columns
 #'   are samples.
-#' @param signature The signature matrix.
+#' @param signature (Optional) The signature matrix. A signature can be provided for certain methods.
+#'   If NULL, the signature will be computed internally and will not be saved.
+#'   If you wish to save the model/signature, use the 'build_model' function instead.
 #' @param method A string specifying the method.
-#'   Supported methods are 'bisque', 'momf', 'dwls', 'scaden', 'cibersortx', 'autogenes' and 'bayesprism'
 #' @param single_cell_object Needed for deconvolution with MOMF, Bisque and BayesPrism. Defaults to NULL.
 #'   Alternatively a SingleCellExperiment or an AnnData object can be provided. In that case, note
 #'   that cell-type labels need to be indicated either directly providing a vector
@@ -211,7 +215,6 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   }
   method <- tolower(method)
   check_and_install(method)
-
 
   # Converting all other data types into a matrix
   matrix_and_annotation <- convert_to_matrix(
@@ -269,6 +272,29 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
       "A signature was provided, even though you chose a method that does not use ",
       "an external one."
     )
+  }
+
+  if (verbose && method %in% c("autogenes", "bseq-sc", "cibersortx", "dwls", "momf", "scaden") && !is.null(signature)) {
+    message(
+      "A signature was provided."
+    )
+  }
+
+  if (method %in% c("autogenes", "bseq-sc", "cibersortx", "dwls", "momf", "scaden") && is.null(signature)) {
+
+    if(verbose){
+      message(
+        "A signature was not provided, so it will be computed."
+      )}
+    if(is.null(single_cell_object) | is.null(cell_type_annotations)){
+      stop(
+        "A signature was not provided, but the method requires",
+        "a single cell dataset with the corresponding cell type annotations."
+      )
+    } else {
+      signature = build_model(single_cell_object, cell_type_annotations,
+                              method, batch_ids)
+    }
   }
 
   deconv <- switch(method,

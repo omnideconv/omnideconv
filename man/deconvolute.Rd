@@ -22,10 +22,11 @@ deconvolute(
 \item{bulk_gene_expression}{A matrix or dataframe with the bulk data. Rows are genes, columns
 are samples.}
 
-\item{signature}{The signature matrix.}
+\item{signature}{(Optional) The signature matrix. A signature can be provided for certain methods.
+If NULL, the signature will be computed internally and will not be saved.
+If you wish to save the model/signature, use the 'build_model' function instead.}
 
-\item{method}{A string specifying the method.
-Supported methods are 'bisque', 'momf', 'dwls', 'scaden', 'cibersortx', 'autogenes' and 'bayesprism'}
+\item{method}{A string specifying the method.}
 
 \item{single_cell_object}{Needed for deconvolution with MOMF, Bisque and BayesPrism. Defaults to NULL.
 Alternatively a SingleCellExperiment or an AnnData object can be provided. In that case, note

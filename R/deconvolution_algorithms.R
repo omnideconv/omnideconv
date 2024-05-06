@@ -80,9 +80,11 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
   method <- tolower(method)
   check_and_install(method)
 
-  if (method %in% c('bayesprism', 'bisque',
-                    'cpm', 'cdseq',
-                    'music', 'scdc')) {
+  if (method %in% c(
+    "bayesprism", "bisque",
+    "cpm", "cdseq",
+    "music", "scdc"
+  )) {
     stop(
       "The deconvolution with this method is done in only one step. Please just use the ",
       "deconvolute function."
@@ -282,19 +284,21 @@ deconvolute <- function(bulk_gene_expression, signature, method = deconvolution_
   }
 
   if (method %in% c("autogenes", "bseq-sc", "cibersortx", "dwls", "momf", "scaden") && is.null(signature)) {
-
-    if(verbose){
+    if (verbose) {
       message(
         "A signature was not provided, so it will be computed."
-      )}
-    if(is.null(single_cell_object) | is.null(cell_type_annotations)){
+      )
+    }
+    if (is.null(single_cell_object) | is.null(cell_type_annotations)) {
       stop(
         "A signature was not provided, but the method requires",
         "a single cell dataset with the corresponding cell type annotations."
       )
     } else {
-      signature = build_model(single_cell_object, cell_type_annotations,
-                              method, batch_ids)
+      signature <- build_model(
+        single_cell_object, cell_type_annotations,
+        method, batch_ids
+      )
     }
   }
 

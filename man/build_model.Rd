@@ -29,7 +29,8 @@ SingleCellExperiment: colData object).}
 as the samples in single_cell_object.}
 
 \item{method}{A string specifying the method.
-Supported methods are the ones in the variable 'deconvolution_methods'}
+Supported methods for which a signature/model can be built are
+AutoGeneS, BSeq-Sc, DWLS, CIBERSORTx, MOMF, Scaden}
 
 \item{batch_ids}{A vector of the ids of the samples or individuals.}
 

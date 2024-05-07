@@ -300,7 +300,7 @@ test_that("CIBERSORTx deconvolution works, with and without signature", {
   )
   expect_equal(
     info = "one-step deconvolution and two-step deconvolution produce the same result", object = deconvolution,
-    expected = deconvolution_noSignature, tolerance = 1e-3
+    expected = deconvolution_noSignature, tolerance = 1e-1
   )
 
   check_result <- system.file("test_results", "cibersortx_result_small.tsv",

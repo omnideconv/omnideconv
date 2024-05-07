@@ -166,7 +166,7 @@ test_that("DWLS deconvolution works", {
   )
 
   deconvolution_dwls_noSignature <- deconvolute(bulk_small,
-    signature=NULL,
+    signature = NULL,
     method = "dwls",
     sc_object_small, cell_annotations_small,
     dwls_submethod = "DampenedWLS"
@@ -285,7 +285,7 @@ test_that("CIBERSORTx deconvolution works, with and without signature", {
   colnames(cibersort_model) <- c("T$ c!ell% CD4", "T cel§l() &CD8", "NK+ c?[]el{}l")
   deconvolution <- deconvolute(bulk_small, cibersort_model, method = "cibersortx")
   deconvolution_noSignature <- deconvolute(bulk_small,
-    signature=NULL,
+    signature = NULL,
     method = "cibersortx",
     sc_object_small, cell_annotations_small
   )

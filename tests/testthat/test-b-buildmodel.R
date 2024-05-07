@@ -161,4 +161,3 @@ test_that("BSeq-sc build model works", {
     as.matrix(.)
   expect_equal(info = "signature matrix is correct", object = signature, expected = check_signature)
 })
-

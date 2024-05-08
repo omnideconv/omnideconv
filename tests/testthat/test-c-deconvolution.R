@@ -321,11 +321,22 @@ test_that("CIBERSORTx deconvolution works, with and without signature", {
       check.names = FALSE, sep = "\t"
     ) %>%
     as.matrix(.)
+
+  check_result <- check_result[
+    sort(rownames(check_result)),
+    sort(colnames(check_result))
+  ]
+
   check_result <- check_result[, unique(cell_annotations_small)]
-  colnames(check_result) <- c("T$ c!ell% CD4", "T cel§l() &CD8", "NK+ c?[]el{}l")
-  check_result <- check_result[, sort(colnames(check_result))]
+  #colnames(check_result) <- c("T$ c!ell% CD4", "T cel§l() &CD8", "NK+ c?[]el{}l")
+
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
+    expected = check_result, tolerance = 1e-3
+  )
+
+  expect_equal(
+    info = "deconvolution result (one-step) is correct", object = deconvolution_noSignature,
     expected = check_result, tolerance = 1e-3
   )
 

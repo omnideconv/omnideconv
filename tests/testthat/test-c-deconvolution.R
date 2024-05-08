@@ -286,12 +286,16 @@ test_that("CIBERSORTx deconvolution works, with and without signature", {
 
   deconvolution <- deconvolute(bulk_small, signature=cibersort_model, method = "cibersortx")
 
+  deconvolution<- deconvolution[sort(rownames(deconvolution)),
+                                sort(colnames(deconvolution))]
+
   deconvolution_noSignature <- deconvolute(bulk_small,
     signature = NULL,
     method = "cibersortx",
     sc_object_small, cell_annotations_small
   )
-
+  deconvolution_noSignature <- deconvolution_noSignature[sort(rownames(deconvolution_noSignature)),
+                                                         sort(colnames(deconvolution_noSignature))]
   expect_equal(
     info = "columns of deconvolution equal to columns of signature (same celltypes in same order)",
     object = sort(colnames(deconvolution)), expected = sort(colnames(cibersort_model))

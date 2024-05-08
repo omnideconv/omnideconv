@@ -85,10 +85,11 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
     "cpm", "cdseq",
     "music", "scdc"
   )) {
-    stop(
+    message(
       "The deconvolution with this method is done in only one step. Please just use the ",
       "deconvolute function."
     )
+    return(NULL)
   }
 
   # Converting all other data types into a matrix

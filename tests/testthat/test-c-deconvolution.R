@@ -282,7 +282,7 @@ test_that("CIBERSORTx deconvolution works, with and without signature", {
       check.names = FALSE, sep = "\t"
     ) %>%
     as.matrix(.)
-  #colnames(cibersort_model) <- c("T$ c!ell% CD4", "T cel§l() &CD8", "NK+ c?[]el{}l")
+  # colnames(cibersort_model) <- c("T$ c!ell% CD4", "T cel§l() &CD8", "NK+ c?[]el{}l")
 
   deconvolution <- deconvolute(bulk_small, signature = cibersort_model, method = "cibersortx")
 

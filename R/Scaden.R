@@ -131,7 +131,7 @@ deconvolute_scaden <- function(signature, bulk_gene_expression, temp_dir = NULL,
 #' Alternatively a new environment can be created via create_virtualenv() method.
 #'
 install_scaden <- function() {
-  reticulate::py_install("scaden", pip = TRUE)
+  reticulate::py_install("git+https://github.com/omnideconv/scaden.git", pip = TRUE)
 }
 
 

@@ -2,7 +2,9 @@ Package: omnideconv
 Title: Second generation methods for immune cell deconvolution
 Version: 0.0.0.9000
 Authors@R: c(
-    person("Konstantin", "Pelz", , "konstantin.pelz@tum.de", role = c("aut", "cre")),
+    person("Lorenzo", "Merotto", , "Lorenzo.Merotto@uibk.ac.at", role = c("aut", "cre")),
+    person("Alexander", "Dietrich", , "alex.dietrich@tum.de", role = "aut"),
+    person("Konstantin", "Pelz", , "konstantin.pelz@tum.de", role = "aut"),
     person("Nicolas", "Goedert", , "nicolasgoedert1997@gmail.com", role = "aut"),
     person("Yuyu", "Liang", , "yuyuleung0903@yahoo.com", role = "aut"),
     person("Katharina", "Reinisch", , "k.reinisch@campus.lmu.de", role = "aut")
@@ -75,6 +77,6 @@ Config/reticulate:
   list(
     packages = list(
       list(package = "autogenes", pip = TRUE),
-      list(package = "scaden", pip = TRUE)
+      list(package = "git+https://github.com/omnideconv/scaden.git", pip = TRUE)
     )
   )    

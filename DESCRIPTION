@@ -77,6 +77,6 @@ Config/reticulate:
   list(
     packages = list(
       list(package = "autogenes", pip = TRUE),
-      list(package = "git+https://github.com/omnideconv/scaden.git", pip = TRUE)
+      list(package = "scaden", pip = TRUE)
     )
   )    

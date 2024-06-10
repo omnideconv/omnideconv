@@ -104,7 +104,7 @@ package.
 Most methods do not require additional software/tokens, but there are a
 few exceptions:
 
-- A working version of Docker is required for CIBERSORTx
+- A working version of Docker or Singularity is required for CIBERSORTx
 - A token for CIBERSORTx is required from this website:
   <https://cibersortx.stanford.edu/>
 - The CIBERSORT source code is required for BSeq-sc (see tutorial in

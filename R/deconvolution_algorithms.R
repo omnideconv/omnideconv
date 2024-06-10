@@ -205,10 +205,10 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
 #'   bulk, NULL, "bisque", single_cell_data,
 #'   cell_type_annotations, batch_ids
 #' )
-deconvolute <- function(bulk_gene_expression, model=NULL, method = deconvolution_methods,
-                         single_cell_object = NULL, cell_type_annotations = NULL, batch_ids = NULL,
-                         cell_type_column_name = NULL, normalize_results = FALSE,
-                         verbose = FALSE, assay_name = NULL, ...) {
+deconvolute <- function(bulk_gene_expression, model = NULL, method = deconvolution_methods,
+                        single_cell_object = NULL, cell_type_annotations = NULL, batch_ids = NULL,
+                        cell_type_column_name = NULL, normalize_results = FALSE,
+                        verbose = FALSE, assay_name = NULL, ...) {
   if (length(method) > 1) {
     stop(
       "Please only specify one method and not ", length(method), ": ",

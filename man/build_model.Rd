@@ -18,7 +18,7 @@ build_model(
 )
 }
 \arguments{
-\item{single_cell_object}{A matrix or dataframe with the single-cell data. Rows are genes,
+\item{single_cell_object}{A matrix with the single-cell data. Rows are genes,
 columns are samples. Row and column names need to be set. Alternatively a SingleCellExperiment
 or an AnnData object can be provided. In that case, note that cell-type labels need to be
 indicated either directly providing a vector (cell_type_annotations) or by indicating the

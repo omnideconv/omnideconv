@@ -6,11 +6,11 @@
 \usage{
 deconvolute(
   bulk_gene_expression,
-  signature,
   method = deconvolution_methods,
-  single_cell_object = NULL,
-  cell_type_annotations = NULL,
-  batch_ids = NULL,
+  single_cell_object,
+  cell_type_annotations,
+  batch_ids,
+  model = NULL,
   cell_type_column_name = NULL,
   normalize_results = FALSE,
   verbose = FALSE,
@@ -19,25 +19,22 @@ deconvolute(
 )
 }
 \arguments{
-\item{bulk_gene_expression}{A matrix or dataframe with the bulk data. Rows are genes, columns
+\item{bulk_gene_expression}{A matrix with the bulk data. Rows are genes, columns
 are samples.}
-
-\item{signature}{(Optional) The signature matrix. A signature can be provided for certain methods.
-If NULL, the signature will be computed internally and will not be saved.
-If you wish to save the model/signature, use the 'build_model' function instead.}
 
 \item{method}{A string specifying the method.}
 
-\item{single_cell_object}{Needed for deconvolution with MOMF, Bisque and BayesPrism. Defaults to NULL.
-Alternatively a SingleCellExperiment or an AnnData object can be provided. In that case, note
-that cell-type labels need to be indicated either directly providing a vector
-(cell_type_annotations) or by indicating the column name that indicates the cell-type labels
-(cell_type_column_name). (Anndata: obs object, SingleCellExperiment: colData object)}
+\item{single_cell_object}{A matrix with the single-cell data. Rows are genes,
+columns are samples. Row and column names need to be set. Alternatively a SingleCellExperiment
+or an AnnData object can be provided. In that case, note that cell-type labels need to be
+indicated either directly providing a vector (cell_type_annotations) or by indicating the
+column name that indicates the cell-type labels (cell_type_column_name). (Anndata: obs object,
+SingleCellExperiment: colData object).}
 
-\item{cell_type_annotations}{Needed for deconvolution with Bisque, MuSiC, SCDC and BayesPrism
-Defaults to NULL.}
+\item{cell_type_annotations}{A vector of the cell type annotations. Has to be in the same order
+as the samples in single_cell_object.}
 
-\item{batch_ids}{A vector of the ids of the samples or individuals. Defaults to NULL.}
+\item{batch_ids}{A vector of the ids of the samples or individuals.}
 
 \item{cell_type_column_name}{Name of the column in (Anndata: obs, SingleCellExperiment: colData),
 that contains the cell-type labels. Is only used if no cell_type_annotations vector
@@ -52,6 +49,10 @@ Defaults to NULL.}
 \item{assay_name}{Name of the assay/layer of the single_cell_object that should be used to extract the data}
 
 \item{...}{Additional parameters, passed to the algorithm used.}
+
+\item{signature}{(Optional) The signature matrix. A signature can be provided for certain methods.
+If NULL, the signature will be computed internally and will not be saved.
+If you wish to save the model/signature, use the 'build_model' function instead.}
 }
 \value{
 A matrix with the probabilities of each cell-type for each individual. Rows are

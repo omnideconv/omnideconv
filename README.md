@@ -30,11 +30,13 @@ pak::pkg_install("omnideconv/omnideconv")
 pak::pkg_install("omnideconv/omnideconv", dependencies = TRUE)
 omnideconv::install_all_python()
 ```
+
 Upon the first loading, miniconda will be installed if not already present. A dedicated conda environment will be created to host the python-based methods.
 
 ## Available methods
 
-The methods currently implemented in omnideconv are: 
+The methods currently implemented in omnideconv are:
+
 - AutoGeneS (“autogenes”)
 - Bisque (“bisque”)
 - BayesPrism ("bayesprism")
@@ -50,8 +52,8 @@ The methods currently implemented in omnideconv are:
 
 ## General usage
 
-All the deconvolution methods included in omnideconv can be run in one step, 
-trough the function `deconvolute`, which takes in input the matrix of bulk RNAseq to be deconvolved (bulk_gene_expression), along with the training single cell expression matrix (single_cell_object) with the cell type annotations and sample information. 
+All the deconvolution methods included in omnideconv can be run in one step,
+trough the function `deconvolute`, which takes in input the matrix of bulk RNAseq to be deconvolved (bulk_gene_expression), along with the training single cell expression matrix (single_cell_object) with the cell type annotations and sample information.
 
 ```r
 deconvolution <- omnideconv::deconvolute(bulk_gene_expression, method,
@@ -60,17 +62,16 @@ deconvolution <- omnideconv::deconvolute(bulk_gene_expression, method,
 
 ## Signature matrix/model building
 
-The methods AutoGeneS, BSeq-Sc, DWLS, CIBERSORTx, MOMF and Scaden first optimize their internal model, for example building a signature matrix, and then use this model to perform deconvolution. For these methods, the `build_model` function can be used. The obtained model can then be given in input to the `deconvolute` function, omitting the single cell data. 
+The methods AutoGeneS, BSeq-Sc, DWLS, CIBERSORTx, MOMF and Scaden first optimize their internal model, for example building a signature matrix, and then use this model to perform deconvolution. For these methods, the `build_model` function can be used. The obtained model can then be given in input to the `deconvolute` function, omitting the single cell data.
 
 ```r
-signature <- omnideconv::build_model(single_cell_object, cell_type_annotations, 
+signature <- omnideconv::build_model(single_cell_object, cell_type_annotations,
                                      batch_ids, method, bulk_gene_expression)
-                                     
-deconvolution <- omnideconv::deconvolute(bulk_gene_expression, signature)                                     
+
+deconvolution <- omnideconv::deconvolute(bulk_gene_expression, signature)
 ```
 
 The `deconvolute` function returns a sample x cell type matrix with the estimated cell fractions
-
 
 ## Input data
 
@@ -103,7 +104,7 @@ package.
 Most methods do not require additional software/tokens, but there are a
 few exceptions:
 
-- A working version of Docker is required for CIBERSORTx
+- A working version of Docker or Singularity is required for CIBERSORTx
 - A token for CIBERSORTx is required from this website:
   <https://cibersortx.stanford.edu/>
 - The CIBERSORT source code is required for BSeq-sc (see tutorial in
@@ -132,4 +133,3 @@ cite both our package and the method(s) you are using.
 | [MuSiC](https://github.com/xuranw/MuSiC/)              | free ([GPL 3.0](https://github.com/xuranw/MuSiC/blob/master/LICENSE))               | Wang, X., Park, J., Susztak, K., Zhang, N. R., & Li, M. (2019). Bulk tissue cell type deconvolution with multi-subject single-cell expression reference. Nature Communications, 10(1), 380. <https://doi.org/10.1038/s41467-018-08023-x>                                                                                                                                                      |
 | [Scaden](https://github.com/KevinMenden/scaden)        | free ([MIT](https://github.com/KevinMenden/scaden/blob/master/LICENSE))             | Menden, K., Marouf, M., Oller, S., Dalmia, A., Kloiber, K., Heutink, P., & Bonn, S. (n.d.). Deep-learning-based cell composition analysis from tissue expression profiles. <https://doi.org/10.1101/659227>                                                                                                                                                                                   |
 | [SCDC](https://github.com/meichendong/SCDC)            | ([MIT](https://github.com/meichendong/SCDC/blob/master/README.md))                  | Dong, M., Thennavan, A., Urrutia, E., Li, Y., Perou, C. M., Zou, F., & Jiang, Y. (2020). SCDC: bulk gene expression deconvolution by multiple single-cell RNA sequencing references. Briefings in Bioinformatics. <https://doi.org/10.1093/bib/bbz166>                                                                                                                                        |
-

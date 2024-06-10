@@ -2,7 +2,6 @@
 #' according to: https://rstudio.github.io/reticulate/articles/python_dependencies.html#manual-configuration
 #'
 #'
-NULL
 
 .onLoad <- function(libname, pkgname) {
   cli::cli_alert("checking omnideconv environment and dependencies")

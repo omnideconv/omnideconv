@@ -6,11 +6,11 @@
 \usage{
 deconvolute(
   bulk_gene_expression,
-  method = deconvolution_methods,
-  single_cell_object,
-  cell_type_annotations,
-  batch_ids,
   model = NULL,
+  method = deconvolution_methods,
+  single_cell_object = NULL,
+  cell_type_annotations = NULL,
+  batch_ids = NULL,
   cell_type_column_name = NULL,
   normalize_results = FALSE,
   verbose = FALSE,

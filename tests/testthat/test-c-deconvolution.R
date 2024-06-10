@@ -328,7 +328,7 @@ test_that("CIBERSORTx deconvolution works, with and without signature", {
     sort(colnames(check_result))
   ]
 
-  #check_result <- check_result[, unique(cell_annotations_small)]
+  # check_result <- check_result[, unique(cell_annotations_small)]
   expect_equal(
     info = "deconvolution result is correct", object = deconvolution,
     expected = check_result, tolerance = 1e-3

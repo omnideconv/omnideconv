@@ -30,29 +30,14 @@ pak::pkg_install("omnideconv/omnideconv")
 pak::pkg_install("omnideconv/omnideconv", dependencies = TRUE)
 omnideconv::install_all_python()
 ```
+Upon the first loading, miniconda will be installed if not already present. A dedicated conda environment will be created to host the python-based methods.
 
-## Usage
+## Available methods
 
-The main functions of this package are to build a signature matrix and
-deconvolute bulk RNA-seq data based on this signature matrix.
-
-The basic workflow (in this example using the method “dwls”) is the
-following:
-
-### 1. Build a Signature Matrix
-
-```r
-omnideconv::build_model(single_cell_data_1, cell_type_annotations_1,
-    method = "dwls")
-```
-
-In this method, single_cell_data is a matrix of single cell RNA-seq
-data with genes in rows and cells in columns, cell_type_annotations a
-vector that contains an annotation for each cell in your
-single_cell_data, and the possible methods are:
-
+The methods currently implemented in omnideconv are: 
 - AutoGeneS (“autogenes”)
 - Bisque (“bisque”)
+- BayesPrism ("bayesprism")
 - BSeq-sc (“bseqsc”)
 - CDSeq (“cdseq”)
 - CIBERSORTx (“cibersortx”)
@@ -63,30 +48,50 @@ single_cell_data, and the possible methods are:
 - Scaden (“scaden”)
 - SCDC (“scdc”)
 
-### 2. Deconvolute
+## General usage
+
+All the deconvolution methods included in omnideconv can be run in one step, 
+trough the function `deconvolute`, which takes in input the matrix of bulk RNAseq to be deconvolved (bulk_gene_expression), along with the training single cell expression matrix (single_cell_object) with the cell type annotations and sample information. 
 
 ```r
-omnideconv::deconvolute(bulk, signature_matrix, method = "dwls")
+deconvolution <- omnideconv::deconvolute(bulk_gene_expression, method,
+                                         single_cell_object, cell_type_annotations, batch_ids)
 ```
 
-Here, bulk is your bulk RNA-seq data as a matrix with genes in rows and
-samples in column, signature_matrix is the signature matrix you created
-in the previous step and the method can again be one of the four methods
-listed above.
+## Signature matrix/model building
 
-This is, what the cell type properties in your bulk RNA-seq data
-computed in the deconvolution step could look like:
+The methods AutoGeneS, BSeq-Sc, DWLS, CIBERSORTx, MOMF and Scaden first optimize their internal model, for example building a signature matrix, and then use this model to perform deconvolution. For these methods, the `build_model` function can be used. The obtained model can then be given in input to the `deconvolute` function, omitting the single cell data. 
 
-|             |     B | CD4 T | CD8 T |    DC |  Mono |    NK |
-| :---------- | ----: | ----: | ----: | ----: | ----: | ----: |
-| HD30_PBMC_0 | 0.087 | 0.444 | 0.318 | 0.047 | 0.037 | 0.066 |
-| HD30_PBMC_1 | 0.086 | 0.439 | 0.311 | 0.052 | 0.039 | 0.073 |
-| HD30_PBMC_3 | 0.085 | 0.540 | 0.244 | 0.044 | 0.032 | 0.055 |
-| HD30_PBMC_7 | 0.091 | 0.472 | 0.295 | 0.048 | 0.028 | 0.067 |
-| HD31_PBMC_0 | 0.080 | 0.617 | 0.167 | 0.041 | 0.045 | 0.049 |
-| HD31_PBMC_1 | 0.081 | 0.566 | 0.214 | 0.041 | 0.042 | 0.056 |
-| HD31_PBMC_3 | 0.080 | 0.525 | 0.243 | 0.043 | 0.044 | 0.065 |
-| HD31_PBMC_7 | 0.053 | 0.851 | 0.000 | 0.000 | 0.059 | 0.037 |
+```r
+signature <- omnideconv::build_model(single_cell_object, cell_type_annotations, 
+                                     batch_ids, method, bulk_gene_expression)
+                                     
+deconvolution <- omnideconv::deconvolute(bulk_gene_expression, signature)                                     
+```
+
+The `deconvolute` function returns a sample x cell type matrix with the estimated cell fractions
+
+
+## Input data
+
+Different methods have different requirements in terms of input data.
+This list has been compiled considering the methods documentation, described data procssing or
+authors recommendation
+
+| Method     | Single cell normalization | Bulk normalization |
+| ---------- | ------------------------- | ------------------ |
+| AutogeneS  | CPM                       | TPM                |
+| BayesPrism | Counts                    | Counts             |
+| Bisque     | Counts                    | Counts             |
+| Bseq-Sc    | Counts                    | TPM                |
+| CDseqR     | Counts                    | Counts             |
+| CIBERSORTx | CPM                       | TPM                |
+| CPM        | Counts                    | Counts             |
+| DWLS       | Counts                    | TPM                |
+| MOMF       | Counts                    | Counts             |
+| MuSiC      | Counts                    | TPM                |
+| Scaden     | Counts                    | TPM                |
+| SCDC       | Counts                    | TPM                |
 
 ### Learn More
 
@@ -128,23 +133,3 @@ cite both our package and the method(s) you are using.
 | [Scaden](https://github.com/KevinMenden/scaden)        | free ([MIT](https://github.com/KevinMenden/scaden/blob/master/LICENSE))             | Menden, K., Marouf, M., Oller, S., Dalmia, A., Kloiber, K., Heutink, P., & Bonn, S. (n.d.). Deep-learning-based cell composition analysis from tissue expression profiles. <https://doi.org/10.1101/659227>                                                                                                                                                                                   |
 | [SCDC](https://github.com/meichendong/SCDC)            | ([MIT](https://github.com/meichendong/SCDC/blob/master/README.md))                  | Dong, M., Thennavan, A., Urrutia, E., Li, Y., Perou, C. M., Zou, F., & Jiang, Y. (2020). SCDC: bulk gene expression deconvolution by multiple single-cell RNA sequencing references. Briefings in Bioinformatics. <https://doi.org/10.1093/bib/bbz166>                                                                                                                                        |
 
-## Input data
-
-Different methods have different requirements in terms of input data.
-This list has been compiled considering the methods documentation, described data procssing or
-authors recommendation
-
-| Method     | Single cell normalization | Bulk normalization |
-| ---------- | ------------------------- | ------------------ |
-| AutogeneS  | CPM                       | TPM                |
-| BayesPrism | Counts                    | Counts             |
-| Bisque     | Counts                    | Counts             |
-| Bseq-Sc    | Counts                    | TPM                |
-| CDseqR     | Counts                    | Counts             |
-| CIBERSORTx | CPM                       | TPM                |
-| CPM        | Counts                    | Counts             |
-| DWLS       | Counts                    | TPM                |
-| MOMF       | Counts                    | Counts             |
-| MuSiC      | Counts                    | TPM                |
-| Scaden     | Counts                    | TPM                |
-| SCDC       | Counts                    | TPM                |

@@ -1,7 +1,7 @@
 #' Manage python dependencies
 #' according to: https://rstudio.github.io/reticulate/articles/python_dependencies.html#manual-configuration
 #'
-#'
+#' @name omnideconvstartup
 NULL
 
 .onLoad <- function(libname, pkgname) {

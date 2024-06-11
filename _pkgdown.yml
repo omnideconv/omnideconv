@@ -90,6 +90,7 @@ reference:
       - install_scaden
       - matrix_to_singlecellexperiment
       - normalize_deconv_results
+      - omnideconvstartup
       - python_available
       - read_anndata
       - required_packages

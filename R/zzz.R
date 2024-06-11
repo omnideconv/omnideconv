@@ -19,7 +19,7 @@ NULL
   # We ensure to have the r-reticulate env
   # if (!file.exists(reticulate::conda_python("r-reticulate"))) {
   if (!("r-omnideconv" %in% reticulate::conda_list()$name)) {
-    reticulate::conda_create(envname = "r-omnideconv")
+    reticulate::conda_create(envname = "r-omnideconv", python_version = 3.8)
   }
 
   paths <- reticulate::conda_list()
@@ -39,6 +39,5 @@ NULL
 
   if (!reticulate::py_module_available("anndata")) {
     anndata::install_anndata()
-    # reticulate::py_install("anndata", pip = TRUE)
   }
 }

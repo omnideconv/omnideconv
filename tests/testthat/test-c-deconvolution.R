@@ -166,7 +166,7 @@ test_that("DWLS deconvolution works", {
   )
 
   deconvolution_dwls_noSignature <- deconvolute(bulk_small,
-    signature = NULL,
+    model = NULL,
     method = "dwls",
     sc_object_small, cell_annotations_small,
     dwls_submethod = "DampenedWLS"
@@ -284,7 +284,7 @@ test_that("CIBERSORTx deconvolution works, with and without signature", {
     as.matrix(.)
   # colnames(cibersort_model) <- c("T$ c!ell% CD4", "T cel§l() &CD8", "NK+ c?[]el{}l")
 
-  deconvolution <- deconvolute(bulk_small, signature = cibersort_model, method = "cibersortx")
+  deconvolution <- deconvolute(bulk_small, model = cibersort_model, method = "cibersortx")
 
   deconvolution <- deconvolution[
     sort(rownames(deconvolution)),
@@ -292,7 +292,7 @@ test_that("CIBERSORTx deconvolution works, with and without signature", {
   ]
 
   deconvolution_noSignature <- deconvolute(bulk_small,
-    signature = NULL,
+    model = NULL,
     method = "cibersortx",
     sc_object_small, cell_annotations_small
   )
@@ -353,7 +353,7 @@ test_that("Scaden deconvolution works", {
     steps = 150, verbose = F
   )
 
-  deconvolution <- deconvolute(bulk_small, signature = model, method = "scaden")
+  deconvolution <- deconvolute(bulk_small, model = model, method = "scaden")
 
   expect_equal(
     info = "deconvolution contains same samples as in bulk (not same order)",
@@ -361,7 +361,7 @@ test_that("Scaden deconvolution works", {
   )
   expect_equal(
     info = "deconvolution result with one bulk sample throws no error",
-    object = nrow(deconvolute(bulk_small_one_sample, signature = model, method = "scaden")),
+    object = nrow(deconvolute(bulk_small_one_sample, model = model, method = "scaden")),
     expected = 1
   )
 })
@@ -410,7 +410,7 @@ test_that("Autogenes deconvolution without signature works", {
     single_cell_object = sc_object_small,
     bulk_gene_expression = bulk_small,
     cell_type_annotations = cell_annotations_small,
-    signature = NULL,
+    model = NULL,
     method = "autogenes"
   )
   expect_equal(
@@ -436,7 +436,7 @@ test_that("Autogenes deconvolution without signature works", {
       single_cell_object = sc_object_small,
       bulk_gene_expression = bulk_small_one_sample,
       cell_type_annotations = cell_annotations_small,
-      signature = NULL,
+      model = NULL,
       method = "autogenes"
     )),
     expected = 1
@@ -596,7 +596,7 @@ test_that("SCDC deconvolution works", {
 
 test_that("CDSeq deconvolution works", {
   deconvolution <- deconvolute(bulk_small,
-    signature = NULL,
+    model = NULL,
     method = "cdseq",
     single_cell_object = sc_object_small,
     cell_type_annotations = cell_annotations_small,
@@ -610,7 +610,7 @@ test_that("CDSeq deconvolution works", {
   expect_equal(
     info = "deconvolution result with one bulk sample throws no error",
     object = nrow(deconvolute(bulk_small_one_sample,
-      signature = NULL,
+      model = NULL,
       method = "cdseq",
       single_cell_object = sc_object_small,
       cell_type_annotations = cell_annotations_small,

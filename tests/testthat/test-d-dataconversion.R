@@ -1,7 +1,15 @@
 library(omnideconv)
 
-sc_object_small <- as.matrix(utils::read.csv("small_test_data/sc_object_small.csv", row.names = 1))
-cell_annotations_small <- readr::read_lines("small_test_data/cell_annotations_small.txt")
+sc_object_small <- system.file("small_test_data", "sc_object_small.csv",
+  package = "omnideconv", mustWork = TRUE
+) %>%
+  utils::read.csv(., row.names = 1) %>%
+  as.matrix(.)
+
+cell_annotations_small <- system.file("small_test_data", "cell_annotations_small.txt",
+  package = "omnideconv", mustWork = TRUE
+) %>%
+  readr::read_lines(.)
 
 test_that("Matrix/SingleCellExperiment conversion works", {
   sce <- matrix_to_singlecellexperiment(sc_object_small, cell_annotations_small)
@@ -60,8 +68,6 @@ test_that("SingleCellExperiment/Anndata conversion works", {
   )
 
   sce_converted <- anndata_to_singlecellexperiment(ad)
-
-  ad_converted <- singlecellexperiment_to_anndata(sce_converted)
 
 
   expect_equal(

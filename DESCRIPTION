@@ -2,14 +2,12 @@ Package: omnideconv
 Title: Second generation methods for immune cell deconvolution
 Version: 0.0.0.9000
 Authors@R: c(
-    person("Lorenzo", "Merotto", , "Lorenzo.Merotto@uibk.ac.at", role = c("aut", "cre"), 
-            email = "lorenzo.merotto@uibk.ac.at", comment = c(ORCID = "0009-0006-0637-8436")),
-    person("Alexander", "Dietrich", , "alex.dietrich@tum.de", role = "aut"),
-    person("Konstantin", "Pelz", , "konstantin.pelz@tum.de", role = "aut"),
-    person("Nicolas", "Goedert", , "nicolasgoedert1997@gmail.com", role = "aut"),
-    person("Yuyu", "Liang", , "yuyuleung0903@yahoo.com", role = "aut"),
-    person("Katharina", "Reinisch", , "k.reinisch@campus.lmu.de", role = "aut")
-  )
+    person(given="Lorenzo", family="Merotto", email="Lorenzo.Merotto@uibk.ac.at", role = c("aut", family="cre"), comment = c(ORCID = "0009-0006-0637-8436")),
+    person(given="Alexander", family="Dietrich", email="alex.dietrich@tum.de", role = "aut"),
+    person(given="Konstantin", family="Pelz", email="konstantin.pelz@tum.de", role = "aut"),
+    person(given="Nicolas", family="Goedert", email="nicolasgoedert1997@gmail.com", role = "aut"),
+    person(given="Yuyu", family="Liang", email="yuyuleung0903@yahoo.com", role = "aut"),
+    person(given="Katharina", family="Reinisch", email="k.reinisch@campus.lmu.de", role = "aut"))
 Description: Collection of second generation methods for immune cell
     deconvolution from bulk RNA-seq samples.
 License: GPL-3 + file LICENSE
@@ -22,49 +20,50 @@ Imports:
     assertthat,
     bbplot,
     Biobase,
+    cli,
+    devtools,
     dplyr,
     ggplot2,
+    knitr,
     methods,
+    pkgdown,
     plotly,
     RColorBrewer,
     readr,
+    rmarkdown,
     remotes,
-    reticulate,
     S4Vectors,
     Seurat,
     SingleCellExperiment,
     SummarizedExperiment,
     SCOPfunctions,
+    testthat (>= 2.0.0),
     tidyr,
+    uuid,
     utils
 Suggests: 
     BayesPrism,
     BisqueRNA,
     bseqsc,
     CDSeq,
-    devtools,
     DWLS (>= 0.2),
-    knitr,
     MOMF,
     MuSiC (>= 0.3),
-    pkgdown,
-    rmarkdown,
+    reticulate,
     scBio,
-    SCDC,
-    testthat (>= 2.0.0),
-    uuid
+    SCDC
 VignetteBuilder: 
     knitr
 Remotes:
+    omnideconv/BayesPrism,
     amitfrish/scBio,
     bbc/bbplot,
-    omnideconv/BayesPrism,
     omnideconv/MOMF,
     omnideconv/SCDC,
     omnideconv/harmony,
     omnideconv/CDSeq,
     omnideconv/DWLS,
-    shenorrlab/bseqsc,
+    omnideconv/bseqsc,
     omnideconv/MuSiC,
     CBMR-Single-Cell-Omics-Platform/SCOPfunctions
 biocViews:
@@ -73,11 +72,4 @@ Encoding: UTF-8
 LazyData: true
 LazyDataCompression: bzip2
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
-Config/reticulate: 
-  list(
-    packages = list(
-      list(package = "autogenes", pip = TRUE),
-      list(package = "git+https://github.com/omnideconv/scaden.git", pip = TRUE)
-    )
-  )    
+RoxygenNote: 7.3.1

@@ -16,7 +16,7 @@ deconvolute_cdseq(
   dilution_factor = 1,
   gene_subset_size = NULL,
   block_number = 1,
-  cpu_number = NULL,
+  no_cores = NULL,
   gene_length = NULL,
   reference_gep = NULL,
   print_progress_msg_to_file = 0,
@@ -88,7 +88,7 @@ CDSeq will use bulk_data/dilution_factor.}
 
 \item{block_number}{Number of genes randomly sampled for each block. Default is 1.}
 
-\item{cpu_number}{Number of cpu cores that can be used for parellel computing; Default is NULL
+\item{no_cores}{Number of cpu cores that can be used for parellel computing; Default is NULL
 and CDSeq will detect the available number of cores on the device and use number of
 all cores - 1 for parallel computing.}
 

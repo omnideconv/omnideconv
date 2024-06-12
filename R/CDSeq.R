@@ -44,7 +44,7 @@ build_model_cdseq <- function() {
 #'   CDSeq will use bulk_data/dilution_factor.
 #' @param gene_subset_size Number of genes randomly sampled for each block. Default is NULL.
 #' @param block_number Number of genes randomly sampled for each block. Default is 1.
-#' @param cpu_number Number of cpu cores that can be used for parellel computing; Default is NULL
+#' @param no_cores Number of cpu cores that can be used for parellel computing; Default is NULL
 #'   and CDSeq will detect the available number of cores on the device and use number of
 #'   all cores - 1 for parallel computing.
 #' @param gene_length A vector of the effective length (gene length - read length + 1) of each
@@ -152,7 +152,7 @@ build_model_cdseq <- function() {
 deconvolute_cdseq <- function(bulk_gene_expression, single_cell_object, cell_type_annotations,
                               batch_ids, beta = 0.5, alpha = 5, cell_type_number = NULL,
                               mcmc_iterations = 700, dilution_factor = 1, gene_subset_size = NULL,
-                              block_number = 1, cpu_number = NULL, gene_length = NULL,
+                              block_number = 1, no_cores = NULL, gene_length = NULL,
                               reference_gep = NULL, print_progress_msg_to_file = 0,
                               cdseq_gep_sample_specific = NULL, batch_correction = 1,
                               harmony_iter = 10, harmony_cluster = 20, nb_size = NULL, nb_mu = NULL,
@@ -182,7 +182,7 @@ deconvolute_cdseq <- function(bulk_gene_expression, single_cell_object, cell_typ
     bulk_data = bulk_gene_expression, cell_type_number = cell_type_number,
     beta = beta, alpha = alpha, mcmc_iterations = mcmc_iterations,
     dilution_factor = dilution_factor, gene_subset_size = gene_subset_size,
-    block_number = block_number, cpu_number = cpu_number, gene_length = gene_length,
+    block_number = block_number, cpu_number = no_cores, gene_length = gene_length,
     reference_gep = reference_gep
   )
 

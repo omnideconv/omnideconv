@@ -48,7 +48,6 @@ The cell types included in the test data set are "T cell CD4", "T cell CD8", "T 
 For the smaller dataset, only "T cell CD4", "T cell CD8", "B cell", "Monocyte conventional", "NK cell" are included. 
 
 ```{r removeCellTypes, echo=FALSE, echo=T}
-
 contains_rem <- which(obs$cell_type %in% c("T cell CD4", "T cell CD8", "T cell dividing", "T cell regulatory", "B cell", "Monocyte conventional", "Monocyte non-conventional", "Macrophage", "NK cell"))
 obs_rem <- obs[contains_rem, ]
 sc_rem <- sc[, contains_rem]

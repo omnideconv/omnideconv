@@ -26,7 +26,7 @@ check_container <- function(container = c("docker", "singularity")) {
     command <- "singularity instance list"
   }
 
-  container.available <- (system(command, ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
+  container.available <- (system(command, ignore.stdout = FALSE, ignore.stderr = TRUE) == 0)
 
   if (!container.available) {
     message(paste0(
@@ -40,7 +40,7 @@ check_container <- function(container = c("docker", "singularity")) {
     command <- "docker ps"
   }
 
-  container.connectable <- (system(command, ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
+  container.connectable <- (system(command, ignore.stdout = FALSE, ignore.stderr = TRUE) == 0)
 
   if (!container.connectable) {
     message(paste0(
@@ -207,23 +207,27 @@ init_python <- function(python = NULL) {
   if (!reticulate::py_available()) {
     if (is.null(python)) {
       if (!dir.exists(reticulate::miniconda_path())) {
-        message("Setting python version in miniconda to be 3.9")
-        Sys.setenv(RETICULATE_MINICONDA_PYTHON_VERSION = 3.9)
+        message("Setting python version in miniconda to be 3.8")
+        Sys.setenv(RETICULATE_MINICONDA_PYTHON_VERSION = 3.8)
         message("Setting up miniconda environment..")
         suppressMessages(reticulate::install_miniconda())
       }
-      reticulate::use_miniconda(condaenv = "r-reticulate", required = TRUE)
-      config <- reticulate::py_config()
-      if (!python_available()) {
-        message("Python not available")
-        print(config)
-        message(
-          "Please indicate your version of python calling init_python(python=your/python)"
-        )
+
+      if (!("r-omnideconv" %in% reticulate::conda_list()$name)) {
+        reticulate::conda_create(envname = "r-omnideconv")
       }
-    } else {
-      reticulate::use_python(python = python)
+      paths <- reticulate::conda_list()
+      path <- paths[paths$name == "r-omnideconv", 2]
+      if (.Platform$OS.type == "windows") {
+        path <- gsub("\\\\", "/", path)
+      }
+      path.bin <- gsub("/envs/omnideconv/python.exe", "/library/bin", path)
+      Sys.setenv(PATH = paste(path.bin, Sys.getenv()["PATH"], sep = ";"))
+      Sys.setenv(RETICULATE_PYTHON = path)
+
+      reticulate::use_miniconda(condaenv = "r-omnideconv", required = TRUE)
       reticulate::py_config()
+      reticulate::configure_environment(pkgname, force = TRUE)
     }
   }
 }

@@ -2,6 +2,7 @@ library(omnideconv)
 # library(reticulate)
 # reticulate::py_config()
 
+omnideconv::install_all_python()
 
 test_that("Python environment creation works", {
   # init_python()

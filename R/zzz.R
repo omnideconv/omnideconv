@@ -1,10 +1,12 @@
 #' Manage python dependencies
 #' according to: https://rstudio.github.io/reticulate/articles/python_dependencies.html#manual-configuration
 #'
-#'
+#' @name omnideconvstartup
 NULL
 
 .onLoad <- function(libname, pkgname) {
+  cli::cli_alert("checking omnideconv environment and dependencies")
+
   # We ensure to have reticulate
   if (!dir.exists(reticulate::miniconda_path())) {
     message("Setting python version in miniconda to be 3.8")
@@ -17,7 +19,7 @@ NULL
   # We ensure to have the r-reticulate env
   # if (!file.exists(reticulate::conda_python("r-reticulate"))) {
   if (!("r-omnideconv" %in% reticulate::conda_list()$name)) {
-    reticulate::conda_create(envname = "r-omnideconv")
+    reticulate::conda_create(envname = "r-omnideconv", python_version = 3.8)
   }
 
   paths <- reticulate::conda_list()
@@ -33,6 +35,7 @@ NULL
   reticulate::use_miniconda(condaenv = "r-omnideconv", required = TRUE)
   reticulate::py_config()
   reticulate::configure_environment(pkgname, force = TRUE)
+  reticulate::py_install("pip==23.1")
 
   if (!reticulate::py_module_available("anndata")) {
     anndata::install_anndata()

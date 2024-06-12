@@ -1,0 +1,312 @@
+@article {Mendeneaba2619,
+	author = {Menden, Kevin and Marouf, Mohamed and Oller, Sergio and Dalmia, Anupriya and Magruder, Daniel Sumner and Kloiber, Karin and Heutink, Peter and Bonn, Stefan},
+	title = {Deep learning{\textendash}based cell composition analysis from tissue expression profiles},
+	volume = {6},
+	number = {30},
+	elocation-id = {eaba2619},
+	year = {2020},
+	doi = {10.1126/sciadv.aba2619},
+	publisher = {American Association for the Advancement of Science},
+	abstract = {We present Scaden, a deep neural network for cell deconvolution that uses gene expression information to infer the cellular composition of tissues. Scaden is trained on single-cell RNA sequencing (RNA-seq) data to engineer discriminative features that confer robustness to bias and noise, making complex data preprocessing and feature selection unnecessary. We demonstrate that Scaden outperforms existing deconvolution algorithms in both precision and robustness. A single trained network reliably deconvolves bulk RNA-seq and microarray, human and mouse tissue expression data and leverages the combined information of multiple datasets. Because of this stability and flexibility, we surmise that deep learning will become an algorithmic mainstay for cell deconvolution of various data types. Scaden{\textquoteright}s software package and web application are easy to use on new as well as diverse existing expression datasets available in public resources, deepening the molecular and cellular understanding of developmental and disease processes.},
+	URL = {https://advances.sciencemag.org/content/6/30/eaba2619},
+	eprint = {https://advances.sciencemag.org/content/6/30/eaba2619.full.pdf},
+	journal = {Science Advances}
+}
+
+@Article{Sun2019,
+   author={Sun, X.
+   and Sun, S.
+   and Yang, S.},
+   title={An Efficient and Flexible Method for Deconvoluting Bulk RNA-Seq Data with Single-Cell RNA-Seq Data},
+   journal={Cells},
+   year={2019},
+   volume={8},
+   number={10},
+   month={09},
+   url={https://doi.org/10.3390/cells8101161}
+}
+
+@Article{Tsoucas2019,
+author={Tsoucas, Daphne
+and Dong, Rui
+and Chen, Haide
+and Zhu, Qian
+and Guo, Guoji
+and Yuan, Guo-Cheng},
+title={Accurate estimation of cell-type composition from gene expression data},
+journal={Nature Communications},
+year={2019},
+month={Jul},
+day={05},
+volume={10},
+number={1},
+pages={2975},
+abstract={The rapid development of single-cell transcriptomic technologies has helped uncover the cellular heterogeneity within cell populations. However, bulk RNA-seq continues to be the main workhorse for quantifying gene expression levels due to technical simplicity and low cost. To most effectively extract information from bulk data given the new knowledge gained from single-cell methods, we have developed a novel algorithm to estimate the cell-type composition of bulk data from a single-cell RNA-seq-derived cell-type signature. Comparison with existing methods using various real RNA-seq data sets indicates that our new approach is more accurate and comprehensive than previous methods, especially for the estimation of rare cell types. More importantly, our method can detect cell-type composition changes in response to external perturbations, thereby providing a valuable, cost-effective method for dissecting the cell-type-specific effects of drug treatments or condition changes. As such, our method is applicable to a wide range of biological and clinical investigations.},
+issn={2041-1723},
+doi={10.1038/s41467-019-10802-z},
+url={https://doi.org/10.1038/s41467-019-10802-z}
+}
+
+@Article{Newman2019,
+author={Newman, Aaron M.
+and Steen, Chlo{\'e} B.
+and Liu, Chih Long
+and Gentles, Andrew J.
+and Chaudhuri, Aadel A.
+and Scherer, Florian
+and Khodadoust, Michael S.
+and Esfahani, Mohammad S.
+and Luca, Bogdan A.
+and Steiner, David
+and Diehn, Maximilian
+and Alizadeh, Ash A.},
+title={Determining cell type abundance and expression from bulk tissues with digital cytometry},
+journal={Nature Biotechnology},
+year={2019},
+month={Jul},
+day={01},
+volume={37},
+number={7},
+pages={773-782},
+abstract={Single-cell RNA-sequencing has emerged as a powerful technique for characterizing cellular heterogeneity, but it is currently impractical on large sample cohorts and cannot be applied to fixed specimens collected as part of routine clinical care. We previously developed an approach for digital cytometry, called CIBERSORT, that enables estimation of cell type abundances from bulk tissue transcriptomes. We now introduce CIBERSORTx, a machine learning method that extends this framework to infer cell-type-specific gene expression profiles without physical cell isolation. By minimizing platform-specific variation, CIBERSORTx also allows the use of single-cell RNA-sequencing data for large-scale tissue dissection. We evaluated the utility of CIBERSORTx in multiple tumor types, including melanoma, where single-cell reference profiles were used to dissect bulk clinical specimens, revealing cell-type-specific phenotypic states linked to distinct driver mutations and response to immune checkpoint blockade. We anticipate that digital cytometry will augment single-cell profiling efforts, enabling cost-effective, high-throughput tissue characterization without the need for antibodies, disaggregation or viable cells.},
+issn={1546-1696},
+doi={10.1038/s41587-019-0114-2},
+url={https://doi.org/10.1038/s41587-019-0114-2}
+}
+
+@Article{Jew2020,
+author={Jew, Brandon
+and Alvarez, Marcus
+and Rahmani, Elior
+and Miao, Zong
+and Ko, Arthur
+and Garske, Kristina M.
+and Sul, Jae Hoon
+and Pietil{\"a}inen, Kirsi H.
+and Pajukanta, P{\"a}ivi
+and Halperin, Eran},
+title={Accurate estimation of cell composition in bulk expression through robust integration of single-cell information},
+journal={Nature Communications},
+year={2020},
+month={Apr},
+day={24},
+volume={11},
+number={1},
+pages={1971},
+abstract={We present Bisque, a tool for estimating cell type proportions in bulk expression. Bisque implements a regression-based approach that utilizes single-cell RNA-seq (scRNA-seq) or single-nucleus RNA-seq (snRNA-seq) data to generate a reference expression profile and learn gene-specific bulk expression transformations to robustly decompose RNA-seq data. These transformations significantly improve decomposition performance compared to existing methods when there is significant technical variation in the generation of the reference profile and observed bulk expression. Importantly, compared to existing methods, our approach is extremely efficient, making it suitable for the analysis of large genomic datasets that are becoming ubiquitous. When applied to subcutaneous adipose and dorsolateral prefrontal cortex expression datasets with both bulk RNA-seq and snRNA-seq data, Bisque replicates previously reported associations between cell type proportions and measured phenotypes across abundant and rare cell types. We further propose an additional mode of operation that merely requires a set of known marker genes.},
+issn={2041-1723},
+doi={10.1038/s41467-020-15816-6},
+url={https://doi.org/10.1038/s41467-020-15816-6}
+}
+
+@article{Finotello2018,
+abstract = {By exerting pro-and anti-tumorigenic actions, tumor-infiltrating immune cells can profoundly influence tumor progression, as well as the success of anti-cancer therapies. Therefore, the quantification of tumor-infiltrating immune cells holds the promise to unveil the multi-faceted role of the immune system in human cancers and its involvement in tumor escape mechanisms and response to therapy. Tumor-infiltrating immune cells can be quantified from RNA sequencing data of human tumors using bioinformatics approaches. In this review, we describe state-of-the-art computational methods for the quantification of immune cells from transcriptomics data and discuss the open challenges that must be addressed to accurately quantify immune infiltrates from RNA sequencing data of human bulk tumors.},
+author = {Finotello, Francesca and Trajanoski, Zlatko},
+doi = {10.1007/s00262-018-2150-z},
+file = {:C$\backslash$:/Users/sturm/AppData/Local/Mendeley Ltd./Mendeley Desktop/Downloaded/Finotello, Trajanoski - 123 - Quantifying tumor-infiltrating immune cells from transcriptomics data.pdf:pdf},
+journal = {Cancer Immunology, Immunotherapy},
+keywords = {Deconvolution,Gene expression,NGS,Next-generation sequencing,RNA-seq,TILs},
+mendeley-groups = {work/pieris/immuno-onc,work/pieris/deconvolution},
+title = {{Quantifying tumor-infiltrating immune cells from transcriptomics data}},
+url = {https://doi.org/10.1007/s00262-018-2150-z},
+volume = {0},
+year = {2018}
+}
+
+@article{Newman2015,
+abstract = {We introduce CIBERSORT, a method for characterizing cell composition of complex tissues from their gene expression profiles. When applied to enumeration of hematopoietic subsets in RNA mixtures from fresh, frozen and fixed tissues, including solid tumors, CIBERSORT outperformed other methods with respect to noise, unknown mixture content and closely related cell types. CIBERSORT should enable large-scale analysis of RNA mixtures for cellular biomarkers and therapeutic targets.},
+author = {Newman, Aaron M. et al.},
+doi = {10.1038/nmeth.3337},
+journal = {Nature Methods},
+title = {{Robust enumeration of cell subsets from tissue expression profiles}},
+url = {https://doi.org/10.1038/nrclinonc.2017.101},
+volume = {12},
+issue = {5},
+year = {2015}
+}
+
+@article{Sturm2019,
+    author = {Sturm, Gregor and Finotello, Francesca and Petitprez, Florent and Zhang, Jitao David and Baumbach, Jan and Fridman, Wolf H and List, Markus and Aneichyk, Tatsiana},
+    title = "{Comprehensive evaluation of transcriptome-based cell-type quantification methods for immuno-oncology}",
+    journal = {Bioinformatics},
+    volume = {35},
+    number = {14},
+    pages = {i436-i445},
+    year = {2019},
+    month = {07},
+    abstract = "{The composition and density of immune cells in the tumor microenvironment (TME) profoundly influence tumor progression and success of anti-cancer therapies. Flow cytometry, immunohistochemistry staining or single-cell sequencing are often unavailable such that we rely on computational methods to estimate the immune-cell composition from bulk RNA-sequencing (RNA-seq) data. Various methods have been proposed recently, yet their capabilities and limitations have not been evaluated systematically. A general guideline leading the research community through cell type deconvolution is missing.
+    Results:
+    We developed a systematic approach for benchmarking such computational methods and assessed the accuracy of tools at estimating nine different immune- and stromal cells from bulk RNA-seq samples. We used a single-cell RNA-seq dataset of ∼11 000 cells from the TME to simulate bulk samples of known cell type proportions, and validated the results using independent, publicly available gold-standard estimates. This allowed us to analyze and condense the results of more than a hundred thousand predictions to provide an exhaustive evaluation across seven computational methods over nine cell types and ∼1800 samples from five simulated and real-world datasets. We demonstrate that computational deconvolution performs at high accuracy for well-defined cell-type signatures and propose how fuzzy cell-type signatures can be improved. We suggest that future efforts should be dedicated to refining cell population definitions and finding reliable signatures. A snakemake pipeline to reproduce the benchmark is available at https://github.com/grst/immune\_deconvolution\_benchmark. An R package allows the community to perform integrated deconvolution using different methods (https://grst.github.io/immunedeconv).Supplementary data are available at Bioinformatics online.}",
+    issn = {1367-4803},
+    doi = {10.1093/bioinformatics/btz363},
+    url = {https://doi.org/10.1093/bioinformatics/btz363},
+    eprint = {https://academic.oup.com/bioinformatics/article-pdf/35/14/i436/28913288/btz363.pdf},
+}
+
+@article{Hoek2015,
+abstract = {Systems biology is an approach to comprehensively study complex interactions within a biological system. Most published systems vaccinology studies have utilized whole blood or peripheral blood mononuclear cells (PBMC) to monitor the immune response after vaccination. Because human blood is comprised of multiple hematopoietic cell types, the potential for masking responses of under-represented cell populations is increased when analyzing whole blood or PBMC. To investigate the contribution of individual cell types to the immune response after vaccination, we established a rapid and efficient method to purify human T and B cells, natural killer (NK) cells, myeloid dendritic cells (mDC), monocytes, and neutrophils from fresh venous blood. Purified cells were fractionated and processed in a single day. RNA-Seq and quantitative shotgun proteomics were performed to determine expression profiles for each cell type prior to and after inactivated seasonal influenza vaccination. Our results show that transcriptomic and proteomic profiles generated from purified immune cells differ significantly from PBMC. Differential expression analysis for each immune cell type also shows unique transcriptomic and proteomic expression profiles as well as changing biological networks at early time points after vaccination. This cell type-specific information provides a more comprehensive approach to monitor vaccine responses.},
+author = {Hoek, Kristen et al.},
+doi = {https://doi.org/10.1371/journal.pone.0118528},
+journal = {PLOS one},
+title = {{A Cell-Based Systems Biology Assessment of Human Blood to Monitor Immune Responses after Influenza Vaccination}},
+url = {https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0118528},
+volume = {10},
+issue = {2},
+year = {2015}
+}
+
+
+
+@article {Aliee2020,
+	author = {Aliee, Hananeh and Theis, Fabian},
+	title = {AutoGeneS: Automatic gene selection using multi-objective optimization for RNA-seq deconvolution},
+	elocation-id = {2020.02.21.940650},
+	year = {2020},
+	doi = {10.1101/2020.02.21.940650},
+	publisher = {Cold Spring Harbor Laboratory},
+	abstract = {Tissues are complex systems of interacting cell types. Knowing cell-type proportions in a tissue is very important to identify which cells or cell types are targeted by a disease or perturbation. When measuring such responses using RNA-seq, bulk RNA-seq masks cellular heterogeneity. Hence, several computational methods have been proposed to infer cell-type proportions from bulk RNA samples. Their performance with noisy reference profiles highly depends on the set of genes undergoing deconvolution. These genes are often selected based on prior knowledge or a single-criterion test that might not be useful to dissect closely correlated cell types. In this work, we introduce AutoGeneS, a tool that automatically extracts informative genes and reveals the cellular heterogeneity of bulk RNA samples. AutoGeneS requires no prior knowledge about marker genes and selects genes by simultaneously optimizing multiple criteria: minimizing the correlation and maximizing the distance between cell types. It can be applied to reference profiles from various sources like single-cell experiments or sorted cell populations. Results from human samples of peripheral blood illustrate that AutoGeneS outperforms other methods. Our results also highlight the impact of our approach on analyzing bulk RNA samples with noisy single-cell reference profiles and closely correlated cell types. Ground truth cell proportions analyzed by flow cytometry confirmed the accuracy of the predictions of AutoGeneS in identifying cell-type proportions. AutoGeneS is available for use via a standalone Python package (https://github.com/theislab/AutoGeneS).},
+	URL = {https://www.biorxiv.org/content/early/2020/02/23/2020.02.21.940650},
+	eprint = {https://www.biorxiv.org/content/early/2020/02/23/2020.02.21.940650.full.pdf},
+	journal = {bioRxiv}
+}
+
+@article{Dong2020,
+    author = {Dong, Meichen and Thennavan, Aatish and Urrutia, Eugene and Li, Yun and Perou, Charles M and Zou, Fei and Jiang, Yuchao},
+    title = "{SCDC: bulk gene expression deconvolution by multiple single-cell RNA sequencing references}",
+    journal = {Briefings in Bioinformatics},
+    volume = {22},
+    number = {1},
+    pages = {416-427},
+    year = {2020},
+    month = {01},
+    abstract = "{Recent advances in single-cell RNA sequencing (scRNA-seq) enable characterization of transcriptomic profiles with single-cell resolution and circumvent averaging artifacts associated with traditional bulk RNA sequencing (RNA-seq) data. Here, we propose SCDC, a deconvolution method for bulk RNA-seq that leverages cell-type specific gene expression profiles from multiple scRNA-seq reference datasets. SCDC adopts an ENSEMBLE method to integrate deconvolution results from different scRNA-seq datasets that are produced in different laboratories and at different times, implicitly addressing the problem of batch-effect confounding. SCDC is benchmarked against existing methods using both in silico generated pseudo-bulk samples and experimentally mixed cell lines, whose known cell-type compositions serve as ground truths. We show that SCDC outperforms existing methods with improved accuracy of cell-type decomposition under both settings. To illustrate how the ENSEMBLE framework performs in complex tissues under different scenarios, we further apply our method to a human pancreatic islet dataset and a mouse mammary gland dataset. SCDC returns results that are more consistent with experimental designs and that reproduce more significant associations between cell-type proportions and measured phenotypes.}",
+    issn = {1477-4054},
+    doi = {10.1093/bib/bbz166},
+    url = {https://doi.org/10.1093/bib/bbz166},
+    eprint = {https://academic.oup.com/bib/article-pdf/22/1/416/35934957/scdc\_supp\_bbz166.pdf},
+}
+
+@Article{Baron2016,
+author={Baron, Maayan
+and Veres, Adrian
+and Wolock, Samuel L.
+and Faust, Aubrey L.
+and Gaujoux, Renaud
+and Vetere, Amedeo
+and Ryu, Jennifer Hyoje
+and Wagner, Bridget K.
+and Shen-Orr, Shai S.
+and Klein, Allon M.
+and Melton, Douglas A.
+and Yanai, Itai},
+title={A Single-Cell Transcriptomic Map of the Human and Mouse Pancreas Reveals Inter- and Intra-cell Population Structure},
+journal={Cell Systems},
+year={2016},
+month={Oct},
+day={26},
+publisher={Elsevier},
+volume={3},
+number={4},
+pages={346-360.e4},
+issn={2405-4712},
+doi={10.1016/j.cels.2016.08.011},
+url={https://doi.org/10.1016/j.cels.2016.08.011}
+}
+
+@Article{Wang2019,
+author={Wang, Xuran
+and Park, Jihwan
+and Susztak, Katalin
+and Zhang, Nancy R.
+and Li, Mingyao},
+title={Bulk tissue cell type deconvolution with multi-subject single-cell expression reference},
+journal={Nature Communications},
+year={2019},
+month={Jan},
+day={22},
+volume={10},
+number={1},
+pages={380},
+abstract={Knowledge of cell type composition in disease relevant tissues is an important step towards the identification of cellular targets of disease. We present MuSiC, a method that utilizes cell-type specific gene expression from single-cell RNA sequencing (RNA-seq) data to characterize cell type compositions from bulk RNA-seq data in complex tissues. By appropriate weighting of genes showing cross-subject and cross-cell consistency, MuSiC enables the transfer of cell type-specific gene expression information from one dataset to another. When applied to pancreatic islet and whole kidney expression data in human, mouse, and rats, MuSiC outperformed existing methods, especially for tissues with closely related cell types. MuSiC enables the characterization of cellular heterogeneity of complex tissues for understanding of disease mechanisms. As bulk tissue data are more easily accessible than single-cell RNA-seq, MuSiC allows the utilization of the vast amounts of disease relevant bulk tissue RNA-seq data for elucidating cell type contributions in disease.},
+issn={2041-1723},
+doi={10.1038/s41467-018-08023-x},
+url={https://doi.org/10.1038/s41467-018-08023-x}
+}
+
+@Article{Frishberg2019,
+author={Frishberg, Amit
+and Peshes-Yaloz, Naama
+and Cohn, Ofir
+and Rosentul, Diana
+and Steuerman, Yael
+and Valadarsky, Liran
+and Yankovitz, Gal
+and Mandelboim, Michal
+and Iraqi, Fuad A.
+and Amit, Ido
+and Mayo, Lior
+and Bacharach, Eran
+and Gat-Viks, Irit},
+title={Cell composition analysis of bulk genomics using single-cell data},
+journal={Nature Methods},
+year={2019},
+month={Apr},
+day={01},
+volume={16},
+number={4},
+pages={327-332},
+abstract={Single-cell RNA sequencing (scRNA-seq) is a rich resource of cellular heterogeneity, opening new avenues in the study of complex tissues. We introduce Cell Population Mapping (CPM), a deconvolution algorithm in which reference scRNA-seq profiles are leveraged to infer the composition of cell types and states from bulk transcriptome data (`scBio' CRAN R-package). Analysis of individual variations in lungs of influenza-virus-infected mice reveals that the relationship between cell abundance and clinical symptoms is a cell-state-specific property that varies gradually along the continuum of cell-activation states. The gradual change is confirmed in subsequent experiments and is further explained by a mathematical model in which clinical outcomes relate to cell-state dynamics along the activation process. Our results demonstrate the power of CPM in reconstructing the continuous spectrum of cell states within heterogeneous tissues.},
+issn={1548-7105},
+doi={10.1038/s41592-019-0355-5},
+url={https://doi.org/10.1038/s41592-019-0355-5}
+}
+
+@Article{Kang2021,
+author={Kang, Kai
+and Huang, Caizhi
+and Li, Yuanyuan
+and Umbach, David M.
+and Li, Leping},
+title={CDSeqR: fast complete deconvolution for gene expression data from bulk tissues},
+journal={BMC Bioinformatics},
+year={2021},
+month={May},
+day={24},
+volume={22},
+number={1},
+pages={262},
+abstract={Biological tissues consist of heterogenous populations of cells. Because gene expression patterns from bulk tissue samples reflect the contributions from all cells in the tissue, understanding the contribution of individual cell types to the overall gene expression in the tissue is fundamentally important. We recently developed a computational method, CDSeq, that can simultaneously estimate both sample-specific cell-type proportions and cell-type-specific gene expression profiles using only bulk RNA-Seq counts from multiple samples. Here we present an R implementation of CDSeq (CDSeqR) with significant performance improvement over the original implementation in MATLAB and an added new function to aid cell type annotation. The R package would be of interest for the broader R community.},
+issn={1471-2105},
+doi={10.1186/s12859-021-04186-5},
+url={https://doi.org/10.1186/s12859-021-04186-5}
+}
+
+@article{Hao2021,
+title = {Integrated analysis of multimodal single-cell data},
+journal = {Cell},
+volume = {184},
+number = {13},
+pages = {3573-3587.e29},
+year = {2021},
+issn = {0092-8674},
+doi = {https://doi.org/10.1016/j.cell.2021.04.048},
+url = {https://www.sciencedirect.com/science/article/pii/S0092867421005833},
+author = {Yuhan Hao and Stephanie Hao and Erica Andersen-Nissen and William M. Mauck and Shiwei Zheng and Andrew Butler and Maddie J. Lee and Aaron J. Wilk and Charlotte Darby and Michael Zager and Paul Hoffman and Marlon Stoeckius and Efthymia Papalexi and Eleni P. Mimitou and Jaison Jain and Avi Srivastava and Tim Stuart and Lamar M. Fleming and Bertrand Yeung and Angela J. Rogers and Juliana M. McElrath and Catherine A. Blish and Raphael Gottardo and Peter Smibert and Rahul Satija},
+keywords = {single cell genomics, multimodal analysis, CITE-seq, immune system, T cell, reference mapping, COVID-19},
+abstract = {Summary
+The simultaneous measurement of multiple modalities represents an exciting frontier for single-cell genomics and necessitates computational methods that can define cellular states based on multimodal data. Here, we introduce “weighted-nearest neighbor” analysis, an unsupervised framework to learn the relative utility of each data type in each cell, enabling an integrative analysis of multiple modalities. We apply our procedure to a CITE-seq dataset of 211,000 human peripheral blood mononuclear cells (PBMCs) with panels extending to 228 antibodies to construct a multimodal reference atlas of the circulating immune system. Multimodal analysis substantially improves our ability to resolve cell states, allowing us to identify and validate previously unreported lymphoid subpopulations. Moreover, we demonstrate how to leverage this reference to rapidly map new datasets and to interpret immune responses to vaccination and coronavirus disease 2019 (COVID-19). Our approach represents a broadly applicable strategy to analyze single-cell multimodal datasets and to look beyond the transcriptome toward a unified and multimodal definition of cellular identity.}
+}
+
+@article{Plitas2020,
+author = {Plitas, George and Rudensky, Alexander Y.},
+title = {Regulatory T Cells in Cancer},
+journal = {Annual Review of Cancer Biology},
+volume = {4},
+number = {1},
+pages = {459-477},
+year = {2020},
+doi = {10.1146/annurev-cancerbio-030419-033428},
+URL = {https://doi.org/10.1146/annurev-cancerbio-030419-033428},
+eprint = {https://doi.org/10.1146/annurev-cancerbio-030419-033428},
+abstract = { The immune system has evolved complex effector mechanisms to protect the host against a diversity of pathogenic organisms and regulatory adaptations that can curtail pathological sequelae of inflammatory events, prevent autoimmunity, and assist in tissue repair. Cancers, by virtue of their local manifestations of tissue dysfunction and destruction, inflammation, and genomic instability, can evoke these protective mechanisms, which support the progression of tumors and prevent their immune eradication. Central to these processes is a subset of CD4+ T cells, known as regulatory T (Treg) cells, that express the X chromosome-linked transcription factor FOXP3. In addition to their critical role in controlling autoimmunity and suppressing inflammatory responses in diverse biological settings, Treg cells are ubiquitously present in the tumor microenvironment where they promote tumor development and progression by dampening antitumor immune responses. Furthermore, Treg cells can directly support the survival of transformed cells through the elaboration of growth factors and interacting with accessory cells in tumors such as fibroblasts and endothelial cells. Current insights into the biology of tumor-associated Treg cells have opened up opportunities for their selective targeting in cancer, with the goal of alleviating their suppression of antitumor immune responses while maintaining overall immune homeostasis. }
+}

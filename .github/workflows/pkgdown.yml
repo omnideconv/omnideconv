@@ -23,12 +23,16 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Update system dependencies
         # due to recent versions of GLIBC missing
         run: |
-          sudo apt-get update && sudo apt-get install libstdc++6
+          sudo apt-get update && sudo apt-get install cmake libstdc++6 \
+          libcurl4-openssl-dev libssl-dev libxml2-dev libfontconfig1-dev \
+          libharfbuzz-dev libfribidi-dev \
+          libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev -y \
+          pandoc pandoc-citeproc
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -36,10 +40,51 @@ jobs:
         with:
           use-public-rspm: true
 
+      - name: Install pak
+        run: Rscript -e "install.packages('pak', repos='https://cran.rstudio.com/')"
+
+      - name: Install reticulate
+        run: Rscript -e "install.packages('reticulate', repos='https://cran.rstudio.com/', version = '1.35.0')"
+
+      #- name: Install Devtools
+      #  run: Rscript -e "pak::pkg_install('devtools')"
+
+      #    - name: Install NMF
+      #      run: Rscript -e "pak::pkg_install('renozao/NMF@devel')"
+
+      #- name: Install BayesPrism
+      #  run: Rscript -e "pak::pkg_install('omnideconv/BayesPrism')"
+
+      #- name: Install Bisque
+      #  run: Rscript -e "pak::pkg_install('BisqueRNA')"
+
+      #- name: Install Bseq-sc
+      #  run: Rscript -e "pak::pkg_install('omnideconv/bseqsc')"
+
+      #- name: Install CDseq
+      #  run: Rscript -e "pak::pkg_install('omnideconv/CDseq')"
+
+      #- name: Install DWLS
+      #  run: Rscript -e "pak::pkg_install('omnideconv/DWLS')"
+
+      #- name: Install MuSiC
+      #  run: Rscript -e "pak::pkg_install('omnideconv/MuSiC')"
+
+      #- name: Install MOMF
+      #  run: Rscript -e "pak::pkg_install('omnideconv/MOMF')"
+
+      #- name: Install SCDC
+      #  run: Rscript -e "pak::pkg_install('omnideconv/SCDC')"
+
+      #- name: Install scBio
+      #  run: Rscript -e "pak::pkg_install('amitfrish/scBio')"
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::pkgdown, local::.
+          dependencies: '"hard"' # do not install suggests
+          extra-packages: any::pkgdown, any::rmarkdown, local::.
           needs: website
+          #error-on: '"error"'
 
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)

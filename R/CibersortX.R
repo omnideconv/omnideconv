@@ -21,8 +21,8 @@ set_cibersortx_credentials <- function(email, token) {
 #'   as the samples in single_cell_object.
 #' @param verbose Whether to produce an output on the console.
 #' @param container The container used ot run the method. The possibilities are 'docker' (default) or
-#'   'singularity'
-#' @param container_path the path where the singularity .sif file is/will be stored (optional)
+#'   'apptainer'
+#' @param container_path the path where the apptainer .sif file is/will be stored (optional)
 #' @param input_dir The directory in which the input files can be found (or are created in).
 #'   Default is a temporary directory.
 #' @param output_dir The directory in which the output files are saved. Default is a temporary
@@ -48,7 +48,7 @@ set_cibersortx_credentials <- function(email, token) {
 #' @export
 #'
 build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
-                                   container = c("docker", "singularity"),
+                                   container = c("docker", "apptainer"),
                                    container_path = NULL,
                                    verbose = FALSE, input_dir = NULL,
                                    output_dir = NULL, display_heatmap = FALSE,
@@ -70,8 +70,8 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
 
   temp_dir <- tempdir()
 
-  if (container == "singularity") {
-    container_path <- setup_singularity_container(container_path)
+  if (container == "apptainer") {
+    container_path <- setup_apptainer_container(container_path)
   }
 
   if (is.null(input_dir)) {
@@ -154,8 +154,8 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
 #' @param rmbatch_S_mode Run S-mode batch correction (default: FALSE). Supply single_cell_object if TRUE.
 #' @param verbose Whether to produce an output on the console.
 #' @param container The container used to run the method. The possibilities are 'docker' (default) or
-#'   'singularity'
-#' @param container_path the path where the singularity .sif file is/will be stored (optional)
+#'   'apptainer'
+#' @param container_path the path where the apptainer .sif file is/will be stored (optional)
 #' @param input_dir The folder in which the input files can be found (or are created in). Default
 #'   is a temporary directory.
 #' @param output_dir The directory in which the output files are saved. Default is a temporary
@@ -183,7 +183,7 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature,
                                    rmbatch_B_mode = FALSE,
                                    rmbatch_S_mode = FALSE,
                                    verbose = FALSE,
-                                   container = c("docker", "singularity"),
+                                   container = c("docker", "apptainer"),
                                    container_path = NULL,
                                    input_dir = NULL, output_dir = NULL,
                                    display_extra_info = FALSE, label = "none", ...) {
@@ -203,10 +203,10 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature,
   check_credentials()
   temp_dir <- tempdir()
 
-  if (container == "singularity") {
-    singularity_container_path <- setup_singularity_container(container_path)
+  if (container == "apptainer") {
+    apptainer_container_path <- setup_apptainer_container(container_path)
   } else {
-    singularity_container_path <- NULL
+    apptainer_container_path <- NULL
   }
 
 
@@ -255,7 +255,7 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature,
 
 
   if (rmbatch_B_mode || rmbatch_S_mode) {
-    command_to_run <- create_container_command(input_dir, output_dir, container, singularity_container_path,
+    command_to_run <- create_container_command(input_dir, output_dir, container, apptainer_container_path,
       method = "impute_cell_fractions", verbose,
       refsample = single_cell_object_filename,
       rmbatch_B_mode = rmbatch_B_mode, rmbatch_S_mode = rmbatch_S_mode,
@@ -263,7 +263,7 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature,
     )
     filename_cell_props <- paste0("CIBERSORTx_", label, "_Adjusted.txt")
   } else {
-    command_to_run <- create_container_command(input_dir, output_dir, container, singularity_container_path,
+    command_to_run <- create_container_command(input_dir, output_dir, container, apptainer_container_path,
       method = "impute_cell_fractions", verbose = verbose,
       sigmatrix = sigmatrix_filename, mixture = bulk_gene_expression_filename, label = label, ...
     )
@@ -362,8 +362,8 @@ transform_and_save_bulk <- function(bulk, path, verbose = FALSE) {
 #'   a temporary directory.
 #' @param out_dir The directory in which the output files are saved. Default is a temporary
 #'   directory.
-#' @param container The container to use. Possibilities are 'docker' and 'singularity'
-#' @param sing_container_path The path where the singularity container is stored (optional)
+#' @param container The container to use. Possibilities are 'docker' and 'apptainer'
+#' @param apptainer_container_path The path where the apptainer container is stored (optional)
 #' @param method Which docker command should be be created. For signature matrix creation use
 #'   "create_sig", for cell type deconvolution use "impute_cell_fractions".
 #' @param verbose Whether to produce an output on the console.
@@ -372,8 +372,8 @@ transform_and_save_bulk <- function(bulk, path, verbose = FALSE) {
 #' @return A valid docker command to be run.
 #'
 create_container_command <- function(in_dir, out_dir,
-                                     container = c("docker", "singularity"),
-                                     sing_container_path = NULL,
+                                     container = c("docker", "apptainer"),
+                                     apptainer_container_path = NULL,
                                      method = c("create_sig", "impute_cell_fractions"),
                                      verbose = FALSE, ...) {
   if (container == "docker") {
@@ -383,9 +383,9 @@ create_container_command <- function(in_dir, out_dir,
     )
   } else {
     base <- paste0(
-      "singularity exec --no-home -c -B ", in_dir,
+      "apptainer exec --no-home -c -B ", in_dir,
       "/:/src/data -B ", in_dir, "/:/src/outdir ",
-      sing_container_path, " /src/CIBERSORTxFractions --single_cell TRUE"
+      apptainer_container_path, " /src/CIBERSORTxFractions --single_cell TRUE"
     )
   }
 

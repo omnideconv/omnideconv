@@ -26,7 +26,7 @@ check_container <- function(container = c("docker", "singularity")) {
     command <- "singularity instance list"
   }
 
-  container.available <- (system(command, ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
+  container.available <- (system(command, ignore.stdout = FALSE, ignore.stderr = TRUE) == 0)
 
   if (!container.available) {
     message(paste0(
@@ -40,7 +40,7 @@ check_container <- function(container = c("docker", "singularity")) {
     command <- "docker ps"
   }
 
-  container.connectable <- (system(command, ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
+  container.connectable <- (system(command, ignore.stdout = FALSE, ignore.stderr = TRUE) == 0)
 
   if (!container.connectable) {
     message(paste0(

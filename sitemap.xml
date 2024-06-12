@@ -10,7 +10,7 @@
     <loc>https://omnideconv.github.io/omnideconv/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://omnideconv.github.io/omnideconv/articles/omnideconv_vignette.html</loc>
+    <loc>https://omnideconv.github.io/omnideconv/articles/omnideconv_example.html</loc>
   </url>
   <url>
     <loc>https://omnideconv.github.io/omnideconv/authors.html</loc>
@@ -215,6 +215,9 @@
   </url>
   <url>
     <loc>https://omnideconv.github.io/omnideconv/reference/normalize_deconv_results.html</loc>
+  </url>
+  <url>
+    <loc>https://omnideconv.github.io/omnideconv/reference/omnideconvstartup.html</loc>
   </url>
   <url>
     <loc>https://omnideconv.github.io/omnideconv/reference/plot_deconvolution.html</loc>

@@ -8,7 +8,6 @@ Authors@R: c(
     person(given="Nicolas", family="Goedert", email="nicolasgoedert1997@gmail.com", role = "aut"),
     person(given="Yuyu", family="Liang", email="yuyuleung0903@yahoo.com", role = "aut"),
     person(given="Katharina", family="Reinisch", email="k.reinisch@campus.lmu.de", role = "aut"))
-
 Description: Collection of second generation methods for immune cell
     deconvolution from bulk RNA-seq samples.
 License: GPL-3 + file LICENSE

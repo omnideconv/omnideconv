@@ -100,7 +100,7 @@ test_that("DWLS build signature matrix works with the optimized version", {
 
 test_that("CIBERSORTx build signature matrix works", {
   set_cibersortx_credentials(Sys.getenv("CIBERSORTX_EMAIL"), Sys.getenv("CIBERSORTX_TOKEN"))
-  signature <- build_model(sc_object_small, cell_annotations_small, "cibersortx")
+  signature <- build_model(sc_object_small, cell_annotations_small, "cibersortx", container = "docker")
   expect_equal(
     info = "signature matrix has same amount of columns as unique cell types in single
                cell matrix", object = ncol(signature),

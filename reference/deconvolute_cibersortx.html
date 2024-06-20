@@ -68,7 +68,7 @@
 <span>  rmbatch_B_mode <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  rmbatch_S_mode <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  container <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"docker"</span>, <span class="st">"singularity"</span><span class="op">)</span>,</span>
+<span>  container <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"docker"</span>, <span class="st">"apptainer"</span><span class="op">)</span>,</span>
 <span>  container_path <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  input_dir <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  output_dir <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -117,11 +117,11 @@ as the samples in single_cell_object. (optional, only necessary if S- or B-mode 
 
 <dt>container</dt>
 <dd><p>The container used to run the method. The possibilities are 'docker' (default) or
-'singularity'</p></dd>
+'apptainer'</p></dd>
 
 
 <dt>container_path</dt>
-<dd><p>the path where the singularity .sif file is/will be stored (optional)</p></dd>
+<dd><p>the path where the apptainer .sif file is/will be stored (optional)</p></dd>
 
 
 <dt>input_dir</dt>

@@ -262,7 +262,7 @@
     <loc>https://omnideconv.github.io/omnideconv/reference/set_python.html</loc>
   </url>
   <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/setup_singularity_container.html</loc>
+    <loc>https://omnideconv.github.io/omnideconv/reference/setup_apptainer_container.html</loc>
   </url>
   <url>
     <loc>https://omnideconv.github.io/omnideconv/reference/single_cell_data_1.html</loc>

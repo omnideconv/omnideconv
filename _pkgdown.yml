@@ -72,13 +72,12 @@ reference:
       - calculate_cell_embedding
       - calc_condition_number
       - check_and_install
+      - check_container
       - check_credentials
       - convert_to_matrix
       - create_container_command
       - deconvolute_cdseq
       - deescape_special_chars
-      - check_container
-      - setup_singularity_container
       - escape_special_chars
       - get_cell_fractions_options
       - get_method_options
@@ -103,6 +102,7 @@ reference:
       - scaden_train
       - sces_are_identical
       - set_python
+      - setup_apptainer_container
       - singlecellexperiment_to_anndata
       - singlecellexperiment_to_matrix
       - transform_and_save_bulk

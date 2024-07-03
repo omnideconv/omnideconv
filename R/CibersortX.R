@@ -302,10 +302,11 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature,
   extra_cols <- c("Correlation", "RMSE", "P-value")
   if (display_extra_info) {
     print(cell_props[, extra_cols])
+  } else {
+    cell_props <- cell_props[, !names(cell_props) %in% extra_cols]
+    colnames(cell_props) <- colnames(signature)
   }
 
-  cell_props <- cell_props[, !names(cell_props) %in% extra_cols]
-  colnames(cell_props) <- colnames(signature)
 
   return(as.matrix.data.frame(cell_props))
 }

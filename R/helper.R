@@ -18,6 +18,7 @@ verbose_wrapper <- function(verbose) {
 #' Checks wether docker/apptainer are available and can be used
 #' @param container The container for which the commands are tested
 #' @return A boolean value
+#' @export
 #'
 check_container <- function(container = c("docker", "apptainer")) {
   if (container == "docker") {

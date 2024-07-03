@@ -21,7 +21,7 @@ set_cibersortx_credentials <- function(email, token) {
 #'   as the samples in single_cell_object.
 #' @param verbose Whether to produce an output on the console.
 #' @param container The container used ot run the method. The possibilities are 'docker' (default) or
-#'   'apptainer'
+#'   'apptainer'. You can check if the container can be called with the check_container() function
 #' @param container_path the path where the apptainer .sif file is/will be stored (optional)
 #' @param input_dir The directory in which the input files can be found (or are created in).
 #'   Default is a temporary directory.
@@ -62,9 +62,9 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
 
   container <- match.arg(container)
 
-  if (!check_container(container)) {
-    return(NULL)
-  }
+  #if (!check_container(container)) {
+  #  return(NULL)
+  #}
 
   check_credentials()
 
@@ -195,9 +195,9 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature,
   }
 
   container <- match.arg(container)
-  if (!check_container(container)) {
-    return(NULL)
-  }
+  #if (!check_container(container)) {
+  #  return(NULL)
+  #}
 
 
   check_credentials()

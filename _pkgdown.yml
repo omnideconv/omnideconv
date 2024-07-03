@@ -41,6 +41,7 @@ reference:
     contents:
       - set_cibersortx_credentials
       - bseqsc_config
+      - check_container
   - title: Datasets
     desc: List of datasets provided by the package.
     contents:
@@ -77,7 +78,6 @@ reference:
       - create_container_command
       - deconvolute_cdseq
       - deescape_special_chars
-      - check_container
       - setup_apptainer_container
       - escape_special_chars
       - get_cell_fractions_options

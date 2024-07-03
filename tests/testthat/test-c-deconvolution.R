@@ -284,7 +284,13 @@ test_that("CIBERSORTx deconvolution works, with and without signature", {
     as.matrix(.)
   # colnames(cibersort_model) <- c("T$ c!ell% CD4", "T cel§l() &CD8", "NK+ c?[]el{}l")
 
-  deconvolution <- deconvolute(bulk_small, model = cibersort_model, method = "cibersortx", container = "docker")
+  deconvolution <- deconvolute(bulk_small, model = cibersort_model,
+                               method = "cibersortx", container = "docker")
+
+  deconvolution_extra_info <- deconvolute(bulk_small, model = cibersort_model,
+                                          method = "cibersortx", container = "docker",
+                                          display_extra_info = TRUE)
+
 
   deconvolution <- deconvolution[
     sort(rownames(deconvolution)),
@@ -312,7 +318,10 @@ test_that("CIBERSORTx deconvolution works, with and without signature", {
     info = "one-step deconvolution and two-step deconvolution produce the same result", object = deconvolution,
     expected = deconvolution_noSignature, tolerance = 1e-1
   )
-
+  expect_equal(
+    info = "deconvolution function can return extra infos", object = ncol(deconvolution_extra_info),
+    expected = ncol(deconvolution) + 3, tolerance = 1e-1
+  )
   check_result <- system.file("test_results", "cibersortx_result_small.tsv",
     package = "omnideconv", mustWork = TRUE
   ) %>%

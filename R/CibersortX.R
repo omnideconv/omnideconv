@@ -62,9 +62,9 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
 
   container <- match.arg(container)
 
-  #if (!check_container(container)) {
+  # if (!check_container(container)) {
   #  return(NULL)
-  #}
+  # }
 
   check_credentials()
 
@@ -195,9 +195,9 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature,
   }
 
   container <- match.arg(container)
-  #if (!check_container(container)) {
+  # if (!check_container(container)) {
   #  return(NULL)
-  #}
+  # }
 
 
   check_credentials()

@@ -299,7 +299,7 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature,
   rownames(cell_props) <- cell_props$Mixture
   cell_props <- cell_props[, -1]
 
-  extra_cols <- c("P.value", "Correlation", "RMSE", "P-value")
+  extra_cols <- c("Correlation", "RMSE", "P-value")
   if (display_extra_info) {
     print(cell_props[, extra_cols])
   }

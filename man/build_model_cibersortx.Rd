@@ -25,7 +25,7 @@ samples. Row and column names need to be set.}
 as the samples in single_cell_object.}
 
 \item{container}{The container used ot run the method. The possibilities are 'docker' (default) or
-'apptainer'}
+'apptainer'. You can check if the container can be called with the check_container() function}
 
 \item{container_path}{the path where the apptainer .sif file is/will be stored (optional)}
 

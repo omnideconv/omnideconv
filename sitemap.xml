@@ -1,294 +1,100 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/404.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/articles/omnideconv_example.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/index.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/RefData.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/anndata_checkload.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/anndata_is_identical.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/anndata_to_singlecellexperiment.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/autogenes_checkload.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/batch_ids_1.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/batch_ids_2.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/batch_ids_3.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/bseqsc_config.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/build_anndata.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/build_model.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/build_model_autogenes.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/build_model_bayesprism.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/build_model_bisque.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/build_model_bseqsc.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/build_model_cdseq.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/build_model_cibersortx.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/build_model_cpm.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/build_model_dwls.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/build_model_momf.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/build_model_music.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/build_model_scaden.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/build_model_scdc.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/bulk.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/calc_condition_number.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/calculate_cell_embedding.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/cell_type_annotations_1.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/cell_type_annotations_2.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/cell_type_annotations_3.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/check_and_install.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/check_container.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/check_credentials.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/convert_to_matrix.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/create_container_command.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/deconvolute.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_autogenes.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_bayesprism.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_bisque.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_bseqsc.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_cdseq.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_cibersortx.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_cpm.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_dwls.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_momf.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_music.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_scaden.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_scdc.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/deconvolution_methods.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/deescape_special_chars.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/dot-bisque_patched_deconvolution.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/dot-bisque_patched_model.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/escape_special_chars.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/extract_signature_autogenes.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/get_cell_fractions_options.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/get_method_options.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/get_signature_matrix_options.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/get_single_cell_expression_set.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/init_python.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/install_all_python.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/install_autogenes.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/install_scaden.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/make_barplot.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/make_benchmarking_scatterplot.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/matrix_to_singlecellexperiment.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/normalize_deconv_results.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/omnideconvstartup.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/plot_deconvolution.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/python_available.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/read_anndata.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/required_packages.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/save_as_h5ad.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/scaden_checkload.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/scaden_predict.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/scaden_process.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/scaden_simulate.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/scaden_simulate_example.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/scaden_train.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/sces_are_identical.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/set_cibersortx_credentials.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/set_python.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/setup_apptainer_container.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/single_cell_data_1.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/single_cell_data_2.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/single_cell_data_3.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/singlecellexperiment_to_anndata.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/singlecellexperiment_to_matrix.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/transform_and_save_bulk.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/transform_and_save_single_cell.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/verbose_wrapper.html</loc>
-  </url>
-  <url>
-    <loc>https://omnideconv.github.io/omnideconv/reference/write_anndata.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://omnideconv.github.io/omnideconv/404.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/LICENSE-text.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/articles/index.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/articles/omnideconv_example.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/authors.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/index.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/RefData.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/anndata_checkload.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/anndata_is_identical.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/anndata_to_singlecellexperiment.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/autogenes_checkload.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/batch_ids_1.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/batch_ids_2.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/batch_ids_3.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/bseqsc_config.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/build_anndata.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/build_model.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/build_model_autogenes.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/build_model_bayesprism.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/build_model_bisque.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/build_model_bseqsc.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/build_model_cdseq.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/build_model_cibersortx.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/build_model_cpm.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/build_model_dwls.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/build_model_momf.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/build_model_music.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/build_model_scaden.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/build_model_scdc.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/bulk.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/calc_condition_number.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/calculate_cell_embedding.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/cell_type_annotations_1.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/cell_type_annotations_2.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/cell_type_annotations_3.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/check_and_install.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/check_container.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/check_credentials.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/convert_to_matrix.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/create_container_command.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/deconvolute.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_autogenes.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_bayesprism.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_bisque.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_bseqsc.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_cdseq.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_cibersortx.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_cpm.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_dwls.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_momf.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_music.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_scaden.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_scdc.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/deconvolution_methods.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/deescape_special_chars.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/dot-bisque_patched_deconvolution.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/dot-bisque_patched_model.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/escape_special_chars.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/extract_signature_autogenes.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/get_cell_fractions_options.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/get_method_options.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/get_signature_matrix_options.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/get_single_cell_expression_set.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/index.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/init_python.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/install_all_python.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/install_autogenes.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/install_scaden.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/make_barplot.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/make_benchmarking_scatterplot.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/matrix_to_singlecellexperiment.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/normalize_deconv_results.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/omnideconvstartup.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/plot_deconvolution.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/python_available.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/read_anndata.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/required_packages.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/save_as_h5ad.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/scaden_checkload.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/scaden_predict.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/scaden_process.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/scaden_simulate.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/scaden_simulate_example.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/scaden_train.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/sces_are_identical.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/set_cibersortx_credentials.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/set_python.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/setup_apptainer_container.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/single_cell_data_1.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/single_cell_data_2.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/single_cell_data_3.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/singlecellexperiment_to_anndata.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/singlecellexperiment_to_matrix.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/transform_and_save_bulk.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/transform_and_save_single_cell.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/verbose_wrapper.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/write_anndata.html</loc></url>
 </urlset>
+

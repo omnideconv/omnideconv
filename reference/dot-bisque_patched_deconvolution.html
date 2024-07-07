@@ -6,7 +6,7 @@ values to estimate cell proportions."><!-- mathjax --><script src="https://cdnjs
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -31,7 +31,7 @@ values to estimate cell proportions."><!-- mathjax --><script src="https://cdnjs
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -41,20 +41,20 @@ values to estimate cell proportions."><!-- mathjax --><script src="https://cdnjs
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/omnideconv/omnideconv/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Calculates the decomposition using the bisque algorithm</h1>
-    <small class="dont-index">Source: <a href="https://github.com/omnideconv/omnideconv/blob/HEAD/R/bisque.R" class="external-link"><code>R/bisque.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/omnideconv/omnideconv/blob/main/R/bisque.R" class="external-link"><code>R/bisque.R</code></a></small>
     <div class="hidden name"><code>dot-bisque_patched_deconvolution.Rd</code></div>
     </div>
 
@@ -83,56 +83,58 @@ values to estimate cell proportions.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>bulk_gene_expression</dt>
+
+
+<dl><dt id="arg-bulk-gene-expression">bulk_gene_expression<a class="anchor" aria-label="anchor" href="#arg-bulk-gene-expression"></a></dt>
 <dd><p>A matrix of bulk data. Rows are genes, columns are samples.
 Row and column names need to be set.</p></dd>
 
 
-<dt>signature</dt>
+<dt id="arg-signature">signature<a class="anchor" aria-label="anchor" href="#arg-signature"></a></dt>
 <dd><p>The signature matrix. Rows are genes, columns are cell types.</p></dd>
 
 
-<dt>single_cell_object</dt>
+<dt id="arg-single-cell-object">single_cell_object<a class="anchor" aria-label="anchor" href="#arg-single-cell-object"></a></dt>
 <dd><p>A matrix with the single-cell data. Rows are genes, columns are
 samples. Row and column names need to be set.</p></dd>
 
 
-<dt>cell_type_annotations</dt>
+<dt id="arg-cell-type-annotations">cell_type_annotations<a class="anchor" aria-label="anchor" href="#arg-cell-type-annotations"></a></dt>
 <dd><p>A vector of the cell type annotations. Has to be in the same order
 as the samples in single_cell_object.</p></dd>
 
 
-<dt>batch_ids</dt>
+<dt id="arg-batch-ids">batch_ids<a class="anchor" aria-label="anchor" href="#arg-batch-ids"></a></dt>
 <dd><p>A vector of the ids of the samples or individuals.</p></dd>
 
 
-<dt>markers</dt>
+<dt id="arg-markers">markers<a class="anchor" aria-label="anchor" href="#arg-markers"></a></dt>
 <dd><p>Structure, such as character vector, containing marker genes
 to be used in decomposition. <code>unique(unlist(markers))</code> should
 return a simple vector containing each gene name. If no argument or NULL
 provided, the method will use all available genes for decomposition.</p></dd>
 
 
-<dt>cell_types</dt>
+<dt id="arg-cell-types">cell_types<a class="anchor" aria-label="anchor" href="#arg-cell-types"></a></dt>
 <dd><p>Character string. Name of phenoData attribute in sc.eset
 indicating cell type label for each cell.</p></dd>
 
 
-<dt>subject_names</dt>
+<dt id="arg-subject-names">subject_names<a class="anchor" aria-label="anchor" href="#arg-subject-names"></a></dt>
 <dd><p>Character string. Name of phenoData attribute in sc.eset
 indicating individual label for each cell.</p></dd>
 
 
-<dt>use_overlap</dt>
+<dt id="arg-use-overlap">use_overlap<a class="anchor" aria-label="anchor" href="#arg-use-overlap"></a></dt>
 <dd><p>Boolean. Whether to use and expect overlapping samples
 in decomposition.</p></dd>
 
 
-<dt>verbose</dt>
+<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>Whether to produce an output on the console.</p></dd>
 
 
-<dt>old_cpm</dt>
+<dt id="arg-old-cpm">old_cpm<a class="anchor" aria-label="anchor" href="#arg-old-cpm"></a></dt>
 <dd><p>Prior to version 1.0.4 (updated in July 2020), the package
 converted counts to CPM after subsetting the marker genes. Github user
 randel pointed out that the order of these operations should be switched.
@@ -146,9 +148,7 @@ each cell type.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>A list including:</p>
+    <p>A list including:</p>
 <dl><dt>bulk_props</dt>
 <dd><p>A matrix of cell type proportion estimates with cell types as rows and
 individuals as columns.</p></dd>
@@ -181,15 +181,15 @@ are generated by applying a linear transformation to the CPM expression.</p></dd
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

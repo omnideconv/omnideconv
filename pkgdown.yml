@@ -3,7 +3,7 @@ pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
   omnideconv_example: omnideconv_example.html
-last_built: 2024-07-07T21:58Z
+last_built: 2024-07-24T07:40Z
 urls:
   reference: https://omnideconv.github.io/omnideconv/reference
   article: https://omnideconv.github.io/omnideconv/articles

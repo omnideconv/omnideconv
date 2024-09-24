@@ -28,7 +28,6 @@ pak::pkg_install("omnideconv/omnideconv")
 
 # complete installation, including Python dependencies
 pak::pkg_install("omnideconv/omnideconv", dependencies = TRUE)
-omnideconv::install_all_python()
 ```
 
 Upon the first loading, miniconda will be installed if not already present. A dedicated conda environment will be created to host the python-based methods.

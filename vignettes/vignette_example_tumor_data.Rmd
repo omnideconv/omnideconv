@@ -20,14 +20,13 @@ library(ggpubr)
 ```
 
 ```{r, echo=FALSE, results='hide'}
-
 setwd("C:/Users/c1041161/book_chapter/")
 
-signature.matrix.dwls <- readRDS('./signature.matrix.dwls.rds')
-signature.matrix.dwls.minor <- readRDS('./signature.matrix.dwls.minor.rds')
-deconvolution.results.dwls <- readRDS('./deconvolution.results.dwls.rds')
-deconvolution.results.dwls.minor <- readRDS('./deconvolution.results.dwls.minor.rds')
-deconvolution.results.bayesprism <- readRDS('./deconvolution.results.bayesprism.rds')
+signature.matrix.dwls <- readRDS("./signature.matrix.dwls.rds")
+signature.matrix.dwls.minor <- readRDS("./signature.matrix.dwls.minor.rds")
+deconvolution.results.dwls <- readRDS("./deconvolution.results.dwls.rds")
+deconvolution.results.dwls.minor <- readRDS("./deconvolution.results.dwls.minor.rds")
+deconvolution.results.bayesprism <- readRDS("./deconvolution.results.bayesprism.rds")
 ```
 
 
@@ -39,43 +38,45 @@ First of all, we will need to process the single cell dataset in order to remove
 setwd("C:/Users/c1041161/book_chapter/")
 
 single.cell.data <- Seurat::ReadMtx(
-  mtx = './Wu_etal_2021_BRCA_scRNASeq/count_matrix_sparse.mtx',
-  cells = './Wu_etal_2021_BRCA_scRNASeq/count_matrix_barcodes.tsv',
-  features = './Wu_etal_2021_BRCA_scRNASeq/count_matrix_genes.tsv',
+  mtx = "./Wu_etal_2021_BRCA_scRNASeq/count_matrix_sparse.mtx",
+  cells = "./Wu_etal_2021_BRCA_scRNASeq/count_matrix_barcodes.tsv",
+  features = "./Wu_etal_2021_BRCA_scRNASeq/count_matrix_genes.tsv",
   feature.column = 1
 )
-single.cell.metadata <- read.table('./Wu_etal_2021_BRCA_scRNASeq/metadata.csv', 
-                                   sep = ',',
-                                   header = TRUE, 
-                                   row.names = 1)
+single.cell.metadata <- read.table("./Wu_etal_2021_BRCA_scRNASeq/metadata.csv",
+  sep = ",",
+  header = TRUE,
+  row.names = 1
+)
 
-single.cell.data = CreateSeuratObject(single.cell.data, 
-                                      project='Wu_dataset', 
-                                      assay='RNA', 
-                                      min.cells = 0, 
-                                      min.features = 1, meta.data = single.cell.metadata)
+single.cell.data <- CreateSeuratObject(single.cell.data,
+  project = "Wu_dataset",
+  assay = "RNA",
+  min.cells = 0,
+  min.features = 1, meta.data = single.cell.metadata
+)
 ```
 
 We can have an overview of the number of cells per cell type in the dataset:
 
 ```{r}
 table(single.cell.data$celltype_major, dnn = list("celltype_major")) %>%
-      as.data.frame(., responseName = "number_cells")
+  as.data.frame(., responseName = "number_cells")
 ```
 
 In order to remove low quality cells, we will follow the [best practices for single cell normalization](https://www.sc-best-practices.org/preprocessing_visualization/quality_control.html). We will perform the quality control on each cell considering as metrics the number of counts, the number of features (genes) and the fraction of mitochondrial genes. The metric considered is the MAD, (Mean Absolute Deviation), computed as $MAD = median(|X_i - median(X)|)$ with $X_i$ being the respective metric of an observation (cell). 
 We will consider as outliers cells that have $X_i < n*|MAD|$, with $n=5$ for number of counts and number of features, and n=3 for the fraction of mitochondrial genes.
 
 ```{r}
-is_outlier <- function(SeuratObject, metric, nmads){
-  eval(parse(text = paste0("M <- SeuratObject$",metric)))
+is_outlier <- function(SeuratObject, metric, nmads) {
+  eval(parse(text = paste0("M <- SeuratObject$", metric)))
   outlier <- (M < median(M) - nmads * mad(M)) | (M > median(M) + nmads * mad(M))
   return(outlier)
 }
 
-check_outliers_nFeature <- is_outlier(single.cell.data, 'nFeature_RNA', 5)
-check_outliers_nCount <- is_outlier(single.cell.data, 'nCount_RNA', 5)
-check_outliers_mito <- is_outlier(single.cell.data, 'percent.mito', 3)
+check_outliers_nFeature <- is_outlier(single.cell.data, "nFeature_RNA", 5)
+check_outliers_nCount <- is_outlier(single.cell.data, "nCount_RNA", 5)
+check_outliers_mito <- is_outlier(single.cell.data, "percent.mito", 3)
 
 non_outliers_nFeature <- names(check_outliers_nFeature[!check_outliers_nFeature])
 non_outliers_nCount <- names(check_outliers_nCount[!check_outliers_nCount])
@@ -85,13 +86,12 @@ non_outliers_mito <- names(check_outliers_mito[!check_outliers_mito])
 We will retain only those that satisfy all three of the conditions described above.
 
 ```{r}
-non_outliers <- intersect(non_outliers_nFeature, non_outliers_nCount) %>% 
+non_outliers <- intersect(non_outliers_nFeature, non_outliers_nCount) %>%
   intersect(non_outliers_mito)
 
 single.cell.data <- subset(single.cell.data, cells = non_outliers)
 
 as.data.frame(table(single.cell.data$celltype_major, dnn = list("celltype_major")), responseName = "number_cells")
-
 ```
 
 
@@ -100,15 +100,16 @@ as.data.frame(table(single.cell.data$celltype_major, dnn = list("celltype_major"
 We will now read in the bulk sequencing data file, which consists of 24 samples.
 
 ```{r}
-bulk.data <- read.table('C:/Users/c1041161/book_chapter/GSE176078_Wu_etal_2021_bulkRNAseq_raw_counts.txt', skip=1)
+bulk.data <- read.table("C:/Users/c1041161/book_chapter/GSE176078_Wu_etal_2021_bulkRNAseq_raw_counts.txt", skip = 1)
 
-header <- read.table('C:/Users/c1041161/book_chapter/GSE176078_Wu_etal_2021_bulkRNAseq_raw_counts.txt', 
-                     header = FALSE, nrows = 1, skipNul = TRUE, sep='\t')
+header <- read.table("C:/Users/c1041161/book_chapter/GSE176078_Wu_etal_2021_bulkRNAseq_raw_counts.txt",
+  header = FALSE, nrows = 1, skipNul = TRUE, sep = "\t"
+)
 
-colnames(bulk.data) <- c('Genes', gsub('A|N', '', header[2:25]))
+colnames(bulk.data) <- c("Genes", gsub("A|N", "", header[2:25]))
 
-bulk.data <- bulk.data[bulk.data$Genes != '', ]
-bulk.data <- column_to_rownames(bulk.data, 'Genes')
+bulk.data <- bulk.data[bulk.data$Genes != "", ]
+bulk.data <- column_to_rownames(bulk.data, "Genes")
 bulk.data <- as.matrix(bulk.data)
 ```
 
@@ -121,24 +122,23 @@ Since single cell datasets can often encompass thousands of cells, we will need 
 ```{r}
 set.seed(42)
 
-max_cells_per_celltype = 200
+max_cells_per_celltype <- 200
 
 sampled.metadata <- single.cell.data@meta.data %>%
-      rownames_to_column(., 'barcode') %>%
-      group_by(., celltype_major) %>% 
-      nest() %>%            
-      mutate(n =  map_dbl(data, nrow)) %>%
-      mutate(n = min(n, max_cells_per_celltype)) %>%
-      ungroup() %>% 
-      mutate(samp = map2(data, n, sample_n)) %>% 
-      select(-data) %>%
-      unnest(samp)
+  rownames_to_column(., "barcode") %>%
+  group_by(., celltype_major) %>%
+  nest() %>%
+  mutate(n = map_dbl(data, nrow)) %>%
+  mutate(n = min(n, max_cells_per_celltype)) %>%
+  ungroup() %>%
+  mutate(samp = map2(data, n, sample_n)) %>%
+  select(-data) %>%
+  unnest(samp)
 
 single.cell.data.sampled <- subset(single.cell.data, cells = sampled.metadata$barcode)
 
 
 as.data.frame(table(single.cell.data.sampled$celltype_major, dnn = list("celltype_major")), responseName = "number_cells")
-
 ```
 
 
@@ -159,11 +159,12 @@ The first one we are going to use is called [DWLS](https://www.ncbi.nlm.nih.gov/
 
 ```{r, eval=FALSE}
 # We need to insert the normalization as well
-signature.matrix.dwls <- omnideconv::build_model(single_cell_object = counts.matrix,
-                        cell_type_annotations = cell.type.annotations,
-                        method = 'dwls', 
-                        dwls_method = 'mast_optimized')
-
+signature.matrix.dwls <- omnideconv::build_model(
+  single_cell_object = counts.matrix,
+  cell_type_annotations = cell.type.annotations,
+  method = "dwls",
+  dwls_method = "mast_optimized"
+)
 ```
 
 This signature is optimized so that the genes selected are the ones that help to discriminate across cell types, and it can be manually inspected. 
@@ -175,10 +176,12 @@ head(signature.matrix.dwls)
 The signature is now used for the deconvolution of the bulk RNAseq, which is performed with the `omnideconv` function `deconvolute`.
 
 ```{r, eval=FALSE}
-deconvolution.results.dwls <- deconvolute(bulk_gene_expression = bulk.data,
-                                          signature = signature.matrix.dwls,
-                                          method='dwls',
-                                          dwls_submethod = 'DampenedWLS')
+deconvolution.results.dwls <- deconvolute(
+  bulk_gene_expression = bulk.data,
+  signature = signature.matrix.dwls,
+  method = "dwls",
+  dwls_submethod = "DampenedWLS"
+)
 ```
 
 We will now obtain, for every sample, a set of cell type fractions for each cell type that was included in the provided single cell dataset. 
@@ -190,7 +193,7 @@ head(deconvolution.results.dwls)
 We can also visualise the results as a barplot trough the built-in `plot_deconvolution` function
 
 ```{r}
-omnideconv::plot_deconvolution(list('dwls' = deconvolution.results.dwls), "bar", "method", "Spectral")
+omnideconv::plot_deconvolution(list("dwls" = deconvolution.results.dwls), "bar", "method", "Spectral")
 ```
 
 # BayesPrism deconvolution
@@ -200,17 +203,19 @@ The third method we will use is [BayesPrism](https://www.nature.com/articles/s43
 ```{r,eval=FALSE}
 # BayesPrism deconvolution
 
-deconvolution.results.bayesprism <- deconvolute(bulk_gene_expression = bulk.data,
-                                           single_cell_object = counts.matrix,
-                                           cell_type_annotations = cell.type.annotations,
-                                           method = 'bayesprism', 
-                                           n_cores=12)
+deconvolution.results.bayesprism <- deconvolute(
+  bulk_gene_expression = bulk.data,
+  single_cell_object = counts.matrix,
+  cell_type_annotations = cell.type.annotations,
+  method = "bayesprism",
+  n_cores = 12
+)
 ```
 
 We can visualize the results as before: 
 
 ```{r}
-omnideconv::plot_deconvolution(list('bayesprism' = deconvolution.results.bayesprism), "bar", "method", "Spectral")
+omnideconv::plot_deconvolution(list("bayesprism" = deconvolution.results.bayesprism), "bar", "method", "Spectral")
 ```
 
 
@@ -220,28 +225,28 @@ The considered single-cell breast cancer dataset includes cell-type annotations 
 The different cell-type annotations can be accessed with: 
 
 ```{r, eval=FALSE}
-single.cell.data$celltype_major   # Major annotation
-single.cell.data$celltype_minor   # Minor annotation
-single.cell.data$celltype_subset           # Subset annotation
+single.cell.data$celltype_major # Major annotation
+single.cell.data$celltype_minor # Minor annotation
+single.cell.data$celltype_subset # Subset annotation
 ```
 
 These additional annotations provide a cell-type classification at a finer resolution. For instance, at the `celltype_major` level, we only have the T cell population, while at the `celltype_minor` level, we can distinguish between CD4+ and CD8+ T cells. In the following, we will again perform deconvolution analysis with DWLS but, this time, using the `celltype_minor` information. We will subsample the dataset as before, this time considering the second level of resolution for the cell types, and extract the objects needed for deconvolution. 
 ```{r}
 set.seed(42)
 
-max_cells_per_celltype = 200
+max_cells_per_celltype <- 200
 
 
 sampled.metadata <- single.cell.data@meta.data %>%
-      rownames_to_column(., 'barcode') %>%
-      group_by(., celltype_minor) %>% 
-      nest() %>%            
-      mutate(n =  map_dbl(data, nrow)) %>%
-      mutate(n = min(n, max_cells_per_celltype)) %>%
-      ungroup() %>% 
-      mutate(samp = map2(data, n, sample_n)) %>% 
-      select(-data) %>%
-      unnest(samp)
+  rownames_to_column(., "barcode") %>%
+  group_by(., celltype_minor) %>%
+  nest() %>%
+  mutate(n = map_dbl(data, nrow)) %>%
+  mutate(n = min(n, max_cells_per_celltype)) %>%
+  ungroup() %>%
+  mutate(samp = map2(data, n, sample_n)) %>%
+  select(-data) %>%
+  unnest(samp)
 
 single.cell.data.sampled <- subset(single.cell.data, cells = sampled.metadata$barcode)
 
@@ -258,48 +263,50 @@ batch.ids <- single.cell.data.sampled$orig.ident
 
 
 ```{r, eval=FALSE}
+signature.matrix.dwls.minor <- omnideconv::build_model(
+  single_cell_object = counts.matrix,
+  cell_type_annotations = cell.type.annotations,
+  method = "dwls",
+  dwls_method = "mast_optimized"
+)
 
-signature.matrix.dwls.minor <- omnideconv::build_model(single_cell_object = counts.matrix,
-                        cell_type_annotations = cell.type.annotations,
-                        method = 'dwls', 
-                        dwls_method = 'mast_optimized')
-
-deconvolution.results.dwls.minor <- deconvolute(bulk_gene_expression = bulk.data,
-                                          model = signature.matrix.dwls.minor,
-                                          method='dwls',
-                                          dwls_submethod = 'DampenedWLS')
+deconvolution.results.dwls.minor <- deconvolute(
+  bulk_gene_expression = bulk.data,
+  model = signature.matrix.dwls.minor,
+  method = "dwls",
+  dwls_submethod = "DampenedWLS"
+)
 ```
 
 We can visualize the results as before: 
 
 ```{r}
-omnideconv::plot_deconvolution(list('dwls' = deconvolution.results.dwls.minor), "bar", "method", "Spectral")
+omnideconv::plot_deconvolution(list("dwls" = deconvolution.results.dwls.minor), "bar", "method", "Spectral")
 ```
 
 # Comparison of cell fractions across methods
 
 ```{r}
 dwls.results.long <- deconvolution.results.dwls %>%
-     as.data.frame() %>%
-     rownames_to_column(., 'Sample') %>%
-     gather(., key = 'cell_type', value = 'dwls_fraction', -'Sample')
+  as.data.frame() %>%
+  rownames_to_column(., "Sample") %>%
+  gather(., key = "cell_type", value = "dwls_fraction", -"Sample")
 
 bayesprism.results.long <- deconvolution.results.bayesprism %>%
-     as.data.frame() %>%
-     rownames_to_column(., 'Sample') %>%
-     gather(., key = 'cell_type', value = 'bayesprism_fraction', -'Sample')
+  as.data.frame() %>%
+  rownames_to_column(., "Sample") %>%
+  gather(., key = "cell_type", value = "bayesprism_fraction", -"Sample")
 
 results.long <- full_join(dwls.results.long, bayesprism.results.long)
 
 ggplot(results.long, aes(x = dwls_fraction, y = bayesprism_fraction)) +
-  geom_abline(linetype = 'dashed') +
+  geom_abline(linetype = "dashed") +
   geom_point(aes(color = cell_type)) +
-  theme_bw()+
-  theme(legend.position = 'hide') +
-  facet_wrap(.~cell_type) +
-  ylab('BayesPrism fractions')+
-  xlab('DWLS fractions')
-
+  theme_bw() +
+  theme(legend.position = "hide") +
+  facet_wrap(. ~ cell_type) +
+  ylab("BayesPrism fractions") +
+  xlab("DWLS fractions")
 ```
 
 
@@ -310,34 +317,37 @@ We can consider as well the metadata provided with the original paper, which inc
 ```{r}
 patient.metadata <- read_excel("C:/Users/c1041161/book_chapter/41588_2021_911_MOESM4_ESM.xlsx", sheet = 1, skip = 3) %>%
   select(., c(1, 4, 5, 12))
-colnames(patient.metadata) <- c('Sample', 'Grade', 'Cancer_type', 'Treatment')
+colnames(patient.metadata) <- c("Sample", "Grade", "Cancer_type", "Treatment")
 
-patient.metadata$Sample <- gsub('-', '', patient.metadata$Sample) %>%
-  paste0('CID', .)
+patient.metadata$Sample <- gsub("-", "", patient.metadata$Sample) %>%
+  paste0("CID", .)
 
-patients.results <- rownames_to_column(as.data.frame(deconvolution.results.dwls), 'Sample') %>%
-  gather(., key='celltype', value='cell_fraction', -Sample) %>%
+patients.results <- rownames_to_column(as.data.frame(deconvolution.results.dwls), "Sample") %>%
+  gather(., key = "celltype", value = "cell_fraction", -Sample) %>%
   left_join(., patient.metadata)
 
 
 as.data.frame(table(patient.metadata$Treatment, dnn = list("Treatment")), responseName = "number_patients")
-
 ```
 
 In this cohort, 5 out of 24 patients were treated with neoadjuvant and/or Paclitaxel therapy, while the remaining 19 were untreated. We can visualize the fractions deconvolved by DWLS for every cell type, stratifying the patients into treated and untreated ones
 
 ```{r}
-ggplot(patients.results, 
-       aes(x = Treatment, y = cell_fraction, fill = Treatment)) +
+ggplot(
+  patients.results,
+  aes(x = Treatment, y = cell_fraction, fill = Treatment)
+) +
   geom_boxplot() +
-  facet_wrap(.~celltype, scales = 'free_y', ncol = 4) +
-  ylab('cell fractions') +
-  xlab('') +
+  facet_wrap(. ~ celltype, scales = "free_y", ncol = 4) +
+  ylab("cell fractions") +
+  xlab("") +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  stat_compare_means(label='p.signif', method = "wilcox.test",
-                     comparisons = list(c("Naïve", "Treated")), 
-                     hide.ns = TRUE) +
+  stat_compare_means(
+    label = "p.signif", method = "wilcox.test",
+    comparisons = list(c("Naïve", "Treated")),
+    hide.ns = TRUE
+  ) +
   scale_y_continuous(expand = expansion(mult = c(0.05, 0.25)))
 ```
 
@@ -348,25 +358,25 @@ By considering deconvolution results based on the fine-grained annotations, we c
 
 
 ```{r}
-patient.pam50.typing <- read_excel("C:/Users/c1041161/book_chapter/41588_2021_911_MOESM4_ESM.xlsx", 
-                                   sheet = 3, skip = 3) %>%
-                                   select(., c(1, 4))
-colnames(patient.pam50.typing) <- c('Sample', 'PAM50_subtype')
+patient.pam50.typing <- read_excel("C:/Users/c1041161/book_chapter/41588_2021_911_MOESM4_ESM.xlsx",
+  sheet = 3, skip = 3
+) %>%
+  select(., c(1, 4))
+colnames(patient.pam50.typing) <- c("Sample", "PAM50_subtype")
 
 
-as.data.frame(table(patient.pam50.typing$PAM50_subtype, dnn = list("PAM50_subtype")), 
-              responseName = "number_patients")
-
+as.data.frame(table(patient.pam50.typing$PAM50_subtype, dnn = list("PAM50_subtype")),
+  responseName = "number_patients"
+)
 ```
 
 
 ```{r}
-patients.results.minor <- rownames_to_column(as.data.frame(deconvolution.results.dwls.minor), 'Sample') %>%
-  gather(., key='celltype', value='cell_fraction', -Sample) %>%
+patients.results.minor <- rownames_to_column(as.data.frame(deconvolution.results.dwls.minor), "Sample") %>%
+  gather(., key = "celltype", value = "cell_fraction", -Sample) %>%
   left_join(., patient.pam50.typing)
 
-patients.results.minor$PAM50_subtype[is.na(patients.results.minor$PAM50_subtype)] <- 'Unkn.'
-
+patients.results.minor$PAM50_subtype[is.na(patients.results.minor$PAM50_subtype)] <- "Unkn."
 ```
 
 
@@ -374,29 +384,21 @@ We can then visualize the distribution of the fractions estimated by DWLS for th
 
 ```{r}
 patients.results.minor %>%
- filter(celltype %in% c('Cancer Basal SC', 'Cancer LumA SC', 
-             'Cancer LumB SC', 'Cancer Her2 SC')) %>%
-ggplot(., aes(x = PAM50_subtype, y = cell_fraction, fill = PAM50_subtype)) +
+  filter(celltype %in% c(
+    "Cancer Basal SC", "Cancer LumA SC",
+    "Cancer LumB SC", "Cancer Her2 SC"
+  )) %>%
+  ggplot(., aes(x = PAM50_subtype, y = cell_fraction, fill = PAM50_subtype)) +
   geom_boxplot() +
-  facet_wrap(.~celltype, scales = 'free_y', ncol = 2) +
-  ylab('cell fractions') +
-  xlab('') +
+  facet_wrap(. ~ celltype, scales = "free_y", ncol = 2) +
+  ylab("cell fractions") +
+  xlab("") +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1), 
-        legend.position = 'None') +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "None"
+  ) +
   scale_y_continuous(expand = expansion(mult = c(0.05, 0.25)))
-
 ```
 
 We can see that DWLS identifies the correct cancer-cell molecular subtype as the most abundant in corresponding samples, although with some discrepancies, especially for luminal A cells found in normal samples and luminal B cells found in luminal A samples.
-
-
-
-
-
-
-
-
-
-
-

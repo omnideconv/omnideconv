@@ -28,7 +28,6 @@ pak::pkg_install("omnideconv/omnideconv")
 
 # complete installation, including Python dependencies
 pak::pkg_install("omnideconv/omnideconv", dependencies = TRUE)
-omnideconv::install_all_python()
 ```
 
 Upon the first loading, miniconda will be installed if not already present. A dedicated conda environment will be created to host the python-based methods.
@@ -118,7 +117,7 @@ need to obtain a license to use the individual methods. See the table
 below for more information. If you use this package in your work, please
 cite both our package and the method(s) you are using.
 
-> CITATION
+> Benchmarking second-generation methods for cell-type deconvolution of transcriptomic data. Dietrich, Alexander and Merotto, Lorenzo and Pelz, Konstantin and Eder, Bernhard and Zackl, Constantin and Reinisch, Katharina and Edenhofer, Frank and Marini, Federico and Sturm, Gregor and List, Markus and Finotello, Francesca. (2024) https://doi.org/10.1101/2024.06.10.598226
 
 | method                                                 | license                                                                                    | citation                                                                                                                                                                                                                                                                                                                                                                                      |
 | ------------------------------------------------------ | ------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

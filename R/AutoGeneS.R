@@ -419,7 +419,7 @@ deconvolute_autogenes <- function(single_cell_object, bulk_gene_expression, cell
 #' Alternatively a new environment can be created via create_virtualenv() method.
 #'
 install_autogenes <- function() {
-  #reticulate::py_install("autogenes", pip = TRUE)
+  # reticulate::py_install("autogenes", pip = TRUE)
   system("pip install git+https://github.com/omnideconv/AutoGeneS.git")
 }
 

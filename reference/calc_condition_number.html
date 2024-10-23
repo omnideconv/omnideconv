@@ -98,38 +98,9 @@ dependent variable.</p>
 <span class="r-in"><span>  <span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="st">"momf"</span>,</span></span>
 <span class="r-in"><span>  bulk_gene_expression <span class="op">=</span> <span class="va">bulk</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Registered S3 methods overwritten by 'rgl':</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   method               from</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   knit_print.rglId         </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   knit_print.rglOpen3d     </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   sew.rglRecordedplot      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error in dyn.load(dynlib &lt;- getDynlib(dir)) : </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   unable to load shared object '/home/runner/work/_temp/Library/rgl/libs/rgl.so':</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   libGLU.so.1: cannot open shared object file: No such file or directory</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>	Loading rgl's DLL failed. </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Trying without OpenGL...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> You requested to run momf which is currently not installed. Do you want to install the packages required for it: omnideconv/MOMF (Yes/no/cancel) </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> To install the dependencies for all methods at once, run devtools::install_github("omnideconv/omnideconv", dependencies = c("Imports", "Suggests"))</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Using github PAT from envvar GITHUB_PAT. Use `gitcreds::gitcreds_set()` and unset GITHUB_PAT in .Renviron (or elsewhere) if you want to use the more secure git credential store instead.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Skipping install of 'MOMF' from a github remote, the SHA1 (83a56739) has not changed since last install.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   Use `force = TRUE` to force installation</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Registered S3 methods overwritten by 'rgl':</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   method               from</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   knit_print.rglId         </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   knit_print.rglOpen3d     </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   sew.rglRecordedplot      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error in dyn.load(dynlib &lt;- getDynlib(dir)) : </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   unable to load shared object '/home/runner/work/_temp/Library/rgl/libs/rgl.so':</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   libGLU.so.1: cannot open shared object file: No such file or directory</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>	Loading rgl's DLL failed. </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Trying without OpenGL...</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> .onLoad failed in loadNamespace() for 'rgl', details:</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span>   call: rgl.init(initValue, onlyNULL)</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span>   error: OpenGL is not available in this build</span>
 <span class="r-in"><span><span class="va">cond_num</span> <span class="op">&lt;-</span> <span class="fu">calc_condition_number</span><span class="op">(</span><span class="va">signature_matrix_momf</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'signature_matrix_momf' not found</span>
 <span class="r-in"><span><span class="va">cond_num</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'cond_num' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 301.0855</span>
 </code></pre></div>
     </div>
   </div>

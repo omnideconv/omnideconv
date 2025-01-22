@@ -74,7 +74,8 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Deconvolution of the tumor microenvironment with omnideconv</h1>
+      <h1 data-toc-skip>Deconvolution of the tumor microenvironment with
+omnideconv</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/omnideconv/omnideconv/blob/main/vignettes/omnideconv_example.Rmd" class="external-link"><code>vignettes/omnideconv_example.Rmd</code></a></small>
@@ -88,8 +89,29 @@
 <div class="section level2">
 <h2 id="introduction-and-dataset">1. Introduction and dataset<a class="anchor" aria-label="anchor" href="#introduction-and-dataset"></a>
 </h2>
-<p>In this vignette, we will use the omnideconv package to deconvolve a bulk RNA-seq dataset from 24 breast cancer patients with two different methods (DWLS and BayesPrism). The datasets are from a recent breast cancer study <span class="citation">(Wu et al. <a href="#ref-Wu2021" role="doc-biblioref">2021</a>)</span>. This study provides access to a primary-tumor single cell RNA-seq (scRNA-seq) dataset from 26 breast cancer patients across three major cancer subtypes (ER+, HER2+, TNBC). The dataset includes cell-type annotation for three resolution levels. In addition, the data includes bulk RNA-seq sequencing for 24 of the patients. In this chapter, we use multi-sample, breast-cancer scRNA-seq atlas (100,064 cells) as a reference to train the methods for the deconvolution of the bulk RNA-seq samples. The single-cell and bulk RNA-seq data is deposited on GEO, under accession number: <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE176078" class="external-link">GSE176078</a>. The single cell data comes with the author’s cell type annotations.<br>
-We will need to download and unzip the datasets (<code>GSE176078_Wu_etal_2021_BRCA_scRNASeq.tar.gz</code>, <code>GSE176078_Wu_etal_2021_bulkRNAseq_raw_counts.txt.gz</code>), and store them in the working directory. For this example analysis, we will also need to retrieve the additional clinical information about the patients – although it is not required by omnideconv. This is available in the <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9044823/bin/NIHMS1793222-supplement-1793222_Sup_Tab_1-11.xlsx" class="external-link">Supplementary Table 1</a>, included with the paper supplementary materials</p>
+<p>In this vignette, we will use the omnideconv package to deconvolve a
+bulk RNA-seq dataset from 24 breast cancer patients with two different
+methods (DWLS and BayesPrism). The datasets are from a recent breast
+cancer study <span class="citation">(<a href="#ref-Wu2021">Wu et al.
+2021</a>)</span>. This study provides access to a primary-tumor single
+cell RNA-seq (scRNA-seq) dataset from 26 breast cancer patients across
+three major cancer subtypes (ER+, HER2+, TNBC). The dataset includes
+cell-type annotation for three resolution levels. In addition, the data
+includes bulk RNA-seq sequencing for 24 of the patients. In this
+chapter, we use multi-sample, breast-cancer scRNA-seq atlas (100,064
+cells) as a reference to train the methods for the deconvolution of the
+bulk RNA-seq samples. The single-cell and bulk RNA-seq data is deposited
+on GEO, under accession number: <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE176078" class="external-link">GSE176078</a>.
+The single cell data comes with the author’s cell type
+annotations.<br>
+We will need to download and unzip the datasets
+(<code>GSE176078_Wu_etal_2021_BRCA_scRNASeq.tar.gz</code>,
+<code>GSE176078_Wu_etal_2021_bulkRNAseq_raw_counts.txt.gz</code>), and
+store them in the working directory. For this example analysis, we will
+also need to retrieve the additional clinical information about the
+patients – although it is not required by omnideconv. This is available
+in the <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9044823/bin/NIHMS1793222-supplement-1793222_Sup_Tab_1-11.xlsx" class="external-link">Supplementary
+Table 1</a>, included with the paper supplementary materials</p>
 </div>
 <div class="section level2">
 <h2 id="library-loading">2. Library loading<a class="anchor" aria-label="anchor" href="#library-loading"></a>
@@ -108,7 +130,16 @@ We will need to download and unzip the datasets (<code>GSE176078_Wu_etal_2021_BR
 <div class="section level2">
 <h2 id="single-cell-data-processing">3. Single cell data processing<a class="anchor" aria-label="anchor" href="#single-cell-data-processing"></a>
 </h2>
-<p>Although not strictly required by omnideconv, we suggest performing quality control and filtering of the input scRNA-seq data according to the best practice <span class="citation">(Heumos et al. <a href="#ref-Heumos2023" role="doc-biblioref">2023</a>)</span>, to ensure the best training conditions for deconvolution algorithms. We first pre-process the single-cell dataset to remove low-quality cells. We will use the R package <a href="https://github.com/satijalab/seurat" class="external-link">Seurat</a> <span class="citation">(Hao et al. <a href="#ref-Hao2023" role="doc-biblioref">2023</a>)</span>, which allows fast and easy manipulation of single-cell data. We will create a Seurat object with the cell counts and their metadata of interest curated by the authors, which include cell-type annotation on three levels of resolution:</p>
+<p>Although not strictly required by omnideconv, we suggest performing
+quality control and filtering of the input scRNA-seq data according to
+the best practice <span class="citation">(<a href="#ref-Heumos2023">Heumos et al. 2023</a>)</span>, to ensure the
+best training conditions for deconvolution algorithms. We first
+pre-process the single-cell dataset to remove low-quality cells. We will
+use the R package <a href="https://github.com/satijalab/seurat" class="external-link">Seurat</a> <span class="citation">(<a href="#ref-Hao2023">Hao et al. 2023</a>)</span>,
+which allows fast and easy manipulation of single-cell data. We will
+create a Seurat object with the cell counts and their metadata of
+interest curated by the authors, which include cell-type annotation on
+three levels of resolution:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">single.cell.data</span> <span class="op">&lt;-</span> <span class="fu">Seurat</span><span class="fu">::</span><span class="fu"><a href="https://satijalab.org/seurat/reference/ReadMtx.html" class="external-link">ReadMtx</a></span><span class="op">(</span></span>
 <span>  mtx <span class="op">=</span> <span class="st">'C:/Users/c1041161/book_chapter/Wu_etal_2021_BRCA_scRNASeq/count_matrix_sparse.mtx'</span>,</span>
@@ -126,7 +157,8 @@ We will need to download and unzip the datasets (<code>GSE176078_Wu_etal_2021_BR
 <span>                                      assay<span class="op">=</span><span class="st">'RNA'</span>, </span>
 <span>                                      min.cells <span class="op">=</span> <span class="fl">0</span>, </span>
 <span>                                      min.features <span class="op">=</span> <span class="fl">1</span>, meta.data <span class="op">=</span> <span class="va">single.cell.metadata</span><span class="op">)</span></span></code></pre></div>
-<p>We can have an overview of the number of cells per cell type in the dataset:</p>
+<p>We can have an overview of the number of cells per cell type in the
+dataset:</p>
 <table class="table">
 <caption>Number of cells per cell type</caption>
 <thead><tr class="header">
@@ -172,18 +204,32 @@ We will need to download and unzip the datasets (<code>GSE176078_Wu_etal_2021_BR
 </tr>
 </tbody>
 </table>
-<p>In order to remove low quality cells, we will follow the <a href="https://www.sc-best-practices.org/preprocessing_visualization/quality_control.html" class="external-link">best practices for single cell normalization</a> <span class="citation">(Heumos et al. <a href="#ref-Heumos2023" role="doc-biblioref">2023</a>)</span>. We will perform quality control on each cell by considering metrics such as the number of total counts, the number of expressed features (genes), and the fraction of mitochondrial genes per cell. We will remove cells that have <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mi>A</mi><mi>D</mi><mo>=</mo><mi>m</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">|</mo><msub><mi>X</mi><mi>i</mi></msub><mo>−</mo><mi>m</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">MAD = median(|X_i - median(X)|)</annotation></semantics></math>, where</p>
+<p>In order to remove low quality cells, we will follow the <a href="https://www.sc-best-practices.org/preprocessing_visualization/quality_control.html" class="external-link">best
+practices for single cell normalization</a> <span class="citation">(<a href="#ref-Heumos2023">Heumos et al. 2023</a>)</span>. We will perform
+quality control on each cell by considering metrics such as the number
+of total counts, the number of expressed features (genes), and the
+fraction of mitochondrial genes per cell. We will remove cells that have
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mi>A</mi><mi>D</mi><mo>=</mo><mi>m</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi><mrow><mo stretchy="true" form="prefix">(</mo><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>X</mi><mi>i</mi></msub><mo>−</mo><mi>m</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">|</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">MAD = median(|X_i - median(X)|)</annotation></semantics></math>,
+where</p>
 <ul>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>X</mi><mi>i</mi></msub><annotation encoding="application/x-tex">X_i</annotation></semantics></math> is the respective metric of an observation <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math> (cell), for example the number of detected genes<br>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>X</mi><mi>i</mi></msub><annotation encoding="application/x-tex">X_i</annotation></semantics></math>
+is the respective metric of an observation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+(cell), for example the number of detected genes<br>
 </li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mi>A</mi><mi>D</mi></mrow><annotation encoding="application/x-tex">MAD</annotation></semantics></math> is the Mead Absolute Deviation, computed as <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mi>A</mi><mi>D</mi><mo>=</mo><mi>m</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">|</mo><msub><mi>X</mi><mi>i</mi></msub><mo>−</mo><mi>m</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">MAD = median(|X_i - median(X)|)</annotation></semantics></math><br>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mi>A</mi><mi>D</mi></mrow><annotation encoding="application/x-tex">MAD</annotation></semantics></math>
+is the Mead Absolute Deviation, computed as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mi>A</mi><mi>D</mi><mo>=</mo><mi>m</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi><mrow><mo stretchy="true" form="prefix">(</mo><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>X</mi><mi>i</mi></msub><mo>−</mo><mi>m</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">|</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">MAD = median(|X_i - median(X)|)</annotation></semantics></math><br>
 </li>
 <li>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math> is set to 5 for the number of counts and expressed features, and to 3 for the fraction of mitochondrial genes</li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+is set to 5 for the number of counts and expressed features, and to 3
+for the fraction of mitochondrial genes</li>
 </ul>
-<p>In order to do this filtering, we will create a function to identify the outliers for each metric</p>
+<p>In order to do this filtering, we will create a function to identify
+the outliers for each metric</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">is_outlier</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">SeuratObject</span>, <span class="va">metric</span>, <span class="va">nmads</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span>text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"M &lt;- SeuratObject$"</span>,<span class="va">metric</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -198,7 +244,8 @@ We will need to download and unzip the datasets (<code>GSE176078_Wu_etal_2021_BR
 <span><span class="va">non_outliers_nFeature</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">check_outliers_nFeature</span><span class="op">[</span><span class="op">!</span><span class="va">check_outliers_nFeature</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">non_outliers_nCount</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">check_outliers_nCount</span><span class="op">[</span><span class="op">!</span><span class="va">check_outliers_nCount</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">non_outliers_mito</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">check_outliers_mito</span><span class="op">[</span><span class="op">!</span><span class="va">check_outliers_mito</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p>We will retain only those that satisfy all three of the conditions described above.</p>
+<p>We will retain only those that satisfy all three of the conditions
+described above.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">non_outliers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">intersect</a></span><span class="op">(</span><span class="va">non_outliers_nFeature</span>, <span class="va">non_outliers_nCount</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">intersect</a></span><span class="op">(</span><span class="va">non_outliers_mito</span><span class="op">)</span></span>
@@ -265,7 +312,8 @@ We will need to download and unzip the datasets (<code>GSE176078_Wu_etal_2021_BR
 <div class="section level2">
 <h2 id="bulk-data-preprocessing">4. Bulk data preprocessing<a class="anchor" aria-label="anchor" href="#bulk-data-preprocessing"></a>
 </h2>
-<p>We will now read in the bulk sequencing data file, which consists of 24 samples.</p>
+<p>We will now read in the bulk sequencing data file, which consists of
+24 samples.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bulk.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="st">'C:/Users/c1041161/book_chapter/GSE176078_Wu_etal_2021_bulkRNAseq_raw_counts.txt'</span>, skip<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
 <span></span>
@@ -281,7 +329,18 @@ We will need to download and unzip the datasets (<code>GSE176078_Wu_etal_2021_BR
 <div class="section level2">
 <h2 id="subsampling-of-single-cell-data">5. Subsampling of single cell data<a class="anchor" aria-label="anchor" href="#subsampling-of-single-cell-data"></a>
 </h2>
-<p>The various methods included in omnideconv rely on the single cell dataset that will be used to train them for the deconvolution of those specific cell types. This training involves the optimization of internal features of the methods and can happen in different ways. Some methods use the single cell data to build a ‘signature matrix’, i.e. a reduced transcriptional fingerprints of the cell types provided, while others use this data in a statistical or deep learning model. Since single cell datasets can often encompass thousands of cells, we will need to subsample it in order to be able to run the analysis on our machines. In this case we will retain a maximum of 200 cells per cell type, but this step can be costumed, or eventually skipped, depending on the computational resources available.</p>
+<p>The various methods included in omnideconv rely on the single cell
+dataset that will be used to train them for the deconvolution of those
+specific cell types. This training involves the optimization of internal
+features of the methods and can happen in different ways. Some methods
+use the single cell data to build a ‘signature matrix’, i.e. a reduced
+transcriptional fingerprints of the cell types provided, while others
+use this data in a statistical or deep learning model. Since single cell
+datasets can often encompass thousands of cells, we will need to
+subsample it in order to be able to run the analysis on our machines. In
+this case we will retain a maximum of 200 cells per cell type, but this
+step can be costumed, or eventually skipped, depending on the
+computational resources available.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">max_cells_per_celltype</span> <span class="op">=</span> <span class="fl">200</span></span>
 <span></span>
@@ -349,7 +408,10 @@ We will need to download and unzip the datasets (<code>GSE176078_Wu_etal_2021_BR
 <div class="section level2">
 <h2 id="deconvolution-of-the-bulk-data">6. Deconvolution of the bulk data<a class="anchor" aria-label="anchor" href="#deconvolution-of-the-bulk-data"></a>
 </h2>
-<p>Each methods has different requirements, but in general to compute the deconvolution results we will need the single cell counts matrix, the cell type annotations and the information on the individual/experiment fom which the cells were retrieved (batch ID).</p>
+<p>Each methods has different requirements, but in general to compute
+the deconvolution results we will need the single cell counts matrix,
+the cell type annotations and the information on the
+individual/experiment fom which the cells were retrieved (batch ID).</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">counts.matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">single.cell.data.sampled</span><span class="op">@</span><span class="va">assays</span><span class="op">$</span><span class="va">RNA</span><span class="op">@</span><span class="va">counts</span><span class="op">)</span></span>
 <span><span class="va">cell.type.annotations</span> <span class="op">&lt;-</span> <span class="va">single.cell.data.sampled</span><span class="op">$</span><span class="va">celltype_major</span></span>
@@ -357,21 +419,46 @@ We will need to download and unzip the datasets (<code>GSE176078_Wu_etal_2021_BR
 <div class="section level3">
 <h3 id="deconvolution-with-dwls">6.1 Deconvolution with DWLS<a class="anchor" aria-label="anchor" href="#deconvolution-with-dwls"></a>
 </h3>
-<p>Now we’re going to deconvolute the bulk dataset with different methods. The first one we are going to use is called <a href="https://github.com/dtsoucas/DWLS" class="external-link">DWLS</a> <span class="citation">(Tsoucas et al. <a href="#ref-Tsoucas2019" role="doc-biblioref">2019</a>)</span> and performs the deconvolution in a two-steps process. First, the single cell data is used to build a signature matrix using the <code>omnideconv</code> function <code>build_model</code>. DWLS looks for differentially expressed genes that discriminate across cell types, and can do so with two approaches based either on the Seurat <span class="citation">(Hao et al. <a href="#ref-Hao2023" role="doc-biblioref">2023</a>)</span> “bimod” test <span class="citation">(McDavid et al. <a href="#ref-McDavid2012" role="doc-biblioref">2012</a>)</span> or on MAST <span class="citation">(Finak et al. <a href="#ref-Finak2015" role="doc-biblioref">2015</a>)</span>. MAST improves the former model, but has an increased computational requirement <span class="citation">(Nault et al. <a href="#ref-Nault2022" role="doc-biblioref">2022</a>)</span>. The authors recommend using this method on the smaller datasets, and to switch to Seurat if the analysis with MAST cannot be completed. To reduce MAST’s computational time, we introduced a second version of the MAST-based function (mast_optimized) that speeds up the process compared to the original implementation:</p>
+<p>Now we’re going to deconvolute the bulk dataset with different
+methods. The first one we are going to use is called <a href="https://github.com/dtsoucas/DWLS" class="external-link">DWLS</a> <span class="citation">(<a href="#ref-Tsoucas2019">Tsoucas et al.
+2019</a>)</span> and performs the deconvolution in a two-steps process.
+First, the single cell data is used to build a signature matrix using
+the <code>omnideconv</code> function <code>build_model</code>. DWLS
+looks for differentially expressed genes that discriminate across cell
+types, and can do so with two approaches based either on the Seurat
+<span class="citation">(<a href="#ref-Hao2023">Hao et al.
+2023</a>)</span> “bimod” test <span class="citation">(<a href="#ref-McDavid2012">McDavid et al. 2012</a>)</span> or on MAST <span class="citation">(<a href="#ref-Finak2015">Finak et al.
+2015</a>)</span>. MAST improves the former model, but has an increased
+computational requirement <span class="citation">(<a href="#ref-Nault2022">Nault et al. 2022</a>)</span>. The authors
+recommend using this method on the smaller datasets, and to switch to
+Seurat if the analysis with MAST cannot be completed. To reduce MAST’s
+computational time, we introduced a second version of the MAST-based
+function (mast_optimized) that speeds up the process compared to the
+original implementation:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># We need to insert the normalization as well</span></span>
 <span><span class="va">signature.matrix.dwls</span> <span class="op">&lt;-</span> <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span>single_cell_object <span class="op">=</span> <span class="va">counts.matrix</span>,</span>
 <span>                        cell_type_annotations <span class="op">=</span> <span class="va">cell.type.annotations</span>,</span>
 <span>                        method <span class="op">=</span> <span class="st">'dwls'</span>, </span>
 <span>                        dwls_method <span class="op">=</span> <span class="st">'mast_optimized'</span><span class="op">)</span></span></code></pre></div>
-<p>This signature is optimized so that the genes selected are the ones that help to discriminate across cell types.</p>
-<p>The signature is now used for the deconvolution of the bulk RNAseq, which is performed with the <code>omnideconv</code> function <code>deconvolute</code>. DWLS computes the cell fractions performing one of Ordinary Least Squares (OLS) Regression, Support Vector Regression (SVR) or the Dampened Weighted Least Squares Regression (DWLS) that was introduced with the method. This last regression method is shown to outperform the others when it comes to the detection of rare cell types:</p>
+<p>This signature is optimized so that the genes selected are the ones
+that help to discriminate across cell types.</p>
+<p>The signature is now used for the deconvolution of the bulk RNAseq,
+which is performed with the <code>omnideconv</code> function
+<code>deconvolute</code>. DWLS computes the cell fractions performing
+one of Ordinary Least Squares (OLS) Regression, Support Vector
+Regression (SVR) or the Dampened Weighted Least Squares Regression
+(DWLS) that was introduced with the method. This last regression method
+is shown to outperform the others when it comes to the detection of rare
+cell types:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">deconvolution.results.dwls</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span>bulk_gene_expression <span class="op">=</span> <span class="va">bulk.data</span>,</span>
 <span>                                          signature <span class="op">=</span> <span class="va">signature.matrix.dwls</span>,</span>
 <span>                                          method<span class="op">=</span><span class="st">'dwls'</span>,</span>
 <span>                                          dwls_submethod <span class="op">=</span> <span class="st">'DampenedWLS'</span><span class="op">)</span></span></code></pre></div>
-<p>We will now obtain, for every sample, a set of cell type fractions for each cell type that was included in the provided single cell dataset.</p>
+<p>We will now obtain, for every sample, a set of cell type fractions
+for each cell type that was included in the provided single cell
+dataset.</p>
 <table style="width:100%;" class="table">
 <caption>Cell type fractions obtained by DWLS</caption>
 <colgroup>
@@ -689,13 +776,17 @@ We will need to download and unzip the datasets (<code>GSE176078_Wu_etal_2021_BR
 </tr>
 </tbody>
 </table>
-<p>We can also visualise the results as a barplot trough the built-in <code>plot_deconvolution</code> function</p>
+<p>We can also visualise the results as a barplot trough the built-in
+<code>plot_deconvolution</code> function</p>
 <pre><code><span><span class="co">#&gt; Error in path.expand(path): invalid 'path' argument</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="deconvolution-with-bayesprism">6.2 Deconvolution with BayesPrism<a class="anchor" aria-label="anchor" href="#deconvolution-with-bayesprism"></a>
 </h3>
-<p>The third method we will use is <a href="https://github.com/Danko-Lab/BayesPrism" class="external-link">BayesPrism</a> <span class="citation">(Chu et al. <a href="#ref-Chu2022" role="doc-biblioref">2022</a>)</span>. This method is based on a Bayesian framework and models the transcriptomic expression observed in the scRNA-seq dataset. It then uses this information to dissect te bulk RNA-seq.</p>
+<p>The third method we will use is <a href="https://github.com/Danko-Lab/BayesPrism" class="external-link">BayesPrism</a> <span class="citation">(<a href="#ref-Chu2022">Chu et al. 2022</a>)</span>.
+This method is based on a Bayesian framework and models the
+transcriptomic expression observed in the scRNA-seq dataset. It then
+uses this information to dissect te bulk RNA-seq.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># BayesPrism deconvolution</span></span>
 <span></span>
@@ -714,12 +805,24 @@ We will need to download and unzip the datasets (<code>GSE176078_Wu_etal_2021_BR
 <div class="section level2">
 <h2 id="deconvolution-of-the-bulk-data-at-a-lower-resolution">7. Deconvolution of the bulk data at a lower resolution<a class="anchor" aria-label="anchor" href="#deconvolution-of-the-bulk-data-at-a-lower-resolution"></a>
 </h2>
-<p>The considered single-cell breast cancer dataset includes cell-type annotations at three levels of resolution: <code>celltype_major</code>, <code>celltype_minor</code>, and <code>celltype_subset</code>, which distinguish 9, 29, and 58 cell types respectively. The different cell-type annotations can be accessed with:</p>
+<p>The considered single-cell breast cancer dataset includes cell-type
+annotations at three levels of resolution: <code>celltype_major</code>,
+<code>celltype_minor</code>, and <code>celltype_subset</code>, which
+distinguish 9, 29, and 58 cell types respectively. The different
+cell-type annotations can be accessed with:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">single.cell.data</span><span class="op">$</span><span class="va">celltype_major</span>      <span class="co"># Major annotation</span></span>
 <span><span class="va">single.cell.data</span><span class="op">$</span><span class="va">celltype_minor</span>      <span class="co"># Minor annotation</span></span>
 <span><span class="va">single.cell.data</span><span class="op">$</span><span class="va">celltype_subset</span>     <span class="co"># Subset annotation</span></span></code></pre></div>
-<p>These additional annotations provide a cell-type classification at a finer resolution. For instance, at the <code>celltype_major</code> level, we only have the T cell population, while at the <code>celltype_minor</code> level, we can distinguish between CD4+ and CD8+ T cells. In the following, we will again perform deconvolution analysis with DWLS but, this time, using the <code>celltype_minor</code> information. We will subsample the dataset as before, this time considering the second level of resolution for the cell types, and extract the objects needed for deconvolution.</p>
+<p>These additional annotations provide a cell-type classification at a
+finer resolution. For instance, at the <code>celltype_major</code>
+level, we only have the T cell population, while at the
+<code>celltype_minor</code> level, we can distinguish between CD4+ and
+CD8+ T cells. In the following, we will again perform deconvolution
+analysis with DWLS but, this time, using the <code>celltype_minor</code>
+information. We will subsample the dataset as before, this time
+considering the second level of resolution for the cell types, and
+extract the objects needed for deconvolution.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">max_cells_per_celltype</span> <span class="op">=</span> <span class="fl">200</span></span>
 <span></span>
@@ -737,7 +840,8 @@ We will need to download and unzip the datasets (<code>GSE176078_Wu_etal_2021_BR
 <span></span>
 <span><span class="va">single.cell.data.sampled</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">single.cell.data</span>, cells <span class="op">=</span> <span class="va">sampled.metadata</span><span class="op">$</span><span class="va">barcode</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
-<caption>Number of cells per cell type (minor resolution) after subsampling</caption>
+<caption>Number of cells per cell type (minor resolution) after
+subsampling</caption>
 <thead><tr class="header">
 <th align="left">celltype_minor</th>
 <th align="right">number_cells</th>
@@ -884,7 +988,11 @@ We will need to download and unzip the datasets (<code>GSE176078_Wu_etal_2021_BR
 <div class="section level2">
 <h2 id="comparison-of-cell-fractions-across-conditions">8. Comparison of cell fractions across conditions<a class="anchor" aria-label="anchor" href="#comparison-of-cell-fractions-across-conditions"></a>
 </h2>
-<p>We can consider as well the metadata provided with the original paper, which include patient’s data, cancer subtype information and treatment details. We can first harmonize the sample names, and then combine all this information with the deconvolution results in one dataframe.</p>
+<p>We can consider as well the metadata provided with the original
+paper, which include patient’s data, cancer subtype information and
+treatment details. We can first harmonize the sample names, and then
+combine all this information with the deconvolution results in one
+dataframe.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">patient.metadata</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span><span class="op">(</span><span class="st">"C:/Users/c1041161/book_chapter/41588_2021_911_MOESM4_ESM.xlsx"</span>, sheet <span class="op">=</span> <span class="fl">1</span>, skip <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="va">.</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">11</span>, <span class="fl">12</span><span class="op">)</span><span class="op">)</span></span>
@@ -897,58 +1005,115 @@ We will need to download and unzip the datasets (<code>GSE176078_Wu_etal_2021_BR
 <span>  <span class="fu">gather</span><span class="op">(</span><span class="va">.</span>, key<span class="op">=</span><span class="st">'celltype'</span>, value<span class="op">=</span><span class="st">'cell_fraction'</span>, <span class="op">-</span><span class="va">Sample</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">left_join</span><span class="op">(</span><span class="va">.</span>, <span class="va">patient.metadata</span><span class="op">)</span></span></code></pre></div>
 <p>Each condition has a different number of samples:</p>
-<p>We can visualize the estimated cell fractions across samples with a boxplot, and group the results either by IHC subtype or by treatment status</p>
-<div class="figure">
-<img src="figure/unnamed-chunk-27-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-27</p>
+<p>We can visualize the estimated cell fractions across samples with a
+boxplot, and group the results either by IHC subtype or by treatment
+status</p>
+<div class="float">
+<img src="figure/unnamed-chunk-27-1.png" alt="plot of chunk unnamed-chunk-27"><div class="figcaption">plot of chunk unnamed-chunk-27</div>
 </div>
-<p>HER2-positive samples are enriched in T cells, while the ER-positive and triple negative breast cancer (TNBC) samples show an enrichment in cancer and normal epithelial cells, respectively. The patient metadata includes information about eventual treatments undergone by the patients. We can see that 5 out of the 24 patients were treated with Neoadjuvant and/or Paclitaxel, while the other 19 were untreated. We can therefore visualize the distribution of cell fractions across treated and untreated patients</p>
-<div class="figure">
-<img src="figure/unnamed-chunk-28-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-28</p>
+<p>HER2-positive samples are enriched in T cells, while the ER-positive
+and triple negative breast cancer (TNBC) samples show an enrichment in
+cancer and normal epithelial cells, respectively. The patient metadata
+includes information about eventual treatments undergone by the
+patients. We can see that 5 out of the 24 patients were treated with
+Neoadjuvant and/or Paclitaxel, while the other 19 were untreated. We can
+therefore visualize the distribution of cell fractions across treated
+and untreated patients</p>
+<div class="float">
+<img src="figure/unnamed-chunk-28-1.png" alt="plot of chunk unnamed-chunk-28"><div class="figcaption">plot of chunk unnamed-chunk-28</div>
 </div>
-<p>The major differences in this case are the enrichment of the CAFs and normal epithelial cells in the treated samples, as opposed to the cancer epithelial cells and B cells which have a higher median cell fraction in the untreated samples.</p>
-<p>As mentioned before, with the lower level of annotations we can identify additional cell types, such as CD4+/CD8+ subtypes, Fibroblasts and cancer cells. We can therefore visualize the estimated cell fractions in a boxplot, focusing in particular on the CD4+ and CD8+ T-cell subtypes.</p>
-<div class="figure">
-<img src="figure/unnamed-chunk-29-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-29</p>
+<p>The major differences in this case are the enrichment of the CAFs and
+normal epithelial cells in the treated samples, as opposed to the cancer
+epithelial cells and B cells which have a higher median cell fraction in
+the untreated samples.</p>
+<p>As mentioned before, with the lower level of annotations we can
+identify additional cell types, such as CD4+/CD8+ subtypes, Fibroblasts
+and cancer cells. We can therefore visualize the estimated cell
+fractions in a boxplot, focusing in particular on the CD4+ and CD8+
+T-cell subtypes.</p>
+<div class="float">
+<img src="figure/unnamed-chunk-29-1.png" alt="plot of chunk unnamed-chunk-29"><div class="figcaption">plot of chunk unnamed-chunk-29</div>
 </div>
-<p>The estimates for the CD8+ T cells seem to be very low for all samples. On the other hand, in the HER2/ER positive samples the cell fractions estimated for the CD4+ T cells seem to be significantly higher than in the other subtypes. The estimates for the CD8+ T cells are close to zero for almost every sample, with very low fractions detected for the HER2+/ER+ ones.</p>
-<p>Similarly, we can visualize the distribution of the estimates for the cancer associated fibroblasts (CAFs), respectively the myoblastic CAFs (myCAF) and the bone marrow derived inflammatory CAFs (MSC iCAF).</p>
-<div class="figure">
-<img src="figure/unnamed-chunk-30-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-30</p>
+<p>The estimates for the CD8+ T cells seem to be very low for all
+samples. On the other hand, in the HER2/ER positive samples the cell
+fractions estimated for the CD4+ T cells seem to be significantly higher
+than in the other subtypes. The estimates for the CD8+ T cells are close
+to zero for almost every sample, with very low fractions detected for
+the HER2+/ER+ ones.</p>
+<p>Similarly, we can visualize the distribution of the estimates for the
+cancer associated fibroblasts (CAFs), respectively the myoblastic CAFs
+(myCAF) and the bone marrow derived inflammatory CAFs (MSC iCAF).</p>
+<div class="float">
+<img src="figure/unnamed-chunk-30-1.png" alt="plot of chunk unnamed-chunk-30"><div class="figcaption">plot of chunk unnamed-chunk-30</div>
 </div>
-<p>Here we can notice that, while the myoblastic CAFs have a comparable median value, the MSC CAFs have higher infiltration in the samples characterized as HER2+/ER+ subtype.</p>
-<p>Finally, we can visualize the distribution of the different cancer cells molecular subtypes that were described by the authors.</p>
-<div class="figure">
-<img src="figure/unnamed-chunk-31-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-31</p>
+<p>Here we can notice that, while the myoblastic CAFs have a comparable
+median value, the MSC CAFs have higher infiltration in the samples
+characterized as HER2+/ER+ subtype.</p>
+<p>Finally, we can visualize the distribution of the different cancer
+cells molecular subtypes that were described by the authors.</p>
+<div class="float">
+<img src="figure/unnamed-chunk-31-1.png" alt="plot of chunk unnamed-chunk-31"><div class="figcaption">plot of chunk unnamed-chunk-31</div>
 </div>
-<p>We can see that the HER2+ shows an overrepresentation of the cancer cells described as HER2-like by the authors. Similarly, the ER+ samples show higher fractions of Luminal B cancer cells. These findings on bulk RNA-seq are concordant with the subtypings that the authors described on the single cell RNA-seq (‘Results - scSubtype’).</p>
+<p>We can see that the HER2+ shows an overrepresentation of the cancer
+cells described as HER2-like by the authors. Similarly, the ER+ samples
+show higher fractions of Luminal B cancer cells. These findings on bulk
+RNA-seq are concordant with the subtypings that the authors described on
+the single cell RNA-seq (‘Results - scSubtype’).</p>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references hanging-indent">
-<div id="ref-Chu2022">
-<p>Chu, Tinyi, Zhong Wang, Dana Pe’er, and Charles G. Danko. 2022. “Cell Type and Gene Expression Deconvolution with Bayesprism Enables Bayesian Integrative Analysis Across Bulk and Single-Cell Rna Sequencing in Oncology.” <em>Nature Cancer</em> 3 (4): 505–17. <a href="https://doi.org/10.1038/s43018-022-00356-3" class="external-link">https://doi.org/10.1038/s43018-022-00356-3</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-Chu2022" class="csl-entry">
+Chu, Tinyi, Zhong Wang, Dana Pe’er, and Charles G. Danko. 2022.
+<span>“Cell Type and Gene Expression Deconvolution with BayesPrism
+Enables Bayesian Integrative Analysis Across Bulk and Single-Cell RNA
+Sequencing in Oncology.”</span> <em>Nature Cancer</em> 3 (4): 505–17. <a href="https://doi.org/10.1038/s43018-022-00356-3" class="external-link">https://doi.org/10.1038/s43018-022-00356-3</a>.
 </div>
-<div id="ref-Finak2015">
-<p>Finak, Greg, Andrew McDavid, Masanao Yajima, Jingyuan Deng, Vivian Gersuk, Alex K. Shalek, Chloe K. Slichter, et al. 2015. “MAST: A Flexible Statistical Framework for Assessing Transcriptional Changes and Characterizing Heterogeneity in Single-Cell Rna Sequencing Data.” <em>Genome Biology</em> 16 (1). <a href="https://doi.org/10.1186/s13059-015-0844-5" class="external-link">https://doi.org/10.1186/s13059-015-0844-5</a>.</p>
+<div id="ref-Finak2015" class="csl-entry">
+Finak, Greg, Andrew McDavid, Masanao Yajima, Jingyuan Deng, Vivian
+Gersuk, Alex K. Shalek, Chloe K. Slichter, et al. 2015. <span>“MAST: A
+Flexible Statistical Framework for Assessing Transcriptional Changes and
+Characterizing Heterogeneity in Single-Cell RNA Sequencing Data.”</span>
+<em>Genome Biology</em> 16 (1). <a href="https://doi.org/10.1186/s13059-015-0844-5" class="external-link">https://doi.org/10.1186/s13059-015-0844-5</a>.
 </div>
-<div id="ref-Hao2023">
-<p>Hao, Yuhan, Tim Stuart, Madeline H. Kowalski, Saket Choudhary, Paul Hoffman, Austin Hartman, Avi Srivastava, et al. 2023. “Dictionary Learning for Integrative, Multimodal and Scalable Single-Cell Analysis.” <em>Nature Biotechnology</em> 42 (2): 293–304. <a href="https://doi.org/10.1038/s41587-023-01767-y" class="external-link">https://doi.org/10.1038/s41587-023-01767-y</a>.</p>
+<div id="ref-Hao2023" class="csl-entry">
+Hao, Yuhan, Tim Stuart, Madeline H. Kowalski, Saket Choudhary, Paul
+Hoffman, Austin Hartman, Avi Srivastava, et al. 2023. <span>“Dictionary
+Learning for Integrative, Multimodal and Scalable Single-Cell
+Analysis.”</span> <em>Nature Biotechnology</em> 42 (2): 293–304. <a href="https://doi.org/10.1038/s41587-023-01767-y" class="external-link">https://doi.org/10.1038/s41587-023-01767-y</a>.
 </div>
-<div id="ref-Heumos2023">
-<p>Heumos, Lukas, Anna C. Schaar, Christopher Lance, Anastasia Litinetskaya, Felix Drost, Luke Zappia, Malte D. Lücken, et al. 2023. “Best Practices for Single-Cell Analysis Across Modalities.” <em>Nature Reviews Genetics</em> 24 (8): 550–72. <a href="https://doi.org/10.1038/s41576-023-00586-w" class="external-link">https://doi.org/10.1038/s41576-023-00586-w</a>.</p>
+<div id="ref-Heumos2023" class="csl-entry">
+Heumos, Lukas, Anna C. Schaar, Christopher Lance, Anastasia
+Litinetskaya, Felix Drost, Luke Zappia, Malte D. Lücken, et al. 2023.
+<span>“Best Practices for Single-Cell Analysis Across
+Modalities.”</span> <em>Nature Reviews Genetics</em> 24 (8): 550–72. <a href="https://doi.org/10.1038/s41576-023-00586-w" class="external-link">https://doi.org/10.1038/s41576-023-00586-w</a>.
 </div>
-<div id="ref-McDavid2012">
-<p>McDavid, Andrew, Greg Finak, Pratip K. Chattopadyay, Maria Dominguez, Laurie Lamoreaux, Steven S. Ma, Mario Roederer, and Raphael Gottardo. 2012. “Data Exploration, Quality Control and Testing in Single-Cell qPCR-Based Gene Expression Experiments.” <em>Bioinformatics</em> 29 (4): 461–67. <a href="https://doi.org/10.1093/bioinformatics/bts714" class="external-link">https://doi.org/10.1093/bioinformatics/bts714</a>.</p>
+<div id="ref-McDavid2012" class="csl-entry">
+McDavid, Andrew, Greg Finak, Pratip K. Chattopadyay, Maria Dominguez,
+Laurie Lamoreaux, Steven S. Ma, Mario Roederer, and Raphael Gottardo.
+2012. <span>“Data Exploration, Quality Control and Testing in
+Single-Cell qPCR-Based Gene Expression Experiments.”</span>
+<em>Bioinformatics</em> 29 (4): 461–67. <a href="https://doi.org/10.1093/bioinformatics/bts714" class="external-link">https://doi.org/10.1093/bioinformatics/bts714</a>.
 </div>
-<div id="ref-Nault2022">
-<p>Nault, Rance, Satabdi Saha, Sudin Bhattacharya, Jack Dodson, Samiran Sinha, Tapabrata Maiti, and Tim Zacharewski. 2022. “Benchmarking of a Bayesian Single Cell Rnaseq Differential Gene Expression Test for Dose–Response Study Designs.” <em>Nucleic Acids Research</em> 50 (8): e48–e48. <a href="https://doi.org/10.1093/nar/gkac019" class="external-link">https://doi.org/10.1093/nar/gkac019</a>.</p>
+<div id="ref-Nault2022" class="csl-entry">
+Nault, Rance, Satabdi Saha, Sudin Bhattacharya, Jack Dodson, Samiran
+Sinha, Tapabrata Maiti, and Tim Zacharewski. 2022. <span>“Benchmarking
+of a Bayesian Single Cell RNAseq Differential Gene Expression Test for
+Dose–Response Study Designs.”</span> <em>Nucleic Acids Research</em> 50
+(8): e48–48. <a href="https://doi.org/10.1093/nar/gkac019" class="external-link">https://doi.org/10.1093/nar/gkac019</a>.
 </div>
-<div id="ref-Tsoucas2019">
-<p>Tsoucas, Daphne, Rui Dong, Haide Chen, Qian Zhu, Guoji Guo, and Guo-Cheng Yuan. 2019. “Accurate Estimation of Cell-Type Composition from Gene Expression Data.” <em>Nature Communications</em> 10 (1). <a href="https://doi.org/10.1038/s41467-019-10802-z" class="external-link">https://doi.org/10.1038/s41467-019-10802-z</a>.</p>
+<div id="ref-Tsoucas2019" class="csl-entry">
+Tsoucas, Daphne, Rui Dong, Haide Chen, Qian Zhu, Guoji Guo, and
+Guo-Cheng Yuan. 2019. <span>“Accurate Estimation of Cell-Type
+Composition from Gene Expression Data.”</span> <em>Nature
+Communications</em> 10 (1). <a href="https://doi.org/10.1038/s41467-019-10802-z" class="external-link">https://doi.org/10.1038/s41467-019-10802-z</a>.
 </div>
-<div id="ref-Wu2021">
-<p>Wu, Sunny Z., Ghamdan Al-Eryani, Daniel Lee Roden, Simon Junankar, Kate Harvey, Alma Andersson, Aatish Thennavan, et al. 2021. “A Single-Cell and Spatially Resolved Atlas of Human Breast Cancers.” <em>Nature Genetics</em> 53 (9): 1334–47. <a href="https://doi.org/10.1038/s41588-021-00911-1" class="external-link">https://doi.org/10.1038/s41588-021-00911-1</a>.</p>
+<div id="ref-Wu2021" class="csl-entry">
+Wu, Sunny Z., Ghamdan Al-Eryani, Daniel Lee Roden, Simon Junankar, Kate
+Harvey, Alma Andersson, Aatish Thennavan, et al. 2021. <span>“A
+Single-Cell and Spatially Resolved Atlas of Human Breast
+Cancers.”</span> <em>Nature Genetics</em> 53 (9): 1334–47. <a href="https://doi.org/10.1038/s41588-021-00911-1" class="external-link">https://doi.org/10.1038/s41588-021-00911-1</a>.
 </div>
 </div>
 </div>

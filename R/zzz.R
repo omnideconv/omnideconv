@@ -24,7 +24,7 @@ NULL
 
   # locate the environment path
   paths <- reticulate::conda_list()
-  path <- paths[[paths$name == "r-omnideconv", 2]]
+  path <- paths[paths$name == "r-omnideconv", 2][[1]]
 
 
   # Normalize and adjust the path for windows if necessary

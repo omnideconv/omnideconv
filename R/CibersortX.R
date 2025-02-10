@@ -385,7 +385,7 @@ create_container_command <- function(in_dir, out_dir,
   } else {
     base <- paste0(
       "apptainer exec --no-home -c -B ", in_dir,
-      "/:/src/data -B ", in_dir, "/:/src/outdir ",
+      "/:/src/data -B ", out_dir, "/:/src/outdir ",
       apptainer_container_path, " /src/CIBERSORTxFractions --single_cell TRUE"
     )
   }

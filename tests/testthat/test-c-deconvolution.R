@@ -52,6 +52,61 @@ marker_genes <- system.file("small_test_data", "marker_genes_small.txt",
 # cell_annotations_small <- readr::read_lines("small_test_data", "cell_annotations_small.txt")
 # batch_ids_small <- readr::read_lines("small_test_data", "batch_ids_small.txt")
 
+test_that("BayesPrism deconvolution works", {
+  set.seed(123)
+  deconvolution <- deconvolute(
+    bulk_gene_expression = bulk_small, NULL,
+    method = "bayesprism",
+    single_cell_object = sc_object_small,
+    cell_type_annotations = cell_annotations_small
+  )
+  expect_equal(
+    info = "deconvolution contains same samples as in bulk (not same order)",
+    object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
+  )
+
+
+  check_result <- system.file("test_results", "bayesprism_result_small.csv",
+                              package = "omnideconv", mustWork = TRUE
+  ) %>%
+    read.csv(.,
+             row.names = 1,
+             check.names = FALSE,
+    ) %>%
+    as.matrix(.)
+  expect_equal(
+    info = "deconvolution result is correct", object = deconvolution[, sort(colnames(deconvolution))],
+    expected = check_result[, sort(colnames(check_result))], tolerance = 1e-1
+  )
+})
+
+test_that("BayesPrism deconvolution works with multi-threading", {
+  set.seed(123)
+  deconvolution <- deconvolute_bayesprism(
+    bulk_gene_expression = bulk_small,
+    single_cell_object = sc_object_small,
+    cell_type_annotations = cell_annotations_small,
+    n_cores = 2
+  )$theta
+  expect_equal(
+    info = "deconvolution contains same samples as in bulk (not same order)",
+    object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
+  )
+
+
+  check_result <- system.file("test_results", "bayesprism_result_small.csv",
+                              package = "omnideconv", mustWork = TRUE
+  ) %>%
+    read.csv(.,
+             row.names = 1,
+             check.names = FALSE,
+    ) %>%
+    as.matrix(.)
+  expect_equal(
+    info = "deconvolution result is correct", object = deconvolution[, sort(colnames(deconvolution))],
+    expected = check_result[, sort(colnames(check_result))], tolerance = 1e-1
+  )
+})
 
 test_that("Bisque deconvolution works", {
   bisque_model <- system.file("test_models/bisque_model_small.csv",
@@ -634,30 +689,4 @@ test_that("CDSeq deconvolution works", {
   )
 })
 
-test_that("BayesPrism deconvolution works", {
-  set.seed(123)
-  deconvolution <- deconvolute(
-    bulk_gene_expression = bulk_small, NULL,
-    method = "bayesprism",
-    single_cell_object = sc_object_small,
-    cell_type_annotations = cell_annotations_small
-  )
-  expect_equal(
-    info = "deconvolution contains same samples as in bulk (not same order)",
-    object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
-  )
 
-
-  check_result <- system.file("test_results", "bayesprism_result_small.csv",
-    package = "omnideconv", mustWork = TRUE
-  ) %>%
-    read.csv(.,
-      row.names = 1,
-      check.names = FALSE,
-    ) %>%
-    as.matrix(.)
-  expect_equal(
-    info = "deconvolution result is correct", object = deconvolution[, sort(colnames(deconvolution))],
-    expected = check_result[, sort(colnames(check_result))], tolerance = 1e-1
-  )
-})

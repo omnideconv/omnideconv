@@ -73,11 +73,11 @@ jobs:
       #    - name: Install NMF
       #      run: Rscript -e "pak::pkg_install('renozao/NMF@devel')"
 
-      - name: Install BayesPrism
-        run: Rscript -e "pak::pkg_install('omnideconv/BayesPrism')"
-
       - name: Install Bisque
         run: Rscript -e "pak::pkg_install('BisqueRNA')"
+        
+      - name: Install BayesPrism
+        run: Rscript -e "pak::pkg_install('omnideconv/BayesPrism')"
 
       - name: Install Bseq-sc
         run: Rscript -e "pak::pkg_install('omnideconv/bseqsc')"

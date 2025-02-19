@@ -75,7 +75,7 @@ jobs:
 
       - name: Install Bisque
         run: Rscript -e "pak::pkg_install('BisqueRNA')"
-        
+
       - name: Install BayesPrism
         run: Rscript -e "pak::pkg_install('omnideconv/BayesPrism')"
 

@@ -2,9 +2,9 @@
 % Please edit documentation in R/helper.R
 \name{check_container}
 \alias{check_container}
-\title{Checks wether docker/singularity are available and can be used}
+\title{Checks wether docker/apptainer are available and can be used}
 \usage{
-check_container(container = c("docker", "singularity"))
+check_container(container = c("docker", "apptainer"))
 }
 \arguments{
 \item{container}{The container for which the commands are tested}
@@ -13,5 +13,5 @@ check_container(container = c("docker", "singularity"))
 A boolean value
 }
 \description{
-Checks wether docker/singularity are available and can be used
+Checks wether docker/apptainer are available and can be used
 }

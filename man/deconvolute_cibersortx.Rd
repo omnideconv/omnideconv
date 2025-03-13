@@ -12,7 +12,7 @@ deconvolute_cibersortx(
   rmbatch_B_mode = FALSE,
   rmbatch_S_mode = FALSE,
   verbose = FALSE,
-  container = c("docker", "singularity"),
+  container = c("docker", "apptainer"),
   container_path = NULL,
   input_dir = NULL,
   output_dir = NULL,
@@ -44,9 +44,9 @@ as the samples in single_cell_object. (optional, only necessary if S- or B-mode 
 \item{verbose}{Whether to produce an output on the console.}
 
 \item{container}{The container used to run the method. The possibilities are 'docker' (default) or
-'singularity'}
+'apptainer'}
 
-\item{container_path}{the path where the singularity .sif file is/will be stored (optional)}
+\item{container_path}{the path where the apptainer .sif file is/will be stored (optional)}
 
 \item{input_dir}{The folder in which the input files can be found (or are created in). Default
 is a temporary directory.}

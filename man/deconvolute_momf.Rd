@@ -30,7 +30,7 @@ Itakura-Saito "IS". Defaults to "KL"}
 \item{...}{additional parameters}
 }
 \value{
-cell proportion matrix
+results object of the MOMF tool. Cell-type proportions can be accessed with $cell.prop
 }
 \description{
 Deconvolution Analysis using MOMF (via Nonnegative Factorization)

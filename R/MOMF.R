@@ -41,7 +41,7 @@ build_model_momf <- function(single_cell_object, cell_type_annotations, bulk_gen
 #' @param verbose Whether to produce an output on the console.
 #' @param ... additional parameters
 #'
-#' @return cell proportion matrix
+#' @return results object of the MOMF tool. Cell-type proportions can be accessed with $cell.prop
 #' @export
 #'
 deconvolute_momf <- function(bulk_gene_expression, signature, single_cell_object,

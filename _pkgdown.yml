@@ -41,6 +41,7 @@ reference:
     contents:
       - set_cibersortx_credentials
       - bseqsc_config
+      - check_container
   - title: Datasets
     desc: List of datasets provided by the package.
     contents:
@@ -77,8 +78,7 @@ reference:
       - create_container_command
       - deconvolute_cdseq
       - deescape_special_chars
-      - check_container
-      - setup_singularity_container
+      - setup_apptainer_container
       - escape_special_chars
       - get_cell_fractions_options
       - get_method_options
@@ -90,6 +90,7 @@ reference:
       - install_scaden
       - matrix_to_singlecellexperiment
       - normalize_deconv_results
+      - omnideconvstartup
       - python_available
       - read_anndata
       - required_packages

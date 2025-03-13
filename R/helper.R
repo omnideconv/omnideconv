@@ -15,18 +15,19 @@ verbose_wrapper <- function(verbose) {
 }
 
 
-#' Checks wether docker/singularity are available and can be used
+#' Checks wether docker/apptainer are available and can be used
 #' @param container The container for which the commands are tested
 #' @return A boolean value
+#' @export
 #'
-check_container <- function(container = c("docker", "singularity")) {
+check_container <- function(container = c("docker", "apptainer")) {
   if (container == "docker") {
     command <- "docker"
   } else {
-    command <- "singularity instance list"
+    command <- "apptainer instance list"
   }
 
-  container.available <- (system(command, ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
+  container.available <- (system(command, ignore.stdout = FALSE, ignore.stderr = TRUE) == 0)
 
   if (!container.available) {
     message(paste0(
@@ -40,7 +41,7 @@ check_container <- function(container = c("docker", "singularity")) {
     command <- "docker ps"
   }
 
-  container.connectable <- (system(command, ignore.stdout = TRUE, ignore.stderr = TRUE) == 0)
+  container.connectable <- (system(command, ignore.stdout = FALSE, ignore.stderr = TRUE) == 0)
 
   if (!container.connectable) {
     message(paste0(
@@ -56,17 +57,17 @@ check_container <- function(container = c("docker", "singularity")) {
 
 
 
-#' Setup of the singularity container
-#' @param container_path the path where the singularity .sif file should be stored (optional)
+#' Setup of the apptainer container
+#' @param container_path the path where the apptainer .sif file should be stored (optional)
 #'   If the file 'fractions_latest.sif' is already present, it will be used
 #'
-#' @return the path to the singularity container
+#' @return the path to the apptainer container
 #'
-setup_singularity_container <- function(container_path = NULL) {
+setup_apptainer_container <- function(container_path = NULL) {
   if (is.null(container_path)) {
     container_path <- file.path(path.expand("~"), ".local/share/omnideconv")
     dir.create(container_path, showWarnings = FALSE)
-    message(paste0("singularity container written to `", container_path, "/cibersortx_fractions.sif`.
+    message(paste0("apptainer container written to `", container_path, "/cibersortx_fractions.sif`.
             Set the `container_path` directory to choose a different location"))
   }
 
@@ -75,7 +76,7 @@ setup_singularity_container <- function(container_path = NULL) {
   container_file <- file.path(container_path, "fractions_latest.sif")
 
   if (!file.exists(container_file)) {
-    system(paste0("singularity pull --dir ", container_path, " docker://cibersortx/fractions"))
+    system(paste0("apptainer pull --dir ", container_path, " docker://cibersortx/fractions"))
   }
 
   return(container_file)
@@ -207,23 +208,27 @@ init_python <- function(python = NULL) {
   if (!reticulate::py_available()) {
     if (is.null(python)) {
       if (!dir.exists(reticulate::miniconda_path())) {
-        message("Setting python version in miniconda to be 3.9")
-        Sys.setenv(RETICULATE_MINICONDA_PYTHON_VERSION = 3.9)
+        message("Setting python version in miniconda to be 3.8")
+        Sys.setenv(RETICULATE_MINICONDA_PYTHON_VERSION = 3.8)
         message("Setting up miniconda environment..")
         suppressMessages(reticulate::install_miniconda())
       }
-      reticulate::use_miniconda(condaenv = "r-reticulate", required = TRUE)
-      config <- reticulate::py_config()
-      if (!python_available()) {
-        message("Python not available")
-        print(config)
-        message(
-          "Please indicate your version of python calling init_python(python=your/python)"
-        )
+
+      if (!("r-omnideconv" %in% reticulate::conda_list()$name)) {
+        reticulate::conda_create(envname = "r-omnideconv")
       }
-    } else {
-      reticulate::use_python(python = python)
+      paths <- reticulate::conda_list()
+      path <- paths[paths$name == "r-omnideconv", 2]
+      if (.Platform$OS.type == "windows") {
+        path <- gsub("\\\\", "/", path)
+      }
+      path.bin <- gsub("/envs/omnideconv/python.exe", "/library/bin", path)
+      Sys.setenv(PATH = paste(path.bin, Sys.getenv()["PATH"], sep = ";"))
+      Sys.setenv(RETICULATE_PYTHON = path)
+
+      reticulate::use_miniconda(condaenv = "r-omnideconv", required = TRUE)
       reticulate::py_config()
+      reticulate::configure_environment(pkgname, force = TRUE)
     }
   }
 }

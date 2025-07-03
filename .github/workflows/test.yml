@@ -72,6 +72,8 @@ jobs:
 
       #    - name: Install NMF
       #      run: Rscript -e "pak::pkg_install('renozao/NMF@devel')"
+      - name: Install SCDC
+        run: Rscript -e "pak::pkg_install('omnideconv/SCDC')"
 
       - name: Install BayesPrism
         run: Rscript -e "pak::pkg_install('omnideconv/BayesPrism')"
@@ -93,9 +95,6 @@ jobs:
 
       - name: Install MOMF
         run: Rscript -e "pak::pkg_install('omnideconv/MOMF')"
-
-      - name: Install SCDC
-        run: Rscript -e "pak::pkg_install('omnideconv/SCDC')"
 
       - name: Install scBio
         run: Rscript -e "pak::pkg_install('amitfrish/scBio')"

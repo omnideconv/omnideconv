@@ -72,9 +72,8 @@ jobs:
 
       #    - name: Install NMF
       #      run: Rscript -e "pak::pkg_install('renozao/NMF@devel')"
-
-      - name: Install BayesPrism
-        run: Rscript -e "pak::pkg_install('omnideconv/BayesPrism')"
+      - name: Install SCDC
+        run: Rscript -e "pak::pkg_install('omnideconv/SCDC')"
 
       - name: Install Bisque
         run: Rscript -e "pak::pkg_install('cozygene/bisque')"
@@ -94,11 +93,11 @@ jobs:
       - name: Install MOMF
         run: Rscript -e "pak::pkg_install('omnideconv/MOMF')"
 
-      - name: Install SCDC
-        run: Rscript -e "pak::pkg_install('omnideconv/SCDC')"
-
       - name: Install scBio
         run: Rscript -e "pak::pkg_install('amitfrish/scBio')"
+
+      - name: Install BayesPrism
+        run: Rscript -e "pak::pkg_install('omnideconv/BayesPrism')"
 
       - uses: r-lib/actions/check-r-package@v2
         with:

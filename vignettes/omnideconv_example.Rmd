@@ -90,11 +90,14 @@ Table: Number of cells per cell type
 
 
 
-In order to remove low quality cells, we will follow the [best practices for single cell normalization](https://www.sc-best-practices.org/preprocessing_visualization/quality_control.html) [@Heumos2023]. We will perform quality control on each cell by considering metrics such as the number of total counts, the number of expressed features (genes), and the fraction of mitochondrial genes per cell. We will remove cells that have $MAD = median(|X_i - median(X)|)$, where 
+In order to remove low quality cells, we will follow the [best practices for single cell normalization](https://www.sc-best-practices.org/preprocessing_visualization/quality_control.html) [@Heumos2023]. We will perform quality control on each cell by considering metrics such as the number of total counts, the number of expressed features (genes), and the fraction of mitochondrial genes per cell. We remove cells whose value $X_i$ for a given metric $X$ lies outside ${median}(X) \pm n_{MAD} \times \mathrm{MAD}(X)$ 
 
-- $X_i$ is the respective metric of an observation $i$ (cell), for example the number of detected genes  
-- $MAD$ is the Mead Absolute Deviation, computed as $MAD = median(|X_i - median(X)|)$  
-- $n$  is set to 5 for the number of counts and expressed  features, and to 3 for the fraction of mitochondrial genes  
+where: 
+
+- $X_i$ is the respective metric value of an observation $i$ (cell), for example the number of detected genes  
+- $MAD$ is the Median Absolute Deviation, computed as $MAD = c \times \mathrm{median}\big(|X_i - \mathrm{median}(X)|\big)$ 
+- $c$ is equal to 1.4826 see [mad function in R](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/mad)
+- $n_{MAD}$  is set to 5 for the number of counts and expressed  features, and to 3 for the fraction of mitochondrial genes  
 
 In order to do this filtering, we will create a function to identify the outliers for each metric
 

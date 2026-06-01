@@ -17,7 +17,6 @@ markers_small <- list(marker_genes[1:9], marker_genes[10:14], marker_genes[15:20
 names(markers_small) <- sort(unique(cell_annotations_small))
 
 
-
 matrix_right_format <- sc_object_small
 # individual.ids and cell.types should be in the same order as in sample.ids
 sc_pheno <- data.frame(
@@ -112,8 +111,6 @@ colnames(all_counts_svr) <- gsub("_", " ", colnames(all_counts_svr))
 utils::write.csv(all_counts_dwls, "test_results/dwls_dwls_result_small.csv")
 utils::write.csv(all_counts_ols, "test_results/dwls_ols_result_small.csv")
 utils::write.csv(all_counts_svr, "test_results/dwls_svr_result_small.csv")
-
-
 
 
 ## CIBERSORTx
@@ -296,8 +293,6 @@ utils::write.csv(signature_bseqsc, "test_models/bseq_model_small.csv")
 # )
 # props$input_list$cdseq_prop
 # props$cdseq_prop_merged
-
-
 
 
 ## DWLS Stuff

@@ -410,8 +410,6 @@ deconvolute_autogenes <- function(single_cell_object, bulk_gene_expression, cell
 }
 
 
-
-
 #' Install AutoGeneS
 #'
 #' Install AutoGeneS into a previously defined python environment.

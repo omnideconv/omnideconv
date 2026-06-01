@@ -56,7 +56,6 @@ check_container <- function(container = c("docker", "apptainer")) {
 }
 
 
-
 #' Setup of the apptainer container
 #' @param container_path the path where the apptainer .sif file should be stored (optional)
 #'   If the file 'fractions_latest.sif' is already present, it will be used
@@ -81,7 +80,6 @@ setup_apptainer_container <- function(container_path = NULL) {
 
   return(container_file)
 }
-
 
 
 #' Removes special characters by substituting them with unique string which should not be used naturally

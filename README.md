@@ -46,6 +46,7 @@ The methods currently implemented in omnideconv are:
 - DWLS (“dwls”)
 - MOMF (“momf”)
 - MuSiC (“music”)
+- Rectangle (“rectangle”)
 - Scaden (“scaden”)
 - SCDC (“scdc”)
 
@@ -61,7 +62,7 @@ deconvolution <- omnideconv::deconvolute(bulk_gene_expression, method,
 
 ## Signature matrix/model building
 
-The methods AutoGeneS, BSeq-Sc, DWLS, CIBERSORTx, MOMF and Scaden first optimize their internal model, for example building a signature matrix, and then use this model to perform deconvolution. For these methods, the `build_model` function can be used. The obtained model can then be given in input to the `deconvolute` function, omitting the single cell data.
+The methods AutoGeneS, BSeq-sc, DWLS, CIBERSORTx, MOMF, Rectangle and Scaden first optimize their internal model, for example building a signature matrix, and then use this model to perform deconvolution. For these methods, the `build_model` function can be used. The obtained model can then be given in input to the `deconvolute` function, omitting the single cell data. Note: for Rectangle, `build_model` returns a path to a `.pkl` file rather than a matrix.
 
 ```r
 signature <- omnideconv::build_model(single_cell_object, cell_type_annotations,
@@ -90,6 +91,7 @@ authors recommendation
 | DWLS       | Counts                    | TPM                |
 | MOMF       | Counts                    | Counts             |
 | MuSiC      | Counts                    | TPM                |
+| Rectangle  | Counts                    | TPM                |
 | Scaden     | Counts                    | TPM                |
 | SCDC       | Counts                    | TPM                |
 
@@ -108,6 +110,9 @@ few exceptions:
   <https://cibersortx.stanford.edu/>
 - The CIBERSORT source code is required for BSeq-sc (see tutorial in
   ?omnideconv::bseqsc_config)
+- Rectangle requires Python 3.10 and runs in a separate conda environment
+  (`r-omnideconv-rectangle`). It is created automatically on first use, or
+  in advance with `omnideconv::install_rectangle_python()`
 
 ## Available methods, Licenses, Citations
 
@@ -131,5 +136,6 @@ cite both our package and the method(s) you are using.
 | [DWLS](https://bitbucket.org/yuanlab/dwls/src/master/) | free ([GPL](https://bitbucket.org/yuanlab/dwls/src/master/DESCRIPTION))                    | Tsoucas, D., Dong, R., Chen, H., Zhu, Q., Guo, G., & Yuan, G.-C. (2019). Accurate estimation of cell-type composition from gene expression data. Nature Communications, 10(1), 2975. <https://doi.org/10.1038/s41467-019-10802-z>                                                                                                                                                             |
 | [MOMF](https://github.com/sqsun/MOMF)                  | free ([GPL 3.0](https://github.com/sqsun/MOMF/blob/master/LICENSE.md))                     | Xifang Sun, Shiquan Sun, and Sheng Yang. An efficient and flexible method for deconvoluting bulk RNAseq data with single-cell RNAseq data, 2019, DOI: 10.5281/zenodo.3373980                                                                                                                                                                                                                  |
 | [MuSiC](https://github.com/xuranw/MuSiC/)              | free ([GPL 3.0](https://github.com/xuranw/MuSiC/blob/master/LICENSE))                      | Wang, X., Park, J., Susztak, K., Zhang, N. R., & Li, M. (2019). Bulk tissue cell type deconvolution with multi-subject single-cell expression reference. Nature Communications, 10(1), 380. <https://doi.org/10.1038/s41467-018-08023-x>                                                                                                                                                      |
+| [Rectangle](https://github.com/ComputationalBiomedicineGroup/Rectangle) | free for non-commercial use ([BSD-3-Clause OR commercial license](https://github.com/ComputationalBiomedicineGroup/Rectangle/blob/main/LICENSE)) | Eder, B. et al. Rectangle: Hierarchical deconvolution of bulk transcriptomics. <https://github.com/ComputationalBiomedicineGroup/Rectangle> |
 | [Scaden](https://github.com/KevinMenden/scaden)        | free ([MIT](https://github.com/KevinMenden/scaden/blob/master/LICENSE))                    | Menden, K., Marouf, M., Oller, S., Dalmia, A., Kloiber, K., Heutink, P., & Bonn, S. (n.d.). Deep-learning-based cell composition analysis from tissue expression profiles. <https://doi.org/10.1101/659227>                                                                                                                                                                                   |
 | [SCDC](https://github.com/meichendong/SCDC)            | ([MIT](https://github.com/meichendong/SCDC/blob/master/README.md))                         | Dong, M., Thennavan, A., Urrutia, E., Li, Y., Perou, C. M., Zou, F., & Jiang, Y. (2020). SCDC: bulk gene expression deconvolution by multiple single-cell RNA sequencing references. Briefings in Bioinformatics. <https://doi.org/10.1093/bib/bbz166>                                                                                                                                        |

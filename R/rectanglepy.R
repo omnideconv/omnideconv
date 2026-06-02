@@ -28,8 +28,10 @@ rectangle_checkload <- function() {
       stdout = FALSE, stderr = FALSE
     )
     if (ret != 0) {
-      stop("Failed to install rectanglepy into ", RECTANGLE_ENV,
-           ". Run install_rectangle_python() with verbose output for details.")
+      stop(
+        "Failed to install rectanglepy into ", RECTANGLE_ENV,
+        ". Run install_rectangle_python() with verbose output for details."
+      )
     }
   }
 }

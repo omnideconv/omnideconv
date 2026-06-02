@@ -634,6 +634,55 @@ test_that("CDSeq deconvolution works", {
   )
 })
 
+test_that("Rectangle deconvolution with pre-built signature works", {
+  model <- build_model(sc_object_small, cell_annotations_small,
+    method = "rectangle",
+    bulk_gene_expression = bulk_small,
+    optimize_cutoffs = FALSE,
+    n_cpus = 1
+  )
+  deconvolution <- deconvolute(bulk_small, model, method = "rectangle")
+  expect_equal(
+    info = "deconvolution contains same samples as in bulk (not same order)",
+    object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
+  )
+  expect_true(
+    info = "deconvolution result contains the known cell types as columns",
+    all(unique(cell_annotations_small) %in% colnames(deconvolution))
+  )
+  expect_true(
+    info = "all deconvolution values are between 0 and 1",
+    all(deconvolution >= 0) && all(deconvolution <= 1)
+  )
+  expect_equal(
+    info = "deconvolution result with one bulk sample throws no error",
+    object = nrow(deconvolute(bulk_small_one_sample, model, method = "rectangle")),
+    expected = 1
+  )
+})
+
+test_that("Rectangle deconvolution without signature works", {
+  deconvolution <- deconvolute(bulk_small, NULL,
+    method = "rectangle",
+    single_cell_object = sc_object_small,
+    cell_type_annotations = cell_annotations_small,
+    optimize_cutoffs = FALSE,
+    n_cpus = 1
+  )
+  expect_equal(
+    info = "deconvolution contains same samples as in bulk (not same order)",
+    object = sort(rownames(deconvolution)), expected = sort(colnames(bulk_small))
+  )
+  expect_true(
+    info = "deconvolution result contains the known cell types as columns",
+    all(unique(cell_annotations_small) %in% colnames(deconvolution))
+  )
+  expect_true(
+    info = "all deconvolution values are between 0 and 1",
+    all(deconvolution >= 0) && all(deconvolution <= 1)
+  )
+})
+
 test_that("BayesPrism deconvolution works", {
   set.seed(123)
   deconvolution <- deconvolute(

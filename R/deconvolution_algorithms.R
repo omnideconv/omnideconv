@@ -11,7 +11,7 @@
 deconvolution_methods <- c(
   "AutoGeneS" = "autogenes", "BayesPrism" = "bayesprism", "Bisque" = "bisque", "BSeq-sc" = "bseqsc",
   "CIBERSORTx" = "cibersortx", "CDSeq" = "cdseq", "CPM" = "cpm", "DWLS" = "dwls", "MOMF" = "momf",
-  "MuSiC" = "music", "Scaden" = "scaden", "SCDC" = "scdc"
+  "MuSiC" = "music", "Scaden" = "scaden", "SCDC" = "scdc", "Rectangle" = "rectangle"
 )
 
 
@@ -141,7 +141,10 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
     autogenes = build_model_autogenes(single_cell_object, cell_type_annotations,
       verbose = verbose, ...
     ),
-    bseqsc = build_model_bseqsc(single_cell_object, cell_type_annotations, markers, batch_ids, ...)
+    bseqsc = build_model_bseqsc(single_cell_object, cell_type_annotations, markers, batch_ids, ...),
+    rectangle = build_model_rectanglepy(single_cell_object, cell_type_annotations, bulk_gene_expression,
+      verbose = verbose, ...
+    )
   )
 
 
@@ -286,7 +289,7 @@ deconvolute <- function(bulk_gene_expression, model = NULL, method = deconvoluti
     )
   }
 
-  if (method %in% c("autogenes", "bseq-sc", "cibersortx", "dwls", "momf", "scaden") && is.null(model)) {
+  if (method %in% c("autogenes", "bseq-sc", "cibersortx", "dwls", "momf", "scaden", "rectangle") && is.null(model)) {
     if (verbose) {
       message(
         "A model was not provided, so it will be computed."
@@ -353,7 +356,10 @@ deconvolute <- function(bulk_gene_expression, model = NULL, method = deconvoluti
     bayesprism = deconvolute_bayesprism(
       bulk_gene_expression, single_cell_object, cell_type_annotations,
       ...
-    )$theta
+    )$theta,
+    rectangle = deconvolute_rectanglepy(bulk_gene_expression, model,
+      verbose = verbose, ...
+    )
   )
 
   if (!is.null(deconv)) {
@@ -384,7 +390,8 @@ required_packages <- list(
   "momf" = c("omnideconv/MOMF"),
   "music" = c("omnideconv/MuSiC"),
   "scaden" = c("reticulate"),
-  "scdc" = c("omnideconv/SCDC")
+  "scdc" = c("omnideconv/SCDC"),
+  "rectangle" = c("reticulate")
 )
 
 #' Checking and installing all dependencies for the specific methods

@@ -50,9 +50,9 @@ Defaults to NULL.}
 
 \item{...}{Additional parameters, passed to the algorithm used.}
 
-\item{signature}{(Optional) The signature matrix. A signature can be provided for certain methods.
-If NULL, the signature will be computed internally and will not be saved.
-If you wish to save the model/signature, use the 'build_model' function instead.}
+\item{signature}{(Optional) The signature matrix, or for Rectangle a path to the .pkl file
+returned by \code{\link[=build_model]{build_model()}}. If NULL, the signature will be computed internally and will
+not be saved. To reuse a signature, build it first with \code{\link[=build_model]{build_model()}}.}
 }
 \value{
 A matrix with the probabilities of each cell-type for each individual. Rows are

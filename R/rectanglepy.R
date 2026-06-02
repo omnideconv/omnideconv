@@ -1,13 +1,11 @@
 RECTANGLE_ENV <- "r-omnideconv-rectangle"
 
-#' Get the Python binary for the rectangle conda environment
-#'
+#' @noRd
 rectangle_python <- function() {
   reticulate::conda_python(RECTANGLE_ENV)
 }
 
-#' Checks and sets up the rectangle conda environment and rectanglepy package
-#'
+#' @noRd
 rectangle_checkload <- function() {
   if (!(RECTANGLE_ENV %in% reticulate::conda_list()$name)) {
     message("Creating ", RECTANGLE_ENV, " conda environment (Python 3.10)...")
@@ -42,6 +40,7 @@ rectangle_checkload <- function() {
 #' installs rectanglepy. This is called automatically on first use but can be
 #' run in advance to avoid the setup delay.
 #'
+#' @return Invisibly NULL. Called for its side effect of setting up the conda environment.
 #' @export
 install_rectangle_python <- function() {
   rectangle_checkload()

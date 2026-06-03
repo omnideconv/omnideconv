@@ -68,6 +68,7 @@ Remotes:
     omnideconv/MuSiC,
     CBMR-Single-Cell-Omics-Platform/SCOPfunctions
 biocViews:
+Config/Needs/website: readxl
 Config/testthat/edition: 2
 Encoding: UTF-8
 LazyData: true

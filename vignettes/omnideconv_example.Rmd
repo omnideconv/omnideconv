@@ -13,8 +13,6 @@ vignette: >
   %\VignetteIndexEntry{Deconvolution of the tumor microenvironment with omnideconv}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-pkgdown:
-  as_is: true
 ---
 
 ```{r setup, include=FALSE}
@@ -28,12 +26,13 @@ library(tibble)
 library(readxl)
 
 # Load pre-computed deconvolution results stored in vignette_files/
-deconvolution.results.dwls <- readRDS("vignette_files/deconvolution.results.dwls.rds")
-deconvolution.results.bayesprism <- readRDS("vignette_files/deconvolution.results.bayesprism.rds")
-deconvolution.results.dwls.minor <- readRDS("vignette_files/deconvolution.results.dwls.minor.rds")
+vf <- if (file.exists("vignettes/vignette_files")) "vignettes/vignette_files" else "vignette_files"
+deconvolution.results.dwls <- readRDS(file.path(vf, "deconvolution.results.dwls.rds"))
+deconvolution.results.bayesprism <- readRDS(file.path(vf, "deconvolution.results.bayesprism.rds"))
+deconvolution.results.dwls.minor <- readRDS(file.path(vf, "deconvolution.results.dwls.minor.rds"))
 
 # Load patient metadata (Wu et al. 2021 Supplementary Table 1)
-patient.metadata <- read_excel("vignette_files/41588_2021_911_MOESM4_ESM.xlsx",
+patient.metadata <- read_excel(file.path(vf, "41588_2021_911_MOESM4_ESM.xlsx"),
   sheet = 1, skip = 3
 ) %>%
   select(c(1, 4, 5, 11, 12))

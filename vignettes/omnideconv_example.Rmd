@@ -13,6 +13,8 @@ vignette: >
   %\VignetteIndexEntry{Deconvolution of the tumor microenvironment with omnideconv}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+pkgdown:
+  as_is: true
 ---
 
 ```{r setup, include=FALSE}

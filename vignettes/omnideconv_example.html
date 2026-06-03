@@ -16934,15 +16934,13 @@
                     height: i.outerHeight(!0),
                     float: i.css("float"),
                   },
-                  t = V("<div></div>")
-                    .addClass("ui-effects-wrapper")
-                    .css({
-                      fontSize: "100%",
-                      background: "transparent",
-                      border: "none",
-                      margin: 0,
-                      padding: 0,
-                    }),
+                  t = V("<div></div>").addClass("ui-effects-wrapper").css({
+                    fontSize: "100%",
+                    background: "transparent",
+                    border: "none",
+                    margin: 0,
+                    padding: 0,
+                  }),
                   e = { width: i.width(), height: i.height() },
                   n = document.activeElement;
                 try {
@@ -18303,14 +18301,11 @@
                         return 0 === parseInt(V(this).attr("tabIndex"), 10);
                       })
                       .attr("tabIndex", -1),
-                e
-                  .attr("aria-hidden", "false")
-                  .prev()
-                  .attr({
-                    "aria-selected": "true",
-                    "aria-expanded": "true",
-                    tabIndex: 0,
-                  }));
+                e.attr("aria-hidden", "false").prev().attr({
+                  "aria-selected": "true",
+                  "aria-expanded": "true",
+                  tabIndex: 0,
+                }));
             },
             _animate: function (t, i, e) {
               var s,
@@ -24339,14 +24334,12 @@
               e,
               i,
               s = this.options;
-            (this.element
-              .show()
-              .css({
-                width: "auto",
-                minHeight: 0,
-                maxHeight: "none",
-                height: 0,
-              }),
+            (this.element.show().css({
+              width: "auto",
+              minHeight: 0,
+              maxHeight: "none",
+              height: 0,
+            }),
               s.minWidth > s.width && (s.width = s.minWidth),
               (t = this.uiDialog
                 .css({ height: "auto", width: s.width })
@@ -27914,13 +27907,11 @@
             (this._setOptionDisabled(this.options.disabled),
               this._setupEvents(this.options.event),
               this._setupHeightStyle(this.options.heightStyle),
-              this.tabs
-                .not(this.active)
-                .attr({
-                  "aria-selected": "false",
-                  "aria-expanded": "false",
-                  tabIndex: -1,
-                }),
+              this.tabs.not(this.active).attr({
+                "aria-selected": "false",
+                "aria-expanded": "false",
+                tabIndex: -1,
+              }),
               this.panels
                 .not(this._getPanelForTab(this.active))
                 .hide()

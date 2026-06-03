@@ -154,6 +154,33 @@ test_that("Rectangle build model works", {
   expect_true(grepl("\\.pkl$", model), "model path has .pkl extension")
 })
 
+test_that("Rectangle build model respects model_path parameter", {
+  tmp_path <- tempfile(fileext = ".pkl")
+  model <- build_model_rectanglepy(sc_object_small, cell_annotations_small,
+    bulk_gene_expression = bulk_small,
+    model_path = tmp_path,
+    optimize_cutoffs = FALSE,
+    n_cpus = 1
+  )
+  expect_equal(model, tmp_path, info = "returned path matches the requested model_path")
+  expect_true(file.exists(tmp_path), "pickle file exists at the specified path")
+})
+
+test_that("extract_signature_rectanglepy returns a genes x cell-types matrix", {
+  model <- build_model_rectanglepy(sc_object_small, cell_annotations_small,
+    bulk_gene_expression = bulk_small,
+    optimize_cutoffs = FALSE,
+    n_cpus = 1
+  )
+  sig <- extract_signature_rectanglepy(model)
+  expect_true(is.matrix(sig), "result is a matrix")
+  expect_true(
+    info = "columns correspond to known cell types",
+    all(unique(cell_annotations_small) %in% colnames(sig))
+  )
+  expect_true(nrow(sig) > 0, "matrix has rows (genes)")
+})
+
 
 test_that("BSeq-sc build model works", {
   signature <- build_model(sc_object_small, cell_annotations_small, "bseqsc",

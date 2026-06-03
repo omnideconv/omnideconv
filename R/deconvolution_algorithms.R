@@ -285,7 +285,7 @@ deconvolute <- function(bulk_gene_expression, model = NULL, method = deconvoluti
     )
   }
 
-  if (verbose && method %in% c("autogenes", "bseq-sc", "cibersortx", "dwls", "momf", "scaden") && !is.null(model)) {
+  if (verbose && method %in% c("autogenes", "bseq-sc", "cibersortx", "dwls", "momf", "scaden", "rectangle") && !is.null(model)) {
     message(
       "A model was provided."
     )

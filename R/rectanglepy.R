@@ -70,13 +70,19 @@ install_rectangle_python <- function() {
 #' @param n_cpus Number of CPUs for DE analysis. NULL uses all available.
 #' @param gene_expression_threshold Minimum fraction of cells that must express
 #'   a gene for it to be included in DE analysis. Default: 0.5.
+#' @param model_path Optional path where the signature pickle file should be
+#'   saved. If NULL (default), a temporary file is used. Providing a permanent
+#'   path allows the signature to be reused across R sessions by passing the
+#'   same path to [deconvolute()] or [extract_signature_rectanglepy()].
 #' @param verbose Whether to print progress to the console. Default: FALSE.
 #'
 #' @return Path to a pickle file containing the RectangleSignatureResult.
-#'   Pass this path as the `signature` argument to [deconvolute()].
+#'   Pass this path as the `signature` argument to [deconvolute()] or
+#'   [extract_signature_rectanglepy()].
 #' @export
 build_model_rectanglepy <- function(single_cell_object, cell_type_annotations,
                                     bulk_gene_expression = NULL,
+                                    model_path = NULL,
                                     optimize_cutoffs = TRUE,
                                     p = 0.015,
                                     lfc = 1.5,
@@ -89,7 +95,7 @@ build_model_rectanglepy <- function(single_cell_object, cell_type_annotations,
   script <- system.file("python", "rectanglepy_wrapper.py", package = "omnideconv")
 
   sc_h5ad <- save_as_h5ad(single_cell_object, cell_type_annotations)
-  output_pickle <- tempfile(fileext = ".pkl")
+  output_pickle <- if (!is.null(model_path)) model_path else tempfile(fileext = ".pkl")
 
   cmd_args <- c(
     script, "build_model",
@@ -121,6 +127,52 @@ build_model_rectanglepy <- function(single_cell_object, cell_type_annotations,
   }
 
   return(output_pickle)
+}
+
+#' Extract the signature matrix from a Rectangle model
+#'
+#' Calls `get_signature_matrix()` on the `RectangleSignatureResult` object
+#' stored in the signature pickle, returning a standard R matrix. This allows
+#' inspection of the selected marker genes and comparison with signatures from
+#' other methods. The matrix can be saved for later use with [saveRDS()].
+#'
+#' @param signature Path to a .pkl file created by [build_model_rectanglepy()].
+#' @param include_mrna_bias Whether to apply mRNA bias correction when
+#'   computing the signature matrix. Default: TRUE.
+#' @param verbose Whether to print progress to the console. Default: FALSE.
+#'
+#' @return A matrix with rows = genes and columns = cell types.
+#' @export
+extract_signature_rectanglepy <- function(signature, include_mrna_bias = TRUE, verbose = FALSE) {
+  rectangle_checkload()
+
+  if (!file.exists(signature)) {
+    stop(
+      "Signature file not found: ", signature, "\n",
+      "The signature argument must be a path returned by build_model_rectanglepy()."
+    )
+  }
+
+  python_bin <- rectangle_python()
+  script <- system.file("python", "rectanglepy_wrapper.py", package = "omnideconv")
+  output_csv <- tempfile(fileext = ".csv")
+
+  ret <- system2(
+    python_bin,
+    c(
+      script, "get_signature_matrix",
+      "--signature_pickle", signature,
+      "--output_csv", output_csv,
+      "--include_mrna_bias", tolower(as.character(include_mrna_bias))
+    ),
+    stdout = if (verbose) "" else FALSE,
+    stderr = if (verbose) "" else FALSE
+  )
+  if (ret != 0) {
+    stop("Failed to extract Rectangle signature matrix. Set verbose = TRUE for details.")
+  }
+
+  as.matrix(read.csv(output_csv, row.names = 1, check.names = FALSE))
 }
 
 #' Deconvolution with Rectangle

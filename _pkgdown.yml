@@ -15,11 +15,14 @@ reference:
       - build_model_bayesprism
       - build_model_bisque
       - build_model_bseqsc
+      - build_model_cdseq
       - build_model_cibersortx
       - build_model_cpm
       - build_model_dwls
       - build_model_momf
       - build_model_music
+      - build_model_rectanglepy
+      - extract_signature_rectanglepy
       - build_model_scaden
       - build_model_scdc
   - title: Deconvolution methods
@@ -29,11 +32,13 @@ reference:
       - deconvolute_bayesprism
       - deconvolute_bisque
       - deconvolute_bseqsc
+      - deconvolute_cdseq
       - deconvolute_cibersortx
       - deconvolute_cpm
       - deconvolute_dwls
       - deconvolute_momf
       - deconvolute_music
+      - deconvolute_rectanglepy
       - deconvolute_scaden
       - deconvolute_scdc
   - title: Environment
@@ -42,6 +47,8 @@ reference:
       - set_cibersortx_credentials
       - bseqsc_config
       - check_container
+      - install_all_python
+      - install_rectangle_python
   - title: Datasets
     desc: List of datasets provided by the package.
     contents:
@@ -69,14 +76,12 @@ reference:
       - anndata_to_singlecellexperiment
       - autogenes_checkload
       - build_anndata
-      - build_model_cdseq
       - calculate_cell_embedding
       - calc_condition_number
       - check_and_install
       - check_credentials
       - convert_to_matrix
       - create_container_command
-      - deconvolute_cdseq
       - deescape_special_chars
       - setup_apptainer_container
       - escape_special_chars
@@ -85,7 +90,6 @@ reference:
       - get_signature_matrix_options
       - get_single_cell_expression_set
       - init_python
-      - install_all_python
       - install_autogenes
       - install_scaden
       - matrix_to_singlecellexperiment

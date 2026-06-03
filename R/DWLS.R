@@ -14,13 +14,15 @@
 #'   still be considered statistically significant?
 #' @param ncores Choose how many core to use for signature calculation. Is only applied when using
 #'   'mast' as method.
+#' @param ... Additional arguments, silently ignored. Allows extra parameters to pass through
+#'   the [deconvolute()] dispatcher without error.
 #'
 #' @return The signature matrix. Rows are genes, columns are cell types.
 #' @export
 #'
 build_model_dwls <- function(single_cell_object, cell_type_annotations,
                              dwls_method = c("mast", "seurat", "mast_optimized"), path = NULL, verbose = FALSE,
-                             diff_cutoff = 0.5, pval_cutoff = 0.01, ncores = 1) {
+                             diff_cutoff = 0.5, pval_cutoff = 0.01, ncores = 1, ...) {
   if (is.null(single_cell_object)) {
     stop("Parameter 'single_cell_object' is missing or null, but it is required.")
   }
@@ -61,7 +63,8 @@ build_model_dwls <- function(single_cell_object, cell_type_annotations,
 #' @param signature The Signature matrix.
 #' @param dwls_submethod Three alternative methods in DWLS: OLS, SVR, and DampenedWLS.
 #' @param verbose Whether to produce an output on the console.
-
+#' @param ... Additional arguments, silently ignored. Allows extra parameters (e.g. `dwls_method`)
+#'   to pass through the [deconvolute()] dispatcher without error.
 #'
 #' @return A matrix of cell type proportion estimates with cell types as rows and individuals as
 #'   columns.
@@ -69,7 +72,7 @@ build_model_dwls <- function(single_cell_object, cell_type_annotations,
 #'
 
 deconvolute_dwls <- function(bulk_gene_expression, signature,
-                             dwls_submethod = c("DampenedWLS", "OLS", "SVR"), verbose = FALSE) {
+                             dwls_submethod = c("DampenedWLS", "OLS", "SVR"), verbose = FALSE, ...) {
   if (is.null(bulk_gene_expression)) {
     stop("Parameter 'bulk_gene_expression' is missing or null, but it is required.")
   }

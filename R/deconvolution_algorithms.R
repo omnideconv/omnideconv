@@ -305,7 +305,9 @@ deconvolute <- function(bulk_gene_expression, model = NULL, method = deconvoluti
     } else {
       model <- build_model(
         single_cell_object, cell_type_annotations,
-        method, batch_ids
+        method, batch_ids,
+        bulk_gene_expression = bulk_gene_expression,
+        ...
       )
     }
   }

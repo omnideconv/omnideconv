@@ -45,6 +45,8 @@
 #'   and use the plot method there.
 #' @param output_dir path to directory where the picke output file will be saved. Default is tempdir().
 #' @param verbose Whether to produce an output on the console.
+#' @param ... Additional arguments, silently ignored. Allows extra parameters to pass through
+#'   the [deconvolute()] dispatcher without error.
 #'
 #' @return The path to the pickle file needed for the deconvolution with AutoGeneS.
 #' @export
@@ -59,7 +61,7 @@ build_model_autogenes <- function(single_cell_object, cell_type_annotations,
                                   crossover_thres = 1000, ind_standard_pb = 0.1,
                                   plot_weights = NULL, plot_objectives = c(0, 1), index = NULL,
                                   close_to = NULL, plot = FALSE, output_dir = tempdir(),
-                                  verbose = FALSE) {
+                                  verbose = FALSE, ...) {
   message(
     "The deconvolution with AutoGeneS is done in only two steps, however due to runtime reasons we chose to implement
     it as a one-step method. Please just use the deconvolute method.

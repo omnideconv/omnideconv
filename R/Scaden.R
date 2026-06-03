@@ -20,6 +20,8 @@
 #' @param learning_rate Training of model: Learning rate used for training (default: 1E-4).
 #' @param steps Training of model: Number of training steps (default: 5000).
 #' @param verbose Whether to produce an output on the console (default: false).
+#' @param ... Additional arguments, silently ignored. Allows extra parameters to pass through
+#'   the [deconvolute()] dispatcher without error.
 #'
 #' @return The path to the scaden model.
 #' @export
@@ -27,7 +29,7 @@
 build_model_scaden <- function(single_cell_object, cell_type_annotations, bulk_gene_expression,
                                model_path = NULL, temp_dir = NULL, batch_size = 128, learning_rate = 1E-4,
                                steps = 5000, var_cutoff = NULL, cells = 100, samples = 1000,
-                               dataset_name = "scaden", verbose = FALSE) {
+                               dataset_name = "scaden", verbose = FALSE, ...) {
   if (is.null(single_cell_object)) {
     stop("Parameter 'single_cell_object' is missing or null, but it is required.")
   }
@@ -167,28 +169,11 @@ scaden_train <- function(h5ad_processed, temp_dir = NULL, batch_size = 128, lear
   write_anndata(h5ad_processed, h5ad_processed_tmp)
 
   if (is.null(model_path)) {
-    currentwd <- getwd()
-    model_path <- tryCatch(
-      {
-        setwd(tmp_dir)
-        model_path <- paste0(tmp_dir, "/model")
-        if (dir.exists(model_path)) {
-          unlink(model_path, recursive = TRUE)
-        }
-        dir.create(model_path, showWarnings = FALSE)
-        model_path
-      },
-      error = function(cond) {
-        setwd(currentwd)
-        stop(cond)
-      },
-      warning = function(cond) {
-        warning(cond)
-      },
-      finally = {
-        setwd(currentwd)
-      }
-    )
+    model_path <- paste0(tmp_dir, "/model")
+    if (dir.exists(model_path)) {
+      unlink(model_path, recursive = TRUE)
+    }
+    dir.create(model_path, showWarnings = FALSE)
   }
 
   # Calling Scaden command
@@ -287,7 +272,8 @@ scaden_process <- function(h5ad, temp_dir = NULL, bulk_gene_expression, var_cuto
 #'
 #' Predicts cell proportions in bulk RNA sample.
 #'
-#' @param model_dir Directory where model is saved
+#' @param model_dir Directory where model is saved. Relative paths are resolved to absolute
+#'   before the working directory is changed internally, so relative paths are safe to use.
 #' @param bulk_gene_expression Bulk RNA-seq data. (genes x bulk_RNA samples)
 #' @param temp_dir The temporary directory to use for the computations (optional)
 #' @param verbose Whether to produce an output on the console. (default: false)
@@ -296,6 +282,9 @@ scaden_process <- function(h5ad, temp_dir = NULL, bulk_gene_expression, var_cuto
 #'
 scaden_predict <- function(model_dir, bulk_gene_expression, temp_dir = NULL, verbose = FALSE) {
   if (verbose) message("Predicting cell type proportions")
+
+  # Resolve to absolute path before any working directory changes
+  model_dir <- normalizePath(model_dir, mustWork = FALSE)
 
   current_wd <- getwd()
 
@@ -321,7 +310,7 @@ scaden_predict <- function(model_dir, bulk_gene_expression, temp_dir = NULL, ver
 
       t(utils::read.table(paste0(tmp_dir, "/scaden_predictions.txt"),
         sep = "\t", header = TRUE,
-        row.names = 1
+        row.names = 1, check.names = FALSE
       ))
     },
     error = function(cond) {

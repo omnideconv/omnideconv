@@ -12,7 +12,8 @@ build_model_dwls(
   verbose = FALSE,
   diff_cutoff = 0.5,
   pval_cutoff = 0.01,
-  ncores = 1
+  ncores = 1,
+  ...
 )
 }
 \arguments{
@@ -37,6 +38,9 @@ still be considered statistically significant?}
 
 \item{ncores}{Choose how many core to use for signature calculation. Is only applied when using
 'mast' as method.}
+
+\item{...}{Additional arguments, silently ignored. Allows extra parameters to pass through
+the \code{\link[=deconvolute]{deconvolute()}} dispatcher without error.}
 }
 \value{
 The signature matrix. Rows are genes, columns are cell types.

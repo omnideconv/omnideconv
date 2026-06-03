@@ -8,7 +8,8 @@ deconvolute_dwls(
   bulk_gene_expression,
   signature,
   dwls_submethod = c("DampenedWLS", "OLS", "SVR"),
-  verbose = FALSE
+  verbose = FALSE,
+  ...
 )
 }
 \arguments{
@@ -19,6 +20,9 @@ deconvolute_dwls(
 \item{dwls_submethod}{Three alternative methods in DWLS: OLS, SVR, and DampenedWLS.}
 
 \item{verbose}{Whether to produce an output on the console.}
+
+\item{...}{Additional arguments, silently ignored. Allows extra parameters (e.g. \code{dwls_method})
+to pass through the \code{\link[=deconvolute]{deconvolute()}} dispatcher without error.}
 }
 \value{
 A matrix of cell type proportion estimates with cell types as rows and individuals as

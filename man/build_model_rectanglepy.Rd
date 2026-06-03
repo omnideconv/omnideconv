@@ -13,7 +13,8 @@ build_model_rectanglepy(
   lfc = 1.5,
   n_cpus = NULL,
   gene_expression_threshold = 0.5,
-  verbose = FALSE
+  verbose = FALSE,
+  ...
 )
 }
 \arguments{
@@ -41,6 +42,9 @@ optimize_cutoffs = FALSE.}
 a gene for it to be included in DE analysis. Default: 0.5.}
 
 \item{verbose}{Whether to print progress to the console. Default: FALSE.}
+
+\item{...}{Additional arguments, silently ignored. Allows extra parameters to pass through
+the \code{\link[=deconvolute]{deconvolute()}} dispatcher without error.}
 }
 \value{
 Path to a pickle file containing the RectangleSignatureResult.

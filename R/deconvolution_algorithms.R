@@ -165,7 +165,7 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
 #'
 #' @param bulk_gene_expression A matrix with the bulk data. Rows are genes, columns
 #'   are samples.
-#' @param signature (Optional) The signature matrix, or for Rectangle a path to the .pkl file
+#' @param model (Optional) The signature matrix, or for Rectangle a path to the .pkl file
 #'   returned by [build_model()]. If NULL, the signature will be computed internally and will
 #'   not be saved. To reuse a signature, build it first with [build_model()].
 #' @param method A string specifying the method.
@@ -285,7 +285,7 @@ deconvolute <- function(bulk_gene_expression, model = NULL, method = deconvoluti
     )
   }
 
-  if (verbose && method %in% c("autogenes", "bseq-sc", "cibersortx", "dwls", "momf", "scaden") && !is.null(model)) {
+  if (verbose && method %in% c("autogenes", "bseq-sc", "cibersortx", "dwls", "momf", "scaden", "rectangle") && !is.null(model)) {
     message(
       "A model was provided."
     )

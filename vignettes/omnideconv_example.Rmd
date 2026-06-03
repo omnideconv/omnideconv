@@ -32,7 +32,8 @@ deconvolution.results.dwls.minor <- readRDS("vignette_files/deconvolution.result
 
 # Load patient metadata (Wu et al. 2021 Supplementary Table 1)
 patient.metadata <- read_excel("vignette_files/41588_2021_911_MOESM4_ESM.xlsx",
-                               sheet = 1, skip = 3) %>%
+  sheet = 1, skip = 3
+) %>%
   select(c(1, 4, 5, 11, 12))
 colnames(patient.metadata) <- c("Sample", "Grade", "Cancer_type", "IHC_subtype", "Treatment")
 patient.metadata$Sample <- gsub("-", "", patient.metadata$Sample) %>%
@@ -79,12 +80,14 @@ single.cell.data <- Seurat::ReadMtx(
   feature.column = 1
 )
 single.cell.metadata <- read.table("path/to/Wu_etal_2021_BRCA_scRNASeq/metadata.csv",
-                                   sep = ",", header = TRUE, row.names = 1)
+  sep = ",", header = TRUE, row.names = 1
+)
 
 single.cell.data <- CreateSeuratObject(single.cell.data,
-                                       project = "Wu_dataset", assay = "RNA",
-                                       min.cells = 0, min.features = 1,
-                                       meta.data = single.cell.metadata)
+  project = "Wu_dataset", assay = "RNA",
+  min.cells = 0, min.features = 1,
+  meta.data = single.cell.metadata
+)
 ```
 
 We can have an overview of the number of cells per cell type in the dataset:
@@ -153,7 +156,8 @@ We will now read in the bulk sequencing data file, which consists of 24 samples.
 ```{r load-bulk, eval=FALSE}
 bulk.data <- read.table("path/to/GSE176078_Wu_etal_2021_bulkRNAseq_raw_counts.txt", skip = 1)
 header <- read.table("path/to/GSE176078_Wu_etal_2021_bulkRNAseq_raw_counts.txt",
-                     header = FALSE, nrows = 1, skipNul = TRUE, sep = "\t")
+  header = FALSE, nrows = 1, skipNul = TRUE, sep = "\t"
+)
 colnames(bulk.data) <- c("Genes", gsub("A|N", "", header[2:25]))
 bulk.data <- bulk.data[bulk.data$Genes != "", ]
 bulk.data <- column_to_rownames(bulk.data, "Genes")
@@ -297,9 +301,9 @@ The considered single-cell breast cancer dataset includes cell-type annotations 
 The different cell-type annotations can be accessed with:
 
 ```{r annotations, eval=FALSE}
-single.cell.data$celltype_major   # Major annotation
-single.cell.data$celltype_minor   # Minor annotation
-single.cell.data$celltype_subset  # Subset annotation
+single.cell.data$celltype_major # Major annotation
+single.cell.data$celltype_minor # Minor annotation
+single.cell.data$celltype_subset # Subset annotation
 ```
 
 These additional annotations provide a cell-type classification at a finer resolution. For instance, at the `celltype_major` level, we only have the T cell population, while at the `celltype_minor` level, we can distinguish between CD4+ and CD8+ T cells. In the following, we will again perform deconvolution analysis with DWLS but, this time, using the `celltype_minor` information. We will subsample the dataset as before, this time considering the second level of resolution for the cell types, and extract the objects needed for deconvolution.
@@ -387,7 +391,8 @@ We can consider as well the metadata provided with the original paper, which inc
 
 ```{r load-metadata, eval=FALSE}
 patient.metadata <- read_excel("vignette_files/41588_2021_911_MOESM4_ESM.xlsx",
-                               sheet = 1, skip = 3) %>%
+  sheet = 1, skip = 3
+) %>%
   select(c(1, 4, 5, 11, 12))
 colnames(patient.metadata) <- c("Sample", "Grade", "Cancer_type", "IHC_subtype", "Treatment")
 patient.metadata$Sample <- gsub("-", "", patient.metadata$Sample) %>%
@@ -415,11 +420,15 @@ patients.results %>%
   geom_boxplot(outlier.size = 0.5) +
   facet_wrap(~celltype, scales = "free_y", ncol = 3) +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.position = "none") +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "none"
+  ) +
   scale_fill_brewer(palette = "Set2") +
-  labs(x = "IHC Subtype", y = "Cell Fraction",
-       title = "Cell fractions by IHC subtype (DWLS)")
+  labs(
+    x = "IHC Subtype", y = "Cell Fraction",
+    title = "Cell fractions by IHC subtype (DWLS)"
+  )
 ```
 
 HER2-positive samples are enriched in T cells, while the ER-positive and triple negative breast cancer (TNBC) samples show an enrichment in cancer and normal epithelial cells, respectively.
@@ -432,11 +441,15 @@ patients.results %>%
   geom_boxplot(outlier.size = 0.5) +
   facet_wrap(~celltype, scales = "free_y", ncol = 3) +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.position = "none") +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "none"
+  ) +
   scale_fill_brewer(palette = "Set1") +
-  labs(x = "Treatment", y = "Cell Fraction",
-       title = "Cell fractions by treatment status (DWLS)")
+  labs(
+    x = "Treatment", y = "Cell Fraction",
+    title = "Cell fractions by treatment status (DWLS)"
+  )
 ```
 
 The major differences in this case are the enrichment of the CAFs and normal epithelial cells in the treated samples, as opposed to the cancer epithelial cells and B cells which have a higher median cell fraction in the untreated samples.
@@ -450,11 +463,15 @@ patients.results.minor %>%
   geom_boxplot(outlier.size = 0.5) +
   facet_wrap(~celltype, scales = "free_y") +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.position = "none") +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "none"
+  ) +
   scale_fill_brewer(palette = "Set2") +
-  labs(x = "IHC Subtype", y = "Cell Fraction",
-       title = "CD4+ and CD8+ T-cell fractions by IHC subtype")
+  labs(
+    x = "IHC Subtype", y = "Cell Fraction",
+    title = "CD4+ and CD8+ T-cell fractions by IHC subtype"
+  )
 ```
 
 The estimates for the CD8+ T cells seem to be very low for all samples. On the other hand, in the HER2/ER positive samples the cell fractions estimated for the CD4+ T cells seem to be significantly higher than in the other subtypes.
@@ -468,11 +485,15 @@ patients.results.minor %>%
   geom_boxplot(outlier.size = 0.5) +
   facet_wrap(~celltype, scales = "free_y") +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.position = "none") +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "none"
+  ) +
   scale_fill_brewer(palette = "Set2") +
-  labs(x = "IHC Subtype", y = "Cell Fraction",
-       title = "CAF subtype fractions by IHC subtype")
+  labs(
+    x = "IHC Subtype", y = "Cell Fraction",
+    title = "CAF subtype fractions by IHC subtype"
+  )
 ```
 
 Here we can notice that, while the myoblastic CAFs have a comparable median value, the MSC CAFs have higher infiltration in the samples characterized as HER2+/ER+ subtype.
@@ -486,11 +507,15 @@ patients.results.minor %>%
   geom_boxplot(outlier.size = 0.5) +
   facet_wrap(~celltype, scales = "free_y", ncol = 3) +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.position = "none") +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "none"
+  ) +
   scale_fill_brewer(palette = "Set2") +
-  labs(x = "IHC Subtype", y = "Cell Fraction",
-       title = "Cancer cell subtype fractions by IHC subtype")
+  labs(
+    x = "IHC Subtype", y = "Cell Fraction",
+    title = "Cancer cell subtype fractions by IHC subtype"
+  )
 ```
 
 We can see that the HER2+ shows an overrepresentation of the cancer cells described as HER2-like by the authors. Similarly, the ER+ samples show higher fractions of Luminal B cancer cells. These findings on bulk RNA-seq are concordant with the subtypings that the authors described on the single cell RNA-seq ('Results - scSubtype').

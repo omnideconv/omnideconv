@@ -54,8 +54,12 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
+      - name: Install GitHub-only Imports
+        run: Rscript -e "install.packages('pak', repos='https://cran.rstudio.com/'); pak::pkg_install(c('bbc/bbplot', 'CBMR-Single-Cell-Omics-Platform/SCOPfunctions'))"
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
+          cache: false
           dependencies: '"hard"' # do not install suggests
           extra-packages: any::rcmdcheck, any::rmarkdown, any::markdown, local::.
           needs: check

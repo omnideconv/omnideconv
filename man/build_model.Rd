@@ -30,12 +30,13 @@ as the samples in single_cell_object.}
 
 \item{method}{A string specifying the method.
 Supported methods for which a signature/model can be built are
-AutoGeneS, BSeq-Sc, DWLS, CIBERSORTx, MOMF, Scaden}
+AutoGeneS, BSeq-sc, DWLS, CIBERSORTx, MOMF, Rectangle, Scaden}
 
 \item{batch_ids}{A vector of the ids of the samples or individuals.}
 
 \item{bulk_gene_expression}{A matrix of bulk data. Rows are genes, columns are samples. Necessary
-for MOMF and Scaden, defaults to NULL. Row and column names need to be set}
+for MOMF and Scaden; optional for Rectangle (restricts signature genes to bulk genes).
+Defaults to NULL. Row and column names need to be set}
 
 \item{verbose}{Whether to produce an output on the console.}
 
@@ -52,7 +53,8 @@ names in the single_cell_object.}
 \item{...}{Additional parameters, passed to the algorithm used}
 }
 \value{
-The signature matrix. Rows are genes, columns are cell types.
+The signature matrix (rows = genes, columns = cell types) for most methods.
+For Rectangle, returns a path to a .pkl file containing the signature object.
 }
 \description{
 The single_cell_object is expected to have rownames() and colnames()

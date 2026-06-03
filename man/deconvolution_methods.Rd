@@ -5,15 +5,15 @@
 \alias{deconvolution_methods}
 \title{List of supported deconvolution methods}
 \format{
-An object of class \code{character} of length 12.
+An object of class \code{character} of length 13.
 }
 \usage{
 deconvolution_methods
 }
 \description{
 The methods currently supported are
-\code{AutoGeneS}, \code{BayesPrism}, \code{Bisque}, \code{BSeq-sc}, \code{CIBERSORTx}, \code{CPM}, \code{DWLS}, \code{MOMF}, \code{MuSiC},
-\code{Scaden}, \code{SCDC}
+\code{AutoGeneS}, \code{BayesPrism}, \code{Bisque}, \code{BSeq-sc}, \code{CIBERSORTx}, \code{CDSeq}, \code{CPM}, \code{DWLS}, \code{MOMF},
+\code{MuSiC}, \code{Rectangle}, \code{Scaden}, \code{SCDC}
 }
 \details{
 The object is a named vector. The names correspond to the display name of the method,

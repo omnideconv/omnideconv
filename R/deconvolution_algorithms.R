@@ -1,8 +1,8 @@
 #' List of supported deconvolution methods
 #'
 #' The methods currently supported are
-#' `AutoGeneS`, `BayesPrism`, `Bisque`, `BSeq-sc`, `CIBERSORTx`, `CPM`, `DWLS`, `MOMF`, `MuSiC`,
-#' `Scaden`, `SCDC`
+#' `AutoGeneS`, `BayesPrism`, `Bisque`, `BSeq-sc`, `CIBERSORTx`, `CDSeq`, `CPM`, `DWLS`, `MOMF`,
+#' `MuSiC`, `Rectangle`, `Scaden`, `SCDC`
 #'
 #' The object is a named vector. The names correspond to the display name of the method,
 #' the values to the internal name.
@@ -11,7 +11,7 @@
 deconvolution_methods <- c(
   "AutoGeneS" = "autogenes", "BayesPrism" = "bayesprism", "Bisque" = "bisque", "BSeq-sc" = "bseqsc",
   "CIBERSORTx" = "cibersortx", "CDSeq" = "cdseq", "CPM" = "cpm", "DWLS" = "dwls", "MOMF" = "momf",
-  "MuSiC" = "music", "Scaden" = "scaden", "SCDC" = "scdc"
+  "MuSiC" = "music", "Scaden" = "scaden", "SCDC" = "scdc", "Rectangle" = "rectangle"
 )
 
 
@@ -30,9 +30,10 @@ deconvolution_methods <- c(
 #' @param batch_ids A vector of the ids of the samples or individuals.
 #' @param method A string specifying the method.
 #'   Supported methods for which a signature/model can be built are
-#'   AutoGeneS, BSeq-Sc, DWLS, CIBERSORTx, MOMF, Scaden
+#'   AutoGeneS, BSeq-sc, DWLS, CIBERSORTx, MOMF, Rectangle, Scaden
 #' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples. Necessary
-#'   for MOMF and Scaden, defaults to NULL. Row and column names need to be set
+#'   for MOMF and Scaden; optional for Rectangle (restricts signature genes to bulk genes).
+#'   Defaults to NULL. Row and column names need to be set
 #' @param verbose Whether to produce an output on the console.
 #' @param cell_type_column_name Name of the column in (Anndata: obs, SingleCellExperiment: colData),
 #'   that contains the cell-type labels. Is only used if no cell_type_annotations vector is
@@ -43,7 +44,8 @@ deconvolution_methods <- c(
 #' @param ... Additional parameters, passed to the algorithm used
 #' @param assay_name Name of the assay/layer of the single_cell_object that should be used to extract the data
 #'
-#' @return The signature matrix. Rows are genes, columns are cell types.
+#' @return The signature matrix (rows = genes, columns = cell types) for most methods.
+#'   For Rectangle, returns a path to a .pkl file containing the signature object.
 #' @export
 #'
 #' @examples
@@ -141,7 +143,10 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
     autogenes = build_model_autogenes(single_cell_object, cell_type_annotations,
       verbose = verbose, ...
     ),
-    bseqsc = build_model_bseqsc(single_cell_object, cell_type_annotations, markers, batch_ids, ...)
+    bseqsc = build_model_bseqsc(single_cell_object, cell_type_annotations, markers, batch_ids, ...),
+    rectangle = build_model_rectanglepy(single_cell_object, cell_type_annotations, bulk_gene_expression,
+      verbose = verbose, ...
+    )
   )
 
 
@@ -160,9 +165,9 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
 #'
 #' @param bulk_gene_expression A matrix with the bulk data. Rows are genes, columns
 #'   are samples.
-#' @param signature (Optional) The signature matrix. A signature can be provided for certain methods.
-#'   If NULL, the signature will be computed internally and will not be saved.
-#'   If you wish to save the model/signature, use the 'build_model' function instead.
+#' @param signature (Optional) The signature matrix, or for Rectangle a path to the .pkl file
+#'   returned by [build_model()]. If NULL, the signature will be computed internally and will
+#'   not be saved. To reuse a signature, build it first with [build_model()].
 #' @param method A string specifying the method.
 #' @param single_cell_object A matrix with the single-cell data. Rows are genes,
 #'   columns are samples. Row and column names need to be set. Alternatively a SingleCellExperiment
@@ -286,7 +291,7 @@ deconvolute <- function(bulk_gene_expression, model = NULL, method = deconvoluti
     )
   }
 
-  if (method %in% c("autogenes", "bseq-sc", "cibersortx", "dwls", "momf", "scaden") && is.null(model)) {
+  if (method %in% c("autogenes", "bseq-sc", "cibersortx", "dwls", "momf", "scaden", "rectangle") && is.null(model)) {
     if (verbose) {
       message(
         "A model was not provided, so it will be computed."
@@ -353,7 +358,10 @@ deconvolute <- function(bulk_gene_expression, model = NULL, method = deconvoluti
     bayesprism = deconvolute_bayesprism(
       bulk_gene_expression, single_cell_object, cell_type_annotations,
       ...
-    )$theta
+    )$theta,
+    rectangle = deconvolute_rectanglepy(bulk_gene_expression, model,
+      verbose = verbose, ...
+    )
   )
 
   if (!is.null(deconv)) {
@@ -384,7 +392,8 @@ required_packages <- list(
   "momf" = c("omnideconv/MOMF"),
   "music" = c("omnideconv/MuSiC"),
   "scaden" = c("reticulate"),
-  "scdc" = c("omnideconv/SCDC")
+  "scdc" = c("omnideconv/SCDC"),
+  "rectangle" = c("reticulate")
 )
 
 #' Checking and installing all dependencies for the specific methods

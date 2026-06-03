@@ -143,6 +143,18 @@ test_that("AutoGeneS build model works, and the matrix can be extracted", {
 })
 
 
+test_that("Rectangle build model works", {
+  model <- build_model(sc_object_small, cell_annotations_small,
+    method = "rectangle",
+    bulk_gene_expression = bulk_small,
+    optimize_cutoffs = FALSE,
+    n_cpus = 1
+  )
+  expect_true(file.exists(model), "pickle file was created successfully")
+  expect_true(grepl("\\.pkl$", model), "model path has .pkl extension")
+})
+
+
 test_that("BSeq-sc build model works", {
   signature <- build_model(sc_object_small, cell_annotations_small, "bseqsc",
     batch_ids = batch_ids_small, markers = markers_small

@@ -252,8 +252,6 @@ deconvolute_cibersortx <- function(bulk_gene_expression, signature,
   }
 
 
-
-
   if (rmbatch_B_mode || rmbatch_S_mode) {
     command_to_run <- create_container_command(input_dir, output_dir, container, apptainer_container_path,
       method = "impute_cell_fractions", verbose,

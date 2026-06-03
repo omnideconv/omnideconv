@@ -84,8 +84,10 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
   if (class(single_cell_object)[1] != "character") {
     transform_and_save_single_cell(single_cell_object, cell_type_annotations, input_dir, verbose)
     single_cell_object_filename <- "sample_file_for_cibersort.txt"
+    sc_filebase <- "sample_file_for_cibersort"
   } else {
     single_cell_object_filename <- single_cell_object
+    sc_filebase <- tools::file_path_sans_ext(basename(single_cell_object))
   }
   command_to_run <- create_container_command(input_dir, output_dir, container, container_path,
     method = "create_sig",
@@ -106,8 +108,8 @@ build_model_cibersortx <- function(single_cell_object, cell_type_annotations,
   }
 
   filebase <- paste0(
-    "CIBERSORTx_sample_file_for_cibersort_inferred_phenoclasses.CIBERSORTx_sample",
-    "_file_for_cibersort_inferred_refsample.bm.K", k_max
+    "CIBERSORTx_", sc_filebase, "_inferred_phenoclasses.CIBERSORTx_",
+    sc_filebase, "_inferred_refsample.bm.K", k_max
   )
   filename_sig_matrix <- paste0(filebase, ".txt")
   full_path <- paste0(input_dir, "/", filename_sig_matrix)

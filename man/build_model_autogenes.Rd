@@ -28,7 +28,8 @@ build_model_autogenes(
   close_to = NULL,
   plot = FALSE,
   output_dir = tempdir(),
-  verbose = FALSE
+  verbose = FALSE,
+  ...
 )
 }
 \arguments{
@@ -98,6 +99,9 @@ and use the plot method there.}
 \item{output_dir}{path to directory where the picke output file will be saved. Default is tempdir().}
 
 \item{verbose}{Whether to produce an output on the console.}
+
+\item{...}{Additional arguments, silently ignored. Allows extra parameters to pass through
+the \code{\link[=deconvolute]{deconvolute()}} dispatcher without error.}
 }
 \value{
 The path to the pickle file needed for the deconvolution with AutoGeneS.

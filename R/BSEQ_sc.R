@@ -12,12 +12,14 @@
 #'   should be rescaled according to their cell type average total count.
 #' @param limit logical that indicates if the returned basis matrix should only contain
 #'   cell types listed in `markers`.
+#' @param ... Additional arguments, silently ignored. Allows extra parameters to pass through
+#'   the [deconvolute()] dispatcher without error.
 #'
 #' @return The signature matrix. Rows are genes, columns are cell types.
 #' @export
 #'
 build_model_bseqsc <- function(single_cell_object, cell_type_annotations, markers, batch_ids,
-                               ct_scale = TRUE, limit = TRUE) {
+                               ct_scale = TRUE, limit = TRUE, ...) {
   if (is.null(single_cell_object)) {
     stop("Parameter 'single_cell_object' is missing or null, but it is required.")
   }

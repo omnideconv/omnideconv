@@ -12,7 +12,8 @@ scaden_predict(
 )
 }
 \arguments{
-\item{model_dir}{Directory where model is saved}
+\item{model_dir}{Directory where model is saved. Relative paths are resolved to absolute
+before the working directory is changed internally, so relative paths are safe to use.}
 
 \item{bulk_gene_expression}{Bulk RNA-seq data. (genes x bulk_RNA samples)}
 

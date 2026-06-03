@@ -71,6 +71,8 @@ install_rectangle_python <- function() {
 #' @param gene_expression_threshold Minimum fraction of cells that must express
 #'   a gene for it to be included in DE analysis. Default: 0.5.
 #' @param verbose Whether to print progress to the console. Default: FALSE.
+#' @param ... Additional arguments, silently ignored. Allows extra parameters to pass through
+#'   the [deconvolute()] dispatcher without error.
 #'
 #' @return Path to a pickle file containing the RectangleSignatureResult.
 #'   Pass this path as the `signature` argument to [deconvolute()].
@@ -82,7 +84,7 @@ build_model_rectanglepy <- function(single_cell_object, cell_type_annotations,
                                     lfc = 1.5,
                                     n_cpus = NULL,
                                     gene_expression_threshold = 0.5,
-                                    verbose = FALSE) {
+                                    verbose = FALSE, ...) {
   rectangle_checkload()
 
   python_bin <- rectangle_python()

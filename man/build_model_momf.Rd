@@ -7,7 +7,8 @@
 build_model_momf(
   single_cell_object,
   cell_type_annotations,
-  bulk_gene_expression
+  bulk_gene_expression,
+  ...
 )
 }
 \arguments{
@@ -19,6 +20,9 @@ as the samples in single_cell_object.}
 
 \item{bulk_gene_expression}{A matrix of bulk data. Rows are genes, columns are samples. Row and
 column names need to be set.}
+
+\item{...}{Additional arguments, silently ignored. Allows extra parameters to pass through
+the \code{\link[=deconvolute]{deconvolute()}} dispatcher without error.}
 }
 \value{
 The signature matrix. Rows are genes, columns are cell types.

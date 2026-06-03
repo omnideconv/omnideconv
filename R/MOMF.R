@@ -6,11 +6,13 @@
 #'   as the samples in single_cell_object.
 #' @param bulk_gene_expression A matrix of bulk data. Rows are genes, columns are samples. Row and
 #'   column names need to be set.
+#' @param ... Additional arguments, silently ignored. Allows extra parameters to pass through
+#'   the [deconvolute()] dispatcher without error.
 #'
 #' @return The signature matrix. Rows are genes, columns are cell types.
 #' @export
 #'
-build_model_momf <- function(single_cell_object, cell_type_annotations, bulk_gene_expression) {
+build_model_momf <- function(single_cell_object, cell_type_annotations, bulk_gene_expression, ...) {
   if (is.null(single_cell_object)) {
     stop("Parameter 'single_cell_object' is missing or null, but it is required.")
   }

@@ -81,6 +81,9 @@ jobs:
       - name: Install MOMF
         run: Rscript -e "pak::pkg_install('omnideconv/MOMF')"
 
+      - name: Install terra (binary, required by scBio)
+        run: Rscript -e "install.packages('terra', repos='https://packagemanager.posit.co/cran/__linux__/jammy/latest')"
+
       - name: Install scBio
         run: Rscript -e "pak::pkg_install('amitfrish/scBio')"
 

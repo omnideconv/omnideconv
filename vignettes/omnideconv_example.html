@@ -1279,12 +1279,12 @@
                   return e;
                 }),
                 lt: ve(function (e, t, n) {
-                  for (var r = n < 0 ? n + t : t < n ? t : n; 0 <= --r; )
+                  for (var r = n < 0 ? n + t : t < n ? t : n; 0 <= --r;)
                     e.push(r);
                   return e;
                 }),
                 gt: ve(function (e, t, n) {
-                  for (var r = n < 0 ? n + t : n; ++r < t; ) e.push(r);
+                  for (var r = n < 0 ? n + t : n; ++r < t;) e.push(r);
                   return e;
                 }),
               },
@@ -3275,13 +3275,11 @@
               l,
               c = e.cloneNode(!0),
               f = ie(e);
-            if (
-              !(
-                y.noCloneChecked ||
-                (1 !== e.nodeType && 11 !== e.nodeType) ||
-                S.isXMLDoc(e)
-              )
-            )
+            if (!(
+              y.noCloneChecked ||
+              (1 !== e.nodeType && 11 !== e.nodeType) ||
+              S.isXMLDoc(e)
+            ))
               for (a = ve(c), r = 0, i = (o = ve(e)).length; r < i; r++)
                 ((s = o[r]),
                   (u = a[r]),
@@ -4219,7 +4217,7 @@
                     r = Y.get(this);
                   if (t) r[t] && r[t].stop && a(r[t]);
                   else for (t in r) r[t] && r[t].stop && it.test(t) && a(r[t]);
-                  for (t = n.length; t--; )
+                  for (t = n.length; t--;)
                     n[t].elem !== this ||
                       (null != i && n[t].queue !== i) ||
                       (n[t].anim.stop(o), (e = !1), n.splice(t, 1));
@@ -13624,13 +13622,11 @@
                     this.$parent
                       .children(".panel")
                       .children(".in, .collapsing");
-                if (
-                  !(
-                    e &&
-                    e.length &&
-                    ((b = e.data("bs.collapse")), b && b.transitioning)
-                  )
-                ) {
+                if (!(
+                  e &&
+                  e.length &&
+                  ((b = e.data("bs.collapse")), b && b.transitioning)
+                )) {
                   var f = a.Event("show.bs.collapse");
                   if ((this.$element.trigger(f), !f.isDefaultPrevented())) {
                     e &&
@@ -14717,7 +14713,7 @@
                 return g != (a = f[f.length - 1]) && this.activate(a);
               if (g && b < e[0])
                 return ((this.activeTarget = null), this.clear());
-              for (a = e.length; a--; )
+              for (a = e.length; a--;)
                 g != f[a] &&
                   b >= e[a] &&
                   (void 0 === e[a + 1] || b < e[a + 1]) &&
@@ -16718,7 +16714,7 @@
               : t.currentStyle,
             n = {};
           if (s && s.length && s[0] && s[s[0]])
-            for (i = s.length; i--; )
+            for (i = s.length; i--;)
               "string" == typeof s[(e = s[i])] &&
                 (n[
                   e.replace(/-([\da-z])/gi, function (t, e) {
@@ -17285,7 +17281,7 @@
               return t * t * (3 * t - 2);
             },
             Bounce: function (t) {
-              for (var e, i = 4; t < ((e = Math.pow(2, --i)) - 1) / 11; );
+              for (var e, i = 4; t < ((e = Math.pow(2, --i)) - 1) / 11;);
               return (
                 1 / Math.pow(4, 3 - i) -
                 7.5625 * Math.pow((3 * e - 2) / 22 - t, 2)
@@ -17766,7 +17762,7 @@
                 V(t).is(":visible") &&
                 (function (t) {
                   var e = t.css("visibility");
-                  for (; "inherit" === e; )
+                  for (; "inherit" === e;)
                     ((t = t.parent()), (e = t.css("visibility")));
                   return "visible" === e;
                 })(V(t)));
@@ -20601,7 +20597,7 @@
                       n.dpDiv.css(
                         "z-index",
                         (function (t) {
-                          for (var e, i; t.length && t[0] !== document; ) {
+                          for (var e, i; t.length && t[0] !== document;) {
                             if (
                               ("absolute" === (e = t.css("position")) ||
                                 "relative" === e ||
@@ -21003,7 +20999,7 @@
                       (d <= r ? 0 : -100)),
                 -1 < g)
               )
-                for (p = 1, f = g; ; ) {
+                for (p = 1, f = g; ;) {
                   if (f <= (i = this._getDaysInMonth(d, p - 1))) break;
                   (p++, (f -= i));
                 }
@@ -21042,7 +21038,7 @@
               if (!t) return "";
               function s(t, e, i) {
                 var s = "" + e;
-                if (c(t)) for (; s.length < i; ) s = "0" + s;
+                if (c(t)) for (; s.length < i;) s = "0" + s;
                 return s;
               }
               function n(t, e, i, s) {
@@ -24640,16 +24636,14 @@
                   .find(":data(ui-droppable)")
                   .addBack();
               t: for (i = 0; i < n.length; i++)
-                if (
-                  !(
-                    n[i].options.disabled ||
-                    (t &&
-                      !n[i].accept.call(
-                        n[i].element[0],
-                        t.currentItem || t.element,
-                      ))
-                  )
-                ) {
+                if (!(
+                  n[i].options.disabled ||
+                  (t &&
+                    !n[i].accept.call(
+                      n[i].element[0],
+                      t.currentItem || t.element,
+                    ))
+                )) {
                   for (s = 0; s < a.length; s++)
                     if (a[s] === n[i].element[0]) {
                       n[i].proportions().height = 0;
@@ -25990,9 +25984,10 @@
                           ? (0 === t &&
                               r.range
                                 .stop(1, 1)
-                                [
-                                  l ? "animate" : "css"
-                                ]({ left: i + "%" }, a.animate),
+                                [l ? "animate" : "css"](
+                                  { left: i + "%" },
+                                  a.animate,
+                                ),
                             1 === t &&
                               r.range[l ? "animate" : "css"](
                                 { width: i - e + "%" },
@@ -26001,9 +25996,10 @@
                           : (0 === t &&
                               r.range
                                 .stop(1, 1)
-                                [
-                                  l ? "animate" : "css"
-                                ]({ bottom: i + "%" }, a.animate),
+                                [l ? "animate" : "css"](
+                                  { bottom: i + "%" },
+                                  a.animate,
+                                ),
                             1 === t &&
                               r.range[l ? "animate" : "css"](
                                 { height: i - e + "%" },
@@ -26027,9 +26023,10 @@
                     "horizontal" === this.orientation &&
                     this.range
                       .stop(1, 1)
-                      [
-                        l ? "animate" : "css"
-                      ]({ width: 100 - i + "%" }, a.animate),
+                      [l ? "animate" : "css"](
+                        { width: 100 - i + "%" },
+                        a.animate,
+                      ),
                   "min" === o &&
                     "vertical" === this.orientation &&
                     this.range
@@ -26039,9 +26036,10 @@
                     "vertical" === this.orientation &&
                     this.range
                       .stop(1, 1)
-                      [
-                        l ? "animate" : "css"
-                      ]({ height: 100 - i + "%" }, a.animate));
+                      [l ? "animate" : "css"](
+                        { height: 100 - i + "%" },
+                        a.animate,
+                      ));
             },
             _handleEvents: {
               keydown: function (t) {

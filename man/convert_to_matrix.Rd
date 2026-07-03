@@ -12,7 +12,8 @@ convert_to_matrix(
 )
 }
 \arguments{
-\item{object}{An input matrix, data frame, expression set, etc.}
+\item{object}{An input matrix, data frame, SingleCellExperiment, AnnData (anndata package),
+or AnnData (anndataR package, any class inheriting AbstractAnnData).}
 
 \item{cell_type_annotations}{A vector of the cell type annotations. Has to be in the same order
 as the samples in object. If not used (for example for bulk data), just supply anything, like

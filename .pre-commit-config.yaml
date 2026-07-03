@@ -12,7 +12,7 @@ repos:
       - id: no-debug-statement
       - id: deps-in-desc
         args: [--allow_private_imports]
-        exclude: '^R/Bisque\.R$'
+        exclude: '(?i)^(R/Bisque\.R|tests/testthat/create_test_files\.R)$'
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:

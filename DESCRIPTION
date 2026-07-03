@@ -43,7 +43,6 @@ Imports:
     utils
 Suggests:
     BayesPrism,
-    BisqueRNA,
     bseqsc,
     CDSeq,
     DWLS (>= 0.2),

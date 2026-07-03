@@ -41,7 +41,7 @@ Imports:
     tidyr,
     uuid,
     utils
-Suggests: 
+Suggests:
     BayesPrism,
     BisqueRNA,
     bseqsc,
@@ -49,6 +49,7 @@ Suggests:
     DWLS (>= 0.2),
     MOMF,
     MuSiC (>= 0.3),
+    readxl,
     reticulate,
     scBio,
     SCDC

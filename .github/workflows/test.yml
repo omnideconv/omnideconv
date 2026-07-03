@@ -61,7 +61,7 @@ jobs:
         with:
           cache: false
           dependencies: '"hard"' # do not install suggests
-          extra-packages: any::rcmdcheck, any::rmarkdown, any::markdown, local::.
+          extra-packages: any::rcmdcheck, any::rmarkdown, any::markdown, any::readxl, local::.
           needs: check
           #error-on: '"error"'
 

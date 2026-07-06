@@ -62,6 +62,15 @@ def deconvolute(args):
     estimations.to_csv(args.output_csv)
 
 
+def get_signature_matrix(args):
+    with open(args.signature_pickle, "rb") as f:
+        signature_result = pickle.load(f)
+
+    # Returns genes x cell_types DataFrame; omnideconv convention: rows=genes, cols=cell_types
+    sig_matrix = signature_result.get_signature_matrix(include_mrna_bias=args.include_mrna_bias)
+    sig_matrix.to_csv(args.output_csv)
+
+
 def rectangle_all(args):
     import rectanglepy
 
@@ -105,6 +114,12 @@ def main():
     p_deconv.add_argument("--correct_mrna_bias", type=lambda x: x.lower() == "true", default=True)
     p_deconv.add_argument("--n_cpus", type=int, default=None)
 
+    # --- get_signature_matrix ---
+    p_sig = subparsers.add_parser("get_signature_matrix", help="Extract signature matrix from pickle")
+    p_sig.add_argument("--signature_pickle", required=True)
+    p_sig.add_argument("--output_csv", required=True)
+    p_sig.add_argument("--include_mrna_bias", type=lambda x: x.lower() == "true", default=True)
+
     # --- rectangle (all-in-one) ---
     p_rect = subparsers.add_parser("rectangle", help="Build signature and deconvolute in one step")
     p_rect.add_argument("--sc_h5ad", required=True)
@@ -123,6 +138,8 @@ def main():
         build_model(args)
     elif args.command == "deconvolute":
         deconvolute(args)
+    elif args.command == "get_signature_matrix":
+        get_signature_matrix(args)
     elif args.command == "rectangle":
         rectangle_all(args)
     else:

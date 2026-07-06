@@ -22,6 +22,10 @@ deconvolute(
 \item{bulk_gene_expression}{A matrix with the bulk data. Rows are genes, columns
 are samples.}
 
+\item{model}{(Optional) The signature matrix, or for Rectangle a path to the .pkl file
+returned by \code{\link[=build_model]{build_model()}}. If NULL, the signature will be computed internally and will
+not be saved. To reuse a signature, build it first with \code{\link[=build_model]{build_model()}}.}
+
 \item{method}{A string specifying the method.}
 
 \item{single_cell_object}{A matrix with the single-cell data. Rows are genes,
@@ -49,10 +53,6 @@ Defaults to NULL.}
 \item{assay_name}{Name of the assay/layer of the single_cell_object that should be used to extract the data}
 
 \item{...}{Additional parameters, passed to the algorithm used.}
-
-\item{signature}{(Optional) The signature matrix, or for Rectangle a path to the .pkl file
-returned by \code{\link[=build_model]{build_model()}}. If NULL, the signature will be computed internally and will
-not be saved. To reuse a signature, build it first with \code{\link[=build_model]{build_model()}}.}
 }
 \value{
 A matrix with the probabilities of each cell-type for each individual. Rows are

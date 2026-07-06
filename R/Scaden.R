@@ -197,7 +197,6 @@ scaden_train <- function(h5ad_processed, temp_dir = NULL, batch_size = 128, lear
 }
 
 
-
 #' Pre-processes training data
 #'
 #' Training data needs to be processed before a model can be trained.

@@ -8,6 +8,7 @@ build_model_rectanglepy(
   single_cell_object,
   cell_type_annotations,
   bulk_gene_expression = NULL,
+  model_path = NULL,
   optimize_cutoffs = TRUE,
   p = 0.015,
   lfc = 1.5,
@@ -27,6 +28,11 @@ single_cell_object.}
 \item{bulk_gene_expression}{Optional. A matrix of bulk data (rows = genes,
 columns = samples). When provided, the signature is restricted to genes
 present in the bulk data.}
+
+\item{model_path}{Optional path where the signature pickle file should be
+saved. If NULL (default), a temporary file is used. Providing a permanent
+path allows the signature to be reused across R sessions by passing the
+same path to \code{\link[=deconvolute]{deconvolute()}} or \code{\link[=extract_signature_rectanglepy]{extract_signature_rectanglepy()}}.}
 
 \item{optimize_cutoffs}{Whether to optimize p-value and log-fold-change
 cutoffs via grid search. Recommended but slow. Default: TRUE.}
@@ -48,7 +54,8 @@ the \code{\link[=deconvolute]{deconvolute()}} dispatcher without error.}
 }
 \value{
 Path to a pickle file containing the RectangleSignatureResult.
-Pass this path as the \code{signature} argument to \code{\link[=deconvolute]{deconvolute()}}.
+Pass this path as the \code{signature} argument to \code{\link[=deconvolute]{deconvolute()}} or
+\code{\link[=extract_signature_rectanglepy]{extract_signature_rectanglepy()}}.
 }
 \description{
 Builds a hierarchical signature model from single-cell RNA-seq data using

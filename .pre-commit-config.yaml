@@ -2,7 +2,7 @@
 # R specific hooks: https://github.com/lorenzwalthert/precommit
 repos:
   - repo: https://github.com/lorenzwalthert/precommit
-    rev: v0.4.3.9001
+    rev: v0.4.3.9026
     hooks:
       - id: style-files
         args: [--style_pkg=styler, --style_fun=tidyverse_style]
@@ -14,7 +14,7 @@ repos:
         args: [--allow_private_imports]
         exclude: '(?i)^(R/Bisque\.R|tests/testthat/create_test_files\.R)$'
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: end-of-file-fixer
         exclude: '\.Rd'

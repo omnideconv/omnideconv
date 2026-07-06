@@ -114,8 +114,6 @@ utils::write.csv(all_counts_ols, "test_results/dwls_ols_result_small.csv")
 utils::write.csv(all_counts_svr, "test_results/dwls_svr_result_small.csv")
 
 
-
-
 ## CIBERSORTx
 set_cibersortx_credentials("lorenzo.merotto@studenti.unipd.it", "721a387e91c495174066462484674cb8")
 single_cell <- rbind(cell_annotations_small, sc_object_small)
@@ -296,8 +294,6 @@ utils::write.csv(signature_bseqsc, "test_models/bseq_model_small.csv")
 # )
 # props$input_list$cdseq_prop
 # props$cdseq_prop_merged
-
-
 
 
 ## DWLS Stuff

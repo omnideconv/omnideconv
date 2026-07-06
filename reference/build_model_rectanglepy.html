@@ -20,7 +20,7 @@ the signature for every bulk dataset."><!-- mathjax --><script src="https://cdnj
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">omnideconv</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.0</span>
       </span>
     </div>
 
@@ -70,6 +70,7 @@ the signature for every bulk dataset.</p>
 <span>  <span class="va">single_cell_object</span>,</span>
 <span>  <span class="va">cell_type_annotations</span>,</span>
 <span>  bulk_gene_expression <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  model_path <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  optimize_cutoffs <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  p <span class="op">=</span> <span class="fl">0.015</span>,</span>
 <span>  lfc <span class="op">=</span> <span class="fl">1.5</span>,</span>
@@ -98,6 +99,13 @@ single_cell_object.</p></dd>
 <dd><p>Optional. A matrix of bulk data (rows = genes,
 columns = samples). When provided, the signature is restricted to genes
 present in the bulk data.</p></dd>
+
+
+<dt id="arg-model-path">model_path<a class="anchor" aria-label="anchor" href="#arg-model-path"></a></dt>
+<dd><p>Optional path where the signature pickle file should be
+saved. If NULL (default), a temporary file is used. Providing a permanent
+path allows the signature to be reused across R sessions by passing the
+same path to <code><a href="deconvolute.html">deconvolute()</a></code> or <code><a href="extract_signature_rectanglepy.html">extract_signature_rectanglepy()</a></code>.</p></dd>
 
 
 <dt id="arg-optimize-cutoffs">optimize_cutoffs<a class="anchor" aria-label="anchor" href="#arg-optimize-cutoffs"></a></dt>
@@ -135,7 +143,8 @@ the <code><a href="deconvolute.html">deconvolute()</a></code> dispatcher without
     <div id="value">
     <h2>Value</h2>
     <p>Path to a pickle file containing the RectangleSignatureResult.
-Pass this path as the <code>signature</code> argument to <code><a href="deconvolute.html">deconvolute()</a></code>.</p>
+Pass this path as the <code>signature</code> argument to <code><a href="deconvolute.html">deconvolute()</a></code> or
+<code><a href="extract_signature_rectanglepy.html">extract_signature_rectanglepy()</a></code>.</p>
     </div>
 
   </div>

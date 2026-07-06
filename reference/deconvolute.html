@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">omnideconv</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.0</span>
       </span>
     </div>
 
@@ -84,6 +84,12 @@
 are samples.</p></dd>
 
 
+<dt id="arg-model">model<a class="anchor" aria-label="anchor" href="#arg-model"></a></dt>
+<dd><p>(Optional) The signature matrix, or for Rectangle a path to the .pkl file
+returned by <code><a href="build_model.html">build_model()</a></code>. If NULL, the signature will be computed internally and will
+not be saved. To reuse a signature, build it first with <code><a href="build_model.html">build_model()</a></code>.</p></dd>
+
+
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
 <dd><p>A string specifying the method.</p></dd>
 
@@ -129,12 +135,6 @@ Defaults to NULL.</p></dd>
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Additional parameters, passed to the algorithm used.</p></dd>
 
-
-<dt id="arg-signature">signature<a class="anchor" aria-label="anchor" href="#arg-signature"></a></dt>
-<dd><p>(Optional) The signature matrix, or for Rectangle a path to the .pkl file
-returned by <code><a href="build_model.html">build_model()</a></code>. If NULL, the signature will be computed internally and will
-not be saved. To reuse a signature, build it first with <code><a href="build_model.html">build_model()</a></code>.</p></dd>
-
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -171,7 +171,7 @@ individuals, columns are cell types.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Installing packages into ‘/home/runner/work/_temp/Library’</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> (as ‘lib’ is unspecified)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #00BBBB;">R CMD build</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────────</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * checking for file ‘/tmp/RtmpDnh1OC/remotes34e63904e132/cozygene-bisque-8640250/DESCRIPTION’ ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking for file ‘/tmp/RtmpaRZ4nB/remotes375f4ffa6d9d/cozygene-bisque-8640250/DESCRIPTION’ ... OK</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * preparing ‘BisqueRNA’:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * checking DESCRIPTION meta-information ... OK</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * checking for LF line-endings in source and make files and shell scripts</span>

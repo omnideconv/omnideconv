@@ -305,7 +305,9 @@ deconvolute <- function(bulk_gene_expression, model = NULL, method = deconvoluti
     } else {
       model <- build_model(
         single_cell_object, cell_type_annotations,
-        method, batch_ids
+        method, batch_ids,
+        bulk_gene_expression = bulk_gene_expression,
+        ...
       )
     }
   }
@@ -383,7 +385,7 @@ deconvolute <- function(bulk_gene_expression, model = NULL, method = deconvoluti
 required_packages <- list(
   "autogenes" = c("reticulate"),
   "bayesprism" = c("omnideconv/BayesPrism"),
-  "bisque" = c("BisqueRNA"),
+  "bisque" = c("cozygene/bisque"),
   "bseqsc" = c("shenorrlab/bseqsc"),
   "cdseq" = c("omnideconv/CDSeq"),
   "cibersortx" = c("uuid"),
@@ -445,6 +447,8 @@ check_and_install <- function(method) {
       bare_pkgname <- "CDSeq"
     } else if (bare_pkgname == "dwls") {
       bare_pkgname <- "DWLS"
+    } else if (bare_pkgname == "bisque") {
+      bare_pkgname <- "BisqueRNA"
     }
     if (!requireNamespace(bare_pkgname, quietly = TRUE)) {
       if (!repositories_set) {

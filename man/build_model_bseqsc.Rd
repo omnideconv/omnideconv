@@ -10,7 +10,8 @@ build_model_bseqsc(
   markers,
   batch_ids,
   ct_scale = TRUE,
-  limit = TRUE
+  limit = TRUE,
+  ...
 )
 }
 \arguments{
@@ -31,6 +32,9 @@ should be rescaled according to their cell type average total count.}
 
 \item{limit}{logical that indicates if the returned basis matrix should only contain
 cell types listed in \code{markers}.}
+
+\item{...}{Additional arguments, silently ignored. Allows extra parameters to pass through
+the \code{\link[=deconvolute]{deconvolute()}} dispatcher without error.}
 }
 \value{
 The signature matrix. Rows are genes, columns are cell types.

@@ -17,7 +17,8 @@ build_model_scaden(
   cells = 100,
   samples = 1000,
   dataset_name = "scaden",
-  verbose = FALSE
+  verbose = FALSE,
+  ...
 )
 }
 \arguments{
@@ -51,6 +52,9 @@ uninformative. (default NULL).}
 \item{dataset_name}{Bulk simulation: Name of simulated dataset (default scaden).}
 
 \item{verbose}{Whether to produce an output on the console (default: false).}
+
+\item{...}{Additional arguments, silently ignored. Allows extra parameters to pass through
+the \code{\link[=deconvolute]{deconvolute()}} dispatcher without error.}
 }
 \value{
 The path to the scaden model.

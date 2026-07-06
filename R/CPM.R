@@ -90,7 +90,9 @@ deconvolute_cpm <- function(bulk_gene_expression, single_cell_object, cell_type_
     cell_space <- calculate_cell_embedding(single_cell_object, cell_type_annotations, cell_space)
   }
 
-  if (parallel::detectCores() > 125) {
+  if (is.null(no_cores)) {
+    no_cores <- min(parallel::detectCores() - 1, 125)
+  } else if (no_cores > 125) {
     if (verbose) {
       message("Reduced the used cores to 125 because R only supports 125")
     }

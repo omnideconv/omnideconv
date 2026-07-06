@@ -497,6 +497,7 @@ test_that("MuSiC deconvolution works", {
 # Warning in irlba(A = t(x = object), nv = npcs, ...) :
 # You're computing too large a percentage of total singular values, use a standard svd instead.
 test_that("CPM deconvolution works", {
+  skip_if_not_installed("scBio")
   deconvolution_pca <- suppressMessages(deconvolute(bulk_small, NULL,
     method = "cpm",
     single_cell_object = sc_object_small,

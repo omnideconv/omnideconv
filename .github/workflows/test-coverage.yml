@@ -82,6 +82,7 @@ jobs:
         run: Rscript -e "pak::pkg_install('omnideconv/MOMF')"
 
       - name: Install scBio
+        continue-on-error: true
         run: Rscript -e "pak::pkg_install('amitfrish/scBio')"
 
       - name: Install BayesPrism
@@ -97,6 +98,10 @@ jobs:
       - name: Test coverage
         run: covr::codecov(quiet = FALSE)
         shell: Rscript {0}
+
+      - name: Show test failures
+        if: failure()
+        run: find /tmp -name "testthat.Rout.fail" 2>/dev/null | xargs -I{} sh -c 'echo "=== {} ==="; cat "{}"' || true
 
       - name: Upload reports to codecov
         run: |

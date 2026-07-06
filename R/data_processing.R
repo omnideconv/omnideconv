@@ -429,7 +429,8 @@ anndata_is_identical <- function(a, b) {
 
 #' Converts the object into a matrix
 #'
-#' @param object An input matrix, data frame, expression set, etc.
+#' @param object An input matrix, data frame, SingleCellExperiment, AnnData (anndata package),
+#'   or AnnData (anndataR package, any class inheriting AbstractAnnData).
 #' @param cell_type_annotations A vector of the cell type annotations. Has to be in the same order
 #'   as the samples in object. If not used (for example for bulk data), just supply anything, like
 #'   a string.
@@ -442,7 +443,9 @@ anndata_is_identical <- function(a, b) {
 #'
 convert_to_matrix <- function(object, cell_type_annotations, cell_type_column_name = NULL, assay_name = NULL) {
   if (!is.null(object)) {
-    if (class(object)[[1]] == "AnnDataR6") {
+    if (inherits(object, "AbstractAnnData")) {
+      object <- anndataR::as_SingleCellExperiment(object)
+    } else if (class(object)[[1]] == "AnnDataR6") {
       object <- anndata_to_singlecellexperiment(object)
     }
 

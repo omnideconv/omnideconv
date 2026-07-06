@@ -2,10 +2,7 @@
 % Please edit documentation in R/AutoGeneS.R
 \name{deconvolute_autogenes}
 \alias{deconvolute_autogenes}
-\title{Deconvolution Analysis using AutoGeneS.
-One-step function that performs signature building and deconvolution in one step without saving the signature in between.
-A signature that has been created with @seealso \code{\link[=build_model_autogenes]{build_model_autogenes()}} can be supplied as input to this function with the
-signature parameter, although it is not mandatory.}
+\title{Deconvolution Analysis using AutoGeneS}
 \usage{
 deconvolute_autogenes(
   single_cell_object,
@@ -151,8 +148,7 @@ A list with two elements: 'proportions' is the matrix of cell proportions and
 is called "solution" by AutoGeneS.
 }
 \description{
-Deconvolution Analysis using AutoGeneS.
-One-step function that performs signature building and deconvolution in one step without saving the signature in between.
-A signature that has been created with @seealso \code{\link[=build_model_autogenes]{build_model_autogenes()}} can be supplied as input to this function with the
-signature parameter, although it is not mandatory.
+One-step function that performs signature building and deconvolution in one step without saving
+the signature in between. A signature created with \code{\link[=build_model_autogenes]{build_model_autogenes()}} can be supplied
+via the \code{signature} parameter, although it is not mandatory.
 }

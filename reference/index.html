@@ -94,6 +94,10 @@
         </td>
         <td><p>Calculates the signature model with BSeq-sc</p></td>
       </tr><tr><td>
+          <p><code><a href="build_model_cdseq.html">build_model_cdseq()</a></code> </p>
+        </td>
+        <td><p>No model is build as CDSeq does both steps in one.</p></td>
+      </tr><tr><td>
           <p><code><a href="build_model_cibersortx.html">build_model_cibersortx()</a></code> </p>
         </td>
         <td><p>Signature matrix creation with CIBERSORTx</p></td>
@@ -114,6 +118,10 @@
         </td>
         <td><p>Signature creation with MuSiC.</p></td>
       </tr><tr><td>
+          <p><code><a href="build_model_rectanglepy.html">build_model_rectanglepy()</a></code> </p>
+        </td>
+        <td><p>Build a Rectangle signature model</p></td>
+      </tr><tr><td>
           <p><code><a href="build_model_scaden.html">build_model_scaden()</a></code> </p>
         </td>
         <td><p>Builds Scaden Model from scRNA data</p></td>
@@ -128,7 +136,7 @@
       </tr></tbody><tbody><tr><td>
           <p><code><a href="deconvolute_autogenes.html">deconvolute_autogenes()</a></code> </p>
         </td>
-        <td><p>Deconvolution Analysis using AutoGeneS. One-step function that performs signature building and deconvolution in one step without saving the signature in between. A signature that has been created with @seealso <code><a href="../reference/build_model_autogenes.html">build_model_autogenes()</a></code> can be supplied as input to this function with the signature parameter, although it is not mandatory.</p></td>
+        <td><p>Deconvolution Analysis using AutoGeneS</p></td>
       </tr><tr><td>
           <p><code><a href="deconvolute_bayesprism.html">deconvolute_bayesprism()</a></code> </p>
         </td>
@@ -141,6 +149,10 @@
           <p><code><a href="deconvolute_bseqsc.html">deconvolute_bseqsc()</a></code> </p>
         </td>
         <td><p>Deconvolution Analysis using BSeq-sc</p></td>
+      </tr><tr><td>
+          <p><code><a href="deconvolute_cdseq.html">deconvolute_cdseq()</a></code> </p>
+        </td>
+        <td><p>CDSeq Deconvolution</p></td>
       </tr><tr><td>
           <p><code><a href="deconvolute_cibersortx.html">deconvolute_cibersortx()</a></code> </p>
         </td>
@@ -161,6 +173,10 @@
           <p><code><a href="deconvolute_music.html">deconvolute_music()</a></code> </p>
         </td>
         <td><p>MuSiC Deconvolution</p></td>
+      </tr><tr><td>
+          <p><code><a href="deconvolute_rectanglepy.html">deconvolute_rectanglepy()</a></code> </p>
+        </td>
+        <td><p>Deconvolution with Rectangle</p></td>
       </tr><tr><td>
           <p><code><a href="deconvolute_scaden.html">deconvolute_scaden()</a></code> </p>
         </td>
@@ -185,6 +201,14 @@
           <p><code><a href="check_container.html">check_container()</a></code> </p>
         </td>
         <td><p>Checks wether docker/apptainer are available and can be used</p></td>
+      </tr><tr><td>
+          <p><code><a href="install_all_python.html">install_all_python()</a></code> </p>
+        </td>
+        <td><p>Install all python packages</p></td>
+      </tr><tr><td>
+          <p><code><a href="install_rectangle_python.html">install_rectangle_python()</a></code> </p>
+        </td>
+        <td><p>Install Python dependencies for Rectangle</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="datasets">Datasets <a href="#datasets" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p><p>List of datasets provided by the package.</p>
@@ -262,7 +286,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer></div>

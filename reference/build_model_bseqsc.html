@@ -66,7 +66,8 @@
 <span>  <span class="va">markers</span>,</span>
 <span>  <span class="va">batch_ids</span>,</span>
 <span>  ct_scale <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  limit <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  limit <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -103,6 +104,11 @@ should be rescaled according to their cell type average total count.</p></dd>
 <dd><p>logical that indicates if the returned basis matrix should only contain
 cell types listed in <code>markers</code>.</p></dd>
 
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>Additional arguments, silently ignored. Allows extra parameters to pass through
+the <code><a href="deconvolute.html">deconvolute()</a></code> dispatcher without error.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -121,7 +127,7 @@ cell types listed in <code>markers</code>.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer></div>

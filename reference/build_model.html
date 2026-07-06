@@ -95,7 +95,7 @@ as the samples in single_cell_object.</p></dd>
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
 <dd><p>A string specifying the method.
 Supported methods for which a signature/model can be built are
-AutoGeneS, BSeq-Sc, DWLS, CIBERSORTx, MOMF, Scaden</p></dd>
+AutoGeneS, BSeq-sc, DWLS, CIBERSORTx, MOMF, Rectangle, Scaden</p></dd>
 
 
 <dt id="arg-batch-ids">batch_ids<a class="anchor" aria-label="anchor" href="#arg-batch-ids"></a></dt>
@@ -104,7 +104,8 @@ AutoGeneS, BSeq-Sc, DWLS, CIBERSORTx, MOMF, Scaden</p></dd>
 
 <dt id="arg-bulk-gene-expression">bulk_gene_expression<a class="anchor" aria-label="anchor" href="#arg-bulk-gene-expression"></a></dt>
 <dd><p>A matrix of bulk data. Rows are genes, columns are samples. Necessary
-for MOMF and Scaden, defaults to NULL. Row and column names need to be set</p></dd>
+for MOMF and Scaden; optional for Rectangle (restricts signature genes to bulk genes).
+Defaults to NULL. Row and column names need to be set</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
@@ -133,7 +134,8 @@ names in the single_cell_object.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The signature matrix. Rows are genes, columns are cell types.</p>
+    <p>The signature matrix (rows = genes, columns = cell types) for most methods.
+For Rectangle, returns a path to a .pkl file containing the signature object.</p>
     </div>
 
     <div id="ref-examples">
@@ -153,6 +155,35 @@ names in the single_cell_object.</p></dd>
 <span class="r-in"><span>  <span class="va">single_cell_data</span>, <span class="va">cell_type_annotations</span>, <span class="st">"momf"</span>,</span></span>
 <span class="r-in"><span>  bulk_gene_expression <span class="op">=</span> <span class="va">bulk</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> You requested to run momf which is currently not installed. Do you want to install the packages required for it: omnideconv/MOMF (Yes/no/cancel) </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> To install the dependencies for all methods at once, run devtools::install_github("omnideconv/omnideconv", dependencies = c("Imports", "Suggests"))</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Using github PAT from envvar GITHUB_PAT. Use `gitcreds::gitcreds_set()` and unset GITHUB_PAT in .Renviron (or elsewhere) if you want to use the more secure git credential store instead.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Downloading GitHub repo omnideconv/MOMF@HEAD</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rlang        (1.2.0     -&gt; 1.3.0    ) [CRAN]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> RcppEigen    (NA        -&gt; 0.3.4.0.2) [CRAN]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rcpp         (1.1.1-1.1 -&gt; 1.1.2    ) [CRAN]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cpp11        (NA        -&gt; 0.5.5    ) [CRAN]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> RcppArmad... (NA        -&gt; 15.4.0-1 ) [CRAN]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rgl          (NA        -&gt; 1.3.36   ) [CRAN]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> matlib       (NA        -&gt; 1.0.1    ) [CRAN]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Installing 7 packages: rlang, RcppEigen, Rcpp, cpp11, RcppArmadillo, rgl, matlib</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Installing packages into ‘/home/runner/work/_temp/Library’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> (as ‘lib’ is unspecified)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #00BBBB;">R CMD build</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────────</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking for file ‘/tmp/RtmpDnh1OC/remotes34e625ee5a2/omnideconv-MOMF-83a5673/DESCRIPTION’ ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * preparing ‘MOMF’:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking DESCRIPTION meta-information ... OK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * cleaning src</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * installing the package (it is needed to process help pages)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * saving partial Rd database</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * cleaning src</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking for LF line-endings in source and make files and shell scripts</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * checking for empty or unneeded directories</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * looking to see if a ‘data/datalist’ file should be added</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * building ‘MOMF_0.2.0.tar.gz’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Installing package into ‘/home/runner/work/_temp/Library’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> (as ‘lib’ is unspecified)</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -168,7 +199,7 @@ names in the single_cell_object.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer></div>

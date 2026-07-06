@@ -85,7 +85,6 @@ omnideconv</h1>
 
     
     
-<pre><code><span><span class="co">#&gt; Error in knitr::include_graphics("logo/omnideconv_logo.jpg"): Cannot find the file(s): "logo/omnideconv_logo.jpg"</span></span></code></pre>
 <div class="section level2">
 <h2 id="introduction-and-dataset">1. Introduction and dataset<a class="anchor" aria-label="anchor" href="#introduction-and-dataset"></a>
 </h2>
@@ -102,30 +101,23 @@ chapter, we use multi-sample, breast-cancer scRNA-seq atlas (100,064
 cells) as a reference to train the methods for the deconvolution of the
 bulk RNA-seq samples. The single-cell and bulk RNA-seq data is deposited
 on GEO, under accession number: <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE176078" class="external-link">GSE176078</a>.
-The single cell data comes with the author’s cell type
-annotations.<br>
-We will need to download and unzip the datasets
+The single cell data comes with the author’s cell type annotations. We
+will need to download and unzip the datasets
 (<code>GSE176078_Wu_etal_2021_BRCA_scRNASeq.tar.gz</code>,
 <code>GSE176078_Wu_etal_2021_bulkRNAseq_raw_counts.txt.gz</code>), and
-store them in the working directory. For this example analysis, we will
-also need to retrieve the additional clinical information about the
-patients – although it is not required by omnideconv. This is available
-in the <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9044823/bin/NIHMS1793222-supplement-1793222_Sup_Tab_1-11.xlsx" class="external-link">Supplementary
-Table 1</a>, included with the paper supplementary materials</p>
+store them in a data directory. For this example analysis, we will also
+need the additional clinical information about the patients, available
+as <a href="https://static-content.springer.com/esm/art%3A10.1038%2Fs41588-021-00911-1/MediaObjects/41588_2021_911_MOESM4_ESM.xlsx" class="external-link">Supplementary
+Table 1</a> from the paper.</p>
 </div>
 <div class="section level2">
 <h2 id="library-loading">2. Library loading<a class="anchor" aria-label="anchor" href="#library-loading"></a>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://satijalab.org/seurat" class="external-link">Seurat</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/omnideconv/omnideconv" class="external-link">omnideconv</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org" class="external-link">readxl</a></span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; Error in gzfile(file, "rb"): cannot open the connection</span></span>
-<span><span class="co">#&gt; Error in gzfile(file, "rb"): cannot open the connection</span></span>
-<span><span class="co">#&gt; Error in gzfile(file, "rb"): cannot open the connection</span></span>
-<span><span class="co">#&gt; Error in gzfile(file, "rb"): cannot open the connection</span></span>
-<span><span class="co">#&gt; Error in gzfile(file, "rb"): cannot open the connection</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="single-cell-data-processing">3. Single cell data processing<a class="anchor" aria-label="anchor" href="#single-cell-data-processing"></a>
@@ -140,23 +132,22 @@ which allows fast and easy manipulation of single-cell data. We will
 create a Seurat object with the cell counts and their metadata of
 interest curated by the authors, which include cell-type annotation on
 three levels of resolution:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">single.cell.data</span> <span class="op">&lt;-</span> <span class="fu">Seurat</span><span class="fu">::</span><span class="fu"><a href="https://satijalab.org/seurat/reference/ReadMtx.html" class="external-link">ReadMtx</a></span><span class="op">(</span></span>
-<span>  mtx <span class="op">=</span> <span class="st">'C:/Users/c1041161/book_chapter/Wu_etal_2021_BRCA_scRNASeq/count_matrix_sparse.mtx'</span>,</span>
-<span>  cells <span class="op">=</span> <span class="st">'C:/Users/c1041161/book_chapter/Wu_etal_2021_BRCA_scRNASeq/count_matrix_barcodes.tsv'</span>,</span>
-<span>  features <span class="op">=</span> <span class="st">'C:/Users/c1041161/book_chapter/Wu_etal_2021_BRCA_scRNASeq/count_matrix_genes.tsv'</span>,</span>
+<span>  mtx <span class="op">=</span> <span class="st">"path/to/Wu_etal_2021_BRCA_scRNASeq/count_matrix_sparse.mtx"</span>,</span>
+<span>  cells <span class="op">=</span> <span class="st">"path/to/Wu_etal_2021_BRCA_scRNASeq/count_matrix_barcodes.tsv"</span>,</span>
+<span>  features <span class="op">=</span> <span class="st">"path/to/Wu_etal_2021_BRCA_scRNASeq/count_matrix_genes.tsv"</span>,</span>
 <span>  feature.column <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">single.cell.metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="st">'C:/Users/c1041161/book_chapter/Wu_etal_2021_BRCA_scRNASeq/metadata.csv'</span>, </span>
-<span>                                   sep <span class="op">=</span> <span class="st">','</span>,</span>
-<span>                                   header <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>                                   row.names <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">single.cell.metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="st">"path/to/Wu_etal_2021_BRCA_scRNASeq/metadata.csv"</span>,</span>
+<span>  sep <span class="op">=</span> <span class="st">","</span>, header <span class="op">=</span> <span class="cn">TRUE</span>, row.names <span class="op">=</span> <span class="fl">1</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">single.cell.data</span> <span class="op">=</span> <span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/CreateSeuratObject.html" class="external-link">CreateSeuratObject</a></span><span class="op">(</span><span class="va">single.cell.data</span>, </span>
-<span>                                      project<span class="op">=</span><span class="st">'Wu_dataset'</span>, </span>
-<span>                                      assay<span class="op">=</span><span class="st">'RNA'</span>, </span>
-<span>                                      min.cells <span class="op">=</span> <span class="fl">0</span>, </span>
-<span>                                      min.features <span class="op">=</span> <span class="fl">1</span>, meta.data <span class="op">=</span> <span class="va">single.cell.metadata</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">single.cell.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.github.io/seurat-object/reference/CreateSeuratObject.html" class="external-link">CreateSeuratObject</a></span><span class="op">(</span><span class="va">single.cell.data</span>,</span>
+<span>  project <span class="op">=</span> <span class="st">"Wu_dataset"</span>, assay <span class="op">=</span> <span class="st">"RNA"</span>,</span>
+<span>  min.cells <span class="op">=</span> <span class="fl">0</span>, min.features <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  meta.data <span class="op">=</span> <span class="va">single.cell.metadata</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>We can have an overview of the number of cells per cell type in the
 dataset:</p>
 <table class="table">
@@ -209,19 +200,18 @@ practices for single cell normalization</a> <span class="citation">(<a href="#re
 quality control on each cell by considering metrics such as the number
 of total counts, the number of expressed features (genes), and the
 fraction of mitochondrial genes per cell. We will remove cells that have
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mi>A</mi><mi>D</mi><mo>=</mo><mi>m</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi><mrow><mo stretchy="true" form="prefix">(</mo><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>X</mi><mi>i</mi></msub><mo>−</mo><mi>m</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">|</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">MAD = median(|X_i - median(X)|)</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mi>A</mi><mi>D</mi><mo>=</mo><mi>m</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">|</mo><msub><mi>X</mi><mi>i</mi></msub><mo>−</mo><mi>m</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">MAD = median(|X_i - median(X)|)</annotation></semantics></math>,
 where</p>
 <ul>
 <li>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>X</mi><mi>i</mi></msub><annotation encoding="application/x-tex">X_i</annotation></semantics></math>
 is the respective metric of an observation
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
-(cell), for example the number of detected genes<br>
-</li>
+(cell), for example the number of detected genes</li>
 <li>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mi>A</mi><mi>D</mi></mrow><annotation encoding="application/x-tex">MAD</annotation></semantics></math>
-is the Mead Absolute Deviation, computed as
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mi>A</mi><mi>D</mi><mo>=</mo><mi>m</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi><mrow><mo stretchy="true" form="prefix">(</mo><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>X</mi><mi>i</mi></msub><mo>−</mo><mi>m</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">|</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">MAD = median(|X_i - median(X)|)</annotation></semantics></math><br>
+is the Median Absolute Deviation, computed as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mi>A</mi><mi>D</mi><mo>=</mo><mi>m</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">|</mo><msub><mi>X</mi><mi>i</mi></msub><mo>−</mo><mi>m</mi><mi>e</mi><mi>d</mi><mi>i</mi><mi>a</mi><mi>n</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">MAD = median(|X_i - median(X)|)</annotation></semantics></math>
 </li>
 <li>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
@@ -229,40 +219,26 @@ is set to 5 for the number of counts and expressed features, and to 3
 for the fraction of mitochondrial genes</li>
 </ul>
 <p>In order to do this filtering, we will create a function to identify
-the outliers for each metric</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">is_outlier</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">SeuratObject</span>, <span class="va">metric</span>, <span class="va">nmads</span><span class="op">)</span><span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span>text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"M &lt;- SeuratObject$"</span>,<span class="va">metric</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+the outliers for each metric:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">is_outlier</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">SeuratObject</span>, <span class="va">metric</span>, <span class="va">nmads</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span>text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"M &lt;- SeuratObject$"</span>, <span class="va">metric</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="va">outlier</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">M</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span> <span class="op">-</span> <span class="va">nmads</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/mad.html" class="external-link">mad</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span><span class="op">)</span> <span class="op">|</span> <span class="op">(</span><span class="va">M</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span> <span class="op">+</span> <span class="va">nmads</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/mad.html" class="external-link">mad</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">outlier</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
-<span><span class="va">check_outliers_nFeature</span> <span class="op">&lt;-</span> <span class="fu">is_outlier</span><span class="op">(</span><span class="va">single.cell.data</span>, <span class="st">'nFeature_RNA'</span>, <span class="fl">5</span><span class="op">)</span></span>
-<span><span class="va">check_outliers_nCount</span> <span class="op">&lt;-</span> <span class="fu">is_outlier</span><span class="op">(</span><span class="va">single.cell.data</span>, <span class="st">'nCount_RNA'</span>, <span class="fl">5</span><span class="op">)</span></span>
-<span><span class="va">check_outliers_mito</span> <span class="op">&lt;-</span> <span class="fu">is_outlier</span><span class="op">(</span><span class="va">single.cell.data</span>, <span class="st">'percent.mito'</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">check_outliers_nFeature</span> <span class="op">&lt;-</span> <span class="fu">is_outlier</span><span class="op">(</span><span class="va">single.cell.data</span>, <span class="st">"nFeature_RNA"</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="va">check_outliers_nCount</span> <span class="op">&lt;-</span> <span class="fu">is_outlier</span><span class="op">(</span><span class="va">single.cell.data</span>, <span class="st">"nCount_RNA"</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="va">check_outliers_mito</span> <span class="op">&lt;-</span> <span class="fu">is_outlier</span><span class="op">(</span><span class="va">single.cell.data</span>, <span class="st">"percent.mito"</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">non_outliers_nFeature</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">check_outliers_nFeature</span><span class="op">[</span><span class="op">!</span><span class="va">check_outliers_nFeature</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">non_outliers_nCount</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">check_outliers_nCount</span><span class="op">[</span><span class="op">!</span><span class="va">check_outliers_nCount</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="va">non_outliers_mito</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">check_outliers_mito</span><span class="op">[</span><span class="op">!</span><span class="va">check_outliers_mito</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p>We will retain only those that satisfy all three of the conditions
-described above.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">non_outliers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">intersect</a></span><span class="op">(</span><span class="va">non_outliers_nFeature</span>, <span class="va">non_outliers_nCount</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span><span class="va">non_outliers_mito</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">check_outliers_mito</span><span class="op">[</span><span class="op">!</span><span class="va">check_outliers_mito</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">non_outliers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">intersect</a></span><span class="op">(</span><span class="va">non_outliers_nFeature</span>, <span class="va">non_outliers_nCount</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">intersect</a></span><span class="op">(</span><span class="va">non_outliers_mito</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">single.cell.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">single.cell.data</span>, cells <span class="op">=</span> <span class="va">non_outliers</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">single.cell.data</span><span class="op">$</span><span class="va">celltype_major</span>, dnn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"celltype_major"</span><span class="op">)</span><span class="op">)</span>, responseName <span class="op">=</span> <span class="st">"number_cells"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      celltype_major number_cells</span></span>
-<span><span class="co">#&gt; 1           B-cells         3150</span></span>
-<span><span class="co">#&gt; 2              CAFs         6154</span></span>
-<span><span class="co">#&gt; 3 Cancer Epithelial        16613</span></span>
-<span><span class="co">#&gt; 4       Endothelial         6991</span></span>
-<span><span class="co">#&gt; 5           Myeloid         8855</span></span>
-<span><span class="co">#&gt; 6 Normal Epithelial         3533</span></span>
-<span><span class="co">#&gt; 7      Plasmablasts         3164</span></span>
-<span><span class="co">#&gt; 8               PVL         5120</span></span>
-<span><span class="co">#&gt; 9           T-cells        34991</span></span></code></pre></div>
+<span><span class="va">single.cell.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">single.cell.data</span>, cells <span class="op">=</span> <span class="va">non_outliers</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <caption>Number of cells per cell type after quality filtering</caption>
 <thead><tr class="header">
@@ -314,16 +290,14 @@ described above.</p>
 </h2>
 <p>We will now read in the bulk sequencing data file, which consists of
 24 samples.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">bulk.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="st">'C:/Users/c1041161/book_chapter/GSE176078_Wu_etal_2021_bulkRNAseq_raw_counts.txt'</span>, skip<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">header</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="st">'C:/Users/c1041161/book_chapter/GSE176078_Wu_etal_2021_bulkRNAseq_raw_counts.txt'</span>, </span>
-<span>                     header <span class="op">=</span> <span class="cn">FALSE</span>, nrows <span class="op">=</span> <span class="fl">1</span>, skipNul <span class="op">=</span> <span class="cn">TRUE</span>, sep<span class="op">=</span><span class="st">'\t'</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">bulk.data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Genes'</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">'A|N'</span>, <span class="st">''</span>, <span class="va">header</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">25</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">bulk.data</span> <span class="op">&lt;-</span> <span class="va">bulk.data</span><span class="op">[</span><span class="va">bulk.data</span><span class="op">$</span><span class="va">Genes</span> <span class="op">!=</span> <span class="st">''</span>, <span class="op">]</span></span>
-<span><span class="va">bulk.data</span> <span class="op">&lt;-</span> <span class="fu">column_to_rownames</span><span class="op">(</span><span class="va">bulk.data</span>, <span class="st">'Genes'</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bulk.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="st">"path/to/GSE176078_Wu_etal_2021_bulkRNAseq_raw_counts.txt"</span>, skip <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">header</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="st">"path/to/GSE176078_Wu_etal_2021_bulkRNAseq_raw_counts.txt"</span>,</span>
+<span>  header <span class="op">=</span> <span class="cn">FALSE</span>, nrows <span class="op">=</span> <span class="fl">1</span>, skipNul <span class="op">=</span> <span class="cn">TRUE</span>, sep <span class="op">=</span> <span class="st">"\t"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">bulk.data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Genes"</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"A|N"</span>, <span class="st">""</span>, <span class="va">header</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">25</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">bulk.data</span> <span class="op">&lt;-</span> <span class="va">bulk.data</span><span class="op">[</span><span class="va">bulk.data</span><span class="op">$</span><span class="va">Genes</span> <span class="op">!=</span> <span class="st">""</span>, <span class="op">]</span></span>
+<span><span class="va">bulk.data</span> <span class="op">&lt;-</span> <span class="fu">column_to_rownames</span><span class="op">(</span><span class="va">bulk.data</span>, <span class="st">"Genes"</span><span class="op">)</span></span>
 <span><span class="va">bulk.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">bulk.data</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -339,26 +313,23 @@ use this data in a statistical or deep learning model. Since single cell
 datasets can often encompass thousands of cells, we will need to
 subsample it in order to be able to run the analysis on our machines. In
 this case we will retain a maximum of 200 cells per cell type, but this
-step can be costumed, or eventually skipped, depending on the
+step can be customized, or eventually skipped, depending on the
 computational resources available.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">max_cells_per_celltype</span> <span class="op">=</span> <span class="fl">200</span></span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">max_cells_per_celltype</span> <span class="op">&lt;-</span> <span class="fl">200</span></span>
 <span></span>
 <span><span class="va">sampled.metadata</span> <span class="op">&lt;-</span> <span class="va">single.cell.data</span><span class="op">@</span><span class="va">meta.data</span> <span class="op">%&gt;%</span></span>
-<span>      <span class="fu">rownames_to_column</span><span class="op">(</span><span class="va">.</span>, <span class="st">'barcode'</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>      <span class="fu">group_by</span><span class="op">(</span><span class="va">.</span>, <span class="va">celltype_major</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>      <span class="fu">nest</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>            </span>
-<span>      <span class="fu">mutate</span><span class="op">(</span>n <span class="op">=</span>  <span class="fu">map_dbl</span><span class="op">(</span><span class="va">data</span>, <span class="va">nrow</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>      <span class="fu">mutate</span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">max_cells_per_celltype</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>      <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>      <span class="fu">mutate</span><span class="op">(</span>samp <span class="op">=</span> <span class="fu">map2</span><span class="op">(</span><span class="va">data</span>, <span class="va">n</span>, <span class="va">sample_n</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>      <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">data</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>      <span class="fu">unnest</span><span class="op">(</span><span class="va">samp</span><span class="op">)</span></span>
+<span>  <span class="fu">rownames_to_column</span><span class="op">(</span><span class="st">"barcode"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">celltype_major</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">nest</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">map_dbl</span><span class="op">(</span><span class="va">data</span>, <span class="va">nrow</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">max_cells_per_celltype</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>samp <span class="op">=</span> <span class="fu">map2</span><span class="op">(</span><span class="va">data</span>, <span class="va">n</span>, <span class="va">sample_n</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">data</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">unnest</span><span class="op">(</span><span class="va">samp</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">single.cell.data.sampled</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">single.cell.data</span>, cells <span class="op">=</span> <span class="va">sampled.metadata</span><span class="op">$</span><span class="va">barcode</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co">#as.data.frame(table(single.cell.data.sampled$celltype_major, dnn = list("celltype_major")), responseName = "number_cells")</span></span></code></pre></div>
+<span><span class="va">single.cell.data.sampled</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">single.cell.data</span>, cells <span class="op">=</span> <span class="va">sampled.metadata</span><span class="op">$</span><span class="va">barcode</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <caption>Number of cells per cell type after subsampling</caption>
 <thead><tr class="header">
@@ -408,11 +379,11 @@ computational resources available.</p>
 <div class="section level2">
 <h2 id="deconvolution-of-the-bulk-data">6. Deconvolution of the bulk data<a class="anchor" aria-label="anchor" href="#deconvolution-of-the-bulk-data"></a>
 </h2>
-<p>Each methods has different requirements, but in general to compute
-the deconvolution results we will need the single cell counts matrix,
-the cell type annotations and the information on the
-individual/experiment fom which the cells were retrieved (batch ID).</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<p>Each method has different requirements, but in general to compute the
+deconvolution results we will need the single cell counts matrix, the
+cell type annotations and the information on the individual/experiment
+from which the cells were retrieved (batch ID).</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">counts.matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">single.cell.data.sampled</span><span class="op">@</span><span class="va">assays</span><span class="op">$</span><span class="va">RNA</span><span class="op">@</span><span class="va">counts</span><span class="op">)</span></span>
 <span><span class="va">cell.type.annotations</span> <span class="op">&lt;-</span> <span class="va">single.cell.data.sampled</span><span class="op">$</span><span class="va">celltype_major</span></span>
 <span><span class="va">batch.ids</span> <span class="op">&lt;-</span> <span class="va">single.cell.data.sampled</span><span class="op">$</span><span class="va">orig.ident</span></span></code></pre></div>
@@ -421,7 +392,7 @@ individual/experiment fom which the cells were retrieved (batch ID).</p>
 </h3>
 <p>Now we’re going to deconvolute the bulk dataset with different
 methods. The first one we are going to use is called <a href="https://github.com/dtsoucas/DWLS" class="external-link">DWLS</a> <span class="citation">(<a href="#ref-Tsoucas2019">Tsoucas et al.
-2019</a>)</span> and performs the deconvolution in a two-steps process.
+2019</a>)</span> and performs the deconvolution in a two-step process.
 First, the single cell data is used to build a signature matrix using
 the <code>omnideconv</code> function <code>build_model</code>. DWLS
 looks for differentially expressed genes that discriminate across cell
@@ -435,12 +406,13 @@ Seurat if the analysis with MAST cannot be completed. To reduce MAST’s
 computational time, we introduced a second version of the MAST-based
 function (mast_optimized) that speeds up the process compared to the
 original implementation:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># We need to insert the normalization as well</span></span>
-<span><span class="va">signature.matrix.dwls</span> <span class="op">&lt;-</span> <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span>single_cell_object <span class="op">=</span> <span class="va">counts.matrix</span>,</span>
-<span>                        cell_type_annotations <span class="op">=</span> <span class="va">cell.type.annotations</span>,</span>
-<span>                        method <span class="op">=</span> <span class="st">'dwls'</span>, </span>
-<span>                        dwls_method <span class="op">=</span> <span class="st">'mast_optimized'</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">signature.matrix.dwls</span> <span class="op">&lt;-</span> <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span></span>
+<span>  single_cell_object <span class="op">=</span> <span class="va">counts.matrix</span>,</span>
+<span>  cell_type_annotations <span class="op">=</span> <span class="va">cell.type.annotations</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"dwls"</span>,</span>
+<span>  dwls_method <span class="op">=</span> <span class="st">"mast_optimized"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>This signature is optimized so that the genes selected are the ones
 that help to discriminate across cell types.</p>
 <p>The signature is now used for the deconvolution of the bulk RNAseq,
@@ -451,11 +423,13 @@ Regression (SVR) or the Dampened Weighted Least Squares Regression
 (DWLS) that was introduced with the method. This last regression method
 is shown to outperform the others when it comes to the detection of rare
 cell types:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">deconvolution.results.dwls</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span>bulk_gene_expression <span class="op">=</span> <span class="va">bulk.data</span>,</span>
-<span>                                          signature <span class="op">=</span> <span class="va">signature.matrix.dwls</span>,</span>
-<span>                                          method<span class="op">=</span><span class="st">'dwls'</span>,</span>
-<span>                                          dwls_submethod <span class="op">=</span> <span class="st">'DampenedWLS'</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">deconvolution.results.dwls</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span></span>
+<span>  bulk_gene_expression <span class="op">=</span> <span class="va">bulk.data</span>,</span>
+<span>  model <span class="op">=</span> <span class="va">signature.matrix.dwls</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"dwls"</span>,</span>
+<span>  dwls_submethod <span class="op">=</span> <span class="st">"DampenedWLS"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>We will now obtain, for every sample, a set of cell type fractions
 for each cell type that was included in the provided single cell
 dataset.</p>
@@ -776,9 +750,10 @@ dataset.</p>
 </tr>
 </tbody>
 </table>
-<p>We can also visualise the results as a barplot trough the built-in
-<code>plot_deconvolution</code> function</p>
-<pre><code><span><span class="co">#&gt; Error in path.expand(path): invalid 'path' argument</span></span></code></pre>
+<p>We can also visualise the results as a barplot through the built-in
+<code>plot_deconvolution</code> function:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_deconvolution.html">plot_deconvolution</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"dwls"</span> <span class="op">=</span> <span class="va">deconvolution.results.dwls</span><span class="op">)</span>, <span class="st">"bar"</span>, <span class="st">"method"</span>, <span class="st">"Spectral"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="deconvolution-with-bayesprism">6.2 Deconvolution with BayesPrism<a class="anchor" aria-label="anchor" href="#deconvolution-with-bayesprism"></a>
@@ -786,20 +761,19 @@ dataset.</p>
 <p>The third method we will use is <a href="https://github.com/Danko-Lab/BayesPrism" class="external-link">BayesPrism</a> <span class="citation">(<a href="#ref-Chu2022">Chu et al. 2022</a>)</span>.
 This method is based on a Bayesian framework and models the
 transcriptomic expression observed in the scRNA-seq dataset. It then
-uses this information to dissect te bulk RNA-seq.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># BayesPrism deconvolution</span></span>
-<span></span>
-<span><span class="va">deconvolution.results.bayesprism</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span>bulk_gene_expression <span class="op">=</span> <span class="va">bulk.data</span>,</span>
-<span>                                           single_cell_object <span class="op">=</span> <span class="va">counts.matrix</span>,</span>
-<span>                                           cell_type_annotations <span class="op">=</span> <span class="va">cell.type.annotations</span>,</span>
-<span>                                           signature<span class="op">=</span><span class="cn">NULL</span>,</span>
-<span>                                           method <span class="op">=</span> <span class="st">'bayesprism'</span>, </span>
-<span>                                           n_cores<span class="op">=</span><span class="fl">12</span><span class="op">)</span></span></code></pre></div>
+uses this information to dissect the bulk RNA-seq.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">deconvolution.results.bayesprism</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span></span>
+<span>  bulk_gene_expression <span class="op">=</span> <span class="va">bulk.data</span>,</span>
+<span>  single_cell_object <span class="op">=</span> <span class="va">counts.matrix</span>,</span>
+<span>  cell_type_annotations <span class="op">=</span> <span class="va">cell.type.annotations</span>,</span>
+<span>  model <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"bayesprism"</span>,</span>
+<span>  n_cores <span class="op">=</span> <span class="fl">12</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>We can visualize the results as before:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_deconvolution.html">plot_deconvolution</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'bayesprism'</span> <span class="op">=</span> <span class="va">deconvolution.results.bayesprism</span><span class="op">)</span>, <span class="st">"bar"</span>, <span class="st">"method"</span>, <span class="st">"Spectral"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Error in path.expand(path): invalid 'path' argument</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_deconvolution.html">plot_deconvolution</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"bayesprism"</span> <span class="op">=</span> <span class="va">deconvolution.results.bayesprism</span><span class="op">)</span>, <span class="st">"bar"</span>, <span class="st">"method"</span>, <span class="st">"Spectral"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -810,10 +784,10 @@ annotations at three levels of resolution: <code>celltype_major</code>,
 <code>celltype_minor</code>, and <code>celltype_subset</code>, which
 distinguish 9, 29, and 58 cell types respectively. The different
 cell-type annotations can be accessed with:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">single.cell.data</span><span class="op">$</span><span class="va">celltype_major</span>      <span class="co"># Major annotation</span></span>
-<span><span class="va">single.cell.data</span><span class="op">$</span><span class="va">celltype_minor</span>      <span class="co"># Minor annotation</span></span>
-<span><span class="va">single.cell.data</span><span class="op">$</span><span class="va">celltype_subset</span>     <span class="co"># Subset annotation</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">single.cell.data</span><span class="op">$</span><span class="va">celltype_major</span> <span class="co"># Major annotation</span></span>
+<span><span class="va">single.cell.data</span><span class="op">$</span><span class="va">celltype_minor</span> <span class="co"># Minor annotation</span></span>
+<span><span class="va">single.cell.data</span><span class="op">$</span><span class="va">celltype_subset</span> <span class="co"># Subset annotation</span></span></code></pre></div>
 <p>These additional annotations provide a cell-type classification at a
 finer resolution. For instance, at the <code>celltype_major</code>
 level, we only have the T cell population, while at the
@@ -823,20 +797,19 @@ analysis with DWLS but, this time, using the <code>celltype_minor</code>
 information. We will subsample the dataset as before, this time
 considering the second level of resolution for the cell types, and
 extract the objects needed for deconvolution.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">max_cells_per_celltype</span> <span class="op">=</span> <span class="fl">200</span></span>
-<span></span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">max_cells_per_celltype</span> <span class="op">&lt;-</span> <span class="fl">200</span></span>
 <span></span>
 <span><span class="va">sampled.metadata</span> <span class="op">&lt;-</span> <span class="va">single.cell.data</span><span class="op">@</span><span class="va">meta.data</span> <span class="op">%&gt;%</span></span>
-<span>      <span class="fu">rownames_to_column</span><span class="op">(</span><span class="va">.</span>, <span class="st">'barcode'</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>      <span class="fu">group_by</span><span class="op">(</span><span class="va">.</span>, <span class="va">celltype_minor</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>      <span class="fu">nest</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>            </span>
-<span>      <span class="fu">mutate</span><span class="op">(</span>n <span class="op">=</span>  <span class="fu">map_dbl</span><span class="op">(</span><span class="va">data</span>, <span class="va">nrow</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>      <span class="fu">mutate</span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">max_cells_per_celltype</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>      <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>      <span class="fu">mutate</span><span class="op">(</span>samp <span class="op">=</span> <span class="fu">map2</span><span class="op">(</span><span class="va">data</span>, <span class="va">n</span>, <span class="va">sample_n</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>      <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">data</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>      <span class="fu">unnest</span><span class="op">(</span><span class="va">samp</span><span class="op">)</span></span>
+<span>  <span class="fu">rownames_to_column</span><span class="op">(</span><span class="st">"barcode"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">celltype_minor</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">nest</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>n <span class="op">=</span> <span class="fu">map_dbl</span><span class="op">(</span><span class="va">data</span>, <span class="va">nrow</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">max_cells_per_celltype</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>samp <span class="op">=</span> <span class="fu">map2</span><span class="op">(</span><span class="va">data</span>, <span class="va">n</span>, <span class="va">sample_n</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">data</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">unnest</span><span class="op">(</span><span class="va">samp</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">single.cell.data.sampled</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">single.cell.data</span>, cells <span class="op">=</span> <span class="va">sampled.metadata</span><span class="op">$</span><span class="va">barcode</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -965,25 +938,27 @@ subsampling</caption>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">counts.matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">single.cell.data</span><span class="op">@</span><span class="va">assays</span><span class="op">$</span><span class="va">RNA</span><span class="op">@</span><span class="va">counts</span><span class="op">)</span></span>
-<span><span class="va">cell.type.annotations</span> <span class="op">&lt;-</span> <span class="va">single.cell.data</span><span class="op">$</span><span class="va">celltype_minor</span></span>
-<span><span class="va">batch.ids</span> <span class="op">&lt;-</span> <span class="va">single.cell.data</span><span class="op">$</span><span class="va">orig.ident</span></span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">signature.matrix.dwls.minor</span> <span class="op">&lt;-</span> <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span>single_cell_object <span class="op">=</span> <span class="va">counts.matrix</span>,</span>
-<span>                        cell_type_annotations <span class="op">=</span> <span class="va">cell.type.annotations</span>,</span>
-<span>                        method <span class="op">=</span> <span class="st">'dwls'</span>, </span>
-<span>                        dwls_method <span class="op">=</span> <span class="st">'mast_optimized'</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">counts.matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">single.cell.data.sampled</span><span class="op">@</span><span class="va">assays</span><span class="op">$</span><span class="va">RNA</span><span class="op">@</span><span class="va">counts</span><span class="op">)</span></span>
+<span><span class="va">cell.type.annotations</span> <span class="op">&lt;-</span> <span class="va">single.cell.data.sampled</span><span class="op">$</span><span class="va">celltype_minor</span></span>
+<span><span class="va">batch.ids</span> <span class="op">&lt;-</span> <span class="va">single.cell.data.sampled</span><span class="op">$</span><span class="va">orig.ident</span></span>
 <span></span>
-<span><span class="va">deconvolution.results.dwls.minor</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span>bulk_gene_expression <span class="op">=</span> <span class="va">bulk.data</span>,</span>
-<span>                                          signature <span class="op">=</span> <span class="va">signature.matrix.dwls.minor</span>,</span>
-<span>                                          method<span class="op">=</span><span class="st">'dwls'</span>,</span>
-<span>                                          dwls_submethod <span class="op">=</span> <span class="st">'DampenedWLS'</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">signature.matrix.dwls.minor</span> <span class="op">&lt;-</span> <span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/build_model.html">build_model</a></span><span class="op">(</span></span>
+<span>  single_cell_object <span class="op">=</span> <span class="va">counts.matrix</span>,</span>
+<span>  cell_type_annotations <span class="op">=</span> <span class="va">cell.type.annotations</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"dwls"</span>,</span>
+<span>  dwls_method <span class="op">=</span> <span class="st">"mast_optimized"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">deconvolution.results.dwls.minor</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deconvolute.html">deconvolute</a></span><span class="op">(</span></span>
+<span>  bulk_gene_expression <span class="op">=</span> <span class="va">bulk.data</span>,</span>
+<span>  model <span class="op">=</span> <span class="va">signature.matrix.dwls.minor</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"dwls"</span>,</span>
+<span>  dwls_submethod <span class="op">=</span> <span class="st">"DampenedWLS"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>We can visualize the results as before:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_deconvolution.html">plot_deconvolution</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'dwls'</span> <span class="op">=</span> <span class="va">deconvolution.results.dwls.minor</span><span class="op">)</span>, <span class="st">"bar"</span>, <span class="st">"method"</span>, <span class="st">"Spectral"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Error in path.expand(path): invalid 'path' argument</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">omnideconv</span><span class="fu">::</span><span class="fu"><a href="../reference/plot_deconvolution.html">plot_deconvolution</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"dwls"</span> <span class="op">=</span> <span class="va">deconvolution.results.dwls.minor</span><span class="op">)</span>, <span class="st">"bar"</span>, <span class="st">"method"</span>, <span class="st">"Spectral"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="comparison-of-cell-fractions-across-conditions">8. Comparison of cell fractions across conditions<a class="anchor" aria-label="anchor" href="#comparison-of-cell-fractions-across-conditions"></a>
@@ -993,24 +968,62 @@ paper, which include patient’s data, cancer subtype information and
 treatment details. We can first harmonize the sample names, and then
 combine all this information with the deconvolution results in one
 dataframe.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">patient.metadata</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span><span class="op">(</span><span class="st">"C:/Users/c1041161/book_chapter/41588_2021_911_MOESM4_ESM.xlsx"</span>, sheet <span class="op">=</span> <span class="fl">1</span>, skip <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">.</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">11</span>, <span class="fl">12</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">patient.metadata</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Sample'</span>, <span class="st">'Grade'</span>, <span class="st">'Cancer_type'</span>, <span class="st">'IHC_subtype'</span>, <span class="st">'Treatment'</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">patient.metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">read_excel</a></span><span class="op">(</span><span class="st">"vignette_files/41588_2021_911_MOESM4_ESM.xlsx"</span>,</span>
+<span>  sheet <span class="op">=</span> <span class="fl">1</span>, skip <span class="op">=</span> <span class="fl">3</span></span>
+<span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">11</span>, <span class="fl">12</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">patient.metadata</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sample"</span>, <span class="st">"Grade"</span>, <span class="st">"Cancer_type"</span>, <span class="st">"IHC_subtype"</span>, <span class="st">"Treatment"</span><span class="op">)</span></span>
+<span><span class="va">patient.metadata</span><span class="op">$</span><span class="va">Sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"-"</span>, <span class="st">""</span>, <span class="va">patient.metadata</span><span class="op">$</span><span class="va">Sample</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"CID"</span>, <span class="va">.</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">patient.metadata</span><span class="op">$</span><span class="va">Sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">'-'</span>, <span class="st">''</span>, <span class="va">patient.metadata</span><span class="op">$</span><span class="va">Sample</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">'CID'</span>, <span class="va">.</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">patients.results</span> <span class="op">&lt;-</span> <span class="fu">rownames_to_column</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">deconvolution.results.dwls</span><span class="op">)</span>, <span class="st">'Sample'</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">gather</span><span class="op">(</span><span class="va">.</span>, key<span class="op">=</span><span class="st">'celltype'</span>, value<span class="op">=</span><span class="st">'cell_fraction'</span>, <span class="op">-</span><span class="va">Sample</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">left_join</span><span class="op">(</span><span class="va">.</span>, <span class="va">patient.metadata</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">patients.results</span> <span class="op">&lt;-</span> <span class="fu">rownames_to_column</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">deconvolution.results.dwls</span><span class="op">)</span>, <span class="st">"Sample"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">gather</span><span class="op">(</span>key <span class="op">=</span> <span class="st">"celltype"</span>, value <span class="op">=</span> <span class="st">"cell_fraction"</span>, <span class="op">-</span><span class="va">Sample</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">left_join</span><span class="op">(</span><span class="va">patient.metadata</span>, by <span class="op">=</span> <span class="st">"Sample"</span><span class="op">)</span></span></code></pre></div>
 <p>Each condition has a different number of samples:</p>
+<table class="table">
+<thead><tr class="header">
+<th align="left">IHC subtype</th>
+<th align="right">n</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">ER+</td>
+<td align="right">12</td>
+</tr>
+<tr class="even">
+<td align="left">HER2+</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">HER2+/ER+</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">TNBC</td>
+<td align="right">8</td>
+</tr>
+</tbody>
+</table>
 <p>We can visualize the estimated cell fractions across samples with a
-boxplot, and group the results either by IHC subtype or by treatment
-status</p>
-<div class="float">
-<img src="figure/unnamed-chunk-27-1.png" alt="plot of chunk unnamed-chunk-27"><div class="figcaption">plot of chunk unnamed-chunk-27</div>
-</div>
+boxplot, and group the results by IHC subtype:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">patients.results</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">IHC_subtype</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">IHC_subtype</span>, y <span class="op">=</span> <span class="va">cell_fraction</span>, fill <span class="op">=</span> <span class="va">IHC_subtype</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_boxplot</span><span class="op">(</span>outlier.size <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">celltype</span>, scales <span class="op">=</span> <span class="st">"free_y"</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span></span>
+<span>    axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>    legend.position <span class="op">=</span> <span class="st">"none"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_brewer</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Set2"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="st">"IHC Subtype"</span>, y <span class="op">=</span> <span class="st">"Cell Fraction"</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"Cell fractions by IHC subtype (DWLS)"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p><img src="omnideconv_example_files/figure-html/plot-ihc-subtype-1.png" class="r-plt" alt="" width="960"></p>
 <p>HER2-positive samples are enriched in T cells, while the ER-positive
 and triple negative breast cancer (TNBC) samples show an enrichment in
 cancer and normal epithelial cells, respectively. The patient metadata
@@ -1018,10 +1031,24 @@ includes information about eventual treatments undergone by the
 patients. We can see that 5 out of the 24 patients were treated with
 Neoadjuvant and/or Paclitaxel, while the other 19 were untreated. We can
 therefore visualize the distribution of cell fractions across treated
-and untreated patients</p>
-<div class="float">
-<img src="figure/unnamed-chunk-28-1.png" alt="plot of chunk unnamed-chunk-28"><div class="figcaption">plot of chunk unnamed-chunk-28</div>
-</div>
+and untreated patients:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">patients.results</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">Treatment</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Treatment</span>, y <span class="op">=</span> <span class="va">cell_fraction</span>, fill <span class="op">=</span> <span class="va">Treatment</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_boxplot</span><span class="op">(</span>outlier.size <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">celltype</span>, scales <span class="op">=</span> <span class="st">"free_y"</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span></span>
+<span>    axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>    legend.position <span class="op">=</span> <span class="st">"none"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_brewer</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Set1"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="st">"Treatment"</span>, y <span class="op">=</span> <span class="st">"Cell Fraction"</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"Cell fractions by treatment status (DWLS)"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p><img src="omnideconv_example_files/figure-html/plot-treatment-1.png" class="r-plt" alt="" width="960"></p>
 <p>The major differences in this case are the enrichment of the CAFs and
 normal epithelial cells in the treated samples, as opposed to the cancer
 epithelial cells and B cells which have a higher median cell fraction in
@@ -1030,30 +1057,70 @@ the untreated samples.</p>
 identify additional cell types, such as CD4+/CD8+ subtypes, Fibroblasts
 and cancer cells. We can therefore visualize the estimated cell
 fractions in a boxplot, focusing in particular on the CD4+ and CD8+
-T-cell subtypes.</p>
-<div class="float">
-<img src="figure/unnamed-chunk-29-1.png" alt="plot of chunk unnamed-chunk-29"><div class="figcaption">plot of chunk unnamed-chunk-29</div>
-</div>
+T-cell subtypes:</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">patients.results.minor</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">celltype</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"T cells CD4+"</span>, <span class="st">"T cells CD8+"</span><span class="op">)</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">IHC_subtype</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">IHC_subtype</span>, y <span class="op">=</span> <span class="va">cell_fraction</span>, fill <span class="op">=</span> <span class="va">IHC_subtype</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_boxplot</span><span class="op">(</span>outlier.size <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">celltype</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span></span>
+<span>    axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>    legend.position <span class="op">=</span> <span class="st">"none"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_brewer</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Set2"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="st">"IHC Subtype"</span>, y <span class="op">=</span> <span class="st">"Cell Fraction"</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"CD4+ and CD8+ T-cell fractions by IHC subtype"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p><img src="omnideconv_example_files/figure-html/plot-tcells-1.png" class="r-plt" alt="" width="768"></p>
 <p>The estimates for the CD8+ T cells seem to be very low for all
 samples. On the other hand, in the HER2/ER positive samples the cell
 fractions estimated for the CD4+ T cells seem to be significantly higher
-than in the other subtypes. The estimates for the CD8+ T cells are close
-to zero for almost every sample, with very low fractions detected for
-the HER2+/ER+ ones.</p>
+than in the other subtypes.</p>
 <p>Similarly, we can visualize the distribution of the estimates for the
 cancer associated fibroblasts (CAFs), respectively the myoblastic CAFs
-(myCAF) and the bone marrow derived inflammatory CAFs (MSC iCAF).</p>
-<div class="float">
-<img src="figure/unnamed-chunk-30-1.png" alt="plot of chunk unnamed-chunk-30"><div class="figcaption">plot of chunk unnamed-chunk-30</div>
-</div>
+(myCAF) and the bone marrow derived inflammatory CAFs (MSC iCAF):</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">patients.results.minor</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">celltype</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CAFs myCAF-like"</span>, <span class="st">"CAFs MSC iCAF-like"</span><span class="op">)</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">IHC_subtype</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">IHC_subtype</span>, y <span class="op">=</span> <span class="va">cell_fraction</span>, fill <span class="op">=</span> <span class="va">IHC_subtype</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_boxplot</span><span class="op">(</span>outlier.size <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">celltype</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span></span>
+<span>    axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>    legend.position <span class="op">=</span> <span class="st">"none"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_brewer</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Set2"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="st">"IHC Subtype"</span>, y <span class="op">=</span> <span class="st">"Cell Fraction"</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"CAF subtype fractions by IHC subtype"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p><img src="omnideconv_example_files/figure-html/plot-cafs-1.png" class="r-plt" alt="" width="768"></p>
 <p>Here we can notice that, while the myoblastic CAFs have a comparable
 median value, the MSC CAFs have higher infiltration in the samples
 characterized as HER2+/ER+ subtype.</p>
 <p>Finally, we can visualize the distribution of the different cancer
-cells molecular subtypes that were described by the authors.</p>
-<div class="float">
-<img src="figure/unnamed-chunk-31-1.png" alt="plot of chunk unnamed-chunk-31"><div class="figcaption">plot of chunk unnamed-chunk-31</div>
-</div>
+cells molecular subtypes that were described by the authors:</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">patients.results.minor</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^Cancer"</span>, <span class="va">celltype</span><span class="op">)</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">IHC_subtype</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">IHC_subtype</span>, y <span class="op">=</span> <span class="va">cell_fraction</span>, fill <span class="op">=</span> <span class="va">IHC_subtype</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_boxplot</span><span class="op">(</span>outlier.size <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">celltype</span>, scales <span class="op">=</span> <span class="st">"free_y"</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span></span>
+<span>    axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>    legend.position <span class="op">=</span> <span class="st">"none"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_brewer</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Set2"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="st">"IHC Subtype"</span>, y <span class="op">=</span> <span class="st">"Cell Fraction"</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"Cancer cell subtype fractions by IHC subtype"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p><img src="omnideconv_example_files/figure-html/plot-cancer-1.png" class="r-plt" alt="" width="960"></p>
 <p>We can see that the HER2+ shows an overrepresentation of the cancer
 cells described as HER2-like by the authors. Similarly, the ER+ samples
 show higher fractions of Luminal B cancer cells. These findings on bulk
@@ -1063,7 +1130,7 @@ the single cell RNA-seq (‘Results - scSubtype’).</p>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Chu2022" class="csl-entry">
 Chu, Tinyi, Zhong Wang, Dana Pe’er, and Charles G. Danko. 2022.
 <span>“Cell Type and Gene Expression Deconvolution with BayesPrism
@@ -1071,37 +1138,33 @@ Enables Bayesian Integrative Analysis Across Bulk and Single-Cell RNA
 Sequencing in Oncology.”</span> <em>Nature Cancer</em> 3 (4): 505–17. <a href="https://doi.org/10.1038/s43018-022-00356-3" class="external-link">https://doi.org/10.1038/s43018-022-00356-3</a>.
 </div>
 <div id="ref-Finak2015" class="csl-entry">
-Finak, Greg, Andrew McDavid, Masanao Yajima, Jingyuan Deng, Vivian
-Gersuk, Alex K. Shalek, Chloe K. Slichter, et al. 2015. <span>“MAST: A
+Finak, Greg, Andrew McDavid, Masanao Yajima, et al. 2015. <span>“MAST: A
 Flexible Statistical Framework for Assessing Transcriptional Changes and
 Characterizing Heterogeneity in Single-Cell RNA Sequencing Data.”</span>
 <em>Genome Biology</em> 16 (1). <a href="https://doi.org/10.1186/s13059-015-0844-5" class="external-link">https://doi.org/10.1186/s13059-015-0844-5</a>.
 </div>
 <div id="ref-Hao2023" class="csl-entry">
-Hao, Yuhan, Tim Stuart, Madeline H. Kowalski, Saket Choudhary, Paul
-Hoffman, Austin Hartman, Avi Srivastava, et al. 2023. <span>“Dictionary
-Learning for Integrative, Multimodal and Scalable Single-Cell
-Analysis.”</span> <em>Nature Biotechnology</em> 42 (2): 293–304. <a href="https://doi.org/10.1038/s41587-023-01767-y" class="external-link">https://doi.org/10.1038/s41587-023-01767-y</a>.
+Hao, Yuhan, Tim Stuart, Madeline H. Kowalski, et al. 2023.
+<span>“Dictionary Learning for Integrative, Multimodal and Scalable
+Single-Cell Analysis.”</span> <em>Nature Biotechnology</em> 42 (2):
+293–304. <a href="https://doi.org/10.1038/s41587-023-01767-y" class="external-link">https://doi.org/10.1038/s41587-023-01767-y</a>.
 </div>
 <div id="ref-Heumos2023" class="csl-entry">
-Heumos, Lukas, Anna C. Schaar, Christopher Lance, Anastasia
-Litinetskaya, Felix Drost, Luke Zappia, Malte D. Lücken, et al. 2023.
+Heumos, Lukas, Anna C. Schaar, Christopher Lance, et al. 2023.
 <span>“Best Practices for Single-Cell Analysis Across
 Modalities.”</span> <em>Nature Reviews Genetics</em> 24 (8): 550–72. <a href="https://doi.org/10.1038/s41576-023-00586-w" class="external-link">https://doi.org/10.1038/s41576-023-00586-w</a>.
 </div>
 <div id="ref-McDavid2012" class="csl-entry">
-McDavid, Andrew, Greg Finak, Pratip K. Chattopadyay, Maria Dominguez,
-Laurie Lamoreaux, Steven S. Ma, Mario Roederer, and Raphael Gottardo.
-2012. <span>“Data Exploration, Quality Control and Testing in
-Single-Cell qPCR-Based Gene Expression Experiments.”</span>
-<em>Bioinformatics</em> 29 (4): 461–67. <a href="https://doi.org/10.1093/bioinformatics/bts714" class="external-link">https://doi.org/10.1093/bioinformatics/bts714</a>.
+McDavid, Andrew, Greg Finak, Pratip K. Chattopadyay, et al. 2012.
+<span>“Data Exploration, Quality Control and Testing in Single-Cell
+qPCR-Based Gene Expression Experiments.”</span> <em>Bioinformatics</em>
+29 (4): 461–67. <a href="https://doi.org/10.1093/bioinformatics/bts714" class="external-link">https://doi.org/10.1093/bioinformatics/bts714</a>.
 </div>
 <div id="ref-Nault2022" class="csl-entry">
-Nault, Rance, Satabdi Saha, Sudin Bhattacharya, Jack Dodson, Samiran
-Sinha, Tapabrata Maiti, and Tim Zacharewski. 2022. <span>“Benchmarking
-of a Bayesian Single Cell RNAseq Differential Gene Expression Test for
-Dose–Response Study Designs.”</span> <em>Nucleic Acids Research</em> 50
-(8): e48–48. <a href="https://doi.org/10.1093/nar/gkac019" class="external-link">https://doi.org/10.1093/nar/gkac019</a>.
+Nault, Rance, Satabdi Saha, Sudin Bhattacharya, et al. 2022.
+<span>“Benchmarking of a Bayesian Single Cell RNAseq Differential Gene
+Expression Test for Dose–Response Study Designs.”</span> <em>Nucleic
+Acids Research</em> 50 (8): e48–48. <a href="https://doi.org/10.1093/nar/gkac019" class="external-link">https://doi.org/10.1093/nar/gkac019</a>.
 </div>
 <div id="ref-Tsoucas2019" class="csl-entry">
 Tsoucas, Daphne, Rui Dong, Haide Chen, Qian Zhu, Guoji Guo, and
@@ -1110,8 +1173,7 @@ Composition from Gene Expression Data.”</span> <em>Nature
 Communications</em> 10 (1). <a href="https://doi.org/10.1038/s41467-019-10802-z" class="external-link">https://doi.org/10.1038/s41467-019-10802-z</a>.
 </div>
 <div id="ref-Wu2021" class="csl-entry">
-Wu, Sunny Z., Ghamdan Al-Eryani, Daniel Lee Roden, Simon Junankar, Kate
-Harvey, Alma Andersson, Aatish Thennavan, et al. 2021. <span>“A
+Wu, Sunny Z., Ghamdan Al-Eryani, Daniel Lee Roden, et al. 2021. <span>“A
 Single-Cell and Spatially Resolved Atlas of Human Breast
 Cancers.”</span> <em>Nature Genetics</em> 53 (9): 1334–47. <a href="https://doi.org/10.1038/s41588-021-00911-1" class="external-link">https://doi.org/10.1038/s41588-021-00911-1</a>.
 </div>
@@ -1134,7 +1196,7 @@ Cancers.”</span> <em>Nature Genetics</em> 53 (9): 1334–47. <a href="https://
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>

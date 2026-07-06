@@ -1,5 +1,6 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://omnideconv.github.io/omnideconv/404.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/CLAUDE.html</loc></url>
 <url><loc>https://omnideconv.github.io/omnideconv/LICENSE-text.html</loc></url>
 <url><loc>https://omnideconv.github.io/omnideconv/articles/index.html</loc></url>
 <url><loc>https://omnideconv.github.io/omnideconv/articles/omnideconv_example.html</loc></url>
@@ -26,6 +27,7 @@
 <url><loc>https://omnideconv.github.io/omnideconv/reference/build_model_dwls.html</loc></url>
 <url><loc>https://omnideconv.github.io/omnideconv/reference/build_model_momf.html</loc></url>
 <url><loc>https://omnideconv.github.io/omnideconv/reference/build_model_music.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/build_model_rectanglepy.html</loc></url>
 <url><loc>https://omnideconv.github.io/omnideconv/reference/build_model_scaden.html</loc></url>
 <url><loc>https://omnideconv.github.io/omnideconv/reference/build_model_scdc.html</loc></url>
 <url><loc>https://omnideconv.github.io/omnideconv/reference/bulk.html</loc></url>
@@ -50,6 +52,7 @@
 <url><loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_dwls.html</loc></url>
 <url><loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_momf.html</loc></url>
 <url><loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_music.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_rectanglepy.html</loc></url>
 <url><loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_scaden.html</loc></url>
 <url><loc>https://omnideconv.github.io/omnideconv/reference/deconvolute_scdc.html</loc></url>
 <url><loc>https://omnideconv.github.io/omnideconv/reference/deconvolution_methods.html</loc></url>
@@ -66,6 +69,7 @@
 <url><loc>https://omnideconv.github.io/omnideconv/reference/init_python.html</loc></url>
 <url><loc>https://omnideconv.github.io/omnideconv/reference/install_all_python.html</loc></url>
 <url><loc>https://omnideconv.github.io/omnideconv/reference/install_autogenes.html</loc></url>
+<url><loc>https://omnideconv.github.io/omnideconv/reference/install_rectangle_python.html</loc></url>
 <url><loc>https://omnideconv.github.io/omnideconv/reference/install_scaden.html</loc></url>
 <url><loc>https://omnideconv.github.io/omnideconv/reference/make_barplot.html</loc></url>
 <url><loc>https://omnideconv.github.io/omnideconv/reference/make_benchmarking_scatterplot.html</loc></url>

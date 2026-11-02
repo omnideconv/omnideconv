@@ -108,8 +108,6 @@ deconvolute_cpm <- function(bulk_gene_expression, single_cell_object, cell_type_
 }
 
 
-
-
 #' Calculation of the cell_space parameter needed by CPM
 #'
 #' @param single_cell_object A matrix with the single-cell data. Rows are genes, columns are

@@ -75,5 +75,4 @@ Encoding: UTF-8
 LazyData: true
 LazyDataCompression: bzip2
 Roxygen: list(markdown = TRUE)
-Config/roxygen2/version: 8.0.0
-RoxygenNote: 7.3.3
+Config/roxygen2/version: 8.1.1

@@ -162,7 +162,6 @@ deconvolute_bisque <- function(bulk_gene_expression, single_cell_object, cell_ty
 }
 
 
-
 #' Calculates the decomposition using the bisque algorithm
 #'
 #' Generates a reference profile based on single-cell data. Learns a

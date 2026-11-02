@@ -107,7 +107,6 @@ anndata_to_singlecellexperiment <- function(ad) {
 }
 
 
-
 #' Convert SingleCellExperiment to AnnData object
 #'
 #'
@@ -253,7 +252,6 @@ singlecellexperiment_to_matrix <- function(sce, assay_name = NULL, cell_type_col
   } else {
     cell_labels <- SingleCellExperiment::colData(sce)[[cell_type_column_name]]
   }
-
 
 
   return(list("matrix" = X, "annotation_vector" = cell_labels))

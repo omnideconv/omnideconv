@@ -150,7 +150,6 @@ build_model <- function(single_cell_object, cell_type_annotations = NULL,
   )
 
 
-
   # Only do if it is a matrix or dataframe
   if ("matrix" %in% class(signature) || "data.frame" %in% class(signature)) {
     rownames(signature) <- deescape_special_chars(rownames(signature))

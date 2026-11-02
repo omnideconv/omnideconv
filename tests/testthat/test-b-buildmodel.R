@@ -36,7 +36,6 @@ markers_small <- list(marker_genes[1:9], marker_genes[10:14], marker_genes[15:20
 names(markers_small) <- sort(unique(cell_annotations_small))
 
 
-
 test_that("MOMF compute reference works", {
   signature <- build_model(sc_object_small, cell_annotations_small, "momf",
     bulk_gene_expression = bulk_small
